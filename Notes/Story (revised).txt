@@ -1,0 +1,280 @@
+More ideas:
+
+Open up the game before everyone else with the quote: "Fear of losing power corrupts those who wield it" -Aung San Suu Kyi
+
+Clearify that this game takes place shortly after link defeats ganon in Ocarina of Time
+
+The Necromancer is not the main villian, his right hand man which is a Hylian soldier that was brought up by the scholar, which the necromancer has do his bidding with commanding the soldiers to take over the island in the beginnning. 
+
+Anyway this right hand man about 3/4 through the game, perhaps once link obtains 3/4 of the triforces, becomes the main villian, and as the game progresses <right hand> begins to doubt the necromancer, and plans to kill him to end his insanity, as a mercy killing basically
+
+Lucky for him the necromancer commits suicide at that roughly 3/4 through the game because the necromancer sees through to the other timeline where link dies to ganon. He becomes more and more paranoid that link is indeed unstoppable, and debatably more dangerous than ganon
+
+There will be cutscenes, way more than I originally planned showing the necromancer's decent into madness and the maturing plot of his right hand's plan to kill him.
+
+~~~~~~~~~~~~~~~~~~~~ Cutscene dialogue ideas/quotes to use (order from early to late in the game) ~~~~~~~~~~~~~~~~~~~~
+
+(
+<necromancer>
+<right hand>
+
+<right hand>
+yes sir?
+
+<necromancer>
+I would like to tell you to be careful. I understand that going against the hero we have all known as a chosen savior may be conflicting for you, are you confident that you would like to go through with following me? I wouldn't like you to find yourself compromised so I will offer you this one chance to return to hyrule
+
+<right hand>
+Sir you took me in as an orphan and raised me as your own. I owe my life to you, I will always do what you ask.
+
+<necromancer>
+I appreciate the sentiment. However, I do fear for your safety, I know you are a smart, strong young man. I will honor your choice.
+
+<right hand>
+I thank you
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<right hand>
+Sir, link has <enter event in the game such as beating a dungeon>, I have been assembling an elite team to destroy him once and for all, if you would so permit me.
+
+<necromancer>
+No. I forbid you take on link. I am thinking there is an alternative way we may be able to destroy him once and for all, I will need more time to think. He has many pieces left of the triforces to assemble so it will take him some time yet. Patience, my boy, I would not want you to put yourself in unecessary danger
+
+<right hand>
+Very well, I shall await your orders
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<right hand>
+Sir, you called for me?
+
+<necromancer>
+Yes <right hand> I did. I have made a breakthrough with my plan on stopping Link. In order to go through with it I will need you to bring "Her" <zelda, may or not be know that he has her yet (depending on where I place this IF I place this)>. I have questions for her about the Temple of Time and some distant hylian history.
+
+<right hand>
+Yes sir, I shall bring her forth at once
+
+<as right hand leaves, necromancer, in a puzzled tone and under his breath>
+Could it be possible that they were all one and the same? one person? one... chosen one?
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<right hand>
+Sir, I have a request for you
+
+<necromancer>
+Yes <right hand>
+
+<right hand>
+I have trained all my life and has my squad, I would formally request that you allow me to go after Link and take him down, this would accelerate our plans and--
+
+<necromancer>
+No!! I have forbidden you and your squad from encountering him, he is too powerful. Plus, I need you for other more important duties
+
+<right hand>
+But sir we could significantly--
+
+<necromancer>
+SILENCE!!! You will leave now and fufill your tasks assigned to you. No questions asked
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<right hand>
+you called for me sir?
+
+<necromancer>
+Yes, I would like you to retrieve Zelda again, I have to know more about--
+
+<right hand>
+No!
+
+<necromancer>
+!?!
+
+<right hand>
+NO! You have entrusted me with the knowledge of the master plan and the power you have bestoed upon me, but I know you are hiding something very important from me. You have changed, you are confused, unfocused and twisted. Whatever this new obsession you have is tearing you apart! Please tell me what is going on, I cannot follow you into the shadows!
+
+<necromancer moves closer to him>
+What I am doing is none of your business! You are my underling! You do as I say, and that is all. THAT, is your purpose!!
+
+<right hand>
+Is that right? That is my purpose. To be your slave. Well, I see now that the man that was once a father to me is gone. Fine, if that is your command then, I suppose I have no choice
+
+<necromancer>
+LEAVE!!
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<right hand is seen running through the necromancer's fortress as soldiers are seen escorting Zelda out and back to the tomb where they are holding her>
+
+<so obviously this takes place after we know that he has Zelda>
+
+<right hand, after an encounter he and his squad has with link>
+Sir, *pant pant*, he wiped out my entire squad. He is unstoppable!! I now see why you wanted me to wait, but I thought I could take him! Curses!! How can one little hylian be so powerful!?!
+
+<necromancer>
+...
+
+<right hand>
+Sir?? what is the matter?
+
+<necromancer>
+...
+
+<right hand>
+Sir??
+
+<necromancer>
+Because he is unstoppable
+
+<right hand>
+What? What do you mean?
+
+<necromancer>
+That.... thing. He.... is... 
+
+<right hand>
+What is wrong with you?? He is just a boy!!
+
+<necromancer>
+I see now that all was for nought. That boy is not at all what he seems. I have seen things that I was not meant to see.
+
+<right hand>
+And what would THAT<italisized> be?
+
+<necromancer>
+SILENCE!! Are you so blind as to not see the truth???? That kid is NOT something that can be destroyed! He is.... inevitable. With the power I possess, I have seen how this time could have been.
+
+<right hand>
+I am sorry, this time? what do you mean?
+
+<necromancer>
+I mean what I mean. This time, the time we are currently living in. It is one, of many
+
+<right hand>
+...
+
+<necromancer>
+you see. We experienced Link sealing  Ganon, the lord of darkness into the sacred realm, never to return. That is what WE experienced in THIS time! However, there was, or is, I do not know the specifics, another one, where Ganon DOES succeed in dominating the land. Ganon does at some point in time, succeed! And he ushers in a new era of death and decay.
+
+<right hand>
+*Scoffs* You know, you are unbelieveable. This kid is strong, but you are making him out to being some kind of time traveling god? What makes you come up with such delusional theories?
+
+<necromancer>
+he he he. Because, he returns. Link returns to destroy Ganon despite being destroyed himself!! For years I have studied Hyrule's history and it was not until now, with my new found powers, that I understand how the universe works! No matter what goes against that....THING! That... chosen hero, is always destined to lose! So who is to say that we will ever truely be able to succeed in our plans!! This...this...Hero of Time can do whatever he wants!! He will destroy all who does not obey his will!!
+
+<right hand>
+I cannot stand this insanity, you can wollow in your fantasies alone, I have things to do
+
+<right hand leaves>
+
+<necromancer>
+...
+)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(
+<after that last cutscene this must be placed, not directly after but some time after>
+
+<in the room outside of the necromancer's study>
+
+<right hand>
+It appears our plans are going to need to be accelerated. He is even more unstable than before, he appears to think Link is some all-powerful being that can transcend time. I understand that history has shown that there is a chosen hero. But I will not allow some FAIRY TALE(italics) about a resurrected hero stop us from the necromancer's original goal; Control!! I have been around the necromancer enough to know his plot, what he plans to do with link and the four triforces. However, I will be the one to execute it!! Come on <name of squad perhaps glory squad haha>!! Let us take down, the necromancer!!!!
+
+<Right hand approaches the necromancer and stops 3 tiles away from him and his soldiers fill in the rest of the room behind him>
+
+<right hand>
+Necromancer, I command you to face me!!
+
+<necromancer>
+...
+
+<necromancer>
+hm hm hm hm hm hm hm<low laughing not thinking>
+
+<right hand>
+??
+
+<necromancer>
+I have confirmed it. The hero, the CHOSEN hero, will always destroy those who oppose him.
+
+<right hand>
+...
+
+<necromancer>
+<right hand>, You do not see it do you?? The chosen one always wins!! Only twice in recorded history has the hero failed, once to Ganon, and another as Takagon, but even after the brief time without that accursed hero, he returns!! And again, destroyes all who oppose him! Yea sure I could give up and be imprisoned for the rest of my life, but this....THING.. can do literally anything he wants!!! And he clearly has dark intent, Takagon ruled for 1000 years, oblitering the hylian government.
+
+<right hand>
+STOP!! I have had enough of these fantasies of yours!! We had a plan, a glorious plan to control all!! You have let this irrational obsession dominate your ambitions, which has caused you to lose what shred of humanity you had left. I will stop you, and continue the plan. Do not make me kill you.
+
+<necromancer>
+You see, whether you kill me or not, it doesnt matter. There is a being that exists that can be resurrected, destroy all, and even trascend time. Our hero, the child that destroyed Ganon, also went into the future to destroy Ganon as an adult, oblitering him in 2 different times! No one is safe, not even time can stop the chosen one. Our lives are just waiting to be trampled by him, and whatever he desires, he takes.
+
+<right hand>
+...
+
+<necromancer>
+I can see how this may go over your head. To be honest, I don't even believe it. But, what I do know is that I do not want to exist in a universe where one can rule all. I can only hope you all will find a nice corner of existance where he cannot find you, and start a life of happiness. Farewell, poor fools
+
+<the necromancer then proceeds to his window, looks back at <right hand> then turns back to the window and jumps>
+
+<one of <right hand>'s soldiers>
+Uhh, sir, what should we do?
+
+<right hand>
+...
+
+<same soldier a before>
+Sir?
+
+<right hand>
+We will continue with the plan, go!
+
+<they all leave, right hand is last to follow, however once they all leave, he stops and the door way, looks back on the necromancer's study, fade to black>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~ Story ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All who live know of the Three Golden Goddesses; Din, Farore, and Nayru
+
+However, there is one that fell out of history; Haeren, the Goddess of Life, Death, and Rebirth
+
+The goddess Hylia passed the Golden Goddess's triforce down to the Hylian family
+
+Hylia took a different approach to Haeren's triforce by sealing it in a temple on a small landmass off of the island of Vita
+
+Much time passed, and eventually a Hylian scholar that studied the triforce heard of a power resonating near Vita, and planned an expedition there
+
+He did find the now decrepid Temple of Haeren and discovered her triforce. Ecstatic with his discovery he returned it to his stronghold on Vite to research
+
+His obsession with it grew, he would go weeks without leaving it. Eventually he attempted to wield it with much success
+
+Being that he had unchallenged control over the island the power of the Triforce of Life caused him to become cold and ruthless
+
+From there on he ruled the island with an iron fist, and with his hunger for power, the Triforce of Life became corrupted and lost it's golden glow
+
+He learned the potential of his power, and it evolved into what the people called necromancy, abusing the life and death of the inhabitants
+
+Hyrule discovered the terror wroght by the man known as the necromancer and sent Link and Zelda, with their triforce to put an end to the Necromancer.
+
+And so, Link and Zelda set sail for the island that adopted the name Interitus. Upon entering Interitus waters, they were ambushed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

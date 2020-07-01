@@ -1,0 +1,68 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~ Sequence of Events ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Triforce Distribution:
+Triforce of Power:	- 2, 4, 6	= Finished by end of Level 6
+Triforce of Courage:	- 3, 7, 9	= Finished by end of Level 9
+Triforce of Wisdom:	- 5, 10, 11	= Finished by end of Level 11
+Triforce of Death:	- 8, 12, 13	= Finished by end of Level 13
+
+-----Stage 1: Opening -----
+Intro
+Battle with the Leviathan
+
+----- Stage 2: Awakening -----
+Island of Haeren
+Level 1 - Legionnaire's Ring #1
+
+----- Stage 3: Start of the Journey -----
+Level 2 - Legionnaire's Ring #2
+First Encounter with Necromancer, saved by old man
+Minidungeon 1 - Legionnaire's Ring #3
+Level 3 - Legionnaire's Ring #4
+Battle Arena 1
+Level 4 - Legionnaire's Ring #5
+<Add a cutscene here>
+Minidungeon 2 - Legionnaire's Ring #5
+Level 5 - Legionnaire's Ring #6
+Necromancer Cutscene
+Level 6 - Legionnaire's Ring #7
+Fully assembles Triforce of Power
+
+----- Stage 4: Getting into it -----
+Minidungeon 3 - Legionnaire's Ring #8
+Battle Arena 2
+Level 7 - Legionnaire's Ring #9
+Cloaked Zelda Cutscene
+Minidungeon 4 - Legionnaire's Ring #10
+Minidungeon 5 (integrated with the landscape of level 8 dusty caverns) - Legionnaire's Ring #11
+Level 8 - Legionnaire's Ring #12
+<Zelda related cutscene>
+Level 9 - Legionnaire's Ring #13
+Fully assembles Triforce of Courage
+<Encounter with the Necromancer of some kind>
+
+----- Stage 5: A Rescued Princess -----
+Battle Arena 3
+Level 10 - Legionnaire's Ring #14
+Minidungeon 6 - Legionnaire's Ring #15
+Level 11 - Legionnaire's Ring #16
+Fully Assembles Triforce of Wisdom
+Cutscene with the Necromancer, major event
+Return of Zelda
+
+----- Stage 6: Cleansing the Triforce of Life -----
+Battle Arena 4 (last)
+Level 12 - Legionnaire's Ring #17
+Minidungeon 7 - Legionnaire's Ring #18
+Level 13 - Legionnaire's Ring #19
+Acquire, then lose all fragments of the ToD to the Necromancer, he takes them
+
+----- Stage 7: The Final Battle -----
+Minidungeon (not so mini) 8: General's Tomb - Legionnaire's Ring #20
+Final Boss: God of Death, Apophis
+
+----- Stage 8 (Post-Game): The Undead Legion -----
+The Undead Legion is the post-game, must have beaten the final boss and got all 20 rings and palced them on all graves, there will be a room in the graveyard there there are 20 graved with one in the center. The center one is the General's Tomb. Once you beat the game and have palaced all 20 rings, another thing will open up taking you to the main post game dungeon.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

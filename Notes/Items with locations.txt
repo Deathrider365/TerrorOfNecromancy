@@ -1,0 +1,177 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~ Items ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bombs	-	-	-	-	-	-	- Shops (will specify which ones)
+Giant Bombs	-	-	-	-	-	- Shops (will specify which ones), unlocks after Minidungeon 2
+Hookshot	-	-	-	-	-	-	- Level 6
+Seared Steak	-	-	-	-	-	- Shops (will specify which ones)
+Ocarina	-	-	-	-	-	-	- Level 5
+Lense of Truth	-	-	-	-	-	- Battle Arena 2
+Raft	-	-	-	-	-	-	- Shop after Level 8
+Medical Herb	-	-	-	-	-	- Shop after Minidungeon 1
+Mushroom	-	-	-	-	-	- Found on the first overworld between Lvl 1 and Lvl 2 (will specify coordinates)
+Flippers	-	-	-	-	-	-	- Level 9
+Portal Sphere	-	-	-	-	-	- Level 12
+
+~~~~~Potions~~~~~
+- Blue = One use, 15 hearts 75% magic	-	-	-	- Shops (will specify which ones)
+- Red = 2 use Blue (2 blue to make), down to Blue	-	-	- Shops (will specify which ones)
+- Life Potion	-	-	-	-	-	- Shop, After Minidungeon 7
+	= Fully Heals hearts and magic (2 red to make), one time use
+
+~~~~~Swords~~~~~
+- Wooden Sword	-	-	-	-	-	- Isle of the Haeren
+- Soldier's Sword	-	-	-	-	-	- Battle Arena 1
+- Master Sword	-	-	-	-	-	- Minidungeon 4
+- Hero's Sword	-	-	-	-	-	- Battle Arena 4
+- Holy Sword	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Armor~~~~~
+- Green Tunic	-	-	-	-	-	- Default
+- Blue Mail	-	-	-	-	-	- Overworld between Minidungeon 2 and Level 5
+- Red Mail		-	-	-	-	-	- Secret after Minidungeon 6
+- Gold Mail	-	-	-	-	-	- Level 13
+- Holy Mail	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Boomerang~~~~~
+- Wooden Boomerang	-	-	-	-	- Isle of the Haeren
+- Magic Boomerang	-	-	-	-	-	- Shop after Minidungeon 3
+- Gale Boomerang	-	-	-	-	-	- Minidungeon 5
+- Holy Boomerang	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Hammers~~~~~
+- Wooden Hammer	-	-	-	-	-	- Level 7
+- Smith's Hammer	-	-	-	-	- 	- Shop after Level 9
+- Holy Hammer	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Candles~~~~~
+- Candle	-	-	-	-	-	-	- Level 3
+- Incendiary Candle	-	-	-	-	-	- Shop after Minidungeon 3
+- Hell's Candle	-	-	-	-	-	- After Level 12
+
+~~~~~Bows~~~~~
+- Wooden Bow	-	-	-	-	-	- Level 2
+- Soldier's Bow	-	-	-	-	-	- Secret after Level 8
+- Marksman's Bow	-	-	-	-	-	- Secret after Minidungeon 6
+
+~~~~~Arrows~~~~~
+- Wooden Arrow	-	-	-	-	-	- Level 4
+- Iron Arrows	-	-	-	-	-	- Shop after Minidungeon 3
+- Silver Arrows	-	-	-	-	-	- Battle Arena 3
+- Light Arrows	-	-	-	-	-	- Level 11
+- Holy Arrows	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Shields~~~~~
+- Wooden Shield	-	-	-	-	-	- Default
+- Magic Shield	-	-	-	-	-	- Level 1 / Various Shops
+- Mirror Shield	-	-	-	-	-	- Level 10
+- Holy Shield	-	-	-	-	-	- Shrine of the Paladin
+
+~~~~~Wands~~~~~
+- Magic Wand	-	-	-	-	-	- Level 8
+- Sorcerer's Wand	-	-	-	-	-	- Minidungeon 7
+
+~~~~~Rings~~~~~
+- Heart Rings
+- - Replenishing Ring = Lvl 1 Heart Ring (gives 1/4 every 5 second)	-	- Shop after Minidungeon 3
+- - Life Ring = (gives 1/4 heart every 3 second, if no enemies on screen	- Level 13
+	      for 10 seconds, 5 hearts every 3 second)
+- Crit Ring	-	-	-	-	-	-	- Secret after Level 9
+- Peril Ring	-	-	-	-	-	- Level 6
+- Ring of <Name of the leader of the Undead Legion>	-	-	- Level X
+
+~~~~~Wallets~~~~~
+- Default = 300	-	-	-	-	-	- Default
+- Merchant's Wallet = 500	-	-	-	-	- Minidungeon 3
+- Theif's Wallet = 1000	-	-	-	-	- Secret after Level 11
+
+~~~~~Gloves~~~~~
+- Landscaper Glove	-	-	-	-	-	- TBD
+- Power Glove		-	-	-	-	-	- After Minidungeon 4
+- Giants Glove		-	-	-	-	-	- Minidungeon 6
+
+~~~~~Bomb Bags~~~~~
+- Small = 10	-	-	-	-	-	- Isle of the Haeren
+- Large = 20	-	-	-	-	-	- Secret spot after Minidungeon 3
+- Huge = 30	-	-	-	-	-	- Secret spot after Level 10
+- Bomber's Bag = 50	-	-	-	-	-	- Secret spot after Level 11
+
+-	-	-	I am going to do hidden casual bomb expansions like IoR
+
+~~~~~Quivers~~~~~
+- Small = 20	-	-	-	-	-	- Shop between level 1 and 2 and only that shop
+- Large = 40	-	-	-	-	-	- Secret spot after Minidungeon 3
+- Marksman's Quiver = 70	-	-	-	-	- Secret spot after Level 10
+- Sniper's Quiver = 100	-	-	-	-	- Secret spot after Level 11
+
+-	-	-	I am going to do hidden casual arrow expansions like IoR
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Trading Sequence:
+- Blue Potion -> Bucket		
+- - A sick person needs this and has a bucket
+- Bucket -> Grass Snake		
+- - A person with leak in house need to collect water and needs to get rid of a snake
+- Grass Snake -> Bronze Coin		
+- - A person who loves snakes found this bronze coin
+- Bronze Coin -> Rusty Sword		
+- - An old man collects those bronze coins, got that sword from a thief
+- Rusty Sword -> Goron Vase		
+- - An ancient war fanatic collect antiques, but the vase doesnt match his collection
+- Goron Vase -> Tasty Rock		
+- - A kid who likes Gorons likes the vase, he has a rock that Gorons like and wants a Goron to enjoy it
+- Tasty Rock -> Silver Key		
+- - A goron bored of the food he has wants something delicious, had a key passed down by parents, gives hint where to use it
+- Silver Key -> Legionnaire General's Helm	
+- - The Silver Key unlocks door somewhere and inside you find the Legionnaire General's Helmet
+- Legionnaire General's Helm -> Legionnaire General's Gravestone	
+- - Return the Legionnaire General's Helmet to his gravestone unlocking the General's Tomb
+
+Post-game Collecting Item
+- Legionnaire's Ring (collect 20 to complete)
+- One of them is in the General's Tomb
+- Seal of the Undead Legion = Essentially a key used to unlock the way to <Leader of the Undead Legion> Found in Level X
+
+Goddess Gems, These materialize once their Goddess's Triforce is reassembled
+- Din's Fire
+- Farore's Wind
+- Nayru's Love
+- Haeren's Grace = When below 10%, heals 100%, consumes 200 magic
+                                   When between 11%-50# heals 50% consumes 100 magic
+                                   When above 51% heals 25% consumes 50 magic
+
+Triforce Abilities
+- Power custom Item = Ganon's Rage (essentially Nayru's Love but grants a 20% all damage increase)
+- Courage custom Item = Hero's Armor (incoming damage reduced my 20% for x time)
+- Wisdom custom Item = Scholar's Mind ()
+- Death custom Item = Death's Touch (Instantly kills the strongest enemy on screen, does 25% of a boss's health done on a boss (massive cool down))
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Heart Pieces:
+
+1	- 
+2	- 
+3	- 
+4	- 
+5	- 
+6	- 
+7 	- 
+8	- 
+9	- 
+10	- 
+11	- 
+12	- 
+13	- 
+14	- 
+
+
+Magic Containers:
+1	-
+2	-
+3	-
+4	-
+
+
+
+
