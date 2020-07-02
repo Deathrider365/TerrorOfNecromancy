@@ -249,7 +249,7 @@ ffc script CompassBeep
 	 {
           if(!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && 
 			 !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
-			 Game->PlaySound(COMPASS_BEEP);
+			 Audio->PlaySound(COMPASS_BEEP);
      }
 }
 //end
@@ -296,13 +296,13 @@ ffc script BossMusic
 			
 		Waitframes(4);
 		Game->GetDMapMusicFilename(dmap, bossMusic);
-		Game->PlayEnhancedMusic(bossMusic, 0);
+		Audio->PlayEnhancedMusic(bossMusic, 0);
 		
 		while(ScreenEnemiesAlive())
 			Waitframe();
 
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areamusic);
-		Game->PlayEnhancedMusic(areamusic, 0);
+		Audio->PlayEnhancedMusic(areamusic, 0);
 	}
 	
 	bool ScreenEnemiesAlive()
@@ -329,7 +329,7 @@ ffc script Leviathan1Cabin
 {
 	void run()
 	{
-		Game->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
+		Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
 	}
 }
 //end
@@ -364,7 +364,7 @@ ffc script ScreenBeforeLeviathan1
 {	
     void run(int msg, int dmap, int scr, int timeUntilWarp)
     {
-		Game->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
+		Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
 		int timer = 0;
 		while(true)
 		{
@@ -386,7 +386,7 @@ ffc script ScreenBeforeLeviathan1
 					if(i % 60 == 0)
 					{
 						Screen->Quake = 20;
-						Game->PlaySound(SFX_RISE);
+						Audio->PlaySound(SFX_RISE);
 					}
 					Waitframe();
 				}
@@ -394,7 +394,7 @@ ffc script ScreenBeforeLeviathan1
 				Screen->Message(msg + 1);
 				Waitframe();
 				
-				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_UP});
+				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
 				
 			}
 		}
@@ -525,12 +525,12 @@ ffc script SwitchSecret
 			
 		this->Data++;
 		Screen->TriggerSecrets();
-		Game->PlaySound(SFX_SWITCH_PRESS);
+		Audio->PlaySound(SFX_SWITCH_PRESS);
 		
 		if(sfx == 0)
-			Game->PlaySound(SFX_SECRET);
+			Audio->PlaySound(SFX_SECRET);
 		else if(sfx > 0)
-			Game->PlaySound(sfx);
+			Audio->PlaySound(sfx);
 			
 		if(perm)
 		{
@@ -602,7 +602,7 @@ ffc script SwitchRemote
 					Waitframe();
 				
 				this->Data = data + 1;
-				Game->PlaySound(SFX_SWITCH_PRESS);
+				Audio->PlaySound(SFX_SWITCH_PRESS);
 				
 				for(i = 0; i < 176; i++)
 					if(comboD[i] > 0)
@@ -612,7 +612,7 @@ ffc script SwitchRemote
 					Waitframe();
 				
 				this->Data = data;
-				Game->PlaySound(SFX_SWITCH_RELEASE);
+				Audio->PlaySound(SFX_SWITCH_RELEASE);
 				
 				for(i=0; i<176; i++)
 					if(comboD[i]>0)
@@ -626,12 +626,12 @@ ffc script SwitchRemote
 				Waitframe();
 			
 			this->Data = data + 1;
-			Game->PlaySound(SFX_SWITCH_PRESS);
+			Audio->PlaySound(SFX_SWITCH_PRESS);
 			
 			if(sfx > 0)
-				Game->PlaySound(sfx);
+				Audio->PlaySound(sfx);
 			else
-				Game->PlaySound(SFX_SECRET);
+				Audio->PlaySound(SFX_SECRET);
 				
 			for(i = 0; i < 176; i++)
 				if(comboD[i] > 0)
@@ -766,9 +766,9 @@ ffc script SwitchHitAll
 			if(id > 0)
 			{
 				if(sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 				for(i = 0; i < 176; i++)
 					if(comboD[i] > 0)
 						Screen->ComboD[i] = comboD[i] + 1;
@@ -776,9 +776,9 @@ ffc script SwitchHitAll
 			else
 			{
 				if(sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 				Screen->TriggerSecrets();
 			}
 			
@@ -801,9 +801,9 @@ ffc script SwitchHitAll
 			if(id > 0)
 			{
 				if(sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 					
 				for(i = 0; i < 176; i++)
 					if(comboD[i] > 0)
@@ -812,9 +812,9 @@ ffc script SwitchHitAll
 			else
 			{
 				if(sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 					
 				Screen->TriggerSecrets();
 			}
@@ -853,7 +853,7 @@ ffc script SwitchHitAll
 					
 				if(!switchesPressed[j])
 				{
-					Game->PlaySound(SFX_SWITCH_PRESS);
+					Audio->PlaySound(SFX_SWITCH_PRESS);
 					
 					if(switchD[0] > 0)
 						Screen->D[switchD[j]] |= switchDB[j];
@@ -872,7 +872,7 @@ ffc script SwitchHitAll
 				{
 					if(pressure)
 					{
-						Game->PlaySound(SFX_SWITCH_RELEASE);
+						Audio->PlaySound(SFX_SWITCH_RELEASE);
 						Screen->ComboD[k] = switchCmb;
 						switchesPressed[j] = false;
 					}
@@ -898,14 +898,14 @@ ffc script SwitchTrap
 			Waitframe();
 		
 		this->Data++;
-		Game->PlaySound(SFX_SWITCH_PRESS);
-		Game->PlaySound(SFX_SWITCH_ERROR);
+		Audio->PlaySound(SFX_SWITCH_PRESS);
+		Audio->PlaySound(SFX_SWITCH_ERROR);
 		
 		for(int i = 0; i < count; i++)
 		{
 			int pos = SwitchGetSpawnPos();
 			npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
-			Game->PlaySound(SFX_FALL);
+			Audio->PlaySound(SFX_FALL);
 			n->Z = 176;
 			Waitframes(20);
 		}
@@ -1024,9 +1024,9 @@ ffc script SwitchSequential
 		}
 		
 		if(sfx > 0)
-			Game->PlaySound(sfx);
+			Audio->PlaySound(sfx);
 		else
-			Game->PlaySound(SFX_SECRET);
+			Audio->PlaySound(SFX_SECRET);
 		
 		Screen->TriggerSecrets();
 		
@@ -1104,13 +1104,13 @@ ffc script SwitchSequential
 					if(j == switchOrder[switches[1]])
 					{
 						switches[1]++;
-						Game->PlaySound(SFX_SWITCH_PRESS);
+						Audio->PlaySound(SFX_SWITCH_PRESS);
 						switchesPressed[j] = true;
 					}
 					else
 					{
 						switches[1] = 0;
-						Game->PlaySound(SFX_SWITCH_ERROR);
+						Audio->PlaySound(SFX_SWITCH_ERROR);
 						reset = true;
 					}
 				}
@@ -1122,7 +1122,7 @@ ffc script SwitchSequential
 				
 				if(p == 0 && canPress)
 				{
-					Game->PlaySound(SFX_SWITCH_RELEASE);
+					Audio->PlaySound(SFX_SWITCH_RELEASE);
 					switchesPressed[j] = false;
 				}
 			}
@@ -1294,7 +1294,7 @@ ffc script IceTrigger
 			
 			if(good_counter == num_triggers) 
 			{
-				Game->PlaySound(SFX_SECRET);
+				Audio->PlaySound(SFX_SECRET);
 				Screen->TriggerSecrets();
 				if((Screen->Flags[SF_SECRETS] & 2) == 0) Screen->State[ST_SECRET] = true;
 					Quit();
@@ -1319,14 +1319,14 @@ ffc script sfxplay
         if (r == 0)
 		{
             Waitframes(wait);
-            Game->PlaySound(sound);
+            Audio->PlaySound(sound);
         }
         else
 		{
             while(true)
 			{
 				Waitframes(wait);
-				Game->PlaySound(sound);
+				Audio->PlaySound(sound);
             }
         }
     }
@@ -2191,6 +2191,8 @@ const int LEVIATHAN1_BURSTCANNON_DMG = 40;
 const int LEVIATHAN1_WATERFALL_DMG = 60;
 
 const int MSG_BEATEN = 19;
+
+bool firstRun = true;
 //end
 
 //~~~~~Leviathan1~~~~~//
@@ -2244,6 +2246,8 @@ namespace Leviathan //start
 			
 			int attack;	
 			
+			Audio->PlayEnhancedMusic(NULL, 0);
+			
 			//
 			//    The leviathan is rising and screen is quaking
 			//
@@ -2255,7 +2259,7 @@ namespace Leviathan //start
 				
 				if(i % 40 == 0)
 				{
-					Game->PlaySound(SFX_RISE);
+					Audio->PlaySound(SFX_RISE);
 					Screen->Quake = 20;
 				}
 
@@ -2264,15 +2268,19 @@ namespace Leviathan //start
 			
 			//
 			//    The leviathan pauses, roars, then pauses
-			//
+			//			
 			for(i = 0; i < 120; ++i)
 			{
 				NoAction();
 				if (i == 60)
 				{
-				   Game->PlaySound(SFX_ROAR);
-				   Game->PlayEnhancedMusic("DS3 - Old Demon King.ogg", 0);
-				   Screen->Message(16);
+				   Audio->PlaySound(SFX_ROAR);
+				   Audio->PlayEnhancedMusic("DS3 - Old Demon King.ogg", 0);
+				   if (firstRun)
+				   {
+						Screen->Message(16);
+						firstRun = false;
+				   }
 				}
 				 
 				Waitframe(this, vars);
@@ -2290,7 +2298,7 @@ namespace Leviathan //start
 			//
 			//    The splash SFX he makes when diving
 			//
-			Game->PlaySound(SFX_SPLASH);
+			Audio->PlaySound(SFX_SPLASH);
 			Splash(this->X + 64, 100);
 					
 			//
@@ -2349,7 +2357,7 @@ namespace Leviathan //start
 						
 						x = vars[VARS_HEADCX];
 						y = vars[VARS_HEADCY];
-						Game->PlaySound(SFX_CHARGE);
+						Audio->PlaySound(SFX_CHARGE);
 						
 						// Charge animation
 						Charge(this, vars, x, y, 60, 24);
@@ -2365,7 +2373,7 @@ namespace Leviathan //start
 							if(this->HP < vars[VARS_INITHP]*0.3)
 								angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.5);
 							
-							Game->PlaySound(SFX_SHOT);
+							Audio->PlaySound(SFX_SHOT);
 							
 							for(j = 0; j < 4; ++j)
 							{
@@ -2387,7 +2395,7 @@ namespace Leviathan //start
 						
 						// Splashing animation
 						Glide(this, vars, x2, 32, x2, 112, 20);
-						Game->PlaySound(SFX_SPLASH);
+						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
 						break;
@@ -2407,7 +2415,7 @@ namespace Leviathan //start
 						
 						x = vars[VARS_HEADCX];
 						y = vars[VARS_HEADCY];
-						Game->PlaySound(SFX_CHARGE);
+						Audio->PlaySound(SFX_CHARGE);
 						
 						int wSizes[2] = {-32, 32};
 						int wSpeeds[2] = {6, 6};
@@ -2428,7 +2436,7 @@ namespace Leviathan //start
 							
 							for(j = 0; j < 3; ++j)
 							{
-								Game->PlaySound(SFX_SHOT);
+								Audio->PlaySound(SFX_SHOT);
 								
 								for(k = 0; k < 2; ++k)
 								{
@@ -2470,7 +2478,7 @@ namespace Leviathan //start
 						
 						// Splashing animation
 						Glide(this, vars, x2, 32, x2, 112, 20);
-						Game->PlaySound(SFX_SPLASH);
+						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
 						break;
@@ -2516,7 +2524,7 @@ namespace Leviathan //start
 						
 						// Splashing animation
 						Glide(this, vars, this->X, this->Y, this->X, 112, 20);
-						Game->PlaySound(SFX_SPLASH);
+						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
 						break;
@@ -2589,7 +2597,7 @@ namespace Leviathan //start
 		
 		void Charge(npc this, untyped vars, int x, int y, int chargeFrames, int chargeMaxSize)
 		{
-			Game->PlaySound(SFX_CHARGE);
+			Audio->PlaySound(SFX_CHARGE);
 						
 			// Charge animation
 			for(int i = 0; i < chargeFrames; ++i)
@@ -2744,12 +2752,12 @@ namespace Leviathan //start
 				++i;
 				i %= 360;
 				this->X = x+12*Sin(i*8);
-				Game->PlaySound(SFX_RISE);
+				Audio->PlaySound(SFX_RISE);
 				Screen->Quake = 20;
 				WaitframeLite(this, vars);
 			}
 			
-			Hero->WarpEx({WT_IWARPOPENWIPE, 5, 3, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_LEFT});
+			Hero->WarpEx({WT_IWARPOPENWIPE, 2, 63, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_LEFT});
 				
 			this->Immortal = false;
 			this->Remove();
