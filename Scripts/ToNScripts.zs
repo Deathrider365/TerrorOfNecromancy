@@ -26,8 +26,9 @@ but couldnt help him as much because of the events of IoR
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Imports~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //start
-import "std.zh"
-import "ffcscript.zh"
+#include "std.zh"
+#include "ffcscript.zh"
+#include "ToNSubscreen.zs"
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -45,11 +46,13 @@ typedef const Color COLOR;
 //start
 enum Color
 {
+	C_TRANSBG = -1,
 	C_TRANS = 0x00,
 	C_BLACK = 0x08,
-	C_WHITE = 0x0C,
 	C_RED = 0x04,
+	C_WHITE = 0x0C,
 	C_BLUE = 0x1F,
+	C_LGRAY = 0x2B,
 	C_TAN = 0x75,
 	C_SEABLUE = 0x76,
 	C_DARKBLUE = 0x77
@@ -78,9 +81,16 @@ COLOR SUB_TEXT_COLOR = C_BLACK;
 CONFIG SUB_TEXT_FONT = FONT_LA;
 CONFIG SUB_COOLDOWN_TILE = 29281;
 CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
+CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
+
+CONFIG TILE_LEGIONNAIRE_RING = 42700;
+CONFIG CSET_LEGIONNAIRE_RING = 4;
+CONFIG TILE_INVIS = 196;
+//CONFIG COMBO_INVIS = ;
 
 int onContHP = 0;
 int onContMP = 0;
+int gameframe = 0;
 
 //end
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -93,11 +103,10 @@ global script GlobalScripts
 	{	
 		if (DEBUG)									//turn off debug when releasing
 			debug();
-			
-		int frame;
 		
 		while(true)
 		{
+			gameframe = (gameframe+1)%3600;
 			//checkItemCycle();
 			//checkDungeon();
 			//bitmaps::updatefreed();
