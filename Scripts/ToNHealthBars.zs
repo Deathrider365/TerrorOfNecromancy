@@ -45,8 +45,8 @@ const int I_HEALTHBAR = 159;
 ffc script HealthBar_Single	 
 {
 	void run(int npcid, int str, int npcNumber, int disappearOnDeath){
-		// if(!Link->Item[I_HEALTHBAR])
-			// Quit();
+		if(!Link->Item[I_HEALTHBAR])
+			Quit();
 		
 		Waitframes(4);
 		npc n = HealthBar_GetNPC(npcid, npcNumber);

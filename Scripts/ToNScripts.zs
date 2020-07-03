@@ -42,6 +42,7 @@ typedef const bool CONFIGB;
 typedef const Color COLOR;
 
 //~~~~~Enums~~~~~//
+//start
 enum Color
 {
 	C_TRANS = 0x00,
@@ -53,6 +54,8 @@ enum Color
 	C_SEABLUE = 0x76,
 	C_DARKBLUE = 0x77
 };
+
+//end
 
 //end
 
@@ -1366,6 +1369,8 @@ ffc script BattleArena1
 
 }
 
+//end
+
 //~~~~~LeviathanFailureP1~~~~~//
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
@@ -1403,21 +1408,21 @@ ffc script LeviathanFailureP1
 //D0: Dmap to warp to
 //D1: screen to warp to
 
-ffc script LeviathanFailureP2
+//start
+ffc script LeviathanFailureP2 
 {
     void run(int dmap, int scrn)
 	{
-		
 		Screen->Message(MSG_LINK_BEATEN);
+		
 		for (int i = 0; i < 120; ++i)
 		{					
 			NoAction();
 			Screen->DrawTile(0, 50, 32, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);	
 			Waitframe();
 		}
-
 		
-		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_UP});
+		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
     }
 }
 
@@ -1434,6 +1439,9 @@ ffc script Leviathan1Ending
 	
     void run(int dmap, int scrn)
 	{
+	
+		Audio->PlayEnhancedMusic(NULL, 0);
+	
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
 			waterfall_bmp->Free();
 			
@@ -1462,29 +1470,72 @@ ffc script Leviathan1Ending
 			Waitframe();
 		}
 		
-		//for (int i = 0; 
+		Screen->Message(MSG_LINK_BEATEN + 2);
 		
-		eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, 80 - 8, 112);
-		waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
-		waterfall->Script = Game->GetEWeaponScript("Waterfall");
-		waterfall->DrawYOffset = -1000;
-		waterfall->InitD[0] = 3;
-		waterfall->InitD[1] = 64;
-		
-		
-		
-		Waitframes(60);
-		
-		for(int q = 0; q < MAX_ITEMDATA; ++q)
-			Hero->Item[q] = false;
-		
-		Hero->MaxHP = 48;
-		Hero->MaxMP = 32;
+		// Buffer
+		for (int i = 0; i < 60; ++i)
+		{					
+			NoAction();
+			Screen->DrawTile(0, 16, -11, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Waitframe();			
+		}
 		
 		Hero->HP = Hero->MaxHP;
-		Hero->MP = Hero->MaxMP;
 		
-		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_UP});
+		//Falling
+		for (int i = 0; i < 32; ++i)
+		{					
+			NoAction();
+			Screen->DrawTile(0, 16, -11 + (i * 2), 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);		
+			
+			if (i == 10)
+			{
+				eweapon waterfallLeft = CreateEWeaponAt(EW_SCRIPT10, 76, 64);
+				waterfallLeft->Damage = LEVIATHAN1_WATERFALL_DMG;
+				waterfallLeft->Script = Game->GetEWeaponScript("Waterfall");
+				waterfallLeft->DrawYOffset = -1000;
+				waterfallLeft->InitD[0] = 3;
+				waterfallLeft->InitD[1] = 64;	
+				
+				eweapon waterfallRight = CreateEWeaponAt(EW_SCRIPT10, 124, 64);
+				waterfallRight->Damage = LEVIATHAN1_WATERFALL_DMG;
+				waterfallRight->Script = Game->GetEWeaponScript("Waterfall");
+				waterfallRight->DrawYOffset = -1000;
+				waterfallRight->InitD[0] = 3;
+				waterfallRight->InitD[1] = 64;	
+			}
+			
+			if (i == 31)
+			{
+				for(int q = 0; q < MAX_ITEMDATA; ++q)
+					Hero->Item[q] = false;
+		
+				Hero->MaxHP = 48;
+				Hero->MaxMP = 32;
+		
+				Hero->HP = Hero->MaxHP;
+				Hero->MP = Hero->MaxMP;
+		
+				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});	
+			}
+			
+			Waitframe();
+		}		
+		
+
+		
+		//Waitframes(60);
+		
+		// for(int q = 0; q < MAX_ITEMDATA; ++q)
+			// Hero->Item[q] = false;
+		
+		// Hero->MaxHP = 48;
+		// Hero->MaxMP = 32;
+		
+		// Hero->HP = Hero->MaxHP;
+		// Hero->MP = Hero->MaxMP;
+		
+		// Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
     }
 }
 
@@ -1506,6 +1557,31 @@ ffc script ContinuePoint
 		Game->LastEntranceScreen = scrn;
 		Game->ContinueDMap = dmap;
 		Game->ContinueScreen = scrn;
+	}
+}
+//end
+
+//~~~~~Shutter~~~~~//
+//D0: Direction when entering the screen
+//start
+ffc script Shutter
+{
+	void run(int direction)
+	{
+		direction = VBound(direction, 3, 0);	//Param boundary check
+		
+		if (direction != Hero->Dir)
+			return;
+		
+		for(int i = 0; i < 11; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				Input->Button[CB_UP + j] = j == direction;	//j == direction is true
+				Input->Press[CB_UP + j] = j == direction;	//j == direction is true
+			}
+			Waitframe();
+		}
 	}
 }
 //end
@@ -1780,7 +1856,7 @@ lweapon script GaleBRang
 	CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
 	CONFIG DEFAULT_SPRITE = 5;
 	CONFIG DEFAULT_WIND_SPRITE = 13;
-	CONFIG DEFAULT_SFX = 4;
+	CONFIG DEFAULT_SFX = 63;
 	DEFINE ROTATION_RATE = 40; //degrees	20
 	CONFIG SFX_DELAY = 5;
 	CONFIGB FORCE_QRS_TO_NEEDED_STATE = true;
@@ -1795,6 +1871,7 @@ lweapon script GaleBRang
 		int wind_clk;
 		int sfx_clk;
 		int sfx;
+		
 		if(this->Parent > -1) //Initialize with data from the item that created this.
 		{
 			parent = Game->LoadItemData(this->Parent);
@@ -1809,6 +1886,7 @@ lweapon script GaleBRang
 			wind_sprite = DEFAULT_WIND_SPRITE;
 			sfx = DEFAULT_SFX;
 		}
+		
 		this->Angular = true;
 		this->Angle = DirRad(this->Dir);
 		int radTurnRate = DegtoRad(turnRate);
@@ -1822,6 +1900,7 @@ lweapon script GaleBRang
 				dragging->X = this->X;
 				dragging->Y = this->Y;
 			}
+			
 			if(controlling)
 			{
 				if(Input->Button[CB_LEFT])
@@ -1833,7 +1912,9 @@ lweapon script GaleBRang
 					this->Angle += radTurnRate;
 				}
 			}
+			
 			int pos = ComboAt(this->X + 8, this->Y + 8);
+			
 			for(int q = 0; q <= (BOUNCE_OFF_FLAGS_ON_LAYERS_1_AND_2 ? 2 : 0); ++q)
 			{
 				mapdata m = Game->LoadTempScreen(q);
@@ -1842,6 +1923,7 @@ lweapon script GaleBRang
 					collided = true;
 				}
 			}
+			
 			for(int q = Screen->NumItems(); q > 0; --q)
 			{
 				itemsprite it = Screen->LoadItem(q);
@@ -1852,22 +1934,27 @@ lweapon script GaleBRang
 					collided = STOPS_WHEN_GRABBING_ITEMS;
 				}
 			}
+			
 			if(this->X < 0 || this->Y < 0 || (this->X + this->HitWidth) > 255 || (this->Y + this->HitHeight) > 175)
 				collided = true; //Collide if off-screen
 			if(controlling)
 				++Hero->Stun;
+				
 			wind_clk = (wind_clk + 1) % wind_drop_rate;
 			sfx_clk = (sfx_clk + 1) % SFX_DELAY;
 			unless(wind_clk) drop_sparkle(this->X, this->Y, wind_sprite);
 			unless(sfx_clk) Audio->PlaySound(sfx);
 			this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
 			Waitframe();
-			if(controlling) controlling = (Input->Button[CB_A] || Input->Button[CB_B]);
+			if(controlling) 
+				controlling = (Input->Button[CB_A] || Input->Button[CB_B]);
 		}
+		
 		while(true)
 		{
 			this->DeadState = WDS_ALIVE;
 			this->Angle = TurnTowards(this->X, this->Y, Hero->X, Hero->Y, this->Angle, 1); //Turn directly towards the Hero.
+			
 			if(Collision(this)) //touching the Hero
 			{
 				this->DeadState = WDS_DEAD;
@@ -1878,11 +1965,13 @@ lweapon script GaleBRang
 				}
 				return;
 			}
+			
 			if(dragging)
 			{
 				dragging->X = this->X;
 				dragging->Y = this->Y;
 			}
+			
 			wind_clk = (wind_clk + 1) % wind_drop_rate;
 			sfx_clk = (sfx_clk + 1) % SFX_DELAY;
 			unless(wind_clk) drop_sparkle(this->X, this->Y, wind_sprite);
@@ -2426,6 +2515,7 @@ namespace Leviathan //start
 						int burstDelay = 40;
 						if(this->HP < vars[VARS_INITHP]*0.3)
 							burstDelay = 24;
+							
 						// Shooting loop
 						for(i = 0; i < numBursts; ++i)
 						{
@@ -2738,6 +2828,7 @@ namespace Leviathan //start
 		{
 			npc head = vars[VARS_HEADNPC];
 			Remove(head);
+			this->CollDetection = false;
 			
 			int i;
 			int x = this->X;
@@ -2757,7 +2848,7 @@ namespace Leviathan //start
 				WaitframeLite(this, vars);
 			}
 			
-			Hero->WarpEx({WT_IWARPOPENWIPE, 2, 63, -1, WARP_A, WARPFX_WAVE, 0, 0, DIR_LEFT});
+			Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
 				
 			this->Immortal = false;
 			this->Remove();
