@@ -8,9 +8,14 @@ he hears can bring back those who had died. He tasks phantom to kill link in ord
 he will have all the same attacks, sfx, and boss music from the messenger. Have him refer to whatever it was he needed
 to get to the music box or whatever since this is before he is trapped there. Have the music that plays outside his boss room play
 when you enter the room where you encounter him. and have the sound of hitting him be the same as from the game, basically
-mimic to messenger entirely. Find a way to have him drop venser's cane. This will replace the hall of memories from IoR. Perhaps he encounters
-link after he killed venser and killed him for venser's cane. For phantom kknew venser as an old friend that attempted to help him
-but couldnt help him as much because of the events of IoR
+mimic to messenger entirely. This will replace the hall of memories from IoR. 
+
+
+the item that when used on an enemy of boss will display the health bar work where it will be a weapon script that basically checks the id of the enemy
+it hit and if it is a boss then display the health bar for n seconds (perhaps 10)
+
+
+where the necromancer dies (the location where he essentially jumps out of his tower be where you acquire the spectral cane maybe
 */
 
 // if issue with star.t / end, do:
@@ -31,8 +36,10 @@ but couldnt help him as much because of the events of IoR
 //start
 #include "std.zh"
 #include "ffcscript.zh"
-#include "../ToN Main Quest/Scripts/ToNSubscreen.zs"
+#include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
+#include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNHealthBars.zs"
+
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -202,9 +209,9 @@ global script onContGame
 //start
 //~~~~~Constants/globals~~~~~//
 //start
-const int COMPASS_BEEP = 93; //Set this to the SFX id you want to hear when you have the compass,
+const int COMPASS_BEEP = 69; //Set this to the SFX id you want to hear when you have the compass,
 
-const int COMPASS_SFX = 93; 			//Set this to the SFX id you want to hear when you have the compass.
+const int COMPASS_SFX = 20; 			//Set this to the SFX id you want to hear when you have the compass.
 
 CONFIG CB_SIGNPOST = CB_A;				//Button to press to read a sign
 
@@ -400,7 +407,7 @@ ffc script ScreenBeforeLeviathan1
 					if(i % 60 == 0)
 					{
 						Screen->Quake = 20;
-						Audio->PlaySound(SFX_RISE);
+						Audio->PlaySound(SFX_ROCKINGSHIP);
 					}
 					Waitframe();
 				}
@@ -642,10 +649,10 @@ ffc script SwitchRemote
 			this->Data = data + 1;
 			Audio->PlaySound(SFX_SWITCH_PRESS);
 			
-			if(sfx > 0)
-				Audio->PlaySound(sfx);
-			else
+			if(sfx == 0)
 				Audio->PlaySound(SFX_SECRET);
+			else if (sfx > 0)
+				Audio->PlaySound(sfx);
 				
 			for(i = 0; i < 176; i++)
 				if(comboD[i] > 0)
@@ -1361,12 +1368,48 @@ ffc script BattleArena1
 
 		//spawn enemies
 		
-		npc n = Screen->CreateNPC(37);
-		n->X = 64;
-		n->Y = 80;
+		npc n1 = Screen->CreateNPC(37);
+		n1->X = 64;
+		n1->Y = 80;		
+		
+		npc n2 = Screen->CreateNPC(179);
+		n2->X = 80;
+		n2->Y = 80;
+		
+		npc n3 = Screen->CreateNPC(184);		
+		n3->X = 96;
+		n3->Y = 80;
+		
 		round();
 		
 		//spawn enemies
+		
+		npc n4 = Screen->CreateNPC(180);
+		n4->X = 64;
+		n4->Y = 80;		
+		
+		npc n5 = Screen->CreateNPC(182);
+		n5->X = 80;
+		n5->Y = 80;
+		
+		npc n6 = Screen->CreateNPC(49);		
+		n6->X = 96;
+		n6->Y = 80;		
+		round();
+		
+		//spawn enemies
+		
+		npc n7 = Screen->CreateNPC(180);
+		n7->X = 64;
+		n7->Y = 80;		
+		
+		npc n8 = Screen->CreateNPC(182);
+		n8->X = 80;
+		n8->Y = 80;
+		
+		npc n9 = Screen->CreateNPC(49);		
+		n9->X = 96;
+		n9->Y = 80;		
 		round();
 	}
 	
@@ -1418,14 +1461,14 @@ ffc script LeviathanFailureP1
 //~~~~~LeviathanFailureP2~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-
 //start
 ffc script LeviathanFailureP2 
 {
     void run(int dmap, int scrn)
 	{
 		Screen->Message(MSG_LINK_BEATEN);
-		
+		Audio->PlayEnhancedMusic(NULL, 0);
+
 		for (int i = 0; i < 120; ++i)
 		{					
 			NoAction();
@@ -1442,7 +1485,6 @@ ffc script LeviathanFailureP2
 //~~~~~Leviathan1Ending~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-
 //start
 ffc script Leviathan1Ending 
 {
@@ -1520,7 +1562,17 @@ ffc script Leviathan1Ending
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
 					Hero->Item[q] = false;
-		
+					
+				Game->Counter[CR_SBOMBS] = 0;
+				Game->Counter[CR_BOMBS] = 0;
+				Game->Counter[CR_ARROWS] = 0;
+				Game->Counter[CR_RUPEES] = 0;				
+
+				Game->MCounter[CR_SBOMBS] = 0;
+				Game->MCounter[CR_BOMBS] = 0;
+				Game->MCounter[CR_ARROWS] = 0;
+				Game->MCounter[CR_RUPEES] = 255;
+				
 				Hero->MaxHP = 48;
 				Hero->MaxMP = 32;
 		
@@ -1532,21 +1584,6 @@ ffc script Leviathan1Ending
 			
 			Waitframe();
 		}		
-		
-
-		
-		//Waitframes(60);
-		
-		// for(int q = 0; q < MAX_ITEMDATA; ++q)
-			// Hero->Item[q] = false;
-		
-		// Hero->MaxHP = 48;
-		// Hero->MaxMP = 32;
-		
-		// Hero->HP = Hero->MaxHP;
-		// Hero->MP = Hero->MaxMP;
-		
-		// Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
     }
 }
 
@@ -2076,7 +2113,7 @@ eweapon script Sine_Wave
 int statuses[NUM_STATUSES];
 bitmap status_bmp;
 bitmap waterfall_bmp;
-StatusPos statusPos = SP_ABOVE_HEAD;
+StatusPos statusPos = SP_TOP_RIGHT;
 
 enum StatusPos
 {
@@ -2273,7 +2310,9 @@ hero script OnDeath
 
 const int NPC_LEVIATHANHEAD = 177;
 
-CONFIG SFX_RISE = 9;
+CONFIG SFX_RISE = 67;		//9
+CONFIG SFX_ROCKINGSHIP = 9;
+CONFIG SFX_WATERFALL = 26;
 CONFIG SFX_LEVIATHAN1_ROAR = SFX_ROAR;
 CONFIG SFX_LEVIATHAN1_SPLASH = SFX_SPLASH;
 CONFIG SFX_CHARGE = 35;
@@ -2359,7 +2398,7 @@ namespace Leviathan //start
 				
 				if(i % 40 == 0)
 				{
-					Audio->PlaySound(SFX_RISE);
+					Audio->PlaySound(SFX_ROCKINGSHIP);
 					Screen->Quake = 20;
 				}
 
@@ -2416,7 +2455,6 @@ namespace Leviathan //start
 				{
 					// Waterfall Attack
 					case 0:
-						TraceS("Start Waterfall \n");
 						x = Link->X-64;
 						x2 = x + Choose(-8, 8);
 					
@@ -2426,7 +2464,7 @@ namespace Leviathan //start
 						for(i = 0; i < 20; ++i)
 						{
 							GlideFrame(this, vars, x2, 32, x2, 112, 20, i);
-							
+							Audio->PlaySound(SFX_WATERFALL);
 							if(i == 3)
 							{
 								int cx = this->X + this->HitXOffset + this->HitWidth / 2;
@@ -2439,7 +2477,9 @@ namespace Leviathan //start
 							}
 							
 							Waitframe(this, vars);
-						}
+						}			
+						
+						Audio->PlaySound(SFX_SPLASH);
 						break;
 					
 					// Water Cannon
