@@ -11,8 +11,22 @@ CONFIG SCROLL_SPEED = 4;
 COLOR BG_COLOR = C_LGRAY;
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
 DEFINE NUM_SUBSCR_INAC_ITEMS = 13;
-DEFINE CURSOR_MOVEMENT_SFX = 5;
-DEFINE ITEM_SELECTION_SFX = 66;
+CONFIG CURSOR_MOVEMENT_SFX = 5;
+CONFIG ITEM_SELECTION_SFX = 66;
+CONFIG SUBSCR_COUNTER_FONT = FONT_LA;
+COLOR C_SUBSCR_COUNTER_TEXT = C_WHITE;
+COLOR C_SUBSCR_COUNTER_BG = C_TRANSBG;
+CONFIGB CNTR_USES_0 = true;
+CONFIG TILE_SUBSCR_BUTTON_FRAME = 1378;
+CONFIG TILE_HEARTS = 32420;
+
+COLOR C_MAGIC_METER_FILL = C_GREEN;
+CONFIG TILE_MAGIC_METER = 32520;
+CONFIG MAGIC_METER_TILE_WIDTH = 5;
+CONFIG MAGIC_METER_PIX_WIDTH = 55; //-1 from actual
+CONFIG MAGIC_METER_PIX_HEIGHT = 1; //-1 from actual
+CONFIG MAGIC_METER_FILL_XOFF = 11;
+CONFIG MAGIC_METER_FILL_YOFF = 3;
 
 int scrollingOffset; 
 
@@ -36,40 +50,44 @@ int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25,
 //end Inactive Items
 
 int asubscr_pos = 0;
+int subscr_y_offset = -224;
 
+@Author("Venrob")
 dmapdata script ActiveSubscreen
 {
 	void run()
 	{
-		bitmap b = Game->CreateBitmap(256,224);
+		bitmap b = Game->CreateBitmap(256,168);
 		b->Clear(0);
-		b->Rectangle(0, 0, 56, 256, 224, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE); //BG Color
-		b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 56, 0); //Draw BG screen
+		b->Rectangle(0, 0, 56, 256, 168, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE); //BG Color
+		b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0); //Draw BG screen
 		//Do any other draws to the bitmap here
 		
-		for(int y = 168; y > 0; y -= SCROLL_SPEED)
+		for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED)
 		{
-			do_asub_frame(b, y, false);
+			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
+		subscr_y_offset = -56;
 		do
 		{
 			do_asub_frame(b, 0, true);
 			Waitframe();
 		}
 		until(Input->Press[CB_START]);
-		for(int y = 0; y < 168; y += SCROLL_SPEED)
+		for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED)
 		{
-			do_asub_frame(b, y, false);
+			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
+		subscr_y_offset = -224;
 	}
 }
 
 void do_asub_frame(bitmap b, int y, bool isActive)
 {
 	gameframe = (gameframe + 1) % 3600;
-	b->Blit(0, RT_SCREEN, 0, 0, 256, 224, 0, y - 56, 256, 224, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
+	b->Blit(0, RT_SCREEN, 0, 0, 256, 168, 0, y, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
 	
 	//start Handle asubscr_position movement
 	if(isActive)
@@ -237,7 +255,7 @@ void drawTileToLoc(int layer, int tile, int cset, int loc, int y)
 
 int loadItemTile(int itID) //start
 {
-	unless(itID) 
+	unless(itID > 0) 
 		return TILE_INVIS;
 		
 	itemdata i = Game->LoadItemData(itID);
@@ -255,7 +273,7 @@ int loadItemTile(int itID) //start
 
 int loadItemCSet(int itID) //start
 {
-	unless(itID) return 0;
+	unless(itID > 0) return 0;
 	return Game->LoadItemData(itID)->CSet;
 } //end
 

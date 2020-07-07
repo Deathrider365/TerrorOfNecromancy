@@ -39,6 +39,7 @@ where the necromancer dies (the location where he essentially jumps out of his t
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNHealthBars.zs"
+#include "Time.zh"
 
 //end
 
@@ -59,6 +60,7 @@ enum Color
 {
 	C_TRANSBG = -1,
 	C_TRANS = 0x00,
+	C_GREEN = 0x06,
 	C_BLACK = 0x08,
 	C_RED = 0x04,
 	C_WHITE = 0x0C,
@@ -2256,6 +2258,15 @@ hero script OnDeath
     }
 }
 //end
+
+//~~~~~HeroInit~~~~~//
+hero script HeroInit
+{
+	void run()
+	{
+		subscr_y_offset = -224;
+	}
+}
 
 //end
 
