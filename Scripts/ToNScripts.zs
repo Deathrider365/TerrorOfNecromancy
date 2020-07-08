@@ -3389,11 +3389,14 @@ int convertBit(int b18)
 	return b18 / 10000;
 }
 
-ScreenType getScreenType()//start
+ScreenType getScreenType(bool dmapOnly)//start
 {
+	unless(dmapOnly)
+	{
+		if(IsDungeonFlag())return DM_DUNGEON;
+		if(IsInteriorFlag())return DM_INTERIOR;
+	}
 	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-	if(IsDungeonFlag())return DM_DUNGEON;
-	if(IsInteriorFlag())return DM_INTERIOR;
 	return <ScreenType> (dm->Type & 11b);
 }//end
 
