@@ -673,6 +673,45 @@ ffc script ScriptWeaponTrigger
 }
 //end
 
+//~~~~~ScriptWeaponTrigger~~~~~//
+// D0: Flag to trigger 
+// D1: Combo to change into
+// D2: Whether perm of not
+// D3: (used only if perm) ScreenD reg
+//start
+ffc script EnemiesChest
+{
+	void run(int flag, int combo, bool perm, int reg, int cset)
+	{
+		if (perm && getScreenD(reg))
+		{
+			for (int q = 0; q < 176; ++q)
+				if (ComboFI(q, flag))
+				{
+					Screen->ComboD[q] = combo;
+					Screen->ComboC[q] = cset;
+				}
+			return;
+		}
+		
+		Waitframes(6);
+		
+		while(EnemiesAlive())
+			Waitframe();
+			
+		if (perm)
+			setScreenD(reg, true);
+		
+		for (int q = 0; q < 176; ++q)
+			if (ComboFI(q, flag))
+			{
+				Screen->ComboD[q] = combo;
+				Screen->ComboC[q] = cset;
+			}
+	}
+}
+//end
+
 //~~~~~SwitchSecret~~~~~//
 //D0: Set to 1 to make the secret permanent
 //D1: Set to the switch's ID if the secret is tiered, 0 otherwise.
@@ -695,7 +734,7 @@ ffc script SwitchSecret
 		{
 			if(id > 0)
 			{
-				if(Screen->D[d] & db)
+				if(getScreenD(d, convertBit(db)))
 				{
 					this->Data++;
 					Screen->TriggerSecrets();
@@ -724,7 +763,7 @@ ffc script SwitchSecret
 		if(perm)
 		{
 			if(id > 0)
-				Screen->D[d] |= db;
+				setScreenD(d, convertBit(db), true);
 			else
 				Screen->State[ST_SECRET] = true;
 		}
@@ -773,7 +812,7 @@ ffc script SwitchRemote
 
 		if(id > 0)
 		{
-			if(Screen->D[d] & db)
+			if(getScreenD(d, convertBit(db)))
 			{
 				this->Data = data + 1;
 				for(i = 0; i < 176; i++)
@@ -827,7 +866,7 @@ ffc script SwitchRemote
 					Screen->ComboD[i] = comboD[i]+1;
 
 			if(id > 0)
-				Screen->D[d] |= db;
+				setScreenD(d, convertBit(db), true);
 		}
 	}
 }
@@ -895,7 +934,7 @@ ffc script SwitchHitAll
 				{
 					switchD[j] = Floor((switchID + switches[0] - 1) / 16);
 					switchDB[j] = 1<<((switchID + switches[0] - 1) % 16);
-					if(Screen->D[switchD[j]] & switchDB[j])
+					if(getScreenD(switchD[j], convertBit(switchDB[j])))
 					{
 						switchesPressed[j] = true;
 						Screen->ComboD[i] = switchCmb + 1;
@@ -909,7 +948,7 @@ ffc script SwitchHitAll
 		if(perm)
 		{
 			if(id > 0)
-				if(Screen->D[d] & db)
+				if(getScreenD(d, convertBit(db)))
 				{
 					for(i = 2; i < switches[0] + 2; i++)
 					{
@@ -974,7 +1013,7 @@ ffc script SwitchHitAll
 			if(perm)
 			{
 				if(id > 0)
-					Screen->D[d] |= db;
+					setScreenD(d, convertBit(db), true);
 				else
 					Screen->State[ST_SECRET] = true;
 			}
@@ -1011,7 +1050,7 @@ ffc script SwitchHitAll
 			if(perm)
 			{
 				if(id > 0)
-					Screen->D[d] |= db;
+					setScreenD(d, convertBit(db), true);
 				else
 					Screen->State[ST_SECRET] = true;
 			}
@@ -1045,7 +1084,7 @@ ffc script SwitchHitAll
 					Audio->PlaySound(SFX_SWITCH_PRESS);
 					
 					if(switchD[0] > 0)
-						Screen->D[switchD[j]] |= switchDB[j];
+						setScreenD(switchD[j], convertBit(switchDB[j]), true);
 					
 					switchesPressed[j] = true;
 					if(!pressure)
@@ -1740,6 +1779,7 @@ ffc script Leviathan1Ending
 				Game->MCounter[CR_BOMBS] = 0;
 				Game->MCounter[CR_ARROWS] = 0;
 				Game->MCounter[CR_RUPEES] = 255;
+				Game->Generic[GEN_MAGICDRAINRATE] = 2;
 				
 				Hero->MaxHP = 48;
 				Hero->MaxMP = 32;
@@ -3283,6 +3323,82 @@ float TurnToAngle(float angle1, float angle2, float step) //start
 }
 //end
 //}
+
+// Function to set Screen->D
+void setScreenD(int reg, bool state) //start
+{
+	#option BINARY_32BIT on
+	
+	int d = Div(reg, 32);
+	reg %= 32;
+	
+	if (state)
+		Screen->D[d] |= 1b<<reg;
+	else
+		Screen->D[d] ~= 1b<<reg;
+	
+}
+//end
+
+// Function to get Screen->D
+bool getScreenD(int reg) //start
+{
+	#option BINARY_32BIT on
+	
+	int d = Div(reg, 32);
+	reg %= 32;
+	
+	return Screen->D[d] & (1b<<reg);
+	
+}
+//end
+
+// Function to set Screen->D
+void setScreenD(int d, int bit, bool state) //start
+{
+	#option BINARY_32BIT on
+	
+	if (state)
+		Screen->D[d] |= bit;
+	else
+		Screen->D[d] ~= bit;
+}
+//end
+
+// Function to get Screen->D
+int getScreenD(int d, int bit) //start
+{
+	#option BINARY_32BIT on
+	
+	return Screen->D[d] & bit;
+}
+//end
+
+// Converts an 18 bit value to a 32 bit value
+int convertBit(int b18) 
+{
+	return b18 / 10000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

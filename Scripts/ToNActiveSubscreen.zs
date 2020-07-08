@@ -63,18 +63,21 @@ dmapdata script ActiveSubscreen
 		
 		for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED)
 		{
+			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
 		subscr_y_offset = -56;
 		do
 		{
+			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, true);
 			Waitframe();
 		}
 		until(Input->Press[CB_START]);
 		for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED)
 		{
+			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}

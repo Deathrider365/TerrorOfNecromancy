@@ -18,6 +18,7 @@ dmapdata script PassiveSubscreen
 		//Do any other draws to the bitmap here
 		while(true)
 		{
+			Waitdraw();
 			do_psub_frame(bm, subscr_y_offset+168);
 			Waitframe();
 		}
@@ -41,14 +42,14 @@ dmapdata script PassiveSubscreen
 		//end Counters
 		//start Buttons
 		//Frames
-		Screen->DrawTile(7, 82, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, 1, 1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-		Screen->DrawTile(7, 105, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, 1, 1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 82, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 105, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 		//Labels
 		Screen->FastTile(7, 87, y+0, 1288, 0, OP_OPAQUE);
 		Screen->FastTile(7, 110, y+0, 1268, 0, OP_OPAQUE);
 		//Items
-		Screen->FastTile(7, 86, 21, loadItemTile(Hero->ItemB), loadItemCSet(Hero->ItemB), OP_OPAQUE);
-		Screen->FastTile(7, 109, 21, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
+		Screen->FastTile(7, 86, y + 21, loadItemTile(Hero->ItemB), loadItemCSet(Hero->ItemB), OP_OPAQUE);
+		Screen->FastTile(7, 109, y + 21, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
 		//end Buttons
 		//start Life Meter
 		heart(RT_SCREEN, 7, 171, y+36,  0, TILE_HEARTS);
@@ -84,10 +85,10 @@ dmapdata script PassiveSubscreen
 		//end Life Meter
 		//start Magic Meter
 		int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
-		Screen->DrawTile(7, 172, y+44, TILE_MAGIC_METER, MAGIC_METER_TILE_WIDTH, 1, 0, 1, 1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 166, y+44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 		if(MAGIC_METER_PIX_WIDTH*perc >= 0.5)
-			Screen->Rectangle(7, 172+MAGIC_METER_FILL_XOFF,                                   y+44+MAGIC_METER_FILL_YOFF,
-			                     172+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
+			Screen->Rectangle(7, 166+MAGIC_METER_FILL_XOFF,                                   y+44+MAGIC_METER_FILL_YOFF,
+			                     166+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
 								 C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 		//end Magic Meter
 		//start Clock
