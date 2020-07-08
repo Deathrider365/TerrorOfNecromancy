@@ -43,7 +43,7 @@ where the necromancer dies (the location where he essentially jumps out of his t
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNHealthBars.zs"
 #include "Time.zh"
-#include "dmapgrid.zh"
+#include "std_zh/dmapgrid.zh"
 
 //end
 
@@ -73,6 +73,14 @@ enum Color
 	C_TAN = 0x75,
 	C_SEABLUE = 0x76,
 	C_DARKBLUE = 0x77
+};
+
+enum ScreenType
+{
+	DM_DUNGEON,
+	DM_OVERWORLD,
+	DM_INTERIOR,
+	DM_BSOVERWORLD
 };
 
 //end
@@ -3381,14 +3389,12 @@ int convertBit(int b18)
 	return b18 / 10000;
 }
 
-bool isOverworldScreen()//start
+ScreenType getScreenType()//start
 {
 	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-	if(IsDungeonFlag())return false;
-	if(IsInteriorFlag())return false;
-	//if(dm->Type%2)return true; //Return true for BS-OW
-	unless(dm->Type) return true; //Return false for BS-OW
-	return false;
+	if(IsDungeonFlag())return DM_DUNGEON;
+	if(IsInteriorFlag())return DM_INTERIOR;
+	return <ScreenType> (dm->Type & 11b);
 }//end
 
 

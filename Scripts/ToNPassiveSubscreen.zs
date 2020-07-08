@@ -97,8 +97,8 @@ dmapdata script PassiveSubscreen
 		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
 		//end Clock
 		//start Minimap
-		bool ow = isOverworldScreen();
-		int mm_tile = ow ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
+		ScreenType ow = getScreenType();
+		int mm_tile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
 		int cs = 0;
 		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
@@ -117,15 +117,34 @@ dmapdata script PassiveSubscreen
 		//end Minimap
 		//start DMap Title
 		char32 titlebuf[80];
-		dm->GetTitle(titlebuf);
-		for(int ind = 0; ind < 3; ++ind)
+		Game->GetDMapTitle(dm->ID, titlebuf);
+		int index;
+		int lastLetter;
+		bool wasSpace = true;
+		
+		for (int q = 0; q < 80; ++q)
 		{
-			char32 tmpbuf[32];
-			for(int q = 0; q < 24; ++q)
-				tmpbuf[q] = titlebuf[q + (24*ind)];
-			Screen->DrawString(7, 41, y+0+(Text->FontHeight(SUBSCR_COUNTER_FONT)*ind), C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
-			                   TF_CENTERED, tmpbuf, OP_OPAQUE);
+			if (titlebuf[q] == ' ')
+			{
+				unless (wasSpace)
+					wasSpace = true;
+				else
+					continue;
+			}
+			else
+			{
+				lastLetter = q;
+				wasSpace = false;
+			}
+			
+			titlebuf[index++] = titlebuf[q];
 		}
+		
+		for (int q = lastLetter + 1; q < 80; ++q)
+			titlebuf[q] = 0;
+		
+		Screen->DrawString(7, 41, y+0, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
+		                   TF_CENTERED, titlebuf, OP_OPAQUE);
 		//end DMap Title
 	}
 }
@@ -159,13 +178,13 @@ void heart(untyped bit, int layer, int x, int y, int num, int baseTile) //start
 		<bitmap>(bit)->FastTile(layer, x, y, baseTile+shift, 0, OP_OPAQUE);
 } //end
 
-void minimap(untyped bit, int layer, int orig_x, int orig_y, bool ow) //start
+void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //start
 {
-	if(ow)
+	if(ow == DM_OVERWORLD)
 	{
 		int scr = Game->GetCurScreen();
-		int x = orig_x + 9 + (4*(scr%0x0F));
-		int y = orig_y + 8 + (4*Div(scr, 0x0F));
+		int x = orig_x + 9 + (4*(scr%0x010));
+		int y = orig_y + 8 + (4*Div(scr, 0x010));
 		if(bit == RT_SCREEN)
 			Screen->Rectangle(layer, x, y, x+2, y+2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
 		else
@@ -174,31 +193,35 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, bool ow) //start
 	else
 	{
 		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
-		orig_x += 10;
+		orig_x += 8;
 		orig_y += 8;
 		int offs = Game->DMapOffset[Game->GetCurDMap()];
 		int curscr = Game->GetCurDMapScreen();
+		
+		int lim = Max(offs - 8, 0);
+		
 		for(int q = 0; q < 128; ++q)
-		{
-			if(q % 0xF == 8)
+		{			
+			if(q % 0x10 >= 8 - lim)
 			{
-				q += 8;
+				continue;
 			}
+			
 			Color c = C_TRANS;
-			int x = orig_x + (8*(scr%0x0F));
-			int y = orig_y + (4*Div(scr, 0x0F));
+			int x = orig_x + (8*(q%0x010));
+			int y = orig_y + (4*Div(q, 0x010));
 			if(q == curscr)
 			{
 				c = C_MINIMAP_LINK;
 			}
-			else
+			else unless (ow == DM_BSOVERWORLD)
 			{
 				mapdata m = Game->LoadMapData(Game->GetCurMap(),q+offs);
 				if(m->State[ST_VISITED])
 				{
 					c = C_MINIMAP_EXPLORED;
 				}
-				else if(hasMap && VisibleOnDungeonMap(q))
+				else if(hasMap && dmapinfo::VisibleOnDungeonMap(q))
 				{
 					c = C_MINIMAP_ROOM;
 				}
@@ -206,9 +229,9 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, bool ow) //start
 			if(c)
 			{
 				if(bit == RT_SCREEN)
-					Screen->Rectangle(layer, x, y, x+6, y+6, c, 1, 0, 0, 0, true, OP_OPAQUE);
+					Screen->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);
 				else
-					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+6, c, 1, 0, 0, 0, true, OP_OPAQUE);
+					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);
 			}
 		}
 	}
