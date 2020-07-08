@@ -94,7 +94,7 @@ dmapdata script PassiveSubscreen
 		//start Clock
 		char32 buf[16];
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
-		Screen->DrawString(buf, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
+		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
 		//end Clock
 	}
 }
