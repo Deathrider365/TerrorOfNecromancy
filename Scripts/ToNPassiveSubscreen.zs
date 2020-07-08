@@ -96,6 +96,37 @@ dmapdata script PassiveSubscreen
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
 		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
 		//end Clock
+		//start Minimap
+		bool ow = isOverworldScreen();
+		int mm_tile = ow ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
+		int cs = 0;
+		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
+		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
+		if(hasMap && dm->MiniMapTile[1])
+		{
+			mm_tile = dm->MiniMapTile[1];
+			cs = dm->MiniMapCSet[1];
+		}
+		else if(dm->MiniMapTile[0] && !hasMap)
+		{
+			mm_tile = dm->MiniMapTile[0];
+			cs = dm->MiniMapCSet[0];
+		}
+		Screen->DrawTile(7, 0, y+8, mm_tile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		minimap(RT_SCREEN, 7, 0, y+8, ow);
+		//end Minimap
+		//start DMap Title
+		char32 titlebuf[80];
+		dm->GetTitle(titlebuf);
+		for(int ind = 0; ind < 3; ++ind)
+		{
+			char32 tmpbuf[32];
+			for(int q = 0; q < 24; ++q)
+				tmpbuf[q] = titlebuf[q + (24*ind)];
+			Screen->DrawString(7, 41, y+0+(Text->FontHeight(SUBSCR_COUNTER_FONT)*ind), C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
+			                   TF_CENTERED, tmpbuf, OP_OPAQUE);
+		}
+		//end DMap Title
 	}
 }
 
@@ -128,7 +159,60 @@ void heart(untyped bit, int layer, int x, int y, int num, int baseTile) //start
 		<bitmap>(bit)->FastTile(layer, x, y, baseTile+shift, 0, OP_OPAQUE);
 } //end
 
-
+void minimap(untyped bit, int layer, int orig_x, int orig_y, bool ow) //start
+{
+	if(ow)
+	{
+		int scr = Game->GetCurScreen();
+		int x = orig_x + 9 + (4*(scr%0x0F));
+		int y = orig_y + 8 + (4*Div(scr, 0x0F));
+		if(bit == RT_SCREEN)
+			Screen->Rectangle(layer, x, y, x+2, y+2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+		else
+			<bitmap>(bit)->Rectangle(layer, x, y, x+2, y+2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+	}
+	else
+	{
+		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
+		orig_x += 10;
+		orig_y += 8;
+		int offs = Game->DMapOffset[Game->GetCurDMap()];
+		int curscr = Game->GetCurDMapScreen();
+		for(int q = 0; q < 128; ++q)
+		{
+			if(q % 0xF == 8)
+			{
+				q += 8;
+			}
+			Color c = C_TRANS;
+			int x = orig_x + (8*(scr%0x0F));
+			int y = orig_y + (4*Div(scr, 0x0F));
+			if(q == curscr)
+			{
+				c = C_MINIMAP_LINK;
+			}
+			else
+			{
+				mapdata m = Game->LoadMapData(Game->GetCurMap(),q+offs);
+				if(m->State[ST_VISITED])
+				{
+					c = C_MINIMAP_EXPLORED;
+				}
+				else if(hasMap && VisibleOnDungeonMap(q))
+				{
+					c = C_MINIMAP_ROOM;
+				}
+			}
+			if(c)
+			{
+				if(bit == RT_SCREEN)
+					Screen->Rectangle(layer, x, y, x+6, y+6, c, 1, 0, 0, 0, true, OP_OPAQUE);
+				else
+					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+6, c, 1, 0, 0, 0, true, OP_OPAQUE);
+			}
+		}
+	}
+} //end
 
 
 
