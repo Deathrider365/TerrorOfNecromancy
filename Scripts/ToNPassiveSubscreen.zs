@@ -2,8 +2,6 @@
 //~~~~~~~~~~~~~~~~~The Terror of Necromancy Passive Subscreen~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-#option SHORT_CIRCUIT on
-
 CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
 
@@ -27,16 +25,16 @@ dmapdata script PassiveSubscreen
 	
 	void do_psub_frame(bitmap bm, int y)
 	{
-		bm->Blit(0, RT_SCREEN, 0, 0, 256, 56, 0, y, 256, 56, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
+		bm->Blit(7, RT_SCREEN, 0, 0, 256, 56, 0, y, 256, 56, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
 		//start Counters
 		//Rupees
 		minitile(RT_SCREEN, 7, 134, y+6, 32780, 1, 0);
 		counter(RT_SCREEN, 7, 134+10, y+6, CR_RUPEES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+16, 32780, 1, 2);
+		minitile(RT_SCREEN, 7, 134, y+16, 32780, 1, 1);
 		counter(RT_SCREEN, 7, 134+10, y+16, CR_BOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+26, 32780, 1, 4);
+		minitile(RT_SCREEN, 7, 134, y+26, 32780, 1, 3);
 		counter(RT_SCREEN, 7, 134+10, y+26, CR_SBOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+36, 32780, 1, 3);
+		minitile(RT_SCREEN, 7, 134, y+36, 32780, 1, 2);
 		counter(RT_SCREEN, 7, 134+10, y+36, CR_ARROWS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 		minitile(RT_SCREEN, 7, 134, y+46, 32800, 1, 0);
 		counter(RT_SCREEN, 7, 134+10, y+46, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
@@ -95,7 +93,7 @@ dmapdata script PassiveSubscreen
 		//start Clock
 		char32 buf[16];
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
-		Screen->DrawString(buf, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, buf, OP_OPAQUE);
+		Screen->DrawString(buf, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
 		//end Clock
 	}
 }

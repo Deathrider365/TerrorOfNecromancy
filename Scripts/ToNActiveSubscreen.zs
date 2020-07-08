@@ -2,8 +2,6 @@
 //~~~~~~~~~~~~~~~~~~The Terror of Necromancy Active Subscreen~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-#option SHORT_CIRCUIT on
-
 CONFIG BG_MAP = 6;
 CONFIG BG_SCREEN = 0x0E;
 CONFIG SCROLL_SPEED = 4;
@@ -71,7 +69,7 @@ dmapdata script ActiveSubscreen
 		subscr_y_offset = -56;
 		do
 		{
-			do_asub_frame(b, 0, true);
+			do_asub_frame(b, subscr_y_offset, true);
 			Waitframe();
 		}
 		until(Input->Press[CB_START]);
