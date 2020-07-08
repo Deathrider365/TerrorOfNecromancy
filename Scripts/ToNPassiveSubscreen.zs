@@ -118,7 +118,9 @@ void heart(untyped bit, int layer, int x, int y, int num, int baseTile) //start
 	if(Game->MCounter[CR_LIFE] < (num*16+1)) return;
 	int shift = (Game->Counter[CR_LIFE] >= (num+1)*16)
 	            ? 4
-	            : Div(Game->Counter[CR_LIFE] % HP_PER_HEART, HP_PER_HEART/4);
+				: (Game->Counter[CR_LIFE] < (num*16)
+				  ? 0
+	              : Div(Game->Counter[CR_LIFE] % HP_PER_HEART, HP_PER_HEART/4));
 	if(bit == RT_SCREEN)
 		Screen->FastTile(layer, x, y, baseTile+shift, 0, OP_OPAQUE);
 	else
