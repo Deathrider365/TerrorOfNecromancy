@@ -42,6 +42,7 @@ where the necromancer dies (the location where he essentially jumps out of his t
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNHealthBars.zs"
+#include "../ToN Main Quest/Scripts/ToNFFCScripts.zs"
 #include "Time.zh"
 #include "std_zh/dmapgrid.zh"
 

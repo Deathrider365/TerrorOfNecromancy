@@ -39,8 +39,8 @@ ffc script VoiceOverText //start
 } //end
 
 //~~~~~SwitchPressed (used for switch scripts)~~~~~//
-//start
-int SwitchPressed(int x, int y, bool noLink)
+@Author("Moosh")
+int SwitchPressed(int x, int y, bool noLink) //start
 {
 	int xOff = 0;
 	int yOff = 4;
@@ -64,8 +64,8 @@ int SwitchPressed(int x, int y, bool noLink)
 
 //~~~~~BossNameString~~~~~//
 //D0: String number
-//start
-ffc script BossNameString
+@Author("Deathrider365")
+ffc script BossNameString //start
 {
     void run(int string)
     {
@@ -78,8 +78,8 @@ ffc script BossNameString
 //end
 
 //~~~~~CompassBeep~~~~~//
-//start
-ffc script CompassBeep
+@Author("Demonlink")
+ffc script CompassBeep //start
 {
      void run()
 	 {
@@ -93,8 +93,8 @@ ffc script CompassBeep
 //~~~~~OpenForItem~~~~~//
 //D0: Item number to check for
 //D1: 0 for non-perm, 1 for perm
-//start
-ffc script OpenForItemID
+@Author("Moosh")
+ffc script OpenForItemID //start
 {
     void run(int itemid, bool perm)
     {
@@ -119,8 +119,8 @@ ffc script OpenForItemID
 
 //~~~~~BossMusic~~~~~//
 //D0: Number of dmap to play music for
-//start
-ffc script BossMusic
+@Author("Deathrider365")
+ffc script BossMusic //start
 {
 	void run(int dmap)
 	{
@@ -160,8 +160,8 @@ ffc script BossMusic
 
 //~~~~~Leviathan1Cabin~~~~~//
 //D0: Number of dmap to play music for
-//start
-ffc script Leviathan1Cabin
+@Author("Deathrider365")
+ffc script Leviathan1Cabin //start
 {
 	void run()
 	{
@@ -174,8 +174,8 @@ ffc script Leviathan1Cabin
 //D0: Message number to show
 //D1: Dmap to warp Link to
 //D2: Screen on the specified dmap to warp Link to
-//start
-ffc script MessageThenWarp
+@Author("Deathrider365")
+ffc script MessageThenWarp //start
 {	
     void run(int msg, int dmap, int scr)
     {
@@ -195,8 +195,8 @@ ffc script MessageThenWarp
 //D0: Message number to show
 //D1: Dmap to warp Link to
 //D2: Screen on the specified dmap to warp Link to
-//start
-ffc script ScreenBeforeLeviathan1
+@Author("Deathrider365")
+ffc script ScreenBeforeLeviathan1 //start
 {	
     void run(int msg, int dmap, int scr, int timeUntilWarp)
     {
@@ -240,8 +240,8 @@ ffc script ScreenBeforeLeviathan1
 
 //~~~~~NormalString~~~~~//
 //D0: Number of string to show
-//start
-ffc script NormalString
+@Author("Deathrider365")
+ffc script NormalString //start
 {
     void run(int m)
     {
@@ -252,9 +252,9 @@ ffc script NormalString
 
 //end
 
-//~~~~~TradeGuy~~~~~//	In progress
-//start
-ffc script TradeGuy
+//~~~~~TradeGuy~~~~~//															In progress
+@Author("Deathrider365")
+ffc script TradeGuy //start
 {
     void run(int item, int nextString, int defaultString)
     {
@@ -271,8 +271,8 @@ ffc script TradeGuy
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside
-//start
-ffc script Signpost
+@Author("Joe123")
+ffc script Signpost //start
 {
     void run(int msg, bool anySide)
 	{
@@ -332,8 +332,8 @@ ffc script Signpost
 //D3: The combo to set the trigger combo to. If 0, will increase the combo by 1
 //D4: The CSet for the trigger combo
 //D5: The sound to play when the secret is triggered
-//start
-ffc script ScriptWeaponTrigger
+@Author("Moosh")
+ffc script ScriptWeaponTrigger //start
 {
 	void run(int weapon_type, int marker_flag, int secret_type, int secret_combo, int secret_cset, int sfx)
 	{
