@@ -25,6 +25,7 @@ const int ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be 
 //~~~~~VoiceOverText~~~~~//
 //D0: Starting message
 //D1: Number of strings in sequence
+@Author("Deathrider365")
 ffc script VoiceOverText //start
 {	
 	void run(int msg, int numStrings)
@@ -39,7 +40,6 @@ ffc script VoiceOverText //start
 } //end
 
 //~~~~~SwitchPressed (used for switch scripts)~~~~~//
-@Author("Moosh")
 int SwitchPressed(int x, int y, bool noLink) //start
 {
 	int xOff = 0;
@@ -60,7 +60,6 @@ int SwitchPressed(int x, int y, bool noLink) //start
 	return 0;
 }
 //end
-//~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~BossNameString~~~~~//
 //D0: String number
@@ -483,13 +482,13 @@ ffc script ScriptWeaponTrigger //start
 }
 //end
 
-//~~~~~ScriptWeaponTrigger~~~~~//
+//~~~~~EnemiesChest~~~~~//
 // D0: Flag to trigger 
 // D1: Combo to change into
 // D2: Whether perm of not
 // D3: (used only if perm) ScreenD reg
-//start
-ffc script EnemiesChest
+@Author("Venrob")
+ffc script EnemiesChest //start
 {
 	void run(int flag, int combo, bool perm, int reg, int cset)
 	{
@@ -526,8 +525,8 @@ ffc script EnemiesChest
 //D0: Set to 1 to make the secret permanent
 //D1: Set to the switch's ID if the secret is tiered, 0 otherwise.
 //D2: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-//start
-ffc script SwitchSecret
+@Author("Moosh")
+ffc script SwitchSecret //start
 {
 	void run(int perm, int id, int sfx)
 	{
@@ -587,8 +586,8 @@ ffc script SwitchSecret
 //D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
 //D2: Set to the flag that specifies the region for the remote secret.
 //D3: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-//start
-ffc script SwitchRemote
+@Author("Moosh")
+ffc script SwitchRemote //start
 {
 	void run(int pressure, int id, int flag, int sfx)
 	{
@@ -693,8 +692,8 @@ ffc script SwitchRemote
 //D6: If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will 
 //	  reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't 
 //    bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
-//start
-ffc script SwitchHitAll
+@Author("Moosh")
+ffc script SwitchHitAll //start
 {
 	void run(int switchCmb, int pressure, int perm, int id, int flag, int sfx, int switchID)
 	{
@@ -927,8 +926,8 @@ ffc script SwitchHitAll
 //~~~~~SwitchTrap~~~~~//
 //D0: Set to the ID of the enemy to drop in
 //D1: Set to the number of enemies to drop
-//start
-ffc script SwitchTrap
+@Author("Moosh")
+ffc script SwitchTrap //start
 {
 	void run(int enemyid, int count)
 	{
@@ -1001,8 +1000,8 @@ ffc script SwitchTrap
 //D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
 //D1: Set to 1 to make the secret that's triggered permanent.
 //D2: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-//start
-ffc script SwitchSequential
+@Author("Moosh")
+ffc script SwitchSequential //start
 {
 	void run(int flag, int perm, int sfx)
 	{

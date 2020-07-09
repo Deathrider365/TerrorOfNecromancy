@@ -18,6 +18,8 @@ dmapdata script PassiveSubscreen
 		//Do any other draws to the bitmap here
 		while(true)
 		{
+			if (Input->KeyPress[KEY_J])
+				Game->LItems[Game->GetCurLevel()] |= LI_BOSS;
 			Waitdraw();
 			do_psub_frame(bm, subscr_y_offset+168);
 			Waitframe();
@@ -194,6 +196,7 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 	{
 		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
 		bool hasCompass = Game->LItems[Game->GetCurLevel()] & LI_COMPASS;
+		bool killedBoss = Game->LItems[Game->GetCurLevel()] & LI_BOSS;
 		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 		orig_x += 8;
 		orig_y += 8;
@@ -212,13 +215,14 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 			Color c = C_TRANS;
 			int x = orig_x + (8*(q%0x010));
 			int y = orig_y + (4*Div(q, 0x010));
-			if(q == curscr)
+			
+			if((gameframe & 100000b || killedBoss) && hasCompass && q+offs == dm->Compass)
+			{
+				c = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
+			}
+			else if(q == curscr)
 			{
 				c = C_MINIMAP_LINK;
-			}
-			else if(hasCompass && q+offs == dm->Compass)
-			{
-				c = C_MINIMAP_COMPASS;
 			}
 			else unless (ow == DM_BSOVERWORLD)
 			{
