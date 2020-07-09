@@ -20,14 +20,27 @@ const int SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
 
 const int ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 const int ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
-
-const int D_DEATHS = 0;					//Deaths before failing the Leviathan1 fight
-const int MSG_LINK_BEATEN = 23;			//Message to play when link looses
 //end
 
+//~~~~~VoiceOverText~~~~~//
+//D0: Starting message
+//D1: Number of strings in sequence
+ffc script VoiceOverText //start
+{	
+	void run(int msg, int numStrings)
+	{
+		for (int i = 0; i < numStrings; ++i)
+		{
+			Audio->PlaySound(" ");
+			Screen->Message(msg + i);
+		}
+
+	}
+} //end
+
 //~~~~~SwitchPressed (used for switch scripts)~~~~~//
-//@Author ("Moosh")
-int SwitchPressed(int x, int y, bool noLink) //start
+//start
+int SwitchPressed(int x, int y, bool noLink)
 {
 	int xOff = 0;
 	int yOff = 4;
@@ -47,11 +60,12 @@ int SwitchPressed(int x, int y, bool noLink) //start
 	return 0;
 }
 //end
+//~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~BossNameString~~~~~//
 //D0: String number
-@Author ("Deathrider365")
-ffc script BossNameString //start
+//start
+ffc script BossNameString
 {
     void run(int string)
     {
@@ -64,8 +78,8 @@ ffc script BossNameString //start
 //end
 
 //~~~~~CompassBeep~~~~~//
-@Author ("Demonlink")
-ffc script CompassBeep //start
+//start
+ffc script CompassBeep
 {
      void run()
 	 {
@@ -79,8 +93,8 @@ ffc script CompassBeep //start
 //~~~~~OpenForItem~~~~~//
 //D0: Item number to check for
 //D1: 0 for non-perm, 1 for perm
-@Author ("Deathrider365, <I don't remember, sorry>")
-ffc script OpenForItemID //start
+//start
+ffc script OpenForItemID
 {
     void run(int itemid, bool perm)
     {
@@ -105,8 +119,8 @@ ffc script OpenForItemID //start
 
 //~~~~~BossMusic~~~~~//
 //D0: Number of dmap to play music for
-@Author ("Deathrider365, <I don't remember, sorry>")
-ffc script BossMusic //start
+//start
+ffc script BossMusic
 {
 	void run(int dmap)
 	{
@@ -144,12 +158,24 @@ ffc script BossMusic //start
 
 //end
 
+//~~~~~Leviathan1Cabin~~~~~//
+//D0: Number of dmap to play music for
+//start
+ffc script Leviathan1Cabin
+{
+	void run()
+	{
+		Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
+	}
+}
+//end
+
 //~~~~~MessageThenWarp~~~~~//
 //D0: Message number to show
 //D1: Dmap to warp Link to
 //D2: Screen on the specified dmap to warp Link to
-@Author ("Deathrider365, Venrob")
-ffc script MessageThenWarp //start
+//start
+ffc script MessageThenWarp
 {	
     void run(int msg, int dmap, int scr)
     {
@@ -165,10 +191,57 @@ ffc script MessageThenWarp //start
 }
 //end
 
+//~~~~~ScreenBeforeLeviathan1~~~~~//
+//D0: Message number to show
+//D1: Dmap to warp Link to
+//D2: Screen on the specified dmap to warp Link to
+//start
+ffc script ScreenBeforeLeviathan1
+{	
+    void run(int msg, int dmap, int scr, int timeUntilWarp)
+    {
+		Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
+		int timer = 0;
+		while(true)
+		{
+			++timer;
+			Waitframe();
+			
+			if (timer == timeUntilWarp)
+			{
+				NoAction();
+				Link->PressStart = false;
+				Link->InputStart = false;
+				Link->PressMap = false;
+				Link->InputMap = false;
+				Screen->Message(msg);
+				Waitframe();
+				
+				for (int i = 0; i < 240; ++i)
+				{
+					if(i % 60 == 0)
+					{
+						Screen->Quake = 20;
+						Audio->PlaySound(SFX_ROCKINGSHIP);
+					}
+					Waitframe();
+				}
+				
+				Screen->Message(msg + 1);
+				Waitframe();
+				
+				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+				
+			}
+		}
+    }
+}
+//end
+
 //~~~~~NormalString~~~~~//
 //D0: Number of string to show
-@Author ("Deathrider365")
-ffc script NormalString //start
+//start
+ffc script NormalString
 {
     void run(int m)
     {
@@ -179,9 +252,9 @@ ffc script NormalString //start
 
 //end
 
-//~~~~~TradeGuy~~~~~//																~~~~~In progress~~~~~
-@Author ("Deathrider365")
-ffc script TradeGuy //start
+//~~~~~TradeGuy~~~~~//	In progress
+//start
+ffc script TradeGuy
 {
     void run(int item, int nextString, int defaultString)
     {
@@ -198,8 +271,8 @@ ffc script TradeGuy //start
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside
-@Author ("Joe123")
-ffc script Signpost //start
+//start
+ffc script Signpost
 {
     void run(int msg, bool anySide)
 	{
@@ -259,8 +332,8 @@ ffc script Signpost //start
 //D3: The combo to set the trigger combo to. If 0, will increase the combo by 1
 //D4: The CSet for the trigger combo
 //D5: The sound to play when the secret is triggered
-@Author ("Moosh")
-ffc script ScriptWeaponTrigger //start
+//start
+ffc script ScriptWeaponTrigger
 {
 	void run(int weapon_type, int marker_flag, int secret_type, int secret_combo, int secret_cset, int sfx)
 	{
@@ -410,13 +483,13 @@ ffc script ScriptWeaponTrigger //start
 }
 //end
 
-//~~~~~EnemiesChest~~~~~//
+//~~~~~ScriptWeaponTrigger~~~~~//
 // D0: Flag to trigger 
 // D1: Combo to change into
 // D2: Whether perm of not
 // D3: (used only if perm) ScreenD reg
-@Author ("Venrob")
-ffc script EnemiesChest //start
+//start
+ffc script EnemiesChest
 {
 	void run(int flag, int combo, bool perm, int reg, int cset)
 	{
@@ -453,8 +526,8 @@ ffc script EnemiesChest //start
 //D0: Set to 1 to make the secret permanent
 //D1: Set to the switch's ID if the secret is tiered, 0 otherwise.
 //D2: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-@Author ("Moosh")
-ffc script SwitchSecret //start
+//start
+ffc script SwitchSecret
 {
 	void run(int perm, int id, int sfx)
 	{
@@ -514,8 +587,8 @@ ffc script SwitchSecret //start
 //D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
 //D2: Set to the flag that specifies the region for the remote secret.
 //D3: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-@Author ("Moosh")
-ffc script SwitchRemote //start
+//start
+ffc script SwitchRemote
 {
 	void run(int pressure, int id, int flag, int sfx)
 	{
@@ -620,8 +693,8 @@ ffc script SwitchRemote //start
 //D6: If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will 
 //	  reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't 
 //    bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
-@Author ("Moosh")
-ffc script SwitchHitAll //start
+//start
+ffc script SwitchHitAll
 {
 	void run(int switchCmb, int pressure, int perm, int id, int flag, int sfx, int switchID)
 	{
@@ -854,8 +927,8 @@ ffc script SwitchHitAll //start
 //~~~~~SwitchTrap~~~~~//
 //D0: Set to the ID of the enemy to drop in
 //D1: Set to the number of enemies to drop
-@Author ("Moosh")
-ffc script SwitchTrap //start
+//start
+ffc script SwitchTrap
 {
 	void run(int enemyid, int count)
 	{
@@ -928,8 +1001,8 @@ ffc script SwitchTrap //start
 //D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
 //D1: Set to 1 to make the secret that's triggered permanent.
 //D2: If > 0, specifies a special secret sound. 0 for default, -1 for silent.
-@Author ("Moosh")
-ffc script SwitchSequential //start
+//start
+ffc script SwitchSequential
 {
 	void run(int flag, int perm, int sfx)
 	{
@@ -1110,8 +1183,8 @@ ffc script SwitchSequential //start
 //end
 
 //~~~~~IceBlock~~~~~//
-@Author ("Colossal")
-ffc script IceBlock //start
+//start
+ffc script IceBlock 
 {
 	void run() 
 	{
@@ -1203,8 +1276,8 @@ ffc script IceBlock //start
 //end
 
 //~~~~~IceTrigger~~~~~//
-@Author ("Colossal")
-ffc script IceTrigger //start
+//start
+ffc script IceTrigger 
 {
 	void run() 
 	{
@@ -1276,8 +1349,8 @@ ffc script IceTrigger //start
 //D0: The sound effect to play.
 //D1: How many frames to wait until the sound effect plays.
 //D2: Set this to anything other than 0 to have the sound effect loop.
-@Author ("Tabletpillow")
-ffc script sfxplay //start
+//start
+ffc script sfxplay
 {
     void run(int sound, int wait, int r)
 	{
@@ -1300,16 +1373,18 @@ ffc script sfxplay //start
 //end
 
 
-//~~~~~BattleArena1~~~~~//														~~~~~in progress~~~~~ (add lists and have a param determine which list to use)
+//~~~~~BattleArena1~~~~~//
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
-@Author ("Deathrider365")
-ffc script BattleArena1 //start
+//start
+ffc script BattleArena1
 {
 	void run()
 	{
+
 		//spawn enemies
+		
 		npc n1 = Screen->CreateNPC(37);
 		n1->X = 64;
 		n1->Y = 80;		
@@ -1367,70 +1442,16 @@ ffc script BattleArena1 //start
 
 //end
 
-//~~~~~ScreenBeforeLeviathan1~~~~~//
-//D0: Message number to show
-//D1: Dmap to warp Link to
-//D2: Screen on the specified dmap to warp Link to
-@Author ("Deathrider365")
-ffc script ScreenBeforeLeviathan1 //start
-{	
-    void run(int msg, int dmap, int scr, int timeUntilWarp)
-    {
-		Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
-		int timer = 0;
-		while(true)
-		{
-			++timer;
-			Waitframe();
-			
-			if (timer == timeUntilWarp)
-			{
-				NoAction();
-				Link->PressStart = false;
-				Link->InputStart = false;
-				Link->PressMap = false;
-				Link->InputMap = false;
-				Screen->Message(msg);
-				Waitframe();
-				
-				for (int i = 0; i < 240; ++i)
-				{
-					if(i % 60 == 0)
-					{
-						Screen->Quake = 20;
-						Audio->PlaySound(SFX_ROCKINGSHIP);
-					}
-					Waitframe();
-				}
-				
-				Screen->Message(msg + 1);
-				Waitframe();
-				
-				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
-			}
-		}
-    }
-}
-//end
-
-//~~~~~Leviathan1Cabin~~~~~//
-//D0: Number of dmap to play music for
-@Author("Deathrider365")
-ffc script Leviathan1Cabin //start
-{
-	void run()
-	{
-		Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
-	}
-}
-//end
-
 //~~~~~LeviathanFailureP1~~~~~//
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
-@Author("Deathrider365")
-ffc script LeviathanFailureP1 //start
+//start
+
+const int D_DEATHS = 0;
+const int MSG_LINK_BEATEN = 23;
+
+ffc script LeviathanFailureP1
 {
     void run(int numAttempts, int dmap, int scrn)
 	{
@@ -1457,8 +1478,8 @@ ffc script LeviathanFailureP1 //start
 //~~~~~LeviathanFailureP2~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-@Author("Deathrider365")
-ffc script LeviathanFailureP2 //start
+//start
+ffc script LeviathanFailureP2 
 {
     void run(int dmap, int scrn)
 	{
@@ -1481,8 +1502,8 @@ ffc script LeviathanFailureP2 //start
 //~~~~~Leviathan1Ending~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-@Author("Deathrider365, Venrob")
-ffc script Leviathan1Ending //start
+//start
+ffc script Leviathan1Ending 
 {
 	using namespace Leviathan;
 	
@@ -1587,8 +1608,8 @@ ffc script Leviathan1Ending //start
 //end
 
 //~~~~~ContinuePoint~~~~~//
-@Author("Venrob")
-ffc script ContinuePoint //start
+//start
+ffc script ContinuePoint
 {
 	void run(int dmap, int scrn)
 	{
@@ -1608,8 +1629,8 @@ ffc script ContinuePoint //start
 
 //~~~~~Shutter~~~~~//
 //D0: Direction when entering the screen
-@Author("Venrob")
-ffc script Shutter //start
+//start
+ffc script Shutter
 {
 	void run(int direction)
 	{
@@ -1632,9 +1653,3 @@ ffc script Shutter //start
 //end
 
 //end
-
-
-
-
-
-
