@@ -2,6 +2,8 @@
 //~~~~~~~~~~~~~~~~~~The Terror of Necromancy Active Subscreen~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+//~~~~~Constants/globals~~~~~//
+//start
 CONFIG BG_MAP = 6;
 CONFIG BG_SCREEN = 0x0E;
 CONFIG SCROLL_SPEED = 4;
@@ -34,6 +36,8 @@ COLOR C_MINIMAP_ROOM = C_BLACK;
 COLOR C_MINIMAP_LINK = C_GREEN;
 COLOR C_MINIMAP_COMPASS = C_RED;
 
+//end 
+
 int scrollingOffset; 
 
 //start Active Items
@@ -59,7 +63,7 @@ int asubscr_pos = 0;
 int subscr_y_offset = -224;
 
 @Author("Venrob")
-dmapdata script ActiveSubscreen
+dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
@@ -91,7 +95,7 @@ dmapdata script ActiveSubscreen
 		}
 		subscr_y_offset = -224;
 	}
-}
+} //end
 
 void do_asub_frame(bitmap b, int y, bool isActive)
 {
