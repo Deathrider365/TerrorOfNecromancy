@@ -1,49 +1,7 @@
-boss that latches on and absorbs life or maybe magic and it would actually heal the boss for as long as you are latched and the only way off is with a light weapon (probably a bonus boss or enemy, maybe s dungeon boss)
-
-boss where there is a ray of light moving around the room which may be unlocked throughout the dungeon and the only way to beat this boss is to wait for the light to hit a reflector which enlightens the room killing the boss
-
-a boss who's life is linked to a timer and the only way to kill him is to avoid him and not let him devour spawning enemies which give him health and if he does hit you or absorb the spawning enemies he is healed, he is impervious to your attacks except maybe you can stun him or something
-
-make an attack that sucks link in (like the great poe of 4swords) and slowly drains your health until you get out of it
-
-Use "Final fantasy 4,The After Years - Epilogue" for credits music
-
-Have a paladin mode, similar to hero mode, where you get all of the holy gear off the bat but their effectiveness is slightly worse and the entire game is harder with a slightly different story
-
------MAYBE-----
-You will have 3 extra lives given that can be used upon death like fairies. their counter will be in the submenu and upon death if you have lives remaining, you will be prompted to choose if you want to use one. once all 3 are gone, you do not get them back ever. And these revives will revive link where he died like how fairies are in the 3d zeldas
----------------
-
-instead of having the normal text animation for each dungeon, have it fade in like that one bleeding in animation, it can be programmed by having the text be an image and at random each pixel will appear
-
-the death triforce's non extra ability will be the ability to instantly kill an enemy, it will have a cooldown obviously and does 25% damage to bosses (instantly takes 1/4 of their health
-
-the final boss will have a number of phases
-
-if I have a room with a lot of poison or something (maybe make that a dungeon theme) play "Metroid Prime Music - Metroid Prime Boss Theme" this theme during it
-
-Use the main tallon overworld theme for the outside of the Island of Haeren and use the tallon overworld 2 for the caves of the island
-
-For final boss dialogue cut scene play "24-Golbez, Clad in the Dark-FFIV DS OST"
-
-a fast pased boss that does 3 fast warps around the room, and on the third appears right by link and swings at him (with build up) and he does this constantly
-
-use wind waker miniboss theme for a miniboss theme
-
-music from the end of star wars episode 6 be the end credits theme
-
-have the mirror shield reflect only magic and light, and have the holy shield reflect all things
-
-have a thing similar to the tower of wisdom from DtT+
-
-Grab the darknut tile from DtT+ episode 21 6:46
-
-rare encounters (or perhaps random) and perhaps they are members of the undead legion
-
-take moving walls from 8:38: https://youtu.be/UqgLXV58mFA?t=508
-
-make cave entrances have the bottom be transparent and have the layer below be the normal ground/vine tile as to make it look more natural
-
-each of the temple of the goddesses are dungeons and upon beating the bosses of each of those dungeons all of the enemies will be cleared (perhaps some of those enemies may drop a rare item and if you beat the boss before obtaining it it will be unobtainable, heart rings perhaps since i said i do not want any heart ring upgrades, this can be a way to have them but have them be rare) and the theme of that temple will change, perhaps to "Final Fantasy II - Ancient Castle"
-
 Level 1 boss name: Amalgamation of Decay ---   ---
+
+
+
+
+
+

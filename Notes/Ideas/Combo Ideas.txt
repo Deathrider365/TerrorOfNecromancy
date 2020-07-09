@@ -1,0 +1,2 @@
+make cave entrances have the bottom be transparent and have the layer below be the normal 
+ground/vine tile as to make it look more natural

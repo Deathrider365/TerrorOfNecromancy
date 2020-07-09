@@ -1,74 +1,75 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~ Items ~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Bombs	-	-	-	-	-	-	- Shops (will specify which ones)
-Giant Bombs	-	-	-	-	-	- Shops (will specify which ones), unlocks after Minidungeon 2
+Bombs	-	-	-	-	-	-	- 	- Shops (will specify which ones)
+Giant Bombs	-	-	-	-	-	- 	- Shops (will specify which ones), unlocks after Minidungeon 2
 Hookshot	-	-	-	-	-	-	- Level 6
-Seared Steak	-	-	-	-	-	- Shops (will specify which ones)
-Ocarina	-	-	-	-	-	-	- Level 5
-Lense of Truth	-	-	-	-	-	- Battle Arena 2
-Raft	-	-	-	-	-	-	- Shop after Level 8
-Medical Herb	-	-	-	-	-	- Shop after Minidungeon 1
-Mushroom	-	-	-	-	-	- Found on the first overworld between Lvl 1 and Lvl 2 (will specify coordinates)
+Seared Steak	-	-	-	-	-	- 	- Shops (will specify which ones)
+Ocarina	-	-	-	-	-	-	- 	- Level 5
+Lense of Truth	-	-	-	-	-	- 	- Battle Arena 2
+Raft	-	-	-	-	-	-	- 	- Shop after Level 8
+Medical Herb	-	-	-	-	-	- 	- Shop after Minidungeon 1
+Mushroom	-	-	-	-	-	- 	- Found on the first overworld between Lvl 1 and Lvl 2 (will specify coordinates)
 Flippers	-	-	-	-	-	-	- Level 9
-Portal Sphere	-	-	-	-	-	- Level 12
+Portal Sphere	-	-	-	-	-	- 	- Level 12
 
 ~~~~~Potions~~~~~
 - Blue = One use, 15 hearts 75% magic	-	-	-	- Shops (will specify which ones)
-- Red = 2 use Blue (2 blue to make), down to Blue	-	-	- Shops (will specify which ones)
-- Life Potion	-	-	-	-	-	- Shop, After Minidungeon 7
+- Red = 2 use Blue (2 blue to make), down to Blue	-	- Shops (will specify which ones)
+- Life Potion	-	-	-	-	-	- 	- Shop, After Minidungeon 7
 	= Fully Heals hearts and magic (2 red to make), one time use
 
 ~~~~~Swords~~~~~
-- Wooden Sword	-	-	-	-	-	- Isle of the Haeren
+- Wooden Sword	-	-	-	-	-	- 	- Isle of the Haeren
 - Soldier's Sword	-	-	-	-	-	- Battle Arena 1
-- Master Sword	-	-	-	-	-	- Minidungeon 4
-- Hero's Sword	-	-	-	-	-	- Battle Arena 4
-- Holy Sword	-	-	-	-	-	- Shrine of the Paladin
+- Master Sword	-	-	-	-	-	- 	- Minidungeon 4
+- Hero's Sword	-	-	-	-	-	- 	- Battle Arena 4
+- Holy Sword	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Armor~~~~~
-- Green Tunic	-	-	-	-	-	- Default
-- Blue Mail	-	-	-	-	-	- Overworld between Minidungeon 2 and Level 5
+- Green Tunic	-	-	-	-	-	- 	- Default
+- Blue Mail	-	-	-	-	-	- 	- Overworld between Minidungeon 2 and Level 5
 - Red Mail		-	-	-	-	-	- Secret after Minidungeon 6
-- Gold Mail	-	-	-	-	-	- Level 13
-- Holy Mail	-	-	-	-	-	- Shrine of the Paladin
+- Gold Mail	-	-	-	-	-	- 	- Level 13
+- Holy Mail	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Boomerang~~~~~
-- Wooden Boomerang	-	-	-	-	- Isle of the Haeren
+- Wooden Boomerang	-	-	-	-	- 	- Isle of the Haeren
 - Magic Boomerang	-	-	-	-	-	- Shop after Minidungeon 3
 - Gale Boomerang	-	-	-	-	-	- Minidungeon 5
 - Holy Boomerang	-	-	-	-	-	- Shrine of the Paladin
 
 ~~~~~Hammers~~~~~
-- Wooden Hammer	-	-	-	-	-	- Level 7
+- Wooden Hammer	-	-	-	-	-	- 	- Level 7
 - Smith's Hammer	-	-	-	-	- 	- Shop after Level 9
-- Holy Hammer	-	-	-	-	-	- Shrine of the Paladin
+- Holy Hammer	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Candles~~~~~
-- Candle	-	-	-	-	-	-	- Level 3
+- Wax Candle	-	-	-	-	-	-	- Level 3
+- Oil Candle	-	-	-	-	-	-	- TBD
 - Incendiary Candle	-	-	-	-	-	- Shop after Minidungeon 3
-- Hell's Candle	-	-	-	-	-	- After Level 12
+- Hell's Candle	-	-	-	-	-	- 	- After Level 12
 
 ~~~~~Bows~~~~~
-- Wooden Bow	-	-	-	-	-	- Level 2
-- Soldier's Bow	-	-	-	-	-	- Secret after Level 8
+- Wooden Bow	-	-	-	-	-	- 	- Level 2
+- Soldier's Bow	-	-	-	-	-	- 	- Secret after Level 8
 - Marksman's Bow	-	-	-	-	-	- Secret after Minidungeon 6
 
 ~~~~~Arrows~~~~~
-- Wooden Arrow	-	-	-	-	-	- Level 4
-- Iron Arrows	-	-	-	-	-	- Shop after Minidungeon 3
-- Silver Arrows	-	-	-	-	-	- Battle Arena 3
-- Light Arrows	-	-	-	-	-	- Level 11
-- Holy Arrows	-	-	-	-	-	- Shrine of the Paladin
+- Wooden Arrow	-	-	-	-	-	- 	- Level 4
+- Iron Arrows	-	-	-	-	-	- 	- Shop after Minidungeon 3
+- Silver Arrows	-	-	-	-	-	- 	- Battle Arena 3
+- Light Arrows	-	-	-	-	-	- 	- Level 11
+- Holy Arrows	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Shields~~~~~
-- Wooden Shield	-	-	-	-	-	- Default
-- Magic Shield	-	-	-	-	-	- Level 1 / Various Shops
-- Mirror Shield	-	-	-	-	-	- Level 10
-- Holy Shield	-	-	-	-	-	- Shrine of the Paladin
+- Wooden Shield	-	-	-	-	-	- 	- Default
+- Magic Shield	-	-	-	-	-	- 	- Level 1 / Various Shops
+- Mirror Shield	-	-	-	-	-	- 	- Level 10
+- Holy Shield	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Wands~~~~~
-- Magic Wand	-	-	-	-	-	- Level 8
+- Magic Wand	-	-	-	-	-	- 	- Level 8
 - Sorcerer's Wand	-	-	-	-	-	- Minidungeon 7
 
 ~~~~~Rings~~~~~

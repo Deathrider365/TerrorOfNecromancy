@@ -6,7 +6,7 @@ CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
 
 @Author("Venrob")
-dmapdata script PassiveSubscreen
+dmapdata script PassiveSubscreen //start
 {
 	using namespace time;
 	void run()
@@ -147,7 +147,7 @@ dmapdata script PassiveSubscreen
 		                   TF_CENTERED, titlebuf, OP_OPAQUE);
 		//end DMap Title
 	}
-}
+} //end
 
 void counter(untyped bit, int layer, int x, int y, int cntr, int font, Color color, Color bgcolor, int format, int min_digits, bool show_zeroes) //start
 {

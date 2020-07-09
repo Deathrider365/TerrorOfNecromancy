@@ -1,0 +1,2 @@
+instead of having the normal text animation for each dungeon, have it fade in like that one bleeding 
+in animation, it can be programmed by having the text be an image and at random each pixel will appear
