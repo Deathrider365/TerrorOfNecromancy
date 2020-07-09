@@ -237,6 +237,20 @@ const int ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is as
 const int ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
 //end
 
+ffc script VoiceOverText
+{	
+	void run(int msg, int numStrings)
+	{
+		for (int i = 0; i < numStrings; ++i)
+		{
+			Audio->PlaySound(" ");
+			Screen->Message(msg + i);
+		}
+
+	}
+}
+
+
 //~~~~~SwitchPressed (used for switch scripts)~~~~~//
 //start
 int SwitchPressed(int x, int y, bool noLink)
