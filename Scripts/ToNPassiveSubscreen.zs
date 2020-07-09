@@ -97,7 +97,7 @@ dmapdata script PassiveSubscreen //start
 		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
 		//end Clock
 		//start Minimap
-		ScreenType ow = getScreenType();
+		ScreenType ow = getScreenType(true);
 		int mm_tile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
 		int cs = 0;
 		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
@@ -193,6 +193,8 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 	else
 	{
 		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
+		bool hasCompass = Game->LItems[Game->GetCurLevel()] & LI_COMPASS;
+		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 		orig_x += 8;
 		orig_y += 8;
 		int offs = Game->DMapOffset[Game->GetCurDMap()];
@@ -213,6 +215,10 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 			if(q == curscr)
 			{
 				c = C_MINIMAP_LINK;
+			}
+			else if(hasCompass && q+offs == dm->Compass)
+			{
+				c = C_MINIMAP_COMPASS;
 			}
 			else unless (ow == DM_BSOVERWORLD)
 			{
