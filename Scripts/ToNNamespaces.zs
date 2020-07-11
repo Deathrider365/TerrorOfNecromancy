@@ -9,6 +9,31 @@ namespace Leviathan //start
 	const int CMB_WATERFALL = 6828; //Leviathan's waterfall combos: Up (BG, middle) Up, (BG, foam) Down (FG, middle), Down (FG, foam)
 	const int CS_WATERFALL = 0;
 	
+	const int NPC_LEVIATHANHEAD = 177;
+
+	CONFIG SFX_RISE = 67;		//9
+	CONFIG SFX_ROCKINGSHIP = 9;
+	CONFIG SFX_WATERFALL = 26;
+	CONFIG SFX_LEVIATHAN1_ROAR = SFX_ROAR;
+	CONFIG SFX_LEVIATHAN1_SPLASH = SFX_SPLASH;
+	CONFIG SFX_CHARGE = 35;
+	CONFIG SFX_SHOT = 40;
+
+	CONFIG SPR_SPLASH = 93;
+	CONFIG SPR_WATERBALL = 94;
+
+	COLOR C_CHARGE1 = C_DARKBLUE;
+	COLOR C_CHARGE2 = C_SEABLUE;
+	COLOR C_CHARGE3 = C_TAN;
+
+	const int LEVIATHAN1_WATERCANNON_DMG = 80;
+	const int LEVIATHAN1_BURSTCANNON_DMG = 40;
+	const int LEVIATHAN1_WATERFALL_DMG = 60;
+
+	const int MSG_BEATEN = 19;
+
+	bool firstRun = true;
+	
 	
 	npc script Leviathan1 //start
 	{	

@@ -1,11 +1,7 @@
-///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Misc Functions~~~~~~~~~~~~~~~~~//
-///////////////////////////////////////////////////////////////////////////////
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
+
 // Function to get the difference between two angles
 float AngDiff(float angle1, float angle2) //start
 {
@@ -31,6 +27,7 @@ float TurnToAngle(float angle1, float angle2, float step) //start
 		return angle2;
 }
 //end
+//}
 
 // Function to set Screen->D
 void setScreenD(int reg, bool state) //start
@@ -83,18 +80,20 @@ int getScreenD(int d, int bit) //start
 //end
 
 // Converts an 18 bit value to a 32 bit value
-int convertBit(int b18) //start
+int convertBit(int b18) 
 {
 	return b18 / 10000;
-}//end
+}
 
-// Determines that dmap type you are on
-ScreenType getScreenType()//start
+ScreenType getScreenType(bool dmapOnly)//start
 {
+	unless(dmapOnly)
+	{
+		if(IsDungeonFlag())return DM_DUNGEON;
+		if(IsInteriorFlag())return DM_INTERIOR;
+	}
 	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-	if(IsDungeonFlag())return DM_DUNGEON;
-	if(IsInteriorFlag())return DM_INTERIOR;
 	return <ScreenType> (dm->Type & 11b);
 }//end
 
-//end
+

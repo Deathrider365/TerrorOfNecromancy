@@ -5,7 +5,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Free Form Combos~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
+
 //~~~~~Constants/globals~~~~~//
 //start
 const int COMPASS_BEEP = 69; //Set this to the SFX id you want to hear when you have the compass,
@@ -197,6 +197,7 @@ ffc script MessageThenWarp //start
 @Author("Deathrider365")
 ffc script ScreenBeforeLeviathan1 //start
 {	
+	CONFIG SFX_ROCKINGSHIP = 9;
     void run(int msg, int dmap, int scr, int timeUntilWarp)
     {
 		Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
@@ -1649,6 +1650,4 @@ ffc script Shutter
 		}
 	}
 }
-//end
-
 //end

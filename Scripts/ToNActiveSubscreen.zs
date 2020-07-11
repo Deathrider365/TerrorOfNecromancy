@@ -60,7 +60,7 @@ int asubscr_pos = 0;
 int subscr_y_offset = -224;
 
 @Author("Venrob")
-dmapdata script ActiveSubscreen
+dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
@@ -92,7 +92,7 @@ dmapdata script ActiveSubscreen
 		}
 		subscr_y_offset = -224;
 	}
-}
+} //end
 
 void do_asub_frame(bitmap b, int y, bool isActive)
 {
@@ -253,15 +253,15 @@ int checkID(int id) //start
 	return id;
 } //end
 
-void drawTileToLoc(int layer, int tile, int cset, int loc)
+void drawTileToLoc(int layer, int tile, int cset, int loc) //start
 {
 	drawTileToLoc(layer, tile, cset, loc, 0);
-}
+} //end
 
-void drawTileToLoc(int layer, int tile, int cset, int loc, int y)
+void drawTileToLoc(int layer, int tile, int cset, int loc, int y) //start
 {
 	Screen->FastTile(layer, (loc % 16) * 16, Div(loc, 16) * 16 + y, tile, cset, OP_OPAQUE);
-}
+} //end
 
 int loadItemTile(int itID) //start
 {

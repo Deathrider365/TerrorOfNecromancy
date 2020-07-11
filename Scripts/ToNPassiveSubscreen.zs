@@ -9,7 +9,7 @@ CONFIG BG_SCREEN1 = 0x0F;
 dmapdata script PassiveSubscreen
 {
 	using namespace time;
-	void run()
+	void run() //start
 	{
 		bitmap bm = Game->CreateBitmap(256,56);
 		bm->Clear(0);
@@ -24,7 +24,7 @@ dmapdata script PassiveSubscreen
 			do_psub_frame(bm, subscr_y_offset+168);
 			Waitframe();
 		}
-	}
+	} //end
 	
 	void do_psub_frame(bitmap bm, int y)
 	{

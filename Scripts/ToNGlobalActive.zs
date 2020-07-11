@@ -5,7 +5,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Global Active~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
+
 //~~~~~Constants/globals~~~~~//
 //start
 
@@ -53,14 +53,14 @@ global script GlobalScripts
 	}
 	
 	//~~~~~ItemCycling~~~~~//
-	void checkItemCycle()
+	void checkItemCycle() //start
 	{
 	    if (Link->PressL) Link->SelectBWeapon(DIR_LEFT);
 		if (Link->PressR) Link->SelectBWeapon(DIR_RIGHT);
-	}
+	} //end
 	
 	//~~~~~checkDungeon~~~~~//
-	void checkDungeon()
+	void checkDungeon() //start
 	{
 		int level = Game->GetCurLevel();
 		unless (Game->LItems[level] & LI_MAP)
@@ -68,12 +68,13 @@ global script GlobalScripts
 			Link->InputMap = false;
 			Link->PressMap = false;
 		}
-	}	
+	} //end
 	
-	void debug()
+	//~~~~~Debug~~~~~//
+	void debug() //start
 	{
 		Game->Cheat = 4;
-	}
+	} //end
 }
 //end
 
@@ -129,8 +130,4 @@ global script onContGame
     }
 }
 //end
-
-//end
-
-
 
