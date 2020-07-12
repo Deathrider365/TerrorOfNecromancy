@@ -211,18 +211,19 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 				continue;
 			
 			Color c = C_TRANS;
+			Color sm_c = C_TRANS;
 			int x = orig_x + (8*(q%0x010));
 			int y = orig_y + (4*Div(q, 0x010));
 			
 			if((gameframe & 100000b || killedBoss) && hasCompass && q+offs == dm->Compass)
 			{
-				c = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
+				sm_c = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
 			}
 			else if(q == curscr)
 			{
-				c = C_MINIMAP_LINK;
+				sm_c = C_MINIMAP_LINK;
 			}
-			else unless (ow == DM_BSOVERWORLD)
+			unless (ow == DM_BSOVERWORLD)
 			{
 				mapdata m = Game->LoadMapData(Game->GetCurMap(), q+offs);
 				if(m->State[ST_VISITED])
@@ -243,6 +244,17 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 				else
 				{
 					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);					
+				}
+			}
+			if(sm_c)
+			{
+				if(bit == RT_SCREEN)
+				{			
+					Screen->Rectangle(layer, x+2, y, x+4, y+2, sm_c, 1, 0, 0, 0, true, OP_OPAQUE);	
+				}
+				else
+				{
+					<bitmap>(bit)->Rectangle(layer, x+2, y, x+4, y+2, sm_c, 1, 0, 0, 0, true, OP_OPAQUE);					
 				}
 			}
 		}
