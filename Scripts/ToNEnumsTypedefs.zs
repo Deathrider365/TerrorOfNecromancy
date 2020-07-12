@@ -15,6 +15,7 @@ enum Color //start
 	C_TRANSBG = -1,
 	C_TRANS = 0x00,
 	C_GREEN = 0x06,
+	C_DARKGREEN = 0x07,
 	C_BLACK = 0x08,
 	C_RED = 0x04,
 	C_WHITE = 0x0C,

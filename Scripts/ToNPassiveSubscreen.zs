@@ -64,33 +64,33 @@ dmapdata script PassiveSubscreen
 		heart(RT_SCREEN, 7, 213, y+36,  7, TILE_HEARTS);
 		heart(RT_SCREEN, 7, 219, y+36,  8, TILE_HEARTS);
 		heart(RT_SCREEN, 7, 225, y+36,  9, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 174, y+30, 10, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 180, y+30, 11, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 186, y+30, 12, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 192, y+30, 13, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 198, y+30, 14, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 204, y+30, 15, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 210, y+30, 16, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 216, y+30, 17, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 222, y+30, 18, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 228, y+30, 19, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 177, y+24, 20, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 183, y+24, 21, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 189, y+24, 22, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 195, y+24, 23, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 201, y+24, 24, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 207, y+24, 25, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 213, y+24, 26, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 219, y+24, 27, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 225, y+24, 28, TILE_HEARTS);
-		heart(RT_SCREEN, 7, 231, y+24, 29, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 174, y+29, 10, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 180, y+29, 11, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 186, y+29, 12, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 192, y+29, 13, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 198, y+29, 14, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 204, y+29, 15, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 210, y+29, 16, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 216, y+29, 17, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 222, y+29, 18, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 228, y+29, 19, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 177, y+22, 20, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 183, y+22, 21, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 189, y+22, 22, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 195, y+22, 23, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 201, y+22, 24, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 207, y+22, 25, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 213, y+22, 26, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 219, y+22, 27, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 225, y+22, 28, TILE_HEARTS);
+		heart(RT_SCREEN, 7, 231, y+22, 29, TILE_HEARTS);
 		//end Life Meter
 		//start Magic Meter
 		int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
-		Screen->DrawTile(7, 166, y+44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 162, y+44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 		if(MAGIC_METER_PIX_WIDTH*perc >= 0.5)
-			Screen->Rectangle(7, 166+MAGIC_METER_FILL_XOFF,                                   y+44+MAGIC_METER_FILL_YOFF,
-			                     166+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
+			Screen->Rectangle(7, 162+MAGIC_METER_FILL_XOFF,                                   y+44+MAGIC_METER_FILL_YOFF,
+			                     162+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
 								 C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 		//end Magic Meter
 		//start Clock
@@ -208,9 +208,7 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 		for(int q = 0; q < 128; ++q)
 		{			
 			if(q % 0x10 >= 8 - lim)
-			{
 				continue;
-			}
 			
 			Color c = C_TRANS;
 			int x = orig_x + (8*(q%0x010));
@@ -226,7 +224,7 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 			}
 			else unless (ow == DM_BSOVERWORLD)
 			{
-				mapdata m = Game->LoadMapData(Game->GetCurMap(),q+offs);
+				mapdata m = Game->LoadMapData(Game->GetCurMap(), q+offs);
 				if(m->State[ST_VISITED])
 				{
 					c = C_MINIMAP_EXPLORED;
@@ -239,15 +237,13 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 			if(c)
 			{
 				if(bit == RT_SCREEN)
-				{
-					Screen->Rectangle(layer, x, y, x+6, y+2, C_TRANS, 1, 0, 0, 0, true, OP_OPAQUE);
-					Screen->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);
+				{			
+					Screen->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);	
 				}
 				else
 				{
-					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);				
+					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);					
 				}
-
 			}
 		}
 	}
