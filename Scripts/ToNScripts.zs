@@ -2,24 +2,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Scripts~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-#option SHORT_CIRCUIT on
-#option BINARY_32BIT off
 
-/*
-phantom from the messenger be in the game. In his search to revive Muse, his lover, he come across the necromancer whom
-he hears can bring back those who had died. He tasks phantom to kill link in order to help him. 
-he will have all the same attacks, sfx, and boss music from the messenger. Have him refer to whatever it was he needed
-to get to the music box or whatever since this is before he is trapped there. Have the music that plays outside his boss room play
-when you enter the room where you encounter him. and have the sound of hitting him be the same as from the game, basically
-mimic to messenger entirely. This will replace the hall of memories from IoR. 
-
-
-the item that when used on an enemy of boss will display the health bar work where it will be a weapon script that basically checks the id of the enemy
-it hit and if it is a boss then display the health bar for n seconds (perhaps 10)
-
-
-where the necromancer dies (the location where he essentially jumps out of his tower be where you acquire the spectral cane maybe
-*/
 
 // if issue with star.t / end, do:
 // replace \r?\n with \r\n (must be in Regular Expression mode)
@@ -28,8 +11,14 @@ where the necromancer dies (the location where he essentially jumps out of his t
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Imports~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //start
+#option SHORT_CIRCUIT on
+#option BINARY_32BIT off
+
 #include "std.zh"
 #include "ffcscript.zh"
+#include "Time.zh"
+#include "std_zh/dmapgrid.zh"
+
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNEnumsTypedefs.zs"
 #include "../ToN Main Quest/Scripts/ToNFFCScripts.zs"
@@ -38,11 +27,6 @@ where the necromancer dies (the location where he essentially jumps out of his t
 #include "../ToN Main Quest/Scripts/ToNMiscFunctions.zs"
 #include "../ToN Main Quest/Scripts/ToNNamespaces.zs"
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
-
-
-
-#include "Time.zh"
-#include "std_zh/dmapgrid.zh"
 
 //end
 
@@ -272,19 +256,6 @@ item script HaerenGrace
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NPC~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
-
-//~~~~~Constants/globals~~~~~//
-
-//~~~~~~~~~~~~~~~~~~~//
-
-
-
-//end
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LWeapon~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //start
@@ -296,7 +267,6 @@ typedef const bool CONFIGB;
 DEFINE IC_GALEBRANG = 256;
 
 //~~~~~~~~~~~~~~~~~~~//
-
 
 //~~~~~GaleBoomerang~~~~~//
 //REQUIRES: `ZScript>>Quest Script Settings>>Objects` - `Weapons Live One Extra Frame With WDS_DEAD` must be checked.
@@ -457,12 +427,24 @@ lweapon script PortalSphere
 
 	void run()
 	{
-		
-		
-		Quit();
+
 	}
 }
 
+//end
+
+
+// the item that when used on an enemy of boss will display the health bar work where it will be a weapon script that basically checks the id of the enemy
+// it hit and if it is a boss then display the health bar for n seconds (perhaps 10)
+//~~~~~Scholar's Candelabra~~~~~//
+//start
+lweapon script ScholarCandelabra
+{
+	void run()
+	{
+	
+	}
+}
 //end
 
 //end
@@ -477,9 +459,9 @@ lweapon script PortalSphere
 
 //~~~~~~~~~~~~~~~~~~~//
 
-//~~~~~~~~~Sine_Wave~~~~~~~~~~//
+//~~~~~~~~~SignWave~~~~~~~~~~//
 //start
-eweapon script Sine_Wave
+eweapon script SignWave
 {
 	void run(int size, int speed, bool noBlock)
 	{
@@ -669,6 +651,7 @@ hero script OnDeath
 //end
 
 //~~~~~HeroInit~~~~~//
+//start
 hero script HeroInit
 {
 	void run()
@@ -676,47 +659,7 @@ hero script HeroInit
 		subscr_y_offset = -224;
 	}
 }
-
 //end
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DMap~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
-
-//~~~~~Constants/globals~~~~~//
-
-
-//~~~~~~~~~~~~~~~~~~~//
-
-
-
-//end
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Screen~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
-//~~~~~Constants/globals~~~~~//
-
-
-//~~~~~~~~~~~~~~~~~~~//
-
-
-
-//end
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Item Sprites~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
-
-//~~~~~Constants/globals~~~~~//
-
-
-//~~~~~~~~~~~~~~~~~~~//
-
-
 
 //end
 

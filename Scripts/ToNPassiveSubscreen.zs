@@ -239,9 +239,15 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 			if(c)
 			{
 				if(bit == RT_SCREEN)
+				{
+					Screen->Rectangle(layer, x, y, x+6, y+2, C_TRANS, 1, 0, 0, 0, true, OP_OPAQUE);
 					Screen->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);
+				}
 				else
-					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);
+				{
+					<bitmap>(bit)->Rectangle(layer, x, y, x+6, y+2, c, 1, 0, 0, 0, true, OP_OPAQUE);				
+				}
+
 			}
 		}
 	}

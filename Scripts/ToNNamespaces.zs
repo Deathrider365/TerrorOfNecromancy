@@ -217,7 +217,7 @@ namespace Leviathan //start
 								e->Angle = DegtoRad(angle);
 								e->Dir = AngleDir4(angle);
 								e->Step = 300;
-								e->Script = Game->GetEWeaponScript("Sine_Wave");
+								e->Script = Game->GetEWeaponScript("SignWave");
 								e->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
 								e->InitD[1] = wSpeeds[j];
 								e->InitD[2] = true;
@@ -281,7 +281,7 @@ namespace Leviathan //start
 									e->Angle = DegtoRad(angle);
 									e->Dir = AngleDir4(angle);
 									e->Step = 200;
-									e->Script = Game->GetEWeaponScript("Sine_Wave");
+									e->Script = Game->GetEWeaponScript("SignWave");
 									e->InitD[0] = wSizes[k]-Rand(-4, 4);
 									e->InitD[1] = wSpeeds[k];
 									e->InitD[2] = true;
@@ -300,7 +300,7 @@ namespace Leviathan //start
 								e->Angle = DegtoRad(angle);
 								e->Dir = AngleDir4(angle);
 								e->Step = 150;
-								e->Script = Game->GetEWeaponScript("Sine_Wave");
+								e->Script = Game->GetEWeaponScript("SignWave");
 								e->InitD[0] = 4;
 								e->InitD[1] = 16;
 								e->InitD[2] = true;
