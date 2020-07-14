@@ -20,6 +20,12 @@ const int SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
 
 const int ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 const int ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
+
+const int D_DEATHS = 0;
+const int MSG_LINK_BEATEN = 23;
+
+bool firstEntry = true;
+
 //end
 
 //~~~~~VoiceOverText~~~~~//
@@ -1183,8 +1189,8 @@ ffc script SwitchSequential //start
 //end
 
 //~~~~~IceBlock~~~~~//
-//start
-ffc script IceBlock 
+@Author("Colossal")
+ffc script IceBlock //start
 {
 	void run() 
 	{
@@ -1276,8 +1282,8 @@ ffc script IceBlock
 //end
 
 //~~~~~IceTrigger~~~~~//
-//start
-ffc script IceTrigger 
+@Author("Colossal")
+ffc script IceTrigger //start
 {
 	void run() 
 	{
@@ -1349,12 +1355,12 @@ ffc script IceTrigger
 //D0: The sound effect to play.
 //D1: How many frames to wait until the sound effect plays.
 //D2: Set this to anything other than 0 to have the sound effect loop.
-//start
-ffc script sfxplay
+@Author ("Deathrider365")
+ffc script sfxplay //start
 {
-    void run(int sound, int wait, int r)
+    void run(int sound, int wait, int rep)
 	{
-        if (r == 0)
+        if (rep == 0)
 		{
             Waitframes(wait);
             Audio->PlaySound(sound);
@@ -1372,13 +1378,12 @@ ffc script sfxplay
 
 //end
 
-
 //~~~~~BattleArena1~~~~~//
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
-//start
-ffc script BattleArena1
+@Author ("Venrob")
+ffc script BattleArena1 //start
 {
 	void run()
 	{
@@ -1446,12 +1451,8 @@ ffc script BattleArena1
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
-//start
-
-const int D_DEATHS = 0;
-const int MSG_LINK_BEATEN = 23;
-
-ffc script LeviathanFailureP1
+@Author ("Deathrider365")
+ffc script LeviathanFailureP1 //start
 {
     void run(int numAttempts, int dmap, int scrn)
 	{
@@ -1478,8 +1479,8 @@ ffc script LeviathanFailureP1
 //~~~~~LeviathanFailureP2~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-//start
-ffc script LeviathanFailureP2 
+@Author ("Deathrider365")
+ffc script LeviathanFailureP2 //start
 {
     void run(int dmap, int scrn)
 	{
@@ -1502,8 +1503,8 @@ ffc script LeviathanFailureP2
 //~~~~~Leviathan1Ending~~~~~//
 //D0: Dmap to warp to
 //D1: screen to warp to
-//start
-ffc script Leviathan1Ending 
+@Author ("Deathrider365")
+ffc script Leviathan1Ending //start
 {
 	using namespace Leviathan;
 	
@@ -1607,9 +1608,57 @@ ffc script Leviathan1Ending
 
 //end
 
+//~~~~~EndOfOpeningScene~~~~~//
+//D0: Message to play
+//D1: Dmap to warp to
+//D2: screen to warp to
+@Author ("Deathrider365")
+ffc script EndOfOpeningScene //start
+{
+	void run(int msg, int dmap, int scr)
+	{
+		Audio->PlayEnhancedMusic(NULL, 0);
+		NoAction();
+		
+		for (int i = 0; i < 120; ++i)
+		{
+			Audio->PlayEnhancedMusic(NULL, 0);
+			Waitframe();
+		}
+		
+		Link->PressStart = false;
+		Link->InputStart = false;
+		Link->PressMap = false;
+		Link->InputMap = false;
+		Audio->PlayEnhancedMusic(NULL, 0);
+		Screen->Message(msg);
+		Audio->PlayEnhancedMusic(NULL, 0);
+		Waitframe();
+		Audio->PlayEnhancedMusic(NULL, 0);
+		Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPFX_BLACKOUT, 0, 0, DIR_DOWN});
+	}
+} //end
+
+//~~~~~IoHStart~~~~~//
+//D0: String to show on first entry
+@Author ("Deathrider365")
+ffc script IoHStart //start
+{
+    void run(int msg)
+	{
+		if (firstEntry)
+		{		
+			firstEntry = false;
+			Screen->Message(msg);
+		}
+    }
+}
+
+//end
+
 //~~~~~ContinuePoint~~~~~//
-//start
-ffc script ContinuePoint
+@Author ("Venrob")
+ffc script ContinuePoint //start
 {
 	void run(int dmap, int scrn)
 	{
@@ -1629,8 +1678,8 @@ ffc script ContinuePoint
 
 //~~~~~Shutter~~~~~//
 //D0: Direction when entering the screen
-//start
-ffc script Shutter
+@Author ("Venrob")
+ffc script Shutter //start
 {
 	void run(int direction)
 	{
@@ -1651,3 +1700,15 @@ ffc script Shutter
 	}
 }
 //end
+
+
+
+
+
+
+
+
+
+
+
+

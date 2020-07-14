@@ -144,10 +144,10 @@ namespace Leviathan //start
 				if(this->HP < vars[VARS_INITHP] * 0.3)	//was 0.5
 					riseAnim = 40;
 					
-				switch(attack)
+				switch(attack) 
 				{
 					// Waterfall Attack
-					case 0:
+					case 0: //start
 						x = Link->X-64;
 						x2 = x + Choose(-8, 8);
 					
@@ -173,10 +173,10 @@ namespace Leviathan //start
 						}			
 						
 						Audio->PlaySound(SFX_SPLASH);
-						break;
+						break; //end
 					
 					// Water Cannon
-					case 1:
+					case 1: //start
 						x = Rand(-32, 144);
 						x2 = x + Choose(-8, 8);
 						
@@ -217,7 +217,7 @@ namespace Leviathan //start
 								e->Angle = DegtoRad(angle);
 								e->Dir = AngleDir4(angle);
 								e->Step = 300;
-								e->Script = Game->GetEWeaponScript("SignWave");
+								e->Script = Game->GetEWeaponScript("LeviathanSignWave");
 								e->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
 								e->InitD[1] = wSpeeds[j];
 								e->InitD[2] = true;
@@ -231,10 +231,10 @@ namespace Leviathan //start
 						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
-						break;
+						break; //end
 					
 					// Water Cannon (Burst)
-					case 2:
+					case 2: //start
 						x = Rand(-32, 144);
 						x2 = x + Choose(-8, 8);
 						
@@ -281,7 +281,7 @@ namespace Leviathan //start
 									e->Angle = DegtoRad(angle);
 									e->Dir = AngleDir4(angle);
 									e->Step = 200;
-									e->Script = Game->GetEWeaponScript("SignWave");
+									e->Script = Game->GetEWeaponScript("LeviathanSignWave");
 									e->InitD[0] = wSizes[k]-Rand(-4, 4);
 									e->InitD[1] = wSpeeds[k];
 									e->InitD[2] = true;
@@ -300,7 +300,7 @@ namespace Leviathan //start
 								e->Angle = DegtoRad(angle);
 								e->Dir = AngleDir4(angle);
 								e->Step = 150;
-								e->Script = Game->GetEWeaponScript("SignWave");
+								e->Script = Game->GetEWeaponScript("LeviathanSignWave");
 								e->InitD[0] = 4;
 								e->InitD[1] = 16;
 								e->InitD[2] = true;
@@ -315,10 +315,10 @@ namespace Leviathan //start
 						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
-						break;
+						break; //end
 					
 					// Side Swap
-					case 3:
+					case 3: //start
 						int side = Choose(-1, 1);
 						
 						x = side == -1 ? -32 : 144;
@@ -361,14 +361,14 @@ namespace Leviathan //start
 						Audio->PlaySound(SFX_SPLASH);
 						Splash(this->X + 64, 100);
 						
-						break;
+						break; //end
 				}
 				
 				Waitframe(this, vars);
 			}
 		}
 		
-		int attackChoice(npc this, untyped vars)
+		int attackChoice(npc this, untyped vars) //start
 		{
 			if(this->HP < vars[VARS_INITHP]*0.3)
 			{
@@ -402,9 +402,9 @@ namespace Leviathan //start
 				}
 				return Choose(0, 1, 2);
 			}
-		}
+		} //end
 		
-		void Glide(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames)
+		void Glide(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames) //start
 		{
 			int angle = Angle(x1, y1, x2, y2);
 			int dist = Distance(x1, y1, x2, y2);
@@ -417,9 +417,9 @@ namespace Leviathan //start
 				this->Y = y;
 				Waitframe(this, vars);
 			}
-		}
+		} //end
 		
-		void GlideFrame(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames, int i)
+		void GlideFrame(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames, int i) //start
 		{
 			int angle = Angle(x1, y1, x2, y2);
 			int dist = Distance(x1, y1, x2, y2);
@@ -427,9 +427,9 @@ namespace Leviathan //start
 			int y = y1 + VectorY(dist * (i / numFrames), angle);
 			this->X = x;
 			this->Y = y;
-		}
+		} //end
 		
-		void Charge(npc this, untyped vars, int x, int y, int chargeFrames, int chargeMaxSize)
+		void Charge(npc this, untyped vars, int x, int y, int chargeFrames, int chargeMaxSize) //start
 		{
 			Audio->PlaySound(SFX_CHARGE);
 						
@@ -439,9 +439,9 @@ namespace Leviathan //start
 				Screen->Circle(4, x + Rand(-2, 2), y + Rand(-2, 2), (i / chargeFrames) * chargeMaxSize, Choose(C_CHARGE1, C_CHARGE2, C_CHARGE3), 1, 0, 0, 0, true, OP_OPAQUE);
 				Waitframe(this, vars);
 			}
-		}
+		} //end
 		
-		void Splash(int x, int y)
+		void Splash(int x, int y) //start
 		{
 			lweapon l;
 			
@@ -467,15 +467,15 @@ namespace Leviathan //start
 					l->Flip = 1;
 				}
 			}
-		}
+		} //end
 		
-		void Waitframe(npc this, untyped vars, int frames)
+		void Waitframe(npc this, untyped vars, int frames) //start
 		{
 			for(int i = 0; i < frames; ++i)
 				Waitframe(this, vars);
-		}	
+		} //end
 		
-		void UpdateWaterfallBitmap()
+		void UpdateWaterfallBitmap() //start
 		{
 			int cmb;
 			waterfall_bmp->Clear(0);
@@ -492,9 +492,9 @@ namespace Leviathan //start
 					cmb = CMB_WATERFALL + 3;
 				waterfall_bmp->FastCombo(0, 16, 16 * i, cmb, CS_WATERFALL, 128);
 			}
-		}
+		} //end
 		
-		void Waitframe(npc this, untyped vars)
+		void Waitframe(npc this, untyped vars) //start
 		{
 			this->DrawYOffset = -1000;
 			this->Stun = 10;
@@ -551,9 +551,9 @@ namespace Leviathan //start
 			if(this->HP<=0)
 				DeathAnim(this, vars);
 			WaitframeLite(this, vars);
-		}
+		} //end
 		
-		void WaitframeLite(npc this, untyped vars)
+		void WaitframeLite(npc this, untyped vars) //start
 		{
 			int cset = this->CSet;
 			if(vars[VARS_FLASHTIMER])
@@ -566,9 +566,9 @@ namespace Leviathan //start
 			
 			UpdateWaterfallBitmap();
 			Waitframe();
-		}
-		
-		void DeathAnim(npc this, untyped vars)
+		} //end
+				
+		void DeathAnim(npc this, untyped vars) //start
 		{
 			npc head = vars[VARS_HEADNPC];
 			Remove(head);
@@ -597,7 +597,7 @@ namespace Leviathan //start
 			this->Immortal = false;
 			this->Remove();
 
-		}
+		}//end
 	} //end
 	
 	//~~~~~Leviathan1_Waterfall~~~~~//
@@ -722,9 +722,68 @@ namespace Leviathan //start
 	}
 
 	//end
-	
+			
+	//~~~~~LeviathanSignWave~~~~~//
+	eweapon script LeviathanSignWave//start
+	{
+		void run(int size, int speed, bool noBlock)
+		{
+			int x = this->X;
+			int y = this->Y;
+			
+			int dist;
+			int timer;
+			
+			while(true)
+			{
+				timer += speed;
+				timer %= 360;
+				
+				x += RadianCos(this->Angle) * this->Step * 0.01;
+				y += RadianSin(this->Angle) * this->Step * 0.01;
+				
+				dist = Sin(timer)*size;
+				
+				this->X = x + VectorX(dist, RadtoDeg(this->Angle) - 90);
+				this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
+				
+				if(noBlock)
+					this->Dir = Link->Dir;
+				
+				Waitframe();
+			}
+		}
+	}
+	//end
 } 
 
 //end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

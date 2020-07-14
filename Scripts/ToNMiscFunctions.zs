@@ -27,7 +27,6 @@ float TurnToAngle(float angle1, float angle2, float step) //start
 		return angle2;
 }
 //end
-//}
 
 // Function to set Screen->D
 void setScreenD(int reg, bool state) //start
@@ -80,11 +79,12 @@ int getScreenD(int d, int bit) //start
 //end
 
 // Converts an 18 bit value to a 32 bit value
-int convertBit(int b18) 
+int convertBit(int b18) //start
 {
 	return b18 / 10000;
-}
+} //end
 
+// Gets screen type
 ScreenType getScreenType(bool dmapOnly)//start
 {
 	unless(dmapOnly)
@@ -95,5 +95,3 @@ ScreenType getScreenType(bool dmapOnly)//start
 	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 	return <ScreenType> (dm->Type & 11b);
 }//end
-
-
