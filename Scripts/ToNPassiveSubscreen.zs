@@ -203,11 +203,14 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 		int offs = Game->DMapOffset[Game->GetCurDMap()];
 		int curscr = Game->GetCurDMapScreen();
 		
-		int lim = Max(offs - 8, 0);
+		int lim = 8 - Max(offs - 8, 0);
+		int low_lim = -Min(offs, 0);
 		
 		for(int q = 0; q < 128; ++q)
 		{			
-			if(q % 0x10 >= 8 - lim)
+			if(q % 0x10 >= lim)
+				continue;
+			if(q % 0x10 < low_lim)
 				continue;
 			
 			Color c = C_TRANS;
