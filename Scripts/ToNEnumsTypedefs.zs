@@ -21,6 +21,7 @@ enum Color //start
 	C_WHITE = 0x0C,
 	C_BLUE = 0x1F,
 	C_LGRAY = 0x2B,
+	C_DGRAY = 0x28,
 	C_TAN = 0x75,
 	C_SEABLUE = 0x76,
 	C_DARKBLUE = 0x77

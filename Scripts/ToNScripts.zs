@@ -27,6 +27,7 @@
 #include "../ToN Main Quest/Scripts/ToNMiscFunctions.zs"
 #include "../ToN Main Quest/Scripts/ToNNamespaces.zs"
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
+#include "../ToN Main Quest/Scripts/ToNCredits.zh"
 
 //end
 

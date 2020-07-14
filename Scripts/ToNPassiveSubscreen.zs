@@ -11,47 +11,88 @@ dmapdata script PassiveSubscreen
 	using namespace time;
 	void run() //start
 	{
+		Trace(Hero->ItemA);
 		bitmap bm = Game->CreateBitmap(256,56);
-		bm->Clear(0);
-		bm->Rectangle(0, 0, 0, 256, 56, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE); //BG Color
-		bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 56, 0); //Draw BG screen
+		bm->ClearToColor(0, BG_COLOR);
+		bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0); //Draw BG screen
 		//Do any other draws to the bitmap here
+		
+		int lastButton = -1;
+		int lastA = Hero->ItemA;
+		int lastB = Hero->ItemB;
+		
 		while(true)
 		{
+			if (Hero->ItemA > -1 && Hero->ItemA != checkID(Game->LoadItemData(Hero->ItemA)->Type))
+				forceButton(CB_A);
+				
+			if (Hero->ItemB > -1 && Hero->ItemB != checkID(Game->LoadItemData(Hero->ItemB)->Type))
+				forceButton(CB_B); 
+		
+			if (Input->Press[CB_A])
+				lastButton = CB_A;
+			else if (Input->Press[CB_B])
+				lastButton = CB_B;
+				
+			if ((lastButton == CB_A && lastA != Hero->ItemA) || (lastButton == CB_B && lastB != Hero->ItemB))
+			{
+				if (lastButton == CB_A && Game->LoadItemData(lastA)->Type == IC_POTION)
+				{
+					int id = checkID(IC_POTION);
+					if (id)
+						Hero->ItemA = id;
+				}
+				else if (lastButton == CB_B && Game->LoadItemData(lastB)->Type == IC_POTION)
+				{
+					int id = checkID(IC_POTION);
+					if (id)
+						Hero->ItemB = id;
+				}
+				
+				if (Hero->ItemA == Hero->ItemB)
+					forceButton(lastButton);
+			}
+			
 			if (Input->KeyPress[KEY_J])
 				Game->LItems[Game->GetCurLevel()] |= LI_BOSS;
+				
 			Waitdraw();
 			do_psub_frame(bm, subscr_y_offset+168);
+			
+			lastA = Hero->ItemA;
+			lastB = Hero->ItemB;
+			
 			Waitframe();
 		}
 	} //end
 	
 	void do_psub_frame(bitmap bm, int y)
 	{
+		Screen->Rectangle(7, 0, y, 255, y + 55, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
 		bm->Blit(7, RT_SCREEN, 0, 0, 256, 56, 0, y, 256, 56, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
 		//start Counters
 		//Rupees
-		minitile(RT_SCREEN, 7, 134, y+6, 32780, 1, 0);
-		counter(RT_SCREEN, 7, 134+10, y+6, CR_RUPEES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+16, 32780, 1, 1);
-		counter(RT_SCREEN, 7, 134+10, y+16, CR_BOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+26, 32780, 1, 3);
-		counter(RT_SCREEN, 7, 134+10, y+26, CR_SBOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+36, 32780, 1, 2);
-		counter(RT_SCREEN, 7, 134+10, y+36, CR_ARROWS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y+46, 32800, 1, 0);
-		counter(RT_SCREEN, 7, 134+10, y+46, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+		minitile(RT_SCREEN, 7, 134, y+4, 32780, 1, 0);
+		counter(RT_SCREEN, 7, 134+10, y+4, CR_RUPEES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
+		minitile(RT_SCREEN, 7, 134, y+14, 32780, 1, 1);
+		counter(RT_SCREEN, 7, 134+10, y+14, CR_BOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+		minitile(RT_SCREEN, 7, 134, y+24, 32780, 1, 3);
+		counter(RT_SCREEN, 7, 134+10, y+24, CR_SBOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+		minitile(RT_SCREEN, 7, 134, y+34, 32780, 1, 2);
+		counter(RT_SCREEN, 7, 134+10, y+34, CR_ARROWS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+		minitile(RT_SCREEN, 7, 134, y+44, 32800, 1, 0);
+		counter(RT_SCREEN, 7, 134+10, y+44, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 		//end Counters
 		//start Buttons
 		//Frames
-		Screen->DrawTile(7, 82, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-		Screen->DrawTile(7, 105, y+13, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 82, y+18, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		Screen->DrawTile(7, 105, y+18, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 		//Labels
-		Screen->FastTile(7, 87, y+0, 1288, 0, OP_OPAQUE);
-		Screen->FastTile(7, 110, y+0, 1268, 0, OP_OPAQUE);
+		Screen->FastTile(7, 87, y+5, 1288, 0, OP_OPAQUE);
+		Screen->FastTile(7, 110, y+5, 1268, 0, OP_OPAQUE);
 		//Items
-		Screen->FastTile(7, 86, y + 21, loadItemTile(Hero->ItemB), loadItemCSet(Hero->ItemB), OP_OPAQUE);
-		Screen->FastTile(7, 109, y + 21, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
+		Screen->FastTile(7, 86, y + 26, loadItemTile(Hero->ItemB), loadItemCSet(Hero->ItemB), OP_OPAQUE);
+		Screen->FastTile(7, 109, y + 26, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
 		//end Buttons
 		//start Life Meter
 		heart(RT_SCREEN, 7, 171, y+36,  0, TILE_HEARTS);
@@ -145,7 +186,7 @@ dmapdata script PassiveSubscreen
 		for (int q = lastLetter + 1; q < 80; ++q)
 			titlebuf[q] = 0;
 		
-		Screen->DrawString(7, 41, y+0, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
+		Screen->DrawString(7, 41, y+2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
 		                   TF_CENTERED, titlebuf, OP_OPAQUE);
 		//end DMap Title
 	}
@@ -233,7 +274,7 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 				{
 					c = C_MINIMAP_EXPLORED;
 				}
-				else if(hasMap && dmapinfo::VisibleOnDungeonMap(q))
+				else if(hasMap && dmapinfo::VisibleOnDungeonMap(q, true))
 				{
 					c = C_MINIMAP_ROOM;
 				}
@@ -264,7 +305,29 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 	}
 } //end
 
-
+void forceButton(int button) //start
+{
+	for (int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
+	{
+		int id = checkID(itemIDs[q]);
+		if (id)
+		{
+			if (button == CB_A)
+			{
+				if(id != Hero->ItemB)
+				{
+					Hero->ItemA = id;
+					break;
+				}
+			}
+			else if (id != Hero->ItemA)
+			{
+				Hero->ItemB = id;
+				break;
+			}
+		}
+	}
+} //end
 
 
 

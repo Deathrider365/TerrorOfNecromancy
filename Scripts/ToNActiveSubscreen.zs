@@ -6,12 +6,13 @@ CONFIG BG_MAP = 6;
 CONFIG BG_SCREEN = 0x0E;
 CONFIG SCROLL_SPEED = 4;
 
-COLOR BG_COLOR = C_LGRAY;
+COLOR BG_COLOR = C_DGRAY;
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
 DEFINE NUM_SUBSCR_INAC_ITEMS = 13;
 CONFIG CURSOR_MOVEMENT_SFX = 5;
 CONFIG ITEM_SELECTION_SFX = 66;
 CONFIG SUBSCR_COUNTER_FONT = FONT_LA;
+CONFIG SUBSCR_DMAPTITLE_FONT = FONT_Z3SMALL;
 COLOR C_SUBSCR_COUNTER_TEXT = C_WHITE;
 COLOR C_SUBSCR_COUNTER_BG = C_TRANSBG;
 CONFIGB CNTR_USES_0 = true;
@@ -64,9 +65,8 @@ dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
-		bitmap b = Game->CreateBitmap(256,168);
-		b->Clear(0);
-		b->Rectangle(0, 0, 56, 256, 168, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE); //BG Color
+		bitmap b = Game->CreateBitmap(256, 224);
+		b->ClearToColor(0, BG_COLOR);
 		b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0); //Draw BG screen
 		//Do any other draws to the bitmap here
 		
