@@ -133,6 +133,8 @@ itemdata script LifeRing
         int clk;
         while(true)
         {
+			while(Hero->Action == LA_SCROLLING)
+				Waitframe();
             if(EnemiesAlive())
             {
                 clk = (clk + 1) % timerActive;
