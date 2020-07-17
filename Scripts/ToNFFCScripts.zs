@@ -26,6 +26,8 @@ const int MSG_LINK_BEATEN = 23;
 
 bool firstEntry = true;
 
+bool lvl1FirstEntry = true;
+int dungeonLevelStrings[20];
 //end
 
 //~~~~~VoiceOverText~~~~~//
@@ -258,17 +260,38 @@ ffc script NormalString //start
 
 //end
 
-//~~~~~TradeGuy~~~~~//															In progress
+//~~~~~DungeonString~~~~~//
+//D0: Number of string to show
+@Author("Deathrider365")
+ffc script DungeonString //start
+{
+    void run(int m/*, int level*/)
+    {
+		if (lvl1FirstEntry)
+		{
+			lvl1FirstEntry = false;
+			Waitframes(2);
+			Screen->Message(m);		
+		}
+    }
+}
+
+//end
+
+//~~~~~TradeGuy~~~~~//
 @Author("Deathrider365")
 ffc script TradeGuy //start
 {
-    void run(int item, int nextString, int defaultString)
+    void run(int hasItemString, int noItemString, int requiredItem, int obtainedItem)
     {
-		//if (link x and y are next to the NPC)
-		//	if (link has correct item in sequence)
-		//		Screen->Message(nextString);
-		//	else
-		//		Screen->Message(defaultString);
+		if (Hero->Item[requiredItem])
+		{
+			Screen->Message(hasItemString);	
+			Hero->Item[obtainedItem] = true;
+			Hero->Item[requiredItem] = false;
+		}
+		else
+			Screen->Message(noItemString);
     }
 }
 
@@ -494,10 +517,12 @@ ffc script ScriptWeaponTrigger //start
 // D1: Combo to change into
 // D2: Whether perm of not
 // D3: (used only if perm) ScreenD reg
+// D4: CSet
+// D5: SFX
 @Author("Venrob")
 ffc script EnemiesChest //start
 {
-	void run(int flag, int combo, bool perm, int reg, int cset)
+	void run(int flag, int combo, bool perm, int reg, int cset, int sfx)
 	{
 		if (perm && getScreenD(reg))
 		{
@@ -523,6 +548,7 @@ ffc script EnemiesChest //start
 			{
 				Screen->ComboD[q] = combo;
 				Screen->ComboC[q] = cset;
+				Audio->PlaySound(sfx);
 			}
 	}
 }
@@ -1355,7 +1381,7 @@ ffc script IceTrigger //start
 //D0: The sound effect to play.
 //D1: How many frames to wait until the sound effect plays.
 //D2: Set this to anything other than 0 to have the sound effect loop.
-@Author ("Deathrider365")
+@Author ("Tabletpillow")
 ffc script sfxplay //start
 {
     void run(int sound, int wait, int rep)
@@ -1378,71 +1404,78 @@ ffc script sfxplay //start
 
 //end
 
-//~~~~~BattleArena1~~~~~//
+//~~~~~BattleArena~~~~~//
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
 @Author ("Venrob")
-ffc script BattleArena1 //start
+ffc script BattleArena //start
 {
-	void run()
-	{
-
-		//spawn enemies
+	void run(int enemyListNum, int roundListNum, int rounds, int message, int prize)
+	{	
+	/*
+		int currentEnemyList[10]; 
+		getEnemiesList(currentEnemyList, enemyListNum);
+		int currentRoundList[10] = getRoundList(roundListNum);
 		
-		npc n1 = Screen->CreateNPC(37);
-		n1->X = 64;
-		n1->Y = 80;		
+		for (int i = 0; i < currentRoundList[rounds]; ++i)
+		{
+			// npc n1 = Screen->CreateNPC(37);
+			// n1->X = 64;
+			// n1->Y = 80;		
+			
+			// npc n2 = Screen->CreateNPC(179);
+			// n2->X = 80;
+			// n2->Y = 80;
+			
+			// npc n3 = Screen->CreateNPC(184);		
+			// n3->X = 96;
+			// n3->Y = 80;
+			
+			npc i = Screen->CreateNPC(currentEnemyList[i]);
+			
+			round();
+			++round;
+		}
 		
-		npc n2 = Screen->CreateNPC(179);
-		n2->X = 80;
-		n2->Y = 80;
-		
-		npc n3 = Screen->CreateNPC(184);		
-		n3->X = 96;
-		n3->Y = 80;
-		
-		round();
-		
-		//spawn enemies
-		
-		npc n4 = Screen->CreateNPC(180);
-		n4->X = 64;
-		n4->Y = 80;		
-		
-		npc n5 = Screen->CreateNPC(182);
-		n5->X = 80;
-		n5->Y = 80;
-		
-		npc n6 = Screen->CreateNPC(49);		
-		n6->X = 96;
-		n6->Y = 80;		
-		round();
-		
-		//spawn enemies
-		
-		npc n7 = Screen->CreateNPC(180);
-		n7->X = 64;
-		n7->Y = 80;		
-		
-		npc n8 = Screen->CreateNPC(182);
-		n8->X = 80;
-		n8->Y = 80;
-		
-		npc n9 = Screen->CreateNPC(49);		
-		n9->X = 96;
-		n9->Y = 80;		
-		round();
+		Screen->Message(m);
+		Hero->Item[prize] = true;
+		*/
 	}
+	/*
 	
-	void round()
+	void getEnemiesList(int buf, int enemyListNum) //start
+	{
+		switch(enemyListNum)
+		{
+			case 1: 
+				buf[0] = 12;
+				return;
+				
+			case 1: 
+			
+			case 1: 
+			
+			case 1: 
+		}
+
+	} //end
+	
+	int getEnemyList1() //start
+	{
+		int enemyList1[10];
+		enemyList1[0] = 12;
+		
+		return enemyList1[];
+	} //end
+
+	
+	void round() //start
 	{
 		while(EnemiesAlive())
-		{
 			Waitframe();
-		}
-	}
-
+	} //end
+	*/
 }
 
 //end
@@ -1510,7 +1543,6 @@ ffc script Leviathan1Ending //start
 	
     void run(int dmap, int scrn)
 	{
-	
 		Audio->PlayEnhancedMusic(NULL, 0);
 	
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
@@ -1701,7 +1733,41 @@ ffc script Shutter //start
 }
 //end
 
+ffc script CircMove
+{
+    void run(int a, int v, int theta)
+    {
+        int x = this->X;
+        int y = this->Y;
+        if(theta < 0) theta = Rand(180);
+        while(true)
+        {
+            theta += v;
+            WrapDegrees(theta);
+            this->X = x + a * Cos(theta);
+            this->Y = y + a * Sin(theta);
+            Waitframe();
+        }
+    }
+}
 
+ffc script OvMove
+{
+    void run(int a, int b, int v, int theta, int phi)
+    {
+        int x = this->X;
+        int y = this->Y;
+        if(theta < 0) theta = Rand(180);
+        while(true)
+        {
+            theta += v;
+            WrapDegrees(theta);
+            this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
+            this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
+            Waitframe();
+        }
+    }
+}
 
 
 

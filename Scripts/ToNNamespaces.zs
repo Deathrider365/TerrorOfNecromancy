@@ -56,7 +56,7 @@ namespace Leviathan //start
 			int i; int j; int k;
 			int x; int y;
 			int x2; int y2;
-			int angle; int dist;
+			int angle, dist;
 			
 			eweapon e;
 			

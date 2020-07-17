@@ -137,7 +137,7 @@ dmapdata script PassiveSubscreen
 		//start Clock
 		char32 buf[16];
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
-		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE);
+		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end Clock
 		//start Minimap
 		ScreenType ow = getScreenType(true);
@@ -187,7 +187,7 @@ dmapdata script PassiveSubscreen
 			titlebuf[q] = 0;
 		
 		Screen->DrawString(7, 41, y+2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
-		                   TF_CENTERED, titlebuf, OP_OPAQUE);
+		                   TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end DMap Title
 	}
 }
@@ -203,8 +203,8 @@ void counter(untyped bit, int layer, int x, int y, int cntr, int font, Color col
 		spcbuf[q] = show_zeroes ? '0' : ' ';
 	sprintf(buf, "%s%s", spcbuf, buf);
 	if(bit == RT_SCREEN)
-		Screen->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE);
-	else <bitmap>(bit)->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE);
+		Screen->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	else <bitmap>(bit)->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 } //end
 
 void heart(untyped bit, int layer, int x, int y, int num, int baseTile) //start

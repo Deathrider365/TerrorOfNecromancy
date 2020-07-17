@@ -4,7 +4,7 @@
 Triforce Distribution:
 Triforce of Power:	- 2, 4, 6	= Finished by end of Level 6
 Triforce of Courage:	- 3, 7, 9	= Finished by end of Level 9
-Triforce of Wisdom:	- 5, 10, 11	= Finished by end of Level 11
+Triforce of Wisdom:	- 6, 10, 11	= Finished by end of Level 11
 Triforce of Death:	- 8, 12, 13	= Finished by end of Level 13
 
 -----Stage 1: Opening -----

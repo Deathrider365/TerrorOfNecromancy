@@ -1,2 +1,8 @@
 make cave entrances have the bottom be transparent and have the layer below be the normal 
 ground/vine tile as to make it look more natural
+
+Master Forest from GS tree shadow tiles
+
+negative layers for armos
+
+colored triforce tiles from GS (episode 70 2:52)

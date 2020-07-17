@@ -43,9 +43,24 @@ int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, I
                  IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, IC_LENS, 256, IC_CBYRNA, IC_CUSTOM8,
 				 IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, IC_CUSTOM1, 260, 261, 262};
 				  
-int itemLocs[] = {43,  44,  45,  46,  59,  60,  61,  62,
-                  75,  76,  77,  78,  91,  92,  93,  94,
-				  107, 108, 109, 110, 123, 124, 125, 126};
+// int itemLocs[] = {43,  44,  45,  46,  
+				  // 59,  60,  61,  62,
+                  // 75,  76,  77,  78, 
+				  // 91,  92,  93,  94,
+				  // 107, 108, 109, 110, 
+				  // 123, 124, 125, 126};
+				  
+int ROW1 = 42, ROW2 = 58, ROW3 = 74, ROW4 = 90, ROW5 = 106, ROW6 = 122;
+
+int dist = 2;
+
+int itemLocs[] = {ROW1 + 1 * dist, ROW1 + 2 * dist, ROW1 + 3 * dist,  ROW1 + 4 * dist, 
+                  ROW2 + 1 * dist, ROW2 + 2 * dist, ROW2 + 3 * dist,  ROW2 + 4 * dist,
+                  ROW3 + 1 * dist, ROW3 + 2 * dist, ROW3 + 3 * dist,  ROW3 + 4 * dist,
+                  ROW4 + 1 * dist, ROW4 + 2 * dist, ROW4 + 3 * dist,  ROW4 + 4 * dist,
+                  ROW5 + 1 * dist, ROW5 + 2 * dist, ROW5 + 3 * dist,  ROW5 + 4 * dist,
+                  ROW6 + 1 * dist, ROW6 + 2 * dist, ROW6 + 3 * dist,  ROW6 + 4 * dist};
+				  
 //end Active Items
 
 //start Inactive Items
@@ -135,7 +150,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		int id = checkID(in_itemIDs[q]);
 		unless(id) 
 			continue;
-		//printf("%d, %d\n", q, id);
+			
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), in_itemLocs[q], y);
 	}
 	
@@ -144,7 +159,6 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		int id = checkID(itemIDs[q]);
 		unless(id) 
 			continue;
-		//printf("%d, %d\n", q, id);
 		if(q == asubscr_pos) 
 			selID = id;
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocs[q], y);
@@ -152,7 +166,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//end Item Draws
 	
 	//start Custom Draws
-	//Legionnaire Ring
+	//start Legionnaire Ring
 	Screen->FastTile(4, 0, y + 0, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
 	char32 buf[3];
 	
@@ -161,7 +175,18 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	else 
 		sprintf(buf, "%i", Game->Counter[CR_LEGIONNAIRE_RING]);
 		
-	Screen->DrawString(4, 16, y + 0, FONT_LA, C_BLACK, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE);
+	Screen->DrawString(4, 16, y + 0, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	//end Legionnaire Ring
+	
+	//start Selected Item Name
+	char32 buf2[30];
+	itemdata idata = Game->LoadItemData(selID);
+	
+	if (idata)
+		idata->GetName(buf2);
+			
+	Venrob::DrawStrings(4, 208, y + 4, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
+	//end Selected Item Name
 	//end Custom Draws
 	
 	//start Cursor Stuff

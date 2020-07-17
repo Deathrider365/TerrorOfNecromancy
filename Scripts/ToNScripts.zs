@@ -18,6 +18,8 @@
 #include "ffcscript.zh"
 #include "Time.zh"
 #include "std_zh/dmapgrid.zh"
+#include "LinkMovement.zh"
+#include "VenrobMisc.zh"
 
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNEnumsTypedefs.zs"
@@ -448,6 +450,49 @@ lweapon script ScholarCandelabra
 }
 //end
 
+lweapon script SineWave
+{
+    void run(int amp, int freq)
+    {
+        this->Angle = DirRad(this->Dir);
+        this->Angular = true;
+        int x = this->X, y = this->Y;
+        int clk;
+        int dist;
+        while(true)
+        {
+            clk += freq;
+            clk %= 360;
+            
+            x += RadianCos(this->Angle) * this->Step * .01;
+            y += RadianSin(this->Angle) * this->Step * .01;
+            
+            dist = Sin(clk) * amp;
+            
+            this->X = x + VectorX(dist, RadtoDeg(this->Angle) - 90);
+            this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
+            Waitframe();
+        }
+    }
+}
+
+
+//start
+lweapon script DeathsTouch
+{
+	void run()
+	{
+		//an aura n pixel circle around link that does x dps to all enemies in the radius and has a lasting damage effect even after they leave. works on all except undead until
+		// the triforce of death is cleansed, then it hurts only undead but for a lot more than before it was cleansed (extremely useful for the legionnaire crypt)
+		
+		//1: draw growing circle
+		//2: loop for every enemy on screen and do collision check
+		//3: apply damage to enemies touching
+		//4: shrink circle when done
+	}
+}
+//end
+
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -464,10 +509,17 @@ lweapon script ScholarCandelabra
 //start
 eweapon script SignWave
 {
-	void run(int size, int speed, bool noBlock)
+	void run(int size, int speed, bool noBlock, int step)
 	{
+		this->Angle = DirRad(this->Dir);		//
+        this->Angular = true;					//
+		
 		int x = this->X;
 		int y = this->Y;
+		this->Step = step;
+		
+		if (this->Parent)
+			this->UseSprite(this->Parent->WeaponSprite);
 		
 		int dist;
 		int timer;
@@ -663,6 +715,137 @@ hero script HeroInit
 //end
 
 //end
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bosses~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~Constants/globals~~~~~//
+//start
+
+
+//end
+//~~~~~~~~~~~~~~~~~~~//
+
+//~~~~~Mimic~~~~~//
+// D0: Speed Multiplier
+// D1: Fire cooldown (frames)
+// D2: Knockback rate in pixels per frame 
+npc script Mimic //start
+{
+	void run(int speedMult, int fireRate, int knockbackDist)
+	{
+		unless (speedMult)
+			speedMult = 1;
+			
+		unless (fireRate)
+			fireRate = 30;
+			
+		unless (knockbackDist)
+			knockbackDist = 4;
+			
+		int fireClk;
+		
+		if (knockbackDist < 0)
+			this->NoSlide = true;
+		else
+			this->SlideSpeed = knockbackDist;	// 4 is default
+			
+			
+		eweapon e;
+		
+		while (true)
+		{
+			while (this->Stun)
+			{
+				this->Slide();
+				
+				Waitframe();
+			}
+			
+			this->Slide();
+				
+			int xStep = -LinkMovement[LM_STICKX] * Hero->Step / 100 * speedMult;			
+			int yStep = -LinkMovement[LM_STICKY] * Hero->Step / 100 * speedMult;
+			
+			this->Dir = OppositeDir(Hero->Dir);
+			int step = Max(Abs(xStep), Abs(yStep));
+			
+			int mDir = (yStep ? (yStep < 0 ? DIR_UP : DIR_DOWN) : -1);
+			mDir = Venrob::addX(mDir, (xStep ? (xStep < 0 ? DIR_LEFT : DIR_RIGHT) : -1));
+			
+			
+			unless (fireClk)
+			{
+				if (this->Dir == this->LinedUp(12, false))
+				{
+					this->Attack();
+					fireClk = fireRate;
+				}
+			}
+			else
+				--fireClk;
+			
+			if (mDir != -1)
+			{
+				while(true)
+				{					
+					if (this->CanMove({mDir, step, 0}))
+					{
+						this->X += xStep;
+						this->Y += yStep;
+						break;
+					}
+					
+					if (--step <= 0)
+						break;
+					
+					if (xStep)
+						xStep > 0 ? --xStep : ++xStep;
+					if (yStep)
+						yStep > 0 ? --yStep : ++yStep;
+				}
+			}
+			
+			Waitframe();
+		}	
+	}
+} //end
+
+//~~~~~Bomber~~~~~//
+npc script Bomber //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
+
+//~~~~~Beamos~~~~~//
+npc script Beamos //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
+
+//~~~~~LoSTurret~~~~~//
+npc script LoSTurret //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bosses~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//

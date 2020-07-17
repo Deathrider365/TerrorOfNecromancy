@@ -35,7 +35,7 @@ int gameframe = 0;
 //end
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-//~~~~~Main Global~~~~~//
+//~~~~~Active~~~~~//
 //start
 global script GlobalScripts
 {
@@ -44,10 +44,17 @@ global script GlobalScripts
 		if (DEBUG)									//turn off debug when releasing
 			debug();
 		
+		LinkMovement_Init();
+		
 		while(true)
 		{
 			gameframe = (gameframe+1)%3600;	//global timer
 			checkDungeon();
+			
+			LinkMovement_Update1();
+			Waitdraw();
+			LinkMovement_Update2();
+			
 			Waitframe();
 		}
 	}
