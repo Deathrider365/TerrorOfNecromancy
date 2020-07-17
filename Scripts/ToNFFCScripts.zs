@@ -74,12 +74,12 @@ int SwitchPressed(int x, int y, bool noLink) //start
 @Author("Deathrider365")
 ffc script BossNameString //start
 {
-    void run(int string)
-    {
+	void run(int string)
+	{
 		Waitframes(4);
 		if (EnemiesAlive())
 			Screen->Message(string);
-    }
+	}
 }
 
 //end
@@ -88,12 +88,12 @@ ffc script BossNameString //start
 @Author("Demonlink")
 ffc script CompassBeep //start
 {
-     void run()
-	 {
-          if(!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && 
-			 !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
-			 Audio->PlaySound(COMPASS_BEEP);
-     }
+	void run()
+	{
+		if(!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && 
+			!Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
+			Audio->PlaySound(COMPASS_BEEP);
+	}
 }
 //end
 
@@ -103,24 +103,24 @@ ffc script CompassBeep //start
 @Author("Moosh")
 ffc script OpenForItemID //start
 {
-    void run(int itemid, bool perm)
-    {
-        if(Screen->State[ST_SECRET]) 
+	void run(int itemid, bool perm)
+	{
+		if(Screen->State[ST_SECRET]) 
 			Quit();
-        while(true)
-        {
-            if(Link->Item[itemid])
-            {
-                Screen->TriggerSecrets();
+		while(true)
+		{
+			if(Link->Item[itemid])
+			{
+				Screen->TriggerSecrets();
 				
-                if(perm) 
+				if(perm) 
 					Screen->State[ST_SECRET] = true;
 					
-                return;
-            }
-            Waitframe();
-        }
-    }
+				return;
+			}
+			Waitframe();
+		}
+	}
 }
 //end
 
@@ -184,8 +184,8 @@ ffc script Leviathan1Cabin //start
 @Author("Deathrider365")
 ffc script MessageThenWarp //start
 {	
-    void run(int msg, int dmap, int scr)
-    {
+	void run(int msg, int dmap, int scr)
+	{
 		NoAction();
 		Link->PressStart = false;
 		Link->InputStart = false;
@@ -194,7 +194,7 @@ ffc script MessageThenWarp //start
 		Screen->Message(msg);
 		Waitframe();
 		Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPFX_NONE, 0, 0, DIR_DOWN});
-    }
+	}
 }
 //end
 
@@ -206,8 +206,8 @@ ffc script MessageThenWarp //start
 ffc script ScreenBeforeLeviathan1 //start
 {	
 	CONFIG SFX_ROCKINGSHIP = 9;
-    void run(int msg, int dmap, int scr, int timeUntilWarp)
-    {
+	void run(int msg, int dmap, int scr, int timeUntilWarp)
+	{
 		Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
 		int timer = 0;
 		while(true)
@@ -242,7 +242,7 @@ ffc script ScreenBeforeLeviathan1 //start
 				
 			}
 		}
-    }
+	}
 }
 //end
 
@@ -251,11 +251,11 @@ ffc script ScreenBeforeLeviathan1 //start
 @Author("Deathrider365")
 ffc script NormalString //start
 {
-    void run(int m)
-    {
+	void run(int m)
+	{
 		Waitframes(2);
 		Screen->Message(m);
-    }
+	}
 }
 
 //end
@@ -265,15 +265,15 @@ ffc script NormalString //start
 @Author("Deathrider365")
 ffc script DungeonString //start
 {
-    void run(int m/*, int level*/)
-    {
+	void run(int m/*, int level*/)
+	{
 		if (lvl1FirstEntry)
 		{
 			lvl1FirstEntry = false;
 			Waitframes(2);
 			Screen->Message(m);		
 		}
-    }
+	}
 }
 
 //end
@@ -282,8 +282,8 @@ ffc script DungeonString //start
 @Author("Deathrider365")
 ffc script TradeGuy //start
 {
-    void run(int hasItemString, int noItemString, int requiredItem, int obtainedItem)
-    {
+	void run(int hasItemString, int noItemString, int requiredItem, int obtainedItem)
+	{
 		if (Hero->Item[requiredItem])
 		{
 			Screen->Message(hasItemString);	
@@ -292,7 +292,7 @@ ffc script TradeGuy //start
 		}
 		else
 			Screen->Message(noItemString);
-    }
+	}
 }
 
 //end
@@ -303,13 +303,13 @@ ffc script TradeGuy //start
 @Author("Joe123")
 ffc script Signpost //start
 {
-    void run(int msg, bool anySide)
+	void run(int msg, bool anySide)
 	{
-        int loc = ComboAt(this->X, this->Y);
-        
+		int loc = ComboAt(this->X, this->Y);
+		
 		while(true)
 		{
-            until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
 			{
 				if (AgainstComboBase(loc, anySide))
 					Screen->FastTile(7, Link->X - 10, Link->Y - 15, 1284, 0, OP_OPAQUE);
@@ -318,10 +318,10 @@ ffc script Signpost //start
 			}
 			
 			Input->Button[CB_SIGNPOST] = false;
-            Screen->Message(msg);
-            Waitframe();
-        }
-    }
+			Screen->Message(msg);
+			Waitframe();
+		}
+	}
 	
 	bool AgainstComboBase(int loc, bool anySide)
 	{
@@ -1384,22 +1384,22 @@ ffc script IceTrigger //start
 @Author ("Tabletpillow")
 ffc script sfxplay //start
 {
-    void run(int sound, int wait, int rep)
+	void run(int sound, int wait, int rep)
 	{
-        if (rep == 0)
+		if (rep == 0)
 		{
-            Waitframes(wait);
-            Audio->PlaySound(sound);
-        }
-        else
+			Waitframes(wait);
+			Audio->PlaySound(sound);
+		}
+		else
 		{
-            while(true)
+			while(true)
 			{
 				Waitframes(wait);
 				Audio->PlaySound(sound);
-            }
-        }
-    }
+			}
+		}
+	}
 }
 
 //end
@@ -1487,7 +1487,7 @@ ffc script BattleArena //start
 @Author ("Deathrider365")
 ffc script LeviathanFailureP1 //start
 {
-    void run(int numAttempts, int dmap, int scrn)
+	void run(int numAttempts, int dmap, int scrn)
 	{
 		while (true)
 		{
@@ -1504,7 +1504,7 @@ ffc script LeviathanFailureP1 //start
 			}
 			Waitframe();
 		}
-    }
+	}
 }
 
 //end
@@ -1515,7 +1515,7 @@ ffc script LeviathanFailureP1 //start
 @Author ("Deathrider365")
 ffc script LeviathanFailureP2 //start
 {
-    void run(int dmap, int scrn)
+	void run(int dmap, int scrn)
 	{
 		Screen->Message(MSG_LINK_BEATEN);
 		Audio->PlayEnhancedMusic(NULL, 0);
@@ -1528,7 +1528,7 @@ ffc script LeviathanFailureP2 //start
 		}
 		
 		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
-    }
+	}
 }
 
 //end
@@ -1541,7 +1541,7 @@ ffc script Leviathan1Ending //start
 {
 	using namespace Leviathan;
 	
-    void run(int dmap, int scrn)
+	void run(int dmap, int scrn)
 	{
 		Audio->PlayEnhancedMusic(NULL, 0);
 	
@@ -1635,7 +1635,7 @@ ffc script Leviathan1Ending //start
 			
 			Waitframe();
 		}		
-    }
+	}
 }
 
 //end
@@ -1676,14 +1676,14 @@ ffc script EndOfOpeningScene //start
 @Author ("Deathrider365")
 ffc script IoHStart //start
 {
-    void run(int msg)
+	void run(int msg)
 	{
 		if (firstEntry)
 		{		
 			firstEntry = false;
 			Screen->Message(msg);
 		}
-    }
+	}
 }
 
 //end
@@ -1735,38 +1735,38 @@ ffc script Shutter //start
 
 ffc script CircMove
 {
-    void run(int a, int v, int theta)
-    {
-        int x = this->X;
-        int y = this->Y;
-        if(theta < 0) theta = Rand(180);
-        while(true)
-        {
-            theta += v;
-            WrapDegrees(theta);
-            this->X = x + a * Cos(theta);
-            this->Y = y + a * Sin(theta);
-            Waitframe();
-        }
-    }
+	void run(int a, int v, int theta)
+	{
+		int x = this->X;
+		int y = this->Y;
+		if(theta < 0) theta = Rand(180);
+		while(true)
+		{
+			theta += v;
+			WrapDegrees(theta);
+			this->X = x + a * Cos(theta);
+			this->Y = y + a * Sin(theta);
+			Waitframe();
+		}
+	}
 }
 
 ffc script OvMove
 {
-    void run(int a, int b, int v, int theta, int phi)
-    {
-        int x = this->X;
-        int y = this->Y;
-        if(theta < 0) theta = Rand(180);
-        while(true)
-        {
-            theta += v;
-            WrapDegrees(theta);
-            this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
-            this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
-            Waitframe();
-        }
-    }
+	void run(int a, int b, int v, int theta, int phi)
+	{
+		int x = this->X;
+		int y = this->Y;
+		if(theta < 0) theta = Rand(180);
+		while(true)
+		{
+			theta += v;
+			WrapDegrees(theta);
+			this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
+			this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
+			Waitframe();
+		}
+	}
 }
 
 
