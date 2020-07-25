@@ -312,10 +312,10 @@ ffc script Signpost //start
             until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
 			{
 				if (AgainstComboBase(loc, anySide))
-					Screen->FastTile(7, Link->X - 10, Link->Y - 15, 1284, 0, OP_OPAQUE);
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
-			}
+			}			
 			
 			Input->Button[CB_SIGNPOST] = false;
             Screen->Message(msg);
@@ -1684,9 +1684,25 @@ ffc script IoHStart //start
 			Screen->Message(msg);
 		}
     }
-}
+} //end
 
-//end
+
+//~~~~~DifficultyChoice~~~~~//
+@Author ("Deathrider365")
+ffc script DifficultyChoice //start
+{
+    void run()
+	{
+		if (Input->Button[CB_A])
+		{		
+			//normal mode
+		}
+		else
+		{
+			//paladin mode
+		}
+    }
+} //end
 
 //~~~~~ContinuePoint~~~~~//
 @Author ("Venrob")
@@ -1733,7 +1749,7 @@ ffc script Shutter //start
 }
 //end
 
-ffc script CircMove
+ffc script CircMove //start
 {
     void run(int a, int v, int theta)
     {
@@ -1749,9 +1765,9 @@ ffc script CircMove
             Waitframe();
         }
     }
-}
+} //end
 
-ffc script OvMove
+ffc script OvMove //start
 {
     void run(int a, int b, int v, int theta, int phi)
     {
@@ -1767,7 +1783,7 @@ ffc script OvMove
             Waitframe();
         }
     }
-}
+} //end
 
 
 

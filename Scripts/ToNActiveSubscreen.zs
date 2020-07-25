@@ -36,6 +36,8 @@ COLOR C_MINIMAP_LINK = C_DARKGREEN;
 COLOR C_MINIMAP_COMPASS = C_RED;
 COLOR C_MINIMAP_COMPASS_DEFEATED = C_BLUE;
 
+int subscr_y_offset = -224;
+
 int scrollingOffset; 
 
 //start Active Items
@@ -52,7 +54,7 @@ int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, I
 				  
 int ROW1 = 42, ROW2 = 58, ROW3 = 74, ROW4 = 90, ROW5 = 106, ROW6 = 122;
 
-int dist = 2;
+int dist = 1;
 
 int itemLocs[] = {ROW1 + 1 * dist, ROW1 + 2 * dist, ROW1 + 3 * dist,  ROW1 + 4 * dist, 
                   ROW2 + 1 * dist, ROW2 + 2 * dist, ROW2 + 3 * dist,  ROW2 + 4 * dist,
@@ -73,7 +75,6 @@ int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25,
 //end Inactive Items
 
 int asubscr_pos = 0;
-int subscr_y_offset = -224;
 
 @Author("Venrob")
 dmapdata script ActiveSubscreen //start

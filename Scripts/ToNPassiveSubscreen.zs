@@ -34,6 +34,11 @@ dmapdata script PassiveSubscreen
 			else if (Input->Press[CB_B])
 				lastButton = CB_B;
 				
+			if (Input->Press[CB_L])
+				//TODO
+			if (Input->Press[CB_R])
+				//TODO
+				
 			if ((lastButton == CB_A && lastA != Hero->ItemA) || (lastButton == CB_B && lastB != Hero->ItemB))
 			{
 				if (lastButton == CB_A && Game->LoadItemData(lastA)->Type == IC_POTION)

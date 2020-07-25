@@ -29,6 +29,7 @@
 #include "../ToN Main Quest/Scripts/ToNMiscFunctions.zs"
 #include "../ToN Main Quest/Scripts/ToNNamespaces.zs"
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
+#include "../ToN Main Quest/Scripts/ToNDifficulty.zs"
 #include "../ToN Main Quest/Scripts/ToNCredits.zh"
 
 //end
@@ -252,6 +253,20 @@ item script HaerenGrace
 	float PercentOfWhole(int number, int whole)
 	{
 		return (100*number)/whole;
+	}
+}
+//end
+
+//~~~~~item~~~~~//
+//start
+item script itemjj
+{
+	void run()
+	{
+		// if()
+		// {
+			// int spitm = Screen->RoomType == RT_SPECIALITEM ? Screen->RoomData : -1;
+		// }		
 	}
 }
 //end
@@ -717,7 +732,7 @@ hero script HeroInit
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bosses~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Enemies / Bosses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~Constants/globals~~~~~//
 //start
@@ -809,6 +824,166 @@ npc script Mimic //start
 			Waitframe();
 		}	
 	}
+} //end
+
+//~~~~~Legionnaire~~~~~//
+// D0: Speed Multiplier
+// D1: Fire cooldown (frames)
+// D2: Knockback rate in pixels per frame 
+npc script Legionnaire //start
+{
+	int xSpeed = 5;
+	int ySpeed = 5;
+	int count;
+	int xStep;
+	int yStep;
+	int direction;
+
+	void run(int speedMult, int fireRate, int fireFrequency, int knockbackDist)
+	{
+		unless (speedMult)
+			speedMult = 1;
+			
+		unless (fireRate)
+			fireRate = 30;
+			
+		unless (knockbackDist)
+			knockbackDist = 4;
+		
+		if (knockbackDist < 0)
+			this->NoSlide = true;
+		else
+			this->SlideSpeed = knockbackDist;	// 4 is default
+			
+		int counter;
+		
+		while (true)
+		{
+			while (this->Stun)
+			{
+				this->Slide();
+				Waitframe();
+			}
+			
+			this->Slide();
+			
+			direction = findDir(this->X, this->Y);
+			this->Dir = direction;
+			xStep = getXChange(direction, this->X);
+			yStep = getYChange(direction, this->Y);
+			
+			Waitframes(60);
+				
+			int choice = attackChoice();
+			
+			for (int i = 0; i < 60; ++i)
+			{
+				this->X += Rand(-1, 1);
+				this->Y += Rand(-1, 1);
+				Waitframe();
+			}
+			
+			if (count % 60)
+				this->Attack();
+				
+			if (count % 60)
+			{
+				for (int i = 0; i < 120; ++i)
+				{
+					direction = findDir(this->X, this->Y);
+					this->Dir = direction;
+					this->X = getXChange(direction, this->X);
+					this->Y = getYChange(direction, this->Y);
+					Waitframe();
+				}
+			}
+			
+			// switch(choice)
+			// {
+				// case 1:
+					
+					// break;
+					
+				// case 2:
+				
+					// break;
+					
+				// case 3:
+				
+					// break;
+			// }
+			++count;
+			Waitframe();
+		}	
+	}
+	
+	// Determines the direction it must face
+	int findDir(int currX, int currY) //start
+	{
+		int dir; 
+		if (Hero->X < currX)
+			dir = 2;
+		if (Hero->Y < currY)
+			dir = 0;
+		if (Hero->X > currX)
+			dir = 3;
+		if (Hero->Y > currY)
+			dir = 1;
+			
+		if (Hero->X > currX && Hero->Y < currY)
+			dir = 3;
+		if (Hero->X > currX && Hero->Y > currY)
+			dir = 1;
+		if (Hero->X < currX && Hero->Y > currY)
+			dir = 1;
+		if (Hero->X < currX && Hero->Y < currY)
+			dir = 0;
+
+		return dir;
+	} //end
+	
+	// Determines the amount of x to translate
+	int getXChange(int direction, int currX) //start
+	{			
+		int xChange;
+		
+		if (direction == 0)
+			xChange = currX + Choose(-1, 1);
+		else if (direction == 1)
+			xChange = currX + Choose(-1, 1);
+		else if (direction == 2)
+			xChange = currX + -1;
+		else
+			xChange = currX + 1;
+			
+		return xChange;
+	} //end
+	
+	// Determines the amount of y to translate
+	int getYChange(int direction, int currY) //start
+	{
+		int yChange;
+		
+		if (direction == 0)
+			yChange = currY + -1;
+		else if (direction == 1)
+			yChange = currY + 1;
+		else if (direction == 2)
+			yChange = currY + Choose(-1, 1);
+		else
+			yChange = currY + Choose(-1, 1);
+			
+		return yChange;
+	} //end
+
+	// Determines which attack to use
+	int attackChoice() //start
+	{
+		int decision;
+		
+		return decision;
+	} //end
+	
 } //end
 
 //~~~~~Bomber~~~~~//

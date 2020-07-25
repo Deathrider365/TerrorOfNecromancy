@@ -20,6 +20,7 @@ enum Color //start
 	C_RED = 0x04,
 	C_WHITE = 0x0C,
 	C_BLUE = 0x1F,
+	C_GRAY = 0x29,
 	C_LGRAY = 0x2B,
 	C_DGRAY = 0x28,
 	C_TAN = 0x75,

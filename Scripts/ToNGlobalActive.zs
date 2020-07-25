@@ -91,6 +91,8 @@ global script OnLaunch
 {
     void run()
     {
+		subscr_y_offset = -224;
+		
 		if(onContHP != 0)
 		{
 			Hero->HP = onContHP;

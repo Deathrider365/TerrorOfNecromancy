@@ -25,10 +25,10 @@ namespace Leviathan //start
 	COLOR C_CHARGE1 = C_DARKBLUE;
 	COLOR C_CHARGE2 = C_SEABLUE;
 	COLOR C_CHARGE3 = C_TAN;
-
-	const int LEVIATHAN1_WATERCANNON_DMG = 80;
-	const int LEVIATHAN1_BURSTCANNON_DMG = 40;
-	const int LEVIATHAN1_WATERFALL_DMG = 60;
+	
+	int LEVIATHAN1_WATERCANNON_DMG = 60;
+	int LEVIATHAN1_BURSTCANNON_DMG = 30;
+	int LEVIATHAN1_WATERFALL_DMG = 50;
 
 	const int MSG_BEATEN = 19;
 
@@ -45,8 +45,14 @@ namespace Leviathan //start
 		const int VARS_FLASHTIMER = 5;
 		const int VARS_INITHP = 6;
 		
+		int hitByWaterfall = 0;
+		int hitByWaterCannon = 0;
+		int hitByBurstCannon = 0;
+		int hitBySideSwipe = 0;
+		
 		void run(int fight)
 		{		
+		//start Setup
 			Hero->Dir = DIR_UP;
 			if (waterfall_bmp && waterfall_bmp->isAllocated())
 				waterfall_bmp->Free();
@@ -132,17 +138,32 @@ namespace Leviathan //start
 			//
 			Audio->PlaySound(SFX_SPLASH);
 			Splash(this->X + 64, 100);
+			
+			//end setup
 					
 			//
 			//    Leviathan's behavior loop
 			//
+
 			while(true)
 			{
 				attack = attackChoice(this, vars);
 				
 				int riseAnim = 120;
-				if(this->HP < vars[VARS_INITHP] * 0.3)	//was 0.5
-					riseAnim = 40;
+				if(this->HP < vars[VARS_INITHP] * 0.45)
+				{
+					riseAnim = 60;		
+					LEVIATHAN1_WATERCANNON_DMG = 70;
+					LEVIATHAN1_BURSTCANNON_DMG = 40;
+					LEVIATHAN1_WATERFALL_DMG = 60;
+				}
+				if(this->HP < vars[VARS_INITHP] * 0.25)
+				{
+					riseAnim = 30;		
+					LEVIATHAN1_WATERCANNON_DMG = 80;
+					LEVIATHAN1_BURSTCANNON_DMG = 50;
+					LEVIATHAN1_WATERFALL_DMG = 70;
+				}
 					
 				switch(attack) 
 				{
@@ -159,14 +180,37 @@ namespace Leviathan //start
 							GlideFrame(this, vars, x2, 32, x2, 112, 20, i);
 							Audio->PlaySound(SFX_WATERFALL);
 							if(i == 3)
-							{
-								int cx = this->X + this->HitXOffset + this->HitWidth / 2;
-								eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, cx - 8, 112);
-								waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
-								waterfall->Script = Game->GetEWeaponScript("Waterfall");
-								waterfall->DrawYOffset = -1000;
-								waterfall->InitD[0] = 3;
-								waterfall->InitD[1] = 64;
+							{								
+								if(this->HP < vars[VARS_INITHP]*0.45)
+								{
+									int cx1 = this->X + this->HitXOffset + (this->HitWidth / 2) - 24;
+									eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, cx1 - 8, 112);
+									waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
+									waterfall->Script = Game->GetEWeaponScript("Waterfall");
+									waterfall->DrawYOffset = -1000;
+									waterfall->InitD[0] = 3;
+									waterfall->InitD[1] = 64;
+									
+									int cx2 = this->X + this->HitXOffset + (this->HitWidth / 2) + 24;
+									eweapon waterfall2 = CreateEWeaponAt(EW_SCRIPT10, cx2 - 8, 112);
+									waterfall2->Damage = LEVIATHAN1_WATERFALL_DMG;
+									waterfall2->Script = Game->GetEWeaponScript("Waterfall");
+									waterfall2->DrawYOffset = -1000;
+									waterfall2->InitD[0] = 3;
+									waterfall2->InitD[1] = 64;
+								}
+								else
+								{
+									int cx = this->X + this->HitXOffset + (this->HitWidth / 2);
+									eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, cx - 8, 112);
+									waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
+									waterfall->Script = Game->GetEWeaponScript("Waterfall");
+									waterfall->DrawYOffset = -1000;
+									waterfall->InitD[0] = 3;
+									waterfall->InitD[1] = 64;
+								
+								}
+
 							}
 							
 							Waitframe(this, vars);
@@ -203,8 +247,10 @@ namespace Leviathan //start
 						// Shooting loop
 						for(i = 0; i < 32; ++i)
 						{
-							if(this->HP < vars[VARS_INITHP]*0.3)
-								angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.5);
+							if(this->HP < vars[VARS_INITHP]*0.45)
+								angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.75);
+							if(this->HP < vars[VARS_INITHP]*0.25)
+								angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 2.25);
 							
 							Audio->PlaySound(SFX_SHOT);
 							
@@ -254,11 +300,21 @@ namespace Leviathan //start
 						int wSpeeds[2] = {6, 6};
 						
 						int numBursts = 3;
-						if(this->HP < vars[VARS_INITHP]*0.3)
-							numBursts = 5;
 						int burstDelay = 40;
-						if(this->HP < vars[VARS_INITHP]*0.3)
+						
+						if(this->HP < vars[VARS_INITHP]*0.45)
+						{
+							numBursts = 5;
 							burstDelay = 24;
+						}
+						
+						if(this->HP < vars[VARS_INITHP]*0.25)
+						{
+							numBursts = 7;
+							burstDelay = 12;
+						}
+						
+						
 							
 						// Shooting loop
 						for(i = 0; i < numBursts; ++i)
@@ -317,7 +373,7 @@ namespace Leviathan //start
 						
 						break; //end
 					
-					// Side Swap
+					// Side Swipe
 					case 3: //start
 						int side = Choose(-1, 1);
 						
@@ -369,36 +425,82 @@ namespace Leviathan //start
 		}
 		
 		int attackChoice(npc this, untyped vars) //start
-		{
-			if(this->HP < vars[VARS_INITHP]*0.3)
-			{
-				//Do stream at left and right sides
-				if(Link->X<48||Link->X>192)
+		{		
+			if (this->HP < vars[VARS_INITHP] * 0.25)
+			{					
+				if (Link->Y < 144)
 				{
+					if (Rand(2) == 0)
+						return 0; 
+				}
+				if(Link->X < 48 || Link->X > 192)
+				{
+					if(Rand(2) == 0)
+						return 1;
+					if(Rand(2) == 0)
+						return 3;
+					if(Rand(2) == 0)
+						return 2;
+				}
+				//Don't do Waterfall if not near the top of the arena
+				if(Link->Y >= 144)
+				{
+					if(Rand(2)==0)
+						return 2;
 					if(Rand(2)==0)
 						return 1;
 				}
-				//Don't do bursts near the top of the arena
-				if(Link->Y>=118)
+				
+				return Choose(0, 1, 3);
+			}
+			
+			else if(this->HP < vars[VARS_INITHP] * 0.45)
+			{
+				//Do stream at left and right sides
+				
+				if (Link->Y < 144)
+				{
+					if (Rand(3) == 0)
+						return 0; 
+					if (Rand(3) == 1)
+						return 1;
+				}
+				if(Link->X < 48 || Link->X > 192)
+				{
+					if(Rand(4) == 0)
+						return 1;
+					if (Rand(4) == 1)
+						return 3;
+				}
+				//Don't do Waterfall if not near the top of the arena
+				if(Link->Y >= 144)
 				{
 					if(Rand(2)==0)
-						return Choose(1, 3);
+						return Choose(1, 2);
 				}
-				return Choose(1, 2, 3);
+				return Choose(0, 1, 2, 3);
 			}
 			else
 			{
 				//Do stream at left and right sides
-				if(Link->X<48||Link->X>192)
+				if (Link->Y < 144)
 				{
-					if(Rand(2)==0)
+					if (Rand(3) == 0)
+						return 0;
+					if (Rand(2) == 1)
 						return 1;
 				}
-				//Don't do bursts near the top of the arena
-				if(Link->Y>=118)
+				if(Link->X < 48 || Link->X > 192)
 				{
-					if(Rand(2)==0)
-						return Choose(0, 1);
+					if(Rand(2) == 0)
+						return 1;
+				}
+				if(Link->Y >= 144)
+				{
+					if(Rand(2) == 0)
+						return 1;
+					if(Rand(2) == 0)
+						return 2;
 				}
 				return Choose(0, 1, 2);
 			}
@@ -576,11 +678,15 @@ namespace Leviathan //start
 			
 			int i;
 			int x = this->X;
+			
+
 
 			Screen->Message(MSG_BEATEN);
 			vars[VARS_FLASHTIMER] = 0;
 			WaitframeLite(this, vars);
 			
+						Audio->PlaySound(120);
+						
 			while(this->Y<112)
 			{
 				this->Y += 0.5;
