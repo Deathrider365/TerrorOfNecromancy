@@ -856,7 +856,7 @@ npc script LegionnaireLevel1 //start
 	int posDir = 1;
 	int negDir = -1;
 
-	void run()
+	void run() //start
 	{
 		while (true)
 		{			
@@ -864,18 +864,14 @@ npc script LegionnaireLevel1 //start
 			
 			Waitframe();
 				
-				
 			// Moves around
-			while (true)
+			for (int i = 0; i < 120; ++i)
 			{
 				int dir = findDir(this->X, this->Y);
 				
-				if (Input->Key[KEY_P])
-					Trace(dir);
-				
 				this->Dir = dir8To4(dir);				
 				
-				if (dir <= DIR_RIGHT)
+				if (dir <= DIR_RIGHT && false)
 				{
 					int x = this->X + dirX(this->Dir);
 					int y = this->Y + dirY(this->Dir);
@@ -887,10 +883,7 @@ npc script LegionnaireLevel1 //start
 					}
 					else
 					{
-						if (randDir)
-							randDir = false;
-						else
-							randDir = true;
+						randDir = !randDir;
 							
 						if (x > 16 && x < 225 && y > 16 && y < 145) 
 						{
@@ -902,13 +895,20 @@ npc script LegionnaireLevel1 //start
 				Waitframe();
 			}
 				
+			Waitframes(15);
+			
 			// Decides on an attack
 			attChoice = attackChoice();
 			
 			// Attacks
 			switch(attChoice)
 			{
-			
+				case 0: //start
+				{
+					jumpOffScreenAttack(this, -1, -1);
+					break;
+				
+				} //end
 			
 				default:
 					break;
@@ -917,7 +917,7 @@ npc script LegionnaireLevel1 //start
 			
 			Waitframe();
 		}	
-	}
+	} //end
 	
 	// Determines the direction it must face
 	int findDir(int currX, int currY) //start
@@ -1032,18 +1032,8 @@ npc script LegionnaireLevel1 //start
 	// Determines which attack to use
 	int attackChoice() //start
 	{
-		int decision;
 		
-		switch(decision)
-		{
-			
-			
-			default:
-				break;
-		
-		}
-		
-		return decision;
+		return 0;
 	} //end
 	
 } //end

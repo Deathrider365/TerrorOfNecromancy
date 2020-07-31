@@ -8,6 +8,12 @@ typedef const int CONFIG;
 typedef const bool CONFIGB;
 typedef const Color COLOR;
 
+
+//~~~~~Constants~~~~~//
+CONFIG SFX_SUPER_JUMP = 0;
+CONFIG SFX_SLAM = 0;
+
+
 //~~~~~Enums~~~~~//
 
 enum Color //start

@@ -105,9 +105,78 @@ int dir8To4(int dir) //start
 } //end
 
 // Does a jump to link and flies off screen
-void jumpOffScreenAttack() //start
+void jumpOffScreenAttack(npc n, int upTile, int downTile) //start
 {
+	CONFIG JUMP_RATE = 4;
+	CONFIG SLAM_RATE = JUMP_RATE * 3;
+	CONFIG EW_SLAM = EW_SCRIPT10;
+	CONFIG STUN = 30;
+	CONFIG SLAM_COMBO = 6852;
+	CONFIG SLAM_COMBO_CSET = 8;
+	
+	combodata cd = Game->LoadComboData(SLAM_COMBO);
 
+	
+	Audio->PlaySound(SFX_SUPER_JUMP);
+	
+	bool grav = n->Gravity;
+	int oTile = n->ScriptTile;
+	
+	n->Gravity = false;
+	n->CollDetection = false;
+	
+	n->ScriptTile = upTile;
+	
+	while (n->Z < 256)
+	{
+		n->Z += JUMP_RATE;
+		Waitframe();
+	}
+	
+	n->X = Hero->X;
+	n->Y = Hero->Y;
+	
+	n->ScriptTile = downTile;
+	
+	while (n->Z > 0)
+	{
+		n->Z -= SLAM_RATE;
+		Waitframe();
+	}
+	
+	Audio->PlaySound(SFX_SLAM);
+	eweapon weap = Screen->CreateEWeapon(EW_SLAM);
+	weap->ScriptTile = TILE_INVIS;
+	weap->HitHeight = 16 * 3;
+	weap->HitWidth = 16 * 3;
+	weap->HitXOffset = -16;
+	weap->HitYOffset = -16;
+	weap->X = n->X;
+	weap->Y = n->Y;
+	weap->Damage = n->Damage * 2;
+	
+	cd->Frame = 0;
+	cd->AClk = 0;
+	Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+	
+	Waitframe();
+	
+	Remove(weap);
+	
+	n->CollDetection = true;
+	n->Gravity = grav;
+	
+	Screen->Quake = STUN;
+	
+	for (int i = 0; i < STUN; ++i)
+	{
+		Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
+		Waitframe();
+	}
+	
+	n->ScriptTile = oTile;
+	
 } //end
 
 // Does a jump to link
@@ -115,6 +184,28 @@ void jumpAttack() //start
 {
 
 } //end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
