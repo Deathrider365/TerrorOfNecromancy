@@ -95,3 +95,27 @@ ScreenType getScreenType(bool dmapOnly)//start
 	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 	return <ScreenType> (dm->Type & 11b);
 }//end
+
+// Prioretizes the horizontal direction when dealing with diagonals
+int dir8To4(int dir) //start
+{
+	if (dir <= DIR_RIGHT)
+		return dir;
+	return remY(dir);
+} //end
+
+// Does a jump to link and flies off screen
+void jumpOffScreenAttack() //start
+{
+
+} //end
+
+// Does a jump to link
+void jumpAttack() //start
+{
+
+} //end
+
+
+
+

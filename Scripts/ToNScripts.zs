@@ -20,6 +20,7 @@
 #include "std_zh/dmapgrid.zh"
 #include "LinkMovement.zh"
 #include "VenrobMisc.zh"
+always using namespace Venrob;
 
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNEnumsTypedefs.zs"
@@ -561,6 +562,17 @@ eweapon script SignWave
 }
 //end
 
+//~~~~~~~~~PoisonDamage~~~~~~~~~~//
+//start
+eweapon script PoisonDamage
+{
+	void run(int dps)
+	{
+		// The sprinting zombies will apply this
+	}
+}
+//end
+
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -732,7 +744,7 @@ hero script HeroInit
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Enemies / Bosses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Enemies~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~Constants/globals~~~~~//
 //start
@@ -826,11 +838,11 @@ npc script Mimic //start
 	}
 } //end
 
-//~~~~~Legionnaire~~~~~//
+//~~~~~LegionnaireLevel1~~~~~//
 // D0: Speed Multiplier
 // D1: Fire cooldown (frames)
 // D2: Knockback rate in pixels per frame 
-npc script Legionnaire //start
+npc script LegionnaireLevel1 //start
 {
 	int xSpeed = 5;
 	int ySpeed = 5;
@@ -838,81 +850,69 @@ npc script Legionnaire //start
 	int xStep;
 	int yStep;
 	int direction;
+	int attChoice;
+	int posDir = 1;
+	int negDir = -1;
 
-	void run(int speedMult, int fireRate, int fireFrequency, int knockbackDist)
+	void run()
 	{
-		unless (speedMult)
-			speedMult = 1;
-			
-		unless (fireRate)
-			fireRate = 30;
-			
-		unless (knockbackDist)
-			knockbackDist = 4;
-		
-		if (knockbackDist < 0)
-			this->NoSlide = true;
-		else
-			this->SlideSpeed = knockbackDist;	// 4 is default
-			
-		int counter;
-		
 		while (true)
-		{
-			while (this->Stun)
-			{
-				this->Slide();
-				Waitframe();
-			}
+		{			
+			bool randDir = Rand(2);
 			
-			this->Slide();
-			
-			direction = findDir(this->X, this->Y);
-			this->Dir = direction;
-			xStep = getXChange(direction, this->X);
-			yStep = getYChange(direction, this->Y);
-			
-			Waitframes(60);
+			Waitframe();
 				
-			int choice = attackChoice();
-			
-			for (int i = 0; i < 60; ++i)
-			{
-				this->X += Rand(-1, 1);
-				this->Y += Rand(-1, 1);
-				Waitframe();
-			}
-			
-			if (count % 60)
-				this->Attack();
 				
-			if (count % 60)
+			// Moves around
+			while (true)
 			{
-				for (int i = 0; i < 120; ++i)
+				int dir = findDir(this->X, this->Y);
+				
+				if (Input->Key[KEY_P])
+					Trace(dir);
+				
+				this->Dir = dir8To4(dir);				
+				
+				if (dir <= DIR_RIGHT)
 				{
-					direction = findDir(this->X, this->Y);
-					this->Dir = direction;
-					this->X = getXChange(direction, this->X);
-					this->Y = getYChange(direction, this->Y);
-					Waitframe();
+					int x = this->X + dirX(this->Dir);
+					int y = this->Y + dirY(this->Dir);
+					
+					if (x > 16 && x < 225 && y > 16 && y < 145)
+					{
+						this->X += getXChange(this->Dir, randDir);
+						this->Y += getYChange(this->Dir, randDir);
+					}
+					else
+					{
+						if (randDir)
+							randDir = false;
+						else
+							randDir = true;
+							
+						if (x > 16 && x < 225 && y > 16 && y < 145) 
+						{
+							this->X += getXChange(this->Dir, randDir);
+							this->Y += getYChange(this->Dir, randDir);
+						}
+					}
 				}
+				Waitframe();
+			}
+				
+			// Decides on an attack
+			attChoice = attackChoice();
+			
+			// Attacks
+			switch(attChoice)
+			{
+			
+			
+				default:
+					break;
 			}
 			
-			// switch(choice)
-			// {
-				// case 1:
-					
-					// break;
-					
-				// case 2:
-				
-					// break;
-					
-				// case 3:
-				
-					// break;
-			// }
-			++count;
+			
 			Waitframe();
 		}	
 	}
@@ -920,66 +920,126 @@ npc script Legionnaire //start
 	// Determines the direction it must face
 	int findDir(int currX, int currY) //start
 	{
-		int dir; 
-		if (Hero->X < currX)
-			dir = 2;
-		if (Hero->Y < currY)
-			dir = 0;
-		if (Hero->X > currX)
-			dir = 3;
-		if (Hero->Y > currY)
-			dir = 1;
-			
-		if (Hero->X > currX && Hero->Y < currY)
-			dir = 3;
-		if (Hero->X > currX && Hero->Y > currY)
-			dir = 1;
-		if (Hero->X < currX && Hero->Y > currY)
-			dir = 1;
-		if (Hero->X < currX && Hero->Y < currY)
-			dir = 0;
-
-		return dir;
+		#option APPROX_EQUAL_MARGIN 0.5
+		// ~~ approximate equal
+	
+		int dir;
+				
+		if (Hero->Y ~~ currY)
+		{
+			if (Hero->X < currX)
+				return DIR_LEFT;
+			else if (Hero->X > currX)
+				return DIR_RIGHT;
+			else
+				return DIR_DOWN;
+		}
+		else if (Hero->X ~~ currX)
+		{
+			if (Hero->Y < currY)
+				return DIR_UP;
+			else
+				return DIR_DOWN;
+		}
+		
+		//Floor truncates
+		int dx = Abs(Floor(Hero->X) - currX);
+		int dy = Abs(Floor(Hero->Y) - currY);
+		
+		// Link is top left of enemy
+		if (Hero->Y < currY && Hero->X < currX)
+		{
+			if (dy ~~ dx)
+				return DIR_LEFTUP;
+			if (dy > dx)
+				return DIR_UP;
+			return DIR_LEFT;
+		}
+		
+		// Link is top right of enemy
+		else if (Hero->Y < currY && Hero->X > currX)
+		{
+			if (dy ~~ dx)
+				return DIR_RIGHTUP;
+			if (dy > dx)
+				return DIR_UP;
+			return DIR_RIGHT;
+		}
+		
+		// Link is below left of enemy
+		else if (Hero->Y > currY && Hero->X < currX)
+		{
+			if (dy ~~ dx)
+				return DIR_LEFTDOWN;
+			if (dy > dx)
+				return DIR_DOWN;
+			return DIR_LEFT;
+		}
+		
+		// Link is below right of enemy
+		else if (Hero->Y > currY && Hero->X > currX)
+		{
+			if (dy ~~ dx)
+				return DIR_RIGHTDOWN;
+			if (dy > dx)
+				return DIR_DOWN;
+			return DIR_RIGHT;
+		}
+						
 	} //end
 	
 	// Determines the amount of x to translate
-	int getXChange(int direction, int currX) //start
-	{			
-		int xChange;
-		
-		if (direction == 0)
-			xChange = currX + Choose(-1, 1);
-		else if (direction == 1)
-			xChange = currX + Choose(-1, 1);
-		else if (direction == 2)
-			xChange = currX + -1;
-		else
-			xChange = currX + 1;
+	int getXChange(int direction, bool randDir) //start
+	{
+		switch (direction)
+		{
+			case DIR_UP:
+				return randDir ? 1 : -1;
+					
+			case DIR_DOWN:
+				return randDir ? -1 : 1;
 			
-		return xChange;
+			case DIR_LEFT:
+				return -1;
+				
+			case DIR_RIGHT:
+				return 1;
+		}
 	} //end
 	
 	// Determines the amount of y to translate
-	int getYChange(int direction, int currY) //start
+	int getYChange(int direction, bool randDir) //start
 	{
-		int yChange;
 		
-		if (direction == 0)
-			yChange = currY + -1;
-		else if (direction == 1)
-			yChange = currY + 1;
-		else if (direction == 2)
-			yChange = currY + Choose(-1, 1);
-		else
-			yChange = currY + Choose(-1, 1);
-			
-		return yChange;
+		switch(direction)
+		{	
+			case DIR_UP:
+				return -1;
+
+			case DIR_DOWN:
+				return 1;
+					
+			case DIR_LEFT:
+				return randDir ? 1 : -1;
+					
+			case DIR_RIGHT:
+				return randDir ? -1 : 1;
+		}
 	} //end
 
 	// Determines which attack to use
 	int attackChoice() //start
 	{
 		int decision;
+		
+		switch(decision)
+		{
+			
+			
+			default:
+				break;
+		
+		}
 		
 		return decision;
 	} //end
@@ -1032,6 +1092,18 @@ npc script LoSTurret //start
 
 
 //end
+
+//~~~~~Amalgamation of Decay ---Shambles---~~~~~//
+npc script Decay //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
 
 //~~~~~Demonwall~~~~~//
 //start
