@@ -68,8 +68,8 @@ item script LegionRings
 //start
 itemdata script GanonRage
 {
-    void run(int durationSeconds, int cooldownSeconds, int multiplier, int cost)
-    {
+	void run(int durationSeconds, int cooldownSeconds, int multiplier, int cost)
+	{
 		int itemClasses[] = {IC_ARROW, IC_BOW, IC_HAMMER, IC_BRANG, IC_SWORD, IC_GALEBRANG, IC_BRACELET, IC_ROCS, IC_STOMPBOOTS};
 		itemdata ids[9];
 		int powers[9];
@@ -103,18 +103,18 @@ itemdata script GanonRage
 			char32 buf[8];
 			itoa(buf, Ceiling(i / 60));
 			
-            if (Hero->ItemB == this->ID)
-            {
-                Screen->DrawString(7, SUB_B_X, SUB_B_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-                Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+			if (Hero->ItemB == this->ID)
+			{
+				Screen->DrawString(7, SUB_B_X, SUB_B_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
 					SUB_B_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-            }
-            else if (Hero->ItemA == this->ID)                
-            {
-                Screen->DrawString(7, SUB_A_X, SUB_A_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-                Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+			}
+			else if (Hero->ItemA == this->ID)                
+			{
+				Screen->DrawString(7, SUB_A_X, SUB_A_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
 					SUB_A_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-            }
+			}
 				
 			Waitframe();
 		}
@@ -130,26 +130,28 @@ itemdata script GanonRage
 //start
 itemdata script LifeRing
 {
-    void run(int hpActive, int timerActive, int hpIdle, int timerIdle)
-    {
-        int clk;
-        while(true)
-        {
-            if(EnemiesAlive())
-            {
-                clk = (clk + 1) % timerActive;
-                unless(clk) 
+	void run(int hpActive, int timerActive, int hpIdle, int timerIdle)
+	{
+		int clk;
+		while(true)
+		{
+			while(Hero->Action == LA_SCROLLING)
+				Waitframe();
+			if(EnemiesAlive())
+			{
+				clk = (clk + 1) % timerActive;
+				unless(clk) 
 					Hero->HP += hpActive;
-            }
-            else
-            {
-                clk = (clk + 1) % timerIdle;
-                unless(clk) 
+			}
+			else
+			{
+				clk = (clk + 1) % timerIdle;
+				unless(clk) 
 					Hero->HP += hpIdle;
-            }
-            Waitframe();
-        }
-    }
+			}
+			Waitframe();
+		}
+	}
 }
 //end
 
@@ -158,98 +160,98 @@ itemdata script LifeRing
 //start
 item script HaerenGrace
 {
-    void run(int errsfx)
-    {        
+	void run(int errsfx)
+	{        
 		int percent = PercentOfWhole(Hero->HP, Hero->MaxHP);
 	
-        if (percent <= 10)
-        {
-            if (Hero->MP >= 200)
-            {
+		if (percent <= 10)
+		{
+			if (Hero->MP >= 200)
+			{
 				int mp1 = 200;
 				
-                for (int hpToRestore = Hero->MaxHP - Hero->HP; hpToRestore > 0;)
-                {
-                    int heal = Min(4, hpToRestore);
-                    Hero->HP += heal;
-                    hpToRestore -= heal;
+				for (int hpToRestore = Hero->MaxHP - Hero->HP; hpToRestore > 0;)
+				{
+					int heal = Min(4, hpToRestore);
+					Hero->HP += heal;
+					hpToRestore -= heal;
 					
 					int mpReduction = Min(8, mp1);
 					Hero->MP -= mpReduction;
 					mp1 -= mpReduction;
 					
-                    if (mp1 > 0)
-                    {
-                        Hero->MP -= 5;
-                    }
-                    Waitframes(5);
-                }
-                //Hero->HP += Hero->MaxHP;	//If I want the effect to be instant
-                //Hero->MP -= 200;
-            }
-            else 
+					if (mp1 > 0)
+					{
+						Hero->MP -= 5;
+					}
+					Waitframes(5);
+				}
+				//Hero->HP += Hero->MaxHP;	//If I want the effect to be instant
+				//Hero->MP -= 200;
+			}
+			else 
 				Audio->PlaySound(errsfx);
-        }
-        else if (percent <= 50)
-        {
-            if (Hero->MP >= 100)
-            {
+		}
+		else if (percent <= 50)
+		{
+			if (Hero->MP >= 100)
+			{
 				int mp2 = 100;
 				
-                for (int hpToRestore2 = 160; hpToRestore2 > 0;)
-                {
-                    int heal2 = Min(4, hpToRestore2);
-                    Hero->HP += heal2;
-                    hpToRestore2 -= heal2;
+				for (int hpToRestore2 = 160; hpToRestore2 > 0;)
+				{
+					int heal2 = Min(4, hpToRestore2);
+					Hero->HP += heal2;
+					hpToRestore2 -= heal2;
 					
 					int mpReduction2 = Min(8, mp2);
 					Hero->MP -= mpReduction2;
 					mp2 -= mpReduction2;
 					
-                    if (mp2 > 0)
-                    {
-                        Hero->MP -= 5;
-                    }
-                    Waitframes(5);
-                }
-                //Hero->HP += Hero->MaxHP / 2;
-                //Hero->MP -= 100;
-            }
-            else 
+					if (mp2 > 0)
+					{
+						Hero->MP -= 5;
+					}
+					Waitframes(5);
+				}
+				//Hero->HP += Hero->MaxHP / 2;
+				//Hero->MP -= 100;
+			}
+			else 
 				Audio->PlaySound(errsfx);
-        }
-        else if (percent < 100)
-        {
-            if (Hero->MP >= 50)
-            {
+		}
+		else if (percent < 100)
+		{
+			if (Hero->MP >= 50)
+			{
 				int mp3 = 50;
 				
-                for (int hpToRestore3 = 120; hpToRestore3 > 0;)
-                {
-                    int heal3 = Min(4, hpToRestore3);
-                    Hero->HP += heal3;
-                    hpToRestore3 -= heal3;
+				for (int hpToRestore3 = 120; hpToRestore3 > 0;)
+				{
+					int heal3 = Min(4, hpToRestore3);
+					Hero->HP += heal3;
+					hpToRestore3 -= heal3;
 					
 					int mpReduction3 = Min(8, mp3);
 					Hero->MP -= mpReduction3;
 					mp3 -= mpReduction3;
 					
-                    if (mp3 > 0)
-                    {
-                        Hero->MP -= 5;
-                    }
-                    Waitframes(5);
-                }
+					if (mp3 > 0)
+					{
+						Hero->MP -= 5;
+					}
+					Waitframes(5);
+				}
 				//Hero->HP += Hero->MaxHP / 4;
-                //Hero->MP -= 50;
-            }
-            else 
+				//Hero->MP -= 50;
+			}
+			else 
 				Audio->PlaySound(errsfx);
-        }
-        //else, hp == maxhp
-        else 
+		}
+		//else, hp == maxhp
+		else 
 			Audio->PlaySound(errsfx);
-    }
+	}
 	
 	float PercentOfWhole(int number, int whole)
 	{
@@ -468,28 +470,28 @@ lweapon script ScholarCandelabra
 
 lweapon script SineWave
 {
-    void run(int amp, int freq)
-    {
-        this->Angle = DirRad(this->Dir);
-        this->Angular = true;
-        int x = this->X, y = this->Y;
-        int clk;
-        int dist;
-        while(true)
-        {
-            clk += freq;
-            clk %= 360;
-            
-            x += RadianCos(this->Angle) * this->Step * .01;
-            y += RadianSin(this->Angle) * this->Step * .01;
-            
-            dist = Sin(clk) * amp;
-            
-            this->X = x + VectorX(dist, RadtoDeg(this->Angle) - 90);
-            this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
-            Waitframe();
-        }
-    }
+	void run(int amp, int freq)
+	{
+		this->Angle = DirRad(this->Dir);
+		this->Angular = true;
+		int x = this->X, y = this->Y;
+		int clk;
+		int dist;
+		while(true)
+		{
+			clk += freq;
+			clk %= 360;
+			
+			x += RadianCos(this->Angle) * this->Step * .01;
+			y += RadianSin(this->Angle) * this->Step * .01;
+			
+			dist = Sin(clk) * amp;
+			
+			this->X = x + VectorX(dist, RadtoDeg(this->Angle) - 90);
+			this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
+			Waitframe();
+		}
+	}
 }
 
 
@@ -528,7 +530,7 @@ eweapon script SignWave
 	void run(int size, int speed, bool noBlock, int step)
 	{
 		this->Angle = DirRad(this->Dir);		//
-        this->Angular = true;					//
+		this->Angular = true;					//
 		
 		int x = this->X;
 		int y = this->Y;
@@ -722,11 +724,11 @@ hero script HeroActive
 //start
 hero script OnDeath
 {
-    void run()
-    {
-        onContHP = Hero->MaxHP;
+	void run()
+	{
+		onContHP = Hero->MaxHP;
 		onContMP = Hero->MaxMP;	
-    }
+	}
 }
 //end
 

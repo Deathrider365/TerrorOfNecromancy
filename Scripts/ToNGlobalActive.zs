@@ -62,7 +62,7 @@ global script GlobalScripts
 	//~~~~~ItemCycling~~~~~//
 	void checkItemCycle() //start
 	{
-	    if (Link->PressL) Link->SelectBWeapon(DIR_LEFT);
+		if (Link->PressL) Link->SelectBWeapon(DIR_LEFT);
 		if (Link->PressR) Link->SelectBWeapon(DIR_RIGHT);
 	} //end
 	
@@ -89,10 +89,10 @@ global script GlobalScripts
 //start
 global script OnLaunch
 {
-    void run()
-    {
+	void run()
+	{
 		subscr_y_offset = -224;
-		
+
 		if(onContHP != 0)
 		{
 			Hero->HP = onContHP;
@@ -103,7 +103,7 @@ global script OnLaunch
 			Hero->HP = Hero->MaxHP;
 			Hero->MP = Hero->MaxMP;		
 		}
-    }
+	}
 }
 //end
 
@@ -111,12 +111,12 @@ global script OnLaunch
 //start
 global script onF6Menu
 {
-    void run()
-    {
+	void run()
+	{
 		onContHP = Hero->HP;
 		onContMP = Hero->MP;	
 		printf("%d, %d\n", onContHP, onContMP);
-    }
+	}
 }
 //end
 
@@ -124,8 +124,8 @@ global script onF6Menu
 //start
 global script onContGame
 {
-    void run()
-    {
+	void run()
+	{
 		if(onContHP != 0)
 		{
 			Hero->HP = onContHP;
@@ -136,7 +136,7 @@ global script onContGame
 			Hero->HP = Hero->MaxHP;
 			Hero->MP = Hero->MaxMP;		
 		}
-    }
+	}
 }
 //end
 
