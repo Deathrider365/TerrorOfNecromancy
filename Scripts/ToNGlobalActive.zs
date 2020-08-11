@@ -35,6 +35,17 @@ int gameframe = 0;
 //end
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+//~~~~~Init~~~~~//
+//start
+global script Init
+{
+	void run()
+	{
+		Hero->ItemA = checkID(IC_SWORD);
+		Hero->ItemB = checkID(IC_BRANG);
+	}
+}
+//end
 //~~~~~Active~~~~~//
 //start
 global script GlobalScripts

@@ -100,10 +100,13 @@ dmapdata script PassiveSubscreen
 					int spos = pos;
 					++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
 					int id = checkID(itemIDs[pos]);
+					printf("First ID found on right cycle: pos %d, id %d\n", pos, id);
 					until(id && id != Hero->ItemA)
 					{
+						if(id == Hero->ItemA) TraceS("id == ItemA; continuing\n");
 						++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
 						id = checkID(itemIDs[pos]);
+						printf("Nth ID found on right cycle: pos %d, id %d\n", pos, id);
 						if(pos == spos)
 							break;
 					}
