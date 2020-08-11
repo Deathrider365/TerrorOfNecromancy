@@ -23,6 +23,7 @@ dmapdata script PassiveSubscreen
 		
 		while(true)
 		{
+			//start Button Forcing
 			if (Hero->ItemA > -1 && Hero->ItemA != checkID(Game->LoadItemData(Hero->ItemA)->Type))
 				forceButton(CB_A);
 				
@@ -34,7 +35,26 @@ dmapdata script PassiveSubscreen
 			else if (Input->Press[CB_B])
 				lastButton = CB_B;
 				
-			unless(subscr_open) //Not while the active subscreen is open
+			if ((lastButton == CB_A && lastA != Hero->ItemA) || (lastButton == CB_B && lastB != Hero->ItemB))
+			{
+				if (lastButton == CB_A && Game->LoadItemData(lastA)->Type == IC_POTION)
+				{
+					int id = checkID(IC_POTION);
+					if (id)
+						Hero->ItemA = id;
+				}
+				else if (lastButton == CB_B && Game->LoadItemData(lastB)->Type == IC_POTION)
+				{
+					int id = checkID(IC_POTION);
+					if (id)
+						Hero->ItemB = id;
+				}
+				
+				if (Hero->ItemA == Hero->ItemB)
+					forceButton(lastButton);
+			} //end
+			
+			unless(subscr_open) //start Cycling; Not while the active subscreen is open
 			{
 				if(Input->Press[CB_L]) //start Left Cycle
 				{
@@ -90,29 +110,10 @@ dmapdata script PassiveSubscreen
 					if(id)
 						Hero->ItemB = id;
 				} //end
-			}
-				
-			if ((lastButton == CB_A && lastA != Hero->ItemA) || (lastButton == CB_B && lastB != Hero->ItemB))
-			{
-				if (lastButton == CB_A && Game->LoadItemData(lastA)->Type == IC_POTION)
-				{
-					int id = checkID(IC_POTION);
-					if (id)
-						Hero->ItemA = id;
-				}
-				else if (lastButton == CB_B && Game->LoadItemData(lastB)->Type == IC_POTION)
-				{
-					int id = checkID(IC_POTION);
-					if (id)
-						Hero->ItemB = id;
-				}
-				
-				if (Hero->ItemA == Hero->ItemB)
-					forceButton(lastButton);
-			}
+			} //end
 			
-			if (Input->KeyPress[KEY_J])
-				Game->LItems[Game->GetCurLevel()] |= LI_BOSS;
+			// if (Input->KeyPress[KEY_J])
+				// Game->LItems[Game->GetCurLevel()] |= LI_BOSS;
 				
 			Waitdraw();
 			do_psub_frame(bm, subscr_y_offset+168);
