@@ -59,11 +59,13 @@ global script GlobalScripts
 		}
 	}
 	
-	//~~~~~ItemCycling~~~~~//
+	//~~~~~ItemCycling~~~~~//		Passive subscreen script handles this
 	void checkItemCycle() //start
 	{
-		if (Link->PressL) Link->SelectBWeapon(DIR_LEFT);
-		if (Link->PressR) Link->SelectBWeapon(DIR_RIGHT);
+		if (Link->PressL) 
+			Link->SelectBWeapon(DIR_LEFT);
+		if (Link->PressR) 
+			Link->SelectBWeapon(DIR_RIGHT);
 	} //end
 	
 	//~~~~~checkDungeon~~~~~//
