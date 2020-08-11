@@ -94,6 +94,7 @@ global script OnLaunch
 	void run()
 	{
 		subscr_y_offset = -224;
+		subscr_open = false;
 
 		if(onContHP != 0)
 		{
@@ -116,8 +117,7 @@ global script onF6Menu
 	void run()
 	{
 		onContHP = Hero->HP;
-		onContMP = Hero->MP;	
-		printf("%d, %d\n", onContHP, onContMP);
+		onContMP = Hero->MP;
 	}
 }
 //end

@@ -52,16 +52,16 @@ int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, I
 				  // 107, 108, 109, 110, 
 				  // 123, 124, 125, 126};
 				  
-int ROW1 = 42, ROW2 = 58, ROW3 = 74, ROW4 = 90, ROW5 = 106, ROW6 = 122;
+CONFIG ROW1 = 42, ROW2 = 58, ROW3 = 74, ROW4 = 90, ROW5 = 106, ROW6 = 122;
 
-int dist = 1;
+CONFIG DIST = 1;
 
-int itemLocs[] = {ROW1 + 1 * dist, ROW1 + 2 * dist, ROW1 + 3 * dist,  ROW1 + 4 * dist, 
-                  ROW2 + 1 * dist, ROW2 + 2 * dist, ROW2 + 3 * dist,  ROW2 + 4 * dist,
-                  ROW3 + 1 * dist, ROW3 + 2 * dist, ROW3 + 3 * dist,  ROW3 + 4 * dist,
-                  ROW4 + 1 * dist, ROW4 + 2 * dist, ROW4 + 3 * dist,  ROW4 + 4 * dist,
-                  ROW5 + 1 * dist, ROW5 + 2 * dist, ROW5 + 3 * dist,  ROW5 + 4 * dist,
-                  ROW6 + 1 * dist, ROW6 + 2 * dist, ROW6 + 3 * dist,  ROW6 + 4 * dist};
+int itemLocs[] = {ROW1 + 1 * DIST, ROW1 + 2 * DIST, ROW1 + 3 * DIST,  ROW1 + 4 * DIST, 
+                  ROW2 + 1 * DIST, ROW2 + 2 * DIST, ROW2 + 3 * DIST,  ROW2 + 4 * DIST,
+                  ROW3 + 1 * DIST, ROW3 + 2 * DIST, ROW3 + 3 * DIST,  ROW3 + 4 * DIST,
+                  ROW4 + 1 * DIST, ROW4 + 2 * DIST, ROW4 + 3 * DIST,  ROW4 + 4 * DIST,
+                  ROW5 + 1 * DIST, ROW5 + 2 * DIST, ROW5 + 3 * DIST,  ROW5 + 4 * DIST,
+                  ROW6 + 1 * DIST, ROW6 + 2 * DIST, ROW6 + 3 * DIST,  ROW6 + 4 * DIST};
 				  
 //end Active Items
 
@@ -75,12 +75,14 @@ int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25,
 //end Inactive Items
 
 int asubscr_pos = 0;
+bool subscr_open = false;
 
 @Author("Venrob")
 dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
+		subscr_open = true;
 		bitmap b = Game->CreateBitmap(256, 224);
 		b->ClearToColor(0, BG_COLOR);
 		b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0); //Draw BG screen
@@ -107,6 +109,7 @@ dmapdata script ActiveSubscreen //start
 			Waitframe();
 		}
 		subscr_y_offset = -224;
+		subscr_open = false;
 	}
 } //end
 

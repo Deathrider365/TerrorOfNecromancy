@@ -34,10 +34,63 @@ dmapdata script PassiveSubscreen
 			else if (Input->Press[CB_B])
 				lastButton = CB_B;
 				
-			if (Input->Press[CB_L])
-				//TODO
-			if (Input->Press[CB_R])
-				//TODO
+			unless(subscr_open) //Not while the active subscreen is open
+			{
+				if(Input->Press[CB_L]) //start Left Cycle
+				{
+					int pos = 0;
+					if(Hero->ItemB > 0)
+					{
+						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
+						{
+							if(checkID(itemIDs[q]) == Hero->ItemB)
+							{
+								pos = q;
+								break;
+							}
+						}
+					}
+					int spos = pos;
+					--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
+					int id = checkID(itemIDs[pos]);
+					until(id && id != Hero->ItemA)
+					{
+						--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
+						id = checkID(itemIDs[pos]);
+						if(pos == spos)
+							break;
+					}
+					if(id)
+						Hero->ItemB = id;
+				} //end
+				else if(Input->Press[CB_R]) //start Right Cycle
+				{
+					int pos = NUM_SUBSCR_SEL_ITEMS - 1;
+					if(Hero->ItemB > 0)
+					{
+						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
+						{
+							if(checkID(itemIDs[q]) == Hero->ItemB)
+							{
+								pos = q;
+								break;
+							}
+						}
+					}
+					int spos = pos;
+					++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
+					int id = checkID(itemIDs[pos]);
+					until(id && id != Hero->ItemA)
+					{
+						++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
+						id = checkID(itemIDs[pos]);
+						if(pos == spos)
+							break;
+					}
+					if(id)
+						Hero->ItemB = id;
+				} //end
+			}
 				
 			if ((lastButton == CB_A && lastA != Hero->ItemA) || (lastButton == CB_B && lastB != Hero->ItemB))
 			{
