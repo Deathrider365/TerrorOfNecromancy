@@ -247,29 +247,6 @@ dmapdata script PassiveSubscreen
 		Screen->DrawString(7, 41, y+2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
 		                   TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end DMap Title
-		//start Button Presses (L/R)
-		if(Input->Press[CB_L])
-		{
-			if (itemIDs[asubscr_pos - 1] == Hero->ItemA)
-			{
-				if (asubscr_pos - 2 < 0)
-				asubscr_pos -= 2;
-				Hero->ItemB = itemIDs[asubscr_pos];
-			}
-			else
-				Hero->ItemB = itemIDs[--asubscr_pos];
-		}
-		else if(Input->Press[CB_R])
-		{
-			if (itemIDs[asubscr_pos + 1] == IC_SWORD && Hero->ItemA == IC_SWORD)			
-			{
-				asubscr_pos = 1;
-				Hero->ItemB = itemIDs[asubscr_pos];
-			}
-			else
-				Hero->ItemB = itemIDs[++asubscr_pos];
-		}
-		//end
 	}
 }
 
