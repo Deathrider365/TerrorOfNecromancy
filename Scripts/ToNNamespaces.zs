@@ -616,7 +616,7 @@ namespace Leviathan //start
 			
 			if(head->isValid())
 			{
-				if(head->Y+head->HitYOffset+head->HitHeight-1 <= 112 && vars[VARS_FLASHTIMER] == 0)
+				if(head->Y + head->HitYOffset+head->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
 					head->CollDetection = true;
 				else
 					head->CollDetection = false;
@@ -679,8 +679,6 @@ namespace Leviathan //start
 			int i;
 			int x = this->X;
 			
-
-
 			Screen->Message(MSG_BEATEN);
 			vars[VARS_FLASHTIMER] = 0;
 			WaitframeLite(this, vars);

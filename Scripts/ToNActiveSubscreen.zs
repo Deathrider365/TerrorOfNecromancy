@@ -139,8 +139,10 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			asubscr_pos += 4;
 		}
 			
-		if(asubscr_pos < 0) asubscr_pos += (4 * 6);
-		else asubscr_pos %= (4 * 6);
+		if(asubscr_pos < 0)
+			asubscr_pos += (4 * 6);
+		else 
+			asubscr_pos %= (4 * 6);
 	}
 	//end Handle asubscr_position movement
 	

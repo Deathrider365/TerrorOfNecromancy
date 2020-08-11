@@ -26,6 +26,8 @@ const int MSG_LINK_BEATEN = 23;
 
 bool firstEntry = true;
 
+bool justBeaten = true;
+
 bool lvl1FirstEntry = true;
 int dungeonLevelStrings[20];
 //end
@@ -125,27 +127,45 @@ ffc script OpenForItemID //start
 //end
 
 //~~~~~BossMusic~~~~~//
-//D0: Number of dmap to play music for
+//D0: Index value 
+//D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
 {
-	void run(int dmap)
+	void run(int musicChoice, int isFanfare)
 	{
-		int bossMusic[256];
+		int bossFanfare[256];
 		int areamusic[256];
 		
 		if (Screen->State[ST_SECRET])
 			Quit();
-			
+		
 		Waitframes(4);
-		Game->GetDMapMusicFilename(dmap, bossMusic);
-		Audio->PlayEnhancedMusic(bossMusic, 0);
+		
+		switch(musicChoice)
+		{		
+			case 1:
+				 Audio->PlayEnhancedMusic("Middle Boss - OoT.ogg", 0);
+				break;
+				
+			case 2:
+				Audio->PlayEnhancedMusic("", 0);
+				break;
+		}
 		
 		while(ScreenEnemiesAlive())
 			Waitframe();
-
-		Game->GetDMapMusicFilename(Game->GetCurDMap(), areamusic);
-		Audio->PlayEnhancedMusic(areamusic, 0);
+			
+		if (justBeaten && isFanfare == 1)
+		{
+			Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
+			justBeaten = false;
+		}
+		else
+		{
+			Game->GetDMapMusicFilename(Game->GetCurDMap(), areamusic);
+			Audio->PlayEnhancedMusic(areamusic, 0);
+		}
 	}
 	
 	bool ScreenEnemiesAlive()
@@ -1408,7 +1428,7 @@ ffc script sfxplay //start
 //D0: Num of attempts until failure is determined
 //D1: Dmap to warp to
 //D2: screen to warp to
-@Author ("Venrob")
+@Author ("Deathrider365")
 ffc script BattleArena //start
 {
 	void run(int enemyListNum, int roundListNum, int rounds, int message, int prize)
@@ -1469,7 +1489,6 @@ ffc script BattleArena //start
 		return enemyList1[];
 	} //end
 
-	
 	void round() //start
 	{
 		while(EnemiesAlive())
@@ -1543,7 +1562,7 @@ ffc script Leviathan1Ending //start
 	
 	void run(int dmap, int scrn)
 	{
-		Audio->PlayEnhancedMusic(NULL, 0);
+		Audio->PlayEnhancedMusic("Bomb Ring - Final Fantasy IV.ogg", 0);
 	
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
 			waterfall_bmp->Free();
@@ -1749,6 +1768,26 @@ ffc script Shutter //start
 	}
 }
 //end
+
+
+//~~~~~BattleArena~~~~~//
+//D0: Num of attempts until failure is determined
+//D1: Dmap to warp to
+//D2: screen to warp to
+@Author ("Deathrider365")
+ffc script SpawnLevel1Boss //start
+{
+	void run()
+	{	
+		Waitframes(30);
+		npc n3 = Screen->CreateNPC(220);		
+		n3->X = 96;									// Make him fall from the sky
+		n3->Y = 80;
+	}
+}
+
+//end
+
 
 ffc script CircMove //start
 {

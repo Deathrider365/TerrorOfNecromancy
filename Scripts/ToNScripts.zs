@@ -127,6 +127,7 @@ itemdata script GanonRage
 //D1: How often to heal while enemies on screen
 //D2: HP to heal while no enemies on screen
 //D3: How often to heal while no enemies on screen
+//inspired by James24
 //start
 itemdata script LifeRing
 {
@@ -463,7 +464,7 @@ lweapon script ScholarCandelabra
 {
 	void run()
 	{
-	
+
 	}
 }
 //end
@@ -857,7 +858,7 @@ npc script LegionnaireLevel1 //start
 	int negDir = -1;
 
 	void run() //start
-	{
+	{		
 		while (true)
 		{			
 			bool randDir = Rand(2);
@@ -1092,6 +1093,10 @@ npc script Decay //start
 	{
 		while (true)
 		{
+		
+		/*
+		- he will rise up from below, and charge at links curr position leaving damaging trails behind 
+		*/
 			
 		}	
 	}
