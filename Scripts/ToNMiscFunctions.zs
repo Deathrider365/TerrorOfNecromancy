@@ -96,6 +96,18 @@ ScreenType getScreenType(bool dmapOnly)//start
 	return <ScreenType> (dm->Type & 11b);
 }//end
 
+// Checks if overworld
+bool isOverworld(bool dmapOnly) //start
+{
+	switch(getScreenType(dmapOnly))
+	{
+		case DM_DUNGEON:
+		case DM_INTERIOR:
+			return false;
+	}
+	return true;
+} //end
+
 // Prioretizes the horizontal direction when dealing with diagonals
 int dir8To4(int dir) //start
 {

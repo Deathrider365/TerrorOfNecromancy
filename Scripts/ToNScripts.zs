@@ -845,6 +845,8 @@ npc script Mimic //start
 // D0: Speed Multiplier
 // D1: Fire cooldown (frames)
 // D2: Knockback rate in pixels per frame 
+CONFIG SPR_SPAWNSPARKLE = 22;
+
 npc script LegionnaireLevel1 //start
 {
 	int xSpeed = 5;
@@ -858,7 +860,18 @@ npc script LegionnaireLevel1 //start
 	int negDir = -1;
 
 	void run() //start
-	{		
+	{
+		this->ScriptTile = TILE_INVIS;
+		Waitframes(30);
+		
+		// add animation to spawn
+		lweapon spawnPuff = CreateLWeaponAt(LW_SPARKLE, this->X, this->Y);
+		spawnPuff->UseSprite(SPR_SPAWNSPARKLE);
+		spritedata sd = Game->LoadSpriteData(SPR_SPAWNSPARKLE);
+		Waitframes(sd->Frames * sd->Speed);
+		
+		this->ScriptTile = -1;
+	
 		while (true)
 		{			
 			bool randDir = Rand(2);

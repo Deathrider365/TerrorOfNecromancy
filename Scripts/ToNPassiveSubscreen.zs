@@ -11,7 +11,6 @@ dmapdata script PassiveSubscreen
 	using namespace time;
 	void run() //start
 	{
-		Trace(Hero->ItemA);
 		bitmap bm = Game->CreateBitmap(256,56);
 		bm->ClearToColor(0, BG_COLOR);
 		bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0); //Draw BG screen
@@ -73,19 +72,15 @@ dmapdata script PassiveSubscreen
 					int spos = pos;
 					--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
 					int id = checkID(itemIDs[pos]);
-					printf("First ID found on left cycle: pos %d, id %d\n", pos, id);
 					until(id && id != Hero->ItemA)
 					{
-						if(id == Hero->ItemA) TraceS("id == ItemA; continuing\n");
 						--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
 						id = checkID(itemIDs[pos]);
-						printf("Nth ID found on left cycle: pos %d, id %d\n", pos, id);
 						if(pos == spos)
 							break;
 					}
 					if(id)
 					{
-						printf("Equipping item %d to slot B\n", id);
 						Hero->ItemB = id;
 						lastB = id;
 					}
@@ -107,27 +102,20 @@ dmapdata script PassiveSubscreen
 					int spos = pos;
 					++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
 					int id = checkID(itemIDs[pos]);
-					printf("First ID found on right cycle: pos %d, id %d\n", pos, id);
 					until(id && id != Hero->ItemA)
 					{
-						if(id == Hero->ItemA) TraceS("id == ItemA; continuing\n");
 						++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
 						id = checkID(itemIDs[pos]);
-						printf("Nth ID found on right cycle: pos %d, id %d\n", pos, id);
 						if(pos == spos)
 							break;
 					}
 					if(id)
 					{
-						printf("Equipping item %d to slot B\n", id);
 						Hero->ItemB = id;
 						lastB = id;
 					}
 				} //end
 			} //end
-			
-			// if (Input->KeyPress[KEY_J])
-				// Game->LItems[Game->GetCurLevel()] |= LI_BOSS;
 				
 			Waitdraw();
 			do_psub_frame(bm, subscr_y_offset+168);
@@ -269,12 +257,17 @@ void counter(untyped bit, int layer, int x, int y, int cntr, int font, Color col
 {
 	char32 buf[16];
 	int chr = cntr < 0 ? itoa(buf, Game->LKeys[-cntr]) : (cntr == MAX_INT ? itoa(buf, Game->LKeys[0]) : itoa(buf, Game->Counter[cntr]));
+	
 	unless(chr)
 		buf[chr++] = '0';
+		
 	char32 spcbuf[16];
+	
 	for(int q = 0; q < min_digits-chr; ++q)
 		spcbuf[q] = show_zeroes ? '0' : ' ';
+		
 	sprintf(buf, "%s%s", spcbuf, buf);
+	
 	if(bit == RT_SCREEN)
 		Screen->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	else <bitmap>(bit)->DrawString(layer, x, y, font, color, bgcolor, format, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
@@ -380,7 +373,6 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 
 void forceButton(int button) //start
 {
-	printf("Forcing button %s...\n", button == CB_A ? "A" : "B");
 	for (int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 	{
 		int id = checkID(itemIDs[q]);

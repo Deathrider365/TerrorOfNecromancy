@@ -41,37 +41,28 @@ int subscr_y_offset = -224;
 int scrollingOffset; 
 
 //start Active Items
-int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT,
-                 IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, IC_LENS, 256, IC_CBYRNA, IC_CUSTOM8,
-				 IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, IC_CUSTOM1, 260, 261, 262};
+int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, 
+				 IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT,
+                 IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, 
+				 IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, 0, //have another item,
+				 IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, 
+				 IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6};
 				  
-// int itemLocs[] = {43,  44,  45,  46,  
-				  // 59,  60,  61,  62,
-                  // 75,  76,  77,  78, 
-				  // 91,  92,  93,  94,
-				  // 107, 108, 109, 110, 
-				  // 123, 124, 125, 126};
-				  
-CONFIG ROW1 = 42, ROW2 = 58, ROW3 = 74, ROW4 = 90, ROW5 = 106, ROW6 = 122;
-
-CONFIG DIST = 1;
-
-int itemLocs[] = {ROW1 + 1 * DIST, ROW1 + 2 * DIST, ROW1 + 3 * DIST,  ROW1 + 4 * DIST, 
-                  ROW2 + 1 * DIST, ROW2 + 2 * DIST, ROW2 + 3 * DIST,  ROW2 + 4 * DIST,
-                  ROW3 + 1 * DIST, ROW3 + 2 * DIST, ROW3 + 3 * DIST,  ROW3 + 4 * DIST,
-                  ROW4 + 1 * DIST, ROW4 + 2 * DIST, ROW4 + 3 * DIST,  ROW4 + 4 * DIST,
-                  ROW5 + 1 * DIST, ROW5 + 2 * DIST, ROW5 + 3 * DIST,  ROW5 + 4 * DIST,
-                  ROW6 + 1 * DIST, ROW6 + 2 * DIST, ROW6 + 3 * DIST,  ROW6 + 4 * DIST};
+int itemLocs[] = {43,  44,  45,  46,  
+				  59,  60,  61,  62,
+                  75,  76,  77,  78, 
+				  91,  92,  93,  94,
+				  107, 108, 109, 110, 
+				  123, 124, 125, 126};
 				  
 //end Active Items
 
 //start Inactive Items
 int in_itemIDs[] = {IC_BOSSKEY, IC_COMPASS, IC_MAP,
                     IC_RING, IC_SHIELD, IC_LADDER, IC_RAFT, IC_WALLET, IC_FLIPPERS,
-					IC_BRACELET, -1, IC_CUSTOM2, IC_MAGICRING};
+					IC_BRACELET, IC_CUSTOM8, IC_CUSTOM2, IC_MAGICRING};
 					 
-int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25,
-					 40, 41, 56, 57, 72, 73};
+int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25, 40, 41, 56, 57, 72, 73};
 //end Inactive Items
 
 int asubscr_pos = 0;
@@ -241,14 +232,23 @@ int checkID(int id) //start
 		switch(fam)
 		{
 			case IC_BOSSKEY:
+				if (isOverworld(true))
+					return 0;
+				
 				if(Game->LItems[Game->GetCurLevel()] & LI_BOSSKEY)
 					id = I_BOSSKEY;
 				break;
 			case IC_MAP:
+				if (isOverworld(true))
+					return 0;
+				
 				if(Game->LItems[Game->GetCurLevel()] & LI_MAP)
 					id = I_MAP;
 				break;
 			case IC_COMPASS:
+				if (isOverworld(true))
+					return 0;
+				
 				if(Game->LItems[Game->GetCurLevel()] & LI_COMPASS)
 					id = I_COMPASS;
 				break;		
@@ -275,6 +275,14 @@ int checkID(int id) //start
 					case IC_ARROW:
 						unless (Game->Counter[CR_ARROWS])
 							return 0;
+						break;
+					
+					case IC_BRANG:
+						int id2 = GetHighestLevelItemOwned(IC_WPN_SCRIPT_01);
+						
+						if (id2 > 0)
+							id = id2;
+								
 						break;
 				}
 				
