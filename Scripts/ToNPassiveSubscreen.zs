@@ -380,6 +380,7 @@ void minimap(untyped bit, int layer, int orig_x, int orig_y, ScreenType ow) //st
 
 void forceButton(int button) //start
 {
+	printf("Forcing button %s...\n", button == CB_A ? "A" : "B");
 	for (int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 	{
 		int id = checkID(itemIDs[q]);
