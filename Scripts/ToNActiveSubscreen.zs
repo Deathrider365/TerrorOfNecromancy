@@ -41,28 +41,43 @@ int subscr_y_offset = -224;
 int scrollingOffset; 
 
 //start Active Items
-int itemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, 
-				 IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT,
-                 IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, 
-				 IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, 0, //have another item,
-				 IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, 
-				 IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6};
+int itemIDs[] = {IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
+				 IC_CANDLE, 	IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
+                 IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND, 
+				 IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		0,
+				 IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4, 
+				 IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6};
 				  
-int itemLocs[] = {43,  44,  45,  46,  
-				  59,  60,  61,  62,
-                  75,  76,  77,  78, 
-				  91,  92,  93,  94,
-				  107, 108, 109, 110, 
-				  123, 124, 125, 126};
+ int itemLocsX[] = {192, 208, 224, 240,
+					192, 208, 224, 240,
+					192, 208, 224, 240,
+					192, 208, 224, 240,
+					192, 208, 224, 240,
+					192, 208, 224, 240};
+				  
+ int itemLocsY[] = {48,	48, 48, 48,
+				    64,	64, 64, 64,
+				    80,	80, 80, 80,
+				    96,	96, 96, 96,
+					112, 112, 112, 112,
+					128, 128, 128, 128};
 				  
 //end Active Items
 
 //start Inactive Items
 int in_itemIDs[] = {IC_BOSSKEY, IC_COMPASS, IC_MAP,
-                    IC_RING, IC_SHIELD, IC_LADDER, IC_RAFT, IC_WALLET, IC_FLIPPERS,
+                    IC_RING, IC_SHIELD, IC_LADDER, 
+					IC_RAFT, IC_WALLET, IC_FLIPPERS,
 					IC_BRACELET, IC_CUSTOM8, IC_CUSTOM2, IC_MAGICRING};
 					 
-int in_itemLocs[] = {42, 58, 74, 8, 9, 24, 25, 40, 41, 56, 57, 72, 73};
+int in_itemLocsX[] = {176, 176, 176,
+					  160, 160, 160,
+					  144, 144, 144,
+					  128, 128, 128, 128};
+int in_itemLocsY[] = {48, 64, 80,
+					  48, 64, 80,
+					  48, 64, 80,
+					  48, 64, 80, 96};
 //end Inactive Items
 
 int asubscr_pos = 0;
@@ -148,23 +163,26 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		unless(id) 
 			continue;
 			
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), in_itemLocs[q], y);
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), in_itemLocsX[q], in_itemLocsY[q], y);
 	}
 	
 	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 	{
 		int id = checkID(itemIDs[q]);
+		
 		unless(id) 
 			continue;
+		
 		if(q == asubscr_pos) 
 			selID = id;
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocs[q], y);
+		
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
 	}
 	//end Item Draws
 	
 	//start Custom Draws
 	//start Legionnaire Ring
-	Screen->FastTile(4, 0, y + 0, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
+	Screen->FastTile(4, 16, y + 0, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
 	char32 buf[3];
 	
 	if(Game->Counter[CR_LEGIONNAIRE_RING] < 10)
@@ -172,7 +190,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	else 
 		sprintf(buf, "%i", Game->Counter[CR_LEGIONNAIRE_RING]);
 		
-	Screen->DrawString(4, 16, y + 0, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	Screen->DrawString(4, , y + 0, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	//end Legionnaire Ring
 	
 	//start Selected Item Name
@@ -187,8 +205,8 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//end Custom Draws
 	
 	//start Cursor Stuff
-	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), itemLocs[asubscr_pos], y);
-	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), itemLocs[asubscr_pos], y);
+	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), itemLocsX[asubscr_pos], itemLocsX[asubscr_pos], y);
+	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), itemLocsY[asubscr_pos], itemLocsY[asubscr_pos], y);
 	
 	if(isActive && selID)
 	{
@@ -292,14 +310,14 @@ int checkID(int id) //start
 	return id;
 } //end
 
-void drawTileToLoc(int layer, int tile, int cset, int loc) //start
+void drawTileToLoc(int layer, int tile, int cset, int locX, int locY) //start
 {
-	drawTileToLoc(layer, tile, cset, loc, 0);
+	drawTileToLoc(layer, tile, cset, locX, locY, 0);
 } //end
 
-void drawTileToLoc(int layer, int tile, int cset, int loc, int y) //start
+void drawTileToLoc(int layer, int tile, int cset, int locX, int locY, int y) //start
 {
-	Screen->FastTile(layer, (loc % 16) * 16, Div(loc, 16) * 16 + y, tile, cset, OP_OPAQUE);
+	Screen->FastTile(layer, locX, locY + y, tile, cset, OP_OPAQUE);
 } //end
 
 int loadItemTile(int itID) //start
