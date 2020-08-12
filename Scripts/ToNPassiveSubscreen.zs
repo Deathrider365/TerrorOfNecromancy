@@ -73,15 +73,20 @@ dmapdata script PassiveSubscreen
 					int spos = pos;
 					--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
 					int id = checkID(itemIDs[pos]);
+					printf("First ID found on left cycle: pos %d, id %d\n", pos, id);
 					until(id && id != Hero->ItemA)
 					{
 						--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
 						id = checkID(itemIDs[pos]);
+						printf("Nth ID found on left cycle: pos %d, id %d\n", pos, id);
 						if(pos == spos)
 							break;
 					}
 					if(id)
+					{
 						Hero->ItemB = id;
+						lastB = id;
+					}
 				} //end
 				else if(Input->Press[CB_R]) //start Right Cycle
 				{
@@ -111,7 +116,10 @@ dmapdata script PassiveSubscreen
 							break;
 					}
 					if(id)
+					{
 						Hero->ItemB = id;
+						lastB = id;
+					}
 				} //end
 			} //end
 			
