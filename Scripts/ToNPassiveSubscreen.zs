@@ -85,6 +85,7 @@ dmapdata script PassiveSubscreen
 					}
 					if(id)
 					{
+						printf("Equipping item %d to slot B\n", id);
 						Hero->ItemB = id;
 						lastB = id;
 					}
@@ -118,6 +119,7 @@ dmapdata script PassiveSubscreen
 					}
 					if(id)
 					{
+						printf("Equipping item %d to slot B\n", id);
 						Hero->ItemB = id;
 						lastB = id;
 					}
