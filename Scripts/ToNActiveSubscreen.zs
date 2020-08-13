@@ -118,8 +118,6 @@ int powerShards[] = {POWER_SHARD1, POWER_SHARD2, POWER_SHARD3, POWER_SHARD4};
 int wisdomShards[] = {WISDOM_SHARD1, WISDOM_SHARD2, WISDOM_SHARD3, WISDOM_SHARD4};
 int deathShards[] = {DEATH_SHARD1, DEATH_SHARD2, DEATH_SHARD3, DEATH_SHARD4};
 
-int shardsToDraw[] = {0, 0, 0, 0};
-int shardTypes = 0;
 int amountOfShardsToDraw = 0;
 
 //end Triforce Frames
@@ -200,11 +198,28 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			Audio->PlaySound(CURSOR_MOVEMENT_SFX);
 			asubscr_pos += 4;
 		}
+		
+		if(Input->Press[CB_L])
+		{
+			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+			--currTriforceIndex;
+		}
+		else if(Input->Press[CB_R])
+		{
+			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+			++currTriforceIndex;
+		}
 			
 		if(asubscr_pos < 0)
 			asubscr_pos += (4 * 6);
 		else 
 			asubscr_pos %= (4 * 6);
+			
+		if(currTriforceIndex == -1)
+			currTriforceIndex = 3;
+		else if (currTriforceIndex == 4)
+			currTriforceIndex = 0;
+
 	}
 	//end Handle asubscr_position movement
 	
@@ -336,25 +351,6 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 
 	//start Handle Triforce Frame Cycling / Drawing
 	
-	if(isActive)
-	{
-		if(Input->Press[CB_L])
-		{
-			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
-			--currTriforceIndex;
-		}
-		else if(Input->Press[CB_R])
-		{
-			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
-			++currTriforceIndex;
-		}
-	}
-
-	if(currTriforceIndex == -1)
-		currTriforceIndex = 3;
-	else if (currTriforceIndex == 4)
-		currTriforceIndex = 0;
-	
 	if (currTriforceIndex == 0)
 		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 	if (currTriforceIndex == 1)
@@ -366,60 +362,100 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		
 	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 		
-	if (currTriforceIndex == 0)
+	switch(currTriforceIndex)
 	{
-		shardsToDraw = courageShards;	//Sets the current list of shard tiles to draw to the courage shards
-		shardTypes = 0;					//sets the type of shards to draw as courage shards
-	}
-	else if (currTriforceIndex == 1)
-	{
-		shardsToDraw = powerShards;
-		shardTypes = 1;
-	}
-	else if (currTriforceIndex == 2)
-	{
-		shardsToDraw = wisdomShards;
-		shardTypes = 2;
-	}
-	else
-	{
-		shardsToDraw = deathShards;
-		shardTypes = 3;
-	}
-	
-	switch(shardTypes)
-	{
-		case 0:
-			amountOfShardsToDraw = amountOfCourageTriforceShards;
-		case 1:
-			amountOfShardsToDraw = amountOfPowerTriforceShards;
-		case 2:
-			amountOfShardsToDraw = amountOfWisdomTriforceShards;
-		case 3:
-			amountOfShardsToDraw = amountOfDeathTriforceShards;
-		
-	}
-		
-	switch(amountOfShardsToDraw)
-	{
-		case 1:
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			break;
-		case 2:
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			break;
-		case 3:
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			break;
-		case 4:
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-			break;
+		case 0: //start Courage shard drawing
+			switch(amountOfCourageTriforceShards)
+			{
+				case 1:
+					Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 2:
+					Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 3:
+					Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 4:
+					Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, courageShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+			}
+			break; //end
+		case 1: //start Power shard drawing
+			switch(amountOfPowerTriforceShards)
+			{
+				case 1:
+					Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 2:
+					Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 3:
+					Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 4:
+					Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, powerShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+			}
+			break; //end
+		case 2: //start Wisdom shard drawing
+			switch(amountOfWisdomTriforceShards)
+			{
+				case 1:
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 2:
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 3:
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 4:
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, wisdomShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+			}
+			break; //end
+		case 3: //start Death shard drawing
+			switch(amountOfDeathTriforceShards)
+			{
+				case 1:
+					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 2:
+					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 3:
+					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+				case 4:
+					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					Screen->DrawTile(0, 14, 80 + y, deathShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+					break;
+			}
+			break; //end
 	}
 
 	//end Handle Triforce Frame Cycling / Drawing
