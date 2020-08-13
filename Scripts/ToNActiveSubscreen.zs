@@ -120,6 +120,7 @@ int deathShards[] = {DEATH_SHARD1, DEATH_SHARD2, DEATH_SHARD3, DEATH_SHARD4};
 
 int shardsToDraw[] = {0, 0, 0, 0};
 int shardTypes = 0;
+int amountOfShardsToDraw = 0;
 
 //end Triforce Frames
 
@@ -353,13 +354,22 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		currTriforceIndex = 3;
 	else if (currTriforceIndex == 4)
 		currTriforceIndex = 0;
+	
+	if (currTriforceIndex == 0)
+		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+	if (currTriforceIndex == 1)
+		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+	if (currTriforceIndex == 2)
+		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+	if (currTriforceIndex == 3)
+		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 		
 	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 		
 	if (currTriforceIndex == 0)
 	{
-		shardsToDraw = courageShards;
-		shardTypes = 0;
+		shardsToDraw = courageShards;	//Sets the current list of shard tiles to draw to the courage shards
+		shardTypes = 0;					//sets the type of shards to draw as courage shards
 	}
 	else if (currTriforceIndex == 1)
 	{
@@ -377,31 +387,20 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		shardTypes = 3;
 	}
 	
-	// Update amounts of each shard type here
-	// amountOfCourageTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM17);		doesnt work
-	// amountOfPowerTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM18);
-	// amountOfWisdomTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM19);
-	// amountOfDeathTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM20);
-	
-	// amountOfCourageTriforceShards = getAmountOfShards(0);
-	// amountOfPowerTriforceShards = getAmountOfShards(2);
-	// amountOfWisdomTriforceShards = getAmountOfShards(3);
-	// amountOfDeathTriforceShards = getAmountOfShards(4);
-	
 	switch(shardTypes)
 	{
 		case 0:
-			shardTypes = amountOfCourageTriforceShards;
+			amountOfShardsToDraw = amountOfCourageTriforceShards;
 		case 1:
-			shardTypes = amountOfPowerTriforceShards;
+			amountOfShardsToDraw = amountOfPowerTriforceShards;
 		case 2:
-			shardTypes = amountOfWisdomTriforceShards;
+			amountOfShardsToDraw = amountOfWisdomTriforceShards;
 		case 3:
-			shardTypes = amountOfDeathTriforceShards;
+			amountOfShardsToDraw = amountOfDeathTriforceShards;
 		
 	}
 		
-	switch(shardTypes)
+	switch(amountOfShardsToDraw)
 	{
 		case 1:
 			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
@@ -429,52 +428,59 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 
 int getAmountOfShards(int type) //start
 {
-	// int courageShardItemIds[] = {169, 168, 167, 166};
-	// int powerShardItemIds[] = {173, 172, 171, 170};
-	// int wisdomShardItemIds[] = {177, 176, 175, 174};
-	// int deathShardItemIds[] = {181, 180, 179, 178};
 	switch(type)
 	{
-		case 1:	// Courage shard item ids
+		case 0:	// Courage shard item ids
 			if (Link->Item[169])
 				return 4;
 			else if (Link->Item[168])
 				return 3;
 			else if (Link->Item[167])
 				return 2;
+			else if (Link->Item[166])
+				return 1;
 			else
-				return 166;
+				return 0;
 			break;
 			
-		case 2:	//Power shard item ids
+		case 1:	//Power shard item ids
 			if (Link->Item[173])
 				return 4;
 			else if (Link->Item[172])
 				return 3;
 			else if (Link->Item[171])
 				return 2;
+			else if (Link->Item[170])
+				return 1;
 			else
-				return 170;
+				return 0;
+			break;
 				
-		case 3:	//Wisdom shard item ids
+		case 2:	//Wisdom shard item ids
 			if (Link->Item[177])
 				return 4;
 			else if (Link->Item[176])
 				return 3;
 			else if (Link->Item[175])
 				return 2;
-			else
-				return 174;
+			else if (Link->Item[174])
+				return 1;
+			else 
+				return 0;
+			break;
 				
-		case 4:	//Death shard item ids
+		case 3:	//Death shard item ids
 			if (Link->Item[181])
 				return 4;
 			else if (Link->Item[180])
 				return 3;
 			else if (Link->Item[179])
 				return 2;
+			else if (Link->Item[178])
+				return 1;
 			else
-				return 178;
+				return 0;
+			break;
 	}
 } //end
 
