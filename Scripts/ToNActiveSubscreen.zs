@@ -45,7 +45,7 @@ int scrollingOffset;
 int itemIDs[] = {IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
 				 IC_CANDLE, 	IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
                  IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND, 
-				 IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		0,
+				 IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		-1,
 				 IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4, 
 				 IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6};
 				  
@@ -94,31 +94,45 @@ CONFIG TILE_DEATH_FRAME = 386;
 CONFIG COURAGE_SHARD1 = 274;
 CONFIG COURAGE_SHARD2 = 334;
 CONFIG COURAGE_SHARD3 = 394;
-CONFIG COURAGE_SHARD4 = 354;
+CONFIG COURAGE_SHARD4 = 454;
 
-CONFIG WISDOM_SHARD1 = 522;
-CONFIG WISDOM_SHARD2 = 582;
-CONFIG WISDOM_SHARD3 = 642;
-CONFIG WISDOM_SHARD4 = 702;
+CONFIG WISDOM_SHARD1 = 702;
+CONFIG WISDOM_SHARD2 = 522;
+CONFIG WISDOM_SHARD3 = 582;
+CONFIG WISDOM_SHARD4 = 642;
 
-CONFIG POWER_SHARD1 = 527;
-CONFIG POWER_SHARD2 = 587;
-CONFIG POWER_SHARD3 = 647;
-CONFIG POWER_SHARD4 = 707;
+CONFIG POWER_SHARD1 = 648;
+CONFIG POWER_SHARD2 = 708;
+CONFIG POWER_SHARD3 = 588;
+CONFIG POWER_SHARD4 = 528;
 
-CONFIG DEATH_SHARD1 = 532;
-CONFIG DEATH_SHARD2 = 592;
-CONFIG DEATH_SHARD3 = 652;
-CONFIG DEATH_SHARD4 = 712;
+CONFIG DEATH_SHARD1 = 654;
+CONFIG DEATH_SHARD2 = 534;
+CONFIG DEATH_SHARD3 = 714;
+CONFIG DEATH_SHARD4 = 594;
 
 int triforceFrames[] = {TILE_COURAGE_FRAME, TILE_POWER_FRAME, TILE_WISDOM_FRAME, TILE_DEATH_FRAME};
+
+int courageShards[] = {COURAGE_SHARD1, COURAGE_SHARD2, COURAGE_SHARD3, COURAGE_SHARD4};
+int powerShards[] = {POWER_SHARD1, POWER_SHARD2, POWER_SHARD3, POWER_SHARD4};
+int wisdomShards[] = {WISDOM_SHARD1, WISDOM_SHARD2, WISDOM_SHARD3, WISDOM_SHARD4};
+int deathShards[] = {DEATH_SHARD1, DEATH_SHARD2, DEATH_SHARD3, DEATH_SHARD4};
+
+int shardsToDraw[] = {0, 0, 0, 0};
+int shardTypes = 0;
 
 //end Triforce Frames
 
 int asubscr_pos = 0;
 int currTriforceIndex = 0;
+
+int amountOfCourageTriforceShards = 0;
+int amountOfPowerTriforceShards = 0;
+int amountOfWisdomTriforceShards = 0;
+int amountOfDeathTriforceShards = 0;
+
 int numHeartPieces = 0;
-int amountOfTriforceShards = 0;
+
 bool subscr_open = false;
 
 @Author("Venrob")
@@ -272,9 +286,14 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//start Other Tile Draws
 	int leftArrowCombo = 7746;
 	int rightArrowCombo = 7747;
+	int LCombo = 7744;
+	int RCombo = 7745;
 	
-	Screen->FastCombo(7, 4, 96 + y, leftArrowCombo, 0, OP_OPAQUE);
-	Screen->FastCombo(7, 104, 96 + y, rightArrowCombo, 0, OP_OPAQUE);
+	Screen->FastCombo(7, 4, 88 + y, leftArrowCombo, 0, OP_OPAQUE);
+	Screen->FastCombo(7, 104, 88 + y, rightArrowCombo, 0, OP_OPAQUE);
+	
+	Screen->FastCombo(7, 4, 104 + y, LCombo, 0, OP_OPAQUE);
+	Screen->FastCombo(7, 104, 104 + y, RCombo, 0, OP_OPAQUE);
 	
 	//end Other Tile Draws
 	
@@ -329,36 +348,135 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			++currTriforceIndex;
 		}
 	}
+
 	if(currTriforceIndex == -1)
 		currTriforceIndex = 3;
 	else if (currTriforceIndex == 4)
 		currTriforceIndex = 0;
 		
 	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+		
+	if (currTriforceIndex == 0)
+	{
+		shardsToDraw = courageShards;
+		shardTypes = 0;
+	}
+	else if (currTriforceIndex == 1)
+	{
+		shardsToDraw = powerShards;
+		shardTypes = 1;
+	}
+	else if (currTriforceIndex == 2)
+	{
+		shardsToDraw = wisdomShards;
+		shardTypes = 2;
+	}
+	else
+	{
+		shardsToDraw = deathShards;
+		shardTypes = 3;
+	}
 	
-	switch(currTriforceIndex)
+	// Update amounts of each shard type here
+	// amountOfCourageTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM17);		doesnt work
+	// amountOfPowerTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM18);
+	// amountOfWisdomTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM19);
+	// amountOfDeathTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM20);
+	
+	// amountOfCourageTriforceShards = getAmountOfShards(0);
+	// amountOfPowerTriforceShards = getAmountOfShards(2);
+	// amountOfWisdomTriforceShards = getAmountOfShards(3);
+	// amountOfDeathTriforceShards = getAmountOfShards(4);
+	
+	switch(shardTypes)
+	{
+		case 0:
+			shardTypes = amountOfCourageTriforceShards;
+		case 1:
+			shardTypes = amountOfPowerTriforceShards;
+		case 2:
+			shardTypes = amountOfWisdomTriforceShards;
+		case 3:
+			shardTypes = amountOfDeathTriforceShards;
+		
+	}
+		
+	switch(shardTypes)
 	{
 		case 1:
-			amountOfTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM17);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 			break;
-			
 		case 2:
-			//draw highest power shards
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 			break;
-			
 		case 3:
-			// draw highest wisdom shards
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 			break;
-			
 		case 4:
-			// draw highest death shards
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Screen->DrawTile(0, 14, 80 + y, shardsToDraw[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 			break;
 	}
-
 
 	//end Handle Triforce Frame Cycling / Drawing
 
 }
+
+int getAmountOfShards(int type) //start
+{
+	// int courageShardItemIds[] = {169, 168, 167, 166};
+	// int powerShardItemIds[] = {173, 172, 171, 170};
+	// int wisdomShardItemIds[] = {177, 176, 175, 174};
+	// int deathShardItemIds[] = {181, 180, 179, 178};
+	switch(type)
+	{
+		case 1:	// Courage shard item ids
+			if (Link->Item[169])
+				return 4;
+			else if (Link->Item[168])
+				return 3;
+			else if (Link->Item[167])
+				return 2;
+			else
+				return 166;
+			break;
+			
+		case 2:	//Power shard item ids
+			if (Link->Item[173])
+				return 4;
+			else if (Link->Item[172])
+				return 3;
+			else if (Link->Item[171])
+				return 2;
+			else
+				return 170;
+				
+		case 3:	//Wisdom shard item ids
+			if (Link->Item[177])
+				return 4;
+			else if (Link->Item[176])
+				return 3;
+			else if (Link->Item[175])
+				return 2;
+			else
+				return 174;
+				
+		case 4:	//Death shard item ids
+			if (Link->Item[181])
+				return 4;
+			else if (Link->Item[180])
+				return 3;
+			else if (Link->Item[179])
+				return 2;
+			else
+				return 178;
+	}
+} //end
 
 int checkID(int id) //start
 {
@@ -488,8 +606,6 @@ void tile(untyped bit, int layer, int x, int y, int tile, int cset) //start
 {
 	<bitmap>(bit)->FastTile(layer, x, y, tile, cset, OP_OPAQUE);
 } //end
-
-
 
 
 

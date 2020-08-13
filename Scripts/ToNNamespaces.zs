@@ -683,7 +683,7 @@ namespace Leviathan //start
 			vars[VARS_FLASHTIMER] = 0;
 			WaitframeLite(this, vars);
 			
-						Audio->PlaySound(120);
+			Audio->PlaySound(120);
 						
 			while(this->Y<112)
 			{
@@ -709,16 +709,12 @@ namespace Leviathan //start
 	{
 		void run(int width, int peakHeight)
 		{
-			TraceS("Start eweapon Waterfall \n");
-		
 			this->UseSprite(94);
 			
 			int i;
 			int x;
 			if(!waterfall_bmp->isAllocated())
 			{
-				if(DEBUG)
-					printf("Waterfall bitmap is not initialized!\n");
 				this->DeadState = 0;
 				Quit();
 			}

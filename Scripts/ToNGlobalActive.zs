@@ -66,6 +66,13 @@ global script GlobalScripts
 			Waitdraw();
 			LinkMovement_Update2();
 			
+			
+	amountOfCourageTriforceShards = getAmountOfShards(0);
+	amountOfPowerTriforceShards = getAmountOfShards(2);
+	amountOfWisdomTriforceShards = getAmountOfShards(3);
+	amountOfDeathTriforceShards = getAmountOfShards(4);
+			
+			
 			Waitframe();
 		}
 	}
