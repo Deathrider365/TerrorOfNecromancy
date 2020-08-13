@@ -8,8 +8,9 @@ CONFIG SCROLL_SPEED = 4;
 
 COLOR BG_COLOR = C_DGRAY;
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
-DEFINE NUM_SUBSCR_INAC_ITEMS = 13;
+DEFINE NUM_SUBSCR_INAC_ITEMS = 14;
 CONFIG CURSOR_MOVEMENT_SFX = 5;
+CONFIG TRIFORCE_CYCLE_SFX = 124;
 CONFIG ITEM_SELECTION_SFX = 66;
 CONFIG SUBSCR_COUNTER_FONT = FONT_LA;
 CONFIG SUBSCR_DMAPTITLE_FONT = FONT_Z3SMALL;
@@ -48,39 +49,76 @@ int itemIDs[] = {IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW,
 				 IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4, 
 				 IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6};
 				  
- int itemLocsX[] = {192, 208, 224, 240,
-					192, 208, 224, 240,
-					192, 208, 224, 240,
-					192, 208, 224, 240,
-					192, 208, 224, 240,
-					192, 208, 224, 240};
+ int itemLocsX[] = {166, 188, 210, 232,
+					166, 188, 210, 232,
+					166, 188, 210, 232,
+					166, 188, 210, 232,
+					166, 188, 210, 232,
+					166, 188, 210, 232};
 				  
- int itemLocsY[] = {48,	48, 48, 48,
-				    64,	64, 64, 64,
-				    80,	80, 80, 80,
-				    96,	96, 96, 96,
-					112, 112, 112, 112,
-					128, 128, 128, 128};
+ int itemLocsY[] = {32,	32, 32, 32,
+				    54,	54, 54, 54,
+				    76,	76, 76, 76,
+				    98, 98, 98, 98,
+					120, 120, 120, 120,
+					142, 142, 142, 142};
 				  
 //end Active Items
 
 //start Inactive Items
 int in_itemIDs[] = {IC_BOSSKEY, IC_COMPASS, IC_MAP,
-                    IC_RING, IC_SHIELD, IC_LADDER, 
-					IC_RAFT, IC_WALLET, IC_FLIPPERS,
-					IC_BRACELET, IC_CUSTOM8, IC_CUSTOM2, IC_MAGICRING};
+
+                    IC_RING, IC_SHIELD, IC_LADDER, IC_RAFT, IC_WALLET, 
+					IC_FLIPPERS, IC_BRACELET, IC_CUSTOM8, IC_CUSTOM2, IC_MAGICRING, 
+					IC_WEALTHMEDAL};
 					 
-int in_itemLocsX[] = {176, 176, 176,
-					  160, 160, 160,
-					  144, 144, 144,
-					  128, 128, 128, 128};
-int in_itemLocsY[] = {48, 64, 80,
-					  48, 64, 80,
-					  48, 64, 80,
-					  48, 64, 80, 96};
+int in_itemLocsX[] = {129, 129, 129,	//dungeon items
+
+					  8, 26, 44, 62, 80, 
+					  8, 26, 44, 62, 80,
+					  8};
+					  
+int in_itemLocsY[] = {108, 126, 144,
+
+					  8, 8, 8, 8, 8,
+					  26, 26, 26, 26, 26,
+					  44};
 //end Inactive Items
 
+//start Triforce Frames
+CONFIG TILE_COURAGE_FRAME = 320;
+CONFIG TILE_POWER_FRAME = 326;
+CONFIG TILE_WISDOM_FRAME = 380;
+CONFIG TILE_DEATH_FRAME = 386;
+
+CONFIG COURAGE_SHARD1 = 274;
+CONFIG COURAGE_SHARD2 = 334;
+CONFIG COURAGE_SHARD3 = 394;
+CONFIG COURAGE_SHARD4 = 354;
+
+CONFIG WISDOM_SHARD1 = 522;
+CONFIG WISDOM_SHARD2 = 582;
+CONFIG WISDOM_SHARD3 = 642;
+CONFIG WISDOM_SHARD4 = 702;
+
+CONFIG POWER_SHARD1 = 527;
+CONFIG POWER_SHARD2 = 587;
+CONFIG POWER_SHARD3 = 647;
+CONFIG POWER_SHARD4 = 707;
+
+CONFIG DEATH_SHARD1 = 532;
+CONFIG DEATH_SHARD2 = 592;
+CONFIG DEATH_SHARD3 = 652;
+CONFIG DEATH_SHARD4 = 712;
+
+int triforceFrames[] = {TILE_COURAGE_FRAME, TILE_POWER_FRAME, TILE_WISDOM_FRAME, TILE_DEATH_FRAME};
+
+//end Triforce Frames
+
 int asubscr_pos = 0;
+int currTriforceIndex = 0;
+int numHeartPieces = 0;
+int amountOfTriforceShards = 0;
 bool subscr_open = false;
 
 @Author("Venrob")
@@ -181,8 +219,9 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//end Item Draws
 	
 	//start Custom Draws
+	
 	//start Legionnaire Ring
-	Screen->FastTile(4, 16, y + 0, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
+	Screen->FastTile(4, 122, y + 82, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
 	char32 buf[3];
 	
 	if(Game->Counter[CR_LEGIONNAIRE_RING] < 10)
@@ -190,7 +229,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	else 
 		sprintf(buf, "%i", Game->Counter[CR_LEGIONNAIRE_RING]);
 		
-	Screen->DrawString(4, , y + 0, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	Screen->DrawString(4, 137, y + 86, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	//end Legionnaire Ring
 	
 	//start Selected Item Name
@@ -200,13 +239,14 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	if (idata)
 		idata->GetName(buf2);
 			
-	Venrob::DrawStrings(4, 208, y + 4, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
+	Venrob::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
 	//end Selected Item Name
 	//end Custom Draws
-	
+
 	//start Cursor Stuff
-	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), itemLocsX[asubscr_pos], itemLocsX[asubscr_pos], y);
-	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), itemLocsY[asubscr_pos], itemLocsY[asubscr_pos], y);
+	
+	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), itemLocsX[asubscr_pos], itemLocsY[asubscr_pos], y);
+	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), itemLocsX[asubscr_pos], itemLocsY[asubscr_pos], y);
 	
 	if(isActive && selID)
 	{
@@ -228,6 +268,96 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		}
 	}
 	//end Cursor Stuff
+	
+	//start Other Tile Draws
+	int leftArrowCombo = 7746;
+	int rightArrowCombo = 7747;
+	
+	Screen->FastCombo(7, 4, 96 + y, leftArrowCombo, 0, OP_OPAQUE);
+	Screen->FastCombo(7, 104, 96 + y, rightArrowCombo, 0, OP_OPAQUE);
+	
+	//end Other Tile Draws
+	
+	//start Handle Heart Pieces
+	CONFIG TILE_ZERO_PIECES = 29420;
+	CONFIG TILE_ONE_PIECE = 29421;
+	CONFIG TILE_TWO_PIECE = 29422;
+	CONFIG TILE_THREE_PIECE = 29423;
+	
+	
+	if (Game->Generic[GEN_HEARTPIECES] == 1)
+		numHeartPieces = 1;
+	else if (Game->Generic[GEN_HEARTPIECES] == 2)
+		numHeartPieces = 2;
+	else if (Game->Generic[GEN_HEARTPIECES] == 3)
+		numHeartPieces = 3;
+	else
+		numHeartPieces = 0;
+
+	
+	switch(numHeartPieces)
+	{
+		case 0:
+			Screen->FastTile(4, 130, y + 68, TILE_ZERO_PIECES, 8, OP_OPAQUE);
+			break;
+		case 1:
+			Screen->FastTile(4, 130, y + 68, TILE_ONE_PIECE, 8, OP_OPAQUE);
+			break;
+		case 2:
+			Screen->FastTile(4, 130, y + 68, TILE_TWO_PIECE, 8, OP_OPAQUE);
+			break;
+		case 3:
+			Screen->FastTile(4, 130, y + 68, TILE_THREE_PIECE, 8, OP_OPAQUE);
+			break;			
+	}
+	
+	
+	//end Handle Heart Pieces
+
+	//start Handle Triforce Frame Cycling / Drawing
+	
+	if(isActive)
+	{
+		if(Input->Press[CB_L])
+		{
+			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+			--currTriforceIndex;
+		}
+		else if(Input->Press[CB_R])
+		{
+			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+			++currTriforceIndex;
+		}
+	}
+	if(currTriforceIndex == -1)
+		currTriforceIndex = 3;
+	else if (currTriforceIndex == 4)
+		currTriforceIndex = 0;
+		
+	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+	
+	switch(currTriforceIndex)
+	{
+		case 1:
+			amountOfTriforceShards = GetHighestLevelItemOwned(IC_CUSTOM17);
+			break;
+			
+		case 2:
+			//draw highest power shards
+			break;
+			
+		case 3:
+			// draw highest wisdom shards
+			break;
+			
+		case 4:
+			// draw highest death shards
+			break;
+	}
+
+
+	//end Handle Triforce Frame Cycling / Drawing
+
 }
 
 int checkID(int id) //start
