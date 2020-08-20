@@ -1629,25 +1629,6 @@ ffc script Shutter //start
 }
 //end
 
-
-//~~~~~BattleArena~~~~~//
-//D0: Num of attempts until failure is determined
-//D1: Dmap to warp to
-//D2: screen to warp to
-@Author ("Deathrider365")
-ffc script SpawnLevel1Boss //start
-{
-	void run()
-	{	
-		Waitframes(30);
-		npc n3 = Screen->CreateNPC(220);		
-		n3->X = 96;									// Make him fall from the sky
-		n3->Y = 80;
-	}
-}
-
-//end
-
 ffc script CircMove //start
 {
 	void run(int a, int v, int theta)

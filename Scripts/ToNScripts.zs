@@ -32,6 +32,7 @@ always using namespace Venrob;
 #include "../ToN Main Quest/Scripts/ToNPassiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNDifficulty.zs"
 #include "../ToN Main Quest/Scripts/ToNCredits.zh"
+#include "ToNGhost.zh"
 
 //end
 
@@ -859,272 +860,155 @@ npc script Mimic //start
 } //end
 
 //~~~~~LegionnaireLevel1~~~~~//
-// D0: Speed Multiplier
-// D1: Fire cooldown (frames)
-// D2: Knockback rate in pixels per frame 
-CONFIG SPR_SPAWNSPARKLE = 22;
 
-npc script LegionnaireLevel1 //start
+ffc script LegionnaireLevel1 //start
 {
-	int xSpeed = 5;
-	int ySpeed = 5;
-	int count;
-	int xStep;
-	int yStep;
-	int direction;
-	int attChoice;
-	int posDir = 1;
-	int negDir = -1;
-
-	void run() //start
+	void run(int enemyid)
 	{
-		this->ScriptTile = TILE_INVIS;
-		Waitframes(30);
+		npc ghost = Ghost_InitAutoGhost(this, enemyid);			// pairing enemy with ffc
+		Ghost_SetFlag(GHF_4WAY);								// 4 way movement
+		int combo = ghost->Attributes[10];						// finds enemy first combo
+		int attackCoolDown = 90 + Rand(30);
+		int attack;
 		
-		// add animation to spawn
-		lweapon spawnPuff = CreateLWeaponAt(LW_SPARKLE, this->X, this->Y);
-		spawnPuff->UseSprite(SPR_SPAWNSPARKLE);
-		spritedata sd = Game->LoadSpriteData(SPR_SPAWNSPARKLE);
-		Waitframes(sd->Frames * sd->Speed);
+		CONFIG SPR_LEGIONNAIRESWORD = 110;
+		CONFIG SFX_SHOOTSWORD = 127;
+		CONFIG TIL_IMPACTMID = 955;
+		CONFIG TIL_IMPACTBIG = 952;
 		
-		this->ScriptTile = -1;
-	
-		while (true)
-		{			
-			bool randDir = Rand(2);
+		//start setup
+		
+		Ghost_Y = -32;
+		Ghost_X = 128;
+		
+		for (int i = 0; i < 32; ++i)
+		{
+			NoAction();
+			Ghost_Waitframe(this, ghost);
+		}
+		
+		Ghost_Y = 80;
+		Ghost_Z = 176;
+		Ghost_Dir = DIR_DOWN;
+		
+		while (Ghost_Z)
+		{
+			NoAction();
+			Ghost_Z -= 4;
+			Ghost_Waitframe(this, ghost);
+		}
+		
+		Screen->Quake = 10;
+		Audio->PlaySound(3);
+		
+		for (int i = 0; i < 32; ++i)
+		{
+			NoAction();
+			Ghost_Waitframe(this, ghost);
+		}
+		//end setup
+		
+		while(true)
+		{
+			Ghost_Data = combo + 4;
+			Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
 			
-			Waitframe();
-				
-			// Moves around
-			for (int i = 0; i < 120; ++i)
+			int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + 90;
+			
+			Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
+			
+			if (attackCoolDown)
+				--attackCoolDown;
+			else
 			{
-				int dir = findDir(this->X, this->Y);
+				attackCoolDown = 90 + Rand(30);
+				attack = Rand(3);
 				
-				this->Dir = dir8To4(dir);				
-				
-				if (dir <= DIR_RIGHT && false)
+				switch(attack)
 				{
-					int x = this->X + dirX(this->Dir);
-					int y = this->Y + dirY(this->Dir);
-					
-					if (x > 16 && x < 225 && y > 16 && y < 145)
-					{
-						this->X += getXChange(this->Dir, randDir);
-						this->Y += getYChange(this->Dir, randDir);
-					}
-					else
-					{
-						randDir = !randDir;
-							
-						if (x > 16 && x < 225 && y > 16 && y < 145) 
+					case 0: //start Fire Sword
+						Ghost_Data = combo;
+						
+						enemyShake(this, ghost, 16, 1);
+				
+						for (int i = 0; i < 3; ++i)
 						{
-							this->X += getXChange(this->Dir, randDir);
-							this->Y += getYChange(this->Dir, randDir);
+							eweapon projectile = FireAimedEWeapon(EW_BEAM, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
+							Ghost_Waitframes(this, ghost, 16);
 						}
-					}
+						
+						Ghost_Waitframes(this, ghost, 16);
+						
+						break; //end
+						
+					case 1: //start Jump essplode
+						Ghost_Data = combo + 8;
+						int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+						int jumpAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+						
+						Ghost_Jump = FindJumpLength(distance / 2, true);
+						
+						Audio->PlaySound(SFX_JUMP);
+						
+						while (Ghost_Jump || Ghost_Z)
+						{
+							Ghost_MoveAtAngle(jumpAngle, 2, 0);
+							Ghost_Waitframe(this, ghost);
+						}
+						
+						Ghost_Data = combo;
+						Audio->PlaySound(3);	
+						
+						for (int i = 0; i < 24; ++i)
+						{
+							MakeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, ghost->Damage);
+							
+							if (i > 7 && i <= 15)
+								Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, TIL_IMPACTBIG, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+							else	
+								Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, TIL_IMPACTMID, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+								
+							Ghost_Waitframe(this, ghost);
+						}
+						break; //end
+						
+					case 2: //start Sprint slash
+						enemyShake(this, ghost, 32, 2);
+						Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
+						
+						int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+						int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+						
+						int dashFrames = Max(6, (distance - 36) / 3);
+						
+						for (int i = 0; i < dashFrames; ++i)
+						{
+							Ghost_MoveAtAngle(moveAngle, 3, 0);
+							
+							if (i > dashFrames / 2)
+								sword1x1(Ghost_X, Ghost_Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, combo + 12, 10, ghost->Damage);
+								
+							Ghost_Waitframe(this, ghost);
+						}
+						
+						Audio->PlaySound(SFX_SWORD);
+						
+						for (int i = 0; i <= 12; ++i)
+						{
+							Ghost_MoveAtAngle(moveAngle, 3, 0);
+							sword1x1(Ghost_X, Ghost_Y, moveAngle - 90 + 15 * i, 16, combo + 12, 10, ghost->Damage);
+							Ghost_Waitframe(this, ghost);
+						}
+						
+						break; //end
+					
 				}
-				Waitframe();
-			}
-				
-			Waitframes(15);
-			
-			// Decides on an attack
-			attChoice = attackChoice();
-			
-			// Attacks
-			switch(attChoice)
-			{
-				case 0: //start
-				{
-					jumpOffScreenAttack(this, -1, -1);
-					break;
-				
-				} //end
-				
-				case 1: //start
-				{	
-					int step = 60;
-	
-					//float distance = Distance(currX, currY, Hero->X, Hero->Y);
-					
-					int xStep, yStep;
-					
-					if (this->Dir == DIR_RIGHT)
-						xStep = (Hero->X - this->X) / step;
-					else if (this->Dir  == DIR_LEFT)
-						xStep = this->X - Hero->X / step;
-						
-					if (this->Dir == DIR_DOWN)
-						yStep = Hero->Y - this->Y / step;
-					else if(this->Dir == DIR_UP)
-						yStep = this->Y - Hero->Y / step;
-						
-					for (int i = 0; i < 60; ++i)
-					{
-						if (xStep > 0)
-							this->X += xStep;
-						else
-							this->X -= xStep;
-							
-						if (yStep > 0)
-							this->Y += yStep;
-						else
-							this->Y -= yStep;
-							
-						Waitframe();
-					}
-					
-					
-					break;
-				} //end
-			
-				default:
-					break;
 			}
 			
-			
-			Waitframe();
-		}	
-	} //end
-	
-	// Determines the direction it must face
-	int findDir(int currX, int currY) //start
-	{
-		#option APPROX_EQUAL_MARGIN 0.5
-		// ~~ approximate equal
-	
-		int dir;
-				
-		if (Hero->Y ~~ currY)
-		{
-			if (Hero->X < currX)
-				return DIR_LEFT;
-			else if (Hero->X > currX)
-				return DIR_RIGHT;
-			else
-				return DIR_DOWN;
+			Ghost_Waitframe(this, ghost);
 		}
-		else if (Hero->X ~~ currX)
-		{
-			if (Hero->Y < currY)
-				return DIR_UP;
-			else
-				return DIR_DOWN;
-		}
-		
-		//Floor truncates
-		int dx = Abs(Floor(Hero->X) - currX);
-		int dy = Abs(Floor(Hero->Y) - currY);
-		
-		// Link is top left of enemy
-		if (Hero->Y < currY && Hero->X < currX)
-		{
-			if (dy ~~ dx)
-				return DIR_LEFTUP;
-			if (dy > dx)
-				return DIR_UP;
-			return DIR_LEFT;
-		}
-		
-		// Link is top right of enemy
-		else if (Hero->Y < currY && Hero->X > currX)
-		{
-			if (dy ~~ dx)
-				return DIR_RIGHTUP;
-			if (dy > dx)
-				return DIR_UP;
-			return DIR_RIGHT;
-		}
-		
-		// Link is below left of enemy
-		else if (Hero->Y > currY && Hero->X < currX)
-		{
-			if (dy ~~ dx)
-				return DIR_LEFTDOWN;
-			if (dy > dx)
-				return DIR_DOWN;
-			return DIR_LEFT;
-		}
-		
-		// Link is below right of enemy
-		else if (Hero->Y > currY && Hero->X > currX)
-		{
-			if (dy ~~ dx)
-				return DIR_RIGHTDOWN;
-			if (dy > dx)
-				return DIR_DOWN;
-			return DIR_RIGHT;
-		}
-						
-	} //end
-	
-	// Determines the amount of x to translate
-	int getXChange(int direction, bool randDir) //start
-	{
-		switch (direction)
-		{
-			case DIR_UP:
-				return randDir ? 1 : -1;
-					
-			case DIR_DOWN:
-				return randDir ? -1 : 1;
-			
-			case DIR_LEFT:
-				return -1;
-				
-			case DIR_RIGHT:
-				return 1;
-		}
-	} //end
-	
-	// Determines the amount of y to translate
-	int getYChange(int direction, bool randDir) //start
-	{
-		
-		switch(direction)
-		{	
-			case DIR_UP:
-				return -1;
-
-			case DIR_DOWN:
-				return 1;
-					
-			case DIR_LEFT:
-				return randDir ? 1 : -1;
-					
-			case DIR_RIGHT:
-				return randDir ? -1 : 1;
-		}
-	} //end
-
-	// Determines which attack to use
-	int attackChoice() //start
-	{
-		
-		return 1;
-	} //end
-	
-	int determineXDir(int currX)
-	{
-		if (Hero->X > currX)
-			return 0;
-		else if (Hero->X < currX)
-			return 1;
-		else
-			return 2;
 	}
-	
-	int determineYDir(int currY)
-	{
-		if (Hero->Y > currY)
-			return 0;
-		else if (Hero->Y < currY)
-			return 1;
-		else
-			return 2;
-	}
-	
-	
+		
 } //end
 
 //~~~~~Bomber~~~~~//

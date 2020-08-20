@@ -61,6 +61,7 @@ global script GlobalScripts
 			debug();
 		
 		LinkMovement_Init();
+		StartGhostZH();
 		
 		while(true)
 		{
@@ -68,18 +69,17 @@ global script GlobalScripts
 			checkDungeon();
 			
 			LinkMovement_Update1();
+			UpdateGhostZH1();
+			
 			Waitdraw();
+			
 			LinkMovement_Update2();
+			UpdateGhostZH2();
 			
 			amountOfCourageTriforceShards = getAmountOfShards(0);
 			amountOfPowerTriforceShards = getAmountOfShards(1);
 			amountOfWisdomTriforceShards = getAmountOfShards(2);
 			amountOfDeathTriforceShards = getAmountOfShards(3);		
-
-			if (Screen->State[ST_LOCKBLOCK])
-				Audio->PlaySound(125);
-			if (Screen->State[ST_BOSSLOCKBLOCK])
-				Audio->PlaySound(126);
 			
 			Waitframe();
 		}
