@@ -469,7 +469,7 @@ lweapon script ScholarCandelabra
 }
 //end
 
-lweapon script SineWave
+lweapon script SineWave //start
 {
 	void run(int amp, int freq)
 	{
@@ -493,16 +493,33 @@ lweapon script SineWave
 			Waitframe();
 		}
 	}
-}
+} //end
 
-
-//start
-lweapon script DeathsTouch
+lweapon script DeathsTouch //start
 {
 	void run()
 	{
 		//an aura n pixel circle around link that does x dps to all enemies in the radius and has a lasting damage effect even after they leave. works on all except undead until
 		// the triforce of death is cleansed, then it hurts only undead but for a lot more than before it was cleansed (extremely useful for the legionnaire crypt)
+		
+		// lweapon deathsAura;
+		// deathsAura->X = Hero->X - 8;
+		// deathsAura->Y = Hero->Y - 8;
+		// deathsAura->LoadSpriteData
+		
+		for (int i = 0; i < 240; ++i)
+		{
+			Screen->DrawCombo(7, this->X, this->Y, 6854, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, true, OP_OPAQUE);
+		
+			Waitframe();
+		}
+		
+		// void DrawCombo	(int layer, int x, int y, 
+		// int combo, int w, int h, 
+		// int cset, int xscale, int yscale, 
+		// int rx, int ry, int rangle, 
+		// int frame, int flip, 
+		// bool transparency, int opacity);
 		
 		//1: draw growing circle
 		//2: loop for every enemy on screen and do collision check
@@ -923,6 +940,43 @@ npc script LegionnaireLevel1 //start
 					break;
 				
 				} //end
+				
+				case 1: //start
+				{	
+					int step = 60;
+	
+					//float distance = Distance(currX, currY, Hero->X, Hero->Y);
+					
+					int xStep, yStep;
+					
+					if (this->Dir == DIR_RIGHT)
+						xStep = (Hero->X - this->X) / step;
+					else if (this->Dir  == DIR_LEFT)
+						xStep = this->X - Hero->X / step;
+						
+					if (this->Dir == DIR_DOWN)
+						yStep = Hero->Y - this->Y / step;
+					else if(this->Dir == DIR_UP)
+						yStep = this->Y - Hero->Y / step;
+						
+					for (int i = 0; i < 60; ++i)
+					{
+						if (xStep > 0)
+							this->X += xStep;
+						else
+							this->X -= xStep;
+							
+						if (yStep > 0)
+							this->Y += yStep;
+						else
+							this->Y -= yStep;
+							
+						Waitframe();
+					}
+					
+					
+					break;
+				} //end
 			
 				default:
 					break;
@@ -1047,8 +1101,29 @@ npc script LegionnaireLevel1 //start
 	int attackChoice() //start
 	{
 		
-		return 0;
+		return 1;
 	} //end
+	
+	int determineXDir(int currX)
+	{
+		if (Hero->X > currX)
+			return 0;
+		else if (Hero->X < currX)
+			return 1;
+		else
+			return 2;
+	}
+	
+	int determineYDir(int currY)
+	{
+		if (Hero->Y > currY)
+			return 0;
+		else if (Hero->Y < currY)
+			return 1;
+		else
+			return 2;
+	}
+	
 	
 } //end
 
@@ -1102,17 +1177,104 @@ npc script LoSTurret //start
 //~~~~~Amalgamation of Decay ---Shambles---~~~~~//
 npc script Decay //start
 {
+	int choice;
+	int shotAngle;
+	
 	void run()
 	{
 		while (true)
-		{
-		
+		{		
+			choice = chooseAttack();
+			choice = 3;
+			
+			Waitframes(120);
+			
+			switch(choice)
+			{
+				case 1:
+					chargeLink(this->X, this->Y, Hero->X, Hero->Y);
+					break;
+				
+				case 2:
+					launchPoisonBombs();
+					break;
+				
+				case 3:
+					spawnZambos(this->X, this->Y);
+					break;
+			}
+			
+			if (this->HP <= 0)
+				deathExplosion();
+			
 		/*
-		- he will rise up from below, and charge at links curr position leaving damaging trails behind 
+		- all of his attacks endd with him charging at link's curr x and y, but the first attack is just the charge
+		
+		- he will rise up from below, and charge at links curr position (one below 50% hp leave damaging trails behind)
+		- Shoot lobbing poison balls that when impacting with the ground (link's position) that burst into a temp small pool
+		- will spawn sprinting zombies L1
 		*/
 			
 		}	
 	}
+	
+	// Chooses an attack
+	int chooseAttack() //start
+	{
+		// add some controls to decide
+		return 0;
+	} //end
+	
+	// Charges at Link
+	void chargeLink(int shamblesX, int shamblesY, int linkX, int linkY) //start
+	{
+		float distance = Distance(shamblesX, shamblesY, linkX, linkY);
+		int rotation = Angle(shamblesX, shamblesY, linkX, linkY);
+		// until (collides with a wall)
+		
+	} //end
+	
+	// Lanches poisonous bombs
+	void launchPoisonBombs() //start
+	{
+		
+		// e = CreateEWeaponAt(/*give a script for the attack*/, x - 8, y - 8);
+		// e->Damage = 10;
+		// e->UseSprite(75);
+		// e->Angular = true;
+		// e->Angle = DegtoRad(angle);
+		// e->Dir = AngleDir4(shotAngle);
+		// e->Step = 200;
+		// e->Script = Game->GetEWeaponScript("PoisonBall");
+		// e->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
+		// e->InitD[1] = wSpeeds[j];
+		// e->InitD[2] = true;
+	} //end
+	
+	// Spawns Zombies
+	void spawnZambos(int currX, int currY) //start
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			int zamboChoice = Rand(0, 2);
+			npc zambo;
+			
+			if (zamboChoice)
+				zambo = Screen->CreateNPC(225);
+			else if (zamboChoice == 1)
+				zambo = Screen->CreateNPC(222);
+			else
+				zambo = Screen->CreateNPC(228);
+				
+			zambo->X = currX;
+			zambo->Y = currY;
+			
+			Waitframes(30);
+			
+			chargeLink(currX, currY, Hero->X, Hero->Y);
+		}	
+	} //end
+
 } //end
 
 //~~~~~Demonwall~~~~~//

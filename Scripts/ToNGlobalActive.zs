@@ -26,7 +26,12 @@ CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
 CONFIG TILE_LEGIONNAIRE_RING = 42700;
 CONFIG CSET_LEGIONNAIRE_RING = 4;
 CONFIG TILE_INVIS = 196;
-//CONFIG COMBO_INVIS = ;
+
+CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for ZC default)
+CONFIG WIDTH_EZB_DEATHEXPLOSION = 2; //Tile width for death explosions
+CONFIG HEIGHT_EZB_DEATHEXPLOSION = 2; //Tile height for death explosions
+CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
+CONFIG LW_EZB_DEATHEXPLOSION = 40; //LWeapon type used for death explosions. Script 10 by default
 
 int onContHP = 0;
 int onContMP = 0;
@@ -69,8 +74,12 @@ global script GlobalScripts
 			amountOfCourageTriforceShards = getAmountOfShards(0);
 			amountOfPowerTriforceShards = getAmountOfShards(1);
 			amountOfWisdomTriforceShards = getAmountOfShards(2);
-			amountOfDeathTriforceShards = getAmountOfShards(3);
-			
+			amountOfDeathTriforceShards = getAmountOfShards(3);		
+
+			if (Screen->State[ST_LOCKBLOCK])
+				Audio->PlaySound(125);
+			if (Screen->State[ST_BOSSLOCKBLOCK])
+				Audio->PlaySound(126);
 			
 			Waitframe();
 		}

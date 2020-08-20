@@ -247,9 +247,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
 	}
 	//end Item Draws
-	
-	//start Custom Draws
-	
+
 	//start Legionnaire Ring
 	Screen->FastTile(4, 122, y + 82, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
 	char32 buf[3];
@@ -271,7 +269,6 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			
 	Venrob::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
 	//end Selected Item Name
-	//end Custom Draws
 
 	//start Cursor Stuff
 	
@@ -333,16 +330,16 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	switch(numHeartPieces)
 	{
 		case 0:
-			Screen->FastTile(4, 130, y + 68, TILE_ZERO_PIECES, 8, OP_OPAQUE);
+			Screen->FastTile(4, 120, y + 68, TILE_ZERO_PIECES, 8, OP_OPAQUE);
 			break;
 		case 1:
-			Screen->FastTile(4, 130, y + 68, TILE_ONE_PIECE, 8, OP_OPAQUE);
+			Screen->FastTile(4, 120, y + 68, TILE_ONE_PIECE, 8, OP_OPAQUE);
 			break;
 		case 2:
-			Screen->FastTile(4, 130, y + 68, TILE_TWO_PIECE, 8, OP_OPAQUE);
+			Screen->FastTile(4, 120, y + 68, TILE_TWO_PIECE, 8, OP_OPAQUE);
 			break;
 		case 3:
-			Screen->FastTile(4, 130, y + 68, TILE_THREE_PIECE, 8, OP_OPAQUE);
+			Screen->FastTile(4, 120, y + 68, TILE_THREE_PIECE, 8, OP_OPAQUE);
 			break;			
 	}
 	
@@ -459,7 +456,6 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	}
 
 	//end Handle Triforce Frame Cycling / Drawing
-
 }
 
 int getAmountOfShards(int type) //start

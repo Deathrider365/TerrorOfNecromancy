@@ -191,17 +191,64 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) //start
 	
 } //end
 
+// Charges towards link and slashes
+void chargeSlash() //start
+{
+	
+} //end
+
 // Does a jump to link
 void jumpAttack() //start
 {
 
 } //end
 
+// Does standard death animation explosion (from newbie boss)
+void deathExplosion() //start
+{
+	// Game->PlaySound(SFX_BOMB);
+	
+	// lweapon explosion=Screen->CreateLWeapon(LW_EZB_DEATHEXPLOSION);
+	// explosion->X = x-(WIDTH_EZB_DEATHEXPLOSION-1)*8;
+	// explosion->Y = y-(HEIGHT_EZB_DEATHEXPLOSION-1)*8;
+	
+	// explosion->Extend = 3;
+	// explosion->TileWidth = WIDTH_EZB_DEATHEXPLOSION;
+	// explosion->TileHeight = HEIGHT_EZB_DEATHEXPLOSION;
+	
+	// explosion->UseSprite(SPR_EZB_DEATHEXPLOSION);
+	// explosion->CollDetection = false;
+	// explosion->DeadState = explosion->NumFrames*explosion->ASpeed;
+} //end
 
-
-
-
-
+// Does standard death animation (from newbie boss)
+void deathAnimation(int currX, int currY) //start
+{
+	// int baseX=Ghost_X+ghost->DrawXOffset;
+	// int baseY=(Ghost_Y+ghost->DrawYOffset)-(Ghost_Z+ghost->DrawZOffset);
+	
+	// __DeathAnimStart(this, ghost);
+	// __DeathAnimSFX(ghost->ID, ghost->X);
+	
+	// if(flash)
+		// __Ghost_FlashCounter=10000;
+	// else
+		// __Ghost_FlashCounter=0;
+	
+	//One explosion every 16 frames, 15 times
+	// for(int i=0; i<15; i++)
+	// {
+		// EZB_CreateDeathExplosion(baseX+Rand(16*Ghost_TileWidth)-8, baseY+Rand(16*Ghost_TileHeight)-8);
+		
+		// for(int j=0; j<16; j++)
+		// {
+			// Ghost_SetPosition(this, ghost); // Make sure it doesn't wander off
+			// if(flash)
+				// __Ghost_UpdateFlashing(this, ghost);
+			// Ghost_WaitframeLight(this, ghost);
+		// }
+	// }
+} //end
 
 
 
