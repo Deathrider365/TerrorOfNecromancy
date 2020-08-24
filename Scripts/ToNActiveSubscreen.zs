@@ -250,15 +250,10 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 
 	//start Legionnaire Ring
 	Screen->FastTile(4, 122, y + 82, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
-	char32 buf[3];
-	
-	if(Game->Counter[CR_LEGIONNAIRE_RING] < 10)
-		sprintf(buf, "0%i", Game->Counter[CR_LEGIONNAIRE_RING]);
-	else 
-		sprintf(buf, "%i", Game->Counter[CR_LEGIONNAIRE_RING]);
-		
-	Screen->DrawString(4, 137, y + 86, FONT_LA, C_WHITE, C_TRANSBG, TF_NORMAL, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	counter(RT_SCREEN, 4, 137, y + 86, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+
 	//end Legionnaire Ring
+	
 	
 	//start Selected Item Name
 	char32 buf2[30];
@@ -311,39 +306,9 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//end Other Tile Draws
 	
 	//start Handle Heart Pieces
-	CONFIG TILE_ZERO_PIECES = 29420;
-	CONFIG TILE_ONE_PIECE = 29421;
-	CONFIG TILE_TWO_PIECE = 29422;
-	CONFIG TILE_THREE_PIECE = 29423;
-	
-	
-	if (Game->Generic[GEN_HEARTPIECES] == 1)
-		numHeartPieces = 1;
-	else if (Game->Generic[GEN_HEARTPIECES] == 2)
-		numHeartPieces = 2;
-	else if (Game->Generic[GEN_HEARTPIECES] == 3)
-		numHeartPieces = 3;
-	else
-		numHeartPieces = 0;
-
-	
-	switch(numHeartPieces)
-	{
-		case 0:
-			Screen->FastTile(4, 120, y + 68, TILE_ZERO_PIECES, 8, OP_OPAQUE);
-			break;
-		case 1:
-			Screen->FastTile(4, 120, y + 68, TILE_ONE_PIECE, 8, OP_OPAQUE);
-			break;
-		case 2:
-			Screen->FastTile(4, 120, y + 68, TILE_TWO_PIECE, 8, OP_OPAQUE);
-			break;
-		case 3:
-			Screen->FastTile(4, 120, y + 68, TILE_THREE_PIECE, 8, OP_OPAQUE);
-			break;			
-	}
-	
-	
+	CONFIG TILE_ZERO_PIECES = 29420;	
+	Screen->FastTile(4, 120, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
+	counter(RT_SCREEN, 4, 137, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 	//end Handle Heart Pieces
 
 	//start Handle Triforce Frame Cycling / Drawing

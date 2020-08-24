@@ -548,8 +548,8 @@ eweapon script SignWave
 {
 	void run(int size, int speed, bool noBlock, int step)
 	{
-		this->Angle = DirRad(this->Dir);		//
-		this->Angular = true;					//
+		this->Angle = DirRad(this->Dir);
+		this->Angular = true;
 		
 		int x = this->X;
 		int y = this->Y;
@@ -590,6 +590,115 @@ eweapon script PoisonDamage
 	void run(int dps)
 	{
 		// The sprinting zombies will apply this
+	}
+}
+//end
+
+//~~~~~~~~~ArcingWeapon~~~~~~~~~~//
+//start
+eweapon script ArcingWeapon
+{
+	void run(int initJump, int gravity, int effect)
+	{
+		int jump = initJump;
+		int linkDistance = Distance(Hero->X, Hero->Y, this->X, this->Y);
+		
+		if (initJump == -1 && gravity == 0)
+			jump = FindJumpLength(linkDistance / (this->Step / 100), true);
+		
+		if (gravity == 0)
+			gravity = 0.16;
+
+		while (jump > 0 || this->Z > 0)
+		{
+			this->Z += jump;
+			this->Jump = 0;
+			jump -= gravity;
+			
+			this->DeadState = WDS_ALIVE;
+			
+			CustomWaitframe(this, 1);
+		}
+		
+		this->DrawYOffset = -1000;
+		this->CollDetection = false;
+		
+		switch(effect)
+		{
+			case AE_SMALLPOISONPOOL:
+				this->Step = 0;
+				
+				for (int i = 0; i < 12; ++i)
+				{
+					int distance = 24 * i / 12;
+					int angle = Rand(360);
+					
+					eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, 
+														SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+
+					SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
+					SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+					
+					CustomWaitframe(this, 4);
+				}
+				break;
+				
+			case AE_LARGEPOISONPOOL:
+				this->Step = 0;
+				
+				for (int i = 0; i < 18; ++i)
+				{
+					int distance = 40 * i / 18;
+					int angle = Rand(360);
+					
+					eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, 
+														SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+
+					SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
+					SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+					
+					CustomWaitframe(this, 4);
+				}
+				break;
+				
+			case AE_PROJECTILEWITHMOMENTUM:
+				for (int i = 0; i < 12; ++i)
+				{
+					int distance = 24 * i / 12;
+					int angle = Rand(360);
+					
+					eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, 
+														SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+
+					SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
+					SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+					
+					CustomWaitframe(this, 4);
+				}
+					break;
+				
+			case AE_DEBUG:
+				this->Step = 0;
+				
+				for(int i = 0; i < 90; ++i)
+				{
+					Screen->DrawInteger(6, this->X, this->Y, FONT_Z1, C_WHITE, C_BLACK, -1, -1, i, 0, 128);
+					this->DeadState = WDS_ALIVE;
+					CustomWaitframe(this, 1);
+				}
+				break;
+		}
+		
+		this->DeadState = WDS_DEAD;
+	}
+	
+	void CustomWaitframe(eweapon this, int frames)
+	{
+		for (int i = 0; i < frames; ++i)
+		{
+			this->DeadState = WDS_ALIVE;
+			Waitframe();
+		}
 	}
 }
 //end
@@ -860,7 +969,6 @@ npc script Mimic //start
 } //end
 
 //~~~~~LegionnaireLevel1~~~~~//
-
 ffc script LegionnaireLevel1 //start
 {
 	void run(int enemyid)
@@ -876,7 +984,7 @@ ffc script LegionnaireLevel1 //start
 		CONFIG TIL_IMPACTMID = 955;
 		CONFIG TIL_IMPACTBIG = 952;
 		
-		//start setup
+		//start Appear in
 		
 		Ghost_Y = -32;
 		Ghost_X = 128;
@@ -906,7 +1014,7 @@ ffc script LegionnaireLevel1 //start
 			NoAction();
 			Ghost_Waitframe(this, ghost);
 		}
-		//end setup
+		//end Appear in
 		
 		while(true)
 		{
@@ -926,7 +1034,7 @@ ffc script LegionnaireLevel1 //start
 				
 				switch(attack)
 				{
-					case 0: //start Fire Sword
+					case 0: //start Fire Swordz
 						Ghost_Data = combo;
 						
 						enemyShake(this, ghost, 16, 1);
@@ -941,7 +1049,7 @@ ffc script LegionnaireLevel1 //start
 						
 						break; //end
 						
-					case 1: //start Jump essplode
+					case 1: //start Jump Essplode
 						Ghost_Data = combo + 8;
 						int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
 						int jumpAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
@@ -1004,15 +1112,13 @@ ffc script LegionnaireLevel1 //start
 					
 				}
 			}
-			
 			Ghost_Waitframe(this, ghost);
 		}
 	}
-		
 } //end
 
 //~~~~~Bomber~~~~~//
-npc script Bomber //start
+ffc script Bomber //start
 {
 	void run()
 	{
@@ -1024,7 +1130,7 @@ npc script Bomber //start
 } //end
 
 //~~~~~Beamos~~~~~//
-npc script Beamos //start
+ffc script Beamos //start
 {
 	void run()
 	{
@@ -1036,7 +1142,7 @@ npc script Beamos //start
 } //end
 
 //~~~~~LoSTurret~~~~~//
-npc script LoSTurret //start
+ffc script LoSTurret //start
 {
 	void run()
 	{
@@ -1059,112 +1165,211 @@ npc script LoSTurret //start
 //end
 
 //~~~~~Amalgamation of Decay ---Shambles---~~~~~//
-npc script Decay //start
+ffc script Decay //start
 {
-	int choice;
-	int shotAngle;
-	
-	void run()
+	void run(int enemyid)
 	{
+		npc ghost = Ghost_InitAutoGhost(this, enemyid);
+		int combo = ghost->Attributes[10];
+		int attackCoolDown = 90;
+		int attack;
+		int startHP = Ghost_HP;
+		
+		//start spawning animation
+		Ghost_X = 128;				// sets him off screen as a time buffer
+		Ghost_Y = -32;
+		Ghost_Dir = DIR_DOWN;
+
+		Hero->Stun = 270;
+		
+		Screen->Quake = 90;
+		ShamblesWaitframe(this, ghost, 90);
+		
+		Ghost_X = 120;
+		Ghost_Y = 80;
+		Ghost_Data = combo + 4;
+		
+		Screen->Quake = 60;
+		ShamblesWaitframe(this, ghost, 60);
+		
+		Ghost_Data = combo + 5;
+		
+		Screen->Quake = 60;
+		ShamblesWaitframe(this, ghost, 60);
+		
+		Ghost_Data = combo + 6;
+		
+		Screen->Quake = 60;
+		ShamblesWaitframe(this, ghost, 60);
+		//end spawning animation
+
+		submerge(this, ghost, 8);
+
 		while (true)
 		{		
-			choice = chooseAttack();
-			choice = 3;
+			int choice = chooseAttack();
 			
-			Waitframes(120);
+			ShamblesWaitframe(this, ghost, 120);
+			
+			if (Ghost_HP < startHP * 0.50)
+				emerge(this, ghost, 4);
+			else
+				emerge(this, ghost, 8);
 			
 			switch(choice)
 			{
-				case 1:
-					chargeLink(this->X, this->Y, Hero->X, Hero->Y);
-					break;
+				case 0:	//start LinkCharge
 				
-				case 2:
-					launchPoisonBombs();
-					break;
+					for (int i = 0; i < 5; ++i)
+					{
+						int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+						
+						Audio->PlaySound(SFX_SWORD);										//change
+						
+						for (int j = 0; j < 22; ++j)
+						{
+							if (Ghost_HP < startHP * 0.50 && j % 3 == 0)
+							{
+								eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, ghost->WeaponDamage, 
+																	SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+
+								SetEWeaponLifespan(poisonTrail, EWL_TIMER, 180);
+								SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+							}
+							
+							Ghost_ShadowTrail(this, ghost, false, 4);
+							Ghost_MoveAtAngle(moveAngle, 3, 0);
+							ShamblesWaitframe(this, ghost, 1);
+						}
+						
+						ShamblesWaitframe(this, ghost, 30);
+					}
+						
+					break; //end
 				
-				case 3:
-					spawnZambos(this->X, this->Y);
-					break;
+				case 1:	//start Poison Bombs
+					for (int i = 0; i < 3; ++i)
+					{
+						ShamblesWaitframe(this, ghost, 16);
+						eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, -1, -1, EWF_UNBLOCKABLE);
+						
+						RunEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, Ghost_HP < startHP ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
+					}
+					break; //end
+				
+				case 2: //start Spawn Zambos
+					spawnZambos(this, ghost);
+					break; //end
 			}
 			
-			if (this->HP <= 0)
-				deathExplosion();
+			if (Ghost_HP < startHP * 0.50)
+				submerge(this, ghost, 4);
+			else
+				submerge(this, ghost, 8);
 			
-		/*
-		- all of his attacks endd with him charging at link's curr x and y, but the first attack is just the charge
-		
-		- he will rise up from below, and charge at links curr position (one below 50% hp leave damaging trails behind)
-		- Shoot lobbing poison balls that when impacting with the ground (link's position) that burst into a temp small pool
-		- will spawn sprinting zombies L1
-		*/
-			
-		}	
+			int pos = moveMe();
+			Ghost_X = ComboX(pos);
+			Ghost_Y = ComboY(pos);
+		}
 	}
 	
+	int moveMe() //start Movement function
+	{
+		int pos;
+		
+		for (int i = 0; i < 352; ++i)
+		{
+			if (i < 176)
+				pos = Rand(176);
+			else
+				pos = i - 176;
+				
+			int x = ComboX(pos);
+			int y = ComboY(pos);
+			
+			if (Distance(Hero->X, Hero->Y, x, y) > 48)
+				if (Ghost_CanPlace(x, y, 16, 16))
+					break;
+		}
+		
+		return pos;
+	} //end
+		
+	void emerge(ffc this, npc ghost, int frames) //start
+	{
+	
+		int combo = ghost->Attributes[10];
+		ghost->CollDetection = true;
+		ghost->DrawYOffset = -2;
+		
+		Ghost_Data = combo + 4;
+		ShamblesWaitframe(this, ghost, frames);
+		
+		Ghost_Data = combo + 5;
+		ShamblesWaitframe(this, ghost, frames);
+		
+		Ghost_Data = combo + 6;
+		ShamblesWaitframe(this, ghost, frames);
+	} //end
+
+	void submerge(ffc this, npc ghost, int frames) //start
+	{
+		int combo = ghost->Attributes[10];
+		Ghost_Data = combo + 6;
+		ShamblesWaitframe(this, ghost, frames);
+		
+		Ghost_Data = combo + 5;
+		ShamblesWaitframe(this, ghost, frames);
+		
+		Ghost_Data = combo + 4;
+		ShamblesWaitframe(this, ghost, frames);
+		
+		ghost->CollDetection = false;
+		ghost->DrawYOffset = -1000;
+	} //end
+		
 	// Chooses an attack
 	int chooseAttack() //start
 	{
-		// add some controls to decide
-		return 0;
-	} //end
 	
-	// Charges at Link
-	void chargeLink(int shamblesX, int shamblesY, int linkX, int linkY) //start
-	{
-		float distance = Distance(shamblesX, shamblesY, linkX, linkY);
-		int rotation = Angle(shamblesX, shamblesY, linkX, linkY);
-		// until (collides with a wall)
-		
-	} //end
-	
-	// Lanches poisonous bombs
-	void launchPoisonBombs() //start
-	{
-		
-		// e = CreateEWeaponAt(/*give a script for the attack*/, x - 8, y - 8);
-		// e->Damage = 10;
-		// e->UseSprite(75);
-		// e->Angular = true;
-		// e->Angle = DegtoRad(angle);
-		// e->Dir = AngleDir4(shotAngle);
-		// e->Step = 200;
-		// e->Script = Game->GetEWeaponScript("PoisonBall");
-		// e->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
-		// e->InitD[1] = wSpeeds[j];
-		// e->InitD[2] = true;
+		return Rand(0, 2);
 	} //end
 	
 	// Spawns Zombies
-	void spawnZambos(int currX, int currY) //start
+	void spawnZambos(ffc this, npc ghost) //start
 	{
 		for (int i = 0; i < 4; ++i)
 		{
 			int zamboChoice = Rand(0, 2);
 			npc zambo;
 			
-			if (zamboChoice)
+			if (zamboChoice == 0)
 				zambo = Screen->CreateNPC(225);
 			else if (zamboChoice == 1)
 				zambo = Screen->CreateNPC(222);
 			else
 				zambo = Screen->CreateNPC(228);
 				
-			zambo->X = currX;
-			zambo->Y = currY;
+			int pos = moveMe();
 			
-			Waitframes(30);
+			zambo->X = ComboX(pos);
+			zambo->Y = ComboY(pos);
 			
-			chargeLink(currX, currY, Hero->X, Hero->Y);
+			ShamblesWaitframe(this, ghost, 30);
+		
 		}	
 	} //end
+	void ShamblesWaitframe(ffc this, npc ghost, int frames)
+	{
+		for(int i=0; i<frames; ++i)
+			Ghost_Waitframe(this, ghost, 1, true);
+	}
 
 } //end
 
 //~~~~~Demonwall~~~~~//
-//start
-	/*
-npc script Demonwall
+/*
+npc script Demonwall //start
 {
 	
 	void run()
@@ -1181,10 +1386,8 @@ npc script Demonwall
 		}
 
 	{
-}
-	*/
-//end
-
+} //end
+*/
 
 //end
 

@@ -197,59 +197,6 @@ void chargeSlash() //start
 	
 } //end
 
-// Does a jump to link
-void jumpAttack() //start
-{
-
-} //end
-
-// Does standard death animation explosion (from newbie boss)
-void deathExplosion() //start
-{
-	// Game->PlaySound(SFX_BOMB);
-	
-	// lweapon explosion=Screen->CreateLWeapon(LW_EZB_DEATHEXPLOSION);
-	// explosion->X = x-(WIDTH_EZB_DEATHEXPLOSION-1)*8;
-	// explosion->Y = y-(HEIGHT_EZB_DEATHEXPLOSION-1)*8;
-	
-	// explosion->Extend = 3;
-	// explosion->TileWidth = WIDTH_EZB_DEATHEXPLOSION;
-	// explosion->TileHeight = HEIGHT_EZB_DEATHEXPLOSION;
-	
-	// explosion->UseSprite(SPR_EZB_DEATHEXPLOSION);
-	// explosion->CollDetection = false;
-	// explosion->DeadState = explosion->NumFrames*explosion->ASpeed;
-} //end
-
-// Does standard death animation (from newbie boss)
-void deathAnimation(int currX, int currY) //start
-{
-	// int baseX=Ghost_X+ghost->DrawXOffset;
-	// int baseY=(Ghost_Y+ghost->DrawYOffset)-(Ghost_Z+ghost->DrawZOffset);
-	
-	// __DeathAnimStart(this, ghost);
-	// __DeathAnimSFX(ghost->ID, ghost->X);
-	
-	// if(flash)
-		// __Ghost_FlashCounter=10000;
-	// else
-		// __Ghost_FlashCounter=0;
-	
-	//One explosion every 16 frames, 15 times
-	// for(int i=0; i<15; i++)
-	// {
-		// EZB_CreateDeathExplosion(baseX+Rand(16*Ghost_TileWidth)-8, baseY+Rand(16*Ghost_TileHeight)-8);
-		
-		// for(int j=0; j<16; j++)
-		// {
-			// Ghost_SetPosition(this, ghost); // Make sure it doesn't wander off
-			// if(flash)
-				// __Ghost_UpdateFlashing(this, ghost);
-			// Ghost_WaitframeLight(this, ghost);
-		// }
-	// }
-} //end
-
 int FindJumpLength(int jumpInput, bool inputFrames) //start
 {
 	//Big ol table of rough jump values and their durations
@@ -359,7 +306,8 @@ int FindJumpLength(int jumpInput, bool inputFrames) //start
 	}; //end
 
 	//When getting a duration from a jump
-	if(!inputFrames){
+	unless (inputFrames)
+	{
 		//Keep values between 0 and 10, nothing beyond that would be sensible in most cases
 		jumpInput = Clamp(jumpInput, 0, 10);
 		//Round to the nearest 0.1
@@ -370,12 +318,15 @@ int FindJumpLength(int jumpInput, bool inputFrames) //start
 		return jumpTBL[jumpInput*2+1];
 	}
 	//When getting a jump from a duration
-	else{
+	else
+	{
 		int closestIndex = 0;
 		int closest = 0;
 		//Cycle through the table to find the closest duration to the desired one
-		for(int i=1; i<100; i++){
-			if(Abs(jumpTBL[i*2+1]-jumpInput)<Abs(closest-jumpInput)){
+		for(int i=1; i<100; ++i)
+		{
+			if(Abs(jumpTBL[i*2+1]-jumpInput)<Abs(closest-jumpInput))
+			{
 				closestIndex = i;
 				closest = jumpTBL[i*2+1];
 			}
@@ -423,11 +374,57 @@ void enemyShake(ffc this, npc ghost, int frames, int intensity) //start
 	ghost->DrawYOffset = -2;
 } //end
 
+void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) //start
+{
+    int til;
+    if(addDir)
+        til = Game->ComboTile(Ghost_Data+Ghost_Dir);
+    else
+        til = Game->ComboTile(Ghost_Data);
+		
+    int cset = this->CSet;
+    int w = Ghost_TileWidth;
+    int h = Ghost_TileHeight;
+    
+    lweapon trail = CreateLWeaponAt(LW_SCRIPT10, Ghost_X, Ghost_Y);
+    trail->OriginalTile = til;
+    trail->Tile = til;
+    trail->CSet = cset;
+    trail->Extend = 3;
+    trail->TileWidth = w;
+    trail->TileHeight = h;
+    trail->CollDetection = false;
+    trail->DeadState = duration;
+    trail->DrawStyle = DS_PHANTOM;
+} //end
 
+//	Calls and EWeapon script
+void RunEWeaponScript(eweapon e, int scr, int args) //start
+{
+    e->Script = scr;
+    int numArgs = SizeOfArray(args);
+	
+    for(int i=0; i<numArgs; ++i)
+        e->InitD[i] = args[i];
+		
+} //end
 
-
-
-
+// Returns true if a rectangular section of screen is walkable to a ghosted enemy
+bool Ghost_CanPlace(int X, int Y, int w, int h) //start
+{
+    for(int x=0; x<=w-1; x=Min(x+8, w-1)){
+        for(int y=0; y<=h-1; y=Min(y+8, h-1)){
+            if(!Ghost_CanMovePixel(X+x, Y+y))
+                return false;
+            
+            if(y==h-1)
+                break;
+        }
+        if(x==w-1)
+            break;
+    }
+    return true;
+} //end
 
 
 

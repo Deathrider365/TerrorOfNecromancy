@@ -13,6 +13,9 @@ typedef const Color COLOR;
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
 
+CONFIG SPR_POISON_CLOUD = 111;
+CONFIG SFX_SIZZLE = 128;
+
 
 //~~~~~Enums~~~~~//
 
@@ -41,4 +44,18 @@ enum ScreenType //start
 	DM_INTERIOR,
 	DM_BSOVERWORLD
 }; //end
+
+enum ArcingWeaponEffects
+{
+	AE_BOMB,
+	AE_SMALLPOISONPOOL,
+	AE_LARGEPOISONPOOL,
+	AE_PROJECTILEWITHMOMENTUM,
+	AE_DEBUG
+};
+
+
+
+
+
 

@@ -21,7 +21,6 @@ COLOR SUB_TEXT_COLOR = C_BLACK;
 CONFIG SUB_TEXT_FONT = FONT_LA;
 CONFIG SUB_COOLDOWN_TILE = 29281;
 CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
-CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
 
 CONFIG TILE_LEGIONNAIRE_RING = 42700;
 CONFIG CSET_LEGIONNAIRE_RING = 4;
@@ -32,6 +31,13 @@ CONFIG WIDTH_EZB_DEATHEXPLOSION = 2; //Tile width for death explosions
 CONFIG HEIGHT_EZB_DEATHEXPLOSION = 2; //Tile height for death explosions
 CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
 CONFIG LW_EZB_DEATHEXPLOSION = 40; //LWeapon type used for death explosions. Script 10 by default
+
+
+//start Counter constants
+CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
+CONFIG CR_HEARTPIECES = CR_SCRIPT2;
+//end Counter constants
+
 
 int onContHP = 0;
 int onContMP = 0;

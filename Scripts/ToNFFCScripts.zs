@@ -344,7 +344,7 @@ ffc script Signpost //start
 		}
 	}
 	
-	bool AgainstComboBase(int loc, bool anySide)
+	bool AgainstComboBase(int loc, bool anySide) //start
 	{
 		if(Hero->Z) 
 			return false;
@@ -365,7 +365,7 @@ ffc script Signpost //start
 			|| (Hero->Dir == DIR_RIGHT && Hero->X == ComboX(loc) - 16 && Abs(Hero->Y-ComboY(loc)) < 8));
 		else 
 			return false;
-	}
+	} //end
 }
 
 //end
