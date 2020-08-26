@@ -12,7 +12,6 @@ namespace Leviathan //start
 	const int NPC_LEVIATHANHEAD = 177;
 
 	CONFIG SFX_RISE = 67;		//9
-	CONFIG SFX_ROCKINGSHIP = 9;
 	CONFIG SFX_WATERFALL = 26;
 	CONFIG SFX_LEVIATHAN1_ROAR = SFX_ROAR;
 	CONFIG SFX_LEVIATHAN1_SPLASH = SFX_SPLASH;
@@ -33,7 +32,6 @@ namespace Leviathan //start
 	const int MSG_BEATEN = 19;
 
 	bool firstRun = true;
-	
 	
 	npc script Leviathan1 //start
 	{	

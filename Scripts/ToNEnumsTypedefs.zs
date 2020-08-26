@@ -16,6 +16,8 @@ CONFIG SFX_SLAM = 0;
 CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SFX_SIZZLE = 128;
 
+CONFIG SFX_ROCKINGSHIP = 9;
+
 
 //~~~~~Enums~~~~~//
 
@@ -34,7 +36,8 @@ enum Color //start
 	C_DGRAY = 0x28,
 	C_TAN = 0x75,
 	C_SEABLUE = 0x76,
-	C_DARKBLUE = 0x77
+	C_DARKBLUE = 0x77,
+	C_DEEPBLUE = 0x1F
 }; //end
 
 enum ScreenType //start

@@ -24,12 +24,8 @@ const int ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be 
 const int D_DEATHS = 0;
 const int MSG_LINK_BEATEN = 23;
 
-bool firstEntry = true;
+bool levelEntries[512]; 
 
-bool justBeaten = true;
-
-bool lvl1FirstEntry = true;
-int dungeonLevelStrings[20];
 //end
 
 //~~~~~VoiceOverText~~~~~//
@@ -132,21 +128,27 @@ ffc script OpenForItemID //start
 //D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
-{
+{	
 	void run(int musicChoice, int isFanfare)
 	{
-		int bossFanfare[256];
-		int areamusic[256];
-		
+		char32 areaMusic[256];
+
 		if (Screen->State[ST_SECRET])
 			Quit();
 		
 		Waitframes(4);
 		
+		unless (EnemiesAlive())
+			return;
+		
 		switch(musicChoice)
 		{		
 			case 1:
-				 Audio->PlayEnhancedMusic("Middle Boss - OoT.ogg", 0);
+				Audio->PlayEnhancedMusic("Middle Boss - OoT.ogg", 0);
+				break;
+				
+			case 2:
+				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
 				
 			case 2:
@@ -154,33 +156,18 @@ ffc script BossMusic //start
 				break;
 		}
 		
-		while(ScreenEnemiesAlive())
+		while(EnemiesAlive())
 			Waitframe();
 			
-		if (justBeaten && isFanfare == 1)
+		if (isFanfare == 1)
 		{
 			Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
-			justBeaten = false;
+			Waitframes(1465);
 		}
-		else
-		{
-			Game->GetDMapMusicFilename(Game->GetCurDMap(), areamusic);
-			Audio->PlayEnhancedMusic(areamusic, 0);
-		}
-	}
-	
-	bool ScreenEnemiesAlive()
-	{
-		for(int i = Screen->NumNPCs(); i >= 1; i--)
-		{
-			npc n = Screen->LoadNPC(i);
-			
-			if(n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-				if(!(n->MiscFlags&(1<<3)))
-					return true;
-		}
-		
-		return false;
+
+		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+		Audio->PlayEnhancedMusic(areaMusic, 0);
+
 	}
 }
 
@@ -281,16 +268,77 @@ ffc script NormalString //start
 
 //end
 
+//~~~~~ItemGuy~~~~~//
+//D0: Number of string to show
+//D1: Item to be given
+//D2: X position of where the item will appear
+//D3: Y position of where the item will appear
+@Author("Deathrider365")
+ffc script ItemGuy //start
+{
+	void run(int message, int itemID, int x, int y)
+	{
+		if (Screen->State[ST_SPECIALITEM])
+			return;
+		
+		Waitframes(2);
+		itemsprite it = CreateItemAt(itemID, x, y);
+		it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+		
+		unless(getScreenD(255))
+			Screen->Message(message);
+		
+		setScreenD(255, true);
+	}
+}
+
+//end
+
+//~~~~~ItemGuySecret~~~~~//
+//D0: Number of string to show
+//D1: Item to be given
+//D2: X position of where the item will appear
+//D3: Y position of where the item will appear
+@Author("Deathrider365")
+ffc script ItemGuySecret //start
+{
+    void run(int message, int itemID, int x, int y)
+    {
+        while (true)
+        {
+            if (Screen->State[ST_SPECIALITEM])
+                return;
+            
+            if (Screen->State[ST_SECRET])
+            {
+                Waitframes(2);
+                itemsprite it = CreateItemAt(itemID, x, y);
+                it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+				
+				unless(getScreenD(255))
+					Screen->Message(message);
+				
+				setScreenD(255, true);
+				
+                return;
+            }
+            Waitframe();
+        }
+    }
+}
+
+//end
+
 //~~~~~DungeonString~~~~~//
 //D0: Number of string to show
 @Author("Deathrider365")
 ffc script DungeonString //start
 {
-	void run(int m/*, int level*/)
-	{
-		if (lvl1FirstEntry)
+	void run(int m)
+	{		
+		unless (levelEntries[Game->GetCurLevel()])
 		{
-			lvl1FirstEntry = false;
+			levelEntries[Game->GetCurLevel()] = true;
 			Waitframes(2);
 			Screen->Message(m);		
 		}
@@ -1379,7 +1427,7 @@ ffc script LeviathanFailureP1 //start
 					Quit();
 				else
 				{
-					Hero->HP = 1;
+					Hero->HP = 4;
 					Hero->Warp(dmap, scrn);					
 				}	
 			}
@@ -1492,7 +1540,8 @@ ffc script Leviathan1Ending //start
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
-					Hero->Item[q] = false;
+					unless(q == 3)
+						Hero->Item[q] = false;
 					
 				Game->Counter[CR_SBOMBS] = 0;
 				Game->Counter[CR_BOMBS] = 0;
@@ -1552,21 +1601,6 @@ ffc script EndOfOpeningScene //start
 	}
 } //end
 
-//~~~~~IoHStart~~~~~//
-//D0: String to show on first entry
-@Author ("Deathrider365")
-ffc script IoHStart //start
-{
-	void run(int msg)
-	{
-		if (firstEntry)
-		{		
-			firstEntry = false;
-			Screen->Message(msg);
-		}
-	}
-} //end
-
 //~~~~~DifficultyChoice~~~~~//
 @Author ("Deathrider365")
 ffc script DifficultyChoice //start
@@ -1609,6 +1643,9 @@ ffc script ContinuePoint //start
 @Author ("Venrob")
 ffc script Shutter //start
 {
+	/*
+	Distance(this->X, this->Y, Hero->X, Hero->Y)	//check distance between ffc and link to determine the shutter
+	*/
 	void run(int direction)
 	{
 		direction = VBound(direction, 3, 0);	//Param boundary check
