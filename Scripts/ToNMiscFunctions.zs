@@ -398,7 +398,7 @@ void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) //start
     trail->DrawStyle = DS_PHANTOM;
 } //end
 
-//	Calls and EWeapon script
+//	Calls an EWeapon script
 void RunEWeaponScript(eweapon e, int scr, int args) //start
 {
     e->Script = scr;

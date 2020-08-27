@@ -1303,23 +1303,23 @@ namespace Shambles
 				switch(choice) 
 				{
 					case 0:	//start LinkCharge
-					
+						Waitframes(30);
 						for (int i = 0; i < 5; ++i)
 						{
 							int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
 							
-							Audio->PlaySound(SFX_SWORD);										//change
+							Audio->PlaySound(SFX_SWORD);
 							
 							for (int j = 0; j < 22; ++j)
 							{
-								if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0)
-								{
-									eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, ghost->WeaponDamage, 
-																		SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+								// if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0)		//Save for the Boss rush at the tailend of the game
+								// {
+									// eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, ghost->WeaponDamage, 
+																		// SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
 
-									SetEWeaponLifespan(poisonTrail, EWL_TIMER, 180);
-									SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
-								}
+									// SetEWeaponLifespan(poisonTrail, EWL_TIMER, 180);
+									// SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+								// }
 								
 								Ghost_ShadowTrail(this, ghost, false, 4);
 								Ghost_MoveAtAngle(moveAngle, 3, 0);
@@ -1338,7 +1338,6 @@ namespace Shambles
 							eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 							Audio->PlaySound(129);
 							RunEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
-							
 							Waitframes(6);
 						}
 						break; //end
