@@ -1523,14 +1523,14 @@ ffc script Leviathan1Ending //start
 			if (i == 10)
 			{
 				eweapon waterfallLeft = CreateEWeaponAt(EW_SCRIPT10, 76, 64);
-				waterfallLeft->Damage = LEVIATHAN1_WATERFALL_DMG;
+				waterfallLeft->Damage = 0;
 				waterfallLeft->Script = Game->GetEWeaponScript("Waterfall");
 				waterfallLeft->DrawYOffset = -1000;
 				waterfallLeft->InitD[0] = 3;
 				waterfallLeft->InitD[1] = 64;	
 				
 				eweapon waterfallRight = CreateEWeaponAt(EW_SCRIPT10, 124, 64);
-				waterfallRight->Damage = LEVIATHAN1_WATERFALL_DMG;
+				waterfallRight->Damage = 0;
 				waterfallRight->Script = Game->GetEWeaponScript("Waterfall");
 				waterfallRight->DrawYOffset = -1000;
 				waterfallRight->InitD[0] = 3;

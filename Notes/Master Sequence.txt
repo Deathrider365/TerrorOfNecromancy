@@ -53,9 +53,9 @@ Current Items as of beating Level 1
 
 <Link walks into the portal taking him to Interitus>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~ The Real Game Begins ~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <Link adventures Interitus a little and eventually comes across Level 2>
 
@@ -80,7 +80,11 @@ Current Items as of beating Level 2
 
 <Link goes through Level 2 and in the boss room he finds the Necromancer>
 
-"Ah, you have arrived Link. It seems my Leviathan was unable to claim you, no surprise given your reputation. The princess? My minions found her washed up on shore after your unfortunate accident. Do not worry, I have already stripped her of her Triforce of Wisdom and put her somewhere where she will be safe. Oh, I also possess the Triforce of Power, it was recovered from the wreckage of your ship. I do not expect you to give your Triforce of Courage freely, so I shall pry it from your corpse, which I will then use as as one of my most prized thralls!"
+"Ah, you have arrived Link. It seems my Leviathan was unable to claim you, no surprise given your reputation. The princess? 
+My soldiers found her washed up on shore after your unfortunate accident. Do not worry, I have already stripped her of her 
+Triforce of Wisdom and put her somewhere where she will be safe. Oh, I also possess the Triforce of Power, it was recovered 
+from the wreckage of your ship. I do not expect you to give your Triforce of Courage freely, so I shall pry it from your corpse, 
+which I will then use as as one of my most prized thralls!"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Link fights the Necromancer which obviously is an unwinnable fight
