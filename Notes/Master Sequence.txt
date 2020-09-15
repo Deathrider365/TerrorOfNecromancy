@@ -53,6 +53,12 @@ Current Items as of beating Level 1
 
 <Link walks into the portal taking him to Interitus>
 
+888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+Created up until here (obviously a lot has changed)
+888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~ The Real Game Begins ~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,12 +109,14 @@ Link fights the Necromancer which obviously is an unwinnable fight
 "I see you are awake, I feared that you were lost. I know who you are Link, you are the hero that saved Hyrule numerous times. I see the Necromancer extracted the Triforce of Courage from you, that is unfortunate. I have heard word that he already posses 3 of the 4 triforce, all he needs to do is find Zelda and he will wreck havoc on entire world. Link, you must find Zelda, and collect all 4 Triforce before he can. I hear he split each Triforce into 3 fragments to prevent you from obtaining them. I managed to find the equipment you lost after your duel with the Necromancer, they are in the chest behind me. Good luck Link!"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Link opens the chest behind the old man giving the Wooden Sword, Wooden Boomerang, Wooden Bow, and a Magic Shield
+Link opens the chest behind the old man giving the Wooden Sword, Wooden Boomerang, Wooden Bow, and a Small Shield
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 <Link now goes out to collect the fragments of the Tiforces as well as looking out for Zelda>
 
 <Shops available to buy a small quiver (20)>
+
+<Able to buy a magic shield>
 
 <Link finds minidungeon 1>
 
@@ -118,7 +126,7 @@ Minidungeon 1:  - Obtains the ability to shoot a bow from someone in the dungeon
 Total items as of beating Minidungeon 1
 - Wooden Sword
 - Wooden Boomerang
-- Magic Shield
+- Small Shield
 - Wooden Bow (useless)
 - Small quiver (20)
 - Small bomb bag (10)
