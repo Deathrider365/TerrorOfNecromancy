@@ -12,8 +12,8 @@ const int DIFFICULTY_VERYHARD_DAMAGE_MULTIPLIER = 1;
 const int DIFFICULTY_ENEMY_VERYEASY_DAMAGE_MULTIPLIER = 0.5;
 const int DIFFICULTY_ENEMY_EASY_DAMAGE_MULTIPLIER = 0.75;
 const int DIFFICULTY_ENEMY_NORMAL_DAMAGE_MULTIPLIER = 1;
-const int DIFFICULTY_ENEMY_HARD_DAMAGE_MULTIPLIER = 2;
-const int DIFFICULTY_ENEMY_VERYHARD_DAMAGE_MULTIPLIER = 4;
+const int DIFFICULTY_ENEMY_HARD_DAMAGE_MULTIPLIER = 1.5;
+const int DIFFICULTY_ENEMY_VERYHARD_DAMAGE_MULTIPLIER = 2.75;
 
 //Enemy base HP multipliers
 const int DIFFICULTY_ENEMY_VERYEASY_HP_MULTIPLIER = 0.5;
@@ -32,24 +32,24 @@ const int DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER = 1.2;
 //Item IDs for difficulty selection items
 //If using damage divisors for lower difficulties, these should use Peril Ring items for best results
 //If 0, that difficulty level will go unused
-const int I_DIFF_VERYEASY = 143;
-const int I_DIFF_EASY = 144;
-const int I_DIFF_NORMAL = 145;
-const int I_DIFF_HARD = 146;
-const int I_DIFF_VERYHARD = 147;
+const int I_DIFF_VERYEASY = 163;
+const int I_DIFF_EASY = 160;
+const int I_DIFF_NORMAL = 161;
+const int I_DIFF_HARD = 162;
+const int I_DIFF_VERYHARD = 164;
 
 void DifficultyGlobal_SetEnemyHP(npc n, int val)
 {
 	//If using ghost.zh, uncomment the following and comment out the line below
-		//SetEnemyProperty(n, ENPROP_HP, val);
-		n->HP = val;
+		SetEnemyProperty(n, ENPROP_HP, val);
+		// n->HP = val;
 }
 
 int DifficultyGlobal_GetEnemyHP(npc n)
 {
 	//If using ghost.zh, uncomment the following and comment out the line below
-		//return GetEnemyProperty(n, ENPROP_HP);
-		return n->HP;
+		return GetEnemyProperty(n, ENPROP_HP);
+		// return n->HP;
 }
 
 //This function handles exceptions to enemy stat calculation / manual stat assignment based on difficulty
@@ -79,28 +79,28 @@ void DifficultyGlobal_InitEnemyTables()
 	// EnemyDiff_Weapon(NPC_STALFOS2, WPN_NONE, WPN_NONE, WPN_ENEMYSWORD, WPN_ENEMYSWORD, WPN_ENEMYSWORD);
 	// EnemyDiff_ItemSet(NPC_STALFOS2, 1, 1, 1, 0, 0);
 	
-	EnemyDiff_HP(NPC_DARKNUT1, 2, 4, -1, -1, -1);
-	EnemyDiff_RandomRate(NPC_DARKNUT1, 1, 2, -1, -1, -1);
-	EnemyDiff_Damage(NPC_DARKNUT1, -1, -1, -1, 8, 12);
-	EnemyDiff_HP(NPC_DARKNUT2, 6, 12, -1, -1, -1);
-	EnemyDiff_RandomRate(NPC_DARKNUT2, 1, 3, -1, -1, -1);
-	EnemyDiff_Damage(NPC_DARKNUT2, -1, -1, -1, 16, 24);
+	// EnemyDiff_HP(NPC_DARKNUT1, 2, 4, -1, -1, -1);
+	// EnemyDiff_RandomRate(NPC_DARKNUT1, 1, 2, -1, -1, -1);
+	// EnemyDiff_Damage(NPC_DARKNUT1, -1, -1, -1, 8, 12);
+	// EnemyDiff_HP(NPC_DARKNUT2, 6, 12, -1, -1, -1);
+	// EnemyDiff_RandomRate(NPC_DARKNUT2, 1, 3, -1, -1, -1);
+	// EnemyDiff_Damage(NPC_DARKNUT2, -1, -1, -1, 16, 24);
 	
-	EnemyDiff_HP(NPC_KEESE1, -1, -1, -1, 4, 4);
-	EnemyDiff_Damage(NPC_KEESE1, 1, 1, 2, 4, 6);
-	EnemyDiff_HP(NPC_KEESE2, -1, -1, -1, 4, 4);
-	EnemyDiff_Damage(NPC_KEESE2, 1, 1, 2, 4, 6);
-	EnemyDiff_HP(NPC_KEESE3, -1, -1, -1, 4, 4);
-	EnemyDiff_Damage(NPC_KEESE3, 1, 1, 2, 4, 6);
+	// EnemyDiff_HP(NPC_KEESE1, -1, -1, -1, 4, 4);
+	// EnemyDiff_Damage(NPC_KEESE1, 1, 1, 2, 4, 6);
+	// EnemyDiff_HP(NPC_KEESE2, -1, -1, -1, 4, 4);
+	// EnemyDiff_Damage(NPC_KEESE2, 1, 1, 2, 4, 6);
+	// EnemyDiff_HP(NPC_KEESE3, -1, -1, -1, 4, 4);
+	// EnemyDiff_Damage(NPC_KEESE3, 1, 1, 2, 4, 6);
 	
-	EnemyDiff_Step(NPC_STALFOS2, -1, -1, -1, 100, 150);
-	EnemyDiff_Weapon(NPC_STALFOS2, WPN_NONE, WPN_NONE, -1, -1, -1);
+	// EnemyDiff_Step(NPC_STALFOS2, -1, -1, -1, 100, 150);
+	// EnemyDiff_Weapon(NPC_STALFOS2, WPN_NONE, WPN_NONE, -1, -1, -1);
 	
-	EnemyDiff_Damage(NPC_GHINI1, -1, -1, -1, 4, 6);
+	// EnemyDiff_Damage(NPC_GHINI1, -1, -1, -1, 4, 6);
 	
-	EnemyDiff_Damage(NPC_GIBDO, -1, -1, -1, 16, 24);
+	// EnemyDiff_Damage(NPC_GIBDO, -1, -1, -1, 16, 24);
 	
-	EnemyDiff_HP(NPC_SHOOTFBALL, -1000, -1000, -1, -1, -1);
+	// EnemyDiff_HP(NPC_SHOOTFBALL, -1000, -1000, -1, -1, -1);
 }
 
 //======= INTERNAL CONSTANTS, DO NOT CHANGE ======
@@ -607,7 +607,7 @@ ffc script Difficulty_Override
 }
 
 const int SFX_DIFFICULTY_SELECT = 6; //Sound when moving difficulty selection cursor
-const int CMB_AUTOWARPA = 504; //An invisible combo with the Auto Side Warp A type
+const int CMB_AUTOWARPA = 32; //An invisible combo with the Auto Side Warp A type
 
 //Colors for black, white, and gray. Used for selection menu drawing.
 // const int C_WHITE = 0x01;
@@ -686,7 +686,7 @@ ffc script Difficulty_SelectionScreen
 		{
 			while(true)
 			{
-				DiffMenu_DrawString(6, 128, 32, FONT_Z1, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
+				DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
 				
 				if(Link->PressUp)
 				{
@@ -706,9 +706,9 @@ ffc script Difficulty_SelectionScreen
 				for(i=0; i<numOptions; ++i)
 				{
 					if(selection==i)
-						DiffMenu_DrawString(6, 128, 64+12*i, FONT_Z1, C_WHITE, C_BLACK, TF_CENTERED, options[i], 128);
+						DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, options[i], 128);
 					else
-						DiffMenu_DrawString(6, 128, 64+12*i, FONT_Z1, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
+						DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
 				}
 				
 				if(Link->PressA||Link->PressStart)

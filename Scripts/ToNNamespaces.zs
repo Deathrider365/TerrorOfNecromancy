@@ -87,7 +87,7 @@ namespace Leviathan //start
 			//
 			//    The leviathan is rising and screen is quaking
 			//
-			for(i = 0; i < 180; ++i)        
+			for(i = 0; i < 180; ++i) //start
 			{
 				Hero->Dir = DIR_UP;
 				NoAction();
@@ -100,12 +100,12 @@ namespace Leviathan //start
 				}
 
 				Waitframe(this, vars);
-			}
+			} //end
 			
 			//
 			//    The leviathan pauses, roars, then pauses
 			//			
-			for(i = 0; i < 120; ++i)
+			for(i = 0; i < 120; ++i) //start
 			{
 				NoAction();
 				if (i == 60)
@@ -120,16 +120,16 @@ namespace Leviathan //start
 				}
 				 
 				Waitframe(this, vars);
-			}
+			} //end
 			
 			//
 			//    The leviathan dives
 			//
-			for(i = 0; i < 20; ++i)
+			for(i = 0; i < 20; ++i) //start
 			{
 				GlideFrame(this, vars, 52, 32, 52, 112, 20, i);
 				Waitframe(this, vars);
-			}
+			} //end
 			
 			//
 			//    The splash SFX he makes when diving

@@ -259,10 +259,23 @@ ffc script ScreenBeforeLeviathan1 //start
 @Author("Deathrider365")
 ffc script NormalString //start
 {
-	void run(int m)
+	void run(int m, int triggerOnSecret)
 	{
-		Waitframes(2);
-		Screen->Message(m);
+		if (triggerOnSecret)
+		{
+			if (Screen->State[ST_SECRET])
+			{
+				Waitframes(2);
+				Screen->Message(m);
+			}
+			else
+				Waitframe();
+		}
+		else
+		{
+			Waitframes(2);
+			Screen->Message(m);
+		}
 	}
 }
 
@@ -1344,6 +1357,8 @@ ffc script BattleArena //start
 	void run(int enemyListNum, int roundListNum, int rounds, int message, int prize)
 	{	
 	/*
+		Audio->PlayEnhancedMusic("ToT Miniboss theme.ogg", 0)
+		
 		int currentEnemyList[10]; 
 		getEnemiesList(currentEnemyList, enemyListNum);
 		int currentRoundList[10] = getRoundList(roundListNum);
@@ -1488,7 +1503,7 @@ ffc script Leviathan1Ending //start
 		
 		// Buffer
 		for (int i = 0; i < 60; ++i)
-		{					
+		{
 			NoAction();
 			Screen->DrawTile(0, 16, 4, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 			Waitframe();			
@@ -1540,7 +1555,7 @@ ffc script Leviathan1Ending //start
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
-					unless(q == 3)
+					unless(q == 3 || q == I_DIFF_NORMAL)
 						Hero->Item[q] = false;
 					
 				Game->Counter[CR_SBOMBS] = 0;
@@ -1568,6 +1583,194 @@ ffc script Leviathan1Ending //start
 	}
 }
 
+//end
+
+//~~~~~PreInteritusCutscene~~~~~//
+//D0: Dmap to warp to
+//D1: screen to warp to
+@Author ("Deathrider365")
+ffc script PreInteritusCutscene //start
+{
+	void run(int reg)
+	{
+		while(true)
+		{
+			if (Hero->X == 0 && Hero->Y > 59)
+			{
+				unless (getScreenD(reg))
+				{
+					setScreenD(reg, true);
+					Hero->WarpEx({WT_IWARPOPENWIPE, 0, 80, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+				}
+				else
+					Hero->WarpEx({WT_IWARPOPENWIPE, 4, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
+			}
+			else
+				Hero->Action = LA_RAFTING;
+
+			Waitframe();
+		}
+	}
+}
+
+//end
+
+//~~~~~PreInteritusLeviathanScene~~~~~//
+//D0: Dmap to warp to
+//D1: screen to warp to
+@Author ("Deathrider365")
+ffc script PreInteritusLeviathanScene //start
+{
+	using namespace Leviathan;
+	
+	void run()
+	{			
+		Hero->Item[26] = false;
+		
+		Audio->PlayEnhancedMusic(NULL, 0);
+		
+		for (int i = 0; i < 120; ++i)
+		{
+			NoAction();
+			Screen->FastCombo(2, 240 - i, 128, 6743, 0, OP_OPAQUE);
+			Screen->FastCombo(1, 240 - i, 128, 6742, 0, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		Audio->PlayEnhancedMusic("Bomb Ring - Final Fantasy IV.ogg", 0);
+	
+		if (waterfall_bmp && waterfall_bmp->isAllocated())
+			waterfall_bmp->Free();
+			
+		waterfall_bmp = Game->CreateBitmap(32, 176);
+		
+		Leviathan1.UpdateWaterfallBitmap();
+		
+		Hero->Dir = DIR_UP;
+		NoAction();
+		
+		// Rising
+		for(int i = 0; i < 180; ++i) //start
+		{
+			NoAction();
+			
+			Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+			Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
+			
+			Screen->DrawTile(0, -16, 228 - i, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Waitframe();
+			
+			if(i % 40 == 0)
+			{
+				Audio->PlaySound(SFX_ROCKINGSHIP);
+				Screen->Quake = 20;
+			}
+
+			Waitframe();
+		} //end
+		
+		//
+		//    The leviathan pauses
+		//
+		for(int i = 0; i < 120; ++i) //start
+		{
+			NoAction();
+			
+			Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+			Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
+			
+			Screen->DrawTile(0, -16, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Waitframe();
+		} //end
+		
+		Audio->PlaySound(SFX_ROAR);
+		Screen->Message(47);
+		
+		for(int i = 0; i < 120; ++i) //start
+		{
+			NoAction();
+			
+			Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+			Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
+			
+			Screen->DrawTile(0, -16 - 0.125, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+			Waitframe();
+		} //end
+
+		int x, x2, j, k;
+		
+		//Charging
+		for (int i = 0; i < 128; ++i)
+		{				
+			NoAction();
+			
+			if (i < 80)
+			{
+				Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+				Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
+			}
+			
+			Screen->DrawTile(0, -16 + (i * 2), 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);		
+			
+			if (i == 10)
+			{
+				int side = -1;
+				
+				x = side == -1 ? -32 : 144;
+				x2 = x + 32 * side;
+				
+				for(i = 0; i < 64; ++i)
+				{
+					Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
+					
+					Screen->DrawTile(0, -16 + (i * 2) + 20, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);		
+					
+					this->X -= side * 4;
+					this->Y += 0.5;
+					
+					eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, this->X + 80, 112);
+					waterfall->Damage = 0;
+					waterfall->Script = Game->GetEWeaponScript("Waterfall");
+					waterfall->DrawYOffset = -1000;
+					waterfall->InitD[0] = 1;
+					waterfall->InitD[1] = 64 - i * 0.5;
+					
+					Waitframe();
+				}
+			}
+			
+			if (i % 80 == 0)
+			   Audio->PlaySound(SFX_ROAR);
+			
+			if (i == 120)
+				Hero->WarpEx({WT_IWARPOPENWIPE, 2, 96, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+			
+			Waitframe();
+		}		
+	}
+}
+
+//end
+
+//~~~~~PostSceneEnteringInteritus~~~~~//
+//D0: Dmap to warp to
+//D1: screen to warp to
+@Author ("Deathrider365")
+ffc script PostSceneEnteringInteritus //start
+{
+	void run()
+	{
+		while(true)
+		{
+			if (Hero->X == 240 && Hero->Y == 80)
+			{
+				Hero->Action = LA_RAFTING;
+			}
+			Waitframe();
+		}
+	}
+}
 //end
 
 //~~~~~EndOfOpeningScene~~~~~//
@@ -1602,21 +1805,44 @@ ffc script EndOfOpeningScene //start
 } //end
 
 //~~~~~DifficultyChoice~~~~~//
-@Author ("Deathrider365")
+@Author ("Moosh")
 ffc script DifficultyChoice //start
 {
     void run()
 	{
-		if (Input->Button[CB_A])
-		{		
-			//normal mode
-		}
-		else
+		Waitframes(60);
+		
+		while(true)
 		{
-			//paladin mode
+			if (Input->Press[CB_A])
+			{
+				Hero->Item[I_DIFF_NORMAL] = true;
+				break;
+			}
+			else if (Input->Press[CB_B])
+			{
+				Hero->Item[I_DIFF_VERYHARD] = true;
+				break;
+			}
+			
+			Waitframe();
 		}
+		
+		Audio->PlaySound(32);
+		
+		Waitframes(120);
+		
+		Hero->WarpEx({WT_IWARPOPENWIPE, 4, 0x3E, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});	
     }
 } //end
+
+ffc script GiveItem
+{
+	void run()
+	{
+		Hero->Item[I_DIFF_NORMAL] = true;
+	}
+}
 
 //~~~~~ContinuePoint~~~~~//
 @Author ("Venrob")

@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Global Active~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Global ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~Constants/globals~~~~~//
@@ -57,6 +57,7 @@ global script Init
 	}
 }
 //end
+
 //~~~~~Active~~~~~//
 //start
 global script GlobalScripts
@@ -68,14 +69,19 @@ global script GlobalScripts
 		
 		LinkMovement_Init();
 		StartGhostZH();
+		DifficultyGlobal_Init();
+
 		
 		while(true)
 		{
-			gameframe = (gameframe+1)%3600;	//global timer
+			gameframe = (gameframe + 1) % 3600;	//global timer
 			checkDungeon();
 			
 			LinkMovement_Update1();
 			UpdateGhostZH1();
+			
+			DifficultyGlobal_Update();
+			DifficultyGlobal_EnemyUpdate();
 			
 			Waitdraw();
 			

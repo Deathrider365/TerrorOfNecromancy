@@ -4,6 +4,9 @@
 
 CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
+CONFIG TILE_DIFF_NORMAL = 32081;
+CONFIG TILE_DIFF_HARD = 32141;
+CONFIG TILE_DIFF_PALADIN = 32142;
 
 @Author("Venrob")
 dmapdata script PassiveSubscreen
@@ -12,7 +15,7 @@ dmapdata script PassiveSubscreen
 	void run() //start
 	{
 		bitmap bm = Game->CreateBitmap(256,56);
-		bm->ClearToColor(0, BG_COLOR);
+		// bm->ClearToColor(0, BG_COLOR);
 		bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0); //Draw BG screen
 		//Do any other draws to the bitmap here
 		
@@ -129,7 +132,15 @@ dmapdata script PassiveSubscreen
 	
 	void do_psub_frame(bitmap bm, int y)
 	{
-		Screen->Rectangle(7, 0, y, 255, y + 55, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
+		if (y > -55)
+			Screen->Rectangle(7, 0, y, 255, y + 55, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
+		else
+		{
+			Screen->Rectangle(7, 0, y, 180, y + 55, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
+			Screen->Rectangle(7, 0, y + 12, 255, y + 55, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
+			Screen->Rectangle(7, 235, y, 255, y + 12, BG_COLOR, 1, 0, 0, 0, true, OP_OPAQUE);
+		}
+		
 		bm->Blit(7, RT_SCREEN, 0, 0, 256, 56, 0, y, 256, 56, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
 		//start Counters
 		//Rupees
@@ -195,10 +206,14 @@ dmapdata script PassiveSubscreen
 			                     162+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
 								 C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 		//end Magic Meter
+		//start Difficulty Item Display
+		drawDifficultyItem(y);
+		//end
 		//start Clock
 		char32 buf[16];
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
-		Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+		if (y > -55)
+			Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end Clock
 		//start Minimap
 		ScreenType ow = getScreenType(true);
@@ -395,7 +410,19 @@ void forceButton(int button) //start
 	}
 } //end
 
-
+void drawDifficultyItem(int y) //start
+{
+	if (Link->Item[I_DIFF_VERYEASY])
+		Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 0, OP_OPAQUE);
+	if (Link->Item[I_DIFF_EASY])
+		Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 7, OP_OPAQUE);
+	if (Link->Item[I_DIFF_NORMAL])
+		Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 8, OP_OPAQUE);
+	if (Link->Item[I_DIFF_HARD])
+		Screen->FastTile(7, 240, y, TILE_DIFF_HARD, 1, OP_OPAQUE);
+	if (Link->Item[I_DIFF_VERYHARD])
+		Screen->FastTile(7, 240, y, TILE_DIFF_PALADIN, 1, OP_OPAQUE);
+} //end
 
 
 
