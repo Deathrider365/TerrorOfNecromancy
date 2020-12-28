@@ -23,7 +23,7 @@ CONFIG SUB_COOLDOWN_TILE = 29281;
 CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
 
 CONFIG TILE_LEGIONNAIRE_RING = 42700;
-CONFIG CSET_LEGIONNAIRE_RING = 4;
+CONFIG CSET_LEGIONNAIRE_RING = 5;
 CONFIG TILE_INVIS = 196;
 
 CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for ZC default)
@@ -63,9 +63,11 @@ global script Init
 global script GlobalScripts
 {
 	void run()
-	{	
+	{		
 		if (DEBUG)									//turn off debug when releasing
 			debug();
+		
+		int map = -1, dmap = -1, scr = -1;
 		
 		LinkMovement_Init();
 		StartGhostZH();
@@ -75,7 +77,10 @@ global script GlobalScripts
 		while(true)
 		{
 			gameframe = (gameframe + 1) % 3600;	//global timer
+				
 			checkDungeon();
+			
+			// BombDarknut();
 			
 			LinkMovement_Update1();
 			UpdateGhostZH1();
@@ -83,10 +88,29 @@ global script GlobalScripts
 			DifficultyGlobal_Update();
 			DifficultyGlobal_EnemyUpdate();
 			
+			
+			
+			if (map != Game->GetCurMap() || scr != Game->GetCurScreen())
+			{
+				map = Game->GetCurMap();
+				scr = Game->GetCurScreen();
+				
+				onScreenChange();
+			}
+			
+			if (dmap != Game->GetCurDMap())
+			{
+				dmap = Game->GetCurDMap();
+				onDMapChange();
+			}
+			
 			Waitdraw();
 			
 			LinkMovement_Update2();
 			UpdateGhostZH2();
+			
+			shutterControl();
+			updatePrev();
 			
 			amountOfCourageTriforceShards = getAmountOfShards(0);
 			amountOfPowerTriforceShards = getAmountOfShards(1);
@@ -95,6 +119,16 @@ global script GlobalScripts
 			
 			Waitframe();
 		}
+	}
+	
+	void onScreenChange()
+	{
+		Game->DMapPalette[Game->GetCurDMap()] = Screen->Palette;
+	}
+	
+	void onDMapChange()
+	{
+	
 	}
 	
 	//~~~~~ItemCycling~~~~~//		Passive subscreen script handles this
@@ -122,6 +156,20 @@ global script GlobalScripts
 	{
 		Game->Cheat = 4;
 	} //end
+	
+	//~~~~~Directional Bomb Damage Removed~~~~~//
+	// Causes an attack to be unblockable by enemies that block based on direction
+	// void BombDarknut()
+	// {
+		// for (int i = Screen->NumLWeapons(); i > 0; --i)
+		// {
+			// lweapon bomb = Screen->LoadLWeapon(i);
+			// if (bomb->ID == LW_BOMB || bomb->ID == LW_BOMBBLAST || bomb->ID == LW_SBOMB || bomb->ID == LW_SBOMBBLAST)
+			// {
+				// if (bomb->Dir < 8) bomb->Dir += 8;
+			// }
+		// }
+	// }
 }
 //end
 
@@ -166,6 +214,8 @@ global script onContGame
 {
 	void run()
 	{
+		subscr_y_offset = -224;
+		
 		if(onContHP != 0)
 		{
 			Hero->HP = onContHP;

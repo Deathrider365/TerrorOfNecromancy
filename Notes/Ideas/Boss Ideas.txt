@@ -32,3 +32,8 @@ essentially a patra 3 where the main fly doesnt shoot, but when all flies are de
 phase
 
 have the same sprite as frostknuckle but he uses his shield like captain america or royal champion
+
+A boss where you drop into the boss arena and you have to activate the boss but perhaps there is a way
+to deal massive damage right away by activating him a specific way
+
+Vengeful Revenant ~~~SomeName~~~

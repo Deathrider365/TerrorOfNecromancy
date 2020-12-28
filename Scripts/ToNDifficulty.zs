@@ -1,3 +1,7 @@
+
+
+
+
 const int NPCM_DIFFICULTYFLAG = 14; //npc->Misc[] index used to track enemy difficulty modification. Be sure this doesn't overlap with other scripts.
 const int DIFFICULTY_APPLY_NPC_SCALING = 1; //If 1, scaling will be applied to enemies based on settings. If not, that will be skipped completely
 
@@ -23,11 +27,11 @@ const int DIFFICULTY_ENEMY_HARD_HP_MULTIPLIER = 1.1;
 const int DIFFICULTY_ENEMY_VERYHARD_HP_MULTIPLIER = 1.2;
 
 //Enemy base Step multipliers
-const int DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER = 0.8;
-const int DIFFICULTY_ENEMY_EASY_STEP_MULTIPLIER = 0.9;
+const int DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER = 1; //0.8
+const int DIFFICULTY_ENEMY_EASY_STEP_MULTIPLIER = 1; //0.9
 const int DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER = 1;
-const int DIFFICULTY_ENEMY_HARD_STEP_MULTIPLIER = 1.1;
-const int DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER = 1.2;
+const int DIFFICULTY_ENEMY_HARD_STEP_MULTIPLIER = 1; //1.1
+const int DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER = 1; //1.2
 
 //Item IDs for difficulty selection items
 //If using damage divisors for lower difficulties, these should use Peril Ring items for best results
@@ -513,16 +517,16 @@ int Difficulty_GetEnemyDamageMultiplier()
 int Difficulty_GetEnemyStepMultiplier()
 {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
-		return DIFFICULTY_ENEMY_VERYHARD_HP_MULTIPLIER;
+		return DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
-		return DIFFICULTY_ENEMY_HARD_HP_MULTIPLIER;
+		return DIFFICULTY_ENEMY_HARD_STEP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_NORMAL)
-		return DIFFICULTY_ENEMY_NORMAL_HP_MULTIPLIER;
+		return DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_EASY)
-		return DIFFICULTY_ENEMY_EASY_HP_MULTIPLIER;
+		return DIFFICULTY_ENEMY_EASY_STEP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
-		return DIFFICULTY_ENEMY_VERYEASY_HP_MULTIPLIER;
-	return DIFFICULTY_ENEMY_NORMAL_HP_MULTIPLIER;
+		return DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER;
+	return DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER;
 }
 
 //Item script for difficulty pickups (for removing other difficulty items)
@@ -621,107 +625,120 @@ ffc script Difficulty_SelectionScreen
 {
 	void run(int defaultDifficulty, int dummy1, int dummy2, int msgVeryEasy, int msgEasy, int msgNormal, int msgHard, int msgVeryHard)
 	{
-		int i;
+		bool chosen = false;
 		
-		int sSelect[] = "SELECT YOUR DIFFICULTY:";
-		
-		int sVeryEasy[256];
-		int sEasy[256];
-		int sNormal[256];
-		int sHard[256];
-		int sVeryHard[256];
-		
-		int options[5];
-		int optionValues[5];
-		int selection;
-		int numOptions;
-		
-		if(msgVeryEasy)
+		while(!false)
 		{
-			GetMessage(msgVeryEasy, sVeryEasy);
-			if(defaultDifficulty==DIFF_VERYEASY)
-				selection = numOptions;
-			options[numOptions] = sVeryEasy;
-			optionValues[numOptions] = 0;
-			++numOptions;
-		}
-		if(msgEasy)
-		{
-			GetMessage(msgEasy, sEasy);
-			if(defaultDifficulty==DIFF_EASY)
-				selection = numOptions;
-			options[numOptions] = sEasy;
-			optionValues[numOptions] = 1;
-			++numOptions;
-		}
-		if(msgNormal)
-		{
-			GetMessage(msgNormal, sNormal);
-			if(defaultDifficulty==DIFF_NORMAL)
-				selection = numOptions;
-			options[numOptions] = sNormal;
-			optionValues[numOptions] = 2;
-			++numOptions;
-		}
-		if(msgHard)
-		{
-			GetMessage(msgHard, sHard);
-			if(defaultDifficulty==DIFF_HARD)
-				selection = numOptions;
-			options[numOptions] = sHard;
-			optionValues[numOptions] = 3;
-			++numOptions;
-		}
-		if(msgVeryHard)
-		{
-			GetMessage(msgVeryHard, sVeryHard);
-			if(defaultDifficulty==DIFF_VERYHARD)
-				selection = numOptions;
-			options[numOptions] = sVeryHard;
-			optionValues[numOptions] = 4;
-			++numOptions;
-		}
-		
-		if(numOptions)
-		{
-			while(true)
+			if((Hero->X >= 140 && Hero->X <= 156) && (Hero->Y >= 100 && Hero->Y <= 116))
 			{
-				DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
+				int i;
 				
-				if(Link->PressUp)
+				int sSelect[] = "SELECT YOUR DIFFICULTY:";
+				
+				int sVeryEasy[256];
+				int sEasy[256];
+				int sNormal[256];
+				int sHard[256];
+				int sVeryHard[256];
+				
+				int options[5];
+				int optionValues[5];
+				int selection;
+				int numOptions;
+				
+				if(msgVeryEasy)
 				{
-					Game->PlaySound(SFX_DIFFICULTY_SELECT);
-					--selection;
-					if(selection<0)
-						selection = numOptions-1;
+					GetMessage(msgVeryEasy, sVeryEasy);
+					if(defaultDifficulty==DIFF_VERYEASY)
+						selection = numOptions;
+					options[numOptions] = sVeryEasy;
+					optionValues[numOptions] = 0;
+					++numOptions;
 				}
-				else if(Link->PressDown)
+				if(msgEasy)
 				{
-					Game->PlaySound(SFX_DIFFICULTY_SELECT);
-					++selection;
-					if(selection>numOptions-1)
-						selection = 0;
+					GetMessage(msgEasy, sEasy);
+					if(defaultDifficulty==DIFF_EASY)
+						selection = numOptions;
+					options[numOptions] = sEasy;
+					optionValues[numOptions] = 1;
+					++numOptions;
+				}
+				if(msgNormal)
+				{
+					GetMessage(msgNormal, sNormal);
+					if(defaultDifficulty==DIFF_NORMAL)
+						selection = numOptions;
+					options[numOptions] = sNormal;
+					optionValues[numOptions] = 2;
+					++numOptions;
+				}
+				if(msgHard)
+				{
+					GetMessage(msgHard, sHard);
+					if(defaultDifficulty==DIFF_HARD)
+						selection = numOptions;
+					options[numOptions] = sHard;
+					optionValues[numOptions] = 3;
+					++numOptions;
+				}
+				if(msgVeryHard)
+				{
+					GetMessage(msgVeryHard, sVeryHard);
+					if(defaultDifficulty==DIFF_VERYHARD)
+						selection = numOptions;
+					options[numOptions] = sVeryHard;
+					optionValues[numOptions] = 4;
+					++numOptions;
 				}
 				
-				for(i=0; i<numOptions; ++i)
+				if(numOptions)
 				{
-					if(selection==i)
-						DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, options[i], 128);
-					else
-						DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
+					while(true)
+					{
+						DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
+						
+						if(Link->PressUp)
+						{
+							Game->PlaySound(SFX_DIFFICULTY_SELECT);
+							--selection;
+							if(selection<0)
+								selection = numOptions-1;
+						}
+						else if(Link->PressDown)
+						{
+							Game->PlaySound(SFX_DIFFICULTY_SELECT);
+							++selection;
+							if(selection>numOptions-1)
+								selection = 0;
+						}
+						
+						for(i=0; i<numOptions; ++i)
+						{
+							if(selection==i)
+								DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, options[i], 128);
+							else
+								DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
+						}
+						
+						if(Link->PressA)
+						{
+							DifficultyGlobal_SetDifficulty(optionValues[selection]);
+							chosen = true;
+							Audio->PlaySound(20);
+							//this->Data = CMB_AUTOWARPA;
+						}
+						else if (Link->PressB)
+							Quit();
+						
+						Link->PressStart = false; Link->InputStart = false;
+						Link->PressMap = false; Link->InputMap = false;
+						NoAction();
+						Waitframe();
+					}
 				}
-				
-				if(Link->PressA||Link->PressStart)
-				{
-					DifficultyGlobal_SetDifficulty(optionValues[selection]);
-					this->Data = CMB_AUTOWARPA;
-				}
-				
-				Link->PressStart = false; Link->InputStart = false;
-				Link->PressMap = false; Link->InputMap = false;
-				NoAction();
-				Waitframe();
 			}
+			Waitframe();
 		}
 	}
 	void DiffMenu_DrawString(int layer, int x, int y, int font, int c1, int c2, int tf, int str, int op)
@@ -865,16 +882,16 @@ ffc script Difficulty_ChangeWarp
 }
 
 //Example global script
-global script Difficulty_Example
-{
-	void run()
-	{
-		DifficultyGlobal_Init();
-		while(true)
-		{
-			DifficultyGlobal_Update();
-			DifficultyGlobal_EnemyUpdate();
-			Waitframe();
-		}
-	}
-}
+// global script Difficulty_Example
+// {
+	// void run()
+	// {
+		// DifficultyGlobal_Init();
+		// while(true)
+		// {
+			// DifficultyGlobal_Update();
+			// DifficultyGlobal_EnemyUpdate();
+			// Waitframe();
+		// }
+	// }
+// }

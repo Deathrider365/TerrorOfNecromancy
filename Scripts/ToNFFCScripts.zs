@@ -431,6 +431,22 @@ ffc script Signpost //start
 
 //end
 
+//~~~~~Message~~~~~//
+//D0: Number of string to show
+@Author("Deathrider365")
+ffc script Message //start
+{
+	void run(int msg)
+	{
+		unless(getScreenD(255))
+			Screen->Message(msg);
+		
+		setScreenD(255, true);
+	}
+}
+
+//end
+
 //~~~~~ScriptWeaponTrigger~~~~~//
 //D0: The LW_ weapon type to check for (std_constants.zh)
 //D1: The screen flag to check for on layer 0. If 0, the FFC itself is the trigger.
@@ -1603,7 +1619,7 @@ ffc script PreInteritusCutscene //start
 					Hero->WarpEx({WT_IWARPOPENWIPE, 0, 80, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
 				}
 				else
-					Hero->WarpEx({WT_IWARPOPENWIPE, 4, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
+					Hero->WarpEx({WT_IWARPOPENWIPE, 10, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
 			}
 			else
 				Hero->Action = LA_RAFTING;
@@ -1619,13 +1635,14 @@ ffc script PreInteritusCutscene //start
 //D0: Dmap to warp to
 //D1: screen to warp to
 @Author ("Deathrider365")
-ffc script PreInteritusLeviathanScene //start
+ffc script PreInteritusLeviathanScene //start Have this vary based on whether you defeated the leviathan or not
 {
 	using namespace Leviathan;
 	
 	void run()
 	{			
 		Hero->Item[26] = false;
+		NoAction();
 		
 		Audio->PlayEnhancedMusic(NULL, 0);
 		
@@ -1662,9 +1679,13 @@ ffc script PreInteritusLeviathanScene //start
 			
 			if(i % 40 == 0)
 			{
+			
+				NoAction();
 				Audio->PlaySound(SFX_ROCKINGSHIP);
 				Screen->Quake = 20;
 			}
+			
+			NoAction();
 
 			Waitframe();
 		} //end
@@ -1721,6 +1742,8 @@ ffc script PreInteritusLeviathanScene //start
 				
 				for(i = 0; i < 64; ++i)
 				{
+				
+					NoAction();
 					Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
 					Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
 					
@@ -1744,8 +1767,10 @@ ffc script PreInteritusLeviathanScene //start
 			   Audio->PlaySound(SFX_ROAR);
 			
 			if (i == 120)
+			{
+				Hero->HP = Hero->MaxHP;
 				Hero->WarpEx({WT_IWARPOPENWIPE, 2, 96, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
-			
+			}
 			Waitframe();
 		}		
 	}
@@ -1832,17 +1857,19 @@ ffc script DifficultyChoice //start
 		
 		Waitframes(120);
 		
-		Hero->WarpEx({WT_IWARPOPENWIPE, 4, 0x3E, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});	
+		Hero->WarpEx({WT_IWARPOPENWIPE, 5, 0x3E, -1, WARP_B, WARPEFFECT_OPENWIPE, 0, 0, DIR_RIGHT});	
     }
 } //end
 
-ffc script GiveItem
+//~~~~~GiveItem~~~~~//
+@Author ("Moosh")
+ffc script GiveItem //start
 {
 	void run()
 	{
 		Hero->Item[I_DIFF_NORMAL] = true;
 	}
-}
+}//end
 
 //~~~~~ContinuePoint~~~~~//
 @Author ("Venrob")
@@ -1927,7 +1954,6 @@ ffc script OvMove //start
 		}
 	}
 } //end
-
 
 
 

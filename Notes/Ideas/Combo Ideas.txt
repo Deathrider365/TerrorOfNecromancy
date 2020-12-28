@@ -9,3 +9,5 @@ colored triforce tiles from GS (episode 70 2:52)
 
 ffc where when link gets close enough spikes will appear also the ones where the spikes appear when
 you hammer near them (IoR LP episode 7 18:50 of my LP) Also refer to four swords
+
+Multilevel hammer pegs requiring higher level hammer to trigger

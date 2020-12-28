@@ -36,7 +36,7 @@ COLOR C_MINIMAP_EXPLORED = C_WHITE;
 COLOR C_MINIMAP_ROOM = C_BLACK;
 COLOR C_MINIMAP_LINK = C_DEEPBLUE;//C_DARKGREEN;
 COLOR C_MINIMAP_COMPASS = C_RED;
-COLOR C_MINIMAP_COMPASS_DEFEATED = C_BLUE;
+COLOR C_MINIMAP_COMPASS_DEFEATED = C_DARKGREEN;
 
 int subscr_y_offset = -224;
 
@@ -135,7 +135,7 @@ int numHeartPieces = 0;
 
 bool subscr_open = false;
 
-@Author("Venrob")
+@Author("Venrob, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
 {
 	void run()
@@ -171,7 +171,7 @@ dmapdata script ActiveSubscreen //start
 	}
 } //end
 
-void do_asub_frame(bitmap b, int y, bool isActive)
+void do_asub_frame(bitmap b, int y, bool isActive) //start
 {
 	gameframe = (gameframe + 1) % 3600;
 	b->Blit(0, RT_SCREEN, 0, 0, 256, 168, 0, y, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
@@ -215,11 +215,22 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			asubscr_pos += (4 * 6);
 		else 
 			asubscr_pos %= (4 * 6);
-			
-		if(currTriforceIndex == -1)
-			currTriforceIndex = 3;
-		else if (currTriforceIndex == 4)
-			currTriforceIndex = 0;
+		
+		unless(Game->GetCurDMap() == 2)
+		{
+			if(currTriforceIndex == -1)
+				currTriforceIndex = 3;
+			else if (currTriforceIndex == 4)
+				currTriforceIndex = 0;
+		}
+		else
+		{
+			if(currTriforceIndex == -1)
+				currTriforceIndex = 2;
+			else if (currTriforceIndex == 3)
+				currTriforceIndex = 0;
+		}
+				
 
 	}
 	//end Handle asubscr_position movement
@@ -250,11 +261,9 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	//end Item Draws
 
 	//start Legionnaire Ring
-	Screen->FastTile(4, 122, y + 82, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
-	counter(RT_SCREEN, 4, 137, y + 86, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-
+	Screen->FastTile(4, 122, y + 84, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
+	counter(RT_SCREEN, 4, 141, y + 88, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 	//end Legionnaire Ring
-	
 	
 	//start Selected Item Name
 	char32 buf2[30];
@@ -308,8 +317,8 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 	
 	//start Handle Heart Pieces
 	CONFIG TILE_ZERO_PIECES = 29420;	
-	Screen->FastTile(4, 120, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
-	counter(RT_SCREEN, 4, 137, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+	Screen->FastTile(4, 122, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
+	counter(RT_SCREEN, 4, 141, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 	//end Handle Heart Pieces
 
 	//start Handle Triforce Frame Cycling / Drawing
@@ -320,7 +329,7 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 	if (currTriforceIndex == 2)
 		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
-	if (currTriforceIndex == 3)
+	if (currTriforceIndex == 3 && Game->GetCurDMap() != 2)
 		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 		
 	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
@@ -397,32 +406,35 @@ void do_asub_frame(bitmap b, int y, bool isActive)
 			}
 			break; //end
 		case 3: //start Death shard drawing
-			switch(amountOfDeathTriforceShards)
+			unless (Game->GetCurDMap() == 2)
 			{
-				case 1:
-					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					break;
-				case 2:
-					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					break;
-				case 3:
-					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					break;
-				case 4:
-					Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					Screen->DrawTile(0, 14, 80 + y, deathShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-					break;
-			}
-			break; //end
+				switch(amountOfDeathTriforceShards)
+				{
+					case 1:
+						Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						break;
+					case 2:
+						Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						break;
+					case 3:
+						Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						break;
+					case 4:
+						Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						Screen->DrawTile(0, 14, 80 + y, deathShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+						break;
+				}
+				break; 
+			}//end
 	}
 
 	//end Handle Triforce Frame Cycling / Drawing
-}
+} //end do_asub_fram
 
 int getAmountOfShards(int type) //start
 {
