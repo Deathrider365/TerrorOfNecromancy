@@ -9,18 +9,19 @@ typedef const bool CONFIGB;
 typedef const Color COLOR;
 
 
-//~~~~~Constants~~~~~//
+//~~~~~SFX Constants~~~~~//
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
-
-CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SFX_SIZZLE = 128;
-
 CONFIG SFX_ROCKINGSHIP = 9;
 
+//~~~~~Sprite Constants~~~~~//
+CONFIG SPR_POISON_CLOUD = 111;
+
+//~~~~~Midi Constants~~~~~//
+CONFIG MIDI_GAMEOVER = 1;
 
 //~~~~~Enums~~~~~//
-
 enum Color //start
 {
 	C_TRANSBG = -1,

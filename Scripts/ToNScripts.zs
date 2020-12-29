@@ -1000,6 +1000,55 @@ npc script Mimic //start
 	}
 } //end
 
+//~~~~~Bomber~~~~~//
+ffc script Bomber //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
+
+//~~~~~Beamos~~~~~//
+ffc script Beamos //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
+
+//~~~~~LoSTurret~~~~~//
+ffc script LoSTurret //start
+{
+	void run()
+	{
+		while (true)
+		{
+			
+		}	
+	}
+} //end
+
+//end
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bosses~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//start
+
+//~~~~~Constants/globals~~~~~//
+//start
+
+
+//end
+
+
 //~~~~~LegionnaireLevel1~~~~~//
 ffc script LegionnaireLevel1 //start
 {
@@ -1208,61 +1257,13 @@ ffc script LegionnaireLevel1 //start
 	}
 } //end
 
-//~~~~~Bomber~~~~~//
-ffc script Bomber //start
-{
-	void run()
-	{
-		while (true)
-		{
-			
-		}	
-	}
-} //end
-
-//~~~~~Beamos~~~~~//
-ffc script Beamos //start
-{
-	void run()
-	{
-		while (true)
-		{
-			
-		}	
-	}
-} //end
-
-//~~~~~LoSTurret~~~~~//
-ffc script LoSTurret //start
-{
-	void run()
-	{
-		while (true)
-		{
-			
-		}	
-	}
-} //end
-
-//end
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Bosses~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//start
-
-//~~~~~Constants/globals~~~~~//
-//start
-
-
-//end
-
 //~~~~~Amalgamation of Decay ---Shambles---~~~~~//
 
-namespace Shambles
+namespace Shambles//start
 {
 	bool firstRun = true;
 
-	ffc script Decay //start
+	ffc script Decay 
 	{
 		void run(int enemyid)
 		{

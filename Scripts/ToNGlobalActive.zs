@@ -123,7 +123,7 @@ global script GlobalScripts
 	
 	void onScreenChange()
 	{
-		Game->DMapPalette[Game->GetCurDMap()] = Screen->Palette;
+		Game->DMapPalette[Game->GetCurDMap()] = Screen->Palette;		
 	}
 	
 	void onDMapChange()
@@ -182,6 +182,8 @@ global script OnLaunch
 		subscr_y_offset = -224;
 		subscr_open = false;
 
+		SetGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
+
 		if(onContHP != 0)
 		{
 			Hero->HP = onContHP;
@@ -191,7 +193,7 @@ global script OnLaunch
 		{
 			Hero->HP = Hero->MaxHP;
 			Hero->MP = Hero->MaxMP;		
-		}
+		}		
 	}
 }
 //end

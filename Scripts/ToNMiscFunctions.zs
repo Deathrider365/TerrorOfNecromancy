@@ -426,7 +426,30 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) //start
     return true;
 } //end
 
-
+// Modifies the game over menu text, background color, and midi
+void SetGameOverMenu(Color bg, Color text, Color flash, int midi)
+{
+	Game->GameOverScreen[GOS_BACKGROUND] = bg;
+	
+	Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_RETRY_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_DONTSAVE_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_SAVEQUIT_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_SAVE2_COLOUR] = text;
+	Game->GameOverScreen[GOS_TEXT_QUIT_COLOUR] = text;
+	
+	Game->GameOverScreen[GOS_TEXT_CONTINUE_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_SAVE_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_RETRY_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_DONTSAVE_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_SAVEQUIT_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_SAVE2_FLASH] = flash;
+	Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
+	
+	Game->GameOverScreen[GOS_MIDI] = midi;
+}
 
 
 // After regaining control of Link upon entering a new screen, the number of frames to wait before opening shutters.
