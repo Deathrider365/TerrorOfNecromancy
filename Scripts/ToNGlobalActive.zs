@@ -38,10 +38,10 @@ CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
 CONFIG CR_HEARTPIECES = CR_SCRIPT2;
 //end Counter constants
 
-
 int onContHP = 0;
 int onContMP = 0;
 int gameframe = 0;
+int lastPal = -1;
 
 //end
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~//
@@ -88,7 +88,7 @@ global script GlobalScripts
 			DifficultyGlobal_Update();
 			DifficultyGlobal_EnemyUpdate();
 			
-			
+			Waitdraw();
 			
 			if (map != Game->GetCurMap() || scr != Game->GetCurScreen())
 			{
@@ -97,14 +97,12 @@ global script GlobalScripts
 				
 				onScreenChange();
 			}
-			
 			if (dmap != Game->GetCurDMap())
 			{
 				dmap = Game->GetCurDMap();
 				onDMapChange();
 			}
 			
-			Waitdraw();
 			
 			LinkMovement_Update2();
 			UpdateGhostZH2();
@@ -123,7 +121,13 @@ global script GlobalScripts
 	
 	void onScreenChange()
 	{
-		Game->DMapPalette[Game->GetCurDMap()] = Screen->Palette;		
+		if (Screen->Palette != lastPal)
+		{
+			lastPal = Screen->Palette;
+			
+			for (int i = 0; i <= MAX_USED_DMAP; ++i)
+				Game->DMapPalette[i] = Screen->Palette;
+		}
 	}
 	
 	void onDMapChange()
@@ -179,6 +183,7 @@ global script OnLaunch
 {
 	void run()
 	{
+		lastPal = -1;
 		subscr_y_offset = -224;
 		subscr_open = false;
 

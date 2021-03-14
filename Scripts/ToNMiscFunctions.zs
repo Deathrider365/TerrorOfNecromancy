@@ -427,7 +427,7 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) //start
 } //end
 
 // Modifies the game over menu text, background color, and midi
-void SetGameOverMenu(Color bg, Color text, Color flash, int midi)
+void SetGameOverMenu(Color bg, Color text, Color flash, int midi) //start
 {
 	Game->GameOverScreen[GOS_BACKGROUND] = bg;
 	
@@ -449,9 +449,9 @@ void SetGameOverMenu(Color bg, Color text, Color flash, int midi)
 	Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
 	
 	Game->GameOverScreen[GOS_MIDI] = midi;
-}
+} //end
 
-
+//start
 // After regaining control of Link upon entering a new screen, the number of frames to wait before opening shutters.
 const int SHUTTER_DELAY_TIME = 15;
 
@@ -980,4 +980,4 @@ void noMoveAction() {
 	Link->PressB = false;
 }
 
-
+//end

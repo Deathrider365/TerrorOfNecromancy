@@ -8,6 +8,8 @@ typedef const int CONFIG;
 typedef const bool CONFIGB;
 typedef const Color COLOR;
 
+//~~~~~Magnitude~~~~~//
+CONFIG MAX_USED_DMAP = 511;
 
 //~~~~~SFX Constants~~~~~//
 CONFIG SFX_SUPER_JUMP = 0;
@@ -19,7 +21,7 @@ CONFIG SFX_ROCKINGSHIP = 9;
 CONFIG SPR_POISON_CLOUD = 111;
 
 //~~~~~Midi Constants~~~~~//
-CONFIG MIDI_GAMEOVER = 1;
+CONFIG MIDI_GAMEOVER = 8;
 
 //~~~~~Enums~~~~~//
 enum Color //start
