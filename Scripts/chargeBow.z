@@ -1,0 +1,234 @@
+const int CHARGEBOWSHOOTSFX = 1;			//SFX ID for normal shot
+const int CHARGEBOWPOWERSHOOTSFX = 95;		//SFX ID for power shot
+const int CHARGEBOWTINKSFX = 0;				//SFX ID for when the arrow hits something (I thought this would be cool, but it wasn't so I set it to 0)
+const int CHARGEBOWWHIFFSFX = 94;			//SFX ID for when you try to use the bow but don't have arrows
+const int CHARGEBOWCHARGESFX = 35;			//SFX ID for when a shot is charged
+const int CHARGEBOWLINKTILE = 30320;		//Tile ID for a set of Link tiles - see example images for directions.  
+											//There's 8 (one for each dir) then a set of the same tiles in an alternate color for the charge animation
+const int CHARGEBOWWINKSPRITE = 97;			//Sprite ID for a custom wink-out sprite that overrides the default engine one
+const int CHARGEBOWLWEAPON = LW_SCRIPT2;	//LWeapon that enemies / triggers will use.  Using LW_ARROW may have weird effects
+const int CHARGEBOWNORMARROWPARENT = 13;	//Item ID of an arrow that has NO Flags set.  This is required to make the normal arrows not penetrate enemies. 
+const int CHARGEBOWCHARGEDUR = 30;			//Duration (frames) required to charge
+
+
+//Set up the bos as a custom itemclass.  It does NOT require an Arrow item to function, just the bow
+//Script InitD[0] is the speed of the arrow - this is doubled for charge shots.  I recommend 300
+//Script InitD[1] is the first of a set of arrow tiles - see example images for directions
+//Script InitD[2] is the normal arrow damage
+//Script InitD[3] is the charge arrow damage
+
+item script chargeBow 
+{
+	void run(int arrowSpeed, int arrowTile, int baseDam, int chargeDam) 
+	{
+		int inputDir;
+		int fireDir;
+		int chargeCount = 0;
+		bool charged = false;
+		bool canceled = false;
+		
+		//If you have arrows....
+		if (Game->Counter[CR_ARROWS] >= 1) 
+		{
+			//get button to check
+			int itemButt;
+			if (Hero->ItemA == this->ID) 
+				itemButt = CB_A;
+			
+			else if (Hero->ItemB == this->ID) 
+				itemButt = CB_B;
+			
+			if (!Input->Press[itemButt]) 
+				canceled = true;
+			
+			//while button is held down...
+			while ((Input->Button[itemButt]) and (!canceled)) 
+			{
+			
+				//upkeep
+				Hero->Item[Z4BOMBSHIELD] = true;
+				if ((Hero->Action != LA_NONE) and (Hero->Action != LA_WALKING)) 
+				{
+					canceled = true;
+					break;
+				}
+				
+				//get the input direction
+				if (chargeCount == 0) 
+					inputDir = Hero->Dir;
+				else 
+					inputDir = getInputDir();
+				
+				//apply the input direction to hero's tiles and update fireDir
+				if (inputDir == -1)
+					//do nothing
+				else 
+				{
+					if (inputDir < 4) 
+						Hero->Dir = inputDir;
+					else if (inputDir < 6) 
+						Hero->Dir = DIR_UP;
+					else 
+						Hero->Dir = DIR_DOWN;
+						
+					fireDir = inputDir;
+				}
+				
+				//handle storing charge
+				if (chargeCount == CHARGEBOWCHARGEDUR)
+				{
+					Audio->PlaySound(CHARGEBOWCHARGESFX);
+					charged = true;
+				}
+				
+				//handle hero sprite and flashing
+				if (chargeCount >= CHARGEBOWCHARGEDUR) 
+				{
+					if (chargeCount%2 == 0) 
+					{
+						if (chargeCount%4 == 0)
+							Hero->ScriptTile = CHARGEBOWLINKTILE + fireDir + 8;
+						else
+							Hero->ScriptTile = CHARGEBOWLINKTILE + fireDir;
+					}
+				}
+				else
+					Hero->ScriptTile = CHARGEBOWLINKTILE + fireDir;
+				
+				chargeCount++;
+				NoAction();
+				Waitframe();
+			}
+			
+			//then when it's released...
+			if (!canceled) 
+			{
+				if (charged)
+					chargeSpawn(fireDir,arrowSpeed*2,arrowTile,chargeDam);
+				else
+					arrowSpawn(fireDir,arrowSpeed,arrowTile,baseDam);
+					
+				Game->Counter[CR_ARROWS]--;
+				Hero->Action = LA_ATTACKING;
+			}
+			
+			Hero->ScriptTile = -1;
+			Hero->Item[Z4BOMBSHIELD] = false;
+		}
+		
+		//If there are no arrows...
+		else
+			Audio->PlaySound(CHARGEBOWWHIFFSFX);
+	}
+}
+
+lweapon arrowSpawn(int dir, int speed, int tile, int dam) 
+{
+	lweapon arrow = Screen->CreateLWeapon(CHARGEBOWLWEAPON);
+	arrow->Parent = CHARGEBOWNORMARROWPARENT;
+	arrow->Damage = dam;
+	arrow->Weapon = LW_ARROW;
+	arrow->Dir = dir;
+	
+	arrow->Step = arrow->Dir < 4 ? speed : speed / 1.41;
+
+	arrow->X = Hero->X + VectorX(8,DirAngle(dir));
+	arrow->Y = Hero->Y + VectorY(8,DirAngle(dir));
+	arrow->Z = 0;
+	arrow->ScriptTile = tile + dir;
+	arrow->CSet = 7;
+	arrow->DeadState = -1;
+	arrow->Script = Game->GetLWeaponScript("normalArrow");
+	Audio->PlaySound(CHARGEBOWSHOOTSFX);
+	return arrow;
+}
+
+lweapon chargeSpawn(int dir, int speed, int tile, int dam)
+ {
+	lweapon arrow = Screen->CreateLWeapon(CHARGEBOWLWEAPON);
+	arrow->Damage = dam;
+	arrow->Weapon = LW_ARROW;
+	arrow->Dir = dir;
+	
+	arrow->Step = arrow->Dir < 4 ? speed : speed / 1.41;
+	
+	arrow->X = Hero->X + VectorX(8,DirAngle(dir));
+	arrow->Y = Hero->Y + VectorY(8,DirAngle(dir));
+	arrow->Z = 0;
+	arrow->ScriptTile = tile + dir;
+	arrow->CSet = 7;
+	arrow->DeadState = -1;
+	arrow->Script = Game->GetLWeaponScript("chargeArrow");
+	Audio->PlaySound(CHARGEBOWPOWERSHOOTSFX);
+	return arrow;
+}
+
+lweapon script normalArrow 
+{
+	void run() 
+	{
+		while(true) 
+		{
+			if (this->DeadState == WDS_DEAD) 
+			{
+				Audio->PlaySound(CHARGEBOWTINKSFX);
+				SparkleSpriteAnim(CHARGEBOWWINKSPRITE,this->X,this->Y,1,1);
+				Quit();
+			}
+			else
+				Waitframe();
+		}
+	}
+}
+
+lweapon script chargeArrow
+{
+	void run() 
+	{
+		int drawX;
+		int drawY;
+		while(true) 
+		{
+			if (this->DeadState == WDS_ALIVE)
+			{
+				drawX = VectorX(this->Step/50,DirAngle(this->Dir));
+				drawY = VectorY(this->Step/50,DirAngle(this->Dir));
+				Screen->FastTile(2,this->X-drawX,this->Y-drawY-2,this->ScriptTile,8,OP_OPAQUE);
+				Screen->FastTile(2,this->X-2*drawX,this->Y-2*drawY-2,this->ScriptTile,8,OP_TRANS);
+			}
+			if (this->DeadState == WDS_DEAD)
+			{
+				Audio->PlaySound(CHARGEBOWTINKSFX);
+				SparkleSpriteAnim(CHARGEBOWWINKSPRITE,this->X,this->Y,1,1);
+				Quit();
+			}
+			else
+				Waitframe();
+		}
+	}
+}
+
+int getInputDir() 
+{
+	if (Input->Button[CB_UP] and Input->Button[CB_LEFT]) 
+		return DIR_LEFTUP;
+	if (Input->Button[CB_UP] and Input->Button[CB_RIGHT]) 
+		return DIR_RIGHTUP;	
+	if (Input->Button[CB_DOWN] and Input->Button[CB_LEFT]) 
+		return DIR_LEFTDOWN;		
+	if (Input->Button[CB_DOWN] and Input->Button[CB_RIGHT]) 
+		return DIR_RIGHTDOWN;
+	if (Input->Button[CB_UP]) 
+		return DIR_UP;
+	if (Input->Button[CB_LEFT]) 
+		return DIR_LEFT;
+	if (Input->Button[CB_RIGHT])
+		return DIR_RIGHT;
+	if (Input->Button[CB_DOWN])
+		return DIR_DOWN;
+	else 
+		return -1;
+}
+
+
+

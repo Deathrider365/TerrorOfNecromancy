@@ -748,6 +748,8 @@ eweapon script ArcingWeapon
 int statuses[NUM_STATUSES];
 bitmap status_bmp;
 bitmap waterfall_bmp;
+bitmap darkness_bmp;
+bitmap ohead_bmps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
 enum StatusPos

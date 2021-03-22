@@ -451,7 +451,7 @@ void SetGameOverMenu(Color bg, Color text, Color flash, int midi) //start
 	Game->GameOverScreen[GOS_MIDI] = midi;
 } //end
 
-//start
+//start		CHECK THIS SHUTTER SCRIPT
 // After regaining control of Link upon entering a new screen, the number of frames to wait before opening shutters.
 const int SHUTTER_DELAY_TIME = 15;
 
@@ -981,3 +981,15 @@ void noMoveAction() {
 }
 
 //end
+
+// Creates Bitmap
+bitmap create(int w, int h) //start
+{
+	if(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
+		return Game->CreateBitmap(h, w);
+	else
+		return Game->CreateBitmap(w, h);
+} 
+ //end
+
+
