@@ -1,3 +1,4 @@
+//start Consts
 const int CHARGEBOWSHOOTSFX = 1;			//SFX ID for normal shot
 const int CHARGEBOWPOWERSHOOTSFX = 95;		//SFX ID for power shot
 const int CHARGEBOWTINKSFX = 0;				//SFX ID for when the arrow hits something (I thought this would be cool, but it wasn't so I set it to 0)
@@ -9,7 +10,7 @@ const int CHARGEBOWWINKSPRITE = 97;			//Sprite ID for a custom wink-out sprite t
 const int CHARGEBOWLWEAPON = LW_SCRIPT2;	//LWeapon that enemies / triggers will use.  Using LW_ARROW may have weird effects
 const int CHARGEBOWNORMARROWPARENT = 13;	//Item ID of an arrow that has NO Flags set.  This is required to make the normal arrows not penetrate enemies. 
 const int CHARGEBOWCHARGEDUR = 30;			//Duration (frames) required to charge
-
+//end
 
 //Set up the bos as a custom itemclass.  It does NOT require an Arrow item to function, just the bow
 //Script InitD[0] is the speed of the arrow - this is doubled for charge shots.  I recommend 300
@@ -17,7 +18,7 @@ const int CHARGEBOWCHARGEDUR = 30;			//Duration (frames) required to charge
 //Script InitD[2] is the normal arrow damage
 //Script InitD[3] is the charge arrow damage
 
-item script chargeBow 
+item script chargeBow //start
 {
 	void run(int arrowSpeed, int arrowTile, int baseDam, int chargeDam) 
 	{
@@ -120,9 +121,9 @@ item script chargeBow
 		else
 			Audio->PlaySound(CHARGEBOWWHIFFSFX);
 	}
-}
+} //end
 
-lweapon arrowSpawn(int dir, int speed, int tile, int dam) 
+lweapon arrowSpawn(int dir, int speed, int tile, int dam) //start
 {
 	lweapon arrow = Screen->CreateLWeapon(CHARGEBOWLWEAPON);
 	arrow->Parent = CHARGEBOWNORMARROWPARENT;
@@ -141,10 +142,10 @@ lweapon arrowSpawn(int dir, int speed, int tile, int dam)
 	arrow->Script = Game->GetLWeaponScript("normalArrow");
 	Audio->PlaySound(CHARGEBOWSHOOTSFX);
 	return arrow;
-}
+} //end
 
-lweapon chargeSpawn(int dir, int speed, int tile, int dam)
- {
+lweapon chargeSpawn(int dir, int speed, int tile, int dam) //start
+{
 	lweapon arrow = Screen->CreateLWeapon(CHARGEBOWLWEAPON);
 	arrow->Damage = dam;
 	arrow->Weapon = LW_ARROW;
@@ -161,9 +162,9 @@ lweapon chargeSpawn(int dir, int speed, int tile, int dam)
 	arrow->Script = Game->GetLWeaponScript("chargeArrow");
 	Audio->PlaySound(CHARGEBOWPOWERSHOOTSFX);
 	return arrow;
-}
+} //end
 
-lweapon script normalArrow 
+lweapon script normalArrow //start
 {
 	void run() 
 	{
@@ -179,9 +180,9 @@ lweapon script normalArrow
 				Waitframe();
 		}
 	}
-}
+} //end
 
-lweapon script chargeArrow
+lweapon script chargeArrow //start
 {
 	void run() 
 	{
@@ -206,9 +207,9 @@ lweapon script chargeArrow
 				Waitframe();
 		}
 	}
-}
+} //end
 
-int getInputDir() 
+int getInputDir() //start
 {
 	if (Input->Button[CB_UP] and Input->Button[CB_LEFT]) 
 		return DIR_LEFTUP;
@@ -228,7 +229,7 @@ int getInputDir()
 		return DIR_DOWN;
 	else 
 		return -1;
-}
+} //end
 
 
 
