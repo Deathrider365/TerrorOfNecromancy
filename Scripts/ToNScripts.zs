@@ -251,9 +251,9 @@ item script HaerenGrace
 			Audio->PlaySound(errsfx);
 	}
 	
-	float PercentOfWhole(int number, int whole)
+	float PercentOfWhole(int part, int whole)
 	{
-		return (100*number)/whole;
+		return (100 * part)/whole;
 	}
 }
 //end
