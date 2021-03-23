@@ -20,7 +20,6 @@
 #include "std_zh/dmapgrid.zh"
 #include "LinkMovement.zh"
 #include "VenrobMisc.zh"
-always using namespace Venrob;
 
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNEnumsTypedefs.zs"
@@ -34,16 +33,13 @@ always using namespace Venrob;
 #include "../ToN Main Quest/Scripts/ToNCredits.zh"
 #include "ToNGhost.zh"
 
+always using namespace Venrob;
 //end
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Item~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //start
-
-//~~~~~Constants/globals~~~~~//
-
-//~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~LegionRings~~~~~//
 //start
@@ -68,21 +64,21 @@ item script LegionRings
 //start
 itemdata script GanonRage
 {
-	void run(int durationSeconds, int cooldownSeconds, int multiplier, int cost)
+	void run(int durationSeconds, int cooldownSeconds, int damageMultiplier, int cost)
 	{
 		int itemClasses[] = {IC_ARROW, IC_BOW, IC_HAMMER, IC_BRANG, IC_SWORD, IC_GALEBRANG, IC_BRACELET, IC_ROCS, IC_STOMPBOOTS};
-		itemdata ids[9];
-		int powers[9];
+		itemdata itemIds[9];
+		int itemStrengths[9];
 		
 		for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
 		{
-			int it = GetHighestLevelItemOwned(itemClasses[i]);
+			int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
 			
-			if (it >= 0 && Hero->MP >= cost)
+			if (highestItem >= 0 && Hero->MP >= cost)
 			{
-				ids[i] = Game->LoadItemData(it);
-				powers[i] = ids[i]->Power;
-				ids[i]->Power *= multiplier;
+				itemIds[i] = Game->LoadItemData(highestItem);
+				itemStrengths[i] = itemIds[i]->Power;
+				itemIds[i]->Power *= damageMultiplier;
 				Hero->MP = Hero->MP - cost;
 			}
 		}
@@ -94,8 +90,8 @@ itemdata script GanonRage
 		
 		for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
 		{
-			if (ids[i])
-				ids[i]->Power = powers[i];
+			if (itemIds[i])
+				itemIds[i]->Power = itemStrengths[i];
 		}
 		
 		for (int i = cooldownSeconds * 60; i > 0; --i)
@@ -133,21 +129,25 @@ itemdata script LifeRing
 {
 	void run(int hpActive, int timerActive, int hpIdle, int timerIdle)
 	{
-		int clk;
+		int clock;
+		
 		while(true)
 		{
 			while(Hero->Action == LA_SCROLLING)
 				Waitframe();
+				
 			if(EnemiesAlive())
 			{
-				clk = (clk + 1) % timerActive;
-				unless(clk) 
+				clock = (clock + 1) % timerActive;
+				
+				unless(clock) 
 					Hero->HP += hpActive;
 			}
 			else
 			{
-				clk = (clk + 1) % timerIdle;
-				unless(clk) 
+				clock = (clock + 1) % timerIdle;
+				
+				unless(clock) 
 					Hero->HP += hpIdle;
 			}
 			Waitframe();
@@ -163,13 +163,13 @@ item script HaerenGrace
 {
 	void run(int errsfx)
 	{        
-		int percent = PercentOfWhole(Hero->HP, Hero->MaxHP);
+		int hpPercent = PercentOfWhole(Hero->HP, Hero->MaxHP);
 	
-		if (percent <= 10)
+		if (hpPercent <= 10)
 		{
 			if (Hero->MP >= 200)
 			{
-				int mp1 = 200;
+				int currentMP = 200;
 				
 				for (int hpToRestore = Hero->MaxHP - Hero->HP; hpToRestore > 0;)
 				{
@@ -177,14 +177,13 @@ item script HaerenGrace
 					Hero->HP += heal;
 					hpToRestore -= heal;
 					
-					int mpReduction = Min(8, mp1);
-					Hero->MP -= mpReduction;
-					mp1 -= mpReduction;
+					int mpCost = Min(8, currentMP);
+					Hero->MP -= mpCost;
+					currentMP -= mpCost;
 					
-					if (mp1 > 0)
-					{
+					if (currentMP > 0)
 						Hero->MP -= 5;
-					}
+					
 					Waitframes(5);
 				}
 				//Hero->HP += Hero->MaxHP;	//If I want the effect to be instant
@@ -193,26 +192,25 @@ item script HaerenGrace
 			else 
 				Audio->PlaySound(errsfx);
 		}
-		else if (percent <= 50)
+		else if (hpPercent <= 50)
 		{
 			if (Hero->MP >= 100)
 			{
-				int mp2 = 100;
+				int currentMP = 100;
 				
 				for (int hpToRestore2 = 160; hpToRestore2 > 0;)
 				{
-					int heal2 = Min(4, hpToRestore2);
-					Hero->HP += heal2;
-					hpToRestore2 -= heal2;
+					int heal = Min(4, hpToRestore2);
+					Hero->HP += heal;
+					hpToRestore -= heal;
 					
-					int mpReduction2 = Min(8, mp2);
-					Hero->MP -= mpReduction2;
-					mp2 -= mpReduction2;
+					int mpCost = Min(8, currentMP);
+					Hero->MP -= mpCost;
+					currentMP -= mpCost;
 					
-					if (mp2 > 0)
-					{
+					if (currentMP > 0)
 						Hero->MP -= 5;
-					}
+						
 					Waitframes(5);
 				}
 				//Hero->HP += Hero->MaxHP / 2;
@@ -221,26 +219,25 @@ item script HaerenGrace
 			else 
 				Audio->PlaySound(errsfx);
 		}
-		else if (percent < 100)
+		else if (hpPercent < 100)
 		{
 			if (Hero->MP >= 50)
 			{
-				int mp3 = 50;
+				int currentMP = 50;
 				
-				for (int hpToRestore3 = 120; hpToRestore3 > 0;)
+				for (int hpToRestore = 120; hpToRestore > 0;)
 				{
-					int heal3 = Min(4, hpToRestore3);
-					Hero->HP += heal3;
-					hpToRestore3 -= heal3;
+					int heal = Min(4, hpToRestore3);
+					Hero->HP += heal;
+					hpToRestore -= heal;
 					
-					int mpReduction3 = Min(8, mp3);
-					Hero->MP -= mpReduction3;
-					mp3 -= mpReduction3;
+					int mpCost = Min(8, currentMP);
+					Hero->MP -= mpCost;
+					currentMP -= mpCost;
 					
-					if (mp3 > 0)
-					{
+					if (currentMP > 0)
 						Hero->MP -= 5;
-					}
+						
 					Waitframes(5);
 				}
 				//Hero->HP += Hero->MaxHP / 4;
