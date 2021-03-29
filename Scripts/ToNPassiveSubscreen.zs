@@ -1,15 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~The Terror of Necromancy Passive Subscreen~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~The Terror of Necromancy PassiveSubscreen~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+//~~~~~Constants/globals~~~~~//
+//start
 CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
 CONFIG TILE_DIFF_NORMAL = 32081;
 CONFIG TILE_DIFF_HARD = 32141;
 CONFIG TILE_DIFF_PALADIN = 32142;
+//end
 
 @Author("Venrob")
-dmapdata script PassiveSubscreen
+dmapdata script PassiveSubscreen //start
 {
 	using namespace time;
 	void run() //start
@@ -142,6 +145,7 @@ dmapdata script PassiveSubscreen
 		}
 		
 		bm->Blit(7, RT_SCREEN, 0, 0, 256, 56, 0, y, 256, 56, 0, 0, 0, BITDX_NORMAL, 0, true); //Draw the BG bitmap to the screen
+		
 		//start Counters
 		//Rupees
 		minitile(RT_SCREEN, 7, 134, y+4, 32780, 1, 0);
@@ -155,6 +159,7 @@ dmapdata script PassiveSubscreen
 		minitile(RT_SCREEN, 7, 134, y+44, 32800, 1, 0);
 		counter(RT_SCREEN, 7, 134+10, y+44, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 		//end Counters
+		
 		//start Buttons
 		//Frames
 		Screen->DrawTile(7, 82, y+18, TILE_SUBSCR_BUTTON_FRAME, 2, 2, 11, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
@@ -166,6 +171,7 @@ dmapdata script PassiveSubscreen
 		Screen->FastTile(7, 86, y + 26, loadItemTile(Hero->ItemB), loadItemCSet(Hero->ItemB), OP_OPAQUE);
 		Screen->FastTile(7, 109, y + 26, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
 		//end Buttons
+		
 		//start Life Meter
 		heart(RT_SCREEN, 7, 171, y+36,  0, TILE_HEARTS);
 		heart(RT_SCREEN, 7, 177, y+36,  1, TILE_HEARTS);
@@ -198,29 +204,36 @@ dmapdata script PassiveSubscreen
 		heart(RT_SCREEN, 7, 225, y+22, 28, TILE_HEARTS);
 		heart(RT_SCREEN, 7, 231, y+22, 29, TILE_HEARTS);
 		//end Life Meter
+		
 		//start Magic Meter
 		int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
 		Screen->DrawTile(7, 162, y+44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
 		if(MAGIC_METER_PIX_WIDTH*perc >= 0.5)
 			Screen->Rectangle(7, 162+MAGIC_METER_FILL_XOFF,                                   y+44+MAGIC_METER_FILL_YOFF,
 			                     162+MAGIC_METER_FILL_XOFF+Round(MAGIC_METER_PIX_WIDTH*perc), y+44+MAGIC_METER_FILL_YOFF+MAGIC_METER_PIX_HEIGHT,
 								 C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 		//end Magic Meter
+		
 		//start Difficulty Item Display
 		drawDifficultyItem(y);
 		//end
+		
 		//start Clock
 		char32 buf[16];
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
+		
 		if (y > -55)
 			Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end Clock
+		
 		//start Minimap
 		ScreenType ow = getScreenType(true);
 		int mm_tile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
 		int cs = 0;
 		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
 		bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
+		
 		if(hasMap && dm->MiniMapTile[1])
 		{
 			mm_tile = dm->MiniMapTile[1];
@@ -231,9 +244,11 @@ dmapdata script PassiveSubscreen
 			mm_tile = dm->MiniMapTile[0];
 			cs = dm->MiniMapCSet[0];
 		}
+		
 		Screen->DrawTile(7, 0, y+8, mm_tile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 		minimap(RT_SCREEN, 7, 0, y+8, ow);
 		//end Minimap
+		
 		//start DMap Title
 		char32 titlebuf[80];
 		Game->GetDMapTitle(dm->ID, titlebuf);
@@ -266,7 +281,7 @@ dmapdata script PassiveSubscreen
 		                   TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
 		//end DMap Title
 	}
-}
+} //end
 
 void counter(untyped bit, int layer, int x, int y, int cntr, int font, Color color, Color bgcolor, int format, int min_digits, bool show_zeroes) //start
 {

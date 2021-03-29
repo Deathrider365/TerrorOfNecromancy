@@ -1,29 +1,43 @@
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+///////////////////////////////////////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~Consts / Typedefs / Enums~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~Typedefs~~~~~//
+//start
 typedef const int DEFINE;
 typedef const int CONFIG;
 typedef const bool CONFIGB;
 typedef const Color COLOR;
+//end
 
 //~~~~~Magnitude~~~~~//
+//start
 CONFIG MAX_USED_DMAP = 511;
 
+//end
+
 //~~~~~SFX Constants~~~~~//
+//start
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
 CONFIG SFX_SIZZLE = 128;
 CONFIG SFX_ROCKINGSHIP = 9;
+//end
 
 //~~~~~Sprite Constants~~~~~//
+//start
 CONFIG SPR_POISON_CLOUD = 111;
 
+//end
+
 //~~~~~Midi Constants~~~~~//
+//start
 CONFIG MIDI_GAMEOVER = 8;
 
+//end
+
 //~~~~~Enums~~~~~//
+//start
 enum Color //start
 {
 	C_TRANSBG = -1,
@@ -51,15 +65,16 @@ enum ScreenType //start
 	DM_BSOVERWORLD
 }; //end
 
-enum ArcingWeaponEffects
+enum ArcingWeaponEffects //start
 {
 	AE_BOMB,
 	AE_SMALLPOISONPOOL,
 	AE_LARGEPOISONPOOL,
 	AE_PROJECTILEWITHMOMENTUM,
 	AE_DEBUG
-};
+}; //end
 
+//end
 
 
 

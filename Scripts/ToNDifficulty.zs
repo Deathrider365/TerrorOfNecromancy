@@ -1,6 +1,6 @@
-
-
-
+///////////////////////////////////////////////////////////////////////////////
+//~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
+///////////////////////////////////////////////////////////////////////////////
 
 const int NPCM_DIFFICULTYFLAG = 14; //npc->Misc[] index used to track enemy difficulty modification. Be sure this doesn't overlap with other scripts.
 const int DIFFICULTY_APPLY_NPC_SCALING = 1; //If 1, scaling will be applied to enemies based on settings. If not, that will be skipped completely

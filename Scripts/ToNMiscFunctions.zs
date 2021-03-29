@@ -1,6 +1,6 @@
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+///////////////////////////////////////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+///////////////////////////////////////////////////////////////////////////////
 
 // Function to get the difference between two angles
 float AngDiff(float angle1, float angle2) //start
@@ -985,11 +985,79 @@ void noMoveAction() {
 // Creates Bitmap
 bitmap create(int w, int h) //start
 {
-	if(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
+	unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
 		return Game->CreateBitmap(h, w);
 	else
 		return Game->CreateBitmap(w, h);
 } 
  //end
+
+// Creates Bitmap again
+bitmap recreate(bitmap b, int w, int h) //start
+{
+	unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
+		b->Create(0, h, w);
+	else
+		b->Create(0, w, h);
+		
+	return b;
+}
+//end
+
+// Calcualtes the percent that part is of whole
+float PercentOfWhole(int part, int whole) //start
+{
+	return (100 * part)/whole;
+} //end
+
+//~~~~~SwitchPressed (used for switch scripts)~~~~~//
+int SwitchPressed(int x, int y, bool noLink) //start
+{
+	int xOff = 0;
+	int yOff = 4;
+	int xDist = 8;
+	int yDist = 8;
+	if(Abs(Link->X+xOff-x)<=xDist&&Abs(Link->Y+yOff-y)<=yDist&&Link->Z==0&&!noLink)
+		return 1;
+	if(Screen->MovingBlockX>-1){
+		if(Abs(Screen->MovingBlockX-x)<=8&&Abs(Screen->MovingBlockY-y)<=8)
+			return 1;
+	}
+	if(Screen->isSolid(x+4, y+4)||
+		Screen->isSolid(x+12, y+4)||
+		Screen->isSolid(x+4, y+12)||
+		Screen->isSolid(x+12, y+12)){
+		return 2;
+	}
+	return 0;
+}
+//end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

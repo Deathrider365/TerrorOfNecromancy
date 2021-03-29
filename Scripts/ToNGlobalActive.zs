@@ -79,9 +79,7 @@ global script GlobalScripts
 			gameframe = (gameframe + 1) % 3600;	//global timer
 				
 			checkDungeon();
-			
-			// BombDarknut();
-			
+						
 			LinkMovement_Update1();
 			UpdateGhostZH1();
 			

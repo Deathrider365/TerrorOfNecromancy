@@ -1,7 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~The Terror of Necromancy Active Subscreen~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~The Terror of Necromancy ActiveSubscreen~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+//~~~~~Constants~~~~~//
+//start
 CONFIG BG_MAP = 6;
 CONFIG BG_SCREEN = 0x0E;
 COLOR BG_COLOR = C_DGRAY;
@@ -37,6 +39,9 @@ COLOR C_MINIMAP_ROOM = C_BLACK;
 COLOR C_MINIMAP_LINK = C_DEEPBLUE;//C_DARKGREEN;
 COLOR C_MINIMAP_COMPASS = C_RED;
 COLOR C_MINIMAP_COMPASS_DEFEATED = C_DARKGREEN;
+
+//~~~~~Globals~~~~~//
+//start
 
 int subscr_y_offset = -224;
 
@@ -134,7 +139,10 @@ int amountOfDeathTriforceShards = 0;
 int numHeartPieces = 0;
 
 bool subscr_open = false;
+//end
+//end
 
+//~~~~~ActiveSubscreen~~~~~//
 @Author("Venrob, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
 {

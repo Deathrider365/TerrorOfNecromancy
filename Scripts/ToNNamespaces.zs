@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~Leviathan1~~~~~//
- 
+//@Author("Moosh, modified by Deathrider365")
 namespace Leviathan //start
 {
 	const int CMB_WATERFALL = 6828; //Leviathan's waterfall combos: Up (BG, middle) Up, (BG, foam) Down (FG, middle), Down (FG, foam)
@@ -856,6 +856,257 @@ namespace Leviathan //start
 } 
 
 //end
+
+//~~~~~Amalgamation of Decay ---Shambles---~~~~~//
+//@Author("Moosh")
+namespace Shambles//start
+{
+	bool firstRun = true;
+
+	ffc script Decay 
+	{
+		void run(int enemyid)
+		{
+			npc ghost = Ghost_InitAutoGhost(this, enemyid);
+			int combo = ghost->Attributes[10];
+			int attackCoolDown = 90;
+			int attack;
+			int startHP = Ghost_HP;
+			int bombsToLob = 3;
+			int difficultyMultiplier = 0.33;
+			
+			Audio->PlayEnhancedMusic(NULL, 0);
+			
+			//start spawning animation
+			Ghost_X = 128;				// sets him off screen as a time buffer
+			Ghost_Y = -32;
+			Ghost_Dir = DIR_DOWN;
+
+			Hero->Stun = 270;
+			
+			Screen->Quake = 90;
+			ShamblesWaitframe(this, ghost, 90, SFX_ROCKINGSHIP);
+			
+			Ghost_X = 120;
+			Ghost_Y = 80;
+			Ghost_Data = combo + 4;
+			
+			Screen->Quake = 60;
+			ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+			
+			Ghost_Data = combo + 5;
+			
+			Screen->Quake = 60;
+			ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+			
+			Ghost_Data = combo + 6;
+			
+			Screen->Quake = 60;
+			ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+
+			if (firstRun)
+			{
+				Screen->Message(45);
+				firstRun = false;
+			}
+			//end spawning animation
+
+			submerge(this, ghost, 8);
+
+			while (true) //start Activity Cycle
+			{		
+				int choice = chooseAttack();
+				
+				ShamblesWaitframe(this, ghost, 120);
+				
+				int pos = moveMe();
+				Ghost_X = ComboX(pos);
+				Ghost_Y = ComboY(pos);
+				
+				if (Ghost_HP < startHP * difficultyMultiplier)
+				{
+					emerge(this, ghost, 4);
+					bombsToLob = 5;
+				}
+				else
+					emerge(this, ghost, 8);
+				
+				switch(choice) 
+				{
+					case 0:	//start LinkCharge
+						Waitframes(30);
+						for (int i = 0; i < 5; ++i)
+						{
+							int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+							
+							Audio->PlaySound(SFX_SWORD);
+							
+							for (int j = 0; j < 22; ++j)
+							{
+								// if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0)		//Save for the Boss rush at the tailend of the game
+								// {
+									// eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, ghost->WeaponDamage, 
+																		// SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+
+									// SetEWeaponLifespan(poisonTrail, EWL_TIMER, 180);
+									// SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+								// }
+								
+								Ghost_ShadowTrail(this, ghost, false, 4);
+								Ghost_MoveAtAngle(moveAngle, 3, 0);
+								ShamblesWaitframe(this, ghost, 1);
+							}
+							
+							ShamblesWaitframe(this, ghost, 30);
+						}
+							
+						break; //end
+					
+					case 1:	//start Poison Bombs
+						for (int i = 0; i < bombsToLob; ++i)
+						{
+							ShamblesWaitframe(this, ghost, 16);
+							eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+							Audio->PlaySound(129);
+							RunEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
+							Waitframes(6);
+						}
+						break; //end
+					
+					case 2: //start Spawn Zambos
+						spawnZambos(this, ghost);
+						break; //end
+				}
+				
+				if (Ghost_HP < startHP * 0.50)
+					submerge(this, ghost, 4);
+				else
+					submerge(this, ghost, 8);
+				
+				pos = moveMe();
+				Ghost_X = ComboX(pos);
+				Ghost_Y = ComboY(pos);
+			} //end
+		
+		}
+		
+		int moveMe() //start Movement function
+		{
+			int pos;
+			
+			for (int i = 0; i < 352; ++i)
+			{
+				if (i < 176)
+					pos = Rand(176);
+				else
+					pos = i - 176;
+					
+				int x = ComboX(pos);
+				int y = ComboY(pos);
+				
+				if (Distance(Hero->X, Hero->Y, x, y) > 48)
+					if (Ghost_CanPlace(x, y, 16, 16))
+						break;
+			}
+			
+			return pos;
+		} //end
+			
+		void emerge(ffc this, npc ghost, int frames) //start
+		{
+			int combo = ghost->Attributes[10];
+			ghost->CollDetection = true;
+			ghost->DrawYOffset = -2;			
+			
+			Ghost_Data = combo + 4;
+			ShamblesWaitframe(this, ghost, frames);
+			
+			Audio->PlaySound(130);
+			
+			Ghost_Data = combo + 5;
+			ShamblesWaitframe(this, ghost, frames);
+			
+			Ghost_Data = combo + 6;
+			ShamblesWaitframe(this, ghost, frames);
+		} //end
+
+		void submerge(ffc this, npc ghost, int frames) //start
+		{
+			int combo = ghost->Attributes[10];
+
+			Ghost_Data = combo + 6;
+			ShamblesWaitframe(this, ghost, frames);
+			
+			Audio->PlaySound(130);
+			
+			Ghost_Data = combo + 5;
+			ShamblesWaitframe(this, ghost, frames);
+			
+			Ghost_Data = combo + 4;
+			ShamblesWaitframe(this, ghost, frames);
+			
+			ghost->CollDetection = false;
+			ghost->DrawYOffset = -1000;
+		} //end
+			
+		// Chooses an attack
+		int chooseAttack() //start
+		{
+			int numEnemies = Screen->NumNPCs();
+			
+			if (numEnemies > 5)
+				return Rand(0, 1);
+			
+			return Rand(0, 2);
+			
+		} //end
+		
+		// Spawns Zombies
+		void spawnZambos(ffc this, npc ghost) //start
+		{
+			for (int i = 0; i < 3; ++i)
+			{
+				Audio->PlaySound(64);
+				int zamboChoice = Rand(0, 2);
+				npc zambo;
+				
+				if (zamboChoice == 0)
+					zambo = Screen->CreateNPC(225);
+				else if (zamboChoice == 1)
+					zambo = Screen->CreateNPC(222);
+				else
+					zambo = Screen->CreateNPC(228);
+					
+				int pos = moveMe();
+				
+				zambo->X = ComboX(pos);
+				zambo->Y = ComboY(pos);
+				
+				ShamblesWaitframe(this, ghost, 30);
+			
+			}	
+		} //end
+		
+		void ShamblesWaitframe(ffc this, npc ghost, int frames) //start
+		{
+			for(int i = 0; i < frames; ++i)
+				Ghost_Waitframe(this, ghost, 1, true);
+		} //end
+		
+		void ShamblesWaitframe(ffc this, npc ghost, int frames, int sfx) //start
+		{
+			for(int i = 0; i < frames; ++i)
+			{
+				if (sfx > 0 && i % 30 == 0)
+					Audio->PlaySound(sfx);
+					
+				Ghost_Waitframe(this, ghost, 1, true);
+			}
+		} //end
+	}
+} //end
+
+
 
 
 
