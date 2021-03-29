@@ -31,7 +31,6 @@
 #include "../ToN Main Quest/Scripts/ToNEnemies.zs"
 #include "../ToN Main Quest/Scripts/ToNBosses.zs"
 #include "../ToN Main Quest/Scripts/ToNScreendataDMapdata.zs"
-#include "../ToN Main Quest/Scripts/new1.zs"
 #include "../ToN Main Quest/Scripts/ToNCredits.zh"
 #include "ToNGhost.zh"
 
