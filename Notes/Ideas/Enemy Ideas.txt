@@ -5,5 +5,7 @@ random encounters like from BOAB
 I know of the normal legionnaire sprites, but perhaps as the game goes on they "evolve" into the
 larger prite like am2r's metroids
 
-If you leave a legionnaire alive at low health too long they spawn another one for backup
-and play a whistle sound when that happens
+scripted Mimic / beamos / arrow traps from GS (episode 18 16:28)
+
+firerobe that shoots fire and leaves fire trails like firegels
+

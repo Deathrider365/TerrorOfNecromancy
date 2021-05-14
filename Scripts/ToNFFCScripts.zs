@@ -352,6 +352,23 @@ ffc script TradeGuy //start
 
 //end
 
+//~~~~~FFCLocks~~~~~//
+@Author("Deathrider365")
+ffc script Locks //start
+{
+	void run(int keyId, int sfx)
+	{
+		if (Hero->Item[keyId])
+		{
+			//change ComboAt[] to no lock
+			// Audio->PlaySound("");
+		}
+		else
+			Screen->Message(noItemString);
+	}
+}
+
+//end
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside

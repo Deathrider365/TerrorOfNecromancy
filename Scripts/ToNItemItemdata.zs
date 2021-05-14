@@ -78,6 +78,66 @@ itemdata script GanonRage //start
 }
 //end
 
+//~~~~~Scholar's Mind~~~~~//
+// D0: Duration of ability
+// D1: Duration of cooldown
+// D2: Damage multiplier
+// D3: Cost to use
+@Author("DONT REMEMBER maybe rob or moosh")
+itemdata script ScholarsMind //start
+{
+	void run(int durationSeconds, int cooldownSeconds, int damageMultiplier, int cost)
+	{
+		int itemClasses[] = {/*magic related items*/};
+		itemdata itemIds[9];
+		int itemStrengths[9];
+		
+		for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
+		{
+			int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
+			
+			if (highestItem >= 0 && Hero->MP >= cost)
+			{
+				itemIds[i] = Game->LoadItemData(highestItem);
+				itemStrengths[i] = itemIds[i]->Power;
+				itemIds[i]->Power *= damageMultiplier;
+				Hero->MP = Hero->MP - cost;
+			}
+		}
+		
+		statuses[ATTACK_BOOST] = durationSeconds * 60;
+		
+		while (statuses[ATTACK_BOOST])
+			Waitframe();
+		
+		for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
+			if (itemIds[i])
+				itemIds[i]->Power = itemStrengths[i];
+		
+		for (int i = cooldownSeconds * 60; i > 0; --i)
+		{
+			char32 buf[8];
+			itoa(buf, Ceiling(i / 60));
+			
+			if (Hero->ItemB == this->ID)
+			{
+				Screen->DrawString(7, SUB_B_X, SUB_B_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+					SUB_B_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
+			}
+			else if (Hero->ItemA == this->ID)                
+			{
+				Screen->DrawString(7, SUB_A_X, SUB_A_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+					SUB_A_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
+			}
+				
+			Waitframe();
+		}
+	}
+}
+//end
+
 //~~~~~LifeRing~~~~~//
 //D0: HP to heal while enemies on screen
 //D1: How often to heal while enemies on screen

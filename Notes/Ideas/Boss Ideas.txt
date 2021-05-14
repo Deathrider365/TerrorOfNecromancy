@@ -37,3 +37,20 @@ A boss where you drop into the boss arena and you have to activate the boss but 
 to deal massive damage right away by activating him a specific way
 
 Vengeful Revenant ~~~SomeName~~~
+
+Boss conjures a fireball, that is thrown at the ground and explodes into a bunch of smaller fireballs
+that leaves fire around the arena
+
+A dragon that during the first half of the fight it is climbing around the walls and has attacks
+such as fire, claws, and even the ability to grab or bite link
+
+(Thinking of the Dust Flyer or Ahriman sprite) flies around link (arena is atop a mountain) and does multiple
+ranged attack and can even grab and drop link for massive damage
+
+
+
+
+
+
+
+

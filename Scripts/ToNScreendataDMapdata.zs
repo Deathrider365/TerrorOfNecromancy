@@ -112,7 +112,7 @@ screendata script RadialTransparency //start
 
 //~~~~~DarkRegion~~~~~//
 @Author ("Venrob")
-dmapdata script DarkRegion //start
+dmapdata script DarkRegion //start		Credit Dimi for candle style
 {	
 	void run(int radius, int itemClass, int layer)
 	{

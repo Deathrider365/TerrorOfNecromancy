@@ -76,7 +76,7 @@ ffc script LegionnaireLevel1 //start
 			if (timeToSpawnAnother >= 600 && enemyCount < 2) //start Spawning more
 			{
 				enemyShake(this, ghost, 32, 1);
-				Audio->PlaySound(64);
+				Audio->PlaySound(132); // was 64 (general spawn sfx)
 				npc n1 = Screen->CreateNPC(220);
 				
 				int pos, x, y;
