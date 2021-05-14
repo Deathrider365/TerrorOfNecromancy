@@ -167,12 +167,13 @@ dmapdata script DarkRegion //start
 @Author("Deathrider365")
 dmapdata script Footprints //start
 {	
-	void run(int layer, int comboType, int startingTile, int cset, int printLifeTime)
+	void run(int layer, int comboType, int startingTile, int cset)
 	{
 		int walkingCounter;
 		int horizontalAdder = 6;
-		int pos1[6], pos2[6], pos3[6], pos4[6], pos5[6], pos6[6];
+		int pos1[6], pos2[6], pos3[6], pos4[6], pos5[6], pos6[6], pos7[6], pos8[6], pos9[6], pos10[6], pos11[6];
 		int previousX, previousY;
+		int printLifeTime = 144;
 		
 		while(true)
 		{
@@ -190,63 +191,72 @@ dmapdata script Footprints //start
 					
 					if (Screen->ComboT[ComboAt(Link->X + 4, Link->Y + 6)] == comboType)
 					{
-						// if (walkingCounter == 1)
-							// saveInstance(pos1, horizontalAdder, printLifeTime);
-						// else if(walkingCounter == (printLifeTime / 6))
-							// saveInstance(pos2, horizontalAdder, printLifeTime);
-						// else if(walkingCounter == (printLifeTime / 3))
-							// saveInstance(pos3, horizontalAdder, printLifeTime);
-						// else if(walkingCounter == (printLifeTime / 2))
-							// saveInstance(pos4, horizontalAdder, printLifeTime);
-						// else if(walkingCounter == (printLifeTime / 1.5))
-							// saveInstance(pos5, horizontalAdder, printLifeTime);
-						// else if(walkingCounter == (printLifeTime / 1.2))
-							// saveInstance(pos6, horizontalAdder, printLifeTime);
-							
-						if (walkingCounter % 8 == 0)
-							saveInstance(pos1, horizontalAdder, printLifeTime);
-							
-							
-							
+						switch(walkingCounter)
+						{
+							case 1:
+								saveInstance(pos1, horizontalAdder, printLifeTime);
+								break;
+							case 12:
+								saveInstance(pos2, horizontalAdder, printLifeTime);
+								break;
+							case 24:
+								saveInstance(pos3, horizontalAdder, printLifeTime);
+								break;
+							case 36:
+								saveInstance(pos4, horizontalAdder, printLifeTime);
+								break;
+							case 48:
+								saveInstance(pos5, horizontalAdder, printLifeTime);
+								break;
+							case 60:
+								saveInstance(pos6, horizontalAdder, printLifeTime);
+								break;
+							case 72:
+								saveInstance(pos7, horizontalAdder, printLifeTime);
+								break;
+							case 84:
+								saveInstance(pos8, horizontalAdder, printLifeTime);
+								break;
+							case 96:
+								saveInstance(pos9, horizontalAdder, printLifeTime);
+								break;
+							case 108:
+								saveInstance(pos10, horizontalAdder, printLifeTime);
+								break;
+							case 120:
+								saveInstance(pos11, horizontalAdder, printLifeTime);
+								break;
+							case 132:
+								saveInstance(pos11, horizontalAdder, printLifeTime);
+								break;
+						}
 					}
 					
-					if (pos1[4] > 0)
-						pos1[4]--;
-						
-					if (pos2[4] > 0)
-						pos2[4]--;
-						
-					if (pos3[4] > 0)
-						pos3[4]--;
-						
-					if (pos4[4] > 0)
-						pos4[4]--;
-						
-					if (pos5[4] > 0)
-						pos5[4]--;
-						
-					if (pos6[4] > 0)
-						pos6[4]--;
+					decrementPos(pos1);
+					decrementPos(pos2);
+					decrementPos(pos3);
+					decrementPos(pos4);
+					decrementPos(pos5);
+					decrementPos(pos6);
+					decrementPos(pos7);
+					decrementPos(pos8);
+					decrementPos(pos9);
+					decrementPos(pos10);
+					decrementPos(pos11);
 					
 				}
 				
-				if (pos1[4] > 0)
-					draw(layer, cset, pos1, startingTile, printLifeTime);
-					
-				if (pos2[4] > 0)
-					draw(layer, cset, pos2, startingTile, printLifeTime);
-					
-				if (pos3[4] > 0)
-					draw(layer, cset, pos3, startingTile, printLifeTime);
-					
-				if (pos4[4] > 0)
-					draw(layer, cset, pos4, startingTile, printLifeTime);
-					
-				if (pos5[4] > 0)
-					draw(layer, cset, pos5, startingTile, printLifeTime);
-					
-				if (pos6[4] > 0)
-					draw(layer, cset, pos6, startingTile, printLifeTime);
+				drawPos(pos1, layer, cset, startingTile, printLifeTime);
+				drawPos(pos2, layer, cset, startingTile, printLifeTime);
+				drawPos(pos3, layer, cset, startingTile, printLifeTime);
+				drawPos(pos4, layer, cset, startingTile, printLifeTime);
+				drawPos(pos5, layer, cset, startingTile, printLifeTime);
+				drawPos(pos6, layer, cset, startingTile, printLifeTime);
+				drawPos(pos7, layer, cset, startingTile, printLifeTime);
+				drawPos(pos8, layer, cset, startingTile, printLifeTime);
+				drawPos(pos9, layer, cset, startingTile, printLifeTime);
+				drawPos(pos10, layer, cset, startingTile, printLifeTime);
+				drawPos(pos11, layer, cset, startingTile, printLifeTime);
 					
 			}
 			else
@@ -258,6 +268,11 @@ dmapdata script Footprints //start
 				clearPos(pos4);
 				clearPos(pos5);
 				clearPos(pos6);
+				clearPos(pos7);
+				clearPos(pos8);
+				clearPos(pos9);
+				clearPos(pos10);
+				clearPos(pos11);
 				previousX = 0;
 				previousY = 0;
 				
@@ -303,6 +318,18 @@ dmapdata script Footprints //start
 		pos[2] = Hero->Dir;
 		pos[3] = (Hero->Dir == DIR_LEFT || Hero->Dir == DIR_RIGHT) ? horizontalAdder : 0;
 		pos[4] = printLifeTime;
+	} //end
+	
+	void decrementPos(int pos[]) //start
+	{
+		if (pos[4])
+			pos[4]--;
+	} //end
+	
+	void drawPos(int pos[], int layer, int cset, int startingTile, int printLifeTime) //start
+	{
+		if (pos[4])
+			draw(layer, cset, pos, startingTile, printLifeTime);
 	} //end
 	
 } //end
