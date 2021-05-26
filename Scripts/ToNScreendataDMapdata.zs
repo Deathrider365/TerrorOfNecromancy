@@ -179,199 +179,66 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 //D2: Cset of the footprints
 //D3: Footprint lifetime before transitioning
 //TILE ON P151 39288
+//Sprite 112
 @Author("Deathrider365")
 dmapdata script Footprints //start
 {	
-	void run(int layer, int comboType, int startingTile, int cset)
+	void run(int comboType)
 	{
 		int walkingCounter;
 		int horizontalAdder = 6;
-		int pos1[6], pos2[6], pos3[6], pos4[6], pos5[6], pos6[6], pos7[6], pos8[6], pos9[6], pos10[6], pos11[6];
+		int footprintSprite = 112;
 		int previousX, previousY;
-		int printLifeTime = 144;
 		
 		while(true)
 		{
-			if (!HeroIsScrolling())
+			if (!HeroIsScrolling() && Hero->Action == LA_WALKING && ((previousX == Hero->X && previousY == Hero->Y) ? false : true))
 			{
-				if (Hero->Action == LA_WALKING && ((previousX == Hero->X && previousY == Hero->Y) ? false : true))
-				{
-					previousX = Hero->X;
-					previousY = Hero->Y;
-					
-					walkingCounter++;
-					
-					if (walkingCounter == printLifeTime)
-						walkingCounter = 0;
-					
-					int pos = ComboAt(Link->X + 4, Link->Y + 6);
-					int t = Screen->ComboT[pos]; 
-					
-					for (int q = 1; q < 3; ++q)
-					{
-						if (Screen->LayerMap[q])
-						{
-							mapdata m = Game->LoadTempScreen(q);
-							
-							if (m->ComboD[pos])
-								t = m->ComboT[pos];
-						}
-					}
-					
-					if (t == comboType)
-					{
-						switch(walkingCounter)
-						{
-							case 1:
-								saveInstance(pos1, horizontalAdder, printLifeTime);
-								break;
-							case 12:
-								saveInstance(pos2, horizontalAdder, printLifeTime);
-								break;
-							case 24:
-								saveInstance(pos3, horizontalAdder, printLifeTime);
-								break;
-							case 36:
-								saveInstance(pos4, horizontalAdder, printLifeTime);
-								break;
-							case 48:
-								saveInstance(pos5, horizontalAdder, printLifeTime);
-								break;
-							case 60:
-								saveInstance(pos6, horizontalAdder, printLifeTime);
-								break;
-							case 72:
-								saveInstance(pos7, horizontalAdder, printLifeTime);
-								break;
-							case 84:
-								saveInstance(pos8, horizontalAdder, printLifeTime);
-								break;
-							case 96:
-								saveInstance(pos9, horizontalAdder, printLifeTime);
-								break;
-							case 108:
-								saveInstance(pos10, horizontalAdder, printLifeTime);
-								break;
-							case 120:
-								saveInstance(pos11, horizontalAdder, printLifeTime);
-								break;
-							case 132:
-								saveInstance(pos11, horizontalAdder, printLifeTime);
-								break;
-						}
-					}
-					
-					decrementPos(pos1);
-					decrementPos(pos2);
-					decrementPos(pos3);
-					decrementPos(pos4);
-					decrementPos(pos5);
-					decrementPos(pos6);
-					decrementPos(pos7);
-					decrementPos(pos8);
-					decrementPos(pos9);
-					decrementPos(pos10);
-					decrementPos(pos11);
-					
-				}
+				previousX = Hero->X;
+				previousY = Hero->Y;
+				walkingCounter++;
 				
-				drawPos(pos1, layer, cset, startingTile, printLifeTime);
-				drawPos(pos2, layer, cset, startingTile, printLifeTime);
-				drawPos(pos3, layer, cset, startingTile, printLifeTime);
-				drawPos(pos4, layer, cset, startingTile, printLifeTime);
-				drawPos(pos5, layer, cset, startingTile, printLifeTime);
-				drawPos(pos6, layer, cset, startingTile, printLifeTime);
-				drawPos(pos7, layer, cset, startingTile, printLifeTime);
-				drawPos(pos8, layer, cset, startingTile, printLifeTime);
-				drawPos(pos9, layer, cset, startingTile, printLifeTime);
-				drawPos(pos10, layer, cset, startingTile, printLifeTime);
-				drawPos(pos11, layer, cset, startingTile, printLifeTime);
-					
-			}
-			else
-			{
-				walkingCounter = 0;
-				clearPos(pos1);
-				clearPos(pos2);
-				clearPos(pos3);
-				clearPos(pos4);
-				clearPos(pos5);
-				clearPos(pos6);
-				clearPos(pos7);
-				clearPos(pos8);
-				clearPos(pos9);
-				clearPos(pos10);
-				clearPos(pos11);
-				previousX = 0;
-				previousY = 0;
+				int pos = ComboAt(Link->X + 4, Link->Y + 4);
+				int comboT = Screen->ComboT[pos]; 
 				
-				for (int i = startingTile; i < (horizontalAdder * 2); ++i)
-					ClearTile(i);
+				for (int i = 1; i < 3; ++i)
+					if (Screen->LayerMap[i])
+					{
+						mapdata m = Game->LoadTempScreen(i);
+						
+						if (m->ComboD[pos])
+							comboT = m->ComboT[pos];
+					}
+				
+				if (comboT == comboType && walkingCounter == 12)
+					createFootprint(footprintSprite);
+					
+				if (walkingCounter == 12)
+					walkingCounter = 0;
 			}
 			
 			Waitframe();
 		}
 	}
 	
-	// Draws the correct tiles bases on the "age" (pos[4]) of the footprint
-	void draw(int layer, int cset, int pos, int startingTile, int printLifeTime) //start
+	void createFootprint(int footprintSprite) //start
 	{
-		if (pos[4] > (printLifeTime / 1.2))
-			pos[5] = 0;
-		else if (pos[4] > (printLifeTime / 1.5))
-			pos[5] = 1;
-		else if(pos[4] > (printLifeTime / 2))
-			pos[5] = 2;
-		else if(pos[4] > (printLifeTime / 3))
-			pos[5] = 3;
-		else if(pos[4] > (printLifeTime / 6))
-			pos[5] = 4;
-		else if (pos[4] > 0)
-			pos[5] = 5;
-			
-		Screen->FastTile(layer, pos[0], pos[1], startingTile + pos[3] + pos[5], cset, OP_OPAQUE);
-	} //end
-	
-	// Clears pos[] for screen transitions
-	void clearPos(int pos) //start
-	{
-		for (int i = 0; i < 6; ++i)
-			pos[i] = 0;
-	} //end
-	
-	// Saves Link's information in a provided pos[]
-	void saveInstance(int pos, int horizontalAdder, int printLifeTime) //start
-	{
-		pos[0] = Hero->X;
-		pos[1] = Hero->Y;
-		pos[2] = Hero->Dir;
-		pos[3] = (Hero->Dir == DIR_LEFT || Hero->Dir == DIR_RIGHT) ? horizontalAdder : 0;
-		pos[4] = printLifeTime;
-	} //end
-	
-	void decrementPos(int pos) //start
-	{
-		if (pos[4])
-			pos[4]--;
-	} //end
-	
-	void drawPos(int pos, int layer, int cset, int startingTile, int printLifeTime) //start
-	{
-		if (pos[4])
-			draw(layer, cset, pos, startingTile, printLifeTime);
+		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
+		footprint->X = Hero->X;
+		footprint->Y = Hero->Y;
+		footprint->UseSprite(Hero->Dir < 2 ? footprintSprite : footprintSprite + 1);
 	} //end
 	
 } //end
 
 
-dmapdata script NOCRASHPLZ
+dmapdata script NOCRASHPLZ //start
 {
 	void run()
 	{
 		Quit();
 	}
-
-}
+} //end
 
 
 
