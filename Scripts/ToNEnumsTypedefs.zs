@@ -31,6 +31,7 @@ CONFIG SFX_ROCKINGSHIP = 9;
 //~~~~~Sprite Constants~~~~~//
 //start
 CONFIG SPR_POISON_CLOUD = 111;
+CONFIG SPR_FOOTSTEP = 113;
 
 //end
 

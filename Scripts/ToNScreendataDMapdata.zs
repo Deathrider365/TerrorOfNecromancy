@@ -183,51 +183,62 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 @Author("Deathrider365")
 dmapdata script Footprints //start
 {	
-	void run(int comboType)
+	void run(int comboType, int fadeMult)
 	{
-		int walkingCounter;
-		int horizontalAdder = 6;
-		int footprintSprite = 112;
+		int walkingCounter = 1;
 		int previousX, previousY;
 		
+		unless(fadeMult)
+			fadeMult = 1;
+			
 		while(true)
 		{
 			if (!HeroIsScrolling() && Hero->Action == LA_WALKING && ((previousX == Hero->X && previousY == Hero->Y) ? false : true))
 			{
 				previousX = Hero->X;
 				previousY = Hero->Y;
-				walkingCounter++;
 				
-				int pos = ComboAt(Link->X + 4, Link->Y + 4);
-				int comboT = Screen->ComboT[pos]; 
-				
-				for (int i = 1; i < 3; ++i)
-					if (Screen->LayerMap[i])
-					{
-						mapdata m = Game->LoadTempScreen(i);
-						
-						if (m->ComboD[pos])
-							comboT = m->ComboT[pos];
-					}
-				
-				if (comboT == comboType && walkingCounter == 12)
-					createFootprint(footprintSprite);
+				unless (--walkingCounter)
+				{	
+					int pos = ComboAt(Link->X + 4, Link->Y + 4);
+					int comboT = Screen->ComboT[pos]; 
 					
-				if (walkingCounter == 12)
-					walkingCounter = 0;
+					for (int i = 1; i < 3; ++i)
+						if (Screen->LayerMap[i])
+						{
+							mapdata m = Game->LoadTempScreen(i);
+							
+							if (m->ComboD[pos])
+								comboT = m->ComboT[pos];
+						}
+					
+					if (comboT == comboType)
+						createFootprint(fadeMult);
+						
+					walkingCounter = 12;
+				}
 			}
 			
 			Waitframe();
 		}
 	}
 	
-	void createFootprint(int footprintSprite) //start
+	void createFootprint(int fadeMult) //start
 	{
-		
 		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
 		footprint->X = Hero->X;
-		footprint->Y = Hero->Dir < 2 ? Hero->Y : Hero->Y + 6;
-		footprint->UseSprite(Hero->Dir < 2 ? footprintSprite : footprintSprite + 1);
+		footprint->Y = Hero->Y;
+		footprint->UseSprite(SPR_FOOTSTEP);
+		
+		unless(footprint->ASpeed)
+			footprint->ASpeed = 1;
+		
+		footprint->ASpeed = Round(footprint->ASpeed * fadeMult);
+		
+		unless(footprint->NumFrames)
+			footprint->NumFrames = 1;
+			
+		footprint->OriginalTile += Hero->Dir * footprint->NumFrames;
 	} //end
 	
 } //end

@@ -1,2 +1,4 @@
 Palette - 016, CSet 3 (washed out, dead)
 Palette - 01A, CSet 3 (lush)
+Palette - 023 CSet 1 (oversaturated blueish water)
+Palette - 025 CSet 11 (^)
