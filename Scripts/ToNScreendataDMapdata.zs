@@ -223,9 +223,10 @@ dmapdata script Footprints //start
 	
 	void createFootprint(int footprintSprite) //start
 	{
+		
 		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
 		footprint->X = Hero->X;
-		footprint->Y = Hero->Y;
+		footprint->Y = Hero->Dir < 2 ? Hero->Y : Hero->Y + 6;
 		footprint->UseSprite(Hero->Dir < 2 ? footprintSprite : footprintSprite + 1);
 	} //end
 	
