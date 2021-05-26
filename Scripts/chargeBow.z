@@ -18,6 +18,7 @@ const int CHARGEBOWCHARGEDUR = 30;			//Duration (frames) required to charge
 //Script InitD[2] is the normal arrow damage
 //Script InitD[3] is the charge arrow damage
 
+@Author("Mitchfork")
 item script chargeBow //start
 {
 	void run(int arrowSpeed, int arrowTile, int baseDam, int chargeDam) 

@@ -356,12 +356,12 @@ ffc script TradeGuy //start
 @Author("Deathrider365")
 ffc script Locks //start
 {
-	void run(int keyId, int sfx)
+	void run(int keyId, int noItemString, int sfx)
 	{
 		if (Hero->Item[keyId])
 		{
 			//change ComboAt[] to no lock
-			// Audio->PlaySound("");
+			Audio->PlaySound(sfx);
 		}
 		else
 			Screen->Message(noItemString);
@@ -1944,6 +1944,118 @@ ffc script OvMove //start
 		}
 	}
 } //end
+
+//~~~~~DisableRadialTransparency~~~~~//
+ffc script DisableRadialTransparency //start
+{
+	void run(int pos)
+	{
+		while(true)
+		{
+			disableTrans = Screen->ComboD[pos] ? true : false;
+			Waitframe();
+		}
+	}
+} //end
+
+ffc script WarpCustomReturn //start
+{
+	//Dirs: -1 = Tile, 0 = Up, 1 = Down, 2 = Left, 3 = Right
+	//If d2 is set, and the warp is a sidewarp, it will use the FFC's x/y to split into 2 sidewarps
+	//d1 / d2 = 'dmap.screen', i.e. dm1scr1 = 1.0001
+	void run(int d1, int x, int y, int sideFacing, int warp, int d2, int x2, int y2)
+	{
+		int dm = Floor(d1), scr = (d1 % 1) / 1L;
+		int dm2 = Floor(d2), scr2 = (d2 % 1) / 1L;
+		int wtype = Floor(warp), warpEffect = (warp % 1) / 1L;
+		int side = Floor(sideFacing), dir = (sideFacing % 1) / 1L;
+		
+		switch(side)
+		{
+			case DIR_UP:
+			{
+				while(true)
+				{
+					if(Hero->Y <= 1.5 && Hero->InputUp)
+					{
+						if(d2 && Hero->X >= this->X)
+							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
+						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_DOWN:
+			{
+				while(true)
+				{
+					if(Hero->Y >= 158.5 && Hero->InputDown)
+					{
+						if(d2 && Hero->X >= this->X)
+							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
+						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_LEFT:
+			{
+				while(true)
+				{
+					if(Hero->X <= 1.5 && Hero->InputLeft)
+					{
+						if(d2 && Hero->Y >= this->Y)
+							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
+						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_RIGHT:
+			{
+				while(true)
+				{
+					if(Hero->X >= 238.5 && Hero->InputRight)
+					{
+						if(d2 && Hero->Y >= this->Y)
+							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
+						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			default: //Tile warp, at the FFC's location.
+			{
+				while(true)
+				{
+					if(Abs(Hero->X-this->X) <= 14 && Abs(Hero->Y-this->Y) <= 14)
+						Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+					Waitframe();
+				}
+			}
+		}
+	}
+}
+//end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

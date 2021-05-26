@@ -41,12 +41,13 @@ screendata script OverheadTransparency //start
 } //end
 
 //~~~~~RadialTransparency (Fancy)~~~~~//
-// So if I were to want layer 1, 2, and 3 to be transparent I would input 7 (000111b) (1 + 2 + 4) or (000001, 000010, 000100)
+// D0: So if I were to want layer 1, 2, and 3 to be transparent I would input 7 (000111b) (1 + 2 + 4) or (000001, 000010, 000100)
+// D1: Radius
 @Author ("Venrob")
 screendata script RadialTransparency //start
 {
 	void run(int layers, int radius)
-	{
+	{			
 		mapdata m[7];
 		
 		for (int l = 1; l < 7; ++l)
@@ -84,6 +85,20 @@ screendata script RadialTransparency //start
 			}
 			
 			Waitframe();
+			
+			if (disableTrans)
+			{
+				for (int l = 1; l < 7; ++l)
+				{
+					unless(layers & (1b << (l - 1)))
+						continue;
+					
+					Screen->LayerInvisible[l] = false;
+				}
+				
+				while (disableTrans) 
+					Waitframe();
+			}
 			
 			if (HeroIsScrolling())
 			{
@@ -189,7 +204,21 @@ dmapdata script Footprints //start
 					if (walkingCounter == printLifeTime)
 						walkingCounter = 0;
 					
-					if (Screen->ComboT[ComboAt(Link->X + 4, Link->Y + 6)] == comboType)
+					int pos = ComboAt(Link->X + 4, Link->Y + 6);
+					int t = Screen->ComboT[pos]; 
+					
+					for (int q = 1; q < 3; ++q)
+					{
+						if (Screen->LayerMap[q])
+						{
+							mapdata m = Game->LoadTempScreen(q);
+							
+							if (m->ComboD[pos])
+								t = m->ComboT[pos];
+						}
+					}
+					
+					if (t == comboType)
 					{
 						switch(walkingCounter)
 						{
@@ -285,7 +314,7 @@ dmapdata script Footprints //start
 	}
 	
 	// Draws the correct tiles bases on the "age" (pos[4]) of the footprint
-	void draw(int layer, int cset, int pos[], int startingTile, int printLifeTime) //start
+	void draw(int layer, int cset, int pos, int startingTile, int printLifeTime) //start
 	{
 		if (pos[4] > (printLifeTime / 1.2))
 			pos[5] = 0;
@@ -304,14 +333,14 @@ dmapdata script Footprints //start
 	} //end
 	
 	// Clears pos[] for screen transitions
-	void clearPos(int pos[]) //start
+	void clearPos(int pos) //start
 	{
 		for (int i = 0; i < 6; ++i)
 			pos[i] = 0;
 	} //end
 	
 	// Saves Link's information in a provided pos[]
-	void saveInstance(int pos[], int horizontalAdder, int printLifeTime) //start
+	void saveInstance(int pos, int horizontalAdder, int printLifeTime) //start
 	{
 		pos[0] = Hero->X;
 		pos[1] = Hero->Y;
@@ -320,13 +349,13 @@ dmapdata script Footprints //start
 		pos[4] = printLifeTime;
 	} //end
 	
-	void decrementPos(int pos[]) //start
+	void decrementPos(int pos) //start
 	{
 		if (pos[4])
 			pos[4]--;
 	} //end
 	
-	void drawPos(int pos[], int layer, int cset, int startingTile, int printLifeTime) //start
+	void drawPos(int pos, int layer, int cset, int startingTile, int printLifeTime) //start
 	{
 		if (pos[4])
 			draw(layer, cset, pos, startingTile, printLifeTime);
@@ -335,6 +364,14 @@ dmapdata script Footprints //start
 } //end
 
 
+dmapdata script NOCRASHPLZ
+{
+	void run()
+	{
+		Quit();
+	}
+
+}
 
 
 

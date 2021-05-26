@@ -2,6 +2,10 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~Consts / Typedefs / Enums~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+
+//~~~~~Global Variables~~~~~//
+bool disableTrans;
+
 //~~~~~Typedefs~~~~~//
 //start
 typedef const int DEFINE;

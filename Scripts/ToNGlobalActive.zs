@@ -119,6 +119,8 @@ global script GlobalScripts
 	
 	void onScreenChange()
 	{
+		disableTrans = false;
+		//
 		if (Screen->Palette != lastPal)
 		{
 			lastPal = Screen->Palette;

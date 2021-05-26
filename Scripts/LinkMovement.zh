@@ -1,0 +1,503 @@
+const int FOUR_WAY_MOVEMENT = 0; //Set to 1 if your quest has four-way movement. 
+								//Note that four-way movement Link has a step speed of 1.33 instead of 1.5.
+								//This happens seemingly in a pattern of 1-1-1-2-1-2 pixel steps.
+								//This settings is all around buggy and there's not much I can do about it, unfortunately. :(
+
+const int MAX_PUSH = 4; //This is the maximum number of pixels Link can be pushed in a single frame.
+						//Extra pixels past this maximum will be handled the next frame and so on.
+						//Increasing this will increase the max number of interations in loops in the
+						//__LinkMovement_UpdatePush() function. This shouldn't be too big a deal in terms of
+						//slowdown, but to keep it reasonable.
+
+int LinkMovement[16];
+//These constants are all array indeces for the global array
+const int LM_PUSHX1A = 0;
+const int LM_PUSHY1A = 1;
+const int LM_PUSHX1B = 2;
+const int LM_PUSHY1B = 3;
+const int LM_PUSHX2A = 4;
+const int LM_PUSHY2A = 5;
+const int LM_PUSHX2B = 6;
+const int LM_PUSHY2B = 7;
+const int LM_STICKX = 8;
+const int LM_STICKY = 9;
+const int LM_MOVEBOOST = 10;
+const int LM_LASTX = 11;
+const int LM_LASTY = 12;
+const int LM_UNDOLINKMOVEMENT = 13;
+const int LM_LASTDMAP = 14;
+const int LM_LASTDMAPSCREEN = 15;
+
+//INTERNAL FUNCTIONS
+
+//This function keeps track of Link's last X and Y input.
+//If two opposing inputs are held at once, this should hopefully keep track of which one ZC will prioritize.
+void __LinkMovement_UpdateInput(){
+	if(LinkMovement[LM_STICKY]==0){ //If no Y axis pressed
+		if(Link->PressUp&&Link->PressDown) //Default to up when buttons pressed simultaneously
+			LinkMovement[LM_STICKY] = -1;
+		else if(Link->PressUp||Link->InputUp) //Set axis based on which button what pressed
+			LinkMovement[LM_STICKY] = -1;
+		else if(Link->PressDown||Link->InputDown)
+			LinkMovement[LM_STICKY] = 1;
+	}
+	else{ //If Y axis pressed
+		if(!Link->InputUp&&!Link->InputDown) //Release Y axis if neither button pressed
+			LinkMovement[LM_STICKY] = 0;
+		else if(LinkMovement[LM_STICKY]==-1&&!Link->InputUp) //Reverse Y axis if opposite direction held and button released
+			LinkMovement[LM_STICKY] = 1;
+		else if(LinkMovement[LM_STICKY]==1&&!Link->InputDown)
+			LinkMovement[LM_STICKY] = -1;
+	}
+	
+	if(LinkMovement[LM_STICKX]==0){ //If no X axis pressed
+		if(Link->PressLeft&&Link->PressRight) //Default to left when buttons pressed simultaneously
+			LinkMovement[LM_STICKX] = -1;
+		else if(Link->PressLeft||Link->InputLeft) //Set axis based on which button what pressed
+			LinkMovement[LM_STICKX] = -1;
+		else if(Link->PressRight||Link->InputRight)
+			LinkMovement[LM_STICKX] = 1;
+	}
+	else{ //If Y axis pressed
+		if(!Link->InputLeft&&!Link->InputRight) //Release Y axis if neither button pressed
+			LinkMovement[LM_STICKX] = 0;
+		else if(LinkMovement[LM_STICKX]==-1&&!Link->InputLeft) //Reverse Y axis if opposite direction held and button released
+			LinkMovement[LM_STICKX] = 1;
+		else if(LinkMovement[LM_STICKX]==1&&!Link->InputRight)
+			LinkMovement[LM_STICKX] = -1;
+	}
+}
+
+//Function adds extra movement to Link's step speed
+void __LinkMovement_SpeedChange(){
+	if(Link->Action==LA_NONE||Link->Action==LA_WALKING){
+		if(LinkMovement[LM_STICKX]!=0||LinkMovement[LM_STICKY]!=0){
+			float movementSpeed = LinkMovement[LM_MOVEBOOST];
+			//We're calculating CanWalk for all directions in advance to hopefully save a bit on speed.
+			bool CanWalk[4];
+			CanWalk[DIR_UP] = CanWalk(Link->X, Link->Y, DIR_UP, 1, false);
+			CanWalk[DIR_DOWN] = CanWalk(Link->X, Link->Y, DIR_DOWN, 1, false);
+			CanWalk[DIR_LEFT] = CanWalk(Link->X, Link->Y, DIR_LEFT, 1, false);
+			CanWalk[DIR_RIGHT] = CanWalk(Link->X, Link->Y, DIR_RIGHT, 1, false);
+			//If four way movement isn't on, Link's speed boost should be dampened for diagonals since he moves slower
+			if(!FOUR_WAY_MOVEMENT){
+				if(LinkMovement[LM_STICKX]!=0&&LinkMovement[LM_STICKY]!=0){
+					//If he's pressing against a wall or in sideview, the speed dampening won't take effect
+					if(CanWalk[Cond(LinkMovement[LM_STICKX]==-1, DIR_LEFT, DIR_RIGHT)] &&
+					CanWalk[Cond(LinkMovement[LM_STICKY]==-1, DIR_UP, DIR_DOWN)] &&
+					!IsSideview() )
+						movementSpeed = movementSpeed*0.7071; //Reduce movement speed at a diagonal
+				}
+			}
+			//Otherwise, disable directions Link isn't facing
+			else{
+				if(LinkMovement[LM_STICKX]!=0&&(Link->Dir==DIR_UP||Link->Dir==DIR_DOWN)){
+					CanWalk[DIR_LEFT] = false;
+					CanWalk[DIR_RIGHT] = false;
+				}
+				if(LinkMovement[LM_STICKY]!=0&&(Link->Dir==DIR_LEFT||Link->Dir==DIR_RIGHT)){
+					CanWalk[DIR_UP] = false;
+					CanWalk[DIR_DOWN] = false;
+				}
+			}
+			
+			//If there's a moving block in play, cancel the speed boost if Link is touching it
+			if(Screen->MovingBlockX>-1){
+				//Predict where Link will move to so he doesn't clip into the block
+				int projX = Link->X+movementSpeed*LinkMovement[LM_STICKX];
+				int projY = Link->Y+movementSpeed*LinkMovement[LM_STICKY];
+				if(RectCollision(projX, projY+8, projX+15, projY+15, Screen->MovingBlockX, Screen->MovingBlockY, Screen->MovingBlockX+15, Screen->MovingBlockY+15)){
+					LinkMovement[LM_MOVEBOOST] = 0;
+					return;
+				}
+			}
+			
+			//This chunk is pretty much the same for both positive and negative movement speeds.
+			//The only difference is that negative needs to check both opposing directions before adding the push.
+			if(movementSpeed>0){
+				//Left
+				if(LinkMovement[LM_STICKX]<0&&CanWalk[DIR_LEFT])
+					LinkMovement[LM_PUSHX2B] -= movementSpeed;
+				//Right
+				else if(LinkMovement[LM_STICKX]>0&&CanWalk[DIR_RIGHT])
+					LinkMovement[LM_PUSHX2B] += movementSpeed;
+				//Up
+				if(LinkMovement[LM_STICKY]<0&&CanWalk[DIR_UP])
+					LinkMovement[LM_PUSHY2B] -= movementSpeed;
+				//Down
+				else if(LinkMovement[LM_STICKY]>0&&CanWalk[DIR_DOWN])
+					LinkMovement[LM_PUSHY2B] += movementSpeed;
+			}
+			else if(movementSpeed<0){
+				//Left
+				if(LinkMovement[LM_STICKX]<0&&CanWalk[DIR_LEFT]&&CanWalk[DIR_RIGHT])
+					LinkMovement[LM_PUSHX2B] -= movementSpeed;
+				//Right
+				else if(LinkMovement[LM_STICKX]>0&&CanWalk[DIR_LEFT]&&CanWalk[DIR_RIGHT])
+					LinkMovement[LM_PUSHX2B] += movementSpeed;
+				//Up
+				if(LinkMovement[LM_STICKY]<0&&CanWalk[DIR_UP]&&CanWalk[DIR_DOWN])
+					LinkMovement[LM_PUSHY2B] -= movementSpeed;
+				//Down
+				else if(LinkMovement[LM_STICKY]>0&&CanWalk[DIR_UP]&&CanWalk[DIR_DOWN])
+					LinkMovement[LM_PUSHY2B] += movementSpeed;
+			}
+		}	
+	}
+	LinkMovement[LM_MOVEBOOST] = 0; //Movement boost gets reset at the end of every frame to prevent confusion 
+									//with what it's set to or what should turn it on/off
+}
+
+//Heckin gross function. Why do I need to do this
+void __LinkMovement_UglyReverseMovementFix(){
+	//So basically if Link's movement boost is enough to make him go backwards
+	//some extra stuff needs to happen so he scrolls screens properly.
+	//It's opposite day, everybody!
+	if(LinkMovement[LM_MOVEBOOST]<-1.5){
+		//If he's moving towards the edge, move him away from it
+		if(Link->X<=0&&LinkMovement[LM_STICKX]<0)
+			Link->X+=2;
+		else if(Link->X>=240&&LinkMovement[LM_STICKX]>0)
+			Link->X-=2;
+		if(Link->Y<=0&&LinkMovement[LM_STICKY]<0)
+			Link->Y+=2;
+		else if(Link->Y>=160&&LinkMovement[LM_STICKY]>0)
+			Link->Y-=2;
+		
+		//If he's moving away from the edge, push him towards it
+		if(Link->X<=0&&LinkMovement[LM_STICKX]>0)
+			Link->X-=2;
+		else if(Link->X>=240&&LinkMovement[LM_STICKX]<0)
+			Link->X+=2;
+		if(Link->Y<=0&&LinkMovement[LM_STICKY]>0)
+			Link->Y-=2;
+		else if(Link->Y>=160&&LinkMovement[LM_STICKY]<0)
+			Link->Y+=2;
+	}
+}
+
+//The ugly deformed child of the original CanWalk() function and something else entirely
+bool __LinkMovement_CanWalk(int x, int y, int dir, int step, bool full_tile, bool noEdge) {
+    int i; int xx; int yy;
+	int xoffset = 0; int yoffset = 0;
+	int width = 16; int height = 16;
+	//Link's sideview hitbox is 8 pixels wide and centered on him
+	if(IsSideview()&&(dir==DIR_UP||dir==DIR_DOWN)){
+		xoffset = 4;
+		width = 8;
+	}
+	//If !full_tile, trim the top half off the hitbox
+	else if(!full_tile){
+		yoffset = 8;
+		height = 8;
+	}
+	if(dir==DIR_UP||dir==DIR_DOWN){ 
+		//Loop between three points of collision (two if sideview)
+		for(i=0; i<=width-1; i=Min(i+8, width-1)){
+			if(dir==DIR_UP){
+				xx = x+xoffset+i;
+				yy = y+yoffset-step;
+			}
+			else if(dir==DIR_DOWN){
+				xx = x+xoffset+i;
+				yy = y+yoffset+height-1+step;
+			}
+			//If !noEdge, positions off the screen are considered solid
+			if(xx<0||xx>255||yy<0||yy>175){
+				if(!noEdge)
+					return false;
+			}
+			if(Screen->isSolid(xx, yy))
+				return false;
+			if(i==width-1)
+				break;
+		}
+		return true;
+	}
+	else if(dir==DIR_LEFT||dir==DIR_RIGHT){
+		//Loop between three points of collision (two if !full_tile)
+		for(i=0; i<=height-1; i=Min(i+8, height-1)){
+			if(dir==DIR_LEFT){
+				xx = x+xoffset-step;
+				yy = y+yoffset+i;
+			}
+			else if(dir==DIR_RIGHT){
+				xx = x+xoffset+width-1+step;;
+				yy = y+yoffset+i;
+			}
+			//If !noEdge, positions off the screen are considered solid
+			if(xx<0||xx>255||yy<0||yy>175){
+				if(!noEdge)
+					return false;
+			}
+			if(Screen->isSolid(xx, yy))
+				return false;
+			if(i==height-1)
+				break;
+		}
+		return true;
+	}
+	return false;
+}
+
+//This function moves Link based on the values of the push indices in the global array
+void __LinkMovement_UpdatePush(int indexX, int indexY, bool noEdge){
+	int Imprecision = 0; //This is currently unused, but I guess I left it in in case I 
+						//ever see a reason to use it again...three cheers for bloat!
+	
+	//So what we have here is a series of for loops that run for as long as:
+	//	-The absolute value of the push array is greater than 0
+	//	-Link isn't being blocked by a wall
+	//  -Link hasn't been moved the max number of pixels that frame
+	
+	//Any movement of less than a pixel is left over in the array and any time the function successfully moves Link,
+	//the array counts back down towards 0. This way movements of less than a pixel can "add up" to a full pixel movement.
+	
+	//Left
+	for(int i=0; i<MAX_PUSH&&LinkMovement[indexX]<=-1; i++){
+		if(__LinkMovement_CanWalk(Link->X, Link->Y, DIR_LEFT, 1, false, noEdge)){
+			Link->X--;
+			LinkMovement[indexX]++;
+		}
+		//This is unused, but would snap Link to the grid if he's close enough to aligned
+		else if(Imprecision>0&&Abs(GridY(Link->Y+8)-Link->Y)<Imprecision&&__LinkMovement_CanWalk(Link->X, GridY(Link->Y+8), DIR_LEFT, 1, false, noEdge)){
+			Link->Y = GridY(Link->Y+8);
+			Link->X--;
+			LinkMovement[indexX]++;
+		}
+		//If Link has been blocked, clear the push value. This will also end the loop.
+		else{
+			LinkMovement[indexX] = 0;
+		}
+	}
+	//Right
+	for(int i=0; i<MAX_PUSH&&LinkMovement[indexX]>=1; i++){
+		if(__LinkMovement_CanWalk(Link->X, Link->Y, DIR_RIGHT, 1, false, noEdge)){
+			Link->X++;
+			LinkMovement[indexX]--;
+		}
+		//This is unused, but would snap Link to the grid if he's close enough to aligned
+		else if(Imprecision>0&&Abs(GridY(Link->Y+8)-Link->Y)<Imprecision&&__LinkMovement_CanWalk(Link->X, GridY(Link->Y+8), DIR_RIGHT, 1, false, noEdge)){
+			Link->Y = GridY(Link->Y+8);
+			Link->X++;
+			LinkMovement[indexX]--;
+		}
+		//If Link has been blocked, clear the push value. This will also end the loop.
+		else{
+			LinkMovement[indexX] = 0;
+		}
+	}
+	//Up
+	for(int i=0; i<MAX_PUSH&&LinkMovement[indexY]<=-1; i++){
+		if(__LinkMovement_CanWalk(Link->X, Link->Y, DIR_UP, 1, false, noEdge)){
+			Link->Y--;
+			LinkMovement[indexY]++;
+		}
+		//This is unused, but would snap Link to the grid if he's close enough to aligned
+		else if(Imprecision>0&&Abs(GridX(Link->X+8)-Link->X)<Imprecision&&__LinkMovement_CanWalk(GridX(Link->X+8), Link->Y, DIR_UP, 1, false, noEdge)){
+			Link->X = GridX(Link->X+8);
+			Link->Y--;
+			LinkMovement[indexY]++;
+		}
+		//If Link has been blocked, clear the push value. This will also end the loop.
+		else{
+			LinkMovement[indexY] = 0;
+		}
+	}
+	//Down
+	for(int i=0; i<MAX_PUSH&&LinkMovement[indexY]>=1; i++){
+		if(__LinkMovement_CanWalk(Link->X, Link->Y, DIR_DOWN, 1, false, noEdge)){
+			Link->Y++;
+			LinkMovement[indexY]--;
+		}
+		//This is unused, but would snap Link to the grid if he's close enough to aligned
+		else if(Imprecision>0&&Abs(GridX(Link->X+8)-Link->X)<Imprecision&&__LinkMovement_CanWalk(GridX(Link->X+8), Link->Y, DIR_DOWN, 1, false, noEdge)){
+			Link->X = GridX(Link->X+8);
+			Link->Y++;
+			LinkMovement[indexY]--;
+		}
+		//If Link has been blocked, clear the push value. This will also end the loop.
+		else{
+			LinkMovement[indexY] = 0;
+		}
+	}
+}
+
+//Update functions for undoing Link's movement. This relies on a certain order of events during the frame
+//	1.) Pushing before waitdraw
+//	2.) Waitdraw (engine movement happens now)
+//	3.) Link's movement is undone. This negates pushing done before waitdraw but also engine movement.
+//	4.) Pushing after waitdraw
+//	5.) Link's position is stored to undo movement for the next frame
+// 	6.) Waitframe
+
+//This function handles step 3, resetting Link to his last position
+void __LinkMovement_UndoLinkMovementUpdate1(){
+	if(LinkMovement[LM_UNDOLINKMOVEMENT]){
+		//Check that we're on the same map and screen. We don't want to reset Link's position to where he was on a different screen.
+		if(LinkMovement[LM_LASTDMAP]==Game->GetCurDMap()&&LinkMovement[LM_LASTDMAPSCREEN]==Game->GetCurDMapScreen()){
+			//We can undo X and Y movement selectively
+			if(LinkMovement[LM_UNDOLINKMOVEMENT]&01b)
+				Link->X = LinkMovement[LM_LASTX];
+			if(LinkMovement[LM_UNDOLINKMOVEMENT]&10b)
+				Link->Y = LinkMovement[LM_LASTY];
+		}
+		LinkMovement[LM_UNDOLINKMOVEMENT] = 0; //This property is also undone each frame to prevent confusion
+	}
+}
+
+//This function handles step 5, storing Link's position to use the next frame
+void __LinkMovement_UndoLinkMovementUpdate2(){
+	//Also keep the DMap and screen tracking up to date
+	LinkMovement[LM_LASTDMAP] = Game->GetCurDMap();
+	LinkMovement[LM_LASTDMAPSCREEN] = Game->GetCurDMapScreen();
+	
+	LinkMovement[LM_LASTX] = Link->X;
+	LinkMovement[LM_LASTY] = Link->Y;
+}
+
+//GLOBAL SCRIPT FUNCTIONS
+
+//This function goes before waitframe, and resets all the global variables back to their defaults
+void LinkMovement_Init(){
+	LinkMovement[LM_PUSHX1A] = 0;
+	LinkMovement[LM_PUSHY1A] = 0;
+	LinkMovement[LM_PUSHX1B] = 0;
+	LinkMovement[LM_PUSHY1B] = 0;
+	LinkMovement[LM_PUSHX2A] = 0;
+	LinkMovement[LM_PUSHY2A] = 0;
+	LinkMovement[LM_PUSHX2B] = 0;
+	LinkMovement[LM_PUSHY2B] = 0;
+	LinkMovement[LM_STICKX] = 0;
+	LinkMovement[LM_STICKY] = 0;
+	LinkMovement[LM_MOVEBOOST] = 0;
+	LinkMovement[LM_LASTX] = Link->X;
+	LinkMovement[LM_LASTY] = Link->Y;
+	LinkMovement[LM_LASTDMAP] = Game->GetCurDMap();
+	LinkMovement[LM_LASTDMAPSCREEN] = Game->GetCurDMapScreen();
+}
+
+//This function goes within the while(true) loop and before Waitdraw() it handles:
+//	-Storing Link's inputs
+//	-Scrolling stuff when speed boost < -1.5
+//	-Pre-waitdraw push
+
+void LinkMovement_Update1(){
+	__LinkMovement_UpdateInput();
+	__LinkMovement_UglyReverseMovementFix();
+	__LinkMovement_UpdatePush(LM_PUSHX1A, LM_PUSHY1A, false);
+	__LinkMovement_UpdatePush(LM_PUSHX1B, LM_PUSHY1B, true);
+}
+
+//This function goes within the while(true) loop and after Waitdraw() it handles:
+//	-Undoing base movement when instructed
+//	-Applying speed boosts
+//	-Post-waitdraw push
+
+void LinkMovement_Update2(){
+	__LinkMovement_UndoLinkMovementUpdate1();
+	__LinkMovement_SpeedChange();
+	__LinkMovement_UpdatePush(LM_PUSHX2A, LM_PUSHY2A, false);
+	__LinkMovement_UpdatePush(LM_PUSHX2B, LM_PUSHY2B, true);
+	__LinkMovement_UndoLinkMovementUpdate2();
+}
+
+//Here's an example global script with just the LinkMovement update functions. 
+//Combine this with your other global scripts if you have any.
+
+global script LinkMovement_Example{
+	void run(){
+		LinkMovement_Init();
+		while(true){
+			LinkMovement_Update1();
+			Waitdraw();
+			LinkMovement_Update2();
+			Waitframe();
+		}
+	}
+}
+
+//USER SCRIPT FUNCTIONS
+
+//Push Functions:
+//All four of these functions do the same thing: Push Link around by an amount on the X and Y axis.
+//pX: Amount to move Link on the X axis in pixels
+//pY: Amount to move Link on the Y axis in pixels
+//When moved by these functions, Link will not move through solid objects of any kind.
+
+//Will push Link before Waitdraw()
+//Will not push Link past the edge of the screen
+void LinkMovement_Push(int pX, int pY){
+	LinkMovement[LM_PUSHX1A] += pX;
+	LinkMovement[LM_PUSHY1A] += pY;
+}
+
+//Will push Link before Waitdraw()
+//Will push Link past the edge of the screen
+void LinkMovement_PushNoEdge(int pX, int pY){
+	LinkMovement[LM_PUSHX1B] += pX;
+	LinkMovement[LM_PUSHY1B] += pY;
+}
+
+//Will push Link after Waitdraw()
+//Will not push Link past the edge of the screen
+void LinkMovement_Push2(int pX, int pY){
+	LinkMovement[LM_PUSHX2A] += pX;
+	LinkMovement[LM_PUSHY2A] += pY;
+}
+
+//Will push Link after Waitdraw()
+//Will push Link past the edge of the screen
+void LinkMovement_Push2NoEdge(int pX, int pY){
+	LinkMovement[LM_PUSHX2B] += pX;
+	LinkMovement[LM_PUSHY2B] += pY;
+}
+
+//Speed boost functions:
+//These change the speed boost variable for the frame. 
+//This is once again measured in pixels and will reset at the end of the frame.
+//Setting a speed boost adds extra movement onto Link's base speed of 1.5 pixels per frames.
+//Using these functions is preferable to writing to the speed boost directly in case things change in a future update.
+
+//This function adds to the speed boost.
+void LinkMovement_AddLinkSpeedBoost(float i){
+	LinkMovement[LM_MOVEBOOST] += i;
+}
+
+//This function sets the speed boost.
+void LinkMovement_SetLinkSpeedBoost(float i){
+	LinkMovement[LM_MOVEBOOST] = i;
+}
+
+//This function returns the value of the current speed boost.
+float LinkMovement_GetLinkSpeedBoost(){
+	return LinkMovement[LM_MOVEBOOST];
+}
+
+//This function returns the current X value of Link's directional inputs.
+// 0 = No InputLeft or InputRight
+//-1 = InputLeft
+// 1 = InputRight
+int LinkMovement_StickX(){
+	return LinkMovement[LM_STICKX];
+}
+
+//This function returns the current Y value of Link's directional inputs.
+// 0 = No InputUp or InputDown
+//-1 = InputUp
+// 1 = InputDown
+int LinkMovement_StickY(){
+	return LinkMovement[LM_STICKY];
+}
+
+//This function sets the global script to undo Link's movement for the next frame
+void LinkMovement_UndoLinkMovement(){
+	LinkMovement[LM_UNDOLINKMOVEMENT] = 3;
+}
+
+//This function sets the global script to undo Link's movement selectively for the next frame
+//	-bool undoX: Undo movement on the X-axis
+//	-bool undoY: Undo movement on the Y-axis
+void LinkMovement_UndoLinkMovement(bool undoX, bool undoY){
+	LinkMovement[LM_UNDOLINKMOVEMENT] = Cond(undoX, 1, 0)+2*Cond(undoY, 1, 0);
+}
