@@ -2207,23 +2207,16 @@ ffc script DisableLink //start
 @Author("Tabletpillow")
 ffc script SimpleShop
 {
-    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input, int tile)
+    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input)
 	{
-        int loc = ComboAt(this->X, this->Y);
+        int loc = ComboAt(this->X, this->Y);		
 		
         while(true)
 		{
-			Screen->FastTile(7, this->X, this->Y, tile, 0, OP_OPAQUE);
-			
-            while(!AgainstComboBase(loc) || !SelectPressInput(input)) 
-				Waitframe();
-				
-            SetInput(input, false);
-			
 			if (AgainstComboBase(loc, 1))
 				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
             	
-			if(Game->Counter[CR_RUPEES] >= price)
+			if(Game->Counter[CR_RUPEES] >= price && Input->Press[CB_SIGNPOST])
 			{
 				Game->DCounter[CR_RUPEES] -= price;
 				item shpitm = CreateItemAt(itemID, Link->X, Link->Y);
@@ -2239,7 +2232,7 @@ ffc script SimpleShop
     }
     bool AgainstComboBase(int loc)
 	{
-        return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc)+8 && Abs(Link->X-ComboX(loc)) < 8);
+        return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc) + 8 && Abs(Link->X - ComboX(loc)) < 8);
     }
 	
 	bool SelectPressInput(int input)
