@@ -173,13 +173,8 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 
 } //end
 
-//D0: Layer to draw footprints on
-//D1: Combo type number to draw on top of
-//D1: Tile number where the animation starts
-//D2: Cset of the footprints
-//D3: Footprint lifetime before transitioning
-//TILE ON P151 39288
-//Sprite 112
+//D0: Combo type number to draw on top of
+//D1: Speed of degredation of footprints
 @Author("Deathrider365")
 dmapdata script Footprints //start
 {	

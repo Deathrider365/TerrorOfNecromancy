@@ -394,29 +394,6 @@ ffc script Signpost //start
 			Waitframe();
 		}
 	}
-	
-	bool AgainstComboBase(int loc, bool anySide) //start
-	{
-		if(Hero->Z) 
-			return false;
-			
-		if(Hero->BigHitbox && !anySide)
-			return (Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 16 && Abs(Hero->X-ComboX(loc)) < 8);
-		else unless(Hero->BigHitbox||anySide)
-			return (Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 8 && Abs(Hero->X-ComboX(loc)) < 8);
-		else if (Hero->BigHitbox && anySide)
-			return ((Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 16 && Abs(Hero->X-ComboX(loc)) < 8)
-			|| (Hero->Dir == DIR_DOWN && Hero->Y == ComboY(loc) - 16 && Abs(Hero->X-ComboX(loc)) < 8) 
-			|| (Hero->Dir == DIR_LEFT && Hero->X == ComboX(loc) + 16 && Abs(Hero->Y-ComboY(loc)) < 8)
-			|| (Hero->Dir == DIR_RIGHT && Hero->X == ComboX(loc) - 16 && Abs(Hero->Y-ComboY(loc)) < 8));
-		else if (!Hero->BigHitbox && anySide)
-			return ((Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 8 && Abs(Hero->X-ComboX(loc)) < 8) 
-			|| (Hero->Dir == DIR_DOWN && Hero->Y == ComboY(loc) - 16 && Abs(Hero->X-ComboX(loc)) < 8) 
-			|| (Hero->Dir == DIR_LEFT && Hero->X == ComboX(loc) + 16 && Abs(Hero->Y-ComboY(loc)) < 8)
-			|| (Hero->Dir == DIR_RIGHT && Hero->X == ComboX(loc) - 16 && Abs(Hero->Y-ComboY(loc)) < 8));
-		else 
-			return false;
-	} //end
 }
 
 //end
@@ -1779,9 +1756,8 @@ ffc script PostSceneEnteringInteritus //start
 		while(true)
 		{
 			if (Hero->X == 240 && Hero->Y == 80)
-			{
 				Hero->Action = LA_RAFTING;
-			}
+				
 			Waitframe();
 		}
 	}
@@ -1884,7 +1860,7 @@ ffc script ContinuePoint //start
 //~~~~~Shutter~~~~~//
 //D0: Direction when entering the screen
 @Author ("Venrob")
-ffc script Shutter //start
+ffc script Shutter //start 
 {
 	/*
 	Distance(this->X, this->Y, Hero->X, Hero->Y)	//check distance between ffc and link to determine the shutter
@@ -2039,13 +2015,256 @@ ffc script WarpCustomReturn //start
 //end
 
 
+// D0: Set to 1 if it's an enemy shutter, otherwise it will open when the secret combo underneath it is changed
+// D1: Set to 1 if the secret should be permanent.
+ffc script GB_Shutter{ //start
+	void run(int type, int perm){
+		int thisData = this->Data;
+		int thisCSet = this->CSet;
+		this->Data = FFCS_INVISIBLE_COMBO;
+		int cp = ComboAt(this->X+8, this->Y+8);
+		int underCombo = Screen->ComboD[cp];
+		int underCSet = Screen->ComboC[cp];
+		int LinkX = Link->X;
+		if(perm&&Screen->State[ST_SECRET])
+			Quit();
+		if(LinkX<=0)
+			LinkX = 240;
+		else if(LinkX>=240)
+			LinkX = 0;
+		int LinkY = Link->Y;
+		if(LinkY<=0)
+			LinkY = 160;
+		else if(LinkY>=160)
+			LinkY = 0;
+		int moveDir = Link->Dir;
+		if(GB_Shutter_InShutter(this, LinkX, LinkY, 0)){
+			if(LinkY==0)
+				moveDir = DIR_DOWN;
+			else if(LinkY==160)
+				moveDir = DIR_UP;
+			else if(LinkX==0)
+				moveDir = DIR_RIGHT;
+			else if(LinkX==240)
+				moveDir = DIR_LEFT;
+			Waitframe();
+			while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0)&&CanWalk(Link->X, Link->Y, moveDir, 1, false)){
+				NoAction();
+				if(moveDir==DIR_UP)
+					Link->InputUp = true;
+				else if(moveDir==DIR_DOWN)
+					Link->InputDown = true;
+				else if(moveDir==DIR_LEFT)
+					Link->InputLeft = true;
+				else if(moveDir==DIR_RIGHT)
+					Link->InputRight = true;
+				Waitframe();
+			}
+			//MooshPit_ResetEntry();
+			Game->PlaySound(SFX_SHUTTER);
+			Screen->ComboD[cp] = underCombo;
+			Screen->ComboC[cp] = underCSet;
+			this->Data = thisData+1;
+			this->CSet = thisCSet;
+			for(int i=0; i<4; i++){
+				if(moveDir==DIR_UP)
+					Link->Y = Min(Link->Y, 144);
+				else if(moveDir==DIR_DOWN)
+					Link->Y = Max(Link->Y, 8);
+				else if(moveDir==DIR_LEFT)
+					Link->X = Min(Link->X, 224);
+				else if(moveDir==DIR_RIGHT)
+					Link->X = Max(Link->X, 16);
+				Waitframe();
+			}
+			this->Data = FFCS_INVISIBLE_COMBO;
+			Screen->ComboD[cp] = thisData;
+			Screen->ComboC[cp] = thisCSet;
+			if(type==1)
+				Waitframes(8);
+		}
+		else{
+			Screen->ComboD[cp] = thisData;
+			Screen->ComboC[cp] = thisCSet;
+			if(type==1)
+				Waitframes(8);
+			else
+				Waitframe();
+		}
+		while(true){
+			if(GB_Shutter_InShutter(this, Link->X, Link->Y, 3)){
+				Screen->ComboD[cp] = underCombo;
+				Screen->ComboC[cp] = underCSet;
+				if(Link->Y==0)
+					moveDir = DIR_DOWN;
+				else if(Link->Y==160)
+					moveDir = DIR_UP;
+				else if(Link->X==0)
+					moveDir = DIR_RIGHT;
+				else if(Link->X==240)
+					moveDir = DIR_LEFT;
+				while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0)&&CanWalk(Link->X, Link->Y, moveDir, 1, false)){
+					NoAction();
+					if(moveDir==DIR_UP)
+						Link->InputUp = true;
+					else if(moveDir==DIR_DOWN)
+						Link->InputDown = true;
+					else if(moveDir==DIR_LEFT)
+						Link->InputLeft = true;
+					else if(moveDir==DIR_RIGHT)
+						Link->InputRight = true;
+					Waitframe();
+				}
+				Game->PlaySound(SFX_SHUTTER);
+				Screen->ComboD[cp] = underCombo;
+				Screen->ComboC[cp] = underCSet;
+				this->Data = thisData+1;
+				this->CSet = thisCSet;
+				for(int i=0; i<4; i++){
+					if(moveDir==DIR_UP)
+						Link->Y = Min(Link->Y, 144);
+					else if(moveDir==DIR_DOWN)
+						Link->Y = Max(Link->Y, 8);
+					else if(moveDir==DIR_LEFT)
+						Link->X = Min(Link->X, 224);
+					else if(moveDir==DIR_RIGHT)
+						Link->X = Max(Link->X, 16);
+					Waitframe();
+				}
+				this->Data = FFCS_INVISIBLE_COMBO;
+				Screen->ComboD[cp] = thisData;
+				Screen->ComboC[cp] = thisCSet;
+				if(moveDir==DIR_UP)
+					Link->Y = Min(Link->Y, 144);
+				else if(moveDir==DIR_DOWN)
+					Link->Y = Max(Link->Y, 8);
+				else if(moveDir==DIR_LEFT)
+					Link->X = Min(Link->X, 224);
+				else if(moveDir==DIR_RIGHT)
+					Link->X = Max(Link->X, 16);
+				Waitframes(8);
+			}
+			if(type==0&&(Screen->ComboD[cp]!=thisData||Screen->ComboC[cp]!=thisCSet)){
+				break;
+			}
+			if(type==1){
+				if(!GB_Shutter_CheckEnemies()){
+					break;
+				}
+			}
+			Waitframe();
+		}
+		Game->PlaySound(SFX_SHUTTER);
+		Screen->ComboD[cp] = underCombo;
+		Screen->ComboC[cp] = underCSet;
+		this->Data = thisData+1;
+		this->CSet = thisCSet;
+		Waitframes(4);
+		this->Data = FFCS_INVISIBLE_COMBO;
+		if(perm)
+			Screen->State[ST_SECRET] = true;
+	}
+	bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway){
+		if(Abs(LinkX-this->X)<16-leeway&&LinkY>this->Y-16+leeway&&LinkY<this->Y+8-leeway)
+			return true;
+		return false;
+	}
+	bool GB_Shutter_CheckEnemies(){
+		for(int i=Screen->NumNPCs(); i>=1; i--){
+			npc n = Screen->LoadNPC(i);
+			if(n->Type!=NPCT_PROJECTILE&&n->Type!=NPCT_FAIRY&&n->Type!=NPCT_TRAP&&n->Type!=NPCT_GUY){
+				if(!(n->MiscFlags&(1<<3)))
+					return true;
+			}
+		}
+		return false;
+	}
+} //end
 
 
+ffc script DisableLink //start
+{
+	void run()
+	{
+		while(true)
+		{
+			NoAction();
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;
+			Waitframe();
+		}
+	}
+} //end
 
 
-
-
-
+//D0: ID of the item
+//D1: Price of the item
+//D2: Message that plays when the item is bought
+//D3: Message that plays when you don't have enough rupees
+//D4: Input type 0=A 1=B 2=L 3=R
+@Author("Tabletpillow")
+ffc script SimpleShop
+{
+    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input, int tile)
+	{
+        int loc = ComboAt(this->X, this->Y);
+		
+        while(true)
+		{
+			Screen->FastTile(7, this->X, this->Y, tile, 0, OP_OPAQUE);
+			
+            while(!AgainstComboBase(loc) || !SelectPressInput(input)) 
+				Waitframe();
+				
+            SetInput(input, false);
+			
+			if (AgainstComboBase(loc, 1))
+				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            	
+			if(Game->Counter[CR_RUPEES] >= price)
+			{
+				Game->DCounter[CR_RUPEES] -= price;
+				item shpitm = CreateItemAt(itemID, Link->X, Link->Y);
+				
+				shpitm->Pickup = IP_HOLDUP;
+					Screen->Message(boughtMessage);
+			}
+			else
+				Screen->Message(notBoughtMessage);
+					
+				Waitframe();
+        }
+    }
+    bool AgainstComboBase(int loc)
+	{
+        return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc)+8 && Abs(Link->X-ComboX(loc)) < 8);
+    }
+	
+	bool SelectPressInput(int input)
+	{
+		if(input == 0) 
+			return Link->PressA;
+		else if(input == 1) 
+			return Link->PressB;
+		else if(input == 2) 
+			return Link->PressL;
+		else if(input == 3) 
+			return Link->PressR;
+	}
+	void SetInput(int input, bool state)
+	{
+		if(input == 0) 
+			Link->InputA = state;
+		else if(input == 1) 
+			Link->InputB = state;
+		else if(input == 2) 
+			Link->InputL = state;
+		else if(input == 3) 
+			Link->InputR = state;
+	}
+}
 
 
 
