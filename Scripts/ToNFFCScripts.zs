@@ -2219,7 +2219,7 @@ ffc script SimpleShop //start
 		sprintf(priceBuf, "%d", price);
 		
 		itemdata id = Game->LoadItemData(itemID);
-		bool checkStock = !id->Combine;
+		bool checkStock = !id->Combine && id->Keep;
 		
         while(true)
 		{
