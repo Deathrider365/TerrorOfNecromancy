@@ -2198,66 +2198,71 @@ ffc script DisableLink //start
 	}
 } //end
 
-
 //D0: ID of the item
 //D1: Price of the item
 //D2: Message that plays when the item is bought
 //D3: Message that plays when you don't have enough rupees
 //D4: Input type 0=A 1=B 2=L 3=R
-@Author("Tabletpillow")
-ffc script SimpleShop
+@Author("Tabletpillow, Emily")
+ffc script SimpleShop //start
 {
-    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input)
+    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input, int introMessage)
 	{
-        int loc = ComboAt(this->X, this->Y);		
+		int noStockCombo = this->Data;
+		this->Data = COMBO_INVIS;
+		itemsprite dummy = CreateItemAt(itemID, this->X, this->Y);
+		dummy->Pickup = IP_DUMMY;
+		
+        int loc = ComboAt(this->X + 8, this->Y + 8);		
+		Screen->Message(introMessage);
+		char32 priceBuf[6];
+		sprintf(priceBuf, "%d", price);
+		
+		itemdata id = Game->LoadItemData(itemID);
+		bool checkStock = !id->Combine;
 		
         while(true)
 		{
+			if(checkStock && Hero->Item[itemID])
+			{
+				dummy->ScriptTile = TILE_INVIS;
+				this->Data = noStockCombo;
+				
+				do Waitframe(); while (Hero->Item[itemID]);
+				
+				dummy->ScriptTile = -1;
+				this->Data = COMBO_INVIS;
+			}
+			
+			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			
 			if (AgainstComboBase(loc, 1))
+			{
 				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
             	
-			if(Game->Counter[CR_RUPEES] >= price && Input->Press[CB_SIGNPOST])
-			{
-				Game->DCounter[CR_RUPEES] -= price;
-				item shpitm = CreateItemAt(itemID, Link->X, Link->Y);
-				
-				shpitm->Pickup = IP_HOLDUP;
-					Screen->Message(boughtMessage);
-			}
-			else
-				Screen->Message(notBoughtMessage);
-					
-				Waitframe();
+				if(Input->Press[CB_SIGNPOST])
+				{
+					if (Game->Counter[CR_RUPEES] >= price)
+					{
+						Game->DCounter[CR_RUPEES] -= price;
+						item shpitm = CreateItemAt(itemID, Link->X, Link->Y);
+						
+						shpitm->Pickup = IP_HOLDUP;
+						Screen->Message(boughtMessage);
+					}
+					else
+						Screen->Message(notBoughtMessage);
+				}		
+			}		
+			Waitframe();
         }
     }
+	
     bool AgainstComboBase(int loc)
 	{
         return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc) + 8 && Abs(Link->X - ComboX(loc)) < 8);
     }
-	
-	bool SelectPressInput(int input)
-	{
-		if(input == 0) 
-			return Link->PressA;
-		else if(input == 1) 
-			return Link->PressB;
-		else if(input == 2) 
-			return Link->PressL;
-		else if(input == 3) 
-			return Link->PressR;
-	}
-	void SetInput(int input, bool state)
-	{
-		if(input == 0) 
-			Link->InputA = state;
-		else if(input == 1) 
-			Link->InputB = state;
-		else if(input == 2) 
-			Link->InputL = state;
-		else if(input == 3) 
-			Link->InputR = state;
-	}
-}
+} //end
 
 
 

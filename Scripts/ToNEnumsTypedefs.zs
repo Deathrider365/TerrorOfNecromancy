@@ -35,6 +35,19 @@ CONFIG SPR_FOOTSTEP = 113;
 
 //end
 
+//~~~~~Combo Constants~~~~~//
+//start
+CONFIG COMBO_INVIS = 1;
+
+//end
+
+
+//~~~~~Tile Constants~~~~~//
+//start
+CONFIG TILE_INVIS = 196;
+
+//end
+
 //~~~~~Midi Constants~~~~~//
 //start
 CONFIG MIDI_GAMEOVER = 8;
