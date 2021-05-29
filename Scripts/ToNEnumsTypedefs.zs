@@ -22,8 +22,21 @@ CONFIG MAX_USED_DMAP = 511;
 
 //~~~~~FFC~~~~~//
 //start
-CONFIG CB_SIGNPOST = CB_A;				//Button to press to read a sign
+CONFIG COMPASS_BEEP = 69; 			//Set this to the SFX id you want to hear when you have the compass
+CONFIG COMPASS_SFX = 20; 			//Set this to the SFX id you want to hear when you have the compass
 
+CONFIG CB_SIGNPOST = CB_A;			//Button to press to read a sign
+
+CONFIG SFX_SWITCH_PRESS = 0; 		//SFX when a switch is pressed
+CONFIG SFX_SWITCH_RELEASE = 0; 		//SFX when a switch is released
+CONFIG SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
+
+CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
+CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
+
+CONFIG MSG_LINK_BEATEN = 23;
+
+bool levelEntries[512];				//Cannot be constant
 //end
 
 //~~~~~SFX~~~~~//

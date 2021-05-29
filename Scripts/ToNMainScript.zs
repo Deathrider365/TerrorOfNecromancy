@@ -18,6 +18,8 @@
 #include "../ToN Main Quest/Scripts/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNEnumsTypedefs.zs"
 #include "../ToN Main Quest/Scripts/ToNFFCScripts.zs"
+#include "../ToN Main Quest/Scripts/ToNFFCScripts ~ Secrets, Blocks.zs"
+#include "../ToN Main Quest/Scripts/ToNFFCScripts ~ Cutscenes.zs"
 #include "../ToN Main Quest/Scripts/ToNGlobalActive.zs"
 #include "../ToN Main Quest/Scripts/ToNHealthBars.zs"
 #include "../ToN Main Quest/Scripts/ToNMiscFunctions.zs"
