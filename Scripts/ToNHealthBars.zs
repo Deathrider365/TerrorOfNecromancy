@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-//{ 
+//
 const int HEALTHBAR_DRAW_DAMAGE = 1; //Set to 1 if you want to draw damage numbers
 const int HEALTHBAR_DAMAGE_COUNT = 96; //How many frames damage numbers last for
 
@@ -939,3 +939,7 @@ ffc script HealthBar_Tiled_Group{
 		}
 	}
 }
+
+
+
+

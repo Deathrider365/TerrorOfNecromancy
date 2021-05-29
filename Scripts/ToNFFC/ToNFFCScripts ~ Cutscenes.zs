@@ -116,7 +116,7 @@ ffc script LeviathanFailureP2 //start
 @Author ("Deathrider365")
 ffc script Leviathan1Ending //start
 {
-	using namespace Leviathan;
+	using namespace Leviathan1Namespace;
 	
 	void run(int dmap, int scrn)
 	{
@@ -285,7 +285,7 @@ ffc script PreInteritusCutscene //start
 @Author ("Deathrider365")
 ffc script PreInteritusLeviathanScene //start Have this vary based on whether you defeated the leviathan or not
 {
-	using namespace Leviathan;
+	using namespace Leviathan1Namespace;
 	
 	void run()
 	{			

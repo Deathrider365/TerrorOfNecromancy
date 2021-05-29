@@ -1,15 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LWeapon~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LWeapons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
-
-//~~~~~Constants/globals~~~~~//
-//start
-typedef const int DEFINE;
-typedef const int CONFIG;
-typedef const bool CONFIGB;
-DEFINE IC_GALEBRANG = 256;
-//end
-//~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~GaleBoomerang~~~~~//
 //REQUIRES: `ZScript>>Quest Script Settings>>Objects` - `Weapons Live One Extra Frame With WDS_DEAD` must be checked.
@@ -22,17 +13,7 @@ DEFINE IC_GALEBRANG = 256;
 @Author("Venrob")
 lweapon script GaleBRang //start
 {	
-	CONFIG CF_BRANG_BOUNCE = CF_SCRIPT20;
-	CONFIGB BOUNCE_OFF_FLAGS_ON_LAYERS_1_AND_2 = true;
-	CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
-	CONFIG DEFAULT_SPRITE = 5;
-	CONFIG DEFAULT_WIND_SPRITE = 13;
-	CONFIG DEFAULT_SFX = 63;
-	DEFINE ROTATION_RATE = 40; //degrees
-	CONFIG SFX_DELAY = 5;
-	CONFIGB FORCE_QRS_TO_NEEDED_STATE = true;
-	
-	void run(int turnRate, int wind_drop_rate)
+	void run(int turnRate, int wind_drop_rate) //start
 	{
 		Game->FFRules[qr_WEAPONS_EXTRA_FRAME] = true;
 		Game->FFRules[qr_OLDSPRITEDRAWS] = false;
@@ -65,7 +46,7 @@ lweapon script GaleBRang //start
 		itemsprite dragging = NULL;
 		bool collided = false;
 		
-		until(this->DeadState == WDS_DEAD || collided)
+		until(this->DeadState == WDS_DEAD || collided) //start
 		{
 			if(dragging)
 			{
@@ -125,9 +106,9 @@ lweapon script GaleBRang //start
 			
 			if(controlling) 
 				controlling = (Input->Button[CB_A] || Input->Button[CB_B]);
-		}
+		} //end
 		
-		while(true)
+		while(true) //start
 		{
 			this->DeadState = WDS_ALIVE;
 			this->Angle = TurnTowards(this->X, this->Y, Hero->X, Hero->Y, this->Angle, 1); //Turn directly towards the Hero.
@@ -162,16 +143,17 @@ lweapon script GaleBRang //start
 				
 			this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
 			Waitframe();
-		}
-	}
+		} //end
 	
-	void drop_sparkle(int x, int y, int sprite)
+	} //end
+	
+	void drop_sparkle(int x, int y, int sprite) //start
 	{
 		lweapon sparkle = Screen->CreateLWeapon(LW_SPARKLE);
 		sparkle->X = x;
 		sparkle->Y = y;
 		sparkle->UseSprite(sprite);
-	}
+	} //end
 }
 
 //end
@@ -187,7 +169,6 @@ lweapon script PortalSphere //start
 }
 
 //end
-
 
 // the item that when used on an enemy of boss will display the health bar work where it will be a weapon script that basically checks the id of the enemy
 // it hit and if it is a boss then display the health bar for n seconds (perhaps 10)

@@ -2,146 +2,6 @@
 //~~~~~~~~~~~~~~~~~~The Terror of Necromancy ActiveSubscreen~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~Constants~~~~~//
-//start
-CONFIG BG_MAP = 6;
-CONFIG BG_SCREEN = 0x0E;
-COLOR BG_COLOR = C_DGRAY;
-
-CONFIG SCROLL_SPEED = 4;
-
-DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
-DEFINE NUM_SUBSCR_INAC_ITEMS = 14;
-CONFIG CURSOR_MOVEMENT_SFX = 5;
-CONFIG TRIFORCE_CYCLE_SFX = 124;
-CONFIG ITEM_SELECTION_SFX = 66;
-CONFIG SUBSCR_COUNTER_FONT = FONT_LA;
-CONFIG SUBSCR_DMAPTITLE_FONT = FONT_Z3SMALL;
-COLOR C_SUBSCR_COUNTER_TEXT = C_WHITE;
-COLOR C_SUBSCR_COUNTER_BG = C_TRANSBG;
-CONFIGB CNTR_USES_0 = true;
-CONFIG TILE_SUBSCR_BUTTON_FRAME = 1378;
-CONFIG TILE_HEARTS = 32420;
-
-COLOR C_MAGIC_METER_FILL = C_GREEN;
-CONFIG TILE_MAGIC_METER = 32527;//32520;
-CONFIG MAGIC_METER_TILE_WIDTH = 5;
-CONFIG MAGIC_METER_PIX_WIDTH = 63;//55; //-1 from actual
-CONFIG MAGIC_METER_PIX_HEIGHT = 1; //-1 from actual
-CONFIG MAGIC_METER_FILL_XOFF = 11;
-CONFIG MAGIC_METER_FILL_YOFF = 3;
-
-CONFIG TILE_MINIMAP_OW_BG = 1220;
-CONFIG TILE_MINIMAP_DNGN_BG = 42400;
-
-COLOR C_MINIMAP_EXPLORED = C_WHITE;
-COLOR C_MINIMAP_ROOM = C_BLACK;
-COLOR C_MINIMAP_LINK = C_DEEPBLUE;//C_DARKGREEN;
-COLOR C_MINIMAP_COMPASS = C_RED;
-COLOR C_MINIMAP_COMPASS_DEFEATED = C_DARKGREEN;
-
-//~~~~~Globals~~~~~//
-//start
-
-int subscr_y_offset = -224;
-
-int scrollingOffset; 
-
-//start Active Items
-int itemIDs[] = {IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
-				 IC_CANDLE, 	IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
-                 IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND, 
-				 IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		-1,
-				 IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4, 
-				 IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6};
-				  
- int itemLocsX[] = {166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232};
-				  
- int itemLocsY[] = {32,	32, 32, 32,
-				    54,	54, 54, 54,
-				    76,	76, 76, 76,
-				    98, 98, 98, 98,
-					120, 120, 120, 120,
-					142, 142, 142, 142};
-				  
-//end Active Items
-
-//start Inactive Items
-int in_itemIDs[] = {IC_BOSSKEY, IC_COMPASS, IC_MAP,
-
-                    IC_RING, IC_SHIELD, IC_LADDER, IC_RAFT, IC_WALLET, 
-					IC_FLIPPERS, IC_BRACELET, IC_CUSTOM8, IC_CUSTOM2, IC_MAGICRING, 
-					IC_WEALTHMEDAL};
-					 
-int in_itemLocsX[] = {129, 129, 129,	//dungeon items
-
-					  8, 26, 44, 62, 80, 
-					  8, 26, 44, 62, 80,
-					  8};
-					  
-int in_itemLocsY[] = {108, 126, 144,
-
-					  8, 8, 8, 8, 8,
-					  26, 26, 26, 26, 26,
-					  44};
-//end Inactive Items
-
-//start Triforce Frames
-CONFIG TILE_COURAGE_FRAME = 320;
-CONFIG TILE_POWER_FRAME = 326;
-CONFIG TILE_WISDOM_FRAME = 380;
-CONFIG TILE_DEATH_FRAME = 386;
-
-CONFIG COURAGE_SHARD1 = 274;
-CONFIG COURAGE_SHARD2 = 334;
-CONFIG COURAGE_SHARD3 = 394;
-CONFIG COURAGE_SHARD4 = 454;
-
-CONFIG WISDOM_SHARD1 = 702;
-CONFIG WISDOM_SHARD2 = 522;
-CONFIG WISDOM_SHARD3 = 582;
-CONFIG WISDOM_SHARD4 = 642;
-
-CONFIG POWER_SHARD1 = 648;
-CONFIG POWER_SHARD2 = 708;
-CONFIG POWER_SHARD3 = 588;
-CONFIG POWER_SHARD4 = 528;
-
-CONFIG DEATH_SHARD1 = 654;
-CONFIG DEATH_SHARD2 = 534;
-CONFIG DEATH_SHARD3 = 714;
-CONFIG DEATH_SHARD4 = 594;
-
-int triforceFrames[] = {TILE_COURAGE_FRAME, TILE_POWER_FRAME, TILE_WISDOM_FRAME, TILE_DEATH_FRAME};
-
-int courageShards[] = {COURAGE_SHARD1, COURAGE_SHARD2, COURAGE_SHARD3, COURAGE_SHARD4};
-int powerShards[] = {POWER_SHARD1, POWER_SHARD2, POWER_SHARD3, POWER_SHARD4};
-int wisdomShards[] = {WISDOM_SHARD1, WISDOM_SHARD2, WISDOM_SHARD3, WISDOM_SHARD4};
-int deathShards[] = {DEATH_SHARD1, DEATH_SHARD2, DEATH_SHARD3, DEATH_SHARD4};
-
-int amountOfShardsToDraw = 0;
-
-//end Triforce Frames
-
-int asubscr_pos = 0;
-int currTriforceIndex = 0;
-
-int amountOfCourageTriforceShards = 0;
-int amountOfPowerTriforceShards = 0;
-int amountOfWisdomTriforceShards = 0;
-int amountOfDeathTriforceShards = 0;
-
-int numHeartPieces = 0;
-
-bool subscr_open = false;
-//end
-//end
-
 //~~~~~ActiveSubscreen~~~~~//
 @Author("Venrob, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
@@ -238,8 +98,6 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 			else if (currTriforceIndex == 3)
 				currTriforceIndex = 0;
 		}
-				
-
 	}
 	//end Handle asubscr_position movement
 	
@@ -247,11 +105,11 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	int selID = 0;
 	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q)
 	{
-		int id = checkID(in_itemIDs[q]);
+		int id = checkID(itemIDs[q]);
 		unless(id) 
 			continue;
 			
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), in_itemLocsX[q], in_itemLocsY[q], y);
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
 	}
 	
 	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
@@ -323,8 +181,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	
 	//end Other Tile Draws
 	
-	//start Handle Heart Pieces
-	CONFIG TILE_ZERO_PIECES = 29420;	
+	//start Handle Heart Pieces	
 	Screen->FastTile(4, 122, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
 	counter(RT_SCREEN, 4, 141, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 	//end Handle Heart Pieces
@@ -576,7 +433,8 @@ int checkID(int id) //start
 						break;
 				}
 				
-				unless(id > 0) return 0;
+			unless(id > 0) 
+				return 0;
 		}
 	}
 	return id;

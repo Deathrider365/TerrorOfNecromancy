@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~OverheadTransparency~~~~~//
-// So if I were to want layer 1, 2, and 3 to be transparent I would input 7 (000111b) (1 + 2 + 4) or (000001, 000010, 000100) LAYER 6 DOESNT WORK
+// D0: Each layer is represented by a bit EX:(layers 3, 4, 5 would be represented by 00011100 = 28) LAYER 6 DOESNT WORK
 @Author ("Venrob")
 screendata script OverheadTransparency //start
 {
@@ -26,13 +26,11 @@ screendata script OverheadTransparency //start
 				Screen->LayerOpacity[l] = 255;
 				
 				for (int c = 0; c < 4; ++c)
-				{
 					if (combos[c])
 					{
 						Screen->LayerOpacity[l] = OP_TRANS;
 						break;
 					}
-				}
 			}
 			
 			Waitframe();
@@ -41,7 +39,7 @@ screendata script OverheadTransparency //start
 } //end
 
 //~~~~~RadialTransparency (Fancy)~~~~~//
-// D0: So if I were to want layer 1, 2, and 3 to be transparent I would input 7 (000111b) (1 + 2 + 4) or (000001, 000010, 000100)
+// D0: Each layer is represented by a bit EX:(layers 3, 4, 5 would be represented by 00011100 = 28) LAYER 6 DOESNT WORK
 // D1: Radius
 @Author ("Venrob")
 screendata script RadialTransparency //start
@@ -101,7 +99,6 @@ screendata script RadialTransparency //start
 			}
 			
 			if (HeroIsScrolling())
-			{
 				for (int l = 1; l < 7; ++l)
 				{
 					unless(layers & (1b << (l - 1)))
@@ -109,9 +106,7 @@ screendata script RadialTransparency //start
 					
 					Screen->LayerInvisible[l] = false;
 				}
-			}
 			else
-			{
 				for (int l = 1; l < 7; ++l)
 				{
 					unless(layers & (1b << (l - 1)))
@@ -119,13 +114,14 @@ screendata script RadialTransparency //start
 					
 					Screen->LayerInvisible[l] = true;
 				}
-			}
-				
 		}	
 	}
 } //end
 
 //~~~~~DarkRegion~~~~~//
+// D0: Radius
+// D1: itemClass (probably a candle)
+// D2: Layer
 @Author ("Venrob")
 dmapdata script DarkRegion //start		Credit Dimi for candle style
 {	
@@ -166,11 +162,9 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 				darkness_bmp->Blit(7, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, /*mode*/ 1, 0, true);
 			}
 			
-			
 			Waitframe();
 		}
 	}
-
 } //end
 
 //D0: Combo type number to draw on top of
@@ -237,7 +231,6 @@ dmapdata script Footprints //start
 	} //end
 	
 } //end
-
 
 dmapdata script NOCRASHPLZ //start
 {

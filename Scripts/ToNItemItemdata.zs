@@ -61,14 +61,14 @@ itemdata script GanonRage //start
 			
 			if (Hero->ItemB == this->ID)
 			{
-				Screen->DrawString(7, SUB_B_X, SUB_B_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-				Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+				Screen->DrawString(7, SUB_B_X, SUB_B_Y, FONT_LA, C_BLACK, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, FONT_LA) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
 					SUB_B_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
 			}
 			else if (Hero->ItemA == this->ID)                
 			{
-				Screen->DrawString(7, SUB_A_X, SUB_A_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-				Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
+				Screen->DrawString(7, SUB_A_X, SUB_A_Y, FONT_LA, C_BLACK, -1, TF_CENTERED, buf, OP_OPAQUE);
+				Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, FONT_LA) / 2) - SUB_COOLDOWN_TILE_WIDTH, 
 					SUB_A_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
 			}
 				
@@ -276,20 +276,6 @@ item script HaerenGrace //start
 }
 //end
 
-//~~~~~Basically Blessed Star~~~~~//
-@Author("DONT REMEMBER")
-item script itemjj //start
-{
-	void run()
-	{
-		// if()
-		// {
-			// int spitm = Screen->RoomType == RT_SPECIALITEM ? Screen->RoomData : -1;
-		// }		
-	}
-}
-//end
-
 //~~~~~Heart Piece Message~~~~~//
 @Author ("Deathrider365")
 item script HeartPieces //start
@@ -311,16 +297,6 @@ item script HeartPieces //start
 				Screen->Message(118);
 				break;			
 		}
-	}
-} //end
-
-//~~~~~Boss Key Message~~~~~//
-@Author ("Deathrider365")
-item script DungeonKeys //start
-{
-	void run()
-	{
-	
 	}
 } //end
 

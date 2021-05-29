@@ -1,38 +1,16 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Hero~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-//~~~~~Constants/globals~~~~~//
-//start
-int statuses[NUM_STATUSES];
-bitmap status_bmp;
-bitmap waterfall_bmp;
-bitmap darkness_bmp;
-bitmap ohead_bmps[7];
-StatusPos statusPos = SP_TOP_RIGHT;
-
-enum StatusPos
+//~~~~~HeroInit~~~~~//
+@Author("Venrob")
+hero script HeroInit //start
 {
-	SP_ABOVE_HEAD,
-	SP_TOP_RIGHT
-};
-
-enum Status
-{
-	ATTACK_BOOST, 
-	DEFENSE_BOOST, 
-	NUM_STATUSES
-};
-
-CONFIG TILE_ATTACK_BOOST = 38901;
-CONFIG TILE_DEFENSE_BOOST = 38902;
-CONFIG STATUS_FONT = FONT_Z3SMALL;
-DEFINE STATUS_HEIGHT = 8;
-DEFINE STATUS_WIDTH = 12;
-COLOR STARUS_TEXT_COLOR = C_WHITE;
-
+	void run()
+	{
+		subscr_y_offset = -224;
+	}
+}
 //end
-//~~~~~~~~~~~~~~~~~~~//
 
 //~~~~~HeroActive~~~~~//
 @Author("Venrob")
@@ -41,7 +19,7 @@ hero script HeroActive //start
 	void run()
 	{
 		clearStatuses();
-					
+		
 		if (status_bmp && status_bmp->isAllocated())
 			status_bmp->Free();
 		
@@ -80,7 +58,7 @@ hero script HeroActive //start
 				char32 buff[8];
 				itoa(buff, statusSeconds[i]);
 				status_bmp->DrawString(0, START_X + (index * STATUS_WIDTH) + (STATUS_WIDTH / 2), 
-					0, STATUS_FONT, STARUS_TEXT_COLOR, -1, TF_CENTERED, buff, OP_OPAQUE);
+					0, STATUS_FONT, STATUS_TEXT_COLOR, -1, TF_CENTERED, buff, OP_OPAQUE);
 			}
 			
 			status_bmp->Blit(7, -2, 0, 0, WIDTH, HEIGHT, getStatusX(statusPos, WIDTH), 
@@ -155,13 +133,3 @@ hero script OnDeath //start
 }
 //end
 
-//~~~~~HeroInit~~~~~//
-@Author("Venrob")
-hero script HeroInit //start
-{
-	void run()
-	{
-		subscr_y_offset = -224;
-	}
-}
-//end

@@ -2,64 +2,18 @@
 //~~~~~~~~~~~~~~~The Terror of Necromancy Global Active Scripts~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Global ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-//~~~~~Constants/globals~~~~~//
-//start
-
-CONFIGB DEBUG = true;
-
-int deathCount = 0;
-
-CONFIG SUB_B_X = 94;
-CONFIG SUB_B_Y = -10;
-CONFIG SUB_A_X = 118;
-CONFIG SUB_A_Y = -10;
-COLOR SUB_TEXT_COLOR = C_BLACK;
-CONFIG SUB_TEXT_FONT = FONT_LA;
-CONFIG SUB_COOLDOWN_TILE = 29281;
-CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
-
-CONFIG TILE_LEGIONNAIRE_RING = 42700;
-CONFIG CSET_LEGIONNAIRE_RING = 5;
-
-CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for ZC default)
-CONFIG WIDTH_EZB_DEATHEXPLOSION = 2; //Tile width for death explosions
-CONFIG HEIGHT_EZB_DEATHEXPLOSION = 2; //Tile height for death explosions
-CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
-CONFIG LW_EZB_DEATHEXPLOSION = 40; //LWeapon type used for death explosions. Script 10 by default
-
-
-//start Counter constants
-CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
-CONFIG CR_HEARTPIECES = CR_SCRIPT2;
-//end Counter constants
-
-int onContHP = 0;
-int onContMP = 0;
-int gameframe = 0;
-int lastPal = -1;
-
-//end
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
 //~~~~~Init~~~~~//
-//start
-global script Init
+global script Init //start
 {
 	void run()
 	{
 		Hero->ItemA = checkID(IC_SWORD);
 		Hero->ItemB = checkID(IC_BRANG);
 	}
-}
-//end
+} //end
 
 //~~~~~Active~~~~~//
-//start
-global script GlobalScripts
+global script GlobalScripts //start
 {
 	void run()
 	{		
@@ -71,7 +25,6 @@ global script GlobalScripts
 		LinkMovement_Init();
 		StartGhostZH();
 		DifficultyGlobal_Init();
-
 		
 		while(true)
 		{
@@ -94,6 +47,7 @@ global script GlobalScripts
 				
 				onScreenChange();
 			}
+			
 			if (dmap != Game->GetCurDMap())
 			{
 				dmap = Game->GetCurDMap();
@@ -106,20 +60,26 @@ global script GlobalScripts
 			
 			shutterControl();
 			updatePrev();
-			
-			amountOfCourageTriforceShards = getAmountOfShards(0);
-			amountOfPowerTriforceShards = getAmountOfShards(1);
-			amountOfWisdomTriforceShards = getAmountOfShards(2);
-			amountOfDeathTriforceShards = getAmountOfShards(3);		
+			checkTriforceShards();
 			
 			Waitframe();
 		}
 	}
 	
-	void onScreenChange()
+	void checkTriforceShards() //start
+	{
+		amountOfCourageTriforceShards = getAmountOfShards(0);
+		amountOfPowerTriforceShards = getAmountOfShards(1);
+		amountOfWisdomTriforceShards = getAmountOfShards(2);
+		amountOfDeathTriforceShards = getAmountOfShards(3);		
+	} //end
+	
+	void onScreenChange() //start
 	{
 		disableTrans = false;
+		
 		//
+		
 		if (Screen->Palette != lastPal)
 		{
 			lastPal = Screen->Palette;
@@ -127,20 +87,11 @@ global script GlobalScripts
 			for (int i = 0; i <= MAX_USED_DMAP; ++i)
 				Game->DMapPalette[i] = Screen->Palette;
 		}
-	}
+	} //end
 	
-	void onDMapChange()
+	void onDMapChange() //start
 	{
 	
-	}
-	
-	//~~~~~ItemCycling~~~~~//		Passive subscreen script handles this
-	void checkItemCycle() //start
-	{
-		if (Link->PressL) 
-			Link->SelectBWeapon(DIR_LEFT);
-		if (Link->PressR) 
-			Link->SelectBWeapon(DIR_RIGHT);
 	} //end
 	
 	//~~~~~checkDungeon~~~~~//
@@ -160,25 +111,10 @@ global script GlobalScripts
 		Game->Cheat = 4;
 	} //end
 	
-	//~~~~~Directional Bomb Damage Removed~~~~~//
-	// Causes an attack to be unblockable by enemies that block based on direction
-	// void BombDarknut()
-	// {
-		// for (int i = Screen->NumLWeapons(); i > 0; --i)
-		// {
-			// lweapon bomb = Screen->LoadLWeapon(i);
-			// if (bomb->ID == LW_BOMB || bomb->ID == LW_BOMBBLAST || bomb->ID == LW_SBOMB || bomb->ID == LW_SBOMBBLAST)
-			// {
-				// if (bomb->Dir < 8) bomb->Dir += 8;
-			// }
-		// }
-	// }
-}
-//end
+} //end
 
 //~~~~~OnLaunch~~~~~//
-//start
-global script OnLaunch
+global script OnLaunch //start
 {
 	void run()
 	{
@@ -199,24 +135,20 @@ global script OnLaunch
 			Hero->MP = Hero->MaxMP;		
 		}		
 	}
-}
-//end
+} //end
 
 //~~~~~OnF6Menu~~~~~//
-//start
-global script onF6Menu
+global script onF6Menu //start
 {
 	void run()
 	{
 		onContHP = Hero->HP;
 		onContMP = Hero->MP;
 	}
-}
-//end
+} //end
 
 //~~~~~OnContGame~~~~~//
-//start
-global script onContGame
+global script onContGame //start
 {
 	void run()
 	{
@@ -233,6 +165,5 @@ global script onContGame
 			Hero->MP = Hero->MaxMP;		
 		}
 	}
-}
-//end
+} //end
 
