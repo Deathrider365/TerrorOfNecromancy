@@ -20,7 +20,13 @@ CONFIG MAX_USED_DMAP = 511;
 
 //end
 
-//~~~~~SFX Constants~~~~~//
+//~~~~~FFC~~~~~//
+//start
+CONFIG CB_SIGNPOST = CB_A;				//Button to press to read a sign
+
+//end
+
+//~~~~~SFX~~~~~//
 //start
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
@@ -28,27 +34,27 @@ CONFIG SFX_SIZZLE = 128;
 CONFIG SFX_ROCKINGSHIP = 9;
 //end
 
-//~~~~~Sprite Constants~~~~~//
+//~~~~~Sprite ~~~~~//
 //start
 CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SPR_FOOTSTEP = 113;
 
 //end
 
-//~~~~~Combo Constants~~~~~//
+//~~~~~Combo~~~~~//
 //start
 CONFIG COMBO_INVIS = 1;
 
 //end
 
 
-//~~~~~Tile Constants~~~~~//
+//~~~~~Tile~~~~~//
 //start
 CONFIG TILE_INVIS = 196;
 
 //end
 
-//~~~~~Midi Constants~~~~~//
+//~~~~~Midi~~~~~//
 //start
 CONFIG MIDI_GAMEOVER = 8;
 
