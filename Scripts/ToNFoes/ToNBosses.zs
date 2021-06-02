@@ -23,7 +23,7 @@ npc script Leviathan1 //start
 	int hitByBurstCannon = 0;
 	int hitBySideSwipe = 0;
 	
-	void run(int fight)
+	void run(int fight) //start
 	{		
 	//start Setup
 		Hero->Dir = DIR_UP;
@@ -395,7 +395,7 @@ npc script Leviathan1 //start
 			
 			Waitframe(this, vars);
 		}
-	}
+	} //end
 	
 	int attackChoice(npc this, untyped vars) //start
 	{		
@@ -615,7 +615,7 @@ npc script Leviathan1 //start
 			}
 		}
 		
-		if(vars[VARS_BODYHP]!=this->HP)
+		if(vars[VARS_BODYHP] != this->HP)
 		{
 			if(vars[VARS_BODYHP]>this->HP)
 				vars[VARS_FLASHTIMER] = 32;
@@ -644,7 +644,7 @@ npc script Leviathan1 //start
 	} //end
 			
 	void DeathAnim(npc this, untyped vars) //start
-	{
+	{		
 		npc head = vars[VARS_HEADNPC];
 		Remove(head);
 		this->CollDetection = false;
@@ -652,23 +652,33 @@ npc script Leviathan1 //start
 		int i;
 		int x = this->X;
 		
+		Waitframe();
+		
 		Screen->Message(MSG_BEATEN);
 		vars[VARS_FLASHTIMER] = 0;
 		WaitframeLite(this, vars);
 		
 		Audio->PlaySound(120);
 					
-		while(this->Y<112)
+		while(this->Y < 112)
 		{
 			this->Y += 0.5;
 			++i;
 			i %= 360;
-			this->X = x+12*Sin(i*8);
+			this->X = x + 12 * Sin(i * 8);
 			Audio->PlaySound(SFX_RISE);
 			Screen->Quake = 20;
 			WaitframeLite(this, vars);
 		}
 		
+		Waitframe();
+		
+		item theItem = CreateItemAt(183, Link->X, Link->Y);
+		theItem->Pickup = IP_HOLDUP;
+		Screen->Message(MSG_LEVIATHAN_SCALE);
+		
+		Waitframe();
+
 		Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
 			
 		this->Immortal = false;

@@ -28,7 +28,8 @@ namespace Leviathan1Namespace //start
 	int LEVIATHAN1_BURSTCANNON_DMG = 30;
 	int LEVIATHAN1_WATERFALL_DMG = 50;
 
-	const int MSG_BEATEN = 19;
+	int MSG_BEATEN = 19;
+	int MSG_LEVIATHAN_SCALE = 122;
 
 	bool firstRun = true;
 

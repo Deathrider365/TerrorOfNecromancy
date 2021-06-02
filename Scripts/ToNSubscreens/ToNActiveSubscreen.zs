@@ -131,6 +131,16 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	counter(RT_SCREEN, 4, 141, y + 88, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 	//end Legionnaire Ring
 	
+	//start Leviathan Scale	
+	if(Hero->Item[183])
+		Screen->FastTile(4, 110, y + 6, TILE_LEVIATHAN_SCALE, CSET_LEVIATHAN_SCALE, OP_OPAQUE);
+	//end Leviathan Scale
+	
+	//start Toxic Forest Key
+	if(Hero->Item[184])
+		Screen->FastTile(4, 110, y + 20, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
+	//end Leviathan Scale
+	
 	//start Selected Item Name
 	char32 buf2[30];
 	itemdata idata = Game->LoadItemData(selID);

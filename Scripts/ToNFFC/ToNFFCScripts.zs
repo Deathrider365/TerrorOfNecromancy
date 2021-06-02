@@ -68,24 +68,45 @@ ffc script BossMusic //start
 //~~~~~ItemGuy~~~~~//
 //D0: Number of string to show
 //D1: Item to be given
-//D2: X position of where the item will appear
-//D3: Y position of where the item will appear
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int message, int itemID, int x, int y)
+	void run(int itemID, int gettingItemString, int alreadyGotItemString, int anySide)
 	{
-		if (Screen->State[ST_SPECIALITEM])
-			return;
-		
 		Waitframes(2);
-		itemsprite it = CreateItemAt(itemID, x, y);
-		it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
 		
-		unless(getScreenD(255))
-			Screen->Message(message);
+		int loc = ComboAt(this->X, this->Y);
 		
-		setScreenD(255, true);
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			
+			unless (getScreenD(255))
+			{
+				setScreenD(255, true);
+				Screen->Message(gettingItemString);
+				
+				Waitframes(2);
+				
+				itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
+				it->Pickup = IP_HOLDUP;
+				Input->Button[CB_SIGNPOST] = false;
+				setScreenD(255, true);
+			}
+			else
+				Screen->Message(alreadyGotItemString);
+			
+			Waitframe();
+			
+		}
 	}
 }
 
@@ -99,7 +120,10 @@ ffc script TradeGuy //start
 	{
 		if (Hero->Item[requiredItem])
 		{
-			Screen->Message(hasItemString);	
+			Screen->Message(hasItemString);
+			
+			// itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
+			// it->Pickup = IP_HOLDUP;
 			Hero->Item[obtainedItem] = true;
 			Hero->Item[requiredItem] = false;
 		}
@@ -364,6 +388,7 @@ ffc script DisableLink //start
 //D2: Message that plays when the item is bought
 //D3: Message that plays when you don't have enough rupees
 //D4: Input type 0=A 1=B 2=L 3=R
+//D5: Intro string
 @Author("Tabletpillow, Emily")
 ffc script SimpleShop //start
 {
@@ -406,7 +431,7 @@ ffc script SimpleShop //start
 					if (Game->Counter[CR_RUPEES] >= price)
 					{
 						Game->DCounter[CR_RUPEES] -= price;
-						item shpitm = CreateItemAt(itemID, Link->X, Link->Y);
+						item shpitm = CreateItemAt(itemID, Hero->X, Hero->Y);
 						
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);
@@ -425,7 +450,41 @@ ffc script SimpleShop //start
     }
 } //end
 
+//D0: Info string #
+//D1: Price of the info
+//D2: Message that plays when you don't have enough rupees
+//D5: Intro string
+@Author("Deathrider365")
+ffc script InfoShop //start
+{
+	void run(int introMessage, int price, int toPoor, int intro)
+	{
+        int loc = ComboAt(this->X + 8, this->Y + 8);		
+		Screen->Message(introMessage);
+		char32 priceBuf[6];
+		sprintf(priceBuf, "%d", price);
+	
+	}
 
+} //end
+
+//~~~~~SpawnItem~~~~~//
+@Author("Emily")
+ffc script SpawnItem //start
+{
+    void run(int id, int otile, int frames, int speed)
+    {
+	/*
+        if(Screen->State[ST_ITEM]) return;
+        itemsprite spr = CreateItemAt(id, this->X, this->Y);
+        spr->Pickup = IP_ST_ITEM;
+        spr->OriginalTile = otile;
+        spr->Tile = otile;
+        spr->AFrames = frames;
+        spr->ASpeed = speed;
+    */
+	}
+} //end
 
 
 

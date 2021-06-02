@@ -8,20 +8,21 @@ Seared Steak	-	-	-	-	-	- 	- Shops (will specify which ones)
 Ocarina	-	-	-	-	-	-	- 	- Level 5
 Lense of Truth	-	-	-	-	-	- 	- Battle Arena 2
 Raft	-	-	-	-	-	-	- 	- Shop after Level 8
+Ladder	-	-	-	-	-	-	-	- Level 2
 Medical Herb	-	-	-	-	-	- 	- Shop after Minidungeon 1
 Mushroom	-	-	-	-	-	- 	- Found on the first overworld between Lvl 1 and Lvl 2 (will specify coordinates)
-Flippers	-	-	-	-	-	-	- Level 9
+Flippers	-	-	-	-	-	-	- Level 7
 Portal Sphere	-	-	-	-	-	- 	- Level 12
 
 ~~~~~Potions~~~~~
 - Blue = One use, 15 hearts 75% magic	-	-	-	- Shops (will specify which ones)
 - Red = 2 use Blue (2 blue to make), down to Blue	-	- Shops (will specify which ones)
 - Life Potion	-	-	-	-	-	- 	- Shop, After Minidungeon 7
-	= Fully Heals hearts and magic (2 red to make), one time use
+	= Fully Heals hearts and magic (red + blue), down to red
 
 ~~~~~Swords~~~~~
 - Wooden Sword	-	-	-	-	-	- 	- Isle of the Haeren
-- Soldier's Sword	-	-	-	-	-	- Battle Arena 1
+- Soldier's Sword	-	-	-	-	-	- Minidungeon 1
 - Master Sword	-	-	-	-	-	- 	- Minidungeon 4
 - Hero's Sword	-	-	-	-	-	- 	- Battle Arena 4
 - Holy Sword	-	-	-	-	-	- 	- Shrine of the Paladin
@@ -45,27 +46,27 @@ Portal Sphere	-	-	-	-	-	- 	- Level 12
 - Holy Hammer	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Candles~~~~~
-- Wax Candle	-	-	-	-	-	-	- Level 3
-- Oil Candle	-	-	-	-	-	-	- TBD
+- Wax Candle	-	-	-	-	-	-	- Shop before Level 1
+- Oil Candle	-	-	-	-	-	-	- Battle Arena 1
 - Incendiary Candle	-	-	-	-	-	- Shop after Minidungeon 3
 - Hell's Candle	-	-	-	-	-	- 	- After Level 12
 
 ~~~~~Bows~~~~~
-- Wooden Bow	-	-	-	-	-	- 	- Level 2
+- Wooden Bow	-	-	-	-	-	- 	- Level 1
 - Soldier's Bow	-	-	-	-	-	- 	- Secret after Level 8
 - Marksman's Bow	-	-	-	-	-	- Secret after Minidungeon 6
 
 ~~~~~Arrows~~~~~
-- Wooden Arrow	-	-	-	-	-	- 	- Level 4
+- Wooden Arrow	-	-	-	-	-	- 	- Found before Level 1
 - Iron Arrows	-	-	-	-	-	- 	- Shop after Minidungeon 3
 - Silver Arrows	-	-	-	-	-	- 	- Battle Arena 3
-- Light Arrows	-	-	-	-	-	- 	- Level 11
+- Light Arrows	-	-	-	-	-	- 	- Level 10
 - Holy Arrows	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Shields~~~~~
 - Wooden Shield	-	-	-	-	-	- 	- Default
 - Magic Shield	-	-	-	-	-	- 	- Level 1 / Various Shops
-- Mirror Shield	-	-	-	-	-	- 	- Level 10
+- Mirror Shield	-	-	-	-	-	- 	- Level 9
 - Holy Shield	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Wands~~~~~
@@ -87,7 +88,7 @@ Portal Sphere	-	-	-	-	-	- 	- Level 12
 - Theif's Wallet = 1000	-	-	-	-	- Secret after Level 11
 
 ~~~~~Gloves~~~~~
-- Landscaper Glove	-	-	-	-	-	- TBD
+- Landscaper Glove	-	-	-	-	-	- Level 3
 - Power Glove		-	-	-	-	-	- After Minidungeon 4
 - Giants Glove		-	-	-	-	-	- Minidungeon 6
 

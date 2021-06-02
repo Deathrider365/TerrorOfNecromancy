@@ -2,6 +2,18 @@
 //~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts ~ Cutscenes~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+// When i give triuforce shards use this: Game->LItems[lvl] |= LI_TRIFORCE;/
+/*
+int countTriforce()
+{
+    int ret;
+    for(int q = 0; q < 512; ++q)
+        if(Game->LItems[q] & LI_TRIFORCE)
+            ++ret;
+    return ret;
+}
+*/
+
 //~~~~~ORDERED SEQUENTIALLY~~~~~//
 
 //~~~~~Leviathan1Cabin~~~~~//
@@ -188,7 +200,7 @@ ffc script Leviathan1Ending //start
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
-					unless(q == 3 || q == I_DIFF_NORMAL)
+					unless(q == 3 || q == I_DIFF_NORMAL || q == 183)
 						Hero->Item[q] = false;
 					
 				Game->Counter[CR_SBOMBS] = 0;
@@ -264,10 +276,10 @@ ffc script PreInteritusCutscene //start
 				unless (getScreenD(reg))
 				{
 					setScreenD(reg, true);
-					Hero->WarpEx({WT_IWARPOPENWIPE, 0, 80, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+					Hero->WarpEx({WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
 				}
 				else
-					Hero->WarpEx({WT_IWARPOPENWIPE, 10, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
+					Hero->WarpEx({WT_IWARPBLACKOUT, 10, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
 			}
 			else
 				Hero->Action = LA_RAFTING;
