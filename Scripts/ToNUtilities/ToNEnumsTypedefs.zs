@@ -83,6 +83,9 @@ CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pus
 
 CONFIG MSG_LINK_BEATEN = 23;
 
+CONFIG MISC_SOLIDFFC = 14; 			//A misc value between 0 and 15 to denote a ffc as solid.
+CONFIG MISC_SFFC_X = 0;  			//This can be used by other ffcs as long as they're not solid.
+
 CONFIGB DEBUG = true;
 //end
 

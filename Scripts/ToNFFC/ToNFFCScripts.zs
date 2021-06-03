@@ -91,7 +91,6 @@ ffc script ItemGuy //start
 			
 			unless (getScreenD(255))
 			{
-				setScreenD(255, true);
 				Screen->Message(gettingItemString);
 				
 				Waitframes(2);
@@ -129,22 +128,6 @@ ffc script TradeGuy //start
 		}
 		else
 			Screen->Message(noItemString);
-	}
-}
-
-//end
-
-//~~~~~FFCLocks~~~~~//
-@Author("Deathrider365")
-ffc script Locks //start
-{
-	void run(int keyId, int noItemString, int sfx)
-	{
-		if (Hero->Item[keyId])
-		{
-			//change ComboAt[] to no lock
-			Audio->PlaySound(sfx);
-		}
 	}
 }
 
@@ -388,19 +371,17 @@ ffc script DisableLink //start
 //D2: Message that plays when the item is bought
 //D3: Message that plays when you don't have enough rupees
 //D4: Input type 0=A 1=B 2=L 3=R
-//D5: Intro string
 @Author("Tabletpillow, Emily")
 ffc script SimpleShop //start
 {
-    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input, int introMessage)
+    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input)
 	{
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
 		itemsprite dummy = CreateItemAt(itemID, this->X, this->Y);
 		dummy->Pickup = IP_DUMMY;
 		
-        int loc = ComboAt(this->X + 8, this->Y + 8);		
-		Screen->Message(introMessage);
+        int loc = ComboAt(this->X + 8, this->Y + 8);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 		
@@ -437,7 +418,10 @@ ffc script SimpleShop //start
 						Screen->Message(boughtMessage);
 					}
 					else
-						Screen->Message(notBoughtMessage);
+					{
+						Input->Button[CB_SIGNPOST] = false;
+						// Screen->Message(notBoughtMessage);
+					}
 				}		
 			}		
 			Waitframe();
@@ -485,6 +469,45 @@ ffc script SpawnItem //start
     */
 	}
 } //end
+
+//~~~~~ShopIntroMessage~~~~~//
+//D0: Message to show
+@Author("Deathrider365")
+ffc script ShopIntroMessage //start
+{
+	void run(int message)
+	{	
+		unless (getScreenD(255))
+		{
+			setScreenD(255, true);
+			Screen->Message(message);
+		}
+	}
+} //end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -37,6 +37,55 @@ ffc script ItemGuySecret //start
 
 //end
 
+//~~~~~SecretGuy~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Deathrider365")
+ffc script SecretGuy //start
+{
+	void run(int hasItemMessage, int hasntItemMessage, int alreadyDidTheThingMessage, bool anySide, int itemId, int perm)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}
+			
+			if(Link->Item[itemId] && !Screen->State[ST_SECRET])
+			{
+				Input->Button[CB_SIGNPOST] = false;
+				Screen->Message(hasItemMessage);
+				
+				Waitframes(2);
+				
+				Screen->TriggerSecrets();
+				Audio->PlaySound(SFX_SECRET);
+				
+				if(perm) 
+					Screen->State[ST_SECRET] = true;
+			}
+			else if (!Link->Item[itemId] && !Screen->State[ST_SECRET])
+			{
+				Input->Button[CB_SIGNPOST] = false;
+				Screen->Message(hasntItemMessage);
+			}
+			else
+			{
+				Input->Button[CB_SIGNPOST] = false;
+				Screen->Message(alreadyDidTheThingMessage);
+			}
+			
+			Waitframe();
+		}
+	}
+}
+
 //~~~~~OpenForItem~~~~~//
 //D0: Item number to check for
 //D1: 0 for non-perm, 1 for perm

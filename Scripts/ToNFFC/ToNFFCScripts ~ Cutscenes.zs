@@ -365,7 +365,11 @@ ffc script PreInteritusLeviathanScene //start Have this vary based on whether yo
 		} //end
 		
 		Audio->PlaySound(SFX_ROAR);
-		Screen->Message(47);
+		
+		if (Hero->Item[183])
+			Screen->Message(173);
+		else
+			Screen->Message(47);
 		
 		for(int i = 0; i < 120; ++i) //start
 		{
