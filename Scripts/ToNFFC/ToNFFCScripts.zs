@@ -370,11 +370,10 @@ ffc script DisableLink //start
 //D1: Price of the item
 //D2: Message that plays when the item is bought
 //D3: Message that plays when you don't have enough rupees
-//D4: Input type 0=A 1=B 2=L 3=R
 @Author("Tabletpillow, Emily")
 ffc script SimpleShop //start
 {
-    void run(int itemID, int price, int boughtMessage, int notBoughtMessage, int input)
+    void run(int itemID, int price, int boughtMessage, int notBoughtMessage)
 	{
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
@@ -420,7 +419,7 @@ ffc script SimpleShop //start
 					else
 					{
 						Input->Button[CB_SIGNPOST] = false;
-						// Screen->Message(notBoughtMessage);
+						Screen->Message(notBoughtMessage);
 					}
 				}		
 			}		

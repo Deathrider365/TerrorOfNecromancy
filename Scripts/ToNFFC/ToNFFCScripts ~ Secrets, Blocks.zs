@@ -37,11 +37,15 @@ ffc script ItemGuySecret //start
 
 //end
 
-//~~~~~SecretGuy~~~~~//
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
+//~~~~~SecretGuyWithItem~~~~~//
+//D0: String for if you have the required item
+//D1: String for if you don't have the required item
+//D2: The final message that plays when you wrapped up this guy's significance
+//D3: 1 for anySide, 0 for below?
+//D4: Id of item to given
+//D5: 1 for perm, 0 for temp
 @Author("Deathrider365")
-ffc script SecretGuy //start
+ffc script SecretGuyWithItem //start
 {
 	void run(int hasItemMessage, int hasntItemMessage, int alreadyDidTheThingMessage, bool anySide, int itemId, int perm)
 	{
@@ -84,7 +88,61 @@ ffc script SecretGuy //start
 			Waitframe();
 		}
 	}
-}
+} //end
+
+//~~~~~SecretGuy~~~~~//
+//D0: String for if you have the required item
+//D1: String for if you don't have the required item
+//D2: The final message that plays when you wrapped up this guy's significance
+//D3: 1 for anySide, 0 for below?
+//D4: Id of item to given
+//D5: 1 for perm, 0 for temp
+@Author("Deathrider365")
+ffc script SecretGuyNoItemVanishes //start
+{
+	void run(int hasItemMessage, int hasntItemMessage, int itemId, bool anySide, int perm)
+	{
+		if (Screen->State[ST_SECRET])
+			Quit();
+		
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}
+			
+			if(Link->Item[itemId])
+			{
+				Input->Button[CB_SIGNPOST] = false;
+				Screen->Message(hasItemMessage);
+				
+				Waitframes(2);
+				
+				Screen->TriggerSecrets();
+				Audio->PlaySound(SFX_SECRET);
+				
+				if(perm) 
+					Screen->State[ST_SECRET] = true;
+					
+				Quit();
+			}
+			else
+			{
+				Input->Button[CB_SIGNPOST] = false;
+				Screen->Message(hasntItemMessage);
+			}
+			
+			Waitframe();
+		}
+	}
+} //end
+
 
 //~~~~~OpenForItem~~~~~//
 //D0: Item number to check for
