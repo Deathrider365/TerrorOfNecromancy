@@ -47,7 +47,8 @@ ffc script WarpCustomReturn //start
 					{
 						if(d2 && Hero->X >= this->X)
 							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
-						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+						else 
+							Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
 					}
 					Waitframe();
 				}
@@ -60,7 +61,8 @@ ffc script WarpCustomReturn //start
 					{
 						if(d2 && Hero->X >= this->X)
 							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
-						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+						else 
+							Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
 					}
 					Waitframe();
 				}
@@ -73,7 +75,8 @@ ffc script WarpCustomReturn //start
 					{
 						if(d2 && Hero->Y >= this->Y)
 							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
-						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+						else 
+							Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
 					}
 					Waitframe();
 				}
@@ -86,7 +89,8 @@ ffc script WarpCustomReturn //start
 					{
 						if(d2 && Hero->Y >= this->Y)
 							Hero->WarpEx({wtype, dm2, scr2, x2, y2, warpEffect, 0, 0, dir});
-						else Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
+						else 
+							Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
 					}
 					Waitframe();
 				}
@@ -95,7 +99,7 @@ ffc script WarpCustomReturn //start
 			{
 				while(true)
 				{
-					if(Abs(Hero->X-this->X) <= 14 && Abs(Hero->Y-this->Y) <= 14)
+					if(Abs(Hero->X - this->X) <= 14 && Abs(Hero->Y - this->Y) <= 14)
 						Hero->WarpEx({wtype, dm, scr, x, y, warpEffect, 0, 0, dir});
 					Waitframe();
 				}
@@ -104,6 +108,81 @@ ffc script WarpCustomReturn //start
 	}
 }
 //end
+
+//~~~~~WarpCustomReturnOneSide~~~~~//
+//D0: Dmap to warp to
+//D1: Screen to warp to
+//D2: Side of screen Link is hitting
+//D3: Direction to have Link face on warp
+//D4: Warp type
+//D5: Warp effect
+//D6: 1 = the sidewarp will occur when Link is left or below the FFC, 0 otherwise for other side
+ffc script WarpCustomReturnOneSide //start
+{
+	void run(int dmap, int screen, int side, int dir, int warpType, int warpEffect, int leftOrBelow, int rightOrAbove)
+	{
+		switch(side)
+		{
+			case DIR_UP:
+			{
+				while(true)
+				{
+					if(Hero->Y <= 1.5 && Hero->InputUp)
+					{
+						if (leftOrBelow && Hero->X <= this->X)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+						else if (rightOrAbove && Hero->X >= this->X)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_DOWN:
+			{
+				while(true)
+				{
+					if(Hero->Y >= 158.5 && Hero->InputDown)
+					{
+						if(leftOrBelow && Hero->X <= this->X)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+						else if (rightOrAbove && Hero->X >= this->X)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_LEFT:
+			{
+				while(true)
+				{
+					if(Hero->X <= 1.5 && Hero->InputLeft)
+					{
+						if(leftOrBelow && Hero->Y >= this->Y)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+						else if(rightOrAbove && Hero->Y <= this->Y)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+			case DIR_RIGHT:
+			{
+				while(true)
+				{
+					if(Hero->X >= 238.5 && Hero->InputRight)
+					{
+						if(leftOrBelow && Hero->Y >= this->Y)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+						else if(rightOrAbove && Hero->Y <= this->Y)
+							Hero->WarpEx({warpType, dmap, screen, -1, WARP_A, warpEffect, 0, 0, dir});
+					}
+					Waitframe();
+				}
+			}
+		}
+	
+	}
+} //end
 
 //~~~~~BossNameString~~~~~//
 //D0: String number

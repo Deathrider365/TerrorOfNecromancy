@@ -1060,7 +1060,28 @@ bool AgainstComboBase(int loc, bool anySide) //start
 		return false;
 } //end
 
+void leavingTransition(int dmap, int screen, int usingPresents) //start
+{	
+	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
+	{
+		if (usingPresents)
+			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+		Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+		Waitframe();
+	}
+	
+	Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+} //end
 
+void enteringTransition() //start
+{	
+	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
+	{
+		Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+		Waitframe();
+	}
+	
+} //end
 
 
 

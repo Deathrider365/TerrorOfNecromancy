@@ -2,7 +2,7 @@
 //~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts ~ Cutscenes~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-// When i give triuforce shards use this: Game->LItems[lvl] |= LI_TRIFORCE;/
+//start When i give triuforce shards use this: Game->LItems[lvl] |= LI_TRIFORCE; 
 /*
 int countTriforce()
 {
@@ -13,6 +13,7 @@ int countTriforce()
     return ret;
 }
 */
+//end
 
 //~~~~~ORDERED SEQUENTIALLY~~~~~//
 
@@ -295,12 +296,12 @@ ffc script PreInteritusCutscene //start
 //D0: Dmap to warp to
 //D1: screen to warp to
 @Author ("Deathrider365")
-ffc script PreInteritusLeviathanScene //start Have this vary based on whether you defeated the leviathan or not
+ffc script PreInteritusLeviathanScene //start
 {
 	using namespace Leviathan1Namespace;
 	
 	void run()
-	{			
+	{		
 		Hero->Item[26] = false;
 		NoAction();
 		
@@ -385,8 +386,8 @@ ffc script PreInteritusLeviathanScene //start Have this vary based on whether yo
 		int x, x2, j, k;
 		
 		//Charging
-		for (int i = 0; i < 128; ++i)
-		{				
+		for (int i = 0; i < 120; ++i) //start
+		{		
 			NoAction();
 			
 			if (i < 80)
@@ -430,17 +431,99 @@ ffc script PreInteritusLeviathanScene //start Have this vary based on whether yo
 			if (i % 80 == 0)
 			   Audio->PlaySound(SFX_ROAR);
 			
-			if (i == 120)
-			{
-				Hero->HP = Hero->MaxHP;
-				Hero->WarpEx({WT_IWARPOPENWIPE, 2, 96, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
-			}
+			Hero->HP = Hero->MaxHP;
+			
 			Waitframe();
-		}		
+		} //end
+		
+		Waitframes(60);
+		leavingTransition(12, 80, 0);
 	}
 }
 
 //end
+
+//~~~~~OfficialIntro~~~~~//
+@Author("Deathrider365")
+ffc script OfficialIntro //start
+{
+	void run()
+	{
+		for (int i = 0; i < 180; ++i)
+		{
+			Screen->Rectangle(7, 24, 24, 232, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		for (int i = 0; i < 45; ++i)
+		{
+			Screen->Rectangle(7, 24 - i * 5, 24, 232 - i * 5, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();			
+		}
+		
+		for (int i = 0; i < 180; ++i)	//with presenting
+		{
+			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		leavingTransition(12, 96, 1);
+	}
+} //end
+
+//~~~~~IntroSceneTransitions~~~~~//
+@Author("Deathrider365")
+ffc script IntroSceneTransitions //start
+{
+	void run(int dmap, int screen)
+	{
+		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
+		{
+			Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		for (int i = 0; i < 180; ++i)
+			Waitframe();
+		
+		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
+		{
+			Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+	}
+} //end
+
+ffc script DiffChoiceTransition
+{
+	void run()
+	{
+		enteringTransition();
+		Quit();
+	}
+}
+
+ffc script FinalScene //start
+{
+	void run()
+	{
+		enteringTransition();
+		
+		for (int i = 0; i < 180; ++i)
+			Waitframe();
+		
+		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
+		{
+			Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		Hero->WarpEx({WT_IWARP, 12, 13, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+	}
+} //end
 
 //~~~~~PostSceneEnteringInteritus~~~~~//
 //D0: Dmap to warp to

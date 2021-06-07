@@ -124,7 +124,18 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 		
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
 	}
-	//end Item Draws
+	//end
+	
+	//start Dungeon Item Draws
+	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q)
+	{
+		int id = checkID(dungeonItemIds[q]);
+		unless(id) 
+			continue;
+			
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), dungeonItemX[q], dungeonItemY[q], y);
+	}
+	//end Dungeon Item Draws
 
 	//start Legionnaire Ring
 	Screen->FastTile(4, 122, y + 84, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
@@ -138,8 +149,13 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	
 	//start Toxic Forest Key
 	if(Hero->Item[184])
-		Screen->FastTile(4, 110, y + 20, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
-	//end Leviathan Scale
+		Screen->FastTile(4, 110, y + 24, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
+	//end ale
+	
+	//start Special Mushroom)
+	if(Hero->Item[185])
+		Screen->FastTile(4, 20, y + 140, TILE_SPECIAL_MUSHROOM, CSET_SPECIAL_MUSHROOM, OP_OPAQUE);
+	//end 
 	
 	//start Selected Item Name
 	char32 buf2[30];
