@@ -36,7 +36,22 @@ have the same sprite as frostknuckle but he uses his shield like captain america
 A boss where you drop into the boss arena and you have to activate the boss but perhaps there is a way
 to deal massive damage right away by activating him a specific way
 
+a boss like IT from Promised lands where you have to light torches, each torch lights the room up a little more, once
+all are lit he falls from the sky
+
 Vengeful Revenant ~~~SomeName~~~
+
+Manifistation of Death ~~~Deadhand~~~
+
+Defector of Death ~~~name~~~
+
+Barrier of Demise ~~~Demonwall~~~
+
+The Beast King ~~~name~~~
+
+Ahriman sprite from Promised Lands
+
+Robot sentry guardian sentinal sprite from Promised Lands
 
 Boss conjures a fireball, that is thrown at the ground and explodes into a bunch of smaller fireballs
 that leaves fire around the arena
@@ -47,8 +62,18 @@ such as fire, claws, and even the ability to grab or bite link
 (Thinking of the Dust Flyer or Ahriman sprite) flies around link (arena is atop a mountain) and does multiple
 ranged attack and can even grab and drop link for massive damage
 
+basically that poison and fire dragon from how to train your dragon, an enemy with 2 heads (or 2 different enemies)
+one layes a poison and the other ignites it. You take damage from the poison in the fashion of umbral cloud's sun,
+but once ignites it you are on fire causing a DOT
 
+basically a recreation of nightmare with the phasing, time manipulation, and music
 
+a two sided boss where (he could have 2 heads and turns around or something (think ashura from FFIV)) it swaps sides,
+each with its own weaknesses and invulnerbilities and this could be the boss of the dungeon where you get that
+multi-element wand or something
+
+have deadhand with 2 phases, first phase is exactly like OoT, but then you fall down a hole and he is hanging from the
+ceiling
 
 
 

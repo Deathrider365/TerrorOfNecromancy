@@ -300,7 +300,25 @@ item script HeartPieces //start
 	}
 } //end
 
-
+// item script CounterUpgrade
+// {
+	// void run(int counterToIncrease, int amountToIncrease, int message, int price, int spawnX, int spawnY)
+	// {
+		// Screen->Message(message);
+		// Waitframe();
+		
+		// if (Game->Counter[CR_RUPEES] >= price)
+		// {
+			// Game->DCounter[CR_RUPEES] -= price;
+			// item increasor = CreateItemAt(itemID, spawnX, spawnY);
+		
+			// Game->MCounter[counterToIncrease] += amountToIncrease;
+		
+		
+		
+		// }
+	// }
+// }
 
 
 

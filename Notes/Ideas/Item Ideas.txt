@@ -19,10 +19,17 @@ Double magic is a big deal like it is in GS
 An elemental rod that can change elements and have different effects on the environment (ice freezes,
 lightning stuns, fire does a DOT)
 
+portal sphere (change name probably) can be charged up for a power attack, can be reflected by mirrors, and enemies will be able
+to shoot those shots (perhaps a light sphere and dark sphere or perhaps a lvl 1 and lvl 2)
 
+portable dock
 
+levels 1 and 2 ladder, lvl 1 can be wooden and lvl 2 can be metal where it can go over firy combos the other can only
+do water and gaps
 
-
+when getting repetitive items like dungeon keys and whatnot, instead of the typical all freezing message, have a small
+pop up in the corner saying +1 small key or something (may be able to use my status indicator for that, like, make
+an obtained map/compass/boss key/small key status
 
 
 

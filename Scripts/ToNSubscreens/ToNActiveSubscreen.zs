@@ -2,6 +2,9 @@
 //~~~~~~~~~~~~~~~~~~The Terror of Necromancy ActiveSubscreen~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+// When I eventually have the quiver and bomb back items loaded here have a small bit of text on top
+// that shows the bomb max and when I get bomb expansions update that max
+
 //~~~~~ActiveSubscreen~~~~~//
 @Author("Venrob, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
