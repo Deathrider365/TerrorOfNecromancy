@@ -440,7 +440,7 @@ ffc script SwitchSecret //start
 } //end
 
 //~~~~~SwitchRemote~~~~~//
-// D0: Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
+// D0: Set to 0 if no pressure. Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
 // D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
 // D2: Set to the flag that specifies the region for the remote secret.
 // D3: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
@@ -518,7 +518,7 @@ ffc script SwitchRemote //start
 		
 		else //start
 		{
-			unless (SwitchPressed(this->X, this->Y, noLink))
+			until (SwitchPressed(this->X, this->Y, noLink))
 				Waitframe();
 				
 			this->Data = data+1;

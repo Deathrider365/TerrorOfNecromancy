@@ -888,7 +888,7 @@ ffc script LegionnaireLevel1 //start
 				}
 			}
 			
-			if (Ghost_HP <= startHP * 0.30)
+			if (Ghost_HP <= startHP * 0.40)
 				timeToSpawnAnother++;
 			
 			Ghost_Waitframe(this, ghost);

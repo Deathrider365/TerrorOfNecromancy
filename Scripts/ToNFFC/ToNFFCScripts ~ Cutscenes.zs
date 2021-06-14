@@ -372,7 +372,7 @@ ffc script PreInteritusLeviathanScene //start
 		else
 			Screen->Message(47);
 		
-		for(int i = 0; i < 120; ++i) //start
+		for(int i = 0; i < 60; ++i) //start
 		{
 			NoAction();
 			
@@ -493,7 +493,8 @@ ffc script IntroSceneTransitions //start
 			Waitframe();
 		}
 		
-		Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+		Hero->Warp(dmap, screen);
+		// Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
 	}
 } //end
 
@@ -521,7 +522,9 @@ ffc script FinalScene //start
 			Waitframe();
 		}
 		
-		Hero->WarpEx({WT_IWARP, 12, 13, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+		Hero->Warp(12, 13);
+		
+		// Hero->WarpEx({WT_IWARP, 12, 13, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
 	}
 } //end
 

@@ -267,8 +267,54 @@ ffc script Signpost //start
 			}			
 			
 			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
 			Screen->Message(msg);
+			Game->Suspend[susptSCREENDRAW] = false;
 			Waitframe();
+		}
+	}
+}
+
+//end
+
+//~~~~~SignPostOnce~~~~~//
+//DOESNT AFFECT screenD, just plays messages based on if screenD was changed!
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Joe123 + Deathrider365")
+ffc script SignpostBasedOnScreenD //start
+{
+	void run(int msgFirst, int msgSubsequent, bool anySide)
+	{
+		Waitframes(2);
+		
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			
+			unless (getScreenD(255))
+			{
+				Screen->Message(msgFirst);
+				
+				Waitframes(2);
+				
+				Input->Button[CB_SIGNPOST] = false;
+			}
+			else
+				Screen->Message(msgSubsequent);
+			
+			Waitframe();
+			
 		}
 	}
 }
@@ -289,6 +335,20 @@ ffc script MessageOnce //start
 	}
 } //end
 
+//~~~~~ShopIntroMessage~~~~~//
+//D0: Message to show
+@Author("Deathrider365")
+ffc script ShopIntroMessage //start
+{
+	void run(int message)
+	{	
+		unless (getScreenD(255))
+		{
+			setScreenD(255, true);
+			Screen->Message(message);
+		}
+	}
+} //end
 
 
 

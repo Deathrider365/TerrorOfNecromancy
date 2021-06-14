@@ -1,3 +1,7 @@
 make an attack that sucks link in (like the great poe of 4swords) and slowly drains your health until you 
 get out of it
 
+An attack that freezes link, changes his tiles for x seconds, then when returns to normal has ice breaking sfx (if you
+have the level x candle you are immune) (think OoT ice cavern)
+
+

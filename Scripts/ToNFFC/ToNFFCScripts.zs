@@ -16,7 +16,7 @@ ffc script CompassBeep //start
 //end
 
 //~~~~~BossMusic~~~~~//
-//D0: Index value 
+//D0: Number that correlates with the song desired
 //D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
@@ -43,7 +43,7 @@ ffc script BossMusic //start
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
 				
-			case 2:
+			case 3:
 				Audio->PlayEnhancedMusic("", 0);
 				break;
 		}
@@ -469,20 +469,98 @@ ffc script SpawnItem //start
 	}
 } //end
 
-//~~~~~ShopIntroMessage~~~~~//
-//D0: Message to show
+//~~~~~CapacityIncreasor~~~~~//
+//D0: Message to play on entry
+//D1: Message to play if insufficient funds
+//D2: Price of increasor
+//D3: Amount to increase
+//D4: Counter ID to increase (currently just bombs and arrows)
 @Author("Deathrider365")
-ffc script ShopIntroMessage //start
+ffc script CapacityIncreasor //start
 {
-	void run(int message)
-	{	
-		unless (getScreenD(255))
+	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy)
+	{
+		bool alreadyBought = false;
+		
+		if (getScreenD(255))
 		{
-			setScreenD(255, true);
-			Screen->Message(message);
+			this->Data = COMBO_INVIS;
+			Quit();
 		}
+			
+		Screen->Message(message);
+		
+		Waitframe();
+		
+        int loc = ComboAt(this->X, this->Y);
+		char32 priceBuf[6];
+		sprintf(priceBuf, "%d", price);
+		
+        while(true && !alreadyBought)
+		{
+			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			
+			if (onTop(this->X, this->Y))
+				if (Game->Counter[CR_RUPEES] >= price)
+				{
+					Game->DCounter[CR_RUPEES] -= price;
+					
+					itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
+					Audio->PlaySound(sfxOnBuy);
+					
+					setScreenD(255, true);
+					alreadyBought = true;
+					this->Data = COMBO_INVIS;
+				}
+				
+			Waitframe();
+        }
 	}
 } //end
+
+//~~~~~PoisonWater~~~~~//
+// Just place on screen with shallow water
+@Author("Moosh")
+ffc script PoisonWater
+{
+	void run()
+	{
+		while(true)
+		{
+			while(Link->Action!=LA_SWIMMING&&Link->Action != LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] != CT_SHALLOWWATER)
+				Waitframe();
+			
+			int maxDamageTimer = 120;
+			int damageTimer = maxDamageTimer;
+			
+			while(Link->Action == LA_SWIMMING || Link->Action == LA_DIVING || (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER))
+			{
+				damageTimer--;
+				
+				if(damageTimer <= 0)
+					if(Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER || Link->Action == LA_SWIMMING)
+					{
+						Link->HP -= 8;
+						Game->PlaySound(SFX_OUCH);
+						damageTimer = maxDamageTimer;
+					}
+					
+				Waitframe();
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1017,18 +1017,21 @@ int SwitchPressed(int x, int y, bool noLink) //start
 	int yOff = 4;
 	int xDist = 8;
 	int yDist = 8;
+	
 	if(Abs(Link->X+xOff-x)<=xDist&&Abs(Link->Y+yOff-y)<=yDist&&Link->Z==0&&!noLink)
 		return 1;
-	if(Screen->MovingBlockX>-1){
+		
+	if(Screen->MovingBlockX>-1)
 		if(Abs(Screen->MovingBlockX-x)<=8&&Abs(Screen->MovingBlockY-y)<=8)
 			return 1;
-	}
+	
 	if(Screen->isSolid(x+4, y+4)||
 		Screen->isSolid(x+12, y+4)||
 		Screen->isSolid(x+4, y+12)||
 		Screen->isSolid(x+12, y+12)){
 		return 2;
 	}
+	
 	return 0;
 }
 //end
@@ -1070,7 +1073,8 @@ void leavingTransition(int dmap, int screen, int usingPresents) //start
 		Waitframe();
 	}
 	
-	Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
+	Hero->Warp(dmap, screen);
+	// Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, WARP_FLAG_PLAYMUSIC, 0});
 } //end
 
 void enteringTransition() //start
@@ -1083,7 +1087,13 @@ void enteringTransition() //start
 	
 } //end
 
-
+bool onTop(int x, int y) //start
+{
+	if ((Abs(Hero->X - x) <= 8) && (Abs(Hero->Y - y) <= 8))
+		return true;
+	else
+		return false;
+} //end
 
 
 
