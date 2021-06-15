@@ -8,8 +8,12 @@ ffc script CompassBeep //start
 {	
 	void run()
 	{
-		if(!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && 
-			!Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
+		if(!Screen->State[ST_ITEM] && 
+			!Screen->State[ST_CHEST] && 
+			!Screen->State[ST_LOCKEDCHEST] && 
+			!Screen->State[ST_BOSSCHEST] && 
+			!Screen->State[ST_SPECIALITEM] && 
+			(Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
 			Audio->PlaySound(COMPASS_BEEP);
 	}
 }
@@ -43,7 +47,7 @@ ffc script BossMusic //start
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
 				
-			case 3:
+			default:
 				Audio->PlayEnhancedMusic("", 0);
 				break;
 		}
@@ -65,9 +69,130 @@ ffc script BossMusic //start
 
 //end
 
+//~~~~~ConditionalItem~~~~~//
+//D0: String id when you first enter the room and you have the required item
+//D1: Same as D0 but you don't have the required item
+//D2: Item id you get
+//D3: Item id that is required
+//D4: String id for when you talk to the NPC if you don't have the required item
+//D5: Same as D4 but you have the required item
+//D6: X Coordinate where the item spawns
+//D7: Y Coordinate where the item spawns
+ffc script ConditionalItem //start
+{
+	void run(int hasRequiredItemStrings, int noHasRequiredItemInitialString, int itemIdToNeed, int itemIdToGet, int guyStringNoHasRequiredItem, int guyStringHasRequiredItem, int itemLocX, int itemLocY)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		int hasRequiredItemInitialString = Floor(hasRequiredItemStrings);
+		int hasRequiredItemButAlreadyEnteredString = (hasRequiredItemStrings % 1) / 1L;
+		
+		while (true)
+		{
+			// If you have the item he gives, do nothing but have him talk when against saying "use dat item well andcall that" (this is essentially the "done" state)
+			if (Hero->Item[itemIdToGet])
+			{
+				while (true)
+				{
+					until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+					{
+						if (AgainstComboBase(loc, 1))
+							Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+							
+						Waitframe();
+					}	
+					
+					Input->Button[CB_SIGNPOST] = false;
+					Screen->Message(guyStringHasRequiredItem);
+					
+					Waitframe();
+				}
+			}
+			// If you haven't gotten the item he gives, actually do things
+			else
+			{
+				// If you have the required item but have not yet picked it up
+				if (Hero->Item[itemIdToNeed] && !getScreenD(255))
+				{
+					// If first entry, give initial has needed item string
+					unless (getScreenD(254))
+					{
+						Screen->Message(hasRequiredItemInitialString);
+						setScreenD(254, true);
+					}
+					else unless (getScreenD(253))
+					{
+						Screen->Message(hasRequiredItemButAlreadyEnteredString);
+						setScreenD(253, true);
+					}
+					
+					Audio->PlaySound(SFX_CLEARED);
+					
+					int itemXLoc = itemLocX;
+					int itemYLoc = itemLocY;
+					item givenItem = CreateItemAt(itemIdToGet, itemXLoc, itemYLoc);
+					givenItem->Pickup = IP_HOLDUP;
+					
+					// Waiting to pick up the item
+					while (true && !getScreenD(255))
+					{
+						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+						{
+							if (AgainstComboBase(loc, 1))
+								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+								
+							Waitframe();
+						}
+						
+						Input->Button[CB_SIGNPOST] = false;
+						Screen->Message(guyStringHasRequiredItem);
+						
+						if (Hero->Item[itemIdToGet])
+						{
+							setScreenD(255, true);
+							break;
+						}
+						
+						Waitframe();
+					}
+				}
+				// If you do not have the required item
+				else
+				{
+					// If first entry, give initial has needed item string
+					unless (getScreenD(254))
+					{
+						Screen->Message(noHasRequiredItemInitialString);
+						setScreenD(254, true);
+					}
+					
+					while (true)
+					{
+						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+						{
+							if (AgainstComboBase(loc, 1))
+								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+								
+							Waitframe();
+						}	
+						
+						Input->Button[CB_SIGNPOST] = false;
+						Screen->Message(guyStringNoHasRequiredItem);
+						
+						Waitframe();
+					}
+				}
+			}
+		}
+	}
+} //end
+
 //~~~~~ItemGuy~~~~~//
-//D0: Number of string to show
-//D1: Item to be given
+// Sets screenD(255) upon receiving
+//D0: Item ID to give
+//D1: String for getting the item
+//D2: String for if you already got the item
+//D3: 1 for all dirs, 0 for only front (up)
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
@@ -104,36 +229,13 @@ ffc script ItemGuy //start
 				Screen->Message(alreadyGotItemString);
 			
 			Waitframe();
-			
 		}
 	}
 }
 
 //end
 
-//~~~~~TradeGuy~~~~~//
-@Author("Deathrider365")
-ffc script TradeGuy //start
-{
-	void run(int hasItemString, int noItemString, int requiredItem, int obtainedItem)
-	{
-		if (Hero->Item[requiredItem])
-		{
-			Screen->Message(hasItemString);
-			
-			// itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
-			// it->Pickup = IP_HOLDUP;
-			Hero->Item[obtainedItem] = true;
-			Hero->Item[requiredItem] = false;
-		}
-		else
-			Screen->Message(noItemString);
-	}
-}
-
-//end
-
-//~~~~~sfxPlay~~~~~//
+//~~~~~SFXPlay~~~~~//
 //D0: The sound effect to play.
 //D1: How many frames to wait until the sound effect plays.
 //D2: Set this to anything other than 0 to have the sound effect loop.
@@ -299,42 +401,6 @@ ffc script ContinuePoint //start
 }
 //end
 
-ffc script CircMove //start
-{
-	void run(int a, int v, int theta)
-	{
-		int x = this->X;
-		int y = this->Y;
-		if(theta < 0) theta = Rand(180);
-		while(true)
-		{
-			theta += v;
-			WrapDegrees(theta);
-			this->X = x + a * Cos(theta);
-			this->Y = y + a * Sin(theta);
-			Waitframe();
-		}
-	}
-} //end
-
-ffc script OvMove //start
-{
-	void run(int a, int b, int v, int theta, int phi)
-	{
-		int x = this->X;
-		int y = this->Y;
-		if(theta < 0) theta = Rand(180);
-		while(true)
-		{
-			theta += v;
-			WrapDegrees(theta);
-			this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
-			this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
-			Waitframe();
-		}
-	}
-} //end
-
 //~~~~~DisableRadialTransparency~~~~~//
 ffc script DisableRadialTransparency //start
 {
@@ -452,29 +518,26 @@ ffc script InfoShop //start
 } //end
 
 //~~~~~SpawnItem~~~~~//
+//D0: Item ID
 @Author("Emily")
 ffc script SpawnItem //start
 {
-    void run(int id, int otile, int frames, int speed)
-    {
-	/*
-        if(Screen->State[ST_ITEM]) return;
-        itemsprite spr = CreateItemAt(id, this->X, this->Y);
-        spr->Pickup = IP_ST_ITEM;
-        spr->OriginalTile = otile;
-        spr->Tile = otile;
-        spr->AFrames = frames;
-        spr->ASpeed = speed;
-    */
+    void run(int itemId)
+    {	
+        if(Screen->State[ST_ITEM]) 
+			return;
+			
+		item spawnedItem = CreateItemAt(itemId, this->X, this->Y);
+		Screen->State[IP_ST_ITEM] = true;
+    
 	}
 } //end
 
 //~~~~~CapacityIncreasor~~~~~//
 //D0: Message to play on entry
-//D1: Message to play if insufficient funds
-//D2: Price of increasor
-//D3: Amount to increase
-//D4: Counter ID to increase (currently just bombs and arrows)
+//D1: Price of increasor
+//D2: Amount to increase
+//D3: Counter ID to increase (currently just bombs and arrows)
 @Author("Deathrider365")
 ffc script CapacityIncreasor //start
 {
@@ -492,7 +555,6 @@ ffc script CapacityIncreasor //start
 		
 		Waitframe();
 		
-        int loc = ComboAt(this->X, this->Y);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 		
@@ -521,13 +583,13 @@ ffc script CapacityIncreasor //start
 //~~~~~PoisonWater~~~~~//
 // Just place on screen with shallow water
 @Author("Moosh")
-ffc script PoisonWater
+ffc script PoisonWater //start
 {
 	void run()
 	{
 		while(true)
 		{
-			while(Link->Action!=LA_SWIMMING&&Link->Action != LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] != CT_SHALLOWWATER)
+			while(Link->Action != LA_SWIMMING && Link->Action != LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] != CT_SHALLOWWATER)
 				Waitframe();
 			
 			int maxDamageTimer = 120;
@@ -549,8 +611,43 @@ ffc script PoisonWater
 			}
 		}
 	}
-}
+} //end
 
+ffc script CircMove //start
+{
+	void run(int a, int v, int theta)
+	{
+		int x = this->X;
+		int y = this->Y;
+		if(theta < 0) theta = Rand(180);
+		while(true)
+		{
+			theta += v;
+			WrapDegrees(theta);
+			this->X = x + a * Cos(theta);
+			this->Y = y + a * Sin(theta);
+			Waitframe();
+		}
+	}
+} //end
+
+ffc script OvMove //start
+{
+	void run(int a, int b, int v, int theta, int phi)
+	{
+		int x = this->X;
+		int y = this->Y;
+		if(theta < 0) theta = Rand(180);
+		while(true)
+		{
+			theta += v;
+			WrapDegrees(theta);
+			this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
+			this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
+			Waitframe();
+		}
+	}
+} //end
 
 
 

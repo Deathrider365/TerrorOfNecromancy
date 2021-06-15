@@ -32,10 +32,14 @@ ffc script WarpCustomReturn //start
 {
 	void run(int d1, int x, int y, int sideFacing, int warp, int d2, int x2, int y2)
 	{
-		int dm = Floor(d1), scr = (d1 % 1) / 1L;
-		int dm2 = Floor(d2), scr2 = (d2 % 1) / 1L;
-		int wtype = Floor(warp), warpEffect = (warp % 1) / 1L;
-		int side = Floor(sideFacing), dir = (sideFacing % 1) / 1L;
+		int dm = Floor(d1);
+		int scr = (d1 % 1) / 1L;
+		int dm2 = Floor(d2);
+		int scr2 = (d2 % 1) / 1L;
+		int wtype = Floor(warp);
+		int warpEffect = (warp % 1) / 1L;
+		int side = Floor(sideFacing);
+		int dir = (sideFacing % 1) / 1L;
 		
 		switch(side)
 		{
@@ -206,14 +210,18 @@ ffc script BossNameString //start
 @Author("Deathrider365")
 ffc script NormalString //start
 {
-	void run(int m, int triggerOnSecret)
+	void run(int m, int triggerOnSecret, int playOnce)
 	{
+		if (getScreenD(255))
+			Quit();
+			
 		if (triggerOnSecret)
 		{
 			if (Screen->State[ST_SECRET])
 			{
 				Waitframes(2);
 				Screen->Message(m);
+				setScreenD(255, true);
 			}
 			else
 				Waitframe();
@@ -222,6 +230,7 @@ ffc script NormalString //start
 		{
 			Waitframes(2);
 			Screen->Message(m);
+			setScreenD(255, true);
 		}
 	}
 }
