@@ -46,9 +46,9 @@ screendata script RadialTransparency //start
 {
 	void run(int layers, int radius)
 	{			
-		mapdata m[7];
+		mapdata m[6];
 		
-		for (int l = 1; l < 7; ++l)
+		for (int l = 1; l < 6; ++l)
 		{
 			unless(layers & (1b << (l - 1)))
 				continue;
@@ -56,14 +56,14 @@ screendata script RadialTransparency //start
 			Screen->LayerInvisible[l] = true;
 			
 			unless(ohead_bmps[l]->isValid())
-				ohead_bmps[l] = create(256, 256);
-		 
+				ohead_bmps[l] = create(256, 176);
+		
 			m[l] = Game->LoadTempScreen(l);
 		}
 		
 		while(true)
 		{
-			for (int l = 1; l < 7; ++l)
+			for (int l = 1; l < 6; ++l)
 			{
 				unless(layers & (1b << (l - 1)))
 					continue;
@@ -86,7 +86,7 @@ screendata script RadialTransparency //start
 			
 			if (disableTrans)
 			{
-				for (int l = 1; l < 7; ++l)
+				for (int l = 1; l < 6; ++l)
 				{
 					unless(layers & (1b << (l - 1)))
 						continue;
@@ -99,7 +99,7 @@ screendata script RadialTransparency //start
 			}
 			
 			if (HeroIsScrolling())
-				for (int l = 1; l < 7; ++l)
+				for (int l = 1; l < 6; ++l)
 				{
 					unless(layers & (1b << (l - 1)))
 						continue;
@@ -107,7 +107,7 @@ screendata script RadialTransparency //start
 					Screen->LayerInvisible[l] = false;
 				}
 			else
-				for (int l = 1; l < 7; ++l)
+				for (int l = 1; l < 6; ++l)
 				{
 					unless(layers & (1b << (l - 1)))
 						continue;

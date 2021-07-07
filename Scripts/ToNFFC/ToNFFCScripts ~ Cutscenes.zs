@@ -133,7 +133,7 @@ ffc script Leviathan1Ending //start
 	
 	void run(int dmap, int scrn)
 	{
-		Audio->PlayEnhancedMusic("Bomb Ring - Final Fantasy IV.ogg", 0);
+		Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 	
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
 			waterfall_bmp->Free();
@@ -315,7 +315,7 @@ ffc script PreInteritusLeviathanScene //start
 			Waitframe();
 		}
 		
-		Audio->PlayEnhancedMusic("Bomb Ring - Final Fantasy IV.ogg", 0);
+		Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 	
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
 			waterfall_bmp->Free();
@@ -449,7 +449,7 @@ ffc script OfficialIntro //start
 {
 	void run()
 	{
-		for (int i = 0; i < 180; ++i)
+		for (int i = 0; i < 120; ++i)
 		{
 			Screen->Rectangle(7, 24, 24, 232, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
@@ -462,7 +462,7 @@ ffc script OfficialIntro //start
 			Waitframe();			
 		}
 		
-		for (int i = 0; i < 180; ++i)	//with presenting
+		for (int i = 0; i < 120; ++i)	//with presenting
 		{
 			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
@@ -497,15 +497,6 @@ ffc script IntroSceneTransitions //start
 		// Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
 	}
 } //end
-
-ffc script DiffChoiceTransition
-{
-	void run()
-	{
-		enteringTransition();
-		Quit();
-	}
-}
 
 ffc script FinalScene //start
 {

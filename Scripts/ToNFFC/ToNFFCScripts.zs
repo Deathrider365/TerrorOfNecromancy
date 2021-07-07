@@ -40,7 +40,7 @@ ffc script BossMusic //start
 		switch(musicChoice)
 		{		
 			case 1:
-				Audio->PlayEnhancedMusic("Middle Boss - OoT.ogg", 0);
+				Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 				break;
 				
 			case 2:
@@ -345,6 +345,14 @@ ffc script DifficultyChoice //start
 {
     void run()
 	{
+		for (int i = 0; i < 20; ++i)
+		{
+			Screen->Rectangle(7, 0, 0, 256, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Waitframe();
+		}
+		
+		enteringTransition();
+		
 		Waitframes(60);
 		
 		while(true)
@@ -550,13 +558,14 @@ ffc script CapacityIncreasor //start
 			this->Data = COMBO_INVIS;
 			Quit();
 		}
+		char32 priceBuf[6];
+		sprintf(priceBuf, "%d", price);
+		
+		Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 			
 		Screen->Message(message);
 		
 		Waitframe();
-		
-		char32 priceBuf[6];
-		sprintf(priceBuf, "%d", price);
 		
         while(true && !alreadyBought)
 		{
@@ -567,6 +576,7 @@ ffc script CapacityIncreasor //start
 				{
 					Game->DCounter[CR_RUPEES] -= price;
 					
+					itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) : (Game->MCounter[CR_ARROWS] += increaseAmount);
 					itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
 					Audio->PlaySound(sfxOnBuy);
 					
@@ -610,6 +620,23 @@ ffc script PoisonWater //start
 				Waitframe();
 			}
 		}
+	}
+} //end
+
+//~~~~~ScreenQuakeOnSecret~~~~~//
+//D0: Power of the quake
+@Author("Deathrider365")
+ffc script ScreenQuakeOnSecret //start
+{
+	void run(int quakePower)
+	{
+		if (Screen->State[ST_SECRET])
+			Quit();
+			
+		until (Screen->State[ST_SECRET])
+			Waitframe();
+			
+		Screen->Quake = quakePower;
 	}
 } //end
 

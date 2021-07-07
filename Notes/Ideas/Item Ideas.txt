@@ -31,7 +31,8 @@ when getting repetitive items like dungeon keys and whatnot, instead of the typi
 pop up in the corner saying +1 small key or something (may be able to use my status indicator for that, like, make
 an obtained map/compass/boss key/small key status
 
-
+the plaque of the fish has been broken into 4 shards and throughout the game you collect the shards and upon
+completion... something is given/unlocked idk
 
 
 
