@@ -26,17 +26,25 @@ global script GlobalScripts //start
 		StartGhostZH();
 		DifficultyGlobal_Init();
 		
+		
+		mapdata m[6];
+		
+		
 		while(true)
 		{
 			gameframe = (gameframe + 1) % 3600;	//global timer
-				
+		
+			doRadialTransparency();
+			
 			checkDungeon();
-						
+			
 			LinkMovement_Update1();
 			UpdateGhostZH1();
 			
 			DifficultyGlobal_Update();
 			DifficultyGlobal_EnemyUpdate();
+			
+			doRadialTransparency2(m);
 			
 			Waitdraw();
 			
@@ -45,7 +53,7 @@ global script GlobalScripts //start
 				map = Game->GetCurMap();
 				scr = Game->GetCurScreen();
 				
-				onScreenChange();
+				onScreenChange(m);
 			}
 			
 			if (dmap != Game->GetCurDMap())
@@ -66,6 +74,71 @@ global script GlobalScripts //start
 		}
 	}
 	
+	void doRadialTransparency2(mapdata m) //start
+	{
+		CONFIG TRANS_RADIUS = 36;
+		
+		if (HeroIsScrolling())
+			return;
+		
+		int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+		
+		for (int l = 1; l < 6; ++l)
+		{
+			unless(layers & (1b << (l - 1)))
+				continue;
+			unless (m[l])
+				continue;
+			
+			ohead_bmps[l]->Clear(0);
+			
+			for (int q = 0; q < 176; ++q)
+				ohead_bmps[l]->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_OPAQUE);
+			
+			ohead_bmps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, TRANS_RADIUS, 0, 1, 0, 0, 0, true, OP_OPAQUE);
+			
+			for (int q = 0; q < 176; ++q)
+				Screen->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_TRANS);
+				
+			ohead_bmps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
+		}
+	} //end
+	
+	void doRadialTransparency() //start
+	{
+		int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+		
+		if (disableTrans)
+		{
+			for (int l = 1; l < 6; ++l)
+			{
+				unless(layers & (1b << (l - 1)))
+					continue;
+				
+				Screen->LayerInvisible[l] = false;
+			}
+			
+			return;
+		}
+		
+		if (HeroIsScrolling())
+			for (int l = 1; l < 6; ++l)
+			{
+				unless(layers & (1b << (l - 1)))
+					continue;
+				
+				Screen->LayerInvisible[l] = false;
+			}
+		else
+			for (int l = 1; l < 6; ++l)
+			{
+				unless(layers & (1b << (l - 1)))
+					continue;
+				
+				Screen->LayerInvisible[l] = true;
+			}
+	} //end
+	
 	void checkTriforceShards() //start
 	{
 		amountOfCourageTriforceShards = getAmountOfShards(0);
@@ -74,9 +147,25 @@ global script GlobalScripts //start
 		amountOfDeathTriforceShards = getAmountOfShards(3);		
 	} //end
 	
-	void onScreenChange() //start
+	void onScreenChange(mapdata m) //start
 	{
 		disableTrans = false;
+		
+		int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+		
+		for (int l = 1; l < 6; ++l)
+		{
+			unless(ohead_bmps[l]->isValid())
+				ohead_bmps[l] = create(256, 176);
+			ohead_bmps[l]->Clear(0);
+				
+			unless(layers & (1b << (l - 1)))
+				continue;
+			
+			Screen->LayerInvisible[l] = true;
+			
+			m[l] = Game->LoadTempScreen(l);
+		}
 		
 		//
 		
@@ -87,6 +176,26 @@ global script GlobalScripts //start
 			for (int i = 0; i <= MAX_USED_DMAP; ++i)
 				Game->DMapPalette[i] = Screen->Palette;
 		}
+	} //end
+	
+	int getTransLayers(int dmap, int scr) //start
+	{
+		switch(dmap)
+		{
+			case 18:
+				return 011000b;
+			case 4:
+				switch(scr)
+				{
+					case 0x26:
+						return 011000b;
+					case 0x16:
+						return 001100b;
+					
+				}
+				break;
+		}
+		return 0;
 	} //end
 	
 	void onDMapChange() //start
