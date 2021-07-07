@@ -57,7 +57,7 @@ screendata script RadialTransparency //start
 			
 			unless(ohead_bmps[l]->isValid())
 				ohead_bmps[l] = create(256, 176);
-		
+		 
 			m[l] = Game->LoadTempScreen(l);
 		}
 		
@@ -75,11 +75,10 @@ screendata script RadialTransparency //start
 				
 				ohead_bmps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
 				
-				ohead_bmps[l]->Blit(l, -2, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
-				
 				for (int q = 0; q < 176; ++q)
 					Screen->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_TRANS);
-				
+					
+				ohead_bmps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
 			}
 			
 			Waitframe();
