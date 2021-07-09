@@ -2,7 +2,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Hero~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //~~~~~HeroInit~~~~~//
-@Author("Venrob")
+@Author("Emily")
 hero script HeroInit //start
 {
 	void run()
@@ -13,7 +13,7 @@ hero script HeroInit //start
 //end
 
 //~~~~~HeroActive~~~~~//
-@Author("Venrob")
+@Author("Emily")
 hero script HeroActive //start
 {
 	void run()

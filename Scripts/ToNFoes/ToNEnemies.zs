@@ -6,7 +6,7 @@
 // D0: Speed Multiplier
 // D1: Fire cooldown (frames)
 // D2: Knockback rate in pixels per frame 
-@Author("Venrob")
+@Author("Emily")
 npc script Mimic //start
 {
 	void run(int speedMult, int fireRate, int knockbackDist)
@@ -47,7 +47,7 @@ npc script Mimic //start
 			int step = Max(Abs(xStep), Abs(yStep));
 			
 			int mDir = (yStep ? (yStep < 0 ? DIR_UP : DIR_DOWN) : -1);
-			mDir = Venrob::addX(mDir, (xStep ? (xStep < 0 ? DIR_LEFT : DIR_RIGHT) : -1));
+			mDir = Emily::addX(mDir, (xStep ? (xStep < 0 ? DIR_LEFT : DIR_RIGHT) : -1));
 			
 			
 			unless (fireClock)

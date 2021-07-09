@@ -4,7 +4,7 @@
 
 //~~~~~OverheadTransparency~~~~~//
 // D0: Each layer is represented by a bit EX:(layers 3, 4, 5 would be represented by 00011100 = 28) LAYER 6 DOESNT WORK
-@Author ("Venrob")
+@Author ("Emily")
 screendata script OverheadTransparency //start
 {
 	void run(int layers)
@@ -121,7 +121,7 @@ screendata script RadialTransparency //start
 // D0: Radius
 // D1: itemClass (probably a candle)
 // D2: Layer
-@Author ("Venrob")
+@Author ("Emily")
 dmapdata script DarkRegion //start		Credit Dimi for candle style
 {	
 	void run(int radius, int itemClass, int layer)

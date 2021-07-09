@@ -14,7 +14,7 @@
 #include "std_zh/dmapgrid.zh"
 #include "/Headers/LinkMovement.zh"
 #include "/Headers/Ghost.zh"
-#include "/Headers/VenrobMisc.zh"
+#include "/Headers/EmilyMisc.zh"
 #include "../ToN Main Quest/Scripts/Headers/Credits.zh"
 
 #include "../ToN Main Quest/Scripts/ToNFFC/ToNFFCScripts.zs"
@@ -43,7 +43,7 @@
 #include "../ToN Main Quest/Scripts/ToNGlobalActive.zs"
 #include "../ToN Main Quest/Scripts/ToNScreendataDMapdata.zs"
 
-always using namespace Venrob;
+always using namespace Emily;
 
 
 

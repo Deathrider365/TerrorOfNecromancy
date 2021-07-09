@@ -10,7 +10,7 @@
 // Sprites[]:
 // -0 = sprite for the weapon
 // -1 = sprite for the wind visual effect
-@Author("Venrob")
+@Author("Emily")
 lweapon script GaleBRang //start
 {	
 	void run(int turnRate, int wind_drop_rate) //start

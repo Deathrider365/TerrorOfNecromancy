@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~ActiveSubscreen~~~~~//
-@Author("Venrob")
+@Author("Emily")
 dmapdata script PassiveSubscreen //start
 {
 	using namespace time;
@@ -278,7 +278,7 @@ dmapdata script PassiveSubscreen //start
 		for (int q = lastLetter + 1; q < 80; ++q)
 			titlebuf[q] = 0;
 		
-		Venrob::DrawStrings(7, 41, y + 2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
+		Emily::DrawStrings(7, 41, y + 2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG,
 		                   TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
 		//end DMap Title
 	} //end

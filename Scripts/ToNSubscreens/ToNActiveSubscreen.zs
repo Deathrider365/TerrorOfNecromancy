@@ -6,7 +6,7 @@
 // that shows the bomb max and when I get bomb expansions update that max
 
 //~~~~~ActiveSubscreen~~~~~//
-@Author("Venrob, Modified by Deathrider365")
+@Author("Emily, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
 {
 	void run()
@@ -167,7 +167,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	if (idata)
 		idata->GetName(buf2);
 			
-	Venrob::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
+	Emily::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
 	//end Selected Item Name
 
 	//start Cursor Stuff
@@ -218,13 +218,13 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	//start Handle Triforce Frame Cycling / Drawing
 	
 	if (currTriforceIndex == 0)
-		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+		Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 	if (currTriforceIndex == 1)
-		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+		Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 	if (currTriforceIndex == 2)
-		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+		Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 	if (currTriforceIndex == 3 && Game->GetCurDMap() != 2)
-		Venrob::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+		Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 		
 	Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 		
