@@ -1098,13 +1098,15 @@ bool onTop(int x, int y) //start
 void takeMapScreenshot() //start
 {
 	unless(DEBUG) return;
-	if(Input->KeyPress[KEY_P])
+	if(DEBUG && Input->KeyPress[KEY_P])
 	{
+		Game->Suspend[susptCOMBOANIM] = true;
+		Game->Suspend[susptPALCYCLE] = true;
+		Game->Suspend[susptGUYS] = true;
 		Hero->Invisible = true;
 		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-		bool small = dm->Type != DMAP_OVERWORLD;
-		int offs = dm->Offset;
-		printf("DMap offset is %d\n", offs);
+		bool small = (dm->Type & 11b) != DMAP_OVERWORLD;
+		int offs = dm->Offset, offsx = offs*256;
 		//
 		int dmpal = dm->Palette;
 		int oldscr = Game->GetCurDMapScreen();
@@ -1132,22 +1134,37 @@ void takeMapScreenshot() //start
 			}
 		}
 		bitmap b = create(256*16,176*8);
+		int outputind = 0;
 		for(int q = 0; q < ind; ++q)
 		{
 			dm->Palette = pals[q];
-			b->Clear(C_WHITE);
-			for(int x = small ? 7 : 15; x >= 0; --x)
+			b->ClearToColor(0, C_WHITE);
+			for(int x = (small ? 7 : 15)*256; x >= 0; x-=256)
 			{
-				for(int y = 0; y < 8; ++y)
+				for(int y = 7*176; y >= 0; y -= 176)
 				{
-					int scr = x + (y*0x10);
+					int scr = (x/256) + ((y/176)*0x10);
+					if((scr % 0x10)-offs < 0) continue; //off-map, skip
 					mapdata m = Game->LoadMapData(Game->GetCurMap(), scr + offs);
 					unless(m->Palette == pals[q])
 						continue;
+					int pat = m->Pattern;
+					m->Pattern = PATTERN_NO_SPAWNING;
 					Hero->Warp(Game->GetCurDMap(), scr);
 					repeat(10) Waitframe();
-					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, (x+offs)*256, y*176, 256, 176,
-					          0, 0, 0, 0, 0, true);
+					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x+offsx, y, 256, 176, 0, 0, 0, 0, 0, true);
+					int db = 7;
+					for(int lyr = 0; lyr < 7; ++lyr)
+					{
+						mapdata m = Game->LoadTempScreen(lyr);
+						int op = (lyr > 0 ? (Screen->LayerOpacity[lyr]==128 ? OP_TRANS : OP_OPAQUE) : OP_OPAQUE);
+						for(int pos = 160; pos < 176; ++pos)
+						{
+							b->FastCombo(lyr, x+offsx + (pos%16)*16, y + 10*16, m->ComboD[pos], m->ComboC[pos], op);
+						}
+					}
+					Waitframe();
+					m->Pattern = pat;
 				}
 			}
 			char32 buf[256];
@@ -1159,9 +1176,11 @@ void takeMapScreenshot() //start
 		Hero->X = oldx; Hero->Y = oldy;
 		Hero->PitWarp(Game->GetCurDMap(), oldscr);
 		Hero->Invisible = false;
+		Game->Suspend[susptCOMBOANIM] = false;
+		Game->Suspend[susptPALCYCLE] = false;
+		Game->Suspend[susptGUYS] = false;
 	}
-}
- //end
+} //end
 
 
 
