@@ -13,9 +13,9 @@
 #include "ffcscript.zh"
 #include "Time.zh"
 #include "std_zh/dmapgrid.zh"
-#include "/Headers/LinkMovement.zh"
-#include "/Headers/Ghost.zh"
-#include "/Headers/EmilyMisc.zh"
+#include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
+#include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
+#include "../ToN Main Quest/Scripts/Headers/EmilyMisc.zh"
 #include "../ToN Main Quest/Scripts/Headers/Credits.zh"
 
 #include "../ToN Main Quest/Scripts/ToNFFC/ToNFFCScripts.zs"
