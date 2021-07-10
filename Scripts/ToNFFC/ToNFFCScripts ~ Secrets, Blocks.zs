@@ -1540,7 +1540,22 @@ ffc script TorchLight //start
     }
 } //end
 
-
+ffc script ActivateTorches //start
+{
+	using namespace WaterPaths;
+	
+	void run(int p1, int p2, int p3, int p4)
+	{
+		if (Screen->State[ST_SECRET])
+			return;
+			
+		until(getFluid(p1) == FL_FLAMING && getFluid(p2) == FL_FLAMING && getFluid(p3) == FL_FLAMING && getFluid(p4) == FL_FLAMING)
+			Waitframe();
+			
+		Screen->TriggerSecrets();
+		Screen->State[ST_SECRET] = true;
+	}
+} //end
 
 
 
