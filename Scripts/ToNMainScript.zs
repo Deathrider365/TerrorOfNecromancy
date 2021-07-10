@@ -7,6 +7,7 @@
 
 #option SHORT_CIRCUIT on
 #option BINARY_32BIT off
+#option HEADER_GUARD on
 
 #include "std.zh"
 #include "ffcscript.zh"

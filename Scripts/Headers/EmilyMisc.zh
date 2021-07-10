@@ -386,11 +386,26 @@ namespace Emily
 	//end CanWalkM
 	
 	/**
-	* Returns a mapdata pointer to the current screen.
+	* Returns a mapdata pointer to the current screen (Perm version).
 	*/
 	mapdata CurMapdata() //start
 	{
 		return Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+	} //end
+	
+	/**
+	* Returns a mapdata pointer to the specified layer of the given pointer.
+	* Will be perm version unless 'Game->LoadTempScreen(0)' is provided, in which case
+	*     it will return the temp layer.
+	*/
+	mapdata loadLayer(mapdata m, int layer) //start
+	{
+		unless(layer) return m;
+		if(m == Game->LoadTempScreen(0)) return Game->LoadTempScreen(layer);
+		int map = m->LayerMap[layer];
+		int scr = m->LayerScreen[layer];
+		unless(map) return NULL;
+		return Game->LoadMapData(map, scr);
 	} //end
 
 	/**
