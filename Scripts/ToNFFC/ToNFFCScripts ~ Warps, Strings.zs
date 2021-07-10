@@ -11,6 +11,7 @@ ffc script MessageThenWarp //start
 {	
 	void run(int msg, int dmap, int scr)
 	{
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		NoAction();
 		Link->PressStart = false;
 		Link->InputStart = false;
@@ -196,6 +197,7 @@ ffc script BossNameString //start
 	void run(int string)
 	{
 		Waitframes(4);
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		
 		if (EnemiesAlive())
 			Screen->Message(string);
@@ -212,6 +214,7 @@ ffc script NormalString //start
 {
 	void run(int m, int triggerOnSecret, int playOnce)
 	{
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		if (getScreenD(255))
 			Quit();
 			
@@ -243,7 +246,8 @@ ffc script NormalString //start
 ffc script DungeonString //start
 {
 	void run(int m)
-	{		
+	{
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		unless (levelEntries[Game->GetCurLevel()])
 		{
 			levelEntries[Game->GetCurLevel()] = true;
@@ -296,6 +300,7 @@ ffc script SignpostBasedOnScreenD //start
 	void run(int msgFirst, int msgSubsequent, bool anySide)
 	{
 		Waitframes(2);
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		
 		int loc = ComboAt(this->X, this->Y);
 		
@@ -337,6 +342,7 @@ ffc script MessageOnce //start
 {
 	void run(int msg)
 	{
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		unless(getScreenD(255))
 			Screen->Message(msg);
 		
@@ -350,7 +356,8 @@ ffc script MessageOnce //start
 ffc script ShopIntroMessage //start
 {
 	void run(int message)
-	{	
+	{
+		while(Game->Suspend[susptGUYS]) Waitframe();
 		unless (getScreenD(255))
 		{
 			setScreenD(255, true);

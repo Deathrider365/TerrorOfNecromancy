@@ -11,6 +11,7 @@ dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
+		if(Game->Suspend[susptSUBSCREENSCRIPTS]) return;
 		subscr_open = true;
 		bitmap b = Game->CreateBitmap(256, 224);
 		b->ClearToColor(0, BG_COLOR);

@@ -1366,4 +1366,283 @@ namespace Emily
 				break;
 		}
 	} //end
+	
+	void colorscr_txt(int color, int txtcolor, int font, char32 buf, bool hidesubscr) //start
+	{
+		Screen->Rectangle(7, 0, hidesubscr ? -56 : 0, 256, 168, color, 1, 0, 0, 0, true, OP_OPAQUE);
+		DrawStrings(7, 128, ((224-Text->FontHeight(font))/2)-56, font, txtcolor, color, TF_CENTERED, buf, OP_OPAQUE, 2, 256);
+	} //end
+	
+	DEFINE SCRNSHOT_DMAP = 511;
+	DEFINE SYS_WHITE = 0xF5, SYS_BLACK = 0xE0;
+	CONFIGB MAPSCREENSHOT_HIDES_SUBSCR = true;
+	void doMapScreenshot(int map) {doMapScreenshot(map,10);}
+	void doMapScreenshot(int map, int frameDelay) //start
+	{
+		char32 waitmsg[] = "Processing...\nThis may take a bit, Boing!";
+		Game->Suspend[susptCOMBOANIM] = true;
+		Game->Suspend[susptPALCYCLE] = true;
+		Game->Suspend[susptGUYS] = true;
+		Game->Suspend[susptSUBSCREENSCRIPTS] = true;
+		Hero->Invisible = true;
+		dmapdata dm = Game->LoadDMapData(SCRNSHOT_DMAP);
+		int olddm[] = {dm->Map, dm->Level, dm->Offset, dm->Type, dm->Palette};
+		dm->Map = map;
+		dm->Level = Game->GetCurLevel();
+		dm->Offset = 0;
+		dm->Type = (dm->Type & ~11b) | DMAP_OVERWORLD;
+		//
+		int olddmap = Game->GetCurDMap();
+		int oldscr = Game->GetCurDMapScreen();
+		int oldx = Hero->X;
+		int oldy = Hero->Y;
+		bool msgfrz = Game->FFRules[qr_MSGFREEZE];
+		Game->FFRules[qr_MSGFREEZE] = false;
+		//
+		int pals[0x200];
+		int palscrs[0x200];
+		int ind = 0;
+		for(int q = 0; q < 0x80; ++q)
+		{
+			mapdata m = Game->LoadMapData(map, q);
+			for(int p = 0; p < ind; ++p)
+			{
+				if(m->Palette == pals[p])
+				{
+					m = NULL;
+					break;
+				}
+			}
+			if(m)
+			{
+				pals[ind++] = m->Palette;
+			}
+		}
+		bitmap b = create(256*16,176*8);
+		int outputind = 0;
+		for(int q = 0; q < ind; ++q)
+		{
+			dm->Palette = pals[q];
+			b->ClearToColor(0, SYS_WHITE);
+			colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+			Waitframe();
+			for(int x = 0; x < 16*256; x+=256)
+			{
+				for(int y = 0; y < 8*176; y += 176)
+				{
+					Hero->ItemJinx = 999; Hero->SwordJinx = 999;
+					int scr = (x/256) + ((y/176)*0x10);
+					mapdata m = Game->LoadMapData(map, scr);
+					unless(m->Palette == pals[q])
+						continue;
+					unless(m->Valid & 1b)
+						continue;
+					int pat = m->Pattern;
+					int twarp = m->TimedWarpTimer;
+					m->TimedWarpTimer = 0;
+					m->Pattern = PATTERN_NO_SPAWNING;
+					//start Warp
+					Hero->WarpEx({WT_IWARP, SCRNSHOT_DMAP, scr, 0, 0, 0, 0, WARP_FLAG_SCRIPTDRAW});
+					Game->Suspend[susptLINK] = false;
+					int timeout = 60;
+					do
+					{
+						Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
+						colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+						Waitframe();
+					}
+					until(Game->GetCurScreen() == scr || !--timeout);
+					if(Game->GetCurScreen() != scr) //Warp failed, for some reason?
+					{
+						printf("Error warping to (%d,%02X), skipping screenshot\n", map, scr);
+						m->Pattern = pat;
+						m->TimedWarpTimer = twarp;
+						continue;
+					}
+					Game->Suspend[susptLINK] = true;
+					//end Warp
+					for(int q = 0; q < frameDelay; ++q)
+					{
+						Screen->Message(0); //Clear any displayed strings
+						colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+						Waitframe();
+					}
+					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x, y, 256, 176, 0, 0, 0, 0, 0, false);
+					for(int lyr = 0; lyr < 7; ++lyr)
+					{
+						mapdata m = Game->LoadTempScreen(lyr);
+						int op = (lyr > 0 ? (Screen->LayerOpacity[lyr]==128 ? OP_TRANS : OP_OPAQUE) : OP_OPAQUE);
+						for(int pos = 160; pos < 176; ++pos)
+						{
+							b->DrawCombo(7, x + (pos%16)*16, y + 10*16, m->ComboD[pos], 1, 1, m->ComboC[pos], -1, -1, 0, 0, 0, 0, 0, lyr > 0, op);
+						}
+					}
+					colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+					Waitframe();
+					m->Pattern = pat;
+					m->TimedWarpTimer = twarp;
+				}
+			}
+			char32 buf[256];
+			sprintf(buf, "mapscreenshot/m_%03d/pal_%03X.png", map, pals[q]);
+			b->Write(7, buf, true);
+			colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+			Waitframe();
+		}
+		b->Free();
+		dm->Map = olddm[0];
+		dm->Level = olddm[1];
+		dm->Offset = olddm[2];
+		dm->Type = olddm[3];
+		dm->Palette = olddm[4];
+		Hero->WarpEx({WT_IWARP, olddmap, oldscr, oldx, oldy, 0, 0, WARP_FLAG_SCRIPTDRAW});
+		Hero->Invisible = false;
+		Hero->ItemJinx = 0;
+		Hero->SwordJinx = 0;
+		Game->Suspend[susptCOMBOANIM] = false;
+		Game->Suspend[susptPALCYCLE] = false;
+		Game->Suspend[susptGUYS] = false;
+		Game->Suspend[susptLINK] = false;
+		Game->Suspend[susptSUBSCREENSCRIPTS] = false;
+		Game->FFRules[qr_MSGFREEZE] = msgfrz;
+		colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+		Waitframe();
+	} //end
+
+	void doAllMapScreenshots() {doAllMapScreenshots(10);}
+	void doAllMapScreenshots(int frameDelay) //start
+	{
+		char32 waitmsg[] = "Processing...\nThis may take a bit, Boing!";
+		Game->Suspend[susptCOMBOANIM] = true;
+		Game->Suspend[susptPALCYCLE] = true;
+		Game->Suspend[susptGUYS] = true;
+		Game->Suspend[susptSUBSCREENSCRIPTS] = true;
+		Hero->Invisible = true;
+		dmapdata dm = Game->LoadDMapData(SCRNSHOT_DMAP);
+		int olddm[] = {dm->Map, dm->Level, dm->Offset, dm->Type, dm->Palette};
+		dm->Level = Game->GetCurLevel();
+		dm->Offset = 0;
+		dm->Type = (dm->Type & ~11b) | DMAP_OVERWORLD;
+		int olddmap = Game->GetCurDMap();
+		int oldscr = Game->GetCurDMapScreen();
+		int oldx = Hero->X;
+		int oldy = Hero->Y;
+		bool msgfrz = Game->FFRules[qr_MSGFREEZE];
+		Game->FFRules[qr_MSGFREEZE] = false;
+		bitmap b = create(256*16,176*8);
+		
+		for(int map = 1; map <= Game->MapCount(); ++map)
+		{
+			dm->Map = map;
+			//
+			//
+			int pals[0x200];
+			int palscrs[0x200];
+			int ind = 0;
+			for(int q = 0; q < 0x80; ++q)
+			{
+				mapdata m = Game->LoadMapData(map, q);
+				for(int p = 0; p < ind; ++p)
+				{
+					if(m->Palette == pals[p])
+					{
+						m = NULL;
+						break;
+					}
+				}
+				if(m)
+				{
+					pals[ind++] = m->Palette;
+				}
+			}
+			int outputind = 0;
+			for(int q = 0; q < ind; ++q)
+			{
+				dm->Palette = pals[q];
+				b->ClearToColor(0, SYS_WHITE);
+				colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+				Waitframe();
+				for(int x = 0; x < 16*256; x+=256)
+				{
+					for(int y = 0; y < 8*176; y += 176)
+					{
+						Hero->ItemJinx = 999; Hero->SwordJinx = 999;
+						int scr = (x/256) + ((y/176)*0x10);
+						mapdata m = Game->LoadMapData(map, scr);
+						unless(m->Palette == pals[q])
+							continue;
+						unless(m->Valid & 1b)
+							continue;
+						int pat = m->Pattern;
+						int twarp = m->TimedWarpTimer;
+						m->TimedWarpTimer = 0;
+						m->Pattern = PATTERN_NO_SPAWNING;
+						//start Warp
+						Hero->WarpEx({WT_IWARP, SCRNSHOT_DMAP, scr, 0, 0, 0, 0, WARP_FLAG_SCRIPTDRAW});
+						Game->Suspend[susptLINK] = false;
+						int timeout = 60;
+						do
+						{
+							Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
+							colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+							Waitframe();
+						}
+						until(Game->GetCurScreen() == scr || !--timeout);
+						if(Game->GetCurScreen() != scr) //Warp failed, for some reason?
+						{
+							printf("Error warping to (%d,%02X), skipping screenshot\n", map, scr);
+							m->Pattern = pat;
+							m->TimedWarpTimer = twarp;
+							continue;
+						}
+						Game->Suspend[susptLINK] = true;
+						//end Warp
+						for(int q = 0; q < frameDelay; ++q)
+						{
+							Screen->Message(0); //Clear any displayed strings
+							colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+							Waitframe();
+						}
+						b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x, y, 256, 176, 0, 0, 0, 0, 0, false);
+						for(int lyr = 0; lyr < 7; ++lyr)
+						{
+							mapdata m = Game->LoadTempScreen(lyr);
+							int op = (lyr > 0 ? (Screen->LayerOpacity[lyr]==128 ? OP_TRANS : OP_OPAQUE) : OP_OPAQUE);
+							for(int pos = 160; pos < 176; ++pos)
+							{
+								b->DrawCombo(7, x + (pos%16)*16, y + 10*16, m->ComboD[pos], 1, 1, m->ComboC[pos], -1, -1, 0, 0, 0, 0, 0, lyr > 0, op);
+							}
+						}
+						colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+						Waitframe();
+						m->Pattern = pat;
+						m->TimedWarpTimer = twarp;
+					}
+				}
+				char32 buf[256];
+				sprintf(buf, "mapscreenshot/m_%03d/pal_%03X.png", map, pals[q]);
+				b->Write(7, buf, true);
+				colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+				Waitframe();
+			}
+		}
+		b->Free();
+		dm->Map = olddm[0];
+		dm->Level = olddm[1];
+		dm->Offset = olddm[2];
+		dm->Type = olddm[3];
+		dm->Palette = olddm[4];
+		Hero->WarpEx({WT_IWARP, olddmap, oldscr, oldx, oldy, 0, 0, WARP_FLAG_SCRIPTDRAW});
+		Hero->Invisible = false;
+		Hero->ItemJinx = 0;
+		Hero->SwordJinx = 0;
+		Game->Suspend[susptCOMBOANIM] = false;
+		Game->Suspend[susptPALCYCLE] = false;
+		Game->Suspend[susptGUYS] = false;
+		Game->Suspend[susptLINK] = false;
+		Game->Suspend[susptSUBSCREENSCRIPTS] = false;
+		Game->FFRules[qr_MSGFREEZE] = msgfrz;
+		colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
+		Waitframe();
+	} //end
 }

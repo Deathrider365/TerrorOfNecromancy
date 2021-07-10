@@ -1100,88 +1100,11 @@ void takeMapScreenshot() //start
 	unless(DEBUG) return;
 	if(DEBUG && Input->KeyPress[KEY_P])
 	{
-		Game->Suspend[susptCOMBOANIM] = true;
-		Game->Suspend[susptPALCYCLE] = true;
-		Game->Suspend[susptGUYS] = true;
-		Hero->Invisible = true;
-		dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-		bool small = (dm->Type & 11b) != DMAP_OVERWORLD;
-		int offs = dm->Offset, offsx = offs*256;
-		//
-		int dmpal = dm->Palette;
-		int oldscr = Game->GetCurDMapScreen();
-		int oldx = Hero->X;
-		int oldy = Hero->Y;
-		//
-		int pals[0x200];
-		int palscrs[0x200];
-		int ind = 0;
-		for(int q = 0; q < 0x80; ++q)
-		{
-			if(small && (q%0x10) > 0x08) continue;
-			mapdata m = Game->LoadMapData(Game->GetCurMap(), q+offs);
-			for(int p = 0; p < ind; ++p)
-			{
-				if(m->Palette == pals[p])
-				{
-					m = NULL;
-					break;
-				}
-			}
-			if(m)
-			{
-				pals[ind++] = m->Palette;
-			}
-		}
-		bitmap b = create(256*16,176*8);
-		int outputind = 0;
-		for(int q = 0; q < ind; ++q)
-		{
-			dm->Palette = pals[q];
-			b->ClearToColor(0, 0xF5); //Color 0xF5 is a 'system-white', so will be white in any tileset.
-			for(int x = (small ? 7 : 15)*256; x >= 0; x-=256)
-			{
-				for(int y = 7*176; y >= 0; y -= 176)
-				{
-					int scr = (x/256) + ((y/176)*0x10);
-					int col = (scr % 0x10)+offs;
-					if(col < 0 || col >= 0x10) continue; //off-map, skip
-					mapdata m = Game->LoadMapData(Game->GetCurMap(), scr + offs);
-					unless(m->Palette == pals[q])
-						continue;
-					bool mask = !(m->Valid & 1b);
-					int pat = m->Pattern;
-					m->Pattern = PATTERN_NO_SPAWNING;
-					Hero->Warp(Game->GetCurDMap(), scr);
-					repeat(10) Waitframe();
-					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x+offsx, y, 256, 176, 0, 0, 0, 0, 0, mask);
-					int db = 7;
-					for(int lyr = 0; lyr < 7; ++lyr)
-					{
-						mapdata m = Game->LoadTempScreen(lyr);
-						int op = (lyr > 0 ? (Screen->LayerOpacity[lyr]==128 ? OP_TRANS : OP_OPAQUE) : OP_OPAQUE);
-						for(int pos = 160; pos < 176; ++pos)
-						{
-							b->DrawCombo(lyr, x+offsx + (pos%16)*16, y + 10*16, m->ComboD[pos], 1, 1, m->ComboC[pos], -1, -1, 0, 0, 0, 0, 0, lyr > 0 || mask, op);
-						}
-					}
-					Waitframe();
-					m->Pattern = pat;
-				}
-			}
-			char32 buf[256];
-			sprintf(buf, "mapscreenshot/dm_%03d/pal_%04d.png", Game->GetCurDMap(), pals[q]);
-			b->Write(7, buf, true);
-			Waitframe();
-		}
-		b->Free();
-		dm->Palette = dmpal;
-		Hero->X = oldx; Hero->Y = oldy;
-		Hero->PitWarp(Game->GetCurDMap(), oldscr);
-		Hero->Invisible = false;
-		Game->Suspend[susptCOMBOANIM] = false;
-		Game->Suspend[susptPALCYCLE] = false;
-		Game->Suspend[susptGUYS] = false;
+		CONFIG DELAY = 3;
+		if(PressControl())
+			Emily::doAllMapScreenshots(DELAY);
+		else
+			Emily::doMapScreenshot(Game->GetCurMap(),DELAY);
 	}
 } //end
 

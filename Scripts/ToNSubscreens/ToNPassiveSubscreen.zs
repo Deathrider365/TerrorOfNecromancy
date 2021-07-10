@@ -131,6 +131,8 @@ dmapdata script PassiveSubscreen //start
 			lastB = Hero->ItemB;
 			
 			Waitframe();
+			while(Game->Suspend[susptSUBSCREENSCRIPTS])
+				Waitframe();
 		}
 	} //end
 	
