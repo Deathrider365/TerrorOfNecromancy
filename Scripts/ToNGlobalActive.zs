@@ -26,9 +26,7 @@ global script GlobalScripts //start
 		StartGhostZH();
 		DifficultyGlobal_Init();
 		
-		
 		mapdata m[6];
-		
 		
 		while(true)
 		{
@@ -69,6 +67,8 @@ global script GlobalScripts //start
 			shutterControl();
 			updatePrev();
 			checkTriforceShards();
+			
+			takeMapScreenshot();
 			
 			Waitframe();
 		}
