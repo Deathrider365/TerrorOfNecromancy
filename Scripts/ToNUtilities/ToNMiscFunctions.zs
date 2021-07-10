@@ -1144,15 +1144,17 @@ void takeMapScreenshot() //start
 				for(int y = 7*176; y >= 0; y -= 176)
 				{
 					int scr = (x/256) + ((y/176)*0x10);
-					if((scr % 0x10)-offs < 0) continue; //off-map, skip
+					int col = (scr % 0x10)+offs;
+					if(col < 0 || col >= 0x10) continue; //off-map, skip
 					mapdata m = Game->LoadMapData(Game->GetCurMap(), scr + offs);
 					unless(m->Palette == pals[q])
 						continue;
+					bool mask = !(m->Valid & 1b);
 					int pat = m->Pattern;
 					m->Pattern = PATTERN_NO_SPAWNING;
 					Hero->Warp(Game->GetCurDMap(), scr);
 					repeat(10) Waitframe();
-					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x+offsx, y, 256, 176, 0, 0, 0, 0, 0, true);
+					b->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, x+offsx, y, 256, 176, 0, 0, 0, 0, 0, mask);
 					int db = 7;
 					for(int lyr = 0; lyr < 7; ++lyr)
 					{
@@ -1160,7 +1162,7 @@ void takeMapScreenshot() //start
 						int op = (lyr > 0 ? (Screen->LayerOpacity[lyr]==128 ? OP_TRANS : OP_OPAQUE) : OP_OPAQUE);
 						for(int pos = 160; pos < 176; ++pos)
 						{
-							b->FastCombo(lyr, x+offsx + (pos%16)*16, y + 10*16, m->ComboD[pos], m->ComboC[pos], op);
+							b->DrawCombo(lyr, x+offsx + (pos%16)*16, y + 10*16, m->ComboD[pos], 1, 1, m->ComboC[pos], -1, -1, 0, 0, 0, 0, 0, lyr > 0 || mask, op);
 						}
 					}
 					Waitframe();
