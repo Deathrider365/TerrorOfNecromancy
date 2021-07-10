@@ -1138,7 +1138,7 @@ void takeMapScreenshot() //start
 		for(int q = 0; q < ind; ++q)
 		{
 			dm->Palette = pals[q];
-			b->ClearToColor(0, C_WHITE);
+			b->ClearToColor(0, 0xF5); //Color 0xF5 is a 'system-white', so will be white in any tileset.
 			for(int x = (small ? 7 : 15)*256; x >= 0; x-=256)
 			{
 				for(int y = 7*176; y >= 0; y -= 176)
@@ -1172,6 +1172,7 @@ void takeMapScreenshot() //start
 			b->Write(7, buf, true);
 			Waitframe();
 		}
+		b->Free();
 		dm->Palette = dmpal;
 		Hero->X = oldx; Hero->Y = oldy;
 		Hero->PitWarp(Game->GetCurDMap(), oldscr);
