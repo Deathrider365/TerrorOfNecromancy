@@ -26,6 +26,7 @@
 #include "../ToN Main Quest/Scripts/ToNFoes/ToNNamespaces.zs"
 #include "../ToN Main Quest/Scripts/ToNFoes/ToNEnemies.zs"
 #include "../ToN Main Quest/Scripts/ToNFoes/ToNBosses.zs"
+#include "../ToN Main Quest/Scripts/ToNFoes/WaterPaths.zs"
 
 #include "../ToN Main Quest/Scripts/ToNSubscreens/ToNActiveSubscreen.zs"
 #include "../ToN Main Quest/Scripts/ToNSubscreens/ToNPassiveSubscreen.zs"

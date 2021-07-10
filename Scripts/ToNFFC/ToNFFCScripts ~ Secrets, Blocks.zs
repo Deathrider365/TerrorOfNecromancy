@@ -1406,9 +1406,139 @@ ffc script GB_Shutter //start
 	} //end
 } //end
 
+ffc script TorchFirePaths //start
+{
+	using namespace WaterPaths;
+	
+	void run(int layers)
+	{
+		while(true)
+		{
+			for(int q = Screen->NumLWeapons(); q > 0; --q)
+			{
+				lweapon wep = Screen->LoadLWeapon(q);
+				
+				unless (wep->Type == LW_FIRE)
+					continue;
+					
+				int l1, l2;
 
+				for(int q = 6; q >= 0; --q) //start calculate layers
+				{
+					if(layers & (1b << q))
+					{
+						if(l2)
+						{
+							l1 = q;
+							break;
+						}
+						else 
+							l2 = q;
+					}
+				} //end
 
+				mapdata template = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+				mapdata t1 = Emily::loadLayer(template, l1), t2 = Emily::loadLayer(template, l2);
+				int cmb[4] = {ComboAt(wep->X,wep->Y),
+							  ComboAt(wep->X+15, wep->Y),
+							  ComboAt(wep->X, wep->Y+15),
+							  ComboAt(wep->X+15, wep->Y+15)};
+				for(int p = 0; p < 4; ++p)
+				{
+					combodata cd = Game->LoadComboData(t1->ComboD[cmb[p]]);
+					if(cd->Type == CT_FLUID)
+					{
+						int flag = cd->Attributes[ATTBU_FLUIDPATH];
+						
+						if(flag > 0)
+						{
+							Fluid f = getFluid(flag);
+							
+							if(f == FL_PURPLE)
+								connectRoots(flag, FL_PURPLE, 32);
+						}
+					}
+				}
+			}
+			
+			Waitframe();
+		}
+	}
+	void connectRoots(int path, Fluid sourcetype, int connectTo) //start
+    {
+        //start calculate pairs
+        DEFINE MAX_PATH_PAIRS = MAX_PATHS * (MAX_PATHS - 1) + 1;
+        int v1[MAX_PATH_PAIRS];
+        int v2[MAX_PATH_PAIRS];
+        
+        //Cache the pairs of connected paths
+        int ind = 0;
+        
+        for(int q = 0; q < MAX_PATHS; ++q)
+        {
+            int c = getConnection(Game->GetCurLevel(), q+1);
+            
+            unless(c)
+                continue;
+                
+            for(int p = q+1; p < MAX_PATHS; ++p)
+            {
+                unless(c & (1L << p))
+                    continue;
+                v1[ind] = q;
+                v2[ind++] = p;
+            }
+        }
+        
+        v1[ind] = -1;
+        //end calculate pairs
+        //start Find connections
+        bool isConnected[MAX_PATHS];
+		bool didSomething;
+        isConnected[path-1] = true;
+        do
+        {
+            didSomething = false;
+            
+            for(int q = 0; v1[q] > -1; ++q)
+            {
+                if(isConnected[v1[q]] ^^ isConnected[v2[q]])
+                {
+                    isConnected[v1[q]] = true;
+                    isConnected[v2[q]] = true;
+                    didSomething = true;
+                }
+            }
+        }
+        while(didSomething);
+        //end Find connections
+        for(int q = 0; q < MAX_PATHS; ++q)
+        {
+            if(isConnected[q])
+            {
+                if(getSource(q+1) == FL_PURPLE)
+                {
+                    setConnection(Game->GetCurLevel(), q+1, connectTo, true);
+                }
+            }
+        }
+		
+		updateFluidFlow();
+    } //end
+} //end
 
+ffc script TorchLight //start
+{
+    using namespace WaterPaths;
+	
+    void run(int litCombo, int path)
+    {
+        until(getFluid(path) == FL_FLAMING)
+            Waitframe();
+			
+        this->Data = litCombo;
+    }
+} //end
 
 
 
