@@ -1418,7 +1418,7 @@ ffc script TorchFirePaths //start
 			{
 				lweapon wep = Screen->LoadLWeapon(q);
 				
-				unless (wep->Type == LW_FIRE)
+				unless (wep->Type == LW_FIRE && GetHighestLevelItemOwned(IC_CANDLE) != 158)
 					continue;
 					
 				int l1, l2;
@@ -1443,9 +1443,11 @@ ffc script TorchFirePaths //start
 							  ComboAt(wep->X+15, wep->Y),
 							  ComboAt(wep->X, wep->Y+15),
 							  ComboAt(wep->X+15, wep->Y+15)};
+							  
 				for(int p = 0; p < 4; ++p)
 				{
 					combodata cd = Game->LoadComboData(t1->ComboD[cmb[p]]);
+					
 					if(cd->Type == CT_FLUID)
 					{
 						int flag = cd->Attributes[ATTBU_FLUIDPATH];
@@ -1516,9 +1518,9 @@ ffc script TorchFirePaths //start
         {
             if(isConnected[q])
             {
-                if(getSource(q+1) == FL_PURPLE)
+                if(getSource(q + 1) == FL_PURPLE)
                 {
-                    setConnection(Game->GetCurLevel(), q+1, connectTo, true);
+                    setConnection(Game->GetCurLevel(), q + 1, connectTo, true);
                 }
             }
         }
@@ -1527,19 +1529,21 @@ ffc script TorchFirePaths //start
     } //end
 } //end
 
+// Set in rooms where fire activates the paths
 ffc script TorchLight //start
 {
     using namespace WaterPaths;
 	
     void run(int litCombo, int path)
     {
-        until(getFluid(path) == FL_FLAMING)
-            Waitframe();
+		until(getFluid(path) == FL_FLAMING)
+			Waitframe();
 			
         this->Data = litCombo;
     }
 } //end
 
+// p1-p4 represent the paths that would activate the torches
 ffc script ActivateTorches //start
 {
 	using namespace WaterPaths;
@@ -1554,6 +1558,7 @@ ffc script ActivateTorches //start
 			
 		Screen->TriggerSecrets();
 		Screen->State[ST_SECRET] = true;
+		Audio->PlaySound(SFX_SECRET);
 	}
 } //end
 

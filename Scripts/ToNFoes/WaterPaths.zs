@@ -76,11 +76,13 @@ namespace WaterPaths //start
 			return <untyped>(-1);
 		return pathStates[path-1];
 	} //end
+	
 	Fluid getSource(int path) //start
 	{
 		if(path < 1 || path >= MAX_PATHS)
 			return <untyped>(-1);
-		return pathStates[path-1+MAX_PATHS];
+			
+		return pathStates[path - 1 + MAX_PATHS];
 	} //end
 	
 	//start Connections
@@ -97,6 +99,7 @@ namespace WaterPaths //start
 	void setConnection(int lvl, int q, int p, bool connect)
 	{
 		printf("Try connect: LVL %d, (%d <> %d) %s\n", lvl, q-1, p-1, connect ? "true" : "false");
+		
 		if(q == p) return; //Can't connect to self
 		--q;
 		--p; //From 1-indexed to 0-indexed
@@ -126,15 +129,16 @@ namespace WaterPaths //start
 		
 		for(int q = 0; q < MAX_PATHS; ++q)
 		{
-			int c = getConnection(Game->GetCurLevel(), q+1);
+			int c = getConnection(Game->GetCurLevel(), q + 1);
 			
 			unless(c)
 				continue;
 				
-			for(int p = q+1; p < MAX_PATHS; ++p)
+			for(int p = q + 1; p < MAX_PATHS; ++p)
 			{
 				unless(c & (1L << p))
 					continue;
+					
 				printf("Found pair: %d,%d\n", q, p);
 				v1[ind] = q;
 				v2[ind++] = p;
@@ -195,7 +199,7 @@ namespace WaterPaths //start
 		 */
 		void run(int layers, int s1, int s2, int s3, int s4, int s5, int s6, int s7)
 		{
-			if(WP_DEBUG) printf("Running DM script WaterPaths (%d,%d,%d,%d,%d,%d,%d,%d)\n",layers,s1,s2,s3,s4,s5,s6,s7);
+			if(WP_DEBUG) printf("Running DM script WaterPaths (%d,%d,%d,%d,%d,%d,%d,%d)\n", layers, s1, s2, s3, s4, s5, s6, s7);
 			int foo[] = {s1, s2, s3, s4, s5, s6, s7};
 			memset(pathStates, 0, SZ_PATHSTATES);
 			
@@ -205,6 +209,7 @@ namespace WaterPaths //start
 					continue;
 					
 				Fluid fl = <Fluid>((foo[q] % 1) / 1L);
+				
 				unless(fl > 0 && fl < FL_SZ)
 					continue;
 				
@@ -534,12 +539,14 @@ namespace WaterPaths //start
 		} //end
 	} //end
 
+	// p1 is first path and p2 is the patha activated on secret trigger
 	@Author("EmilyV99")
 	ffc script SecretsTriggersWaterPaths //start Basic trigger mechanism
 	{
 		void run(int p1, int p2)
 		{
 			printf("STWP: Start %d,%d\n",p1,p2);
+			
 			if(Screen->State[ST_SECRET]) //already triggered
 				return;
 			
@@ -549,11 +556,15 @@ namespace WaterPaths //start
 					printf("[WaterPaths] FFC %d invalid setup; first 2 params must both be >0 and <=MAX_PATHS(%d)\n", this->ID, MAX_PATHS);
 				return;
 			}
+			
 			printf("STWP: Begin waiting for secret trigger\n");
+			
 			until(Screen->State[ST_SECRET])
 				Waitframe();
+				
 			printf("STWP: Secrets Triggered. Setting connection %d,%d\n", p1, p2);
 			setConnection(Game->GetCurLevel(), p1, p2, true);
+			
 			updateFluidFlow();
 		}
 	} //end
