@@ -1,0 +1,234 @@
+//LWeapons.zh Version 1.4.6
+
+//
+//Library for doing custom LWeapon movement, death effects, sounds and lifespans. With or without FFCS.
+
+import "std.zh"
+import "stdExtra.zh"
+import "ffcscript.zh"
+import "ghost.zh"
+import "string.zh"
+
+import "LW_ZH/deprecated.z"
+import "LW_ZH/global.z"
+import "LW_ZH/genfunction.zh"
+import "LW_ZH/common.z"
+import "LW_ZH/update.z"
+import "LW_ZH/movement.z"
+import "LW_ZH/lweaponLife.z"
+import "LW_ZH/other.z"
+import "LW_ZH/scripts.z"
+import "LW_ZH/medallions.z"
+import "LW_ZH/hookshots.z"
+import "LW_ZH/caneofsomaria.z"
+
+int LW_Vars[65536];//Array for extra LWeapon functions.
+
+//Array Constants
+
+const int NOT_COLL					= 1;//Don't reset Link's Collision detection.
+
+//Misc Constants
+
+const int MAX_STUN_TIME = 180;//Maximum time to stun an enemy.
+
+//Npc constants
+
+const int NPC_ITEMSET    = 180;      // ID of a dummy enemy with type different from "none"
+
+//Sound constants
+
+const int SFX_POT_BREAK = 75;//Sound made by breaking pots.
+const int SFX_THROW 	= 61;//Sound of an object being thrown.
+const int SFX_HEFT 		= 0;//Sound of picking up an object.
+
+//Item constants
+
+const int I_CSOMARIA = 0;//Item id of Cane of Somaria.
+
+// Sprite constants
+const int SPR_BUSH_CUT 		= 52;
+const int SPR_FLOWER_CUT 	= 53;
+const int SPR_GRASS_CUT 	= 54;
+const int SPR_POT_BREAK 	= 23;
+const int SPR_WAND_FIRE 	= 85;
+const int SPR_ICE_MAGIC 	= 83;
+const int SPR_SOMARIA_BLOCK = 90;
+const int SPR_SOMARIA_FIRE  = 91;
+//const int SPR_ROCK 		= 0;
+const int SPR_BUSH 			= 44;
+const int SPR_NULL 			= 93;
+//const int SPR_POT 		= 0;
+//const int SPR_ICE_BLOCK 	= 0;
+const int SPR_FIRE = 12;
+const int SPR_ARROW1 = 10;
+const int SPR_ARROW2 = 11;
+const int SPR_ARROW3 = 34;
+const int SPR_BEAM1 = 0;
+const int SPR_BEAM2 = 1;
+const int SPR_BEAM3 = 2;
+const int SPR_BEAM4 = 3;
+const int SPR_BRANG1 = 4;
+const int SPR_BRANG2 = 5;
+const int SPR_BRANG3 = 6;
+const int SPR_MAGIC = 16;
+
+//Freezing enemies constants
+//const int ICE_ROD_SCRIPT = 2;//Script slot for ice rod effect.
+//const int ICE_BLOCK_COMBO = 3450;//Combo for ice beam platform.
+//const int MAX_ICE_PLATFORM_TIME = 600;//Time ice platform exists
+//const int ICE_BLOCK_CSET = 8;//Cset for ice block
+
+//General Misc Indices
+
+const int GEN_MISC_FLAGS			= 0;//Index used to set various flags. Shared by all objects.
+
+//Npc Misc Flags
+
+const int NPC_F_FREEZE      	   = 00000000010b;//A recently frozen enemy.
+const int NPC_F_FULL_SCREEN		   = 00000000100b;//An enemy hit by a full screen attack.
+
+//Flags for category Screen->Flags[SF_SECRETS]
+
+const int SF_BLOCK_SHUT 	= 0x01;//Blocks set shutters open.
+const int SF_NOT_PERM		= 0x02;//Secrets are temporary
+const int SF_HIT_ALL_PERM   = 0x04;//Hit all triggers to set permanent secrets.
+const int SF_HIT_ALL_16_31  = 0x08;//Hit all triggers to trigger flags 16-31.
+
+//NPC Misc Indices
+
+const int NPC_MISC_TARGET_NUMBER = 3;//Npc index to store the fact that it has been targeted.
+
+//Engine Constants
+
+const int LW_SHADOW_TRANSLUCENT = 0;//Sets whether shadows cast by lweapons are translucent.
+const int LW_SHADOW_TILE 		= 832;//Small shadow tile
+const int LW_LARGE_SHADOW_TILE 	= 792; // Top-left corner of 2 x 2 large shadow tiles
+
+//Lweapon Misc Indices
+//These must be unique numbers between 0 and 15.
+
+const int LW_ZH_I_FLAGS          = 15; // Every index but this one can be used by non-lweapons.zh Lweapons
+const int LW_ZH_I_WORK_3		 = 1;//Used to calculate things, like MP drain.
+const int LW_ZH_I_FLAGS_2        = 2;//Index for more Lweapon flags. Most are used internally, not set by script.
+const int LW_ZH_I_FX             = 3;//Misc index used to make lweapon sounds continuous.
+const int LW_ZH_I_WORK_2		 = 4;// Only used by a few movement types
+const int LW_ZH_I_WORK 			 = 5;//Uses for a variety of things by lweapons.zh.
+const int LW_ZH_I_MOVEMENT_ARG   = 6;//First lweapon misc index for movement.
+const int LW_ZH_I_MOVEMENT_ARG2  = 7;//Second lweapon misc index for movement.
+const int LW_ZH_I_MOVEMENT 		 = 8;//Lweapon index used to indicate how it moves.
+const int LW_ZH_I_XPOS 			 = 9;//Lweapon index of it's X position.
+const int LW_ZH_I_YPOS 			 = 10;//Lweapon index of it's Y position.
+const int LW_ZH_I_LIFESPAN       = 11;//Lweapon index for lifespan
+const int LW_ZH_I_LIFESPAN_ARG   = 12;//Lweapon index to tell how long lifespan is.
+const int LW_ZH_I_ON_DEATH       = 13;//Lweapon index for death effects.
+const int LW_ZH_I_ON_DEATH_ARG   = 14;//Lweapon index to determine what death effect does.
+
+//Lweapon movement flags.
+
+const int LWM_SINE_WAVE         = 1;//Lweapon that moves in a sine wave.
+const int LWM_CIRCLE            = 2;//LWeapon that moves in a circle around Link.
+const int LWM_HOMING            = 3;//Lweapon that homes in on enemies.
+const int LWM_BRANG             = 5;//LWeapon that acts like a boomerang.
+const int LWM_FULL_SCREEN		= 9;//LWeapon that covers the screen.
+const int LWM_STRAFE 			= 10;//LWeapon that causes strafing movement.
+const int LWM_THROW             = 15;//Lweapon that is thrown.
+//const int LWM_BOUNCE			= 16;//LWeapon that bounces on the floor.
+const int LWM_CAROM				= 17;//LWeapon that bounces off walls.
+const int LWM_FALL              = 19;//Lweapon that falls from the air.
+
+//Not fully supported movement types.
+
+const int LWM_HOOKSHOT          = 4;//Lweapon that acts like a hookshot.
+const int LWM_MELEE				= 6;//Lweapon that acts like a melee weapon.
+const int LWM_DUAL_FX			= 7;//This lweapon causes one of more types of flags to be hit.
+const int LWM_CARRY				= 8;//This lweapon remains at rest relative to link.
+
+// Flags used by certain Lweapon movement types
+
+const int LWMF_DIE 					= 00000000001b;//This weapon dies when it stops moving.
+const int LWMF_REST					= 00000000010b;//This weapon rests when it stops moving.
+const int LWMF_BOUNCE 				= 00000000100b;//This weapon bounces when it hits the ground.
+const int LWMF_SLASH 				= 00000001000b;//This weapon slashs bushs, flowers and other combos.
+const int LWMF_POUND 				= 00000010000b;//This weapon pounds hammer pegs.
+const int LWMF_TRACKER				= 00000100000b;//This weapon moves and changes appearance as you do.
+const int LWMF_REFLECTS_EWPN		= 00001000000b;//This lweapon reflects Eweapons.
+
+//Movement styles for Melee Lweapons
+//Not yet supported
+
+const int LWMS_STAB        = 1;//This lweapon stabs in and out.
+const int LWMS_SLASH	   = 2;//This lweapon moves does a slash
+const int LWMS_HAMMER      = 3;//This lweapon moves like a hammer.
+
+//Shield flags for strafing Lweapons
+
+const int LWSF_FIREBALL				= 00000000001b;//Blocks fireballs.
+const int LWSF_BEAM					= 00000000010b;//Blocks sword beams
+const int LWSF_ARROW 				= 00000000100b;//Blocks arrows.
+const int LWSF_ROCK 				= 00000001000b;//Blocks rocks.
+const int LWSF_MAGIC 				= 00000010000b;//Blocks magic
+const int LWSF_BRANG				= 00000100000b;//Blocks boomerangs
+const int LWSF_ALL					= 00100000000b;//Blocks all eweapons.
+
+// Arguments to SetLWeaponLifespan()
+
+const int LWL_TIMER        = 1;//This lweapon runs on a timer.
+const int LWL_SOLID		   = 2;//This lweapon is stopped by solid combos.
+const int LWL_MP_COST      = 4;//This lweapon continuously uses mp. If you don't have enough MP,it dies.
+const int LWL_EDGE         = 15;//This weapon dies at the edge of the screen.
+
+//LWeapon Flags, use with LW_ZH_I_FLAGS
+
+const int LWF_ITEM_PICKUP          = 00000000001b;//Can pickup items.
+const int LWF_PIERCES_ENEMIES      = 00000000010b;//Pierces enemies.
+const int LWF_STUNS_ENEMIES        = 00000000100b;//Stuns enemies.
+const int LWF_ZERO_G      		   = 00000001000b;//Ignores gravity.
+const int LWF_NORMALIZE			   = 00000010000b;//Sprite isn't flipped.
+const int LWF_INSTA_DELIVER        = 00000100000b;//Used with item pickup. Insta-delivers item to Link.
+const int LWF_LINK_NO_COLL		   = 00001000000b;//Link can't be hurt while this lweapon is active.
+const int LWF_LINK_FLOATS          = 00010000000b;//Link doesn't obey gravity while this is active.
+
+// Internal LWeapon flags
+
+const int __LWFI_DEAD              = 00100000000b;//This lweapon is dead.
+const int __LWFI_IS_LWZH_LWPN      = 01000000000b;//A Lweapon.zh lweapon
+const int __LWFI_DEATH_EFFECT_DONE = 10000000000b;//The lweapon death effect is over.
+
+//LWeapon Flags, use with LW_ZH_I_FLAGS_2
+
+const int LWF_LEVEL_1          	   = 00000000001b;//Simulated level 1 of a particular weapon type.
+const int LWF_LEVEL_2		       = 00000000011b;//Simulated level 2 of a particular weapon type..
+const int LWF_LEVEL_3		       = 00000000111b;//Simulated level 3 of a particular weapon type.
+const int LWF_LEVEL_4		       = 00000001111b;//Simulated level 4 of a particular weapon type.
+const int LWF_KNOCKBACK_OFF        = 00000100000b;//Link isn't affected by knockback while this is active.
+const int LWF_NO_COLLISION         = 00001000000b;//This lweapon's collision is off.
+const int LWF_SHADOW			   = 01000000000b;//This lweapon casts a shadow.
+
+//Internal LWeapon Flags, use with LW_ZH_I_FLAGS_2
+
+const int LWF_RETURN               = 00000010000b;//This lweapon is returning to the user.
+const int LWF_TEMP_PIERCE      	   = 10000000000b;//An lweapon that is colliding with an enemy which ignores it.
+const int LWF_IS_REFLECTED		   = 00100000000b;//This is a reflected lweapon.
+
+
+// Arguments to SetLWeaponDeathEffect()
+
+const int LWD_VANISH             = 1;//This lweapon vanishes at death.
+const int LWD_AIM_AT_NPC         = 2;//At death, this lweapon aims at an enemy on screen and head in that direction.
+const int LWD_EXPLODE            = 3;//At death, this lweapon creates a bomb blast.
+const int LWD_SBOMB_EXPLODE      = 4;//At death, this lweapon creates a super bomb blast.
+const int LWD_4_FIREBALLS_HV     = 5;//At death, this lweapon makes 4 horizontal and vertical lweapons.
+const int LWD_4_FIREBALLS_DIAG   = 6;//At death, this lweapon makes 4 diagonal lweapons.
+const int LWD_4_FIREBALLS_RANDOM = 7;//At death, this lweapon makes 4 random lweapons.
+const int LWD_8_FIREBALLS        = 8;//At death, this lweapon makes 8 lweapons in all directions.
+const int LWD_SHAKES_SCREEN		 = 9;//At death, makes the screen shake.
+const int LWD_EXP_SHAKE			 = 10;//At death, bomb explodes and shakes screen
+const int LWD_SBOMB_SHAKE		 = 11;//At death, super bomb explodes and shakes screen.
+
+//Ghost ZH compatiblilty stuff. Not needed, really.
+
+const int LWD_4_FIRES_DIAG       = 10;//At death, this lweapon makes 4 diagonal lweapons.
+const int LWD_4_FIRES_RANDOM     = 11;//At death, this lweapon makes 4 random lweapons.
+const int LWD_8_FIRES            = 12;//At death, this lweapon makes 8 lweapons in all directions.
+const int LWD_FIRE               = 14;//At death, this lweapon makes another lweapon at its location.

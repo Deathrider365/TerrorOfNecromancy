@@ -238,6 +238,8 @@ namespace WaterPaths //start
 			
 			while(true)
 			{
+				//if screen has a FL_FLAMING play sound 13
+			
 				if(scr != Game->GetCurScreen() || pathStates[UPDATE_PATHS])
 				{
 					scr = Game->GetCurScreen();

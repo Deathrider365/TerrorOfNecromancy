@@ -1,0 +1,65 @@
+1. Set up constants in the script, as follows. Any which list a default will work fine at their default value.
+BARREL_ITEM (must be manually set!): ID of the item which will be used to run the barrel item script
+DRAW_LAYER (default 6): layer to draw the spotlight/npc line of sight on
+DRAW_OPACITY (default OP_TRANS): the opacity to draw the line of sight/spotlight in
+WARP_SFX (default 0): The SFX to play when warping.
+WARP_FLAGS (default 0): The set of flags to use for WarpEx - use `WARP_FLAG_` constants from std.zh.
+CAUGHT_SFX (default 0): The SFX to play when you are noticed
+
+2. Set up the passive item script:
+For the item you set to BARREL_ITEM,
+Make sure `Equipment Item` is checked. The Item Class should be a `Custom ItemClass ##` class.
+Under `Flags`, check `Constant Script`
+Set an LTM, and create associated graphics, to make the hero look like he's walking while under a barrel.
+Assign the "Action Script" as `barrelItem`
+Set parameters-
+D0: If 0, barrel can only be placed on walkable areas. Else, ignores solidity.
+D1: If 0, all graphics are handled by the link tile modifier. If 1, the barrel combo will be drawn over link when he is hiding.
+* Note: the walking tiles still need to be handled by the LTM.
+Set QR- `ZScript->Quest Script Settings->Item Scripts Run for Multiple Frames` must be checked
+
+3. Set up patrol enemies!
+Place the enemy using an inherent enemy placement flag, on a path of placed flags (of any type, preferrably a scripted flag)
+* Or, spawn the enemy using a script, on a placed path of flags (instead of using an inherent placement flag).
+* * The included `ffc script enemyPlacement` can be used for this.
+* It will follow these flags in a path, and if it sees Hero, it will play a cutscene of running towards him and then jail him.
+* The enemy will ignore all solidity, to follow this path.
+D0: The color to use to draw the line of sight. Use `0` for no drawing.
+D1: DMap to warp to
+D2: Screen to warp to
+D3: Warp return square to use. 0-3 for A-D, -1 for pit warp
+D4: Forward sight range, in pixels
+D5: Forward sight angle (between 0 and 90, inclusive. 0/1 are tunnel vision, 89/90 are wide vision). Recommended: 45.
+D6: If 0, will prefer clockwise movement at turns, else, counterclockwise.
+D7: Flag to follow. If 0, uses placed flag being stood on. Reading `npc->InitD[7]` will tell you what flag is being used.
+
+Enemy Editor data:
+* Enemy type should be "Other"
+* Step speed will be used for the movement
+* Defenses should ALL be set to "Block", unless you want the guard to be killable of course.
+* If you set it to be unkillable, be sure to set "Doesn't count as beatable enemy"
+* Homing Factor / Halt Rate / Random Rate / Hunger are totally ignored.
+* Damage will be forcibly set to 0. Weapon damage is unaffected.
+
+Set QR: `ZScript->Quest Script Settings->Sprite Coordinates are Float` must be checked
+
+4. Placing barrels
+Place an FFC, and set the script to `hidableBarrel`.
+Set the combo to look like a barrel, should look similar to the graphics used for your LTM.
+...That's it. Barrel done.
+
+5. Placing Spotlights
+Place an FFC, and set the script to `spotlight`.
+Set the combo to something invisible.
+Set parameters:
+
+D0: The color to use to draw the spotlight. Use `0` for no drawing.
+D1: DMap to warp to
+D2: Screen to warp to
+D3: Warp return square to use. 0-3 for A-D, -1 for pit warp
+D4: Radius of circle, from center of FFC, to be a spotlight.
+
+Movement: You can set this up using default FFC movement, and changers. No scripted movement is provided.
+
+////////////////////////////////
+If you are confused with any part of this setup, reference the test quest included with the package. It includes various situations that can be set up using these scripts.

@@ -1,0 +1,401 @@
+const int SOMARIA_SCRIPT = 11;//Script slot for Cane of Somaria
+const int PRESSURE_PLATE_SCRIPT = 12;//Script slot for pushing switches with Somaria block
+const int SOMARIA_COMBO = 28325;//Combo used by Somaria block
+const int SPR_SOMARIA = 109;//Sprite of Somaria cane
+const int SFX_PUSH_SOMARIA = 88;//Sound to make when pushing Somaria block
+
+//D0- Left blank so other scripts can use item
+//D1- Damage done by Somaria beams
+//D2- Sprite of Somaria beams
+//D3- Sound made by Somaria beams
+//D4- If this is using the A button or not.
+
+item script Somaria_Cane{
+	void run(int dummy, int damage, int spr, int sfx, int Button_A){
+		lweapon somaria = FireLWeapon(LW_REFROCK,Link->X+InFrontX(Link->Dir,2), Link->Y+InFrontY(Link->Dir,2),
+										__DirtoRad(Link->Dir), 0, 5, SPR_SOMARIA, SFX_SWORD, 0);
+		SetLWeaponLifespan(somaria,LWL_TIMER,15);
+		SetLWeaponDeathEffect(somaria,LWD_VANISH,0);
+		Link->Action = LA_ATTACKING;
+		if(CountFFCsRunning(SOMARIA_SCRIPT)==0){
+			int Args[8] = {damage, spr, sfx,Button_A};
+			NewFFCScript(SOMARIA_SCRIPT, Args);
+		}
+	}
+}
+
+//Switches that can be pressed by Somaria block
+//Must be type Script 1 and flag 66
+//Secrets are triggered by placing flag Script 5
+//All secret combos must have desired result be the next combo
+
+ffc script Somaria_Block{
+	void run(int damage, int spr, int sfx, int Button_A){
+		lweapon spark;
+		this->Data = SOMARIA_COMBO;
+		this->X = Link->X+InFrontX(Link->Dir,2);
+		this->Y = Link->Y+InFrontY(Link->Dir,2);
+		int Pushing = -1;
+		int PushCooldown;
+		int i;
+		int j;
+		int ComboArray[176];
+		int comboid;
+		for(j= 0;j<=175;j++){
+			ComboArray[j]= -1;
+			if(ComboFIT(j,CF_BLOCKTRIGGER,CT_SCRIPT1)){
+				ComboArray[j]= Screen->ComboD[j];
+				comboid= Screen->ComboD[j];
+			}
+		}
+		int loc;
+		int Sfx_Timer;
+		int Push_Counter;
+		int Args[8] = {comboid,CF_SCRIPT5,1};
+		NewFFCScript(PRESSURE_PLATE_SCRIPT,Args);
+		while(true){
+			while(Link->X+16< this->X-2
+					|| Link->X-2> this->X+16
+					|| Link->Y-2> this->Y+16
+					|| Link->Y+16< this->Y-2){
+				if(Button_A){
+					if(Link->PressA){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);
+						Quit();
+					}
+				}
+				else{
+					if(Link->PressB){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);;
+						Quit();
+					}
+				}
+				loc = ComboAt(this->X+8,this->Y+8);
+				SwitchCheck(ComboArray,loc);
+				Waitframe();
+			}
+			while(Pushing==-1){
+				loc = ComboAt(this->X+8,this->Y+8);
+				SwitchCheck(ComboArray,loc);
+				if(Button_A){
+					if(Link->PressA){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);
+						Quit();
+					}
+				}
+				else{
+					if(Link->PressB){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);
+						Quit();
+					}
+				}
+				if(Link->X+16 >=this->X-2 && Link->X < this->X-2
+					&& (Link->PressRight||Link->InputRight)
+					&& (Between(Link->Y+8,this->Y,this->Y+16)
+						||Between(Link->Y+1,this->Y,this->Y+16)
+						||Between(Link->Y+15,this->Y,this->Y+16))){
+					if(!Screen->isSolid(this->X+17,this->Y)
+						&& !Screen->isSolid(this->X+17,this->Y+8)
+						&& !Screen->isSolid(this->X+17,this->Y+15)){
+						if(Push_Counter<=5){
+							Link->PressRight = false;
+							Link->InputRight = false;
+							Push_Counter++;
+						}
+						else{
+							Game->PlaySound(SFX_PUSH_SOMARIA);
+							Pushing = DIR_RIGHT;
+						}
+					}
+					else{
+						Link->PressRight = false;
+						Link->InputRight = false;
+					}
+				}
+				else if(Link->X-2 <=this->X+16 && Link->X+16 > this->X+16
+					&& (Link->PressLeft||Link->InputLeft)
+					&& (Between(Link->Y+8,this->Y,this->Y+16)
+						||Between(Link->Y+1,this->Y,this->Y+16)
+						||Between(Link->Y+15,this->Y,this->Y+16))){
+					if(!Screen->isSolid(this->X-1,this->Y)
+						&& !Screen->isSolid(this->X-1,this->Y+8)
+						&& !Screen->isSolid(this->X-1,this->Y+15)){
+						if(Push_Counter<=5){
+							Link->PressLeft = false;
+							Link->InputLeft = false;
+							Push_Counter++;
+						}
+						else{
+							Game->PlaySound(SFX_PUSH_SOMARIA);
+							Pushing = DIR_LEFT;
+						}
+					}
+					else{
+						Link->PressLeft = false;
+						Link->InputLeft = false;
+					}
+				}
+				else if(Link->Y+16 >=this->Y-2 && Link->Y <= this->Y-2
+					&& (Link->PressDown||Link->InputDown)
+					&& (Between(Link->X+8,this->X,this->X+16)
+						||Between(Link->X+1,this->X,this->X+16)
+						||Between(Link->X+15,this->X,this->X+16))){
+					if(!Screen->isSolid(this->X,this->Y+17)
+						&& !Screen->isSolid(this->X+8,this->Y+17)
+						&& !Screen->isSolid(this->X+15,this->Y+17)){
+						if(Push_Counter<=5){
+							Link->PressDown = false;
+							Link->InputDown = false;
+							Push_Counter++;
+						}
+						else{
+							Game->PlaySound(SFX_PUSH_SOMARIA);
+							Pushing = DIR_DOWN;
+						}
+					}
+					else{
+						Link->PressDown = false;
+						Link->InputDown = false;
+					}
+				}
+				else if(Link->Y-2 <=this->Y+16&& Link->Y+16 > this->Y+16 
+					&& (Link->PressUp||Link->InputUp)
+					&& (Between(Link->X+8,this->X,this->X+16)
+						||Between(Link->X+1,this->X,this->X+16)
+						||Between(Link->X+15,this->X,this->X+16))){
+					if(!Screen->isSolid(this->X,this->Y-1)
+						&& !Screen->isSolid(this->X+8,this->Y-1)
+						&& !Screen->isSolid(this->X+15,this->Y-1)){
+						if(Push_Counter<=5){
+							Link->PressUp = false;
+							Link->InputUp = false;
+							Push_Counter++;
+						}
+						else{
+							Game->PlaySound(SFX_PUSH_SOMARIA);
+							Pushing = DIR_UP;
+						}
+					}
+					else{
+						Link->PressUp = false;
+						Link->InputUp = false;
+					}	
+				}
+				Waitframe();
+			}	
+			while(Pushing!=-1){
+				loc = ComboAt(this->X+8,this->Y+8);
+				SwitchCheck(ComboArray,loc);
+				if(Button_A){
+					if(Link->PressA){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);
+						Quit();
+					}
+				}
+				else{
+					if(Link->PressB){
+						for(i=0;i<=3;i++)
+							spark= FireLWeapon(LW_SCRIPT1,this->X+InFrontX(i,2),this->Y+InFrontY(i,2),
+												__DirtoRad(i),100,damage,spr,sfx,LWF_PIERCES_ENEMIES);
+						if(!Screen->State[ST_SECRET]){
+							for(j= 0;j<=175;j++){
+								if(ComboArray[j]!=-1)
+									Screen->ComboD[j]=ComboArray[j];
+							}
+						}
+						this->Data = GH_INVISIBLE_COMBO;
+						this->Flags[FFCF_ETHEREAL]= true;
+						Waitframes(30);
+						Quit();
+					}
+				}
+				if(Sfx_Timer==0)
+					Game->PlaySound(SFX_PUSH_SOMARIA);
+				Sfx_Timer = (Sfx_Timer+1)%10;
+				if(Pushing==DIR_LEFT){
+					if(!Link->PressRight
+						&& !Link->InputRight
+						&& !Link->InputUp
+						&& !Link->PressDown
+						&& !Link->PressUp
+						&& !Link->InputDown){
+						this->X = Link->X-16;
+						if(Screen->isSolid(this->X-1,this->Y)
+							|| Screen->isSolid(this->X-1,this->Y+8)
+							|| Screen->isSolid(this->X-1,this->Y+15)){
+							Link->InputLeft = false;
+							Link->PressLeft = false;
+						}
+					}
+					else
+						Pushing = -1;
+				}
+				else if(Pushing==DIR_RIGHT){
+					if(!Link->PressLeft
+						&& !Link->InputLeft
+						&& !Link->InputUp
+						&& !Link->PressDown
+						&& !Link->PressUp
+						&& !Link->InputDown){
+						this->X = Link->X+16;
+						if(Screen->isSolid(this->X+17,this->Y)
+							|| Screen->isSolid(this->X+17,this->Y+8)
+							|| Screen->isSolid(this->X+17,this->Y+15)){
+							Link->InputRight = false;
+							Link->PressRight = false;
+						}
+					}
+					else
+						Pushing = -1;
+				}
+				else if(Pushing==DIR_UP){
+					if(!Link->PressRight
+						&& !Link->InputRight
+						&& !Link->InputLeft
+						&& !Link->PressDown
+						&& !Link->PressLeft
+						&& !Link->InputDown){
+						this->Y = Link->Y-16;
+						if(Screen->isSolid(this->X,this->Y-1)
+							|| Screen->isSolid(this->X+8,this->Y-1)
+							|| Screen->isSolid(this->X+15,this->Y-1)){
+							Link->InputUp = false;
+							Link->PressUp = false;
+						}
+					}
+					else
+						Pushing = -1;
+				}
+				else if(Pushing==DIR_DOWN){
+					if(!Link->PressRight
+						&& !Link->InputRight
+						&& !Link->InputUp
+						&& !Link->PressLeft
+						&& !Link->PressUp
+						&& !Link->InputLeft){
+						this->Y = Link->Y+16;
+						if(Screen->isSolid(this->X,this->Y+17)
+							|| Screen->isSolid(this->X+8,this->Y+17)
+							|| Screen->isSolid(this->X+15,this->Y+17)){
+							Link->InputDown = false;
+							Link->PressDown = false;
+						}
+					}
+					else
+						Pushing = -1;
+				}
+				Waitframe();
+			}
+			Push_Counter = 0;
+			Waitframe();
+		}
+	}
+}
+
+void SwitchCheck(int array, int loc){
+	if(ComboFIT(loc,CF_BLOCKTRIGGER,CT_SCRIPT1))
+		Screen->ComboD[loc]++;
+	for(int i= 0;i<=175;i++){
+		if(Screen->ComboD[i]!=array[i] && i!=loc
+			&& array[i]!=-1)
+			Screen->ComboD[i]= array[i];
+	}	
+}
+
+ffc script Pressure_Plate{
+	void run(int combo, int flag, int offset){
+		this->Data = GH_INVISIBLE_COMBO;
+		this->Flags[FFCF_ETHEREAL]= true;
+		int i;
+		int Combo_Array[176];
+		int loc;
+		bool Pressed;
+		for(i= 0;i<=175;i++){
+			Combo_Array[i]= -1;
+			if(Screen->ComboD[i]==combo)
+				loc = i;
+			if(Screen->ComboF[i]==flag)
+				Combo_Array[i]= Screen->ComboD[i];
+		}
+		while(CountFFCsRunning(SOMARIA_SCRIPT)!=0){
+			if(Screen->ComboD[loc]!=combo){
+				if(!Pressed){
+					for(i= 0;i<=175;i++){
+						if(Screen->ComboF[i]==flag)
+							Screen->ComboD[i]+=offset;
+					}
+					Pressed = true;
+				}
+			}
+			else if(Screen->ComboD[loc]==combo){
+				if(Pressed){
+					for(i= 0;i<=175;i++){
+						if(Combo_Array[i]!=-1)
+							Screen->ComboD[i]= Combo_Array[i];
+					}
+					Pressed = false;
+				}
+			}
+			Waitframe();
+		}
+		for(i= 0;i<=175;i++){
+			if(Combo_Array[i]!=-1)
+				Screen->ComboD[i]= Combo_Array[i];
+		}
+	}
+}

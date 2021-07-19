@@ -1,0 +1,256 @@
+//Ripped apart from MM2D -Venrob
+
+//Import the tango font file
+import "tango/font/GUI.zh"
+
+//All tiles/combos should be 8-bit!
+const int COMBO_PRESSA = 65024; //a combo containing the indicator for the player to press A to advance the text.
+const int COMBO_UPARROW = 65025; //a combo containing an up-arrow, indicating that the player can scroll the message upwards
+const int COMBO_DOWNARROW = 65026; //a combo containing an down-arrow, indicating that the player can scroll the message downwards
+const int COMBO_MENUCURSOR = 65027; //a combo contiaining the cursor used to select menu options
+
+const int TILE_BACKDROPUL = 65268; //The upper-left corner of a 12x3 set of tiles, which are drawn as the background of the message box.
+
+const int SFX_MENUMOVE = 5; //The sound to play when changing menu options
+const int SFX_MENUCONFIRM = 5; //The sound to play when confirming in a menu
+const int SFX_MENUDENY = 5; //The sound to play when canceling in a menu
+const int SFX_TEXT = 18; //The sound of text advancing
+//Colors for various modes of text.
+const int COLOR_TEXT_MAIN = 0x01; //The main text color
+const int COLOR_TEXT_ALT_1 = 0x17; //(()) //"Item" / Red
+const int COLOR_TEXT_ALT_2 = 0x07; //[[]] //"Objective" / Light Blue
+const int COLOR_TEXT_ALT_3 = 0x13; //{{}} //"Name" / Green
+const int COLOR_TEXT_ALT_4 = 0x5D; //<<>> //"Menu Choice" / Gray
+
+const int A_COMBO_X = 208; //Position of COMBO_PRESSA
+const int A_COMBO_Y = 57; //Position of COMBO_PRESSA
+const int MAIN_X = 32; //Position of the text box
+const int MAIN_Y = 25; //Position of the text box
+const int TEXT_X_OFFSET = 8; //How far right from the left of the text box the text starts
+const int TEXT_Y_OFFSET = 3; //How far right from the top of the text box the text starts
+const int MENU_CURSOR_WIDTH = 8; //the visible width of COMBO_MENUCURSOR, measured from the far-left, in pixels.
+const int TEXTBOX_TILE_WIDTH = 12; //How many tiles right from 'TILE_BACKDROPUL' to use for the box
+const int TEXTBOX_TILE_HEIGHT = 3; //How many tiles down from 'TILE_BACKDROPUL' to use for the box
+const int TEXTBOX_TEXT_WIDTH = 176; //The width (in pixels) that the actual text will display in
+const int TEXTBOX_TEXT_HEIGHT = 42; //The height (in pixels) that the actual text will display in
+const int TEXT_SPEED = 3; //Lower number = faster; this represents the number of frames between each letter appearing.
+
+const int FLAGS_TANGO = 0000000011b; //Use '1000000011b' to enable TANGO_FLAG_FREEZE_SCREEN!
+//The TANGO_FLAG_FREEZE_SCREEN requires modifying __Tango_FreezeScreen() and __Tango_UnfreezeScreen(), in customTango.zh, to work.
+
+const int TSTYLE_MAJORAS = 0; //Don't change unless combining this with another tango setup
+
+//start Message Popup Functions
+void ShowMessageAndWait(int msg)
+{
+	ShowMessageAndWait(msg,false);
+}
+
+void ShowMessageAndWait(int msg, bool menu4way)
+{
+	int slot = ShowMessage(msg,TSTYLE_MAJORAS);
+	handleMessageSlot(slot,menu4way);
+}
+
+void ShowStringAndWait(int str)
+{
+	ShowStringAndWait(str,false);
+}
+
+void ShowStringAndWait(int str, bool menu4way)
+{
+	int slot = ShowString(str,TSTYLE_MAJORAS);
+	handleMessageSlot(slot,menu4way);
+}
+
+int ShowMessage(int msg, int style)
+{
+	int slot = Tango_GetFreeSlot(TANGO_SLOT_ANY);
+	Tango_ClearSlot(slot);
+	Tango_LoadMessage(slot,msg);
+	Tango_SetSlotStyle(slot,style);
+	Tango_SetSlotPosition(slot,32,25);//16 (+9)
+	Tango_ActivateSlot(slot);
+	
+	return slot;
+}
+
+int ShowString(int str, int style)
+{
+	int slot = Tango_GetFreeSlot(TANGO_SLOT_ANY);
+	Tango_ClearSlot(slot);
+	Tango_LoadString(slot,str);
+	Tango_SetSlotStyle(slot,style);
+	Tango_SetSlotPosition(slot,MAIN_X,MAIN_Y);//16
+	Tango_ActivateSlot(slot);
+	
+	return slot;
+}
+
+void handleMessageSlot(int slot)
+{
+	handleMessageSlot(slot,false);
+}
+
+void handleMessageSlot(int slot, bool menu4way)//start handleMessageSlot
+{
+	int delay = 0;
+	int lastid = -1;
+	while(Tango_SlotIsActive(slot))
+	{
+		__Tango_SetCurrentSlot(slot);
+		bool waitingForA = (__Tango_GetCurrSlotData(__TSDIDX_STATE) == __TANGO_STATE_PRESS_A);
+		bool menuActive = Tango_MenuIsActive();
+		int maxScroll = Tango_GetSlotMaxScrollPos(slot);
+		int scroll = Tango_GetSlotScrollPos(slot);
+		if(Tango_SlotIsFinished(slot)||menuActive||waitingForA)
+		{
+			//Scrolling
+			float scrollSpeed = 1.5;
+			if(Link->InputA)scrollSpeed*=2;
+			if(Link->InputUp)
+				Tango_ScrollSlot(slot, -scrollSpeed);
+			else if(Link->InputDown)
+				Tango_ScrollSlot(slot, scrollSpeed);
+			//Scroll arrows
+			if(scroll<maxScroll)
+			{
+				Screen->FastCombo(7,208,56+9,COMBO_DOWNARROW,0,OP_OPAQUE);
+				delay = __TANGO_AUTO_ADVANCE_TIME;
+				if(Link->PressB)
+				{
+					Link->PressB=false;
+					Link->InputB=false;
+					Tango_ScrollSlot(slot,maxScroll);
+				}
+				Link->InputA = false;
+				Link->PressA = false;
+			}
+			if(!menuActive&&(scroll==maxScroll))
+			{
+				Screen->FastCombo(7,A_COMBO_X,A_COMBO_Y,COMBO_PRESSA,0,OP_OPAQUE);//Press A indicatior
+			}
+			if(scroll>0)
+			{
+				Screen->FastCombo(7,208,18+9,COMBO_UPARROW,0,OP_OPAQUE);
+			}
+			//Fix menu cursor when scrolling
+			if(menuActive&&scroll!=maxScroll)
+			{
+				Tango_SetMenuCursor(0,0);
+				NoDirs();
+			}
+			else if(menuActive)
+			{
+				Tango_SetMenuCursor(COMBO_MENUCURSOR,0);
+				if(menuActive&&!menu4way)
+				{
+					if(Link->PressRight)
+					{
+						ChoiceShift(1);
+					}
+					else if(Link->PressLeft)
+					{
+						ChoiceShift(-1);
+					}
+					NoDirs();
+				}
+			}
+			if(scroll!=maxScroll&&!waitingForA)NoAction();
+			if(delay>0)
+			{
+				--delay;
+				Link->InputA=Link->PressA;
+				Link->InputB=Link->PressB;
+			}
+		}
+		else Tango_ScrollSlot(slot,maxScroll);
+		Link->InputStart=false;
+		Link->PressStart=false;
+		Waitframe();
+	}
+}//end handleMessageSlot
+
+//end
+
+void NoDirs() //start Misc
+{
+	Link->InputUp = false;
+	Link->PressUp = false;
+	Link->InputDown = false;
+	Link->PressDown = false;
+	Link->InputLeft = false;
+	Link->PressLeft = false;
+	Link->InputRight = false;
+	Link->PressRight = false;
+}
+
+void ChoiceShift(int shift)
+{
+	int pos = Tango_GetMenuCursorPosition()+shift;
+	if(pos>=__Tango_Data[__TDIDX_CHOICE_COUNT])pos=0;
+	else if(pos<0)pos=__Tango_Data[__TDIDX_CHOICE_COUNT]-1;
+	Tango_SetMenuCursorPosition(pos);
+} //end
+
+void TangoInit()
+{
+	setupStyles();
+	Tango_Start();
+}
+
+void setupStyles() //start styles
+{
+	int style = TSTYLE_MAJORAS;
+	Tango_SetStyleAttribute(style,TANGO_STYLE_BACKDROP_TYPE,TANGO_BACKDROP_TILE);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_BACKDROP_CSET,0);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_BACKDROP_TILE,TILE_BACKDROPUL);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_BACKDROP_WIDTH,TEXTBOX_TILE_WIDTH);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_BACKDROP_HEIGHT,TEXTBOX_TILE_HEIGHT);
+	
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_FONT,TANGO_FONT_GUI);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_CSET,Div(COLOR_TEXT_MAIN,0x10));
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_COLOR,COLOR_TEXT_MAIN%0x10);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_X,TEXT_X_OFFSET);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_Y,TEXT_Y_OFFSET);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_WIDTH,TEXTBOX_TEXT_WIDTH);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_HEIGHT,TEXTBOX_TEXT_HEIGHT);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_SPEED,TEXT_SPEED);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_TEXT_SFX,SFX_TEXT);
+	
+	//Alt (()) [[]] {{}} <<>>
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_CSET_1,Div(COLOR_TEXT_ALT_1,0x10));
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_COLOR_1,COLOR_TEXT_ALT_1%0x10);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_CSET_2,Div(COLOR_TEXT_ALT_2,0x10));
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_COLOR_2,COLOR_TEXT_ALT_2%0x10);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_CSET_3,Div(COLOR_TEXT_ALT_3,0x10));
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_COLOR_3,COLOR_TEXT_ALT_3%0x10);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_CSET_4,Div(COLOR_TEXT_ALT_4,0x10));
+	Tango_SetStyleAttribute(style,TANGO_STYLE_ALT_COLOR_4,COLOR_TEXT_ALT_4%0x10);
+	
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_CURSOR_COMBO,COMBO_MENUCURSOR);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_CURSOR_CSET,0);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_CHOICE_INDENT,MENU_CURSOR_WIDTH);
+	
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_CURSOR_MOVE_SFX,SFX_MENUMOVE);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_SELECT_SFX,SFX_MENUCONFIRM);
+	Tango_SetStyleAttribute(style,TANGO_STYLE_MENU_CANCEL_SFX,SFX_MENUDENY);
+	//Flags
+	Tango_SetStyleAttribute(TSTYLE_MAJORAS,TANGO_STYLE_FLAGS,FLAGS_TANGO);
+}//end
+
+global script ExampleTango
+{
+	void run()
+	{
+		TangoInit();
+		
+		while(true)
+		{
+			Tango_Update1();
+			Waitdraw();
+			Tango_Update2();
+			Waitframe();
+		}
+	}
+}

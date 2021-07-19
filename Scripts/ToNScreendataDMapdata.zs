@@ -46,74 +46,74 @@ screendata script RadialTransparency //start
 {
 	void run(int layers, int radius)
 	{			
-		// mapdata m[6];
+		mapdata m[6];
 		
-		// for (int l = 1; l < 6; ++l)
-		// {
-			// unless(layers & (1b << (l - 1)))
-				// continue;
+		for (int l = 1; l < 6; ++l)
+		{
+			unless(layers & (1b << (l - 1)))
+				continue;
 			
-			// Screen->LayerInvisible[l] = true;
+			Screen->LayerInvisible[l] = true;
 			
-			// unless(ohead_bmps[l]->isValid())
-				// ohead_bmps[l] = create(256, 176);
+			unless(ohead_bmps[l]->isValid())
+				ohead_bmps[l] = create(256, 176);
 		 
-			// m[l] = Game->LoadTempScreen(l);
-		// }
+			m[l] = Game->LoadTempScreen(l);
+		}
 		
-		// while(true)
-		// {
-			// for (int l = 1; l < 6; ++l)
-			// {
-				// unless(layers & (1b << (l - 1)))
-					// continue;
+		while(true)
+		{
+			for (int l = 1; l < 6; ++l)
+			{
+				unless(layers & (1b << (l - 1)))
+					continue;
 				
-				// ohead_bmps[l]->Clear(0);
+				ohead_bmps[l]->Clear(0);
 				
-				// for (int q = 0; q < 176; ++q)
-					// ohead_bmps[l]->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_OPAQUE);
+				for (int q = 0; q < 176; ++q)
+					ohead_bmps[l]->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_OPAQUE);
 				
-				// ohead_bmps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
+				ohead_bmps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
 				
-				// for (int q = 0; q < 176; ++q)
-					// Screen->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_TRANS);
+				for (int q = 0; q < 176; ++q)
+					Screen->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_TRANS);
 					
-				// ohead_bmps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
-			// }
+				ohead_bmps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
+			}
 			
-			// Waitframe();
+			Waitframe();
 			
-			// if (disableTrans)
-			// {
-				// for (int l = 1; l < 6; ++l)
-				// {
-					// unless(layers & (1b << (l - 1)))
-						// continue;
+			if (disableTrans)
+			{
+				for (int l = 1; l < 6; ++l)
+				{
+					unless(layers & (1b << (l - 1)))
+						continue;
 					
-					// Screen->LayerInvisible[l] = false;
-				// }
+					Screen->LayerInvisible[l] = false;
+				}
 				
-				// while (disableTrans) 
-					// Waitframe();
-			// }
+				while (disableTrans) 
+					Waitframe();
+			}
 			
-			// if (HeroIsScrolling())
-				// for (int l = 1; l < 6; ++l)
-				// {
-					// unless(layers & (1b << (l - 1)))
-						// continue;
+			if (HeroIsScrolling())
+				for (int l = 1; l < 6; ++l)
+				{
+					unless(layers & (1b << (l - 1)))
+						continue;
 					
-					// Screen->LayerInvisible[l] = false;
-				// }
-			// else
-				// for (int l = 1; l < 6; ++l)
-				// {
-					// unless(layers & (1b << (l - 1)))
-						// continue;
+					Screen->LayerInvisible[l] = false;
+				}
+			else
+				for (int l = 1; l < 6; ++l)
+				{
+					unless(layers & (1b << (l - 1)))
+						continue;
 					
-					// Screen->LayerInvisible[l] = true;
-				// }
-		// }	
+					Screen->LayerInvisible[l] = true;
+				}
+		}	
 	}
 } //end
 
