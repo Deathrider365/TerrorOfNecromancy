@@ -60,8 +60,8 @@ namespace WaterPaths //start
 	CONFIG CMB_RIGHT = 3254;
 	CONFIG CMB_BARRIER_HORZ = 3262;
 	CONFIG CMB_BARRIER_VERT = 3266;
-	CONFIG CMB_BARRIER_TOP = 3245;
-	CONFIG CMB_BARRIER_BOTTOM = 3244;
+	CONFIG CMB_BARRIER_TOP = 3244;
+	CONFIG CMB_BARRIER_BOTTOM = 3245;
 	CONFIG CMB_BARRIER_RIGHT = 3247;
 	CONFIG CMB_BARRIER_LEFT = 3246;
 	CONFIG CMB_SOLID_INVIS = 2;
@@ -74,7 +74,8 @@ namespace WaterPaths //start
 	{
 		if(path < 1 || path >= MAX_PATHS)
 			return <untyped>(-1);
-		return pathStates[path-1];
+			
+		return pathStates[path - 1];
 	} //end
 	
 	Fluid getSource(int path) //start
@@ -199,6 +200,8 @@ namespace WaterPaths //start
 		 */
 		void run(int layers, int s1, int s2, int s3, int s4, int s5, int s6, int s7)
 		{
+			Waitframes(2);
+			
 			if(WP_DEBUG) printf("Running DM script WaterPaths (%d,%d,%d,%d,%d,%d,%d,%d)\n", layers, s1, s2, s3, s4, s5, s6, s7);
 			int foo[] = {s1, s2, s3, s4, s5, s6, s7};
 			memset(pathStates, 0, SZ_PATHSTATES);
@@ -268,6 +271,7 @@ namespace WaterPaths //start
 						PASS_BARRIERS,
 						PASS_COUNT
 					}; //end
+					
 					for(int pass = 0; pass < PASS_COUNT; ++pass)
 					{
 						for(int q = 0; q < 176; ++q)
@@ -281,10 +285,12 @@ namespace WaterPaths //start
 							switch(pass)
 							{
 								case PASS_LIQUID:
-									unless(flag > 0) continue;
+									unless(flag > 0) 
+									continue;
 									break;
 								case PASS_BARRIERS:
-									unless(flag == VAL_BARRIER) continue;
+									unless(flag == VAL_BARRIER) 
+									continue;
 									break;
 							}
 								
@@ -519,7 +525,7 @@ namespace WaterPaths //start
 								{
 									if(flowpath)
 										m1->ComboD[q] = getCombo(getFluid(flowpath), cmb>0);
-										
+																				
 									m2->ComboD[q] = cmb;
 									m2->ComboC[q] = t1->ComboC[q];
 								}
