@@ -155,7 +155,7 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 				if (power)
 					darkness_bmp->Circle(7, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
 				
-				if (Input->Button[CB_EX4])
+				if (DEBUG && Input->Button[CB_EX4])
 					darkness_bmp->Write(7, "Test.png", true);
 				
 				darkness_bmp->Blit(7, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, /*mode*/ 1, 0, true);

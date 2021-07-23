@@ -1035,6 +1035,26 @@ ffc script SwitchSequential //start
 	} //end
 } //end
 
+//~~~~~BlockPermSecrets~~~~~//
+//1. Make a new combo with inherent flag 16 (or any secret flag)
+//2. Set this FFC to the above combo
+//3. When secrets are triggered by blocks, this script will make it permanent
+@Author("MoscowModder")
+ffc script BlockPermSecrets //start
+{
+	void run()
+	{
+		int thisCombo = this->Data;
+	
+		until(Screen->State[ST_SECRET])
+		{
+			if(this->Data != thisCombo) 
+				Screen->State[ST_SECRET] = true;
+				
+			Waitframe();
+		}
+	}
+} //end
 
 //~~~~~IceBlock~~~~~//
 @Author("Colossal")

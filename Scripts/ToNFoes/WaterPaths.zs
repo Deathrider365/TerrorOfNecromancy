@@ -508,17 +508,17 @@ namespace WaterPaths //start
 										else //Up
 										{
 											if(flowing)
-												cmb = CMB_TOP;
+												cmb = CMB_BOTTOM;
 											else
-												cmb = CMB_BARRIER_TOP;
+												cmb = CMB_BARRIER_BOTTOM;
 										}
 									}
 									else if(d == VAL_BARRIER) //Down
 									{
 										if(flowing)
-											cmb = CMB_BOTTOM;
+											cmb = CMB_TOP;
 										else
-											cmb = CMB_BARRIER_BOTTOM;
+											cmb = CMB_BARRIER_TOP;
 									}
 								}
 								if(cmb > -1)
@@ -553,8 +553,8 @@ namespace WaterPaths //start
 	{
 		void run(int p1, int p2)
 		{
-			printf("STWP: Start %d,%d\n",p1,p2);
-			
+			printf("STWP: Start %d,%d\n", p1, p2);
+						
 			if(Screen->State[ST_SECRET]) //already triggered
 				return;
 			
