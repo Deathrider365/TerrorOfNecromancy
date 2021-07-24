@@ -24,7 +24,9 @@ dmapdata script ActiveSubscreen //start
 			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
+		
 		subscr_y_offset = -56;
+		
 		do
 		{
 			//Waitdraw();
@@ -32,6 +34,7 @@ dmapdata script ActiveSubscreen //start
 			Waitframe();
 		}
 		until(Input->Press[CB_START]);
+		
 		for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED)
 		{
 			//Waitdraw();
@@ -107,16 +110,19 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	
 	//start Item Draws
 	int selID = 0;
-	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q)
+	
+	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q) //start Non Selectable Items
 	{
 		int id = checkID(itemIDs[q]);
+		
 		unless(id) 
 			continue;
 			
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
 	}
+	//end
 	
-	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
+	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) //start Selectable items
 	{
 		int id = checkID(itemIDs[q]);
 		
@@ -130,8 +136,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	}
 	//end
 	
-	//start Dungeon Item Draws
-	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q)
+	for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) //start Dungeon Item Draws
 	{
 		int id = checkID(dungeonItemIds[q]);
 		unless(id) 
@@ -139,7 +144,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 			
 		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), dungeonItemX[q], dungeonItemY[q], y);
 	}
-	//end Dungeon Item Draws
+	//end
 
 	//start Legionnaire Ring
 	Screen->FastTile(4, 122, y + 84, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);

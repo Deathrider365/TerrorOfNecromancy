@@ -240,7 +240,8 @@ bool subscr_open = false;
 
 // Consts start
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
-DEFINE NUM_SUBSCR_INAC_ITEMS = 14;
+DEFINE NUM_SUBSCR_INAC_ITEMS = 3;//14; Increase as I add items to display for inactive items
+DEFINE NUM_SUBSCR_DUNGEON_ITEMS = 3;
 
 CONFIG BG_MAP = 6;
 CONFIG BG_SCREEN = 0x0E;
