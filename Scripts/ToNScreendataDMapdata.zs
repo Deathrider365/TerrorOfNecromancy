@@ -217,6 +217,7 @@ dmapdata script Footprints //start
 		footprint->X = Hero->X;
 		footprint->Y = Hero->Y;
 		footprint->UseSprite(SPR_FOOTSTEP);
+		footprint->Behind = true;
 		
 		unless(footprint->ASpeed)
 			footprint->ASpeed = 1;

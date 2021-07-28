@@ -563,7 +563,7 @@ ffc script SwitchHitAll //start
 		
 		int i; int j; int k;
 		int d;
-		int db;
+		long db;
 		
 		if (flag == 0)
 			id = 0;
@@ -572,8 +572,8 @@ ffc script SwitchHitAll //start
 		
 		if (id > 0)
 		{
-			d = Floor((id - 1) / 16);
-			db = 1 << ((id - 1) % 16);
+			d = Div((id - 1), 32);
+			db = 1bL << ((id - 1) % 32);
 			
 			for (i = 0; i < 176; i++)
 				if (Screen->ComboF[i] == flag)
@@ -585,7 +585,7 @@ ffc script SwitchHitAll //start
 		
 		int switches[34];
 		int switchD[34];
-		int switchDB[34];
+		long switchDB[34];
 		switchD[0] = switchID;
 		bool switchesPressed[34];
 		k = SizeOfArray(switches) - 2;
@@ -598,8 +598,8 @@ ffc script SwitchHitAll //start
 				
 				unless (pressure && switchID > 0)
 				{
-					switchD[j] = Floor((switchID + switches[0] - 1) / 16);
-					switchDB[j] = 1 << ((switchID + switches[0] - 1) % 16);
+					switchD[j] = Div((switchID + switches[0] - 1), 32);
+					switchDB[j] = 1bL << ((switchID + switches[0] - 1) % 32);
 					
 					if (Screen->D[switchD[j]] & switchDB[j])
 					{

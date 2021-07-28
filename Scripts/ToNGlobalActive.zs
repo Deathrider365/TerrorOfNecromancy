@@ -78,8 +78,14 @@ global script GlobalScripts //start
 	{
 		CONFIG TRANS_RADIUS = 36;
 		
-		if (HeroIsScrolling())
+		if (HeroIsScrollingOrWarping())
 			return;
+
+		unless(IsValidArray(m))
+		{
+			Trace(0);
+			return;
+		}
 		
 		int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
 		
@@ -182,8 +188,6 @@ global script GlobalScripts //start
 	{
 		switch(dmap)
 		{
-			case 18:
-				return 011000b;
 			case 4:
 				switch(scr)
 				{
@@ -217,7 +221,7 @@ global script GlobalScripts //start
 	//~~~~~Debug~~~~~//
 	void debug() //start
 	{
-		// Hero->Warp(18, 0x71);
+		Hero->Warp(18, 0x71);
 		Game->Cheat = 4;
 	} //end
 	

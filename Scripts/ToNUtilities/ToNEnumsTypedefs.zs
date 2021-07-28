@@ -54,7 +54,6 @@ DEFINE STATUS_WIDTH = 12;
 COLOR STATUS_TEXT_COLOR = C_WHITE;
 
 
-
 //end
 
 //~~~~~CSet~~~~~//
