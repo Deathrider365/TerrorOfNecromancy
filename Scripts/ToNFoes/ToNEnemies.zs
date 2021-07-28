@@ -6,7 +6,7 @@
 // D0: Speed Multiplier
 // D1: Fire cooldown (frames)
 // D2: Knockback rate in pixels per frame 
-@Author("Emily")
+@Author("EmilyV99")
 npc script Mimic //start
 {
 	void run(int speedMult, int fireRate, int knockbackDist)

@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 //~~~~~ActiveSubscreen~~~~~//
-@Author("Emily")
+@Author("EmilyV99")
 dmapdata script PassiveSubscreen //start
 {
 	using namespace time;

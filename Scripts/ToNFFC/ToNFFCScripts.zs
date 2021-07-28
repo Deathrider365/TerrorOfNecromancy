@@ -390,7 +390,7 @@ ffc script GiveItem //start
 }//end
 
 //~~~~~ContinuePoint~~~~~//
-@Author ("Emily")
+@Author ("EmilyV99")
 ffc script ContinuePoint //start
 {
 	void run(int dmap, int scrn)
@@ -444,7 +444,7 @@ ffc script DisableLink //start
 //D1: Price of the item
 //D2: Message that plays when the item is bought
 //D3: Message that plays when you don't have enough rupees
-@Author("Tabletpillow, Emily")
+@Author("Tabletpillow, EmilyV99")
 ffc script SimpleShop //start
 {
     void run(int itemID, int price, int boughtMessage, int notBoughtMessage)
@@ -527,7 +527,7 @@ ffc script InfoShop //start
 
 //~~~~~SpawnItem~~~~~//
 //D0: Item ID
-@Author("Emily")
+@Author("EmilyV99")
 ffc script SpawnItem //start
 {
     void run(int itemId)

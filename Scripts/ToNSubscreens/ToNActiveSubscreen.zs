@@ -6,7 +6,7 @@
 // that shows the bomb max and when I get bomb expansions update that max
 
 //~~~~~ActiveSubscreen~~~~~//
-@Author("Emily, Modified by Deathrider365")
+@Author("EmilyV99, Modified by Deathrider365")
 dmapdata script ActiveSubscreen //start
 {
 	void run()

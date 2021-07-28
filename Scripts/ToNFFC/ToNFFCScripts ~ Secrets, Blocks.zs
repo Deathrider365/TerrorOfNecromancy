@@ -347,7 +347,7 @@ ffc script ScriptWeaponTrigger //start
 // D3: (used only if perm) ScreenD reg
 // D4: CSet
 // D5: SFX
-@Author("Emily")
+@Author("EmilyV99")
 ffc script EnemiesChest //start
 {
 	void run(int flag, int combo, bool perm, int reg, int cset, int sfx)

@@ -28,7 +28,7 @@ ffc script MessageThenWarp //start
 //Dirs: -1 = Tile, 0 = Up, 1 = Down, 2 = Left, 3 = Right
 //If d2 is set, and the warp is a sidewarp, it will use the FFC's x/y to split into 2 sidewarps
 //d1 / d2 = 'dmap.screen', i.e. dm1scr1 = 1.0001
-@Author("Emily")
+@Author("EmilyV99")
 ffc script WarpCustomReturn //start
 {
 	void run(int d1, int x, int y, int sideFacing, int warp, int d2, int x2, int y2)

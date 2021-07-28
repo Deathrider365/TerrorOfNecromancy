@@ -144,7 +144,7 @@ itemdata script ScholarsMind //start
 //D2: HP to heal while no enemies on screen
 //D3: How often to heal while no enemies on screen
 //inspired by James24
-@Author("Emily")
+@Author("EmilyV99")
 itemdata script LifeRing //start
 {
 	void run(int hpActive, int timerActive, int hpIdle, int timerIdle)
