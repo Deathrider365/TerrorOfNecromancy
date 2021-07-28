@@ -1,0 +1,3 @@
+*.zs linguist-language=cpp
+*.zh linguist-language=cpp
+*.z linguist-language=cpp
