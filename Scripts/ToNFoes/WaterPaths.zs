@@ -541,12 +541,13 @@ namespace WaterPaths //start
 			}
 		}
 		
-		bool fl(int f, int bf) //start
-		{
-			return f == VAL_BARRIER || f == bf;
-		} //end
 	} //end
 
+	bool fl(int f, int bf) //start
+	{
+		return f == VAL_BARRIER || f == bf;
+	} //end
+	
 	// p1 is first path and p2 is the patha activated on secret trigger
 	@Author("EmilyV99")
 	ffc script SecretsTriggersWaterPaths //start Basic trigger mechanism

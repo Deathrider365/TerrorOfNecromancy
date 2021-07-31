@@ -157,6 +157,12 @@ CONFIG CR_HEARTPIECES = CR_SCRIPT2;
 
 //end
 
+//~~~~~Footprints~~~~~//
+//start
+CONFIG CT_FOOTPRINT = CT_SCRIPT20;
+
+//end
+
 //~~~~~Fonts~~~~~//
 //start
 CONFIG STATUS_FONT = FONT_Z3SMALL;

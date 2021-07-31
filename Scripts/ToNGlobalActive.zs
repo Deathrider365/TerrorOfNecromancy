@@ -25,8 +25,10 @@ global script GlobalScripts //start
 		LinkMovement_Init();
 		StartGhostZH();
 		DifficultyGlobal_Init();
-		
+				
 		mapdata m[6];
+		
+		int footprintArray[3] = {1, 0, 0};
 		
 		while(true)
 		{
@@ -44,6 +46,8 @@ global script GlobalScripts //start
 			
 			doRadialTransparency2(m);
 			
+			checkFootprints(footprintArray);
+			
 			Waitdraw();
 			
 			if (map != Game->GetCurMap() || scr != Game->GetCurScreen())
@@ -59,7 +63,6 @@ global script GlobalScripts //start
 				dmap = Game->GetCurDMap();
 				onDMapChange();
 			}
-			
 			
 			LinkMovement_Update2();
 			UpdateGhostZH2();
@@ -200,6 +203,81 @@ global script GlobalScripts //start
 				break;
 		}
 		return 0;
+	} //end
+	
+	void checkFootprints(int arr) //start
+	{
+		int fadeMult = getFadeMult();
+		
+		unless(fadeMult)
+			fadeMult = 1;
+		
+		if (!HeroIsScrolling() && Hero->Action == LA_WALKING && ((arr[1] == Hero->X && arr[2] == Hero->Y) ? false : true))
+		{
+			arr[1] = Hero->X;
+			arr[2] = Hero->Y;
+			
+			unless (--arr[0])
+			{	
+				int pos = ComboAt(Link->X + 4, Link->Y + 4);
+				int comboT = Screen->ComboT[pos]; 
+				
+				for (int i = 1; i < 3; ++i)
+					if (Screen->LayerMap[i])
+					{
+						mapdata m = Game->LoadTempScreen(i);
+						
+						if (m->ComboD[pos])
+							comboT = m->ComboT[pos];
+					}
+				
+				if (comboT == CT_FOOTPRINT)
+					createFootprint(fadeMult);
+					
+				arr[0] = 12;
+			}
+		}
+	} //end
+	
+	int getFadeMult() //start
+	{
+		switch(Game->GetCurDMap())
+		{
+			case 0...8:
+				return 0.4;
+				break;
+			case 9:
+				return 2;
+				break;
+			case 10:
+				return 1;
+				break;
+			case 11:
+				return 0.3333;
+				break;
+			case 18...20:
+				return 1;
+				break;
+		}
+	} //end
+	
+	void createFootprint(int fadeMult) //start
+	{
+		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
+		footprint->X = Hero->X;
+		footprint->Y = Hero->Y;
+		footprint->UseSprite(SPR_FOOTSTEP);
+		footprint->Behind = true;
+		
+		unless(footprint->ASpeed)
+			footprint->ASpeed = 1;
+		
+		footprint->ASpeed = Round(footprint->ASpeed * fadeMult);
+		
+		unless(footprint->NumFrames)
+			footprint->NumFrames = 1;
+			
+		footprint->OriginalTile += Hero->Dir * footprint->NumFrames;
 	} //end
 	
 	void onDMapChange() //start
