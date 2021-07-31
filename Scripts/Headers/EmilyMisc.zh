@@ -1,13 +1,16 @@
 #option SHORT_CIRCUIT on
 /**
 * Author: Emily
-* Version: 1.4.1
-* Release: July 8th, 2021
+* Version: 1.4.2
+* Release: July 29th, 2021
 * Purpose: Miscellaneous functions, which I tend to use in my scripts.
 */
 namespace Emily
 {
+	typedef const int DEFINE;
 	typedef const int CONFIG;
+	typedef const long DEFINEL;
+	typedef const long CONFIGL;
 	typedef const bool CONFIGB;
 	
 	//start Constants
@@ -1372,6 +1375,15 @@ namespace Emily
 		Screen->Rectangle(7, 0, hidesubscr ? -56 : 0, 256, 168, color, 1, 0, 0, 0, true, OP_OPAQUE);
 		DrawStrings(7, 128, ((224-Text->FontHeight(font))/2)-56, font, txtcolor, color, TF_CENTERED, buf, OP_OPAQUE, 2, 256);
 	} //end
+	
+	bitmap create(int w, int h) //start
+	{
+		if(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
+			return Game->CreateBitmap(h, w);
+		else
+			return Game->CreateBitmap(w, h);
+	} 
+	 //end
 	
 	DEFINE SCRNSHOT_DMAP = 511;
 	DEFINE SYS_WHITE = 0xF5, SYS_BLACK = 0xE0;

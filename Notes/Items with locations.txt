@@ -7,17 +7,16 @@ Hookshot	-	-	-	-	-	-	- Level 6
 Seared Steak	-	-	-	-	-	- 	- Shops (will specify which ones)
 Ocarina	-	-	-	-	-	-	- 	- Level 5
 Lense of Truth	-	-	-	-	-	- 	- Battle Arena 2
-Raft	-	-	-	-	-	-	- 	- Shop after Level 8
+Raft	-	-	-	-	-	-	- 	- Shop after Level 4
 Ladder	-	-	-	-	-	-	-	- Level 2
-Medical Herb	-	-	-	-	-	- 	- Shop after Minidungeon 1
-Mushroom	-	-	-	-	-	- 	- Found on the first overworld between Lvl 1 and Lvl 2 (will specify coordinates)
+Medical Herb	-	-	-	-	-	- 	- Hide-and-Seek side quest pre Level 1
 Flippers	-	-	-	-	-	-	- Level 7
 Portal Sphere	-	-	-	-	-	- 	- Level 12
 
 ~~~~~Potions~~~~~
 - Blue = One use, 15 hearts 75% magic	-	-	-	- Shops (will specify which ones)
 - Red = 2 use Blue (2 blue to make), down to Blue	-	- Shops (will specify which ones)
-- Life Potion	-	-	-	-	-	- 	- Shop, After Minidungeon 7
+- Life Potion	-	-	-	-	-	- 	- Shop (Only the Witch)
 	= Fully Heals hearts and magic (red + blue), down to red
 
 ~~~~~Swords~~~~~
@@ -35,36 +34,36 @@ Portal Sphere	-	-	-	-	-	- 	- Level 12
 - Holy Mail	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Boomerang~~~~~
-- Wooden Boomerang	-	-	-	-	- 	- Isle of the Haeren
+- Wooden Boomerang	-	-	-	-	- 	- Temple of the Haeren
 - Magic Boomerang	-	-	-	-	-	- Shop after Minidungeon 3
 - Gale Boomerang	-	-	-	-	-	- Minidungeon 5
 - Holy Boomerang	-	-	-	-	-	- Shrine of the Paladin
 
 ~~~~~Hammers~~~~~
-- Wooden Hammer	-	-	-	-	-	- 	- Level 7
+- Wooden Hammer	-	-	-	-	-	- 	- Level 7 (maybe lvl 4)
 - Smith's Hammer	-	-	-	-	- 	- Shop after Level 9
 - Holy Hammer	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Candles~~~~~
 - Wax Candle	-	-	-	-	-	-	- Shop before Level 1
-- Oil Candle	-	-	-	-	-	-	- Battle Arena 1
+- Oil Candle	-	-	-	-	-	-	- Level 1
 - Incendiary Candle	-	-	-	-	-	- Shop after Minidungeon 3
 - Hell's Candle	-	-	-	-	-	- 	- After Level 12
 
 ~~~~~Bows~~~~~
-- Wooden Bow	-	-	-	-	-	- 	- Level 1
+- Wooden Bow	-	-	-	-	-	- 	- Level 2
 - Soldier's Bow	-	-	-	-	-	- 	- Secret after Level 8
 - Marksman's Bow	-	-	-	-	-	- Secret after Minidungeon 6
 
 ~~~~~Arrows~~~~~
-- Wooden Arrow	-	-	-	-	-	- 	- Found before Level 1
+- Wooden Arrow	-	-	-	-	-	- 	- Found after Level 1
 - Iron Arrows	-	-	-	-	-	- 	- Shop after Minidungeon 3
 - Silver Arrows	-	-	-	-	-	- 	- Battle Arena 3
 - Light Arrows	-	-	-	-	-	- 	- Level 10
 - Holy Arrows	-	-	-	-	-	- 	- Shrine of the Paladin
 
 ~~~~~Shields~~~~~
-- Wooden Shield	-	-	-	-	-	- 	- Default
+- Wooden Shield	-	-	-	-	-	- 	- Isle of Haeren (in Viridi shop)
 - Magic Shield	-	-	-	-	-	- 	- Level 1 / Various Shops
 - Mirror Shield	-	-	-	-	-	- 	- Level 9
 - Holy Shield	-	-	-	-	-	- 	- Shrine of the Paladin
@@ -83,12 +82,12 @@ Portal Sphere	-	-	-	-	-	- 	- Level 12
 - Ring of <Name of the leader of the Undead Legion>	-	-	- Level X
 
 ~~~~~Wallets~~~~~
-- Default = 300	-	-	-	-	-	- Default
+- Default = 300	-	-	-	-	-	- 	- Default
 - Merchant's Wallet = 500	-	-	-	-	- Minidungeon 3
-- Theif's Wallet = 1000	-	-	-	-	- Secret after Level 11
+- Theif's Wallet = 1000	-	-	-	-	- 	- Secret after Level 11
 
 ~~~~~Gloves~~~~~
-- Landscaper Glove	-	-	-	-	-	- Level 3
+- Landscaper Glove	-	-	-	-	-	- Default
 - Power Glove		-	-	-	-	-	- After Minidungeon 4
 - Giants Glove		-	-	-	-	-	- Minidungeon 6
 

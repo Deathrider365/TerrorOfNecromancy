@@ -43,6 +43,7 @@
 
 
 #include "../ToN Main Quest/Scripts/ToNGlobalActive.zs"
+#include "../ToN Main Quest/Scripts/EmilyMap.zs"
 #include "../ToN Main Quest/Scripts/ToNScreendataDMapdata.zs"
 
 always using namespace Emily;

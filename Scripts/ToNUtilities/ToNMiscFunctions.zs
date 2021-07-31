@@ -982,16 +982,6 @@ void noMoveAction() {
 
 //end
 
-// Creates Bitmap
-bitmap create(int w, int h) //start
-{
-	unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
-		return Game->CreateBitmap(h, w);
-	else
-		return Game->CreateBitmap(w, h);
-} 
- //end
-
 // Creates Bitmap again
 bitmap recreate(bitmap b, int w, int h) //start
 {

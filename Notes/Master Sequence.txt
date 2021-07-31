@@ -40,37 +40,33 @@ The island he washes up on is the island from ToN mini. He wanders the island un
 
 "Link, you have arrived. I have been waiting for you. You are the hero that saved the Triforce of Din, Farore, and Nayru and vanquished Ganon. I must now ask of you to save my Triforce from the one who corrupted it, the Necromancer of Interitus. I cannot help you until my temple is rid of the darkness from the corruption of my Triforce. Once you cleanse my temple, the portal to Interitus will be clear of the darkness and you will be able to help the island be rid of that foul man."
 
-<Link obtains the Wooden Sword, Wooden Boomerang, and small bomb bag (10) on the Island of Haeren>
+<Link obtains the Wooden Sword, Wooden Shield, and small bomb bag (10) on the Island of Haeren>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Level 1: Decrepid Temple of Haeren - Obtains a Boomerang
+Mini Dungeon 1: Decrepid Temple of Haeren - Obtains a Boomerang
 
-Current Items as of beating Level 1
+Current Items as of beating Mini Dungeon 1
 - Wooden Sword
 - Wooden Boomerang
 - Small bomb bag (10)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<Link walks into the portal taking him to Interitus>
-
-888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-Created up until here (obviously a lot has changed)
-888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+<Link obtains a raft and is able to got to Interitus>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~ The Real Game Begins ~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<Link adventures Interitus a little and eventually comes across Level 2>
+<Difficulty choice becomes available>
+
+<Link adventures Interitus a little and eventually comes across Level 1>
 
 <Shops available giving red and blue potions since you are able to find the Medical Herb>
 
 <Can buy magic shield>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Level 2:  - Obtains the Wooden Bow
+Level 1:  - Obtains the Wooden Bow
 
 Triforce of Power:	- 1
 Triforce of Wisdom:	- 0
@@ -84,7 +80,7 @@ Current Items as of beating Level 2
 - Wooden Bow (useless)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<Link goes through Level 2 and in the boss room he finds the Necromancer>
+<Link goes through Level 1 and in the boss room he finds the Necromancer>
 
 "Ah, you have arrived Link. It seems my Leviathan was unable to claim you, no surprise given your reputation. The princess? 
 My soldiers found her washed up on shore after your unfortunate accident. Do not worry, I have already stripped her of her 
