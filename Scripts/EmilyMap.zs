@@ -154,17 +154,9 @@ namespace Emily::EmilyMap
 				zoom_input_clk = (zoom_input_clk + 1) % INPUT_REPEAT_TIME;
 				bool pressed = true, zoomed = true;
 				if(Input->Press[CB_A] || (!zoom_input_clk && Input->Button[CB_A]))
-				{
 					--zoom;
-					x -= ((use_wid/(zoom+1)) - (use_wid/zoom))/2;
-					y -= ((HEIGHT/(zoom+1)) - (HEIGHT/zoom))/2;
-				}
 				else if(Input->Press[CB_B] || (!zoom_input_clk && Input->Button[CB_B]))
-				{
 					++zoom;
-					x -= ((use_wid/(zoom-1)) - (use_wid/zoom))/2;
-					y -= ((HEIGHT/(zoom-1)) - (HEIGHT/zoom))/2;
-				}
 				else zoomed = false;
 				if(Input->Press[CB_UP] || (!input_clk && Input->Button[CB_UP]))
 					y += MAP_PUSH_PIXELS;
@@ -182,11 +174,12 @@ namespace Emily::EmilyMap
 					zoom_input_clk = 1;
 				
 				zoom = VBound(zoom, min_zoom, 1);
+				int zoom_mult = min_zoom/zoom;
 				y = VBound(y, HEIGHT, -HEIGHT);
 				x = VBound(x, use_wid, -use_wid);
 				
-				int tx =  x;
-				int ty = y-56;
+				int tx =  (256 + (x-use_wid) * zoom_mult)/2;
+				int ty = ((224 + (y-HEIGHT) * zoom_mult)/2)-56;
 				//printf("x%d,y%d, drawing at %d,%d (%d,%d)\n", x, y, tx, ty, use_wid/zoom, HEIGHT/zoom);
 				Screen->Rectangle(7, 0, -56, 255, 175, COLOR_NULL, 1, 0, 0, 0, true, OP_OPAQUE);
 				Screen->Rectangle(7, tx - 1, ty - 1, tx + use_wid / zoom, ty + HEIGHT / zoom, COLOR_FRAME, 1, 0, 0, 0, false, OP_OPAQUE);
