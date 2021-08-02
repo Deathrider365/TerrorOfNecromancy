@@ -4,86 +4,89 @@ namespace Emily::EmilyMap
 {
 	CONFIG COLOR_NULL = 0x0F;
 	CONFIG COLOR_FRAME = 0x01;
+	CONFIG COLOR_CUR_ROOM = 0x66;
+	CONFIG CUR_ROOM_BORDER_THICKNESS = 4;
 	CONFIG INPUT_REPEAT_TIME = 3;
-	CONFIG ZOOM_INPUT_REPEAT_TIME = 6;
-	CONFIG MAP_PUSH_PIXELS = 8;
+	CONFIG ZOOM_INPUT_REPEAT_TIME = 12;
+	CONFIG MAP_PUSH_PIXELS = 16;
+	CONFIGB ALLOW_COMBO_ANIMS = false;
+	DEFINE MAP_PUSH_VAL = MAP_PUSH_PIXELS/8;
 	
-	@Author("EmilyV99")
-	dmapdata script CoolMap //start
+	void genMap(bitmap bmp, dmapdata this, bool lockPalette, bitmap curscr) //start
 	{
-		void run(bool lockPalette)
+		bool ow = ((this->Type & 11b) == DMAP_OVERWORLD);
+		//start Generate map
+		bmp->Clear(0);
+		int type_wid = ow ? 16 : 8;
+		int l = Max(this->Offset, 0);
+		int r = Min(this->Offset + type_wid - 1, 15);
+		int xdraw = -1;
+		bitmap tmp = create(256, 176);
+		
+		int l1, l2;
+		bool paths;
+		
+		if (this->Script == Game->GetDMapScript("WaterPaths"))
 		{
-			DEFINE WIDTH = 256 * 16, HEIGHT = 176 * 8;
+			paths = true;
 			
-			bitmap bmp = create(WIDTH,HEIGHT);
-			
-			//start Generate map
-			bmp->Clear(0);
-			int type_wid = ((this->Type & 11b) == DMAP_OVERWORLD) ? 16 : 8;
-			int l = Max(this->Offset, 0);
-			int r = Min(this->Offset + type_wid - 1, 15);
-			int xdraw = -1;
-			bitmap tmp = create(256, 176);
-			
-			int l1, l2;
-			bool paths;
-			
-			if (this->Script == Game->GetDMapScript("WaterPaths"))
+			for(int q = 6; q >= 0; --q) //start calculate layers
 			{
-				paths = true;
-				
-				for(int q = 6; q >= 0; --q) //start calculate layers
+				if(this->InitD[0] & (1b << q))
 				{
-					if(this->InitD[0] & (1b << q))
+					if(l2)
 					{
-						if(l2)
-						{
-							l1 = q;
-							break;
-						}
-						else 
-							l2 = q;
+						l1 = q;
+						break;
 					}
-				} //end
-			}
+					else 
+						l2 = q;
+				}
+			} //end
+		}
 
-			for(int x = l; x <= r; ++x)
+		for(int x = l; x <= r; ++x)
+		{
+			++xdraw;
+			int ydraw = -1;
+			
+			for(int y = 0; y < 8; ++y)
 			{
-				++xdraw;
-				int ydraw = -1;
-				
-				for(int y = 0; y < 8; ++y)
+				++ydraw;
+				int scr = x + (y * 0x10);
+				mapdata m = Game->LoadMapData(this->Map, scr);
+				bool null = false;
+				if(lockPalette && m->Palette != this->Palette)
+					null = true;
+					
+				unless(m->State[ST_VISITED])
+					null = true;
+					
+				unless(m->Valid & 1b)
+					null = true;
+				if(null)
 				{
-					++ydraw;
-					int scr = x + (y * 0x10);
-					mapdata m = Game->LoadMapData(this->Map, scr);
-					
-					if(lockPalette && m->Palette != this->Palette)
-						continue;
-						
-					unless(m->State[ST_VISITED])
-						;//continue;
-						
-					unless(m->Valid & 1b)
-						continue;
-					
-					tmp->Clear(0);
+					tmp->ClearToColor(7, COLOR_NULL);
+				}
+				else //start draw screen
+				{
+					tmp->Clear(7);
 					bool bg2 = isBG(false, m, this), bg3 = isBG(true, m, this);
 					
 					if(bg2)
 					{
-						tmp->DrawLayer(0, this->Map, scr, 2, 0, 0, 0, OP_OPAQUE);
+						tmp->DrawLayer(7, this->Map, scr, 2, 0, 0, 0, OP_OPAQUE);
 						handlePaths(tmp, m, 2, l1, l2);
 					}
 					if(bg3)
 					{
-						tmp->DrawLayer(0, this->Map, scr, 3, 0, 0, 0, OP_OPAQUE);
+						tmp->DrawLayer(7, this->Map, scr, 3, 0, 0, 0, OP_OPAQUE);
 						handlePaths(tmp, m, 3, l1, l2);
 					}
 					
-					tmp->DrawLayer(0, this->Map, scr, 0, 0, 0, 0, OP_OPAQUE);
+					tmp->DrawLayer(7, this->Map, scr, 0, 0, 0, 0, OP_OPAQUE);
 					handlePaths(tmp, m, 0, l1, l2);
-					tmp->DrawLayer(0, this->Map, scr, 1, 0, 0, 0, OP_OPAQUE);
+					tmp->DrawLayer(7, this->Map, scr, 1, 0, 0, 0, OP_OPAQUE);
 					handlePaths(tmp, m, 1, l1, l2);
 					
 					for(int q = 1; q < 33; ++q) //start non-overlay ffcs
@@ -97,24 +100,24 @@ namespace Emily::EmilyMap
 						if(m->FFCFlags[q] & FFCBF_OVERLAY) //Skip drawing overlays
 							continue;
 						
-						tmp->DrawCombo(0, m->FFCX[q], m->FFCY[q], m->FFCData[q], m->FFCTileWidth[q], m->FFCTileHeight[q],
+						tmp->DrawCombo(7, m->FFCX[q], m->FFCY[q], m->FFCData[q], m->FFCTileWidth[q], m->FFCTileHeight[q],
 							m->FFCCSet[q], -1, -1, 0, 0, 0, 0, FLIP_NONE, true, (m->FFCFlags[q] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
 					} //end
 					
 					unless(bg2)
 					{
-						tmp->DrawLayer(0, this->Map, scr, 2, 0, 0, 0, OP_OPAQUE);
+						tmp->DrawLayer(7, this->Map, scr, 2, 0, 0, 0, OP_OPAQUE);
 						handlePaths(tmp, m, 2, l1, l2);
 					}
 					unless(bg3)
 					{
-						tmp->DrawLayer(0, this->Map, scr, 3, 0, 0, 0, OP_OPAQUE);
+						tmp->DrawLayer(7, this->Map, scr, 3, 0, 0, 0, OP_OPAQUE);
 						handlePaths(tmp, m, 3, l1, l2);
 					}
 					
-					tmp->DrawLayer(0, this->Map, scr, 4, 0, 0, 0, OP_OPAQUE);
+					tmp->DrawLayer(7, this->Map, scr, 4, 0, 0, 0, OP_OPAQUE);
 					handlePaths(tmp, m, 4, l1, l2);
-					tmp->DrawLayer(0, this->Map, scr, 5, 0, 0, 0, OP_OPAQUE);
+					tmp->DrawLayer(7, this->Map, scr, 5, 0, 0, 0, OP_OPAQUE);
 					handlePaths(tmp, m, 5, l1, l2);
 					
 					for(int q = 1; q < 33; ++q) //start overlay ffcs
@@ -128,58 +131,94 @@ namespace Emily::EmilyMap
 						unless(m->FFCFlags[q] & (1b<<FFCF_OVERLAY)) //Only draw overlays
 							continue; 
 						
-						tmp->DrawCombo(0, m->FFCX[q], m->FFCY[q], m->FFCData[q], m->FFCTileWidth[q], m->FFCTileHeight[q],
+						tmp->DrawCombo(7, m->FFCX[q], m->FFCY[q], m->FFCData[q], m->FFCTileWidth[q], m->FFCTileHeight[q],
 							m->FFCCSet[q], -1, -1, 0, 0, 0, 0, FLIP_NONE, true, (m->FFCFlags[q] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
 					} //end
 					
-					tmp->DrawLayer(0, this->Map, scr, 6, 0, 0, 0, OP_OPAQUE);
+					tmp->DrawLayer(7, this->Map, scr, 6, 0, 0, 0, OP_OPAQUE);
 					handlePaths(tmp, m, 6, l1, l2);
-					tmp->Blit(0, bmp, 0, 0, 256, 176, xdraw * 256, ydraw * 176, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-				}
+					if(curscr && scr == Game->GetCurScreen())
+					{
+						curscr->Blit(7, tmp, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, false);
+						for(int q = 0; q < CUR_ROOM_BORDER_THICKNESS; ++q)
+						{
+							tmp->Rectangle(7, q, q, 255-q, 175-q, COLOR_CUR_ROOM, 1, 0, 0, 0, false, OP_OPAQUE);
+						}
+					}
+				} //end draw screen
+				tmp->Blit(7, bmp, 0, 0, 256, 176, xdraw * 256, ydraw * 176, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, false);
 			}
-			tmp->Free();
-			//end Generate map
+		}
+		tmp->Free();
+		//end Generate map
+		
+	} //end
+	
+	@Author("EmilyV99")
+	dmapdata script CoolMap //start
+	{
+		void run(bool lockPalette)
+		{
+			DEFINE WIDTH = 256 * 16, HEIGHT = 176 * 8;
 			
-			if (DEBUG)
-				bmp->Write(7, "foo.png", true);
+			bitmap bmp = create(WIDTH,HEIGHT);
+			bitmap curscr = create(256,168);
+			curscr->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
+			genMap(bmp, this, lockPalette, curscr);
 			
-			int use_wid = (type_wid == 16) ? WIDTH : WIDTH / 2;
+			bool ow = ((this->Type & 11b) == DMAP_OVERWORLD);
+			int type_wid = ow ? 16 : 8;
+			int use_wid = ow ? WIDTH : WIDTH / 2;
 			int min_zoom = type_wid;
-			int x, y, zoom = min_zoom;
+			int x = 0, y = 0, zoom = min_zoom;
 			int input_clk, zoom_input_clk;
 			
 			do //start 
 			{
 				input_clk = (input_clk + 1) % INPUT_REPEAT_TIME;
-				zoom_input_clk = (zoom_input_clk + 1) % INPUT_REPEAT_TIME;
+				zoom_input_clk = (zoom_input_clk + 1) % ZOOM_INPUT_REPEAT_TIME;
 				bool pressed = true, zoomed = true;
 				if(Input->Press[CB_A] || (!zoom_input_clk && Input->Button[CB_A]))
 					--zoom;
 				else if(Input->Press[CB_B] || (!zoom_input_clk && Input->Button[CB_B]))
 					++zoom;
 				else zoomed = false;
-				if(Input->Press[CB_UP] || (!input_clk && Input->Button[CB_UP]))
-					y += MAP_PUSH_PIXELS;
-				else if(Input->Press[CB_DOWN] || (!input_clk && Input->Button[CB_DOWN]))
-					y -= MAP_PUSH_PIXELS;
-				else if(Input->Press[CB_LEFT] || (!input_clk && Input->Button[CB_LEFT]))
-					x += MAP_PUSH_PIXELS;
-				else if(Input->Press[CB_RIGHT] || (!input_clk && Input->Button[CB_RIGHT]))
-					x -= MAP_PUSH_PIXELS;
-				else pressed = false;
+				zoom = VBound(zoom, min_zoom, 1);
+				int zoom_mult = min_zoom/zoom;
+				int push_mult = min_zoom/(min_zoom-zoom+1);
+				
+				bool up = Input->Press[CB_UP] || (!input_clk && Input->Button[CB_UP]),
+				     down = Input->Press[CB_DOWN] || (!input_clk && Input->Button[CB_DOWN]),
+					 left = Input->Press[CB_LEFT] || (!input_clk && Input->Button[CB_LEFT]),
+					 right = Input->Press[CB_RIGHT] || (!input_clk && Input->Button[CB_RIGHT]);
+				if(up)
+					y += MAP_PUSH_VAL*push_mult;
+				if(down)
+					y -= MAP_PUSH_VAL*push_mult;
+				if(left)
+					x += MAP_PUSH_VAL*push_mult;
+				if(right)
+					x -= MAP_PUSH_VAL*push_mult;
+				unless(up||down||left||right)
+					pressed = false;
 				
 				if(pressed) 
 					input_clk = 1;
 				if(zoomed)
 					zoom_input_clk = 1;
 				
-				zoom = VBound(zoom, min_zoom, 1);
-				int zoom_mult = min_zoom/zoom;
-				y = VBound(y, HEIGHT, -HEIGHT);
-				x = VBound(x, use_wid, -use_wid);
-				
-				int tx =  (256 + (x-use_wid) * zoom_mult)/2;
-				int ty = ((224 + (y-HEIGHT) * zoom_mult)/2)-56;
+				if(ow)
+				{
+					x = VBound(x,128+112,-128-112);//VBound(x, (use_wid)/2-256, (-use_wid)/2-256);
+					y = VBound(y,112+94.5, 58.5);//VBound(y, (HEIGHT)/2-224, (-HEIGHT)/2-224);
+				}
+				else
+				{
+					x = VBound(x,128+96,-128-96);//VBound(x, (use_wid)/2-256, (-use_wid)/2-256);
+					y = VBound(y,112+77,-112+5);//VBound(y, (HEIGHT)/2-224, (-HEIGHT)/2-224);
+				}
+				int tx =  (256 + ((x-256) * zoom_mult))/2;
+				int ty = ((224 + ((y-224) * zoom_mult))/2)-28;
 				//printf("x%d,y%d, drawing at %d,%d (%d,%d)\n", x, y, tx, ty, use_wid/zoom, HEIGHT/zoom);
 				Screen->Rectangle(7, 0, -56, 255, 175, COLOR_NULL, 1, 0, 0, 0, true, OP_OPAQUE);
 				Screen->Rectangle(7, tx - 1, ty - 1, tx + use_wid / zoom, ty + HEIGHT / zoom, COLOR_FRAME, 1, 0, 0, 0, false, OP_OPAQUE);
@@ -187,6 +226,8 @@ namespace Emily::EmilyMap
 				
 				Waitframe();
 				
+				if(ALLOW_COMBO_ANIMS)
+					genMap(bmp, this, lockPalette, curscr);
 			} until(Input->Press[CB_MAP]); //end
 			
 			bmp->Free();
@@ -370,11 +411,11 @@ namespace Emily::EmilyMap
 					{
 						if(layer==l1)
 						{
-							b->FastCombo(0, ComboX(q), ComboY(q), getCombo(getFluid(flag), cmb>0), t1->ComboC[q], OP_OPAQUE);
+							b->FastCombo(7, ComboX(q), ComboY(q), getCombo(getFluid(flag), cmb>0), t1->ComboC[q], OP_OPAQUE);
 						}
 						if(layer==l2 && cmb)
 						{
-							b->FastCombo(0, ComboX(q), ComboY(q), cmb, t1->ComboC[q], OP_OPAQUE);
+							b->FastCombo(7, ComboX(q), ComboY(q), cmb, t1->ComboC[q], OP_OPAQUE);
 						}
 					}
 					else if(WP_DEBUG)
@@ -458,11 +499,11 @@ namespace Emily::EmilyMap
 					{
 						if(flowpath && layer==l1)
 						{
-							b->FastCombo(0, ComboX(q), ComboY(q), getCombo(getFluid(flowpath), cmb>0), t1->ComboC[q], OP_OPAQUE);
+							b->FastCombo(7, ComboX(q), ComboY(q), getCombo(getFluid(flowpath), cmb>0), t1->ComboC[q], OP_OPAQUE);
 						}
 						if(layer==l2 && cmb)
 						{
-							b->FastCombo(0, ComboX(q), ComboY(q), cmb, t1->ComboC[q], OP_OPAQUE);
+							b->FastCombo(7, ComboX(q), ComboY(q), cmb, t1->ComboC[q], OP_OPAQUE);
 						}
 					}
 					else if(WP_DEBUG)
