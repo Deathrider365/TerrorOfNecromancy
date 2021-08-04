@@ -309,6 +309,94 @@ namespace ShamblesNamespace //start
  
 } //end
 
+namespace Manhandala //start
+{
+	
+	npc script Manhandala //start
+	{
+		CONFIG DEFAULT_FRAMES = 4;
+		CONFIG DEFAULT_OFFSET = 0;
+		
+		CONFIG JUMP_GROUND_FRAMES = 1;
+		CONFIG JUMP_GROUND_OFFSET = 40;
+		
+		CONFIG JUMP_AIR_FRAMES = 2;
+		CONFIG JUMP_AIR_OFFSET = 42;
+		
+		CONFIG JUMP_LANDING_FRAMES = 1;
+		CONFIG JUMP_LANDING_OFFSET = 46;
+		
+		
+		void run(int hurtCSet, int minion)
+		{
+			int offset = DEFAULT_OFFSET;
+			npc heads[4];
+			
+			for (int q = 0; q < 4; ++q)
+			{
+				heads[q] = Screen->CreateNPC(minion);
+				heads[q]->InitD[0] = this;
+				heads[q]->Dir = q + 4;
+			}
+			
+			this->CollDetection = false;
+			
+			while(true)
+			{
+				bool dead = true;
+				
+				for (int q = 0; q < 4; ++q)
+				{
+					if (heads[q] && heads[q]->HP > 0)
+						dead = false;
+					else
+						heads[q] = NULL;
+				}
+				
+				if (dead)
+					break;
+				
+				Waitframe();
+			}
+			
+			this->CSet = hurtCSet;
+			this->CollDetection = true;
+			while(true)
+				Waitframe();
+		}
+		
+	} //end
+	
+	
+	npc script ManhandalaHead //start
+	{
+	
+		void run(npc parent)
+		{
+			unless(parent)
+				this->Remove();
+			
+			while(true)
+			{
+				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + (this->Dir & 100b ? (this->Dir & 1b ? 4 : -20) : (this->Dir == DIR_RIGHT ? 8 : (this->Dir == DIR_LEFT ? -24 : 0)));
+				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + (this->Dir & 100b ? (this->Dir & 10b ? 4 : -20) : (this->Dir == DIR_DOWN ? 8 : (this->Dir == DIR_UP ? -24 : 0)));
+				
+				this->ScriptTile = this->Tile + this->Dir * 20;
+				
+				Waitframe();
+			}
+		}
+		
+	} //end
+
+
+} //end
+
+
+
+
+
+
 
 
 
