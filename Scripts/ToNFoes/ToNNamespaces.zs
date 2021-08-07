@@ -309,65 +309,131 @@ namespace ShamblesNamespace //start
  
 } //end
 
-namespace Manhandala //start
+namespace Enemy::Manhandala //start
 {
+	enum Attacks
+	{
+		GROUND_POUND,
+		OIL_CANNON,
+		OIL_SPRAY,
+		FLAME_TOSS,
+		FLAME_CANNON
+	};
 	
 	npc script Manhandala //start
 	{
-		CONFIG DEFAULT_FRAMES = 4;
-		CONFIG DEFAULT_OFFSET = 0;
+		CONFIG DEFAULT_COMBO = 10272;
+		CONFIG JUMP_PREP_COMBO = 10273;
+		CONFIG JUMPING_COMBO = 10274;
+		CONFIG JUMP_LANDING_COMBO = 10275;
 		
-		CONFIG JUMP_GROUND_FRAMES = 1;
-		CONFIG JUMP_GROUND_OFFSET = 40;
-		
-		CONFIG JUMP_AIR_FRAMES = 2;
-		CONFIG JUMP_AIR_OFFSET = 42;
-		
-		CONFIG JUMP_LANDING_FRAMES = 1;
-		CONFIG JUMP_LANDING_OFFSET = 46;
-		
+		CONFIG TIME_BETWEEN_ATTACKS = 180;
 		
 		void run(int hurtCSet, int minion)
 		{
-			int offset = DEFAULT_OFFSET;
+			setupNPC(this);
+			int data[SZ_DATA];
+			int oCSet = this->CSet;
+			int timeSinceLastAttack;
+			
+			setNPCToCombo(data, this, DEFAULT_COMBO);
+			
 			npc heads[4];
 			
-			for (int q = 0; q < 4; ++q)
+			while(this->HP > 0)
 			{
-				heads[q] = Screen->CreateNPC(minion);
-				heads[q]->InitD[0] = this;
-				heads[q]->Dir = q + 4;
-			}
-			
-			this->CollDetection = false;
-			
-			while(true)
-			{
-				bool dead = true;
-				
 				for (int q = 0; q < 4; ++q)
 				{
-					if (heads[q] && heads[q]->HP > 0)
-						dead = false;
-					else
-						heads[q] = NULL;
+					heads[q] = Screen->CreateNPC(minion);
+					heads[q]->InitD[0] = this;
+					heads[q]->Dir = q + 4;
+				}
+			
+				this->CollDetection = false;
+				int previousAttack;
+				
+				while(true)
+				{
+					bool dead = true;
+					
+					for (int q = 0; q < 4; ++q)
+					{
+						if (heads[q] && heads[q]->HP > 0)
+							dead = false;
+						else
+							heads[q] = NULL;
+					}
+					
+					if (dead)
+						break;
+					
+					//will move towards link around the center pool, will not hug the pool's edge
+					//so movement will be cicular. 
+					
+					if(/*link->X && Link->Y within 16pix of one of the heads*/)
+						groundPound();
+						
+					//flameToss conditions
+							
+					if (gameframe - TIME_BETWEEN_ATTACKS == timeSinceLastAttack)
+					{
+						int rand = Rand(0, 180);
+						
+						do
+						{
+							--rand;
+							custom_waitframe();
+						} until(rand);
+						
+						
+						unless (previousAttack < 2)
+						{
+							if (/*Hero->X && Hero->Y < 36*/)
+								oilCannon();
+							else
+								oilSpray();
+						}
+						else
+						{
+							if (/*Hero->X && Hero->Y < 36*/)
+								flameCannon();
+							else
+								flameSpray();
+						}
+						
+					}
+					
+					if link is within attack range, initiate groundPound
+					else between 3-6 second from previous attack will choose an attack
+						chosen attack
+					
+					
+					custom_waitframe(this, data);
 				}
 				
-				if (dead)
-					break;
+				this->CSet = hurtCSet;
+				this->CollDetection = true;
 				
-				Waitframe();
+				for(int i = 0; i < 10; ++i)
+					custom_waitframe(this, data);
+				
+				for (int i = 0; i < 5 * 60; ++i)
+				{
+					unless (this->HP > 0)
+						break;
+					
+					//fleeing from link
+					
+					custom_waitframe(this, data);
+				}
 			}
 			
-			this->CSet = hurtCSet;
-			this->CollDetection = true;
 			while(true)
-				Waitframe();
+				custom_waitframe(this, data);
 		}
 		
 	} //end
-	
-	
+		
 	npc script ManhandalaHead //start
 	{
 	
@@ -379,7 +445,7 @@ namespace Manhandala //start
 			while(true)
 			{
 				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + (this->Dir & 100b ? (this->Dir & 1b ? 4 : -20) : (this->Dir == DIR_RIGHT ? 8 : (this->Dir == DIR_LEFT ? -24 : 0)));
-				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + (this->Dir & 100b ? (this->Dir & 10b ? 4 : -20) : (this->Dir == DIR_DOWN ? 8 : (this->Dir == DIR_UP ? -24 : 0)));
+				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + (this->Dir & 100b ? (this->Dir & 10b ? -6 : -23) : (this->Dir == DIR_DOWN ? -2 : (this->Dir == DIR_UP ? -27 : -10)));
 				
 				this->ScriptTile = this->Tile + this->Dir * 20;
 				
@@ -392,8 +458,91 @@ namespace Manhandala //start
 
 } //end
 
+namespace Enemy //start
+{
+	void groundPound()
+	{
+	
+	}
+	
+	void flameToss()
+	{
+	
+	}
+	
+	void oilCannon()
+	{
+	
+	}
+	
+	void oilSpray()
+	{
+	
+	}
+	
+	void flameCannon()
+	{
+	
+	}
+	
+	void flameSpray()
+	{
+	
+	}
+	
+	enum dataInd //start
+	{
+		DATA_AFRAMES,
+		DATA_CLK,
+		DATA_FRAME,
+		SZ_DATA
+	}; //end
+	
+	void setNPCToCombo(int data, npc n, int cid) //start
+	{
+		setNPCToCombo(data,n,Game->LoadComboData(cid));
+	} //end
+	
+	void setNPCToCombo(int data, npc n, combodata c) //start
+	{
+		data[DATA_AFRAMES] = c->Frames;
+		n->OriginalTile = c->OriginalTile;
+		n->ASpeed = c->ASpeed;
+		data[DATA_FRAME] = 0;
+	} //end
+	
+	void setupNPC(npc n) //start
+	{
+		n->Animation = false;
+		unless(n->TileWidth)
+			n->TileWidth = 1;
+		unless(n->TileHeight)
+			n->TileHeight = 1;
+		unless(n->HitWidth)
+			n->HitWidth = 16;
+		unless(n->HitHeight)
+			n->HitHeight = 16;
+	} //end
+	
+	void custom_waitframe(npc n, int data) //start
+	{
+		if(++data[DATA_CLK] >= n->ASpeed)
+		{
+			data[DATA_CLK] = 0;
+			
+			if(++data[DATA_FRAME] >= data[DATA_AFRAMES])
+				data[DATA_FRAME] = 0;
+				
+			n->ScriptTile = n->OriginalTile + (n->TileWidth * data[DATA_FRAME]);
+			int rowdiff = Div(n->ScriptTile-n->OriginalTile, 20);
+			
+			if(rowdiff)
+				n->ScriptTile += (rowdiff * (n->TileHeight - 1));
+		}
+		Waitframe();
+	} //end
 
-
+} //end
 
 
 
