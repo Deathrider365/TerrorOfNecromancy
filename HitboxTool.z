@@ -1,0 +1,446 @@
+const int HITBOXTOOL_COLOR_TEXT = 0x01;
+const int HITBOXTOOL_COLOR_BG = 0x0F;
+const int HITBOXTOOL_COLOR_FLASH = 0x02;
+
+ffc script HitboxTool{
+	void run(){
+		Game->ClickToFreezeEnabled = false;
+		
+		int i; int j; int k; int m;
+		int x; int y;
+		int w; int h;
+		int rot;
+		
+		bool showInstructions = true;
+		
+		int selectedTile;
+		int selectedCSet;
+		int tileWidth = 1;
+		int tileHeight = 1;
+		
+		int selHitbox = 0;
+		int numHitboxes = 1;
+		
+		int inst1[] = "ARROWS: SELECT TILE";
+		int inst2[] = "L/R: SELECT CSET";
+		int inst3[] = "EX1/EX2: FWD/BACK PAGE";
+		int inst4[] = "MAP: TOGGLE INSTRUCTIONS";
+		int inst5[] = "START: PROCEED";
+		
+		int input[32];
+		//Phase 1: Select tile:
+		while(true){
+			HitboxTool_UpdateInput(input);
+			if(input[DIR_UP]==16||Link->PressUp){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile-20, 0, 65519);
+			}
+			if(input[DIR_DOWN]==16||Link->PressDown){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile+20, 0, 65519);
+			}
+			if(input[DIR_LEFT]==16||Link->PressLeft){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile-1, 0, 65519);
+			}
+			if(input[DIR_RIGHT]==16||Link->PressRight){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile+1, 0, 65519);
+			}
+			if(Link->PressL){
+				Game->PlaySound(5);
+				selectedCSet = Clamp(selectedCSet-1, 0, 11);
+			}
+			if(Link->PressR){
+				Game->PlaySound(5);
+				selectedCSet = Clamp(selectedCSet+1, 0, 11);
+			}
+			if(input[4]==16||Link->PressEx1){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile-260, 0, 65519);
+			}
+			if(input[5]==16||Link->PressEx2){
+				Game->PlaySound(5);
+				selectedTile = Clamp(selectedTile+260, 0, 65519);
+			}
+			if(Link->PressMap){
+				Game->PlaySound(5);
+				showInstructions = !showInstructions;
+			}
+			if(Link->PressStart){
+				Game->PlaySound(25);
+				NoAction();
+				Link->PressMap = false; Link->InputMap = false;
+				Link->PressStart = false; Link->InputStart = false;
+				break;
+			}
+			k = Min(selectedTile%20, 4);
+			Screen->DrawTile(6, 0, 0, Floor(selectedTile/20)*20+k, 16, 11, selectedCSet, -1, -1, 0, 0, 0, 0, false, 128);
+			if(input[31]%8<4){
+				x = ((selectedTile%20)-k)*16;
+				y = 0;
+				Screen->Rectangle(6, x, y, x+15, y+15, HITBOXTOOL_COLOR_TEXT, 1, 0, 0, 0, true, 128);
+			}
+			
+			if(showInstructions){
+				Screen->DrawString(6, 0, 138, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst1, 128);
+				Screen->DrawString(6, 0, 144, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst2, 128);
+				Screen->DrawString(6, 0, 150, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst3, 128);
+				Screen->DrawString(6, 0, 156, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst4, 128);
+				Screen->DrawString(6, 0, 162, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst5, 128);
+			}
+			Link->PressMap = false; Link->InputMap = false;
+			Link->PressStart = false; Link->InputStart = false;
+			WaitNoAction();
+		}
+		int inst6[] = "ARROWS: CHANGE SIZE";
+		//Phase 2: Select size
+		while(true){
+			HitboxTool_UpdateInput(input);
+			if(input[DIR_UP]==16||Link->PressUp){
+				Game->PlaySound(5);
+				tileHeight = Clamp(tileHeight-1, 1, 16);
+			}
+			if(input[DIR_DOWN]==16||Link->PressDown){
+				Game->PlaySound(5);
+				tileHeight = Clamp(tileHeight+1, 1, 11);
+			}
+			if(input[DIR_LEFT]==16||Link->PressLeft){
+				Game->PlaySound(5);
+				tileWidth = Clamp(tileWidth-1, 1, 20);
+			}
+			if(input[DIR_RIGHT]==16||Link->PressRight){
+				Game->PlaySound(5);
+				tileWidth = Clamp(tileWidth+1, 1, 20);
+			}
+			if(Link->PressL){
+				Game->PlaySound(5);
+				selectedCSet = Clamp(selectedCSet-1, 0, 11);
+			}
+			if(Link->PressR){
+				Game->PlaySound(5);
+				selectedCSet = Clamp(selectedCSet+1, 0, 11);
+			}
+			if(Link->PressMap){
+				Game->PlaySound(5);
+				showInstructions = !showInstructions;
+			}
+			if(Link->PressStart){
+				Game->PlaySound(25);
+				NoAction();
+				Link->PressMap = false; Link->InputMap = false;
+				Link->PressStart = false; Link->InputStart = false;
+				break;
+			}
+			
+			k = Min(selectedTile%20, 4);
+			j = Max(0, tileHeight-11);
+			Screen->DrawTile(6, 0, 0, Floor(selectedTile/20)*20+k, 16, 11, selectedCSet, -1, -1, 0, 0, 0, 0, false, 128);
+			if(input[31]%8<4){
+				x = ((selectedTile%20)-k)*16;
+				y = 0;
+				Screen->Rectangle(6, x, y, x+16*tileWidth-1, y+16*tileHeight-1, HITBOXTOOL_COLOR_TEXT, 1, 0, 0, 0, true, 128);
+			}
+			
+			if(showInstructions){
+				Screen->DrawString(6, 0, 144, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst2, 128);
+				Screen->DrawString(6, 0, 150, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst6, 128);
+				Screen->DrawString(6, 0, 156, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst4, 128);
+				Screen->DrawString(6, 0, 162, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst5, 128);
+			}
+			Link->PressMap = false; Link->InputMap = false;
+			Link->PressStart = false; Link->InputStart = false;
+			WaitNoAction();
+		}
+		int inst7[] = "ARROWS: MOVE HITBOX";
+		int inst8[] = "A+ARROWS: SCALE HITBOX";
+		int inst9[] = "LEFT CLICK: MOVE HITBOX";
+		int inst10[] = "L/R: ROTATE HITBOX";
+		int inst11[] = "RIGHT CLICK: ROTATE HITBOX";
+		int inst12[] = "EX1/EX2: CHANGE SELECTED HITBOX";
+		int inst13[] = "EX3/EX4: ADD/REMOVE HITBOX (01)";
+		//Phase 3: Add Hitboxes
+		int hitboxes[80];
+		for(i=0; i<16; i++){
+			hitboxes[i*5+3] = 8;
+			hitboxes[i*5+4] = 8;
+		}
+		while(true){
+			HitboxTool_UpdateInput(input);
+			
+			if(Link->InputA){
+				if(Link->InputUp){
+					hitboxes[selHitbox*5+4]++; //Increase Height
+				}
+				if(Link->InputDown){
+					hitboxes[selHitbox*5+4]--; //Decrease Height
+				}
+				hitboxes[selHitbox*5+4] = Abs(hitboxes[selHitbox*5+4]);
+				if(Link->InputLeft){
+					hitboxes[selHitbox*5+3]--; //Decrease Width
+				}
+				if(Link->InputRight){
+					hitboxes[selHitbox*5+3]++; //Increase Width
+				}
+				hitboxes[selHitbox*5+3] = Abs(hitboxes[selHitbox*5+3]);
+			}
+			else{
+				if(Link->InputUp){
+					hitboxes[selHitbox*5+1]--; //Decrease Y
+				}
+				if(Link->InputDown){
+					hitboxes[selHitbox*5+1]++; //Increase Y
+				}
+				if(Link->InputLeft){
+					hitboxes[selHitbox*5+0]--; //Decrease X
+				}
+				if(Link->InputRight){
+					hitboxes[selHitbox*5+0]++; //Increase X
+				}
+			}
+			if(InputLeftClick()){
+				hitboxes[selHitbox*5+0] = Link->InputMouseX;
+				hitboxes[selHitbox*5+1] = Link->InputMouseY;
+			}
+			if(Link->InputL){
+				hitboxes[selHitbox*5+2] = WrapDegrees(hitboxes[selHitbox*5+2]-1);
+			}
+			if(Link->InputR){
+				hitboxes[selHitbox*5+2] = WrapDegrees(hitboxes[selHitbox*5+2]+1);
+			}
+			if(Link->InputL&&Link->InputR)
+				hitboxes[selHitbox*5+2] = 0;
+			if(InputRightClick()){
+				hitboxes[selHitbox*5+2] = Angle(hitboxes[selHitbox*5+0], hitboxes[selHitbox*5+1], Link->InputMouseX, Link->InputMouseY);
+			}
+			
+			if(input[4]==16||Link->PressEx1){
+				Game->PlaySound(5);
+				selHitbox = Clamp(selHitbox-1, 0, numHitboxes-1);
+			}
+			if(input[5]==16||Link->PressEx2){
+				Game->PlaySound(5);
+				selHitbox = Clamp(selHitbox+1, 0, numHitboxes-1);
+			}
+			if(input[6]==16||Link->PressEx3){
+				Game->PlaySound(5);
+				numHitboxes = Clamp(numHitboxes-1, 1, 16);
+				selHitbox = Clamp(selHitbox-1, 0, numHitboxes-1);
+			}
+			if(input[7]==16||Link->PressEx4){
+				Game->PlaySound(5);
+				numHitboxes = Clamp(numHitboxes+1, 1, 16);
+				selHitbox = Clamp(selHitbox+1, 0, numHitboxes-1);
+			}
+			inst13[28] = '0'+Floor(numHitboxes/10);
+			inst13[29] = '0'+(numHitboxes%10);
+			if(Link->PressMap){
+				Game->PlaySound(5);
+				showInstructions = !showInstructions;
+			}
+			if(Link->PressStart){
+				Game->PlaySound(25);
+				NoAction();
+				Link->PressMap = false; Link->InputMap = false;
+				Link->PressStart = false; Link->InputStart = false;
+				break;
+			}
+			Screen->Rectangle(6, 0, 0, 255, 175, HITBOXTOOL_COLOR_BG, 1, 0, 0, 0, true, 128);
+			Screen->Rectangle(6, 0, 0, 255, 175, selectedCSet*16, 1, 0, 0, 0, true, 128);
+			Screen->DrawTile(6, 0, 0, selectedTile, tileWidth, tileHeight, selectedCSet, -1, -1, 0, 0, 0, 0, true, 128);
+			for(i=0; i<numHitboxes; i++){
+				x   = hitboxes[i*5+0];
+				y   = hitboxes[i*5+1];
+				rot = hitboxes[i*5+2];
+				w   = hitboxes[i*5+3];
+				h   = hitboxes[i*5+4];
+				
+				Screen->Rectangle(6, x-w/2, y-h/2, x+w/2, y+h/2, HITBOXTOOL_COLOR_TEXT, 1, x, y, rot, true, 128);
+			}
+			x   = hitboxes[selHitbox*5+0];
+			y   = hitboxes[selHitbox*5+1];
+			rot = hitboxes[selHitbox*5+2];
+			w   = hitboxes[selHitbox*5+3];
+			h   = hitboxes[selHitbox*5+4];
+			if(input[31]%8<4){
+				Screen->Rectangle(6, x-w/2, y-h/2, x+w/2, y+h/2, HITBOXTOOL_COLOR_TEXT, 1, x, y, rot, true, 128);
+			}
+			else{
+				Screen->Rectangle(6, x-w/2, y-h/2, x+w/2, y+h/2, HITBOXTOOL_COLOR_FLASH, 1, x, y, rot, true, 128);
+			}
+			if(showInstructions){
+				Screen->DrawString(6, 0, 114, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst7, 128);
+				Screen->DrawString(6, 0, 120, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst8, 128);
+				Screen->DrawString(6, 0, 126, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst9, 128);
+				Screen->DrawString(6, 0, 132, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst10, 128);
+				Screen->DrawString(6, 0, 138, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst11, 128);
+				Screen->DrawString(6, 0, 144, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst12, 128);
+				Screen->DrawString(6, 0, 150, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst13, 128);
+				Screen->DrawString(6, 0, 156, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst4, 128);
+				Screen->DrawString(6, 0, 162, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, HITBOXTOOL_COLOR_BG, TF_NORMAL, inst5, 128);
+			}
+			Screen->PutPixel(6, Link->InputMouseX, Link->InputMouseY, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+1, Link->InputMouseY, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+2, Link->InputMouseY, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+3, Link->InputMouseY, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX, Link->InputMouseY+1, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+1, Link->InputMouseY+1, HITBOXTOOL_COLOR_TEXT, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+2, Link->InputMouseY+1, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX, Link->InputMouseY+2, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX+1, Link->InputMouseY+2, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			Screen->PutPixel(6, Link->InputMouseX, Link->InputMouseY+3, HITBOXTOOL_COLOR_BG, 0, 0, 0, 128);
+			
+			Link->PressMap = false; Link->InputMap = false;
+			Link->PressStart = false; Link->InputStart = false;
+			WaitNoAction();
+		}
+		//Phase 4: Print to allegro.log
+		int arrayStart[] = "int hitboxes[] = {";
+		int arrayEnd[] = "};";
+		TraceS(arrayStart);
+		TraceNL();
+		for(i=0; i<numHitboxes; i++){
+			int buf[64];
+			m = 0;
+			for(j=0; j<5; j++){
+				k = hitboxes[i*5+j];
+				if(k<0){
+					buf[m] = '-';
+					k = Abs(k);
+					m++;
+				}
+				if(k>9999){
+					buf[m] = '0'+Floor(k/10000);
+					m++;
+				}
+				if(k>999){
+					buf[m] = '0'+Floor((k%10000)/1000);
+					m++;
+				}
+				if(k>99){
+					buf[m] = '0'+Floor((k%1000)/100);
+					m++;
+				}
+				if(k>9){
+					buf[m] = '0'+Floor((k%100)/10);
+					m++;
+				}
+				buf[m] = '0'+(k%10);
+				m++;
+				if(j!=4||i!=numHitboxes-1){
+					buf[m] = ',';
+					m++;
+					buf[m] = ' ';
+					m++;
+				}
+				
+			}
+			buf[m] = 0;
+			TraceS(buf);
+			TraceNL();
+		}
+		TraceS(arrayEnd);
+		TraceNL();
+		int inst14[] = "Hitbox array printed to allegro.log.";
+		for(int i=0; i<120; i++){
+			Screen->Rectangle(6, 0, 0, 255, 175, HITBOXTOOL_COLOR_BG, 1, 0, 0, 0, true, 128);
+			Screen->DrawString(6, 128, 80, FONT_Z3SMALL, HITBOXTOOL_COLOR_TEXT, -1, TF_CENTERED, inst14, 128);
+			Link->PressMap = false; Link->InputMap = false;
+			Link->PressStart = false; Link->InputStart = false;
+			WaitNoAction();
+		}
+	}
+	void HitboxTool_UpdateInput(int input){
+		input[31] = (input[31]+1)%360;
+		
+		for(int i=0; i<8; i++){
+			if(input[i]>=16)
+				input[i] = 0;
+		}
+		
+		if(Link->InputUp)
+			input[DIR_UP]++;
+		else if(input[DIR_UP]>0)
+			input[DIR_UP]--;
+		
+		if(Link->InputDown)
+			input[DIR_DOWN]++;
+		else if(input[DIR_DOWN]>0)
+			input[DIR_DOWN]--;
+		
+		if(Link->InputLeft)
+			input[DIR_LEFT]++;
+		else if(input[DIR_LEFT]>0)
+			input[DIR_LEFT]--;
+		
+		if(Link->InputRight)
+			input[DIR_RIGHT]++;
+		else if(input[DIR_RIGHT]>0)
+			input[DIR_RIGHT]--;
+		
+		if(Link->InputEx1)
+			input[4]++;
+		else if(input[4]>0)
+			input[4]--;
+		
+		if(Link->InputEx2)
+			input[5]++;
+		else if(input[5]>0)
+			input[5]--;
+		
+		if(Link->InputEx3)
+			input[6]++;
+		else if(input[6]>0)
+			input[6]--;
+		
+		if(Link->InputEx4)
+			input[7]++;
+		else if(input[7]>0)
+			input[7]--;
+	}
+}
+
+bool HitboxTool_CheckLinkCollision(int hitboxes, int x, int y, int rx, int ry, int rang){
+	int numHitboxes = Floor(SizeOfArray(hitboxes)/5);
+	int tmpx;
+	int tmpy;
+	int angle;
+	int dist;
+	for(int i=0; i<numHitboxes; i++){
+		angle = Angle(rx, ry, x+hitboxes[i*5+0], y+hitboxes[i*5+1]);
+		dist = Distance(rx, ry, x+hitboxes[i*5+0], y+hitboxes[i*5+1]);
+		tmpx = rx+VectorX(dist, angle+rang);
+		tmpy = ry+VectorY(dist, angle+rang);
+		//Reminder that RotRectCollision has a rather confusing argument order.
+		//Height goes before width and both are half lengths.
+		if(RotRectCollision(tmpx, tmpy, hitboxes[i*5+4]/2, hitboxes[i*5+3]/2, hitboxes[i*5+2]+rang, Link->X+8, Link->Y+8, 1, 1, 0, false))
+			return true;
+	}
+	return false;
+}
+
+ffc script HitboxTool_Test{
+	void run(){
+		int hitboxes[] = {
+			43, 117, -14, 37, 15, 
+			57, 77, -74, 82, 26, 
+			50, 69, 23, 91, 15, 
+			33, 31, -48, 83, 8
+		};
+		
+		int x = 16;
+		int y = 16;
+		int rot = 0;
+		while(true){
+			if(Link->InputL)
+				rot--;
+			if(Link->InputR)
+				rot++;
+			Screen->DrawTile(4, x, y, 39000, 6, 8, 9, -1, -1, x, y, rot, 0, true, 128);
+			if(HitboxTool_CheckLinkCollision(hitboxes, x, y, x+48, y+64, rot)){
+				Game->PlaySound(3);
+			}
+			Waitframe();
+		}
+	}
+}

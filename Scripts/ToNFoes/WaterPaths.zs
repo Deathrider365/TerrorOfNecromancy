@@ -18,7 +18,7 @@ namespace WaterPaths //start
 		FL_SZ
 	};
 	
-	CONFIGB WP_DEBUG = false;
+	CONFIGB WP_DEBUG = true;
 	
 	int getCombo(Fluid f, bool solid) //start
 	{

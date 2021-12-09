@@ -311,14 +311,14 @@ namespace ShamblesNamespace //start
 
 namespace Enemy::Manhandala //start
 {
-	enum Attacks
+	enum Attacks //start
 	{
 		GROUND_POUND,
 		OIL_CANNON,
 		OIL_SPRAY,
 		FLAME_TOSS,
 		FLAME_CANNON
-	};
+	}; //end
 	
 	npc script Manhandala //start
 	{
@@ -332,6 +332,7 @@ namespace Enemy::Manhandala //start
 		void run(int hurtCSet, int minion)
 		{
 			setupNPC(this);
+			
 			int data[SZ_DATA];
 			int oCSet = this->CSet;
 			int timeSinceLastAttack;
@@ -367,13 +368,13 @@ namespace Enemy::Manhandala //start
 					if (dead)
 						break;
 					
-					//will move towards link around the center pool, will not hug the pool's edge
-					//so movement will be cicular. 
+					// will move towards link fairly slowly, but if he enters the pool that will instantly trigger
+					// an attack, so the player will want to avoid letting him getting into it
 					
-					if(/*link->X && Link->Y within 16pix of one of the heads*/)
-						groundPound();
+					// if(link->X && Link->Y within 16pix of one of the heads)
+						// groundPound();
 						
-					//flameToss conditions
+					// flameToss conditions
 							
 					if (gameframe - TIME_BETWEEN_ATTACKS == timeSinceLastAttack)
 					{
@@ -382,30 +383,30 @@ namespace Enemy::Manhandala //start
 						do
 						{
 							--rand;
-							custom_waitframe();
+							custom_waitframe(this, data);
 						} until(rand);
 						
 						
 						unless (previousAttack < 2)
 						{
-							if (/*Hero->X && Hero->Y < 36*/)
-								oilCannon();
-							else
-								oilSpray();
+							// if (/*Hero->X && Hero->Y < 36*/)
+								// oilCannon();
+							// else
+								// oilSpray();
 						}
 						else
 						{
-							if (/*Hero->X && Hero->Y < 36*/)
-								flameCannon();
-							else
-								flameSpray();
+							// if (/*Hero->X && Hero->Y < 36*/)
+								// flameCannon();
+							// else
+								// flameSpray();
 						}
 						
 					}
 					
-					if link is within attack range, initiate groundPound
-					else between 3-6 second from previous attack will choose an attack
-						chosen attack
+					// if link is within attack range, initiate groundPound
+					// else between 3-6 second from previous attack will choose an attack
+						// chosen attack
 					
 					
 					custom_waitframe(this, data);
@@ -417,12 +418,12 @@ namespace Enemy::Manhandala //start
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
 				
-				for (int i = 0; i < 5 * 60; ++i)
+				for (int i = 0; i < (5 * 60); ++i)
 				{
 					unless (this->HP > 0)
 						break;
 					
-					//fleeing from link
+					// fleeing from link
 					
 					custom_waitframe(this, data);
 				}
@@ -436,7 +437,6 @@ namespace Enemy::Manhandala //start
 		
 	npc script ManhandalaHead //start
 	{
-	
 		void run(npc parent)
 		{
 			unless(parent)
@@ -444,8 +444,13 @@ namespace Enemy::Manhandala //start
 			
 			while(true)
 			{
-				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + (this->Dir & 100b ? (this->Dir & 1b ? 4 : -20) : (this->Dir == DIR_RIGHT ? 8 : (this->Dir == DIR_LEFT ? -24 : 0)));
-				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + (this->Dir & 100b ? (this->Dir & 10b ? -6 : -23) : (this->Dir == DIR_DOWN ? -2 : (this->Dir == DIR_UP ? -27 : -10)));
+				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) 
+					+ (this->Dir & 100b ? (this->Dir & 1b ? 4 : -20) 
+										: (this->Dir == DIR_RIGHT ? 8 : (this->Dir == DIR_LEFT ? -24 : 0)));
+					
+				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) 
+					+ (this->Dir & 100b ? (this->Dir & 10b ? -6 : -23) 
+										: (this->Dir == DIR_DOWN ? -2 : (this->Dir == DIR_UP ? -27 : -10)));
 				
 				this->ScriptTile = this->Tile + this->Dir * 20;
 				
@@ -455,40 +460,39 @@ namespace Enemy::Manhandala //start
 		
 	} //end
 
-
 } //end
 
 namespace Enemy //start
 {
-	void groundPound()
+	void groundPound() //start
 	{
 	
-	}
+	} //end
 	
-	void flameToss()
+	void flameToss() //start
 	{
 	
-	}
+	} //end
 	
-	void oilCannon()
+	void oilCannon() //start
 	{
 	
-	}
+	} //end
 	
-	void oilSpray()
+	void oilSpray() //start
 	{
 	
-	}
+	} //end
 	
-	void flameCannon()
+	void flameCannon() //start
 	{
 	
-	}
+	} //end
 	
-	void flameSpray()
+	void flameSpray() //start
 	{
 	
-	}
+	} //end
 	
 	enum dataInd //start
 	{
@@ -514,6 +518,7 @@ namespace Enemy //start
 	void setupNPC(npc n) //start
 	{
 		n->Animation = false;
+		
 		unless(n->TileWidth)
 			n->TileWidth = 1;
 		unless(n->TileHeight)

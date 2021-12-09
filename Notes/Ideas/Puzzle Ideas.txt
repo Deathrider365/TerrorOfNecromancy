@@ -7,3 +7,4 @@ pits
 
 like warp mazes, have dive mazes
 
+push blocks into water
