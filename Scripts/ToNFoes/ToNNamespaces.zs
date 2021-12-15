@@ -28,7 +28,7 @@ namespace Leviathan1Namespace //start
 	int LEVIATHAN1_BURSTCANNON_DMG = 30;
 	int LEVIATHAN1_WATERFALL_DMG = 50;
 
-	int MSG_BEATEN = 19;
+	int MSG_BEATEN = 23;
 	int MSG_LEVIATHAN_SCALE = 122;
 
 	bool firstRun = true;
@@ -171,7 +171,7 @@ namespace Leviathan1Namespace //start
 				x += RadianCos(this->Angle) * this->Step * 0.01;
 				y += RadianSin(this->Angle) * this->Step * 0.01;
 				
-				dist = Sin(timer)*size;
+				dist = Sin(timer) * size;
 				
 				this->X = x + VectorX(dist, RadtoDeg(this->Angle) - 90);
 				this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
@@ -341,6 +341,11 @@ namespace Enemy::Manhandala //start
 			
 			npc heads[4];
 			
+			int linkLocations[] = {0, 0, 0, 0, 0};
+			int linkLocationInsertIndex = 0;
+			
+			int angle;
+			
 			while(this->HP > 0)
 			{
 				for (int q = 0; q < 4; ++q)
@@ -368,8 +373,18 @@ namespace Enemy::Manhandala //start
 					if (dead)
 						break;
 					
-					// will move towards link fairly slowly, but if he enters the pool that will instantly trigger
-					// an attack, so the player will want to avoid letting him getting into it
+					unless (data[DATA_CLK] % 3)
+					{
+						angle = Angle(this->X, this->Y, Hero->X - 8, Hero->Y - 2);
+					
+						if (linkLocationInsertIndex > 4)
+							linkLocationInsertIndex = 0;
+							
+						linkLocations[linkLocationInsertIndex++] = angle;
+						
+						this->X += VectorX(1, linkLocations[0]);
+						this->Y += VectorY(1, linkLocations[0]);
+					}
 					
 					// if(link->X && Link->Y within 16pix of one of the heads)
 						// groundPound();
@@ -423,8 +438,36 @@ namespace Enemy::Manhandala //start
 					unless (this->HP > 0)
 						break;
 					
-					// fleeing from link
+					// fleeing from Link, this works, but need to handle wall collision and what to do if he is stuck in a corner
 					
+					angle = Angle(this->X, this->Y, Hero->X - 8, Hero->Y - 2);
+				
+					if (linkLocationInsertIndex > 4)
+						linkLocationInsertIndex = 0;
+						
+					linkLocations[linkLocationInsertIndex++] = angle;
+					
+					this->X += VectorX(-1, linkLocations[0]);
+					this->Y += VectorY(-1, linkLocations[0]);
+					
+					custom_waitframe(this, data);
+				}
+				
+				Waitframes(60);
+				
+				//flees into the center pool to regen
+				int centerX = 256 / 2 - 16, centerY = 176 / 2 - 24;
+				
+				until ((this->X > centerX - 1 && this->X < centerX + 1) 
+				&& (this->Y > centerY - 1 && this->Y < centerY + 1))
+				{
+					unless(data[DATA_CLK] % 2)
+					{
+						angle = Angle(this->X, this->Y, centerX, centerY);
+					
+						this->X += VectorX(2, angle);
+						this->Y += VectorY(2, angle);
+					}
 					custom_waitframe(this, data);
 				}
 			}
@@ -504,7 +547,7 @@ namespace Enemy //start
 	
 	void setNPCToCombo(int data, npc n, int cid) //start
 	{
-		setNPCToCombo(data,n,Game->LoadComboData(cid));
+		setNPCToCombo(data, n, Game->LoadComboData(cid));
 	} //end
 	
 	void setNPCToCombo(int data, npc n, combodata c) //start
@@ -529,6 +572,11 @@ namespace Enemy //start
 			n->HitHeight = 16;
 	} //end
 	
+	void deathAnimation() //start
+	{
+	
+	} //end
+	
 	void custom_waitframe(npc n, int data) //start
 	{
 		if(++data[DATA_CLK] >= n->ASpeed)
@@ -544,6 +592,7 @@ namespace Enemy //start
 			if(rowdiff)
 				n->ScriptTile += (rowdiff * (n->TileHeight - 1));
 		}
+		
 		Waitframe();
 	} //end
 

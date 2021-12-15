@@ -2,7 +2,7 @@
 //~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts ~ Cutscenes~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//start When i give triuforce shards use this: Game->LItems[lvl] |= LI_TRIFORCE; 
+//start When i give triforce shards use this: Game->LItems[lvl] |= LI_TRIFORCE; 
 /*
 int countTriforce()
 {
@@ -198,6 +198,7 @@ ffc script Leviathan1Ending //start
 				waterfallRight->InitD[1] = 64;	
 			}
 			
+			// Removing link's advanced items
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
@@ -368,9 +369,9 @@ ffc script PreInteritusLeviathanScene //start
 		Audio->PlaySound(SFX_ROAR);
 		
 		if (Hero->Item[183])
-			Screen->Message(173);
+			Screen->Message(49);
 		else
-			Screen->Message(47);
+			Screen->Message(53);
 		
 		for(int i = 0; i < 60; ++i) //start
 		{
@@ -437,10 +438,25 @@ ffc script PreInteritusLeviathanScene //start
 		} //end
 		
 		Waitframes(60);
-		leavingTransition(12, 80, 0);
+		// leavingTransition(12, 80, 0);
+		leavingTransition(0, 81, 0);
 	}
 }
 
+//end
+
+//~~~~~FinalMessageBeforeIntroMovie~~~~~//
+@Author("Deathrider365")
+ffc script FinalMessageBeforeIntroMovie //start
+{
+	void run(int message)
+	{
+		// Audio->PlayEnhancedMusic();		insert sad/desperate music for this
+		Screen->Message(message);
+		leavingTransition(12, 80, 0);	
+	}
+
+}
 //end
 
 //~~~~~OfficialIntro~~~~~//
@@ -514,8 +530,6 @@ ffc script FinalScene //start
 		}
 		
 		Hero->Warp(12, 13);
-		
-		// Hero->WarpEx({WT_IWARP, 12, 13, -1, WARP_A, WARPEFFECT_NONE, 0, 0});
 	}
 } //end
 

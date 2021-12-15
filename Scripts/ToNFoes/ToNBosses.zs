@@ -89,7 +89,7 @@ npc script Leviathan1 //start
 			   Audio->PlayEnhancedMusic("DS3 - Old Demon King.ogg", 0);
 			   if (firstRun)
 			   {
-					Screen->Message(16);
+					Screen->Message(400);
 					firstRun = false;
 			   }
 			}
@@ -287,8 +287,6 @@ npc script Leviathan1 //start
 						burstDelay = 12;
 					}
 					
-					
-						
 					// Shooting loop
 					for(i = 0; i < numBursts; ++i)
 					{
@@ -943,7 +941,7 @@ ffc script Shambles //start
 
 		if (firstRun)
 		{
-			Screen->Message(45);
+			Screen->Message(401);
 			firstRun = false;
 		}
 		//end spawning animation

@@ -84,11 +84,10 @@ CONFIG SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
 CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
 
-CONFIG MSG_LINK_BEATEN = 23;
-
 CONFIG MISC_SOLIDFFC = 14; 			//A misc value between 0 and 15 to denote a ffc as solid.
 CONFIG MISC_SFFC_X = 0;  			//This can be used by other ffcs as long as they're not solid.
 
+CONFIG MSG_LINK_BEATEN = 24;
 //end
 
 //~~~~~Itemdata~~~~~//

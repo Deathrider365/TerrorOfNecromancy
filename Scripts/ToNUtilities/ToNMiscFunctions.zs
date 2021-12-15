@@ -1064,7 +1064,6 @@ void leavingTransition(int dmap, int screen, int usingPresents) //start
 	}
 	
 	Hero->Warp(dmap, screen);
-	// Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, WARP_FLAG_PLAYMUSIC, 0});
 } //end
 
 void enteringTransition() //start
