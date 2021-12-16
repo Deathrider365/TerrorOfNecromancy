@@ -263,80 +263,47 @@ ffc script SFXPlay //start
 //end
 
 //~~~~~BattleArena~~~~~//
-//D0: Num of attempts until failure is determined
-//D1: Dmap to warp to
-//D2: screen to warp to
+//D0: Arena list number to determine what enemies will spawn in this arena
 @Author ("Deathrider365")
 ffc script BattleArena //start
 {
-	void run(int enemyListNum, int roundListNum, int rounds, int message, int prize)
-	{	
-	/*
-		Audio->PlayEnhancedMusic("ToT Miniboss theme.ogg", 0)
-		
-		int currentEnemyList[10]; 
-		getEnemiesList(currentEnemyList, enemyListNum);
-		int currentRoundList[10] = getRoundList(roundListNum);
-		
-		for (int i = 0; i < currentRoundList[rounds]; ++i)
-		{
-			// npc n1 = Screen->CreateNPC(37);
-			// n1->X = 64;
-			// n1->Y = 80;		
-			
-			// npc n2 = Screen->CreateNPC(179);
-			// n2->X = 80;
-			// n2->Y = 80;
-			
-			// npc n3 = Screen->CreateNPC(184);		
-			// n3->X = 96;
-			// n3->Y = 80;
-			
-			npc i = Screen->CreateNPC(currentEnemyList[i]);
-			
-			round();
-			++round;
-		}
-		
-		Screen->Message(m);
-		Hero->Item[prize] = true;
-		*/
-	}
-	/*
-	
-	void getEnemiesList(int buf, int enemyListNum) //start
-	{
-		switch(enemyListNum)
-		{
-			case 1: 
-				buf[0] = 12;
-				return;
-				
-			case 1: 
-			
-			case 1: 
-			
-			case 1: 
-		}
-
-	} //end
-	
-	int getEnemyList1() //start
-	{
-		int enemyList1[10];
-		enemyList1[0] = 12;
-		
-		return enemyList1[];
-	} //end
-
-	void round() //start
-	{
-		while(EnemiesAlive())
-			Waitframe();
-	} //end
-	*/
+    void run(int arenaListNum)
+    {
+        int rounds = 5;
+        Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+        
+        until (rounds == 0)
+        {        
+            Waitframes(120);
+            
+            int enemiesList[1];
+            getEnemiesList(enemiesList, arenaListNum);
+            
+            int size = SizeOfArray(enemiesList);
+            
+            for (int i = 0; i < size; ++i)
+            {
+                npc n = CreateNPCAt(enemiesList[i], Hero->X, Hero->Y);
+                Waitframes(10);
+            }
+            
+            while(EnemiesAlive())
+                Waitframe();
+            --rounds;
+        }
+    }
+    
+    void getEnemiesList(int enemiesList, int arenaListNum)
+    {
+        switch(arenaListNum)
+        {
+            case 1:
+                ResizeArray(enemiesList, 5);
+                memcpy(enemiesList, {198, 198, 198, 198, 198}, 5);
+                break;
+        }
+    }
 }
-
 //end
 
 //~~~~~DifficultyChoice~~~~~//

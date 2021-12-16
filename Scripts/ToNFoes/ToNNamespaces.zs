@@ -374,21 +374,8 @@ namespace Enemy::Manhandala //start
 						break;
 					
 					unless (data[DATA_CLK] % 3)
-					{
-						angle = Angle(this->X, this->Y, Hero->X - 8, Hero->Y - 2);
+						moveNPCByVector(this, linkLocations, linkLocationInsertIndex, 1, 0, 0);
 					
-						if (linkLocationInsertIndex > 4)
-							linkLocationInsertIndex = 0;
-							
-						linkLocations[linkLocationInsertIndex++] = angle;
-						
-						this->X += VectorX(1, linkLocations[0]);
-						this->Y += VectorY(1, linkLocations[0]);
-					}
-					
-					// if(link->X && Link->Y within 16pix of one of the heads)
-						// groundPound();
-						
 					// flameToss conditions
 							
 					if (gameframe - TIME_BETWEEN_ATTACKS == timeSinceLastAttack)
@@ -439,16 +426,8 @@ namespace Enemy::Manhandala //start
 						break;
 					
 					// fleeing from Link, this works, but need to handle wall collision and what to do if he is stuck in a corner
-					
-					angle = Angle(this->X, this->Y, Hero->X - 8, Hero->Y - 2);
-				
-					if (linkLocationInsertIndex > 4)
-						linkLocationInsertIndex = 0;
-						
-					linkLocations[linkLocationInsertIndex++] = angle;
-					
-					this->X += VectorX(-1, linkLocations[0]);
-					this->Y += VectorY(-1, linkLocations[0]);
+	
+					moveNPCByVector(this, linkLocations, linkLocationInsertIndex, -1, 0, 0);
 					
 					custom_waitframe(this, data);
 				}
@@ -462,14 +441,14 @@ namespace Enemy::Manhandala //start
 				&& (this->Y > centerY - 1 && this->Y < centerY + 1))
 				{
 					unless(data[DATA_CLK] % 2)
-					{
-						angle = Angle(this->X, this->Y, centerX, centerY);
-					
-						this->X += VectorX(2, angle);
-						this->Y += VectorY(2, angle);
-					}
+						moveNPCByVector(this, linkLocations, linkLocationInsertIndex, 2, centerX, centerY);
+						
 					custom_waitframe(this, data);
 				}
+				
+				for (int i = 0; i < 30; ++i)
+					custom_waitframe(this, data);
+					
 			}
 			
 			while(true)
@@ -507,7 +486,85 @@ namespace Enemy::Manhandala //start
 
 namespace Enemy //start
 {
-	void groundPound() //start
+	void moveNPCByVector(npc n, 
+						 int positionArray[], 
+						 int locationIndex, 
+						 int speed, 
+						 int xToMoveTO, 
+						 int yToMoveTo) //start
+	{
+		int angle;
+		
+		if (xToMoveTO && yToMoveTo)
+			angle = Angle(n->X, n->Y, xToMoveTO, yToMoveTo);
+		else
+			angle = Angle(n->X, n->Y, Hero->X - 8, Hero->Y - 2);
+				
+		if (locationIndex > 4)
+			locationIndex = 0;
+			
+		positionArray[locationIndex++] = angle;
+	
+		if (npcCloseToHero(n, VectorX(speed, positionArray[0]), VectorY(speed, positionArray[0])))
+			groundPound(n);
+		
+		unless (npcIsColliding(n, VectorX(speed, positionArray[0]), VectorY(speed, positionArray[0])))
+		{
+			n->X += VectorX(speed, positionArray[0]);
+			n->Y += VectorY(speed, positionArray[0]);		
+		}
+			
+	
+	} //end
+
+	bool npcIsColliding(npc n, int xoff, int yoff) //start
+	{
+		int bx = n->X + xoff;
+		int by = n->Y + yoff;
+		
+		for(int x = 0; x < n->HitWidth; x += 8)
+		{
+			for(int y = 0; y < n->HitHeight; y += 8)
+			{
+				if(Screen->isSolid(bx + x, by + y))
+					return true;
+			}
+			if(Screen->isSolid(bx + x, by + n->HitHeight - 1)) 
+				return true;
+		}
+		
+		for(int y = 0; y < n->HitHeight; y += 8)
+		{
+			if(Screen->isSolid(bx + n->HitWidth - 1, by + y)) 
+				return true;
+		}
+		
+		return Screen->isSolid(bx + n->HitWidth - 1, by + n->HitHeight - 1);
+	} //end
+	
+	bool npcCloseToHero(npc n, int xoff, int yoff) //start
+	{
+		int bx = n->X + xoff;
+		int by = n->Y + yoff;
+		
+		for(int x = 0; x < n->HitWidth; x += 8)
+		{
+			for(int y = 0; y < n->HitHeight; y += 8)
+				if(Abs(bx + x - Hero->X) < 4 && Abs(by + y- Hero->Y) < 4)
+					return true;
+					
+			if(Abs(bx + x - Hero->X) < 4 && Abs(by + n->HitHeight - 1 - Hero->X) < 4) 
+				return true;
+		}
+		
+		for(int y = 0; y < n->HitHeight; y += 8)
+			if(Abs(bx + n->HitWidth - 1 - Hero->X) < 4 && Abs(by + y - Hero->Y) < 4) 
+				return true;
+		
+		return Abs(bx + n->HitWidth - 1 - Hero->X) < 4 && Abs(by + n->HitHeight - 1 - Hero->Y) < 4;
+	} //end
+
+	void groundPound(npc n) //start
 	{
 	
 	} //end
