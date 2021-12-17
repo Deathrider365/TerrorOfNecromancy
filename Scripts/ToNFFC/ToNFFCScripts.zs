@@ -267,10 +267,10 @@ ffc script SFXPlay //start
 @Author ("Deathrider365")
 ffc script BattleArena //start
 {
-    void run(int arenaListNum)
+    void run(int arenaListNum, int battleThemeIndex, int bossThemeIndex)
     {
         int rounds = 5;
-        Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+        playBattleTheme(battleThemeIndex);
         
         until (rounds == 0)
         {        
@@ -291,6 +291,8 @@ ffc script BattleArena //start
                 Waitframe();
             --rounds;
         }
+		
+        playBattleTheme(bossThemeIndex);
     }
     
     void getEnemiesList(int enemiesList, int arenaListNum)
@@ -303,6 +305,28 @@ ffc script BattleArena //start
                 break;
         }
     }
+	
+	void playBattleTheme(int battleThemeIndex)
+	{
+		switch(battleThemeIndex)
+		{
+			case 1: 
+				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+				break;
+		}
+	
+	}
+	
+	void playBossTheme(int bossThemeIndex)
+	{
+		switch(bossThemeIndex)
+		{
+			case 1: 
+				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+				break;
+		}
+	
+	}
 }
 //end
 
