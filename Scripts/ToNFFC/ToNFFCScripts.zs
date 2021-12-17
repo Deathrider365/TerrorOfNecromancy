@@ -5,14 +5,14 @@
 //~~~~~CompassBeep~~~~~//
 @Author("Demonlink")
 ffc script CompassBeep //start
-{	
+{
 	void run()
 	{
-		if(!Screen->State[ST_ITEM] && 
-			!Screen->State[ST_CHEST] && 
-			!Screen->State[ST_LOCKEDCHEST] && 
-			!Screen->State[ST_BOSSCHEST] && 
-			!Screen->State[ST_SPECIALITEM] && 
+		if(!Screen->State[ST_ITEM] &&
+			!Screen->State[ST_CHEST] &&
+			!Screen->State[ST_LOCKEDCHEST] &&
+			!Screen->State[ST_BOSSCHEST] &&
+			!Screen->State[ST_SPECIALITEM] &&
 			(Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
 			Audio->PlaySound(COMPASS_BEEP);
 	}
@@ -24,37 +24,37 @@ ffc script CompassBeep //start
 //D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
-{	
+{
 	void run(int musicChoice, int isFanfare)
 	{
 		char32 areaMusic[256];
 
 		if (Screen->State[ST_SECRET])
 			Quit();
-		
+
 		Waitframes(4);
-		
+
 		unless (EnemiesAlive())
 			return;
-		
+
 		switch(musicChoice)
-		{		
+		{
 			case 1:
 				Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 				break;
-				
+
 			case 2:
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
-				
+
 			default:
 				Audio->PlayEnhancedMusic("", 0);
 				break;
 		}
-		
+
 		while(EnemiesAlive())
 			Waitframe();
-			
+
 		if (isFanfare == 1)
 		{
 			Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
@@ -83,10 +83,10 @@ ffc script ConditionalItem //start
 	void run(int hasRequiredItemStrings, int noHasRequiredItemInitialString, int itemIdToNeed, int itemIdToGet, int guyStringNoHasRequiredItem, int guyStringHasRequiredItem, int itemLocX, int itemLocY)
 	{
 		int loc = ComboAt(this->X, this->Y);
-		
+
 		int hasRequiredItemInitialString = Floor(hasRequiredItemStrings);
 		int hasRequiredItemButAlreadyEnteredString = (hasRequiredItemStrings % 1) / 1L;
-		
+
 		while (true)
 		{
 			// If you have the item he gives, do nothing but have him talk when against saying "use dat item well andcall that" (this is essentially the "done" state)
@@ -94,17 +94,17 @@ ffc script ConditionalItem //start
 			{
 				while (true)
 				{
-					until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+					until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST])
 					{
 						if (AgainstComboBase(loc, 1))
 							Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-							
+
 						Waitframe();
-					}	
-					
+					}
+
 					Input->Button[CB_SIGNPOST] = false;
 					Screen->Message(guyStringHasRequiredItem);
-					
+
 					Waitframe();
 				}
 			}
@@ -125,34 +125,34 @@ ffc script ConditionalItem //start
 						Screen->Message(hasRequiredItemButAlreadyEnteredString);
 						setScreenD(253, true);
 					}
-					
+
 					Audio->PlaySound(SFX_CLEARED);
-					
+
 					int itemXLoc = itemLocX;
 					int itemYLoc = itemLocY;
 					item givenItem = CreateItemAt(itemIdToGet, itemXLoc, itemYLoc);
 					givenItem->Pickup = IP_HOLDUP;
-					
+
 					// Waiting to pick up the item
 					while (true && !getScreenD(255))
 					{
-						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST])
 						{
 							if (AgainstComboBase(loc, 1))
 								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-								
+
 							Waitframe();
 						}
-						
+
 						Input->Button[CB_SIGNPOST] = false;
 						Screen->Message(guyStringHasRequiredItem);
-						
+
 						if (Hero->Item[itemIdToGet])
 						{
 							setScreenD(255, true);
 							break;
 						}
-						
+
 						Waitframe();
 					}
 				}
@@ -165,20 +165,20 @@ ffc script ConditionalItem //start
 						Screen->Message(noHasRequiredItemInitialString);
 						setScreenD(254, true);
 					}
-					
+
 					while (true)
 					{
-						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST]) 
+						until(AgainstComboBase(loc, 1) && Input->Press[CB_SIGNPOST])
 						{
 							if (AgainstComboBase(loc, 1))
 								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-								
+
 							Waitframe();
-						}	
-						
+						}
+
 						Input->Button[CB_SIGNPOST] = false;
 						Screen->Message(guyStringNoHasRequiredItem);
-						
+
 						Waitframe();
 					}
 				}
@@ -199,27 +199,27 @@ ffc script ItemGuy //start
 	void run(int itemID, int gettingItemString, int alreadyGotItemString, int anySide)
 	{
 		Waitframes(2);
-		
+
 		int loc = ComboAt(this->X, this->Y);
-		
+
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])
 			{
 				if (AgainstComboBase(loc, anySide))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
+
 				Waitframe();
-			}			
-			
+			}
+
 			Input->Button[CB_SIGNPOST] = false;
-			
+
 			unless (getScreenD(255))
 			{
 				Screen->Message(gettingItemString);
-				
+
 				Waitframes(2);
-				
+
 				itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
 				it->Pickup = IP_HOLDUP;
 				Input->Button[CB_SIGNPOST] = false;
@@ -227,7 +227,7 @@ ffc script ItemGuy //start
 			}
 			else
 				Screen->Message(alreadyGotItemString);
-			
+
 			Waitframe();
 		}
 	}
@@ -267,65 +267,93 @@ ffc script SFXPlay //start
 @Author ("Deathrider365")
 ffc script BattleArena //start
 {
-    void run(int arenaListNum, int battleThemeIndex, int bossThemeIndex)
+    void run(int arenaListNum)
     {
-        int rounds = 5;
-        playBattleTheme(battleThemeIndex);
-        
-        until (rounds == 0)
-        {        
-            Waitframes(120);
-            
-            int enemiesList[1];
-            getEnemiesList(enemiesList, arenaListNum);
-            
-            int size = SizeOfArray(enemiesList);
-            
-            for (int i = 0; i < size; ++i)
-            {
-                npc n = CreateNPCAt(enemiesList[i], Hero->X, Hero->Y);
-                Waitframes(10);
-            }
-            
+        int round = 0;
+
+		until (spawnEnemies(arenaListNum, round++))
+        {
             while(EnemiesAlive())
                 Waitframe();
-            --rounds;
+
+            Waitframes(120);
         }
-		
-        playBattleTheme(bossThemeIndex);
+
+		while(EnemiesAlive())
+			Waitframe();
+			
+		Screen->TriggerSecrets();
     }
-    
-    void getEnemiesList(int enemiesList, int arenaListNum)
+
+    bool spawnEnemies(int arenaListNum, int round)
     {
-        switch(arenaListNum)
-        {
-            case 1:
-                ResizeArray(enemiesList, 5);
-                memcpy(enemiesList, {198, 198, 198, 198, 198}, 5);
-                break;
-        }
+		int enemyList[50];
+		bool shouldReturn;
+
+		switch(arenaListNum)
+		{
+			case 0:
+				Screen->Pattern = PATTERN_CEILING;
+				switch(round)
+				{
+					case 0:
+						playBattleTheme(arenaListNum);
+						setEnemies({22, 22, 22, 22, 22});
+						break;
+					case 1:
+						setEnemies({198, 198, 198, 198, 198});
+						break;
+					case 2:
+						setEnemies({198, 198, 198, 198, 198});
+						break;
+					case 3:
+						setEnemies({198, 198, 198, 198, 198});
+						break;
+					case 4:
+						setEnemies({198, 198, 198, 198, 198});
+						break;
+					case 5:
+						playBossTheme(arenaListNum);
+						setEnemies({198, 198, 198, 198, 198});
+						shouldReturn = true;
+						break;
+				}
+				break;
+		}
+
+		Screen->SpawnScreenEnemies();
+		
+		return shouldReturn;
     }
-	
-	void playBattleTheme(int battleThemeIndex)
+
+	void setEnemies(int arr)
 	{
-		switch(battleThemeIndex)
-		{
-			case 1: 
-				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
-				break;
-		}
-	
+		int enemarr[10];
+		memcpy(enemarr, arr, SizeOfArray(arr));
+		for(int q = 0; q < 10; ++q)
+			Screen->Enemy[q] = enemarr[q];
 	}
-	
-	void playBossTheme(int bossThemeIndex)
+
+	void playBattleTheme(int arenaListNum)
 	{
-		switch(bossThemeIndex)
+		switch(arenaListNum)
 		{
-			case 1: 
+			case 0:
 				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
 				break;
 		}
-	
+
+	}
+
+	void playBossTheme(int arenaListNum)
+	{
+		switch(arenaListNum)
+		{
+			case 0:
+				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+				break;
+		}
+
 	}
 }
 //end
@@ -341,11 +369,11 @@ ffc script DifficultyChoice //start
 			Screen->Rectangle(7, 0, 0, 256, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}
-		
+
 		enteringTransition();
-		
+
 		Waitframes(60);
-		
+
 		while(true)
 		{
 			if (Input->Press[CB_A])
@@ -358,15 +386,15 @@ ffc script DifficultyChoice //start
 				Hero->Item[I_DIFF_VERYHARD] = true;
 				break;
 			}
-			
+
 			Waitframe();
 		}
-		
+
 		Audio->PlaySound(32);
-		
+
 		Waitframes(120);
-		
-		Hero->WarpEx({WT_IWARPOPENWIPE, 5, 0x3E, -1, WARP_B, WARPEFFECT_OPENWIPE, 0, 0, DIR_RIGHT});	
+
+		Hero->WarpEx({WT_IWARPOPENWIPE, 5, 0x3E, -1, WARP_B, WARPEFFECT_OPENWIPE, 0, 0, DIR_RIGHT});
     }
 } //end
 
@@ -391,7 +419,7 @@ ffc script ContinuePoint //start
 			dmap = Game->GetCurDMap();
 			scrn = Game->GetCurScreen();
 		}
-		
+
 		Game->LastEntranceDMap = dmap;
 		Game->LastEntranceScreen = scrn;
 		Game->ContinueDMap = dmap;
@@ -444,40 +472,40 @@ ffc script SimpleShop //start
 		this->Data = COMBO_INVIS;
 		itemsprite dummy = CreateItemAt(itemID, this->X, this->Y);
 		dummy->Pickup = IP_DUMMY;
-		
+
         int loc = ComboAt(this->X + 8, this->Y + 8);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
-		
+
 		itemdata id = Game->LoadItemData(itemID);
 		bool checkStock = !id->Combine && id->Keep;
-		
+
         while(true)
 		{
 			if(checkStock && Hero->Item[itemID])
 			{
 				dummy->ScriptTile = TILE_INVIS;
 				this->Data = noStockCombo;
-				
+
 				do Waitframe(); while (Hero->Item[itemID]);
-				
+
 				dummy->ScriptTile = -1;
 				this->Data = COMBO_INVIS;
 			}
-			
+
 			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-			
+
 			if (AgainstComboBase(loc, 1))
 			{
 				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            	
+
 				if(Input->Press[CB_SIGNPOST])
 				{
 					if (Game->Counter[CR_RUPEES] >= price)
 					{
 						Game->DCounter[CR_RUPEES] -= price;
 						item shpitm = CreateItemAt(itemID, Hero->X, Hero->Y);
-						
+
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);
 					}
@@ -486,12 +514,12 @@ ffc script SimpleShop //start
 						Input->Button[CB_SIGNPOST] = false;
 						Screen->Message(notBoughtMessage);
 					}
-				}		
-			}		
+				}
+			}
 			Waitframe();
         }
     }
-	
+
     bool AgainstComboBase(int loc)
 	{
         return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc) + 8 && Abs(Link->X - ComboX(loc)) < 8);
@@ -507,11 +535,11 @@ ffc script InfoShop //start
 {
 	void run(int introMessage, int price, int toPoor, int intro)
 	{
-        int loc = ComboAt(this->X + 8, this->Y + 8);		
+        int loc = ComboAt(this->X + 8, this->Y + 8);
 		Screen->Message(introMessage);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
-	
+
 	}
 
 } //end
@@ -522,13 +550,13 @@ ffc script InfoShop //start
 ffc script SpawnItem //start
 {
     void run(int itemId)
-    {	
-        if(Screen->State[ST_ITEM]) 
+    {
+        if(Screen->State[ST_ITEM])
 			return;
-			
+
 		item spawnedItem = CreateItemAt(itemId, this->X, this->Y);
 		Screen->State[IP_ST_ITEM] = true;
-    
+
 	}
 } //end
 
@@ -543,7 +571,7 @@ ffc script CapacityIncreasor //start
 	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy)
 	{
 		bool alreadyBought = false;
-		
+
 		if (getScreenD(255))
 		{
 			this->Data = COMBO_INVIS;
@@ -551,31 +579,44 @@ ffc script CapacityIncreasor //start
 		}
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
-		
+
 		Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-			
+
 		Screen->Message(message);
-		
+
 		Waitframe();
-		
-        while(true && !alreadyBought)
+
+        while(true && !alreadyBought || !itemToIncrease)
 		{
 			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-			
+
 			if (onTop(this->X, this->Y))
 				if (Game->Counter[CR_RUPEES] >= price)
 				{
 					Game->DCounter[CR_RUPEES] -= price;
-					
-					itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) : (Game->MCounter[CR_ARROWS] += increaseAmount);
-					itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
+
+					if (itemToIncrease)
+					{
+						itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) : (Game->MCounter[CR_ARROWS] += increaseAmount);
+						itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
+						setScreenD(255, true);
+					}
+					// If used for battle arenas
+					else
+					{
+						item ticket = CreateItemAt(191, Hero->X, Hero->Y);
+
+						ticket->Pickup = IP_HOLDUP;
+						Screen->TriggerSecrets();
+						itemToIncrease = 1;
+					}
+
 					Audio->PlaySound(sfxOnBuy);
-					
-					setScreenD(255, true);
+
 					alreadyBought = true;
 					this->Data = COMBO_INVIS;
 				}
-				
+
 			Waitframe();
         }
 	}
@@ -592,14 +633,14 @@ ffc script PoisonWater //start
 		{
 			while(Link->Action != LA_SWIMMING && Link->Action != LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] != CT_SHALLOWWATER)
 				Waitframe();
-			
+
 			int maxDamageTimer = 120;
 			int damageTimer = maxDamageTimer;
-			
+
 			while(Link->Action == LA_SWIMMING || Link->Action == LA_DIVING || (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER))
 			{
 				damageTimer--;
-				
+
 				if(damageTimer <= 0)
 					if(Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER || Link->Action == LA_SWIMMING)
 					{
@@ -607,7 +648,7 @@ ffc script PoisonWater //start
 						Game->PlaySound(SFX_OUCH);
 						damageTimer = maxDamageTimer;
 					}
-					
+
 				Waitframe();
 			}
 		}
@@ -623,10 +664,10 @@ ffc script ScreenQuakeOnSecret //start
 	{
 		if (Screen->State[ST_SECRET])
 			Quit();
-			
+
 		until (Screen->State[ST_SECRET])
 			Waitframe();
-			
+
 		Screen->Quake = quakePower;
 	}
 } //end
@@ -735,7 +776,7 @@ ffc script BurningOilandBushes{
 								npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
 								n->HP = -1000;
 								n->DrawYOffset = -1000;
-							}	
+							}
 						}
 					}
 				}
@@ -766,7 +807,7 @@ ffc script BurningOilandBushes{
 								npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
 								n->HP = -1000;
 								n->DrawYOffset = -1000;
-							}	
+							}
 						}
 					}
 				}
@@ -810,7 +851,7 @@ ffc script BurningOilandBushes{
 								if(i%16==15) //Prevent checking combo to the right along right edge
 									continue;
 							}
-							
+
 							if(burnTimers[c]<=0){ //If the adjacent combo isn't already burning
 								if(burnTypes[i]==0){ //If the burning combo at i is oil
 									if(OilBush_IsWater(c)){ //If the adjacent combo is water, light it on fire
@@ -837,7 +878,7 @@ ffc script BurningOilandBushes{
 											npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
 											n->HP = -1000;
 											n->DrawYOffset = -1000;
-										}	
+										}
 									}
 									else if(ComboFI(c, CF_CANDLE1)&&OILBUSH_CANTRIGGER){ //If there's an adjacent fire trigger and the script is allowed to trigger them
 										lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c), ComboY(c)); //Make a weapon on top of the combo to trigger it

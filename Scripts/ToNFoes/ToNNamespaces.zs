@@ -486,12 +486,7 @@ namespace Enemy::Manhandala //start
 
 namespace Enemy //start
 {
-	void moveNPCByVector(npc n, 
-						 int positionArray[], 
-						 int locationIndex, 
-						 int speed, 
-						 int xToMoveTO, 
-						 int yToMoveTo) //start
+	void moveNPCByVector(npc n, int positionArray, int locationIndex, int speed, int xToMoveTO, int yToMoveTo) //start
 	{
 		int angle;
 		
@@ -519,8 +514,8 @@ namespace Enemy //start
 
 	bool npcIsColliding(npc n, int xoff, int yoff) //start
 	{
-		int bx = n->X + xoff;
-		int by = n->Y + yoff;
+		int bx = n->X + xoff + n->HitXOffset;
+		int by = n->Y + yoff + n->HitYOffset;
 		
 		for(int x = 0; x < n->HitWidth; x += 8)
 		{

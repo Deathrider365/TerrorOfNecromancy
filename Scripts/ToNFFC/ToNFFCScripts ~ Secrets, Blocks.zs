@@ -1228,19 +1228,22 @@ ffc script GB_Shutter //start
 		int thisCSet = this->CSet;
 		this->Data = FFCS_INVISIBLE_COMBO;
 		
+		mapdata m = Game->LoadTempScreen(1);
 		int cp = ComboAt(this->X + 8, this->Y + 8);
-		int underCombo = Screen->ComboD[cp];
-		int underCSet = Screen->ComboC[cp];
+		int underCombo = m->ComboD[cp];
+		int underCSet = m->ComboC[cp];
 		int LinkX = Link->X;
 		
 		if(perm && Screen->State[ST_SECRET])
 			Quit();
+			
 		if(LinkX <= 0)
 			LinkX = 240;
 		else if(LinkX >= 240)
 			LinkX = 0;
 			
 		int LinkY = Link->Y;
+		
 		if(LinkY <= 0)
 			LinkY = 160;
 		else if(LinkY >= 160)
@@ -1279,8 +1282,9 @@ ffc script GB_Shutter //start
 			
 			//MooshPit_ResetEntry();
 			Game->PlaySound(SFX_SHUTTER);
-			Screen->ComboD[cp] = underCombo;
-			Screen->ComboC[cp] = underCSet;
+			m->ComboD[cp] = underCombo;
+			m->ComboC[cp] = underCSet;
+			Game->LoadComboData(thisData + 1)->Frame = 0;
 			this->Data = thisData + 1;
 			this->CSet = thisCSet;
 			
@@ -1299,16 +1303,16 @@ ffc script GB_Shutter //start
 			}
 			
 			this->Data = FFCS_INVISIBLE_COMBO;
-			Screen->ComboD[cp] = thisData;
-			Screen->ComboC[cp] = thisCSet;
+			m->ComboD[cp] = thisData;
+			m->ComboC[cp] = thisCSet;
 			
 			if(type == 1)
 				Waitframes(8);
 		}
 		else
 		{
-			Screen->ComboD[cp] = thisData;
-			Screen->ComboC[cp] = thisCSet;
+			m->ComboD[cp] = thisData;
+			m->ComboC[cp] = thisCSet;
 			
 			if(type == 1)
 				Waitframes(8);
@@ -1320,8 +1324,8 @@ ffc script GB_Shutter //start
 		{
 			if(GB_Shutter_InShutter(this, Link->X, Link->Y, 3))
 			{
-				Screen->ComboD[cp] = underCombo;
-				Screen->ComboC[cp] = underCSet;
+				m->ComboD[cp] = underCombo;
+				m->ComboC[cp] = underCSet;
 				
 				if(Link->Y == 0)
 					moveDir = DIR_DOWN;
@@ -1349,8 +1353,9 @@ ffc script GB_Shutter //start
 				}
 				
 				Game->PlaySound(SFX_SHUTTER);
-				Screen->ComboD[cp] = underCombo;
-				Screen->ComboC[cp] = underCSet;
+				m->ComboD[cp] = underCombo;
+				m->ComboC[cp] = underCSet;
+				Game->LoadComboData(thisData + 1)->Frame = 0;
 				this->Data = thisData + 1;
 				this->CSet = thisCSet;
 				
@@ -1369,8 +1374,8 @@ ffc script GB_Shutter //start
 				}
 				
 				this->Data = FFCS_INVISIBLE_COMBO;
-				Screen->ComboD[cp] = thisData;
-				Screen->ComboC[cp] = thisCSet;
+				m->ComboD[cp] = thisData;
+				m->ComboC[cp] = thisCSet;
 				
 				if(moveDir == DIR_UP)
 					Link->Y = Min(Link->Y, 144);
@@ -1384,7 +1389,7 @@ ffc script GB_Shutter //start
 				Waitframes(8);
 			}
 			
-			if(type == 0 && (Screen->ComboD[cp] != thisData || Screen->ComboC[cp] != thisCSet))
+			if(type == 0 && Screen->SecretsTriggered())
 				break;
 			
 			if(type == 1)
@@ -1395,8 +1400,9 @@ ffc script GB_Shutter //start
 		}
 		
 		Game->PlaySound(SFX_SHUTTER);
-		Screen->ComboD[cp] = underCombo;
-		Screen->ComboC[cp] = underCSet;
+		m->ComboD[cp] = underCombo;
+		m->ComboC[cp] = underCSet;
+		Game->LoadComboData(thisData + 1)->Frame = 0;
 		this->Data = thisData + 1;
 		this->CSet = thisCSet;
 		Waitframes(4);
