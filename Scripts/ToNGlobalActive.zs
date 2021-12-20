@@ -198,9 +198,33 @@ global script GlobalScripts //start
 						return 011000b;
 					case 0x16:
 						return 001100b;
+					case 0x07:
+						return 001100b;
 					
 				}
 				break;
+			case 5:
+				switch(scr)
+				{
+					case 0x1c:
+						return 000100;
+					case 0x63:
+						return 000100;
+				}
+			case 6:
+				switch(scr)
+				{
+					case 0x08:
+						return 000100;
+					case 0x17:
+						return 000100;
+				}
+			case 21:
+				switch(scr)
+				{
+					case 0x77:
+						return 001000;
+				}
 		}
 		return 0;
 	} //end
