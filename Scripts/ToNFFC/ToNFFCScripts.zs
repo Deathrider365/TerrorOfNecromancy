@@ -317,12 +317,16 @@ ffc script BattleArena //start
 						setEnemies({74, 74, 79, 79, 79}); //add 3 candleheads here
 						// Lanmola L1 x2, Stalfos L2 x3
 						break;
-					case 6:
-						Waitframes(30);
+					case 5:
 						//boss drops in like any normal enemy
 						playBossTheme(arenaListNum);
-						setEnemies({198});
+						setEnemies({180});
+						break;
+					case 6:
 						shouldReturn = true;
+						char32 areaMusic[256];
+						Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+						Audio->PlayEnhancedMusic(areaMusic, 0);
 						break;
 				}
 				break;
@@ -336,6 +340,7 @@ ffc script BattleArena //start
 	void setEnemies(int arr)
 	{
 		int enemyArray[10];
+		
 		memcpy(enemyArray, arr, SizeOfArray(arr));
 		
 		for(int q = 0; q < 10; ++q)
