@@ -298,23 +298,30 @@ ffc script BattleArena //start
 				{
 					case 0:
 						playBattleTheme(arenaListNum);
-						setEnemies({22, 22, 22, 22, 22});
+						setEnemies({20, 20, 22, 22, 22, 23, 23, 45, 45});
+						// Octo L1 (slow) x2, Octo L1 (fast) x3, Octo L2 (fast) x2, Goriya L1
 						break;
 					case 1:
-						setEnemies({198, 198, 198, 198, 198});
+						setEnemies({21, 21, 23, 23, 23, 28, 28, 45, 45, 45});
+						// octo L2 (slow) x2, Octo L2 (fast) x3, Moblin L1 x2, Goriya L1 x3 
 						break;
 					case 2:
-						setEnemies({198, 198, 198, 198, 198});
+						setEnemies({29, 29, 29, 41, 41, 41, 44, 44});
+						// Moblin L2 x3, Stalfos L1 x3, Rope L1 x2
 						break;
 					case 3:
-						setEnemies({198, 198, 198, 198, 198});
+						setEnemies({190, 190, 190, 190, 27, 27, 27});
+						// Leever L1 (inside) x4, Leever L2 (inside) x3, 
 						break;
 					case 4:
-						setEnemies({198, 198, 198, 198, 198});
+						setEnemies({74, 74, 79, 79, 79}); //add 3 candleheads here
+						// Lanmola L1 x2, Stalfos L2 x3
 						break;
-					case 5:
+					case 6:
+						Waitframes(30);
+						//boss drops in like any normal enemy
 						playBossTheme(arenaListNum);
-						setEnemies({198, 198, 198, 198, 198});
+						setEnemies({198});
 						shouldReturn = true;
 						break;
 				}
@@ -328,13 +335,14 @@ ffc script BattleArena //start
 
 	void setEnemies(int arr)
 	{
-		int enemarr[10];
-		memcpy(enemarr, arr, SizeOfArray(arr));
+		int enemyArray[10];
+		memcpy(enemyArray, arr, SizeOfArray(arr));
+		
 		for(int q = 0; q < 10; ++q)
-			Screen->Enemy[q] = enemarr[q];
+			Screen->Enemy[q] = enemyArray[q];
 	}
 
-	void playBattleTheme(int arenaListNum)
+	void playBattleTheme(int arenaListNum) //start
 	{
 		switch(arenaListNum)
 		{
@@ -343,18 +351,18 @@ ffc script BattleArena //start
 				break;
 		}
 
-	}
+	} //end
 
-	void playBossTheme(int arenaListNum)
+	void playBossTheme(int arenaListNum) //start
 	{
 		switch(arenaListNum)
 		{
 			case 0:
-				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+				Audio->PlayEnhancedMusic("Wind Waker HD - Mini Boss.ogg", 0);
 				break;
 		}
 
-	}
+	} //end
 }
 //end
 
