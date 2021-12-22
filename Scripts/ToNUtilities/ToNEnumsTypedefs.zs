@@ -58,7 +58,8 @@ COLOR STATUS_TEXT_COLOR = C_WHITE;
 
 //~~~~~CSet~~~~~//
 //start
-CONFIG CSET_TOXIC_FOREST_KEY = 4;
+CONFIG CSET_TOXIC_FOREST_KEY = 0;
+CONFIG CSET_BATTLE_ARENA_TICKET = 0;
 
 
 //end
@@ -66,7 +67,7 @@ CONFIG CSET_TOXIC_FOREST_KEY = 4;
 //~~~~~Item Classes~~~~~//
 //start
 DEFINE IC_GALEBRANG = 256;
-
+DEFINE IC_TRADING_SEQ = 91;
 
 //end
 
@@ -140,6 +141,7 @@ CONFIG TILE_ATTACK_BOOST = 38901;
 CONFIG TILE_DEFENSE_BOOST = 38902;
 
 CONFIG TILE_TOXIC_FOREST_KEY = 31428;
+CONFIG TILE_BATTLE_ARENA_TICKET = 31803;
 
 //end
 
@@ -215,7 +217,7 @@ int itemLocsY[] =	{32, 32, 32, 32,
 					98, 98, 98, 98,
 					120, 120, 120, 120,
 					142, 142, 142, 142};
-					
+
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};
 int dungeonItemY[] = {108, 125, 142};

@@ -161,10 +161,13 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 		Screen->FastTile(4, 110, y + 24, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
 	//end ale
 	
-	//start Special Mushroom)
-	if(Hero->Item[185])
-		Screen->FastTile(4, 20, y + 140, TILE_SPECIAL_MUSHROOM, CSET_SPECIAL_MUSHROOM, OP_OPAQUE);
-	//end 
+	//start Main Trading Sequence items
+    if(itemId > -1)
+    {
+        itemdata tradingItem = Game->LoadItemData(GetHighestLevelItemOwned(IC_TRADING_SEQ));
+        Screen->FastTile(4, 20, y + 140, tradingItem->Tile, tradingItem->CSet, OP_OPAQUE);    
+    }
+	//end
 	
 	//start Selected Item Name
 	char32 buf2[30];

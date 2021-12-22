@@ -67,8 +67,6 @@ global script GlobalScripts //start
 			LinkMovement_Update2();
 			UpdateGhostZH2();
 			
-			shutterControl();
-			updatePrev();
 			checkTriforceShards();
 			
 			takeMapScreenshot();

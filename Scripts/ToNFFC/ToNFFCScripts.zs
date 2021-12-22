@@ -235,6 +235,65 @@ ffc script ItemGuy //start
 
 //end
 
+//~~~~~TradingGuy~~~~~//
+// Sets screenD(255) upon receiving
+//D0: Item Id required							//0
+//D1: Item ID to give							//185
+//D2: String for not having required item		//0
+//D3: String for getting the item				//505
+//D4: String for if you already got the item	//509
+//D5: 1 for all dirs, 0 for only front (up)
+@Author("Deathrider365")
+ffc script TradingGuy //start
+{
+	void run(int itemIdRequired, int itemIdToGet, int noRequiredItemString, int gettingItemString, int alreadyGotItemString, int anySide)
+	{
+		Waitframes(2);
+
+		int loc = ComboAt(this->X, this->Y);
+
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+				Waitframe();
+			}
+
+			Input->Button[CB_SIGNPOST] = false;
+			
+			unless (Hero->Item[itemIdRequired])
+			{
+				Screen->Message(noRequiredItemString);
+				Waitframes(2);
+				Input->Button[CB_SIGNPOST] = false;
+			}
+			else if (Hero->Item[itemIdRequired])
+			{
+				unless (getScreenD(255))
+				{
+					Screen->Message(gettingItemString);
+
+					Waitframes(2);
+
+					itemsprite it = CreateItemAt(itemIdToGet, Hero->X, Hero->Y);
+					it->Pickup = IP_HOLDUP;
+					Input->Button[CB_SIGNPOST] = false;
+					setScreenD(255, true);
+				}
+				else
+					Screen->Message(alreadyGotItemString);
+			}
+
+			Waitframe();
+		}
+	}
+}
+
+//end
+
 //~~~~~SFXPlay~~~~~//
 //D0: The sound effect to play.
 //D1: How many frames to wait until the sound effect plays.
@@ -269,9 +328,14 @@ ffc script BattleArena //start
 {
     void run(int arenaListNum)
     {
-		if (getScreenD(255))
+		if (!Hero->Item[191])
+		{
+			Screen->TriggerSecrets();
 			Quit();
-	
+		}
+		
+		Hero->Item[191] = false;
+		
         int round = 0;
 
 		until (spawnEnemies(arenaListNum, round++))
@@ -285,19 +349,18 @@ ffc script BattleArena //start
 		while(EnemiesAlive())
 			Waitframe();
 			
+		Screen->TriggerSecrets();
 		// Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
 		// Waitframes(180);
 		
-		// Screen->TriggerSecrets();	//makes the arena replayable
-		
-		setScreenD(255, true);
+		// setScreenD(255, true);
 		
 		char32 areaMusic[256];
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
     }
 
-    bool spawnEnemies(int arenaListNum, int round)
+    bool spawnEnemies(int arenaListNum, int round) //start
     {
 		int enemyList[50];
 		bool shouldReturn;
@@ -342,9 +405,9 @@ ffc script BattleArena //start
 		Screen->SpawnScreenEnemies();
 		
 		return shouldReturn;
-    }
+    } //end
 
-	void setEnemies(int arr)
+	void setEnemies(int arr) //start
 	{
 		int enemyArray[10];
 
@@ -352,7 +415,7 @@ ffc script BattleArena //start
 		
 		for(int q = 0; q < 10; ++q)
 			Screen->Enemy[q] = enemyArray[q];
-	}
+	} //end
 
 	void playBattleTheme(int arenaListNum) //start
 	{
@@ -589,7 +652,7 @@ ffc script SpawnItem //start
 ffc script CapacityIncreasor //start
 {
 	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy)
-	{
+	{		
 		bool alreadyBought = false;
 
 		if (getScreenD(255))
@@ -606,7 +669,7 @@ ffc script CapacityIncreasor //start
 
 		Waitframe();
 
-        while(true && !alreadyBought || !itemToIncrease)
+        while(!alreadyBought)
 		{
 			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
@@ -615,20 +678,18 @@ ffc script CapacityIncreasor //start
 				{
 					Game->DCounter[CR_RUPEES] -= price;
 
-					if (itemToIncrease)
+					if (itemToIncrease != 191)
 					{
 						itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) : (Game->MCounter[CR_ARROWS] += increaseAmount);
 						itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
 						setScreenD(255, true);
 					}
-					// If used for battle arenas
-					else
+					else // Battle Arena ticket
 					{
 						item ticket = CreateItemAt(191, Hero->X, Hero->Y);
 
 						ticket->Pickup = IP_HOLDUP;
 						Screen->TriggerSecrets();
-						itemToIncrease = 1;
 					}
 
 					Audio->PlaySound(sfxOnBuy);
