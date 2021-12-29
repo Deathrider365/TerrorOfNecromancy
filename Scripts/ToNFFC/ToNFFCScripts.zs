@@ -350,10 +350,6 @@ ffc script BattleArena //start
 			Waitframe();
 			
 		Screen->TriggerSecrets();
-		// Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
-		// Waitframes(180);
-		
-		// setScreenD(255, true);
 		
 		char32 areaMusic[256];
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
@@ -422,7 +418,7 @@ ffc script BattleArena //start
 		switch(arenaListNum)
 		{
 			case 0:
-				Audio->PlayEnhancedMusic("Temples of Turmoil - Mid-Boss.ogg", 0);
+				Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0);
 				break;
 		}
 
@@ -433,7 +429,7 @@ ffc script BattleArena //start
 		switch(arenaListNum)
 		{
 			case 0:
-				Audio->PlayEnhancedMusic("Wind Waker HD - Mini Boss.ogg", 0);
+				Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0);
 				break;
 		}
 

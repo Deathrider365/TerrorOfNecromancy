@@ -321,8 +321,8 @@ global script GlobalScripts //start
 	//~~~~~Debug~~~~~//
 	void debug() //start
 	{
-		// Hero->Warp(20, 0x23);
-		Hero->Warp(21, 0x77);
+		Hero->Warp(20, 0x23);
+		// Hero->Warp(21, 0x77);
 		// Hero->Warp(18, 0x71);
 		Game->Cheat = 4;
 	} //end

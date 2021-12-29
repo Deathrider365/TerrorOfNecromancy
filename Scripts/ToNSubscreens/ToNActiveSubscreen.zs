@@ -162,10 +162,11 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	//end ale
 	
 	//start Main Trading Sequence items
+	int itemId = GetHighestLevelItemOwned(IC_TRADING_SEQ);
     if(itemId > -1)
     {
         itemdata tradingItem = Game->LoadItemData(GetHighestLevelItemOwned(IC_TRADING_SEQ));
-        Screen->FastTile(4, 20, y + 140, tradingItem->Tile, tradingItem->CSet, OP_OPAQUE);    
+        Screen->FastTile(4, 22, y + 140, tradingItem->Tile, tradingItem->CSet, OP_OPAQUE);    
     }
 	//end
 	

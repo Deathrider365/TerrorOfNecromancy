@@ -86,3 +86,11 @@ npc script Mimic //start
 		}	
 	}
 } //end
+
+npc script Candlehead //start
+{
+	void run()
+	{
+	
+	}
+} //end

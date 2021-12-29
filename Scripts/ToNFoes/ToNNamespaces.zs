@@ -344,15 +344,13 @@ namespace Enemy::Manhandala //start
 			int linkLocations[] = {0, 0, 0, 0, 0};
 			int linkLocationInsertIndex = 0;
 			
-			int angle;
-			
 			while(this->HP > 0)
 			{
-				for (int q = 0; q < 4; ++q)
+				for (int headIndex = 0; headIndex < 4; ++headIndex)
 				{
-					heads[q] = Screen->CreateNPC(minion);
-					heads[q]->InitD[0] = this;
-					heads[q]->Dir = q + 4;
+					heads[headIndex] = Screen->CreateNPC(minion);
+					heads[headIndex]->InitD[0] = this;
+					heads[headIndex]->Dir = headIndex + 4;
 				}
 			
 				this->CollDetection = false;
@@ -362,12 +360,12 @@ namespace Enemy::Manhandala //start
 				{
 					bool dead = true;
 					
-					for (int q = 0; q < 4; ++q)
+					for (int headIndex = 0; headIndex < 4; ++headIndex)
 					{
-						if (heads[q] && heads[q]->HP > 0)
+						if (heads[headIndex] && heads[headIndex]->HP > 0)
 							dead = false;
 						else
-							heads[q] = NULL;
+							heads[headIndex] = NULL;
 					}
 					
 					if (dead)
@@ -448,7 +446,6 @@ namespace Enemy::Manhandala //start
 				
 				for (int i = 0; i < 30; ++i)
 					custom_waitframe(this, data);
-					
 			}
 			
 			while(true)
@@ -466,13 +463,9 @@ namespace Enemy::Manhandala //start
 			
 			while(true)
 			{
-				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) 
-					+ (this->Dir & 100b ? (this->Dir & 1b ? 4 : -20) 
-										: (this->Dir == DIR_RIGHT ? 8 : (this->Dir == DIR_LEFT ? -24 : 0)));
+				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + getDrawLocationX(this);
 					
-				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) 
-					+ (this->Dir & 100b ? (this->Dir & 10b ? -6 : -23) 
-										: (this->Dir == DIR_DOWN ? -2 : (this->Dir == DIR_UP ? -27 : -10)));
+				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + getDrawLocationY(this);
 				
 				this->ScriptTile = this->Tile + this->Dir * 20;
 				
@@ -480,20 +473,66 @@ namespace Enemy::Manhandala //start
 			}
 		}
 		
+		int getDrawLocationX(npc parent) //start
+		{
+			if (parent->Dir & 100b)
+			{
+				if (parent->Dir & 1b)
+					return 4;
+				else
+					return -20;
+			}
+			else 
+			{
+				if (parent->Dir == DIR_RIGHT)
+					return 8;
+				else
+				{
+					if (parent->Dir == DIR_LEFT)
+						return -24;
+					else
+						return 0;
+				}
+			}			
+		} //end
+		
+		int getDrawLocationY(npc parent) //start
+		{
+			if (parent->Dir & 100b)
+			{
+				if (parent->Dir & 10b)
+					return -6;
+				else
+					return -23;
+			}
+			else
+			{
+				if (parent->Dir == DIR_DOWN)
+					return -2;
+				else if(parent->Dir == DIR_UP)
+					return -27;
+				else
+					return -10;
+			}		
+		} //end
+		
 	} //end
 
 } //end
 
 namespace Enemy //start
 {
-	void moveNPCByVector(npc n, int positionArray, int locationIndex, int speed, int xToMoveTO, int yToMoveTo) //start
+	void moveNPCByVector(npc n, int positionArray, int locationIndex, int speed, int xToMoveTo, int yToMoveTo) //start
 	{
 		int angle;
+		int closestCornerX = getClosestCornerX(n);
+		int closestCornerY = getClosestCornerY(n);
 		
-		if (xToMoveTO && yToMoveTo)
-			angle = Angle(n->X, n->Y, xToMoveTO, yToMoveTo);
+		if (xToMoveTo && yToMoveTo)
+			angle = Angle(n->X, n->Y, xToMoveTo, yToMoveTo);
 		else
-			angle = Angle(n->X, n->Y, Hero->X - 8, Hero->Y - 2);
+			// angle = Angle(n->X + 16, n->Y + 16, Hero->X + 8, Hero->Y + 8);
+			angle = Angle(closestCornerX, closestCornerY, Hero->X + 8, Hero->Y + 8);
 				
 		if (locationIndex > 4)
 			locationIndex = 0;
@@ -514,27 +553,112 @@ namespace Enemy //start
 
 	bool npcIsColliding(npc n, int xoff, int yoff) //start
 	{
-		int bx = n->X + xoff + n->HitXOffset;
-		int by = n->Y + yoff + n->HitYOffset;
+		int upperLeftCornerX = n->X;
+		int upperLeftCornerY = n->Y;
 		
-		for(int x = 0; x < n->HitWidth; x += 8)
-		{
-			for(int y = 0; y < n->HitHeight; y += 8)
-			{
-				if(Screen->isSolid(bx + x, by + y))
-					return true;
-			}
-			if(Screen->isSolid(bx + x, by + n->HitHeight - 1)) 
-				return true;
-		}
+		int upperRightCornerX = n->X + n->HitWidth + 16;
+		int upperRightCornerY = n->Y;
 		
-		for(int y = 0; y < n->HitHeight; y += 8)
-		{
-			if(Screen->isSolid(bx + n->HitWidth - 1, by + y)) 
-				return true;
-		}
+		int lowerLeftCornerX = n->X;
+		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
 		
-		return Screen->isSolid(bx + n->HitWidth - 1, by + n->HitHeight - 1);
+		int lowerRightCornerX = n->X + n->HitWidth + 16;
+		int lowerRightCornerY = n->Y + n->HitHeight - 16;
+		
+		if(Screen->isSolid(upperLeftCornerX + xoff, upperLeftCornerY + yoff))
+			return true;
+		
+		if(Screen->isSolid(upperRightCornerX = xoff, upperRightCornerY + yoff))
+			return true;
+		
+		if(Screen->isSolid(lowerLeftCornerX + xoff, lowerLeftCornerY + yoff))
+			return true;
+		
+		if(Screen->isSolid(lowerRightCornerX + xoff, lowerRightCornerY + yoff))
+			return true;
+		
+		return false;
+		
+		// int bx = n->X + xoff + n->HitXOffset;
+		// int by = n->Y + yoff + n->HitYOffset;
+		
+		// for(int x = 0; x < n->HitWidth; x += 8)
+		// {
+			// for(int y = 0; y < n->HitHeight; y += 8)
+					
+			// if(Screen->isSolid(bx + x, by + n->HitHeight - 1)) 
+				// return true;
+		// }
+		
+		// for(int y = 0; y < n->HitHeight; y += 8)
+			// if(Screen->isSolid(bx + n->HitWidth - 1, by + y)) 
+				// return true;
+		
+		// return Screen->isSolid(bx + n->HitWidth - 1, by + n->HitHeight - 1);
+	} //end
+	
+	float getClosestCornerX(npc n) //start
+	{
+		int heroX = Hero->X + 8;
+		int heroY = Hero->Y + 8;
+		
+		int upperLeftCornerX = n->X;
+		int upperLeftCornerY = n->Y;
+		
+		int upperRightCornerX = n->X + n->HitWidth + 16;
+		int upperRightCornerY = n->Y;
+		
+		int lowerLeftCornerX = n->X;
+		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
+		
+		int lowerRightCornerX = n->X + n->HitWidth + 16;
+		int lowerRightCornerY = n->Y + n->HitHeight - 16;
+		
+		float point1Distance = Distance(upperLeftCornerX, upperLeftCornerY, heroX, heroY, 1);
+		float point2Distance = Distance(upperRightCornerX, upperRightCornerY, heroX, heroY, 1);
+		float point3Distance = Distance(lowerLeftCornerX, lowerLeftCornerY, heroX, heroY, 1);
+		float point4Distance = Distance(lowerRightCornerX, lowerRightCornerY, heroX, heroY, 1);
+		
+		if (point1Distance <= point2Distance && point1Distance <= point3Distance && point1Distance <= point4Distance)
+			return upperLeftCornerX;
+		else if(point2Distance <= point3Distance && point2Distance <= point4Distance)
+			return upperRightCornerX;
+		else if(point3Distance <= point4Distance)
+			return upperRightCornerX;
+		else
+			return lowerRightCornerX;
+	} //end
+	
+	float getClosestCornerY(npc n) //start
+	{
+		int heroX = Hero->X + 8;
+		int heroY = Hero->Y + 8;
+		
+		int upperLeftCornerX = n->X;
+		int upperLeftCornerY = n->Y;
+		
+		int upperRightCornerX = n->X + n->HitWidth + 16;
+		int upperRightCornerY = n->Y;
+		
+		int lowerLeftCornerX = n->X;
+		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
+		
+		int lowerRightCornerX = n->X + n->HitWidth + 16;
+		int lowerRightCornerY = n->Y + n->HitHeight - 16;
+		
+		float point1Distance = Distance(upperLeftCornerX, upperLeftCornerY, heroX, heroY, 1);
+		float point2Distance = Distance(upperRightCornerX, upperRightCornerY, heroX, heroY, 1);
+		float point3Distance = Distance(lowerLeftCornerX, lowerLeftCornerY, heroX, heroY, 1);
+		float point4Distance = Distance(lowerRightCornerX, lowerRightCornerY, heroX, heroY, 1);
+		
+		if (point1Distance <= point2Distance && point1Distance <= point3Distance && point1Distance <= point4Distance)
+			return upperLeftCornerY;
+		else if(point2Distance <= point3Distance && point2Distance <= point4Distance)
+			return upperRightCornerY;
+		else if(point3Distance <= point4Distance)
+			return upperRightCornerY;
+		else
+			return lowerRightCornerY;
 	} //end
 	
 	bool npcCloseToHero(npc n, int xoff, int yoff) //start
