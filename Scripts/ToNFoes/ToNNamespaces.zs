@@ -404,6 +404,26 @@ namespace Enemy::Manhandala //start
 						
 					}
 					
+					int upperLeftCornerX = this->X;
+					int upperLeftCornerY = this->Y;
+					
+					int upperRightCornerX = this->X + this->HitWidth + 16;
+					int upperRightCornerY = this->Y;
+					
+					int lowerLeftCornerX = this->X;
+					int lowerLeftCornerY = this->Y + this->HitHeight - 16;
+					
+					int lowerRightCornerX = this->X + this->HitWidth + 16;
+					int lowerRightCornerY = this->Y + this->HitHeight - 16;
+					
+					int distanceFromTopLeft = Distance(upperLeftCornerX, upperLeftCornerY, Hero->X, Hero->Y);
+					int distanceFromTopRight = Distance(upperRightCornerX, upperRightCornerY, Hero->X, Hero->Y);
+					int distanceFromBottomLeft = Distance(lowerLeftCornerX, lowerLeftCornerY, Hero->X, Hero->Y);
+					int distanceFromBottomRight = Distance(lowerRightCornerX, lowerRightCornerY, Hero->X, Hero->Y);
+					
+					if (distanceFromTopLeft < 16 || distanceFromTopRight < 16 || distanceFromBottomLeft < 16 || distanceFromBottomRight < 16)
+						groundPound(data, this, DEFAULT_COMBO, 4);
+						
 					// if link is within attack range, initiate groundPound
 					// else between 3-6 second from previous attack will choose an attack
 						// chosen attack
@@ -464,7 +484,6 @@ namespace Enemy::Manhandala //start
 			while(true)
 			{
 				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + getDrawLocationX(this);
-					
 				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + getDrawLocationY(this);
 				
 				this->ScriptTile = this->Tile + this->Dir * 20;
@@ -525,22 +544,16 @@ namespace Enemy //start
 	void moveNPCByVector(npc n, int positionArray, int locationIndex, int speed, int xToMoveTo, int yToMoveTo) //start
 	{
 		int angle;
-		int closestCornerX = getClosestCornerX(n);
-		int closestCornerY = getClosestCornerY(n);
 		
 		if (xToMoveTo && yToMoveTo)
 			angle = Angle(n->X, n->Y, xToMoveTo, yToMoveTo);
 		else
-			// angle = Angle(n->X + 16, n->Y + 16, Hero->X + 8, Hero->Y + 8);
-			angle = Angle(closestCornerX, closestCornerY, Hero->X + 8, Hero->Y + 8);
-				
+			angle = Angle(n->X + 16, n->Y + 16, Hero->X + 8, Hero->Y + 8);
+			
 		if (locationIndex > 4)
 			locationIndex = 0;
 			
 		positionArray[locationIndex++] = angle;
-	
-		if (npcCloseToHero(n, VectorX(speed, positionArray[0]), VectorY(speed, positionArray[0])))
-			groundPound(n);
 		
 		unless (npcIsColliding(n, VectorX(speed, positionArray[0]), VectorY(speed, positionArray[0])))
 		{
@@ -551,140 +564,71 @@ namespace Enemy //start
 	
 	} //end
 
-	bool npcIsColliding(npc n, int xoff, int yoff) //start
+	bool npcIsColliding(npc n, int xOffsetNext, int yOffsetNext) //start
 	{
 		int upperLeftCornerX = n->X;
 		int upperLeftCornerY = n->Y;
 		
-		int upperRightCornerX = n->X + n->HitWidth + 16;
+		int upperRightCornerX = n->X + n->HitWidth;
 		int upperRightCornerY = n->Y;
 		
 		int lowerLeftCornerX = n->X;
-		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
+		int lowerLeftCornerY = n->Y + n->HitHeight;
 		
-		int lowerRightCornerX = n->X + n->HitWidth + 16;
-		int lowerRightCornerY = n->Y + n->HitHeight - 16;
-		
-		if(Screen->isSolid(upperLeftCornerX + xoff, upperLeftCornerY + yoff))
-			return true;
-		
-		if(Screen->isSolid(upperRightCornerX = xoff, upperRightCornerY + yoff))
-			return true;
-		
-		if(Screen->isSolid(lowerLeftCornerX + xoff, lowerLeftCornerY + yoff))
-			return true;
-		
-		if(Screen->isSolid(lowerRightCornerX + xoff, lowerRightCornerY + yoff))
-			return true;
-		
-		return false;
-		
-		// int bx = n->X + xoff + n->HitXOffset;
-		// int by = n->Y + yoff + n->HitYOffset;
-		
-		// for(int x = 0; x < n->HitWidth; x += 8)
-		// {
-			// for(int y = 0; y < n->HitHeight; y += 8)
-					
-			// if(Screen->isSolid(bx + x, by + n->HitHeight - 1)) 
-				// return true;
-		// }
-		
-		// for(int y = 0; y < n->HitHeight; y += 8)
-			// if(Screen->isSolid(bx + n->HitWidth - 1, by + y)) 
-				// return true;
-		
-		// return Screen->isSolid(bx + n->HitWidth - 1, by + n->HitHeight - 1);
-	} //end
-	
-	float getClosestCornerX(npc n) //start
-	{
-		int heroX = Hero->X + 8;
-		int heroY = Hero->Y + 8;
-		
-		int upperLeftCornerX = n->X;
-		int upperLeftCornerY = n->Y;
-		
-		int upperRightCornerX = n->X + n->HitWidth + 16;
-		int upperRightCornerY = n->Y;
-		
-		int lowerLeftCornerX = n->X;
-		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
-		
-		int lowerRightCornerX = n->X + n->HitWidth + 16;
-		int lowerRightCornerY = n->Y + n->HitHeight - 16;
-		
-		float point1Distance = Distance(upperLeftCornerX, upperLeftCornerY, heroX, heroY, 1);
-		float point2Distance = Distance(upperRightCornerX, upperRightCornerY, heroX, heroY, 1);
-		float point3Distance = Distance(lowerLeftCornerX, lowerLeftCornerY, heroX, heroY, 1);
-		float point4Distance = Distance(lowerRightCornerX, lowerRightCornerY, heroX, heroY, 1);
-		
-		if (point1Distance <= point2Distance && point1Distance <= point3Distance && point1Distance <= point4Distance)
-			return upperLeftCornerX;
-		else if(point2Distance <= point3Distance && point2Distance <= point4Distance)
-			return upperRightCornerX;
-		else if(point3Distance <= point4Distance)
-			return upperRightCornerX;
-		else
-			return lowerRightCornerX;
-	} //end
-	
-	float getClosestCornerY(npc n) //start
-	{
-		int heroX = Hero->X + 8;
-		int heroY = Hero->Y + 8;
-		
-		int upperLeftCornerX = n->X;
-		int upperLeftCornerY = n->Y;
-		
-		int upperRightCornerX = n->X + n->HitWidth + 16;
-		int upperRightCornerY = n->Y;
-		
-		int lowerLeftCornerX = n->X;
-		int lowerLeftCornerY = n->Y + n->HitHeight - 16;
-		
-		int lowerRightCornerX = n->X + n->HitWidth + 16;
-		int lowerRightCornerY = n->Y + n->HitHeight - 16;
-		
-		float point1Distance = Distance(upperLeftCornerX, upperLeftCornerY, heroX, heroY, 1);
-		float point2Distance = Distance(upperRightCornerX, upperRightCornerY, heroX, heroY, 1);
-		float point3Distance = Distance(lowerLeftCornerX, lowerLeftCornerY, heroX, heroY, 1);
-		float point4Distance = Distance(lowerRightCornerX, lowerRightCornerY, heroX, heroY, 1);
-		
-		if (point1Distance <= point2Distance && point1Distance <= point3Distance && point1Distance <= point4Distance)
-			return upperLeftCornerY;
-		else if(point2Distance <= point3Distance && point2Distance <= point4Distance)
-			return upperRightCornerY;
-		else if(point3Distance <= point4Distance)
-			return upperRightCornerY;
-		else
-			return lowerRightCornerY;
-	} //end
-	
-	bool npcCloseToHero(npc n, int xoff, int yoff) //start
-	{
-		int bx = n->X + xoff;
-		int by = n->Y + yoff;
-		
-		for(int x = 0; x < n->HitWidth; x += 8)
+		int lowerRightCornerX = n->X + n->HitWidth;
+		int lowerRightCornerY = n->Y + n->HitHeight;
+				
+		for (int xDirIndex = upperLeftCornerX; xDirIndex < upperRightCornerX; xDirIndex++)
 		{
-			for(int y = 0; y < n->HitHeight; y += 8)
-				if(Abs(bx + x - Hero->X) < 4 && Abs(by + y- Hero->Y) < 4)
+			for (int yDirIndex = upperLeftCornerY; yDirIndex < lowerLeftCornerY; yDirIndex++)
+			{
+				if(Screen->isSolid(xDirIndex + xOffsetNext, yDirIndex + yOffsetNext))
 					return true;
-					
-			if(Abs(bx + x - Hero->X) < 4 && Abs(by + n->HitHeight - 1 - Hero->X) < 4) 
-				return true;
+			}
 		}
 		
-		for(int y = 0; y < n->HitHeight; y += 8)
-			if(Abs(bx + n->HitWidth - 1 - Hero->X) < 4 && Abs(by + y - Hero->Y) < 4) 
-				return true;
+		// if(Screen->isSolid(upperLeftCornerX + xOffsetNext, upperLeftCornerY + yOffsetNext))
+			// return true;
 		
-		return Abs(bx + n->HitWidth - 1 - Hero->X) < 4 && Abs(by + n->HitHeight - 1 - Hero->Y) < 4;
+		// if(Screen->isSolid(upperRightCornerX = xOffsetNext, upperRightCornerY + yOffsetNext))
+			// return true;
+		
+		// if(Screen->isSolid(lowerLeftCornerX + xOffsetNext, lowerLeftCornerY + yOffsetNext))
+			// return true;
+		
+		// if(Screen->isSolid(lowerRightCornerX + xOffsetNext, lowerRightCornerY + yOffsetNext))
+			// return true;
+		
+		return false;
 	} //end
-
-	void groundPound(npc n) //start
+	
+	void groundPound(int data, npc n, int combo, int speed) //start
 	{
+		setNPCToCombo(data, n, combo + 1);
+		
+		Waitframes(30);
+		
+		setNPCToCombo(data, n, combo + 2);
+		
+		int heroX = Hero->X + 16;
+		int heroY = Hero->Y + 16;
+		
+		int angle = Angle(n->X + 16, n->Y + 16, heroX, heroY);
+		
+		// until (npcIsColliding(n, VectorX(speed, angle), VectorY(speed, angle)))
+		until (Abs(n->X - heroX) < 4 && Abs(n->Y - heroY) < 4)
+		{
+			n->X += VectorX(2, angle);
+			n->Y += VectorY(2, angle);
+			Waitframe();
+		}
+		
+		setNPCToCombo(data, n, combo + 3);
+		
+		Waitframes(30);
+		
+		setNPCToCombo(data, n, combo);
+		
 	
 	} //end
 	

@@ -42,9 +42,11 @@ ffc script BossMusic //start
 			case 1:
 				Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 				break;
-
 			case 2:
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
+				break;
+			case 3:
+				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
 				break;
 
 			default:
