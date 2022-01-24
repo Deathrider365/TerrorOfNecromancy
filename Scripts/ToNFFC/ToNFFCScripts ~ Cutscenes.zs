@@ -68,7 +68,7 @@ ffc script ScreenBeforeLeviathan1 //start
 				Screen->Message(msg + 1);
 				Waitframe();
 				
-				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
 				
 			}
 		}
@@ -83,14 +83,14 @@ ffc script ScreenBeforeLeviathan1 //start
 @Author ("Deathrider365")
 ffc script LeviathanFailureP1 //start
 {
-	void run(int numAttempts, int dmap, int scrn)
+	void run()
 	{
 		while (true)
 		{
 			if (Hero->HP <= 0)
 			{
 				Hero->HP = 4;
-				Hero->Warp(dmap, scrn);
+				Hero->Warp(2, 10);
 			}
 			Waitframe();
 		}
@@ -117,7 +117,7 @@ ffc script LeviathanFailureP2 //start
 			Waitframe();
 		}
 		
-		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+		Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
 	}
 }
 
@@ -222,7 +222,7 @@ ffc script Leviathan1Ending //start
 				Hero->HP = Hero->MaxHP;
 				Hero->MP = Hero->MaxMP;
 		
-				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});	
+				Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_NONE, 0, 0, DIR_UP});	
 			}
 			
 			Waitframe();
@@ -278,10 +278,10 @@ ffc script PreInteritusCutscene //start
 				unless (getScreenD(reg))
 				{
 					setScreenD(reg, true);
-					Hero->WarpEx({WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_UP});
+					Hero->WarpEx({WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
 				}
 				else
-					Hero->WarpEx({WT_IWARPBLACKOUT, 10, 47, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
+					Hero->Warp(10, 47);
 			}
 			else
 				Hero->Action = LA_RAFTING;
@@ -451,7 +451,7 @@ ffc script FinalMessageBeforeIntroMovie //start
 {
 	void run(int message)
 	{
-		// Audio->PlayEnhancedMusic();		insert sad/desperate music for this
+		Audio->PlayEnhancedMusic(NULL, 0); //		insert sad/desperate music for this
 		Screen->Message(message);
 		leavingTransition(12, 80, 0);	
 	}

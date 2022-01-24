@@ -358,10 +358,20 @@ enum ScreenType //start
 
 enum ArcingWeaponEffects //start
 {
+	// Shambles
 	AE_BOMB,
 	AE_SMALLPOISONPOOL,
 	AE_LARGEPOISONPOOL,
 	AE_PROJECTILEWITHMOMENTUM,
+	
+	//Hazarond
+	AE_OIL_BLOB,
+	
+	//Overgrown Raccoon
+	AE_ROCK_PROJECTILE,
+	AE_BOULDER_PROJECTILE,
+	AE_RACCOON_PROJECTILE,
+	
 	AE_DEBUG
 }; //end
 

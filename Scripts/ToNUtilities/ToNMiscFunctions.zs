@@ -404,7 +404,7 @@ void RunEWeaponScript(eweapon e, int scr, int args) //start
     e->Script = scr;
     int numArgs = SizeOfArray(args);
 	
-    for(int i=0; i<numArgs; ++i)
+    for(int i = 0; i < numArgs; ++i)
         e->InitD[i] = args[i];
 		
 } //end

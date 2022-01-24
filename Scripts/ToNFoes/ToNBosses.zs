@@ -677,7 +677,7 @@ npc script Leviathan1 //start
 		
 		Waitframe();
 
-		Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, 0, DIR_LEFT});
+		Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_LEFT});
 			
 		this->Immortal = false;
 		this->Remove();
@@ -1025,6 +1025,175 @@ ffc script Shambles //start
 	
 	}
 } //end
+
+//~~~~~Overgrown Raccoon~~~~~//
+
+namespace Enemy::OvergrownRaccoon
+{
+	enum State //start
+	{
+		STATE_NORMAL,
+		STATE_LARGE_ROCK_THROW,
+		STATE_SMALL_ROCKS_THROW,
+		STATE_RACCOON_THROW,
+		STATE_CHARGE
+	}; //end
+	
+	@Author("EmilyV99, Deathrider365")
+	npc script OvergrownRaccoon //start
+	{
+		void run()
+		{
+			State state = STATE_NORMAL;
+			State previousState = state;
+			const int maxHp = this->HP;
+			int timer;
+				
+			// racoon hold: he spawns a racoon that grabs you (like a like like) does no damage, you just need
+			// to get it off
+				
+			while(true)
+			{
+				int randModifier = isDifficultyChange(this, maxHp) ? Rand(-150, 25) : Rand(-50, 50);
+				
+				if (++timer > 300 + randModifier)
+				{
+					timer = 0;
+					int attackChoice = 0;
+					
+					// if (state == STATE_NORMAL)
+					// {
+						// if (previousState == STATE_CHARGE)
+							// attackChoice += 2;
+						// else if(previousState == STATE_LARGE_ROCK_THROW)
+							// attackChoice++;
+						// else if (previousState == STATE_SMALL_ROCKS_THROW)
+							// attackChoice
+						
+					// }
+					
+					state = STATE_LARGE_ROCK_THROW;
+					
+					// if (state == STATE_LARGE_ROCK_THROW)
+						// state = STATE_NORMAL;
+					// else
+						// state = STATE_LARGE_ROCK_THROW;
+						
+					// if (isDifficultyChange(this, maxHp))
+					// {
+						// timer = 300;
+						// state = STATE_CHARGE;
+					// }
+				}
+				
+				if (Input->KeyPress[KEY_H])
+				{
+					state = STATE_CHARGE;
+				}
+				
+				switch(state) //start
+				{
+					case STATE_NORMAL: //start
+						previousState = state;
+						this->ScriptTile = -1;
+						doWalk(this, 5, 10, this->Step);
+						break; //end
+						
+					case STATE_LARGE_ROCK_THROW: //start
+						previousState = state;
+						
+						Waitframes(60);
+						
+						eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 8, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+						// Audio->PlaySound(throw sound);
+						RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
+						
+						state = STATE_NORMAL;
+						
+						break; //end
+						
+					case STATE_SMALL_ROCKS_THROW: //start
+						previousState = state;
+						
+						Waitframes(30);
+						
+						for(int i = 0; i < 60; ++i)
+						{
+							this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
+							
+							unless (i % 20)
+							{
+								eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+								// Audio->PlaySound(throw sound);
+								RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+							}
+							
+							Waitframe();
+						}
+						
+						state = STATE_NORMAL;
+						
+						break; //end
+						
+					case STATE_RACCOON_THROW: //start
+						previousState = state;
+						
+						Waitframes(60);
+						
+						eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
+						// Audio->PlaySound(throw sound);
+						RunEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
+						
+						state = STATE_NORMAL;
+						
+						break; //end
+						
+					case STATE_CHARGE: //start
+						previousState = state;
+						
+						int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+						this->Dir = AngleDir4(angle);
+						this->ScriptTile = -1;
+						
+						// Pre charge hop
+						this->Jump = 2.5;
+						
+						do Waitframe(); while(this->Z);
+						
+						// Charging at link
+						while(this->MoveAtAngle(angle, 4, SPW_NONE))
+						{
+							Waitframe();
+						}
+						
+						this->Jump = 2;
+						Screen->Quake = 30;
+						Audio->PlaySound(3);
+						
+						// While stunned
+						unless (Hero->Z)
+						{
+							Hero->Stun = 30;
+							// spawnTimedSprite(Hero->X - 17, Hero->Y, 116, 3, 1, 30);
+						}
+						
+						do Waitframe(); while(this->Z);
+						
+						state = STATE_NORMAL;
+						
+						break; //end
+				} //end
+			
+				Waitframe();
+			}
+		}
+	} //end
+	
+	// bool isDifficultyChange(npc n, int maxHp) //start
+	// {
+		// return n->HP < maxHp * .33;
+	// } //end
+} 
 
 //~~~~~Demonwall~~~~~//
 @Author("Deathrider365")

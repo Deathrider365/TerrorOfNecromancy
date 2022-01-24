@@ -50,22 +50,17 @@ ffc script BossMusic //start
 				break;
 
 			default:
-				Audio->PlayEnhancedMusic("", 0);
+				Audio->PlayEnhancedMusic(NULL, 0);
 				break;
 		}
 
 		while(EnemiesAlive())
 			Waitframe();
 
-		if (isFanfare == 1)
-		{
-			Audio->PlayEnhancedMusic("Boss Fanfare - Wind Waker.ogg", 0);
-			Waitframes(1465);
-		}
-
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
-
+		
+		Quit();
 	}
 }
 
@@ -362,7 +357,10 @@ ffc script BattleArena //start
     {
 		int enemyList[50];
 		bool shouldReturn;
-
+		
+		setEnemies({235});
+		playBossTheme(arenaListNum);
+/*
 		switch(arenaListNum)
 		{
 			case 0:
@@ -371,8 +369,8 @@ ffc script BattleArena //start
 				{
 					case 0:
 						playBattleTheme(arenaListNum);
-						setEnemies({20, 20, 22, 22, 22, 23, 23, 45, 45});
-						// Octo L1 (slow) x2, Octo L1 (fast) x3, Octo L2 (fast) x2, Goriya L1
+						setEnemies({20, 20, 22, 22, 22, 23, 23, 23});
+						// Octo L1 (slow) x2, Octo L1 (fast) x3, Octo L2 (fast)
 						break;
 					case 1:
 						setEnemies({21, 21, 23, 23, 23, 28, 28, 45, 45, 45});
@@ -387,19 +385,19 @@ ffc script BattleArena //start
 						// Leever L1 (inside) x4, Leever L2 (inside) x3, 
 						break;
 					case 4:
-						setEnemies({/*74, 74*/ 79, 79, 79}); //add 3 candleheads here
+						setEnemies({79, 79, 79}); //add 3 candleheads here
 						// Lanmola L1 x2, Stalfos L2 x3
 						break;
 					case 5:
-						//boss drops in like any normal enemy
+						// boss drops in like any normal enemy
 						playBossTheme(arenaListNum);
-						setEnemies({180});
+						setEnemies({235});
 						shouldReturn = true;
 						break;
 				}
 				break;
 		}
-
+*/
 		Screen->SpawnScreenEnemies();
 		
 		return shouldReturn;
@@ -475,7 +473,7 @@ ffc script DifficultyChoice //start
 
 		Waitframes(120);
 
-		Hero->WarpEx({WT_IWARPOPENWIPE, 5, 0x3E, -1, WARP_B, WARPEFFECT_OPENWIPE, 0, 0, DIR_RIGHT});
+		Hero->WarpEx({WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_NONE, 0, 0, DIR_RIGHT});
     }
 } //end
 
@@ -678,8 +676,10 @@ ffc script CapacityIncreasor //start
 
 					if (itemToIncrease != 191)
 					{
-						itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) : (Game->MCounter[CR_ARROWS] += increaseAmount);
-						itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) : (Game->Counter[CR_ARROWS] += increaseAmount);
+						itemToIncrease == 1 ? (Game->MCounter[CR_BOMBS] += increaseAmount) 
+											: (Game->MCounter[CR_ARROWS] += increaseAmount);
+						itemToIncrease == 1 ? (Game->Counter[CR_BOMBS] += increaseAmount) 
+											: (Game->Counter[CR_ARROWS] += increaseAmount);
 						setScreenD(255, true);
 					}
 					else // Battle Arena ticket
@@ -787,6 +787,7 @@ ffc script OvMove //start
 	}
 } //end
 
+
 //start ignitable water
 const int OILBUSH_LAYER = 2; //Layer to which burning is drawn
 const int OILBUSH_DAMAGE = 2; //Damage dealt by burning oil/bushes
@@ -803,12 +804,12 @@ const int OILBUSH_BUSH_DURATION = 60; //Duration bushes/grass burn for in frames
 const int OILBUSH_OIL_SPREAD_FREQ = 2; //How frequently burning oil spreads (should be shorter than burn duration)
 const int OILBUSH_BUSH_SPREAD_FREQ = 10; //How frequently burning bushes/grass spread
 
-const int CMB_OIL_BURNING = 900; //First combo for burning oil
+const int CMB_OIL_BURNING = 6344; //First combo for burning oil
 const int CS_OIL_BURNING = 8; //CSet for burning oil
 const int OILBUSH_ENDFRAMES_OILBURN = 4; //Number of combos for oil burning out
 const int OILBUSH_ENDDURATION_OILBURN = 16; //Duration of the burning out animation
 
-const int CMB_BUSH_BURNING = 900; //First combo for burning oil
+const int CMB_BUSH_BURNING = 6344; //First combo for burning oil
 const int CS_BUSH_BURNING = 8; //CSet for burning oil
 const int OILBUSH_ENDFRAMES_BUSHBURN = 4; //Number of combos for bushes/grass burning out
 const int OILBUSH_ENDDURATION_BUSHBURN = 16; //Duration of the burning out animation
@@ -821,37 +822,49 @@ const int EW_OILBUSHBURN = 40; //EWeapon ID. Script 10 by default
 const int LW_OILBUSHBURN = 9; //LWeapon ID. Fire by default
 
 ffc script BurningOilandBushes{
-	void run(int noOil, int noBushes){
+	void run(int noOil, int noBushes, int advanceOil, int burnCSet){
 		int i; int j;
 		int c;
 		int ct;
 		int burnTimers[176];
 		int burnTypes[176];
 		lweapon burnHitboxes[176];
-		while(true){
+		
+		while(true)
+		{
 			//Loop through all LWeapons
-			for(i=Screen->NumEWeapons(); i>=1; i--){
+			for(i=Screen->NumEWeapons(); i>=1; i--)
+			{
 				eweapon e = Screen->LoadEWeapon(i);
+				
 				//Only fire weapons can burn oil/bushes
-				if(e->ID==EW_FIRE||e->ID==EW_FIRE2){
+				if(e->ID==EW_FIRE||e->ID==EW_FIRE2 || e->OriginalTile == 800)
+				{
 					c = ComboAt(CenterX(e), CenterY(e));
 					//Check to make sure it isn't already burning
-					if(burnTimers[c]<=0){
+					
+					if(burnTimers[c]<=0)
+					{
 						//Check if oil is allowed and if the combo is a water combo
-						if(!noOil&&OilBush_IsWater(c)){
+						if(!noOil&&OilBush_IsWater(c))
+						{
 							if(SFX_OIL_BURN>0)
 								Game->PlaySound(SFX_OIL_BURN);
 							burnTimers[c] = OILBUSH_OIL_DURATION;
 							burnTypes[c] = 0; //Mark as an oil burn
 						}
 						//Else check if bushes are allowd and if the combo is a bush
-						else if(!noBushes&&OilBush_IsBush(c)){
+						else if(!noBushes&&OilBush_IsBush(c))
+						{
 							if(SFX_BUSH_BURN>0)
 								Game->PlaySound(SFX_BUSH_BURN);
+								
 							burnTimers[c] = OILBUSH_BUSH_DURATION;
 							burnTypes[c] = 1; //Mark as a bush burn
 							Screen->ComboD[c]++; //Advance to the next combo
-							if(OILBUSH_BUSHESSTILLDROPITEMS){ //If item drops are allowed, create and kill a dummy enemy
+							
+							if(OILBUSH_BUSHESSTILLDROPITEMS)
+							{ //If item drops are allowed, create and kill a dummy enemy
 								npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
 								n->HP = -1000;
 								n->DrawYOffset = -1000;
@@ -992,11 +1005,15 @@ ffc script BurningOilandBushes{
 						SetEWeaponDeathEffect(e, EWD_VANISH, 0);
 					}
 					burnTimers[i]--; //This ain't no Bible. Bushes burn up eventually.
+					
+					if (burnTimers[i] == 0 && advanceOil && Screen->ComboT[i] == CT_SHALLOWWATER)
+						++Screen->ComboD[i];
+					
 					int cmbBurn;
 					if(burnTypes[i]==0){
 						//Set animation for oil burning out
 						cmbBurn = CMB_OIL_BURNING+Clamp(OILBUSH_ENDFRAMES_OILBURN-1-Floor(burnTimers[i]/(OILBUSH_ENDDURATION_OILBURN/OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN-1);
-						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, CS_OIL_BURNING, 128);
+						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
 					}
 					else{
 						//Set animation for bush burning out
