@@ -1033,8 +1033,8 @@ namespace Enemy::OvergrownRaccoon
 	enum State //start
 	{
 		STATE_NORMAL,
-		STATE_LARGE_ROCK_THROW,
 		STATE_SMALL_ROCKS_THROW,
+		STATE_LARGE_ROCK_THROW,
 		STATE_RACCOON_THROW,
 		STATE_CHARGE
 	}; //end
@@ -1051,44 +1051,43 @@ namespace Enemy::OvergrownRaccoon
 				
 			// racoon hold: he spawns a racoon that grabs you (like a like like) does no damage, you just need
 			// to get it off
-				
+			
 			while(true)
 			{
-				int randModifier = isDifficultyChange(this, maxHp) ? Rand(-150, 25) : Rand(-50, 50);
+				int randModifier = isDifficultyChange(this, maxHp) ? Rand(-90, 30) : Rand(-60, 60);
 				
-				if (++timer > 300 + randModifier)
+				if (++timer > 120 + randModifier)
 				{
 					timer = 0;
 					int attackChoice = 0;
 					
-					// if (state == STATE_NORMAL)
-					// {
-						// if (previousState == STATE_CHARGE)
-							// attackChoice += 2;
-						// else if(previousState == STATE_LARGE_ROCK_THROW)
-							// attackChoice++;
-						// else if (previousState == STATE_SMALL_ROCKS_THROW)
-							// attackChoice
+					if (Screen->NumNPCs() > 5)
+						attackChoice = STATE_RACCOON_THROW;
+					else if (previousState == STATE_SMALL_ROCKS_THROW)
+						attackChoice = RandGen->Rand(1, 4);
+					else if (previousState == STATE_CHARGE)
+						attackChoice = RandGen->Rand(2, 4);
+					else
+						attackChoice = RandGen->Rand(4);
 						
-					// }
-					
-					state = STATE_LARGE_ROCK_THROW;
-					
-					// if (state == STATE_LARGE_ROCK_THROW)
-						// state = STATE_NORMAL;
-					// else
-						// state = STATE_LARGE_ROCK_THROW;
-						
-					// if (isDifficultyChange(this, maxHp))
-					// {
-						// timer = 300;
-						// state = STATE_CHARGE;
-					// }
-				}
-				
-				if (Input->KeyPress[KEY_H])
-				{
-					state = STATE_CHARGE;
+					switch(attackChoice)
+					{
+						case 0: 
+							state = STATE_NORMAL;
+							break;
+						case 1:
+							state = STATE_SMALL_ROCKS_THROW;
+							break;
+						case 2:
+							state = STATE_LARGE_ROCK_THROW;
+							break;
+						case 3:
+							state = STATE_RACCOON_THROW;
+							break;
+						case 4:
+							state = STATE_CHARGE;
+							break;
+					}
 				}
 				
 				switch(state) //start
@@ -1104,12 +1103,11 @@ namespace Enemy::OvergrownRaccoon
 						
 						Waitframes(60);
 						
-						eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 8, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+						eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 6, 119, -1, EWF_UNBLOCKABLE, 2, 2);
 						// Audio->PlaySound(throw sound);
 						RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
 						
 						state = STATE_NORMAL;
-						
 						break; //end
 						
 					case STATE_SMALL_ROCKS_THROW: //start
@@ -1123,7 +1121,7 @@ namespace Enemy::OvergrownRaccoon
 							
 							unless (i % 20)
 							{
-								eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+								eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 								// Audio->PlaySound(throw sound);
 								RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
 							}
@@ -1132,7 +1130,6 @@ namespace Enemy::OvergrownRaccoon
 						}
 						
 						state = STATE_NORMAL;
-						
 						break; //end
 						
 					case STATE_RACCOON_THROW: //start
@@ -1140,12 +1137,16 @@ namespace Enemy::OvergrownRaccoon
 						
 						Waitframes(60);
 						
-						eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
-						// Audio->PlaySound(throw sound);
-						RunEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
+						for (int i = 0; i < 2; ++i)
+						{
+							Waitframes(5);
+							
+							eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
+							// Audio->PlaySound(throw sound);
+							RunEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
+						}
 						
 						state = STATE_NORMAL;
-						
 						break; //end
 						
 					case STATE_CHARGE: //start
@@ -1180,7 +1181,6 @@ namespace Enemy::OvergrownRaccoon
 						do Waitframe(); while(this->Z);
 						
 						state = STATE_NORMAL;
-						
 						break; //end
 				} //end
 			

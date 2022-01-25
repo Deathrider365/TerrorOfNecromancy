@@ -358,19 +358,20 @@ namespace Enemy::Manhandala //start
 			}
 			
 			// Intro Sequence
-			// if (firstRun)
-				// commenceIntroSequence(this, heads);
-			Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0); //remove if intro is on
+			if (firstRun)
+			{
+				NoAction();
+				commenceIntroSequence(this, heads);
+				Screen->Message(402);
+				firstRun = false;
+			}
+			// Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0); //remove if intro is on
 			
+			NoAction();
+				
 			while(this->HP > 0)
 			{
 				int previousAttack;
-				
-				// if (firstRun)
-				// {
-					// Screen->Message(402);
-					// firstRun = false;
-				// }
 				
 				int angle;
 				int headOpen = 20;
@@ -390,34 +391,52 @@ namespace Enemy::Manhandala //start
 					
 					if (dead)
 						break;
-						
-					for (int i = 0; i < 21; ++i)
-						this->Defense[i] = NPCDT_NONE;
 					
+					for (int i = 0; i < 20; ++i)
+						this->Defense[i] = NPCDT_IGNORE;
+					
+					for (int i = 0; i < 4; ++i)
+						if (heads[i])
+							heads[i]->CollDetection = true;
+					
+						
 					if (headOpen == 20)
 					{
 						headOpenIndex = RandGen->Rand(3);
-						heads[headOpenIndex]->OriginalTile -= 1;
+						
+						until (heads[headOpenIndex])
+							headOpenIndex = RandGen->Rand(3);
+					
+						if (heads[headOpenIndex])
+							heads[headOpenIndex]->OriginalTile -= 1;
 					}
 					
 					if (headOpen == 0)
 					{
-						heads[headOpenIndex]->OriginalTile += 1;
+						if (heads[headOpenIndex])
+							heads[headOpenIndex]->OriginalTile += 1;
 						
 						headOpenIndex = RandGen->Rand(3);
-						heads[headOpenIndex]->OriginalTile -= 1;
+						
+						until (heads[headOpenIndex])
+							headOpenIndex = RandGen->Rand(3);
+							
+						if (heads[headOpenIndex])
+							heads[headOpenIndex]->OriginalTile -= 1;
+							
 						headOpen = 20;
 					}
 						
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					
-					
 					// Normal moving towards Link
 					unless (data[DATA_CLK] % 3)
 						this->MoveAtAngle(angle, 1, SPW_NONE);
 					
+					bool justSprayed = false;
+					
 					// Whether he can attack again
-					if (TIME_BETWEEN_ATTACKS == timeSinceLastAttack)
+					if (TIME_BETWEEN_ATTACKS <= timeSinceLastAttack)
 					{
 						// int rand = RandGen->Rand(120, 180);
 						
@@ -428,11 +447,14 @@ namespace Enemy::Manhandala //start
 						// } until(rand);
 						
 						// Attack choice
+						if (heads[headOpenIndex])
+							heads[headOpenIndex]->OriginalTile += 1;
 						
-						heads[headOpenIndex]->OriginalTile += 1;
 						headOpen = 21;
 						
 						oilSpray(data, this, isDifficultyChange(this, maxHp));
+						
+						justSprayed = true;
 						
 						timeSinceLastAttack = 0;
 					}
@@ -440,7 +462,11 @@ namespace Enemy::Manhandala //start
 					// If Link gets too close he groundPounds
 					if (Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < 32)
 					{
-						heads[headOpenIndex]->OriginalTile += 1;
+						timeSinceLastAttack += 60;
+					
+						if (heads[headOpenIndex] && timeSinceLastAttack != 0 && !justSprayed)
+							heads[headOpenIndex]->OriginalTile += 1;
+							
 						headOpen = 21;
 						
 						groundPound(this, data);
@@ -471,18 +497,16 @@ namespace Enemy::Manhandala //start
 					++timeSinceLastAttack;
 					
 					--headOpen;
+					
 					custom_waitframe(this, data);
 				}
 				
-				for (int i = 0; i < 21; ++i)
-				{
-					if (i == NPCD_FIRE)
-						this->Defense[i] = NPCDT_NONE;
-				}
+				for (int i = 0; i < 20; ++i)
+					(this->Defense[i] == NPCD_FIRE) ? (this->Defense[i] = NPCDT_IGNORE) : (this->Defense[i] = NPCDT_NONE);
 				
 				int originalCSet = this->CSet;
 				this->CSet = hurtCSet;
-				this->CollDetection = true;
+				// this->CollDetection = true;
 				
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
@@ -490,8 +514,8 @@ namespace Enemy::Manhandala //start
 				// Fleeing from Link
 				for (int i = 0; i < (5 * 60); ++i) //start
 				{
-					unless (this->HP > 0)
-						break;
+					if (this->HP <= 0)
+						deathAnimation(this, data);
 					
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					this->MoveAtAngle(180 + angle, 1, SPW_NONE);
@@ -500,6 +524,9 @@ namespace Enemy::Manhandala //start
 				} //end
 				
 				Waitframes(60);
+				
+				if (this->HP <= 0);
+					deathAnimation(this, data);
 				
 				int centerX = 256 / 2, centerY = 176 / 2 - 16;
 				
@@ -510,10 +537,13 @@ namespace Enemy::Manhandala //start
 						custom_waitframe(this, data, 2);
 				}
 				
-				this->CollDetection = false;
+				// this->CollDetection = false;
+				for (int i = 0; i < 20; ++i)
+					this->Defense[i] == NPCDT_IGNORE;
+					
 				data[DATA_INVIS] = true;
 				
-				// Regenerating in center pool (falling into pool)
+				// Falling into the pool
 				for (int i = 0; i < 32; ++i) //start
 				{
 					for(int j = 0; j < 4; ++j)
@@ -542,7 +572,7 @@ namespace Enemy::Manhandala //start
 				
 				// Rising out from pool
 				for (int i = 31; i >= 0; --i) //start
-				{					
+				{				
 					for(int j = 0; j < 4; ++j)
 					{
 						effectBitmap->Clear(0);
@@ -566,20 +596,13 @@ namespace Enemy::Manhandala //start
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 					heads[headIndex]->DrawXOffset = 0;
-				
-				
-				for (int i = 0; i < 4; ++i)
-					heads[i]->CollDetection = true;
-					
-				this->CollDetection = true;
+				// this->CollDetection = true;
 			}
 			
 			effectBitmap->Free();
 			
-			// death ani
-			
-			while(true)
-				custom_waitframe(this, data);
+			this->CollDetection = false;
+			deathAnimation(this, data);
 		}
 		
 		void groundPound(npc this, int data) //start
@@ -619,6 +642,7 @@ namespace Enemy::Manhandala //start
 		{
 			bitmap introSequenceBitmap = create(512, 168);
 			int panPosition = 0;
+			NoAction();
 			
 			this->X = 432;
 			this->Y = 64;
@@ -630,6 +654,7 @@ namespace Enemy::Manhandala //start
 			// Pause
 			for (int i = 0; i < 60; ++i)
 			{
+				NoAction();
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
@@ -637,6 +662,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 			
 				introSequenceBitmap->Blit(7, RT_SCREEN, 0, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
 				
@@ -646,6 +672,7 @@ namespace Enemy::Manhandala //start
 			// Start Panning
 			until (panPosition == 40)
 			{
+				NoAction();
 				panPosition += 4;
 				
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
@@ -655,6 +682,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -670,6 +698,7 @@ namespace Enemy::Manhandala //start
 			// Panning right
 			until (panPosition == 100)
 			{
+				NoAction();
 				panPosition += 6;
 				
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
@@ -679,6 +708,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -694,6 +724,7 @@ namespace Enemy::Manhandala //start
 			// Panning right
 			until (panPosition == 180)
 			{
+				NoAction();
 				panPosition += 8;
 				
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
@@ -703,6 +734,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -725,6 +757,7 @@ namespace Enemy::Manhandala //start
 			// Panning right
 			until (panPosition == 230)
 			{
+				NoAction();
 				panPosition += 5;
 				
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
@@ -734,6 +767,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -756,6 +790,7 @@ namespace Enemy::Manhandala //start
 			// Panning right
 			until (panPosition == 256)
 			{
+				NoAction();
 				panPosition += 1;
 				
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
@@ -765,6 +800,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -775,9 +811,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
 			
 				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
 				
@@ -787,7 +821,7 @@ namespace Enemy::Manhandala //start
 			// Pausing on him
 			for (int i = 0; i < 60; ++i)
 			{
-				
+				NoAction();
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
@@ -797,9 +831,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
 			
 				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
 				
@@ -812,6 +844,7 @@ namespace Enemy::Manhandala //start
 			// Panning back into boss room
 			until (panPosition == 0)
 			{
+				NoAction();
 				--panPosition;
 				++timer;
 				
@@ -844,6 +877,7 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 				
 				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
@@ -866,6 +900,7 @@ namespace Enemy::Manhandala //start
 			// Wait and Roars
 			for (int i = 0; i < 60; ++i)
 			{
+				NoAction();
 				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
@@ -873,13 +908,12 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
 			
 				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
 			
 				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
 				
@@ -969,6 +1003,9 @@ namespace Enemy //start
 		
 		while (--attackingCounter)
 		{
+			if (this->HP <= 0)
+				deathAnimation(this, data);
+				
 			modTile = attackingCounter % 2;
 			
 			if (modTile)
@@ -986,16 +1023,6 @@ namespace Enemy //start
 	
 	} //end
 		
-	void flameCannon() //start
-	{
-	
-	} //end
-	
-	void flameSpray() //start
-	{
-	
-	} //end
-	
 	enum dataInd //start
 	{
 		DATA_AFRAMES,
@@ -1032,13 +1059,16 @@ namespace Enemy //start
 			n->HitHeight = 16;
 	} //end
 	
-	void deathAnimation() //start
+	void deathAnimation(npc n, untyped data) //start
 	{
 	
 	} //end
 	
 	void custom_waitframe(npc n, int data) //start
 	{
+		if (n->HP <= 0)
+			deathAnimation(n, data);
+	
 		if(++data[DATA_CLK] >= n->ASpeed)
 		{
 			data[DATA_CLK] = 0;

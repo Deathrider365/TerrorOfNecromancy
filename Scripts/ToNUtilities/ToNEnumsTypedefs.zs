@@ -366,6 +366,7 @@ enum ArcingWeaponEffects //start
 	
 	//Hazarond
 	AE_OIL_BLOB,
+	AE_OIL_DEATH_BLOB,
 	
 	//Overgrown Raccoon
 	AE_ROCK_PROJECTILE,

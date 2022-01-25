@@ -323,7 +323,8 @@ global script GlobalScripts //start
 	{
 		// Hero->Item[191] = true;
 		// Hero->Warp(21, 0x57);
-		Hero->Warp(20, 0x23);
+		// Hero->Warp(20, 0x23);
+		Hero->Warp(18, 0x23);
 		Game->Cheat = 4;
 	} //end
 	

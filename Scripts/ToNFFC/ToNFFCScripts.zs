@@ -358,9 +358,10 @@ ffc script BattleArena //start
 		int enemyList[50];
 		bool shouldReturn;
 		
-		setEnemies({235});
-		playBossTheme(arenaListNum);
-/*
+		// Screen->Pattern = PATTERN_CEILING;
+		// setEnemies({235});
+		// playBossTheme(arenaListNum);
+
 		switch(arenaListNum)
 		{
 			case 0:
@@ -397,7 +398,6 @@ ffc script BattleArena //start
 				}
 				break;
 		}
-*/
 		Screen->SpawnScreenEnemies();
 		
 		return shouldReturn;
