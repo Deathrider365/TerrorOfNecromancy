@@ -374,19 +374,19 @@ ffc script BattleArena //start
 						// Octo L1 (slow) x2, Octo L1 (fast) x3, Octo L2 (fast)
 						break;
 					case 1:
-						setEnemies({21, 21, 23, 23, 23, 28, 28, 45, 45, 45});
-						// octo L2 (slow) x2, Octo L2 (fast) x3, Moblin L1 x2, Goriya L1 x3 
-						break;
-					case 2:
 						setEnemies({29, 29, 29, 41, 41, 41, 44, 44});
 						// Moblin L2 x3, Stalfos L1 x3, Rope L1 x2
+						break;
+					case 2:
+						setEnemies({21, 21, 23, 23, 23, 28, 28, 45, 45, 45});
+						// octo L2 (slow) x2, Octo L2 (fast) x3, Moblin L1 x2, Goriya L1 x3 
 						break;
 					case 3:
 						setEnemies({190, 190, 190, 190, 27, 27, 27});
 						// Leever L1 (inside) x4, Leever L2 (inside) x3, 
 						break;
 					case 4:
-						setEnemies({79, 79, 79}); //add 3 candleheads here
+						setEnemies({79, 79, 79}); //add 3 candleheads here and remove stalfos
 						// Lanmola L1 x2, Stalfos L2 x3
 						break;
 					case 5:
@@ -545,28 +545,28 @@ ffc script DisableLink //start
 @Author("Tabletpillow, EmilyV99")
 ffc script SimpleShop //start
 {
-    void run(int itemID, int price, int boughtMessage, int notBoughtMessage)
+    void run(int itemId, int price, int boughtMessage, int notBoughtMessage)
 	{
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
-		itemsprite dummy = CreateItemAt(itemID, this->X, this->Y);
+		itemsprite dummy = CreateItemAt(itemId, this->X, this->Y);
 		dummy->Pickup = IP_DUMMY;
 
         int loc = ComboAt(this->X + 8, this->Y + 8);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 
-		itemdata id = Game->LoadItemData(itemID);
+		itemdata id = Game->LoadItemData(itemId);
 		bool checkStock = !id->Combine && id->Keep;
 
         while(true)
 		{
-			if(checkStock && Hero->Item[itemID])
+			if(checkStock && Hero->Item[itemId] && itemId != 2 && itemId != 114 && itemId != 165)
 			{
 				dummy->ScriptTile = TILE_INVIS;
 				this->Data = noStockCombo;
 
-				do Waitframe(); while (Hero->Item[itemID]);
+				do Waitframe(); while (Hero->Item[itemId]);
 
 				dummy->ScriptTile = -1;
 				this->Data = COMBO_INVIS;
@@ -583,7 +583,7 @@ ffc script SimpleShop //start
 					if (Game->Counter[CR_RUPEES] >= price)
 					{
 						Game->DCounter[CR_RUPEES] -= price;
-						item shpitm = CreateItemAt(itemID, Hero->X, Hero->Y);
+						item shpitm = CreateItemAt(itemId, Hero->X, Hero->Y);
 
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);
@@ -1046,46 +1046,4 @@ ffc script BurningOilandBushes{
 	}
 }
 //end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

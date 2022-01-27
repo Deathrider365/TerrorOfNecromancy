@@ -166,14 +166,14 @@ eweapon script ArcingWeapon //start
 					}
 					break; //end
 				
-				case AE_ROCK_PROJECTILE:
+				case AE_ROCK_PROJECTILE: //start
 					for (int i = 0; i < 4; ++i)
 					{
 						eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 2, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 						RunEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});	
 					}
 					Audio->PlaySound(SFX_BOMB);
-					break;
+					break; //end
 				
 				case AE_BOULDER_PROJECTILE: //start
 				
@@ -186,10 +186,10 @@ eweapon script ArcingWeapon //start
 					Audio->PlaySound(SFX_BOMB);
 					break; //end
 					
-				case AE_RACCOON_PROJECTILE:
+				case AE_RACCOON_PROJECTILE: //start
 					npc n = CreateNPCAt(236, this->X, this->Y);
 					
-					break;
+					break; //end
 					
 				case AE_DEBUG: //start
 					this->Step = 0;

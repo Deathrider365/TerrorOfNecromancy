@@ -333,6 +333,9 @@ namespace Enemy::Manhandala //start
 		
 		void run(int hurtCSet, int minion)
 		{
+			if (firstRun)
+				NoAction();
+				
 			setupNPC(this);
 			
 			untyped data[SZ_DATA];
@@ -365,7 +368,6 @@ namespace Enemy::Manhandala //start
 				Screen->Message(402);
 				firstRun = false;
 			}
-			// Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0); //remove if intro is on
 			
 			NoAction();
 				
@@ -379,26 +381,29 @@ namespace Enemy::Manhandala //start
 				
 				while(true)
 				{
-					bool dead = true;
-					
-					for (int headIndex = 0; headIndex < 4; ++headIndex)
-					{
-						if (heads[headIndex] && heads[headIndex]->isValid() && heads[headIndex]->HP > 0)
-							dead = false;
-						else
-							heads[headIndex] = NULL;
-					}
-					
-					if (dead)
+					if (isHeadsDead(heads))
 						break;
+					// bool dead = true;
+					
+					// for (int headIndex = 0; headIndex < 4; ++headIndex)
+					// {
+						// if (heads[headIndex] && heads[headIndex]->isValid() && heads[headIndex]->HP > 0)
+							// dead = false;
+						// else
+							// heads[headIndex] = NULL;
+					// }
+					
+					// if (dead)
+						// break;
 					
 					for (int i = 0; i < 20; ++i)
 						this->Defense[i] = NPCDT_IGNORE;
 					
 					for (int i = 0; i < 4; ++i)
+					{
 						if (heads[i])
 							heads[i]->CollDetection = true;
-					
+					}
 						
 					if (headOpen == 20)
 					{
@@ -438,26 +443,21 @@ namespace Enemy::Manhandala //start
 					// Whether he can attack again
 					if (TIME_BETWEEN_ATTACKS <= timeSinceLastAttack)
 					{
-						// int rand = RandGen->Rand(120, 180);
-						
-						// do
-						// {
-							// --rand;
-							// custom_waitframe(this, data);
-						// } until(rand);
-						
-						// Attack choice
 						if (heads[headOpenIndex])
 							heads[headOpenIndex]->OriginalTile += 1;
+							
+						oilSpray(data, this, heads, isDifficultyChange(this, maxHp));
 						
 						headOpen = 21;
-						
-						oilSpray(data, this, isDifficultyChange(this, maxHp));
-						
 						justSprayed = true;
-						
 						timeSinceLastAttack = 0;
 					}
+					
+					if (this->HP <= 0)
+						deathAnimation(this);
+						
+					if (isHeadsDead(heads))
+						break;
 					
 					// If Link gets too close he groundPounds
 					if (Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < 32)
@@ -470,7 +470,9 @@ namespace Enemy::Manhandala //start
 						headOpen = 21;
 						
 						groundPound(this, data);
-						custom_waitframe(this, data, 45);
+						
+						if (custom_waitframe(this, data, 45, heads))
+							break;
 					}	
 					
 					// Drop fire
@@ -495,18 +497,16 @@ namespace Enemy::Manhandala //start
 					} //end
 					
 					++timeSinceLastAttack;
-					
 					--headOpen;
 					
 					custom_waitframe(this, data);
 				}
+				this->CollDetection = true;
+				int originalCSet = this->CSet;
+				this->CSet = hurtCSet;
 				
 				for (int i = 0; i < 20; ++i)
 					(this->Defense[i] == NPCD_FIRE) ? (this->Defense[i] = NPCDT_IGNORE) : (this->Defense[i] = NPCDT_NONE);
-				
-				int originalCSet = this->CSet;
-				this->CSet = hurtCSet;
-				// this->CollDetection = true;
 				
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
@@ -515,7 +515,7 @@ namespace Enemy::Manhandala //start
 				for (int i = 0; i < (5 * 60); ++i) //start
 				{
 					if (this->HP <= 0)
-						deathAnimation(this, data);
+						deathAnimation(this);
 					
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					this->MoveAtAngle(180 + angle, 1, SPW_NONE);
@@ -523,21 +523,20 @@ namespace Enemy::Manhandala //start
 					custom_waitframe(this, data);
 				} //end
 				
-				Waitframes(60);
+				custom_waitframe(this, data, 60);
 				
-				if (this->HP <= 0);
-					deathAnimation(this, data);
+				if (this->HP <= 0)
+					deathAnimation(this);
 				
 				int centerX = 256 / 2, centerY = 176 / 2 - 16;
 				
 				// Flees into the center pool to regen
 				while(Distance(this->X + this->HitXOffset + this->HitWidth / 2, this->Y + this->HitYOffset + this->HitHeight / 2, centerX, centerY) > 3)
-				{
 					while (MoveTowardsPoint(this, centerX, centerY, 2, SPW_FLOATER, true))
 						custom_waitframe(this, data, 2);
-				}
 				
-				// this->CollDetection = false;
+				this->CollDetection = false;
+				
 				for (int i = 0; i < 20; ++i)
 					this->Defense[i] == NPCDT_IGNORE;
 					
@@ -591,18 +590,19 @@ namespace Enemy::Manhandala //start
 					}
 				} //end
 				
+				this->HP += 6;
 				data[DATA_INVIS] = false;
-				
+				this->CollDetection = true;
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
-					heads[headIndex]->DrawXOffset = 0;
-				// this->CollDetection = true;
+					heads[headIndex]->DrawXOffset = 0;		
 			}
 			
 			effectBitmap->Free();
 			
 			this->CollDetection = false;
-			deathAnimation(this, data);
+			
+			deathAnimation(this);
 		}
 		
 		void groundPound(npc this, int data) //start
@@ -742,12 +742,10 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 				
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, false, OP_OPAQUE);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
 				
 				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
 				
@@ -774,8 +772,11 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+				
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 				{
@@ -807,8 +808,11 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+				
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
@@ -827,8 +831,11 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+				
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
@@ -851,7 +858,7 @@ namespace Enemy::Manhandala //start
 				if(timer < 24)
 				{
 					unless (timer % 3)
-						yModifier = -3.5;
+						yModifier = -3.8;
 					else
 						yModifier = 0;
 				}
@@ -860,7 +867,7 @@ namespace Enemy::Manhandala //start
 				else if (timer < 148)
 				{
 					unless (timer % 3)
-						yModifier = 2;
+						yModifier = 2.75;
 					else
 						yModifier = 0;
 				}
@@ -884,8 +891,14 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
 				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+				
+				introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 2, 10276, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 2, 10277, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 18, 10280, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 18, 10281, 2, OP_OPAQUE);
+				
+				if (!(panPosition % 16) || panPosition == 254)
+					Audio->PlaySound(121);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 				{
@@ -909,8 +922,11 @@ namespace Enemy::Manhandala //start
 				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
 				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->DrawTile(7, this->X, this->Y, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+				
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10276, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10277, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10280, 2, OP_OPAQUE);
+				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10281, 2, OP_OPAQUE);
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
@@ -922,6 +938,65 @@ namespace Enemy::Manhandala //start
 			
 			introSequenceBitmap->Free();
 			Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+			Hero->Dir = DIR_RIGHT;
+		}
+	} //end
+	
+	void oilSpray(int data, npc this, npc heads, bool isDifficultyChange) //start
+	{
+		int attackingCounter = 30;
+		bool modTile = false;
+		
+		this->ScriptTile = this->OriginalTile;
+		
+		custom_waitframe(this, data, 60);
+		
+		while (--attackingCounter)
+		{
+			if (isHeadsDead(heads))
+				break;
+				
+			modTile = attackingCounter % 2;
+			
+			if (modTile)
+				this->ScriptTile = this->OriginalTile + 40;
+			else
+				this->ScriptTile = this->OriginalTile;
+		
+			eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+			Audio->PlaySound(138);
+			RunEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB});
+			custom_waitframe(this, data, 5);
+		}
+		
+		custom_waitframe(this, data, 60);
+	
+	} //end
+		
+	bool isHeadsDead(npc heads) //start
+	{
+		bool dead = true; 
+		
+		for (int headIndex = 0; headIndex < 4; ++headIndex)
+		{
+			if (heads[headIndex] && heads[headIndex]->isValid() && heads[headIndex]->HP > 0)
+				dead = false;
+			else
+				heads[headIndex] = NULL;
+		}
+		
+		return dead;
+	} //end
+	
+	bool custom_waitframe(npc n, int data, int frames, npc heads) //start
+	{
+		while(frames--)
+		{
+			if (isHeadsDead(heads))
+				return true;
+			custom_waitframe(n, data);
+			
+			return false;
 		}
 	} //end
 	
@@ -935,7 +1010,7 @@ namespace Enemy::Manhandala //start
 			while(true)
 			{
 				this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + getDrawLocationX(this);
-				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + getDrawLocationY(this);
+				this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + getDrawLocationY(this) - 2;
 				this->Z = parent->Z;
 
 				this->ScriptTile = this->OriginalTile + this->Dir * 20 + 1;
@@ -991,38 +1066,7 @@ namespace Enemy::Manhandala //start
 } //end
 
 namespace Enemy //start
-{	
-	void oilSpray(int data, npc this, bool isDifficultyChange) //start
-	{
-		int attackingCounter = 30;
-		bool modTile = false;
-		
-		this->ScriptTile = this->OriginalTile;
-		
-		Waitframes(60);
-		
-		while (--attackingCounter)
-		{
-			if (this->HP <= 0)
-				deathAnimation(this, data);
-				
-			modTile = attackingCounter % 2;
-			
-			if (modTile)
-				this->ScriptTile = this->OriginalTile + 40;
-			else
-				this->ScriptTile = this->OriginalTile;
-		
-			eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-			Audio->PlaySound(138);
-			RunEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB});
-			custom_waitframe(this, data, 5);
-		}
-		
-		Waitframes(60);
-	
-	} //end
-		
+{		
 	enum dataInd //start
 	{
 		DATA_AFRAMES,
@@ -1059,15 +1103,43 @@ namespace Enemy //start
 			n->HitHeight = 16;
 	} //end
 	
-	void deathAnimation(npc n, untyped data) //start
+	void deathAnimation(npc n) //start
 	{
+		n->Immortal = true;
+		n->CollDetection = false;
+		n->Stun = 9999;
 	
+		lweapon explosion;
+		lweapon child;
+		int baseX = n->X + n->DrawXOffset;
+		int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
+				
+		// One explosion every 3 frames, 15 times
+		for(int i = 0; i < 45; i++)
+		{
+			unless (i % 3)
+			{
+				explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+				explosion->CollDetection = false;
+				Audio->PlaySound(61);
+			}
+			Waitframes(5);
+		}
+		
+		char32 areaMusic[256];
+		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+		Audio->PlayEnhancedMusic(areaMusic, 0);
+		
+		n->Immortal = false;
+		n->Remove();
 	} //end
 	
 	void custom_waitframe(npc n, int data) //start
 	{
 		if (n->HP <= 0)
-			deathAnimation(n, data);
+			deathAnimation(n);
 	
 		if(++data[DATA_CLK] >= n->ASpeed)
 		{
@@ -1098,7 +1170,7 @@ namespace Enemy //start
 		while(frames--)
 			custom_waitframe(n, data);
 	} //end
-
+	
 	void doWalk(npc n, int rand, int homing, int step) //start
 	{
 		//rand = n in 1000 to do something

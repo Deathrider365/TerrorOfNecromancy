@@ -1048,12 +1048,12 @@ namespace Enemy::OvergrownRaccoon
 			State previousState = state;
 			const int maxHp = this->HP;
 			int timer;
-				
-			// racoon hold: he spawns a racoon that grabs you (like a like like) does no damage, you just need
-			// to get it off
 			
 			while(true)
 			{
+				if (this->HP <= 0)
+					deathAnimation(this);
+					
 				int randModifier = isDifficultyChange(this, maxHp) ? Rand(-90, 30) : Rand(-60, 60);
 				
 				if (++timer > 120 + randModifier)
@@ -1061,7 +1061,7 @@ namespace Enemy::OvergrownRaccoon
 					timer = 0;
 					int attackChoice = 0;
 					
-					if (Screen->NumNPCs() > 5)
+					if (Screen->NumNPCs() > 5 && Screen->NumNPCs() < 10)
 						attackChoice = STATE_RACCOON_THROW;
 					else if (previousState == STATE_SMALL_ROCKS_THROW)
 						attackChoice = RandGen->Rand(1, 4);
@@ -1070,24 +1070,7 @@ namespace Enemy::OvergrownRaccoon
 					else
 						attackChoice = RandGen->Rand(4);
 						
-					switch(attackChoice)
-					{
-						case 0: 
-							state = STATE_NORMAL;
-							break;
-						case 1:
-							state = STATE_SMALL_ROCKS_THROW;
-							break;
-						case 2:
-							state = STATE_LARGE_ROCK_THROW;
-							break;
-						case 3:
-							state = STATE_RACCOON_THROW;
-							break;
-						case 4:
-							state = STATE_CHARGE;
-							break;
-					}
+					state = parseAttackChoice(attackChoice);
 				}
 				
 				switch(state) //start
@@ -1117,6 +1100,9 @@ namespace Enemy::OvergrownRaccoon
 						
 						for(int i = 0; i < 60; ++i)
 						{
+							if (this->HP <= 0)
+								deathAnimation(this);
+								
 							this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 							
 							unless (i % 20)
@@ -1139,6 +1125,9 @@ namespace Enemy::OvergrownRaccoon
 						
 						for (int i = 0; i < 2; ++i)
 						{
+							if (this->HP <= 0)
+								deathAnimation(this);
+								
 							Waitframes(5);
 							
 							eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
@@ -1183,16 +1172,29 @@ namespace Enemy::OvergrownRaccoon
 						state = STATE_NORMAL;
 						break; //end
 				} //end
-			
+				
+				
 				Waitframe();
 			}
 		}
 	} //end
 	
-	// bool isDifficultyChange(npc n, int maxHp) //start
-	// {
-		// return n->HP < maxHp * .33;
-	// } //end
+	State parseAttackChoice(int attackChoice) //start
+	{
+		switch(attackChoice)
+		{
+			case 0: 
+				return STATE_NORMAL;
+			case 1:
+				return STATE_SMALL_ROCKS_THROW;
+			case 2:
+				return STATE_LARGE_ROCK_THROW;
+			case 3:
+				return STATE_RACCOON_THROW;
+			case 4:
+				return STATE_CHARGE;
+		}
+	} //end
 } 
 
 //~~~~~Demonwall~~~~~//
@@ -1214,4 +1216,11 @@ ffc script Demonwall //start
 
 	}
 } //end
+
+
+
+
+
+
+
 
