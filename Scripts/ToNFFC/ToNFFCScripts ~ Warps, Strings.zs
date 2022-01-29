@@ -290,6 +290,37 @@ ffc script Signpost //start
 
 //end
 
+//~~~~~ConditionalSignPost~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Joe123")
+ffc script ConditionalSignPost //start
+{
+	void run(int msg, bool anySide, int itemConditional, int specialMsg)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			Screen->Message(Hero->Item[itemConditional] ? specialMsg : msg);
+			Game->Suspend[susptSCREENDRAW] = false;
+			Waitframe();
+		}
+	}
+}
+
+//end
+
 //~~~~~SignPostOnce~~~~~//
 //DOESNT AFFECT screenD, just plays messages based on if screenD was changed!
 //D0: Number of string to show

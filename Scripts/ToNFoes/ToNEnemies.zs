@@ -87,10 +87,142 @@ npc script Mimic //start
 	}
 } //end
 
-npc script Candlehead //start
+//~~~~~Candlehead~~~~~//
+namespace Enemy::Candlehead //start
 {
-	void run()
+	@Author("Deathrider365")
+	npc script Candlehead //start
 	{
+		const int NORMAL_RAND = 5;
+		const int AGGRESSIVE_RAND = 50;
+		const int NORMAL_MOVE_DURATION = 30;
+		const int AGGRESSIVE_MOVE_DURATION = 60;
+		const int NORMAL_HOMING = 10;
+		const int AGGRESSIVE_HOMING = 20;
+		
+		void run()
+		{
+			int knockbackDist = 4;
+			
+			if (knockbackDist < 0)
+				this->NoSlide = true;
+			else
+				this->SlideSpeed = knockbackDist;	// 4 is default
+			
+			//start Behaviour loop
+			while(true)
+			{
+				this->Slide();
+				
+				if (hitByFire(this, LW_FIRE))
+					deathAnimation(this);
+					
+				unless (gameframe % RandGen->Rand(45, 60))
+				{
+					for (int i = 0; i < (linkClose(this, 24) ? AGGRESSIVE_MOVE_DURATION : NORMAL_MOVE_DURATION); ++i)
+					{
+						this->Slide();
+						
+						if (hitByFire(this, LW_FIRE))
+							deathAnimation(this);
+							
+						doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
+						Waitframe();
+					}
+				}
+				Waitframe();
+			} //end
+		}
+		
+		void deathAnimation(npc n) //start
+		{
+			n->Dir = getInvertedDir(n->Dir);
+			n->Step += n->Step / 2;
+			int cset;
+			
+			if(Hero->Item[10])
+				cset = 7;
+			else if (Hero->Item[158])
+				cset = 8;
+			
+			until (n->HP <= 0)
+			{
+				if (n->HP < 10)
+					n->HP = 0;
+				else
+					n->HP -= 1; 
+				
+				n->Slide();
+				
+				//start Dropping flames while dying
+				if (gameframe % 16 == 0)
+				{
+					spritedata sprite = Game->LoadSpriteData(115);
+					setFlameSpriteCSet(sprite);
+				
+					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);	
+					flame->Dir = n->Dir;
+					flame->Step = n->Step;
+					flame->Angular = true;
+					flame->Script = Game->GetEWeaponScript("StopperKiller");
+					flame->Z = n->Z;
+					flame->InitD[1] = 120;
+					flame->Gravity = true;
+					flame->Damage = 2;
+					flame->UseSprite(115);
+				} //end
+				
+				Screen->FastCombo(7, n->X, n->Y, 6344, cset, OP_OPAQUE);
+				
+				doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
+				
+				Waitframe();
+			}
+			
+			//start Death Explosion
+			for (int i = 0; i < 8; ++i)
+			{
+				spritedata sprite = Game->LoadSpriteData(115);
+				setFlameSpriteCSet(sprite);
+				
+				eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);
+				flame->Dir = i;
+				flame->Step = 120;
+				flame->Angular = true;
+				flame->Angle = DirRad(flame->Dir);
+				flame->Script = Game->GetEWeaponScript("StopperKiller");
+				flame->Z = n->Z;
+				flame->InitD[0] = 20;
+				flame->InitD[1] = 150;
+				flame->Gravity = true;
+				flame->Damage = 2;
+				flame->UseSprite(115);
+			} //end
+			
+			Audio->PlaySound(10);
+			n->Remove();
+		} //end
+		
+		void setFlameSpriteCSet(spritedata sprite) //start
+		{
+			if(Hero->Item[10])
+				sprite->CSet = 7;
+			else if (Hero->Item[158])
+				sprite->CSet = 8;
+		} //end
+		
+		bool hitByFire(npc n, int weaponId) //start
+		{
+			if (n->HitBy[2])
+			{
+				lweapon weapon = Screen->LoadLWeapon(n->HitBy[2]);
+				
+				if (weapon->Type == LW_FIRE)
+					return true;
+				else
+					return false;
+			}
+		} //end
 	
-	}
+	} //end
 } //end

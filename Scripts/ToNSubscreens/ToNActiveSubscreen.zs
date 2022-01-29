@@ -11,7 +11,9 @@ dmapdata script ActiveSubscreen //start
 {
 	void run()
 	{
-		if(Game->Suspend[susptSUBSCREENSCRIPTS]) return;
+		if(Game->Suspend[susptSUBSCREENSCRIPTS]) 
+			return;
+			
 		subscr_open = true;
 		bitmap b = Game->CreateBitmap(256, 224);
 		b->ClearToColor(0, BG_COLOR);
@@ -20,7 +22,6 @@ dmapdata script ActiveSubscreen //start
 		
 		for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED)
 		{
-			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
@@ -29,7 +30,6 @@ dmapdata script ActiveSubscreen //start
 		
 		do
 		{
-			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, true);
 			Waitframe();
 		}
@@ -37,7 +37,6 @@ dmapdata script ActiveSubscreen //start
 		
 		for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED)
 		{
-			//Waitdraw();
 			do_asub_frame(b, subscr_y_offset, false);
 			Waitframe();
 		}
@@ -111,20 +110,34 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	//start Item Draws
 	int selID = 0;
 	
-	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q) //start Non Selectable Items
+	//start Non Selectable Items
+	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q) 
 	{
-		int id = checkID(itemIDs[q]);
+		int id = checkID(inactiveItemIDs[q]);
 		
 		unless(id) 
 			continue;
 			
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
 	}
+	
+	//start Bomb bag and Quiver counter draws
+	sprintf(numBombUpgradesBuf, "%d", numBombUpgrades);
+	sprintf(numQuiverUpgradesBuf, "%d", numQuiverUpgrades);
+	
+	Screen->FastTile(7, 86, 14 + y, 30082, 8, OP_OPAQUE);
+	Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+	
+	Screen->FastTile(7, 86, 44 + y, 30262, 8, OP_OPAQUE);
+	Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	//end
 	
-	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) //start Selectable items
+	//end
+	
+	//start Selectable items
+	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) 
 	{
-		int id = checkID(itemIDs[q]);
+		int id = checkID(activeItemIDs[q]);
 		
 		unless(id) 
 			continue;
@@ -132,7 +145,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 		if(q == asubscr_pos) 
 			selID = id;
 		
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), itemLocsX[q], itemLocsY[q], y);
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), activeItemLocsX[q], activeItemLocsY[q], y);
 	}
 	//end
 	
@@ -182,8 +195,8 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 
 	//start Cursor Stuff
 	
-	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), itemLocsX[asubscr_pos], itemLocsY[asubscr_pos], y);
-	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), itemLocsX[asubscr_pos], itemLocsY[asubscr_pos], y);
+	drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), activeItemLocsX[asubscr_pos], activeItemLocsY[asubscr_pos], y);
+	drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), activeItemLocsX[asubscr_pos], activeItemLocsY[asubscr_pos], y);
 	
 	if(isActive && selID)
 	{

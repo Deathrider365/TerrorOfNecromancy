@@ -195,28 +195,65 @@ CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
 // Globals start
 int subscr_y_offset = -224;
 
+int numBombUpgrades = 7;
+int numQuiverUpgrades = 7;
+char32 numBombUpgradesBuf[6];
+char32 numQuiverUpgradesBuf[6];
+
 int scrollingOffset;
 
-int itemIDs[] = {IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
-				 IC_CANDLE, 	IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
-                 IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND, 
-				 IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		-1,
-				 IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4, 
-				 IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6};
-				  
-int itemLocsX[] = {166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232,
-					166, 188, 210, 232};
-				  
-int itemLocsY[] =	{32, 32, 32, 32,
-					54,	54, 54, 54,
-					76,	76, 76, 76,
-					98, 98, 98, 98,
-					120, 120, 120, 120,
-					142, 142, 142, 142};
+//start Active Items
+int activeItemIDs[] = 
+{
+	IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
+	IC_CANDLE, 		IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
+	IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND,
+	IC_LENS, 		IC_WPN_SCRIPT_02, 	IC_CBYRNA, 		-1,
+	IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, 	IC_CUSTOM4,
+	IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6
+};
+
+int activeItemLocsX[] = 
+{	
+	166, 188, 210, 232,
+	166, 188, 210, 232,
+	166, 188, 210, 232,
+	166, 188, 210, 232,
+	166, 188, 210, 232,
+	166, 188, 210, 232
+};
+
+int activeItemLocsY[] =	
+{
+	32, 32, 32, 32,
+	54,	54, 54, 54,
+	76,	76, 76, 76,
+	98, 98, 98, 98,
+	120, 120, 120, 120,
+	142, 142, 142, 142
+};
+//end
+
+//start Inactive Items
+int inactiveItemIDs[] = 
+{
+	IC_SHIELD, 		IC_RING,		IC_RAFT,		IC_LADDER, 
+	IC_BRACELET, 	IC_FLIPPERS, 	IC_BOMBBAG,		IC_QUIVER
+};
+
+int inactiveItemLocsX[] = 
+{
+	4, 22, 40, 58,
+	4, 22, 40, 58
+};
+
+int inactiveItemLocsY[] = 
+{
+	4,  4,  4,  4,
+	22, 22, 22, 22
+};
+
+//end
 
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};
@@ -246,7 +283,7 @@ bool subscr_open = false;
 
 // Consts start
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
-DEFINE NUM_SUBSCR_INAC_ITEMS = 3;//14; Increase as I add items to display for inactive items
+DEFINE NUM_SUBSCR_INAC_ITEMS = 14;
 DEFINE NUM_SUBSCR_DUNGEON_ITEMS = 3;
 
 CONFIG BG_MAP = 6;

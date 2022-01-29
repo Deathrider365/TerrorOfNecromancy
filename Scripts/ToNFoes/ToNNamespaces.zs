@@ -322,7 +322,7 @@ namespace Enemy::Manhandala //start
 		FLAME_CANNON
 	}; //end
 	
-	npc script Manhandala //start
+	npc script Hazarond //start
 	{
 		CONFIG DEFAULT_COMBO = 10272;
 		CONFIG JUMP_PREP_COMBO = 10273;
@@ -331,8 +331,10 @@ namespace Enemy::Manhandala //start
 		
 		CONFIG TIME_BETWEEN_ATTACKS = 180;
 		
-		void run(int hurtCSet, int minion)
+		void run(int hurtCSet, int minion) //start
 		{
+			//start Setup
+			
 			if (firstRun)
 				NoAction();
 				
@@ -360,7 +362,6 @@ namespace Enemy::Manhandala //start
 				heads[headIndex]->Dir = headIndex + 4;
 			}
 			
-			// Intro Sequence
 			if (firstRun)
 			{
 				NoAction();
@@ -368,10 +369,15 @@ namespace Enemy::Manhandala //start
 				Screen->Message(402);
 				firstRun = false;
 			}
+			else
+				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
 			
 			NoAction();
-				
-			while(this->HP > 0)
+			
+			//end
+			
+			// Behavior loop
+			while(this->HP > 0) //start
 			{
 				int previousAttack;
 				
@@ -379,33 +385,19 @@ namespace Enemy::Manhandala //start
 				int headOpen = 20;
 				int headOpenIndex;
 				
-				while(true)
+				while(true) //start
 				{
 					if (isHeadsDead(heads))
 						break;
-					// bool dead = true;
-					
-					// for (int headIndex = 0; headIndex < 4; ++headIndex)
-					// {
-						// if (heads[headIndex] && heads[headIndex]->isValid() && heads[headIndex]->HP > 0)
-							// dead = false;
-						// else
-							// heads[headIndex] = NULL;
-					// }
-					
-					// if (dead)
-						// break;
 					
 					for (int i = 0; i < 20; ++i)
 						this->Defense[i] = NPCDT_IGNORE;
 					
 					for (int i = 0; i < 4; ++i)
-					{
 						if (heads[i])
 							heads[i]->CollDetection = true;
-					}
 						
-					if (headOpen == 20)
+					if (headOpen == 20) //start
 					{
 						headOpenIndex = RandGen->Rand(3);
 						
@@ -414,9 +406,10 @@ namespace Enemy::Manhandala //start
 					
 						if (heads[headOpenIndex])
 							heads[headOpenIndex]->OriginalTile -= 1;
-					}
+					} //end
 					
-					if (headOpen == 0)
+					// Closing previous head, opening next head
+					if (headOpen == 0) //start
 					{
 						if (heads[headOpenIndex])
 							heads[headOpenIndex]->OriginalTile += 1;
@@ -430,7 +423,7 @@ namespace Enemy::Manhandala //start
 							heads[headOpenIndex]->OriginalTile -= 1;
 							
 						headOpen = 20;
-					}
+					} //end
 						
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					
@@ -441,7 +434,7 @@ namespace Enemy::Manhandala //start
 					bool justSprayed = false;
 					
 					// Whether he can attack again
-					if (TIME_BETWEEN_ATTACKS <= timeSinceLastAttack)
+					if (TIME_BETWEEN_ATTACKS <= timeSinceLastAttack) //start
 					{
 						if (heads[headOpenIndex])
 							heads[headOpenIndex]->OriginalTile += 1;
@@ -451,16 +444,16 @@ namespace Enemy::Manhandala //start
 						headOpen = 21;
 						justSprayed = true;
 						timeSinceLastAttack = 0;
-					}
+					} //end
 					
 					if (this->HP <= 0)
-						deathAnimation(this);
+						deathAnimation(this, 142);
 						
 					if (isHeadsDead(heads))
 						break;
 					
 					// If Link gets too close he groundPounds
-					if (Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < 32)
+					if (linkClose(this, 32)) //start
 					{
 						timeSinceLastAttack += 60;
 					
@@ -469,38 +462,23 @@ namespace Enemy::Manhandala //start
 							
 						headOpen = 21;
 						
-						groundPound(this, data);
+						groundPound(this, data, heads, headOpenIndex);
 						
 						if (custom_waitframe(this, data, 45, heads))
 							break;
-					}	
+					} //end
 					
 					// Drop fire
-					if (headOpen == 10) //start
-					{
+					if (headOpen == 10)
 						if (heads[headOpenIndex] && heads[headOpenIndex]->isValid())
-						{
-							eweapon flame = CreateEWeaponAt(EW_SCRIPT1, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
-							flame->Dir = heads[headOpenIndex]->Dir;
-							flame->Step = RandGen->Rand(125, 175);
-							flame->Angular = true;
-							flame->Angle = DirRad(flame->Dir);
-							flame->Script = ews_stopper;
-							flame->Z = heads[headOpenIndex]->Z + 8;
-							flame->InitD[0] = RandGen->Rand(8, 15);
-							flame->InitD[1] = RandGen->Rand(60, 180);
-							flame->Gravity = true;
-							flame->Damage = 2;
-							flame->UseSprite(115);						
-						}
-						
-					} //end
+							dropFlame(heads, headOpenIndex, ews_stopper);
 					
 					++timeSinceLastAttack;
 					--headOpen;
 					
 					custom_waitframe(this, data);
-				}
+				} //end
+				
 				this->CollDetection = true;
 				int originalCSet = this->CSet;
 				this->CSet = hurtCSet;
@@ -511,22 +489,36 @@ namespace Enemy::Manhandala //start
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
 				
+				int previousX, previousY, prevIndex;
+				
 				// Fleeing from Link
-				for (int i = 0; i < (5 * 60); ++i) //start
+				int fleeDuration = 5 * 60;
+				
+				// Fleeing from Link
+				while (fleeDuration) //start
 				{
 					if (this->HP <= 0)
-						deathAnimation(this);
+						deathAnimation(this, 142);
 					
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+					
+					if ((!(this->CanMove(this->Dir, 1, 0)) || (this->X == previousX && this->Y == previousY)) 
+						&& linkClose(this, 32))
+						stuckAction(this, data, fleeDuration);
+					
+					previousX = this->X;
+					previousY = this->Y;
+					
 					this->MoveAtAngle(180 + angle, 1, SPW_NONE);
 					
+					--fleeDuration;
 					custom_waitframe(this, data);
 				} //end
 				
 				custom_waitframe(this, data, 60);
 				
 				if (this->HP <= 0)
-					deathAnimation(this);
+					deathAnimation(this, 142);
 				
 				int centerX = 256 / 2, centerY = 176 / 2 - 16;
 				
@@ -578,9 +570,7 @@ namespace Enemy::Manhandala //start
 						effectBitmap->DrawTile(4, this->X, this->Y + i, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						for (int headIndex = 0; headIndex < 4; ++headIndex)
-						{
-							effectBitmap->DrawTile(4, heads[headIndex]->X, heads[headIndex]->Y + i, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-						}
+							effectBitmap->DrawTile(4, heads[headIndex]->X, heads[headIndex]->Y + i - 2, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
 						effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
@@ -596,350 +586,367 @@ namespace Enemy::Manhandala //start
 				
 				for (int headIndex = 0; headIndex < 4; ++headIndex)
 					heads[headIndex]->DrawXOffset = 0;		
-			}
+			} //end
 			
+			// Death
 			effectBitmap->Free();
-			
 			this->CollDetection = false;
-			
-			deathAnimation(this);
-		}
-		
-		void groundPound(npc this, int data) //start
-		{
-			for (int i = 0; i < 20; ++i)
-			{
-				this->ScriptTile = this->OriginalTile + 40;
-				custom_waitframe(this, data);
-			}
-		
-			const int JUMP_SPEED = 2;
-			int lx = CenterLinkX(), ly = CenterLinkY();
-			
-			this->Jump = 2;
-			this->Z = 12.5;
-			
-			this->ScriptTile = this->OriginalTile + 42;
-			
-			while(MoveTowardsPoint(this, lx, ly, JUMP_SPEED, SPW_NONE, true))
-				Waitframe();
-			
-			while(this->Z)
-				Waitframe();
-			
-			Screen->Quake = 30;
-			
-			for (int i = 0; i < 20; ++i)
-			{
-				this->ScriptTile = this->OriginalTile + 40;
-				custom_waitframe(this, data);
-			}
-			
-			this->ScriptTile = this->OriginalTile;
+			deathAnimation(this, 142);
 		} //end
-		
-		void commenceIntroSequence(npc this, npc heads) //start
+	} //end
+	
+	void groundPound(npc this, int data, npc heads, int headOpenIndex) //start
+	{
+		for (int i = 0; i < 20; ++i)
 		{
-			bitmap introSequenceBitmap = create(512, 168);
-			int panPosition = 0;
-			NoAction();
-			
-			this->X = 432;
-			this->Y = 64;
-			
-			// Silent Pause
-			Audio->PlayEnhancedMusic(null, 0);
-			introSequenceBitmap->Clear(0);
-			
-			// Pause
-			for (int i = 0; i < 60; ++i)
-			{
-				NoAction();
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, 0, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Start Panning
-			until (panPosition == 40)
-			{
-				NoAction();
-				panPosition += 4;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Panning right
-			until (panPosition == 100)
-			{
-				NoAction();
-				panPosition += 6;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Panning right
-			until (panPosition == 180)
-			{
-				NoAction();
-				panPosition += 8;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
-				
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Panning right
-			until (panPosition == 230)
-			{
-				NoAction();
-				panPosition += 5;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Panning right
-			until (panPosition == 256)
-			{
-				NoAction();
-				panPosition += 1;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Pausing on him
-			for (int i = 0; i < 60; ++i)
-			{
-				NoAction();
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			int timer = 0;
-			int yModifier = 0, xModifier = -1;
-			
-			// Panning back into boss room
-			until (panPosition == 0)
-			{
-				NoAction();
-				--panPosition;
-				++timer;
-				
-				if(timer < 24)
-				{
-					unless (timer % 3)
-						yModifier = -3.8;
-					else
-						yModifier = 0;
-				}
-				else if (timer < 112)
-					yModifier = 0;
-				else if (timer < 148)
-				{
-					unless (timer % 3)
-						yModifier = 2.75;
-					else
-						yModifier = 0;
-				}
-				else if (timer < 232)
-					yModifier = 0;
-				
-				this->X += xModifier;
-				this->Y += yModifier;
-				
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 2, 10276, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 2, 10277, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 18, 10280, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 18, 10281, 2, OP_OPAQUE);
-				
-				if (!(panPosition % 16) || panPosition == 254)
-					Audio->PlaySound(121);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-				{
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-				}
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			// Wait and Roars
-			for (int i = 0; i < 60; ++i)
-			{
-				NoAction();
-				introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
-				introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
-				
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10276, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10277, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10280, 2, OP_OPAQUE);
-				introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10281, 2, OP_OPAQUE);
-				
-				for (int headIndex = 0; headIndex < 4; ++headIndex)
-					introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-			
-				introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-				
-				Waitframe();
-			}
-			
-			introSequenceBitmap->Free();
-			Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
-			Hero->Dir = DIR_RIGHT;
+			this->ScriptTile = this->OriginalTile + 40;
+			custom_waitframe(this, data);
 		}
+	
+		const int JUMP_SPEED = 2;
+		int lx = CenterLinkX(), ly = CenterLinkY();
+		
+		this->Jump = 2;
+		this->Z = 12.5;
+		
+		this->ScriptTile = this->OriginalTile + 42;
+		
+		while(MoveTowardsPoint(this, lx, ly, JUMP_SPEED, SPW_FLOATER, true))		
+			Waitframe();
+		
+		while(this->Z)
+		{
+			if (isHeadsDead(heads))
+				return;
+			Waitframe();
+		}
+		
+		Screen->Quake = 30;
+		
+		for (int i = 0; i < 20; ++i)
+		{
+			this->ScriptTile = this->OriginalTile + 40;
+			custom_waitframe(this, data);
+		}
+		
+		this->ScriptTile = this->OriginalTile;
+	} //end
+	
+	void commenceIntroSequence(npc this, npc heads) //start
+	{
+		bitmap introSequenceBitmap = create(512, 168);
+		int panPosition = 0;
+		NoAction();
+		
+		this->X = 432;
+		this->Y = 64;
+		
+		// Silent Pause
+		Audio->PlayEnhancedMusic(null, 0);
+		introSequenceBitmap->Clear(0);
+		
+		// Pause
+		for (int i = 0; i < 60; ++i)
+		{
+			NoAction();
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, 0, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Start Panning
+		until (panPosition == 40)
+		{
+			NoAction();
+			panPosition += 4;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Panning right
+		until (panPosition == 100)
+		{
+			NoAction();
+			panPosition += 6;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Panning right
+		until (panPosition == 180)
+		{
+			NoAction();
+			panPosition += 8;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
+			
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Panning right
+		until (panPosition == 230)
+		{
+			NoAction();
+			panPosition += 5;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
+			
+			for (int headIndex = 0; headIndex < 4; ++headIndex)
+			{
+				introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+			}
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Panning right
+		until (panPosition == 256)
+		{
+			NoAction();
+			panPosition += 1;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
+			
+			for (int headIndex = 0; headIndex < 4; ++headIndex)
+				introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Pausing on him
+		for (int i = 0; i < 60; ++i)
+		{
+			NoAction();
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10279, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10282, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10283, 2, OP_OPAQUE);
+			
+			for (int headIndex = 0; headIndex < 4; ++headIndex)
+				introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		int timer = 0;
+		int yModifier = 0, xModifier = -1;
+		
+		// Panning back into boss room
+		until (panPosition == 0)
+		{
+			NoAction();
+			--panPosition;
+			++timer;
+			
+			if(timer < 24)
+			{
+				unless (timer % 3)
+					yModifier = -3.8;
+				else
+					yModifier = 0;
+			}
+			else if (timer < 112)
+				yModifier = 0;
+			else if (timer < 148)
+			{
+				unless (timer % 3)
+					yModifier = 2.75;
+				else
+					yModifier = 0;
+			}
+			else if (timer < 232)
+				yModifier = 0;
+			
+			this->X += xModifier;
+			this->Y += yModifier;
+			
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 2, 10276, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 2, 10277, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 18, 10280, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 17, this->Y + 18, 10281, 2, OP_OPAQUE);
+			
+			if (!(panPosition % 16) || panPosition == 254)
+				Audio->PlaySound(121);
+			
+			for (int headIndex = 0; headIndex < 4; ++headIndex)
+				introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		// Wait and Roars
+		for (int i = 0; i < 60; ++i)
+		{
+			NoAction();
+			introSequenceBitmap->DrawLayer(7, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 2, 0, 0, 0, OP_TRANS);
+			introSequenceBitmap->DrawLayer(7, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 112, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 128, 0, 4632, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, 120, 120, 6731, 0, OP_OPAQUE);
+			
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10276, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 2, 10277, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X, this->Y + 18, 10280, 2, OP_OPAQUE);
+			introSequenceBitmap->FastCombo(7, this->X + 16, this->Y + 18, 10281, 2, OP_OPAQUE);
+			
+			for (int headIndex = 0; headIndex < 4; ++headIndex)
+				introSequenceBitmap->DrawTile(7, heads[headIndex]->X, heads[headIndex]->Y, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+		
+			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+			
+			Waitframe();
+		}
+		
+		introSequenceBitmap->Free();
+		Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+		Hero->Dir = DIR_RIGHT;
+	} //end
+	
+	void dropFlame(npc heads, int headOpenIndex, int ews_stopper) //start
+	{
+		eweapon flame = CreateEWeaponAt(EW_SCRIPT1, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
+		flame->Dir = heads[headOpenIndex]->Dir;
+		flame->Step = RandGen->Rand(125, 175);
+		flame->Angular = true;
+		flame->Angle = DirRad(flame->Dir);
+		flame->Script = ews_stopper;
+		flame->Z = heads[headOpenIndex]->Z + 8;
+		flame->InitD[0] = RandGen->Rand(8, 15);
+		flame->InitD[1] = RandGen->Rand(60, 180);
+		flame->Gravity = true;
+		flame->Damage = 2;
+		flame->UseSprite(115);
 	} //end
 	
 	void oilSpray(int data, npc this, npc heads, bool isDifficultyChange) //start
@@ -1000,7 +1007,41 @@ namespace Enemy::Manhandala //start
 		}
 	} //end
 	
-	npc script ManhandalaHead //start
+	void stuckAction(npc this, untyped data, int fleeDuration) //start
+	{
+		for (int i = 0; i < 20; ++i)
+		{
+			this->ScriptTile = this->OriginalTile + 40;
+			custom_waitframe(this, data);
+		}
+	
+		const int JUMP_SPEED = 2;
+		int centerX = 256 / 2, centerY = 176 / 2 - 16;
+		
+		this->Jump = 4;
+		this->Z = 12.5;
+		
+		this->ScriptTile = this->OriginalTile + 42;
+		
+		while(MoveTowardsPoint(this, centerX, centerY, JUMP_SPEED, SPW_FLOATER, true))
+			Waitframe();
+		
+		while(this->Z)
+			Waitframe();
+		
+		Screen->Quake = 30;
+		
+		for (int i = 0; i < 20; ++i)
+		{
+			this->ScriptTile = this->OriginalTile + 40;
+			custom_waitframe(this, data);
+		}
+		
+		this->ScriptTile = this->OriginalTile;
+		fleeDuration -= 10;
+	} //end
+	
+	npc script HazarondHead //start
 	{
 		void run(npc parent)
 		{
@@ -1103,23 +1144,23 @@ namespace Enemy //start
 			n->HitHeight = 16;
 	} //end
 	
-	void deathAnimation(npc n) //start
+	void deathAnimation(npc n, int deathSound) //start
 	{
 		n->Immortal = true;
 		n->CollDetection = false;
 		n->Stun = 9999;
 	
-		lweapon explosion;
-		lweapon child;
 		int baseX = n->X + n->DrawXOffset;
 		int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
-				
+		
+		Audio->PlaySound(deathSound);
+		
 		// One explosion every 3 frames, 15 times
 		for(int i = 0; i < 45; i++)
 		{
 			unless (i % 3)
 			{
-				explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+				lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
 				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
@@ -1132,6 +1173,12 @@ namespace Enemy //start
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
 		
+		// for(int i = Screen->NumNPCs(); i >= 1; i--)
+		// {
+			// npc n = Screen->LoadNPC(i);
+			// n->Remove();
+		// }
+		
 		n->Immortal = false;
 		n->Remove();
 	} //end
@@ -1139,7 +1186,7 @@ namespace Enemy //start
 	void custom_waitframe(npc n, int data) //start
 	{
 		if (n->HP <= 0)
-			deathAnimation(n);
+			deathAnimation(n, 142);
 	
 		if(++data[DATA_CLK] >= n->ASpeed)
 		{
@@ -1169,6 +1216,11 @@ namespace Enemy //start
 	{
 		while(frames--)
 			custom_waitframe(n, data);
+	} //end
+	
+	bool linkClose(npc this, int distance) //start
+	{
+		return Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < distance; 
 	} //end
 	
 	void doWalk(npc n, int rand, int homing, int step) //start
@@ -1218,6 +1270,76 @@ namespace Enemy //start
 	{
 		return n->HP < maxHp * .33;
 	} //end
+
+	int getInvertedDir(int dir) //start
+	{
+		switch(dir)
+		{
+			case DIR_UP:
+				return DIR_DOWN;
+			case DIR_DOWN:
+				return DIR_UP;
+			case DIR_RIGHT:
+				return DIR_LEFT;
+			case DIR_LEFT:
+				return DIR_RIGHT;
+				
+			case DIR_UPLEFT:
+				return DIR_DOWNRIGHT;
+			case DIR_DOWNRIGHT:
+				return DIR_UPLEFT;
+			case DIR_UPRIGHT:
+				return DIR_DOWNLEFT;
+			case DIR_DOWNLEFT:
+				return DIR_UPRIGHT;
+		} 
+	}//end
+	
+	bool npcHitByLWeapon(npc n, int weaponId) //start
+	{
+		if (n->HitBy[2])
+		{
+			lweapon weapon = Screen->LoadLWeapon(n->HitBy[2]);
+			
+			if (weapon->Type == weaponId)
+				return true;
+			else
+				return false;
+		}
+	} //end
+
+	int faceLink(npc n) //start
+	{
+		//start Link is below him
+		if (Hero->Y > n->Y)
+		{
+			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
+			{
+				if (Hero->X > n->X)
+					return DIR_RIGHT;
+				else
+					return DIR_LEFT;
+			}
+			else
+				return DIR_DOWN;
+		} //end
+		
+		//start Like is above him
+		else 
+		{
+			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
+			{
+				if (Hero->X > n->X)
+					return DIR_RIGHT;
+				else
+					return DIR_LEFT;
+			}
+			else
+				return DIR_UP;
+		}//end
+	
+	} //end
+	
 } //end
 
 

@@ -1027,8 +1027,7 @@ ffc script Shambles //start
 } //end
 
 //~~~~~Overgrown Raccoon~~~~~//
-
-namespace Enemy::OvergrownRaccoon
+namespace Enemy::OvergrownRaccoon //start
 {
 	enum State //start
 	{
@@ -1044,15 +1043,35 @@ namespace Enemy::OvergrownRaccoon
 	{
 		void run()
 		{
+			NoAction();
 			State state = STATE_NORMAL;
 			State previousState = state;
 			const int maxHp = this->HP;
 			int timer;
 			
+			this->Dir = faceLink(this);
+			
+			until (this->Z == 0)
+			{
+				NoAction();
+				Waitframe();
+			}
+			
+			Screen->Quake = 60;
+			Audio->PlaySound(3);
+			Waitframes(30);
+			
+			NoAction();
+			unless (getScreenD(255))
+			{
+				Screen->Message(403);
+				setScreenD(255, true);
+			}
+				
 			while(true)
 			{
 				if (this->HP <= 0)
-					deathAnimation(this);
+					deathAnimation(this, 136);
 					
 				int randModifier = isDifficultyChange(this, maxHp) ? Rand(-90, 30) : Rand(-60, 60);
 				
@@ -1101,7 +1120,7 @@ namespace Enemy::OvergrownRaccoon
 						for(int i = 0; i < 60; ++i)
 						{
 							if (this->HP <= 0)
-								deathAnimation(this);
+								deathAnimation(this, 136);
 								
 							this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 							
@@ -1126,7 +1145,7 @@ namespace Enemy::OvergrownRaccoon
 						for (int i = 0; i < 2; ++i)
 						{
 							if (this->HP <= 0)
-								deathAnimation(this);
+								deathAnimation(this, 136);
 								
 							Waitframes(5);
 							
@@ -1152,27 +1171,17 @@ namespace Enemy::OvergrownRaccoon
 						
 						// Charging at link
 						while(this->MoveAtAngle(angle, 4, SPW_NONE))
-						{
 							Waitframe();
-						}
 						
 						this->Jump = 2;
 						Screen->Quake = 30;
 						Audio->PlaySound(3);
-						
-						// While stunned
-						unless (Hero->Z)
-						{
-							Hero->Stun = 30;
-							// spawnTimedSprite(Hero->X - 17, Hero->Y, 116, 3, 1, 30);
-						}
 						
 						do Waitframe(); while(this->Z);
 						
 						state = STATE_NORMAL;
 						break; //end
 				} //end
-				
 				
 				Waitframe();
 			}
@@ -1195,7 +1204,7 @@ namespace Enemy::OvergrownRaccoon
 				return STATE_CHARGE;
 		}
 	} //end
-} 
+} //end
 
 //~~~~~Demonwall~~~~~//
 @Author("Deathrider365")

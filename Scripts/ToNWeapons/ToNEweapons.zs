@@ -43,17 +43,6 @@ eweapon script SignWave //start
 }
 //end
 
-//~~~~~~~~~PoisonDamage~~~~~~~~~~//
-@Author("Deathrider365")
-eweapon script PoisonDamage //start
-{
-	void run(int dps)
-	{
-		// The sprinting zombies will apply this
-	}
-}
-//end
-
 //~~~~~~~~~ArcingWeapon~~~~~~~~~~//
 @Author("Moosh")
 eweapon script ArcingWeapon //start
@@ -252,21 +241,18 @@ eweapon script Stopper //start
 
 eweapon script StopperKiller //start
 {
-    void run(int stoptime, int killtime)
+    void run(int stopTime, int killTime)
     {
         while(true)
         {
-            unless(stoptime--)
+            unless(stopTime--)
                 this->Step = 0;
-            unless(killtime--)
+            unless(killTime--)
                 this->Remove();
             Waitframe();
         }
     }
 } //end
-
-
-
 
 
 

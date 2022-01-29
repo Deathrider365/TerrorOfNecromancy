@@ -61,7 +61,7 @@ dmapdata script PassiveSubscreen //start
 					{
 						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 						{
-							if(checkID(itemIDs[q]) == Hero->ItemB)
+							if(checkID(activeItemIDs[q]) == Hero->ItemB)
 							{
 								pos = q;
 								break;
@@ -71,12 +71,13 @@ dmapdata script PassiveSubscreen //start
 					
 					int spos = pos;
 					--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
-					int id = checkID(itemIDs[pos]);
+					int id = checkID(activeItemIDs[pos]);
 					
 					until(id && id != Hero->ItemA)
 					{
 						--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
-						id = checkID(itemIDs[pos]);
+						id = checkID(activeItemIDs[pos]);
+						
 						if(pos == spos)
 							break;
 					}
@@ -95,7 +96,7 @@ dmapdata script PassiveSubscreen //start
 					{
 						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 						{
-							if(checkID(itemIDs[q]) == Hero->ItemB)
+							if(checkID(activeItemIDs[q]) == Hero->ItemB)
 							{
 								pos = q;
 								break;
@@ -105,12 +106,12 @@ dmapdata script PassiveSubscreen //start
 					
 					int spos = pos;
 					++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
-					int id = checkID(itemIDs[pos]);
+					int id = checkID(activeItemIDs[pos]);
 					
 					until(id && id != Hero->ItemA)
 					{
 						++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
-						id = checkID(itemIDs[pos]);
+						id = checkID(activeItemIDs[pos]);
 						if(pos == spos)
 							break;
 					}
@@ -131,6 +132,7 @@ dmapdata script PassiveSubscreen //start
 			lastB = Hero->ItemB;
 			
 			Waitframe();
+			
 			while(Game->Suspend[susptSUBSCREENSCRIPTS])
 				Waitframe();
 		}
@@ -402,7 +404,7 @@ void forceButton(int button) //start
 {
 	for (int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 	{
-		int id = checkID(itemIDs[q]);
+		int id = checkID(activeItemIDs[q]);
 		if (id)
 		{
 			if (button == CB_A)

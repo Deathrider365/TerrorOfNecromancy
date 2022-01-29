@@ -215,6 +215,9 @@ ffc script Leviathan1Ending //start
 				Game->MCounter[CR_ARROWS] = 0;
 				Game->MCounter[CR_RUPEES] = 255;
 				Game->Generic[GEN_MAGICDRAINRATE] = 2;
+
+				numBombUpgrades = 0;
+				numQuiverUpgrades = 0;
 				
 				Hero->MaxHP = 48;
 				Hero->MaxMP = 32;
@@ -514,6 +517,8 @@ ffc script IntroSceneTransitions //start
 	}
 } //end
 
+//~~~~~FinalScene~~~~~//
+@Author("Deathrider365")
 ffc script FinalScene //start
 {
 	void run()
