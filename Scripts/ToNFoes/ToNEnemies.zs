@@ -114,7 +114,9 @@ namespace Enemy::Candlehead //start
 			{
 				this->Slide();
 				
-				if (hitByFire(this, LW_FIRE))
+				//TODO Add EW_FIRE to this function to support the fires dropped by the candles to also have the ability to light other candles
+				
+				if (hitByFire(this))
 					deathAnimation(this);
 					
 				unless (gameframe % RandGen->Rand(45, 60))
@@ -123,7 +125,7 @@ namespace Enemy::Candlehead //start
 					{
 						this->Slide();
 						
-						if (hitByFire(this, LW_FIRE))
+						if (hitByFire(this))
 							deathAnimation(this);
 							
 						doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
@@ -145,6 +147,8 @@ namespace Enemy::Candlehead //start
 			else if (Hero->Item[158])
 				cset = 8;
 			
+			
+			//TODO when making the miniboss variant of these guys set this bound to a timer 
 			until (n->HP <= 0)
 			{
 				if (n->HP < 10)
@@ -185,6 +189,8 @@ namespace Enemy::Candlehead //start
 				spritedata sprite = Game->LoadSpriteData(115);
 				setFlameSpriteCSet(sprite);
 				
+				
+				//TODO increase the range of the fire explosion
 				eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);
 				flame->Dir = i;
 				flame->Step = 120;
@@ -211,7 +217,7 @@ namespace Enemy::Candlehead //start
 				sprite->CSet = 8;
 		} //end
 		
-		bool hitByFire(npc n, int weaponId) //start
+		bool hitByFire(npc n) //start
 		{
 			if (n->HitBy[2])
 			{
