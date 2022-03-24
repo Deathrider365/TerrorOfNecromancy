@@ -74,6 +74,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 			asubscr_pos += 4;
 		}
 		
+		//start Triforce cycling
 		if(Input->Press[CB_L])
 		{
 			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
@@ -84,12 +85,14 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 			Audio->PlaySound(TRIFORCE_CYCLE_SFX);
 			++currTriforceIndex;
 		}
+		//end
 			
 		if(asubscr_pos < 0)
 			asubscr_pos += (4 * 6);
 		else 
 			asubscr_pos %= (4 * 6);
 		
+		//start State where the triforce of death should not be visible, so filter it
 		unless(Game->GetCurDMap() == 2)
 		{
 			if(currTriforceIndex == -1)
@@ -109,6 +112,21 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	
 	//start Item Draws
 	int selID = 0;
+	
+	//start Selectable items
+	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) 
+	{
+		int id = checkID(activeItemIDs[q]);
+		
+		unless(id) 
+			continue;
+		
+		if(q == asubscr_pos) 
+			selID = id;
+		
+		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), activeItemLocsX[q], activeItemLocsY[q], y);
+	}
+	//end
 	
 	//start Non Selectable Items
 	for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q) 
@@ -134,20 +152,6 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	
 	//end
 	
-	//start Selectable items
-	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) 
-	{
-		int id = checkID(activeItemIDs[q]);
-		
-		unless(id) 
-			continue;
-		
-		if(q == asubscr_pos) 
-			selID = id;
-		
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), activeItemLocsX[q], activeItemLocsY[q], y);
-	}
-	//end
 	
 	for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) //start Dungeon Item Draws
 	{

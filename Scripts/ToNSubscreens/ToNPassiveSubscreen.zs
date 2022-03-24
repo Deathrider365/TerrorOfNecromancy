@@ -10,13 +10,14 @@ dmapdata script PassiveSubscreen //start
 
 	void run() //start
 	{
-		bitmap bm = Game->CreateBitmap(256,56);
-		// bm->ClearToColor(0, BG_COLOR);
+		bitmap bm = Game->CreateBitmap(256, 56);
 		bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0); //Draw BG screen
 		//Do any other draws to the bitmap here
 		
 		int lastButton = -1;
 		int lastA = Hero->ItemA;
+		
+		Trace(Hero->ItemB);
 		int lastB = Hero->ItemB;
 		
 		while(true)
@@ -38,12 +39,14 @@ dmapdata script PassiveSubscreen //start
 				if (lastButton == CB_A && Game->LoadItemData(lastA)->Type == IC_POTION)
 				{
 					int id = checkID(IC_POTION);
+					
 					if (id)
 						Hero->ItemA = id;
 				}
 				else if (lastButton == CB_B && Game->LoadItemData(lastB)->Type == IC_POTION)
 				{
 					int id = checkID(IC_POTION);
+					
 					if (id)
 						Hero->ItemB = id;
 				}
@@ -57,6 +60,7 @@ dmapdata script PassiveSubscreen //start
 				if(Input->Press[CB_L]) //start Left Cycle
 				{
 					int pos = 0;
+					
 					if(Hero->ItemB > 0)
 					{
 						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
@@ -70,12 +74,20 @@ dmapdata script PassiveSubscreen //start
 					}
 					
 					int spos = pos;
-					--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
+					--pos; 
+					
+					if(pos < 0) 
+						pos = NUM_SUBSCR_SEL_ITEMS - 1;
+					
 					int id = checkID(activeItemIDs[pos]);
 					
 					until(id && id != Hero->ItemA)
 					{
-						--pos; if(pos < 0) pos = NUM_SUBSCR_SEL_ITEMS - 1;
+						--pos; 
+						
+						if(pos < 0) 
+							pos = NUM_SUBSCR_SEL_ITEMS - 1;
+						
 						id = checkID(activeItemIDs[pos]);
 						
 						if(pos == spos)
@@ -92,6 +104,7 @@ dmapdata script PassiveSubscreen //start
 				else if(Input->Press[CB_R]) //start Right Cycle
 				{
 					int pos = NUM_SUBSCR_SEL_ITEMS - 1;
+					
 					if(Hero->ItemB > 0)
 					{
 						for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
@@ -105,13 +118,22 @@ dmapdata script PassiveSubscreen //start
 					}
 					
 					int spos = pos;
-					++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
+					++pos; 
+					
+					if(pos >= NUM_SUBSCR_SEL_ITEMS) 
+						pos = 0;
+					
 					int id = checkID(activeItemIDs[pos]);
 					
 					until(id && id != Hero->ItemA)
 					{
-						++pos; if(pos >= NUM_SUBSCR_SEL_ITEMS) pos = 0;
+						++pos; 
+						
+						if(pos >= NUM_SUBSCR_SEL_ITEMS) 
+							pos = 0;
+						
 						id = checkID(activeItemIDs[pos]);
+						
 						if(pos == spos)
 							break;
 					}
@@ -405,6 +427,7 @@ void forceButton(int button) //start
 	for (int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q)
 	{
 		int id = checkID(activeItemIDs[q]);
+		
 		if (id)
 		{
 			if (button == CB_A)

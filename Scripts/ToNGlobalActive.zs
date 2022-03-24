@@ -20,6 +20,11 @@ global script GlobalScripts //start
 		if (DEBUG)									//turn off debug when releasing
 			debug();
 		
+		Trace(Hero->ItemA);
+		Trace(Hero->ItemB);
+		Trace(asubscr_pos);
+		
+		
 		int map = -1, dmap = -1, scr = -1;
 		
 		LinkMovement_Init();
