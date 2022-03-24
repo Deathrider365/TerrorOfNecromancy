@@ -152,6 +152,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) //start Dungeon Item Draws
 	{
 		int id = checkID(dungeonItemIds[q]);
+		
 		unless(id) 
 			continue;
 			
