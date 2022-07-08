@@ -1,0 +1,30 @@
+make the hint for the key puzzle in lvl 1 more obvious
+place unique enemies where items spawn (change the rooms with the pink zombies to not be so random)
+^ instead have the pink guys in the boss key room, maybe even put a special tile where the chest spawns
+change the legionnaire's slash to 1/2 heart
+legionnaire does not flash when hit
+wallet does not show up in the menu
+change shamble's bombs sprite to something like a fleshy blob
+"I wish you all luck IN the world"
+put enemies on the intro scene screens
+get his footprint script fix to upper layer (modify link's y check)
+Inconsistent grass covering trees on coastal area
+top left soldier should be a 4 way eye ball
+remove magic cost of spin attack
+"they are a very powerful AND ruthless bunch"
+validate houses to villages (they dont need to be open)
+make the upper dirt area on the coast not an area
+undercombos under the potion shop house
+red octorocks are dropping bombs (a lot)
+magic shooter only shoots at link instead of 4 way (may be keep it that was not sure)
+more racoon dialogue
+lower the time on the candle heads
+lock block did not updated on the map
+distinguish tyhe burnable bushes
+change the elevation of the cave in the blue forest
+have a hint somewhere about bombing the circles on the ground
+other ways to break pots
+fix potion text
+change oil path blocker from a typical block to something different
+flame from oil candle is red
+an enemy that drops bombs in level 1
