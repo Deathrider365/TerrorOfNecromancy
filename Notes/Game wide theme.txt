@@ -1,3 +1,0 @@
-Every area gets cleaned as you kill the boss of the dungeon in that area,
-changin some aspect of the area (i.e. the swap loses its darkness, the desert isn't
-engulfed in a blizzard)		<Credit to Dimi> 

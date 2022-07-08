@@ -1,7 +1,0 @@
-Have a paladin mode, similar to hero mode, where you get all of the holy gear off the bat but their 
-effectiveness is slightly worse and the entire game is harder with a slightly different story
-
-You will have 3 extra lives given that can be used upon death like fairies. their counter will be in 
-the submenu and upon death if you have lives remaining, you will be prompted to choose if you want to 
-use one. once all 3 are gone, you do not get them back ever. And these revives will revive link where 
-he died like how fairies are in the 3d zeldas
