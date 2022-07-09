@@ -77,7 +77,16 @@ ffc script BossMusic //start
 //D7: Y Coordinate where the item spawns
 ffc script ConditionalItem //start
 {
-	void run(int hasRequiredItemStrings, int noHasRequiredItemInitialString, int itemIdToNeed, int itemIdToGet, int guyStringNoHasRequiredItem, int guyStringHasRequiredItem, int itemLocX, int itemLocY)
+	void run(
+		int hasRequiredItemStrings, 
+		int noHasRequiredItemInitialString, 
+		int itemIdToNeed, 
+		int itemIdToGet, 
+		int guyStringNoHasRequiredItem, 
+		int guyStringHasRequiredItem, 
+		int itemLocX, 
+		int itemLocY
+		) 
 	{
 		int loc = ComboAt(this->X, this->Y);
 
@@ -87,7 +96,7 @@ ffc script ConditionalItem //start
 		while (true)
 		{
 			// If you have the item he gives, do nothing but have him talk when against saying "use dat item well andcall that" (this is essentially the "done" state)
-			if (Hero->Item[itemIdToGet])
+			if (Hero->Item[itemIdToGet]) 
 			{
 				while (true)
 				{
