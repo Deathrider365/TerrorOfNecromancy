@@ -7,7 +7,6 @@ wallet does not show up in the menu
 change shamble's bombs sprite to something like a fleshy blob
 "I wish you all luck IN the world"
 put enemies on the intro scene screens
-get his footprint script fix to upper layer (modify link's y check)
 Inconsistent grass covering trees on coastal area
 top left soldier should be a 4 way eye ball
 remove magic cost of spin attack

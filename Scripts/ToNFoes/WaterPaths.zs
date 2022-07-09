@@ -10,13 +10,13 @@ namespace WaterPaths //start
 	
 	CONST_ASSERT(MAX_PATHS > 1 && MAX_PATHS <= 32, "[WaterPaths] MAX_PATHS must be between 2 and 32!");
 	
-	enum Fluid
+	enum Fluid //start
 	{
 		FL_EMPTY,
 		FL_PURPLE,
 		FL_FLAMING,
 		FL_SZ
-	};
+	}; //end
 	
 	CONFIGB WP_DEBUG = false;
 	

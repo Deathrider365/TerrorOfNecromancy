@@ -25,8 +25,7 @@ ffc script Leviathan1Cabin //start
 	{
 		Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
 	}
-}
-//end
+} //end
 
 //~~~~~ScreenBeforeLeviathan1~~~~~//
 //D0: Message number to show

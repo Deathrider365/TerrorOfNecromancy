@@ -7,7 +7,7 @@
 //~~~~~Leviathan1~~~~~//
 @Author("Moosh, modified by Deathrider365")
 npc script Leviathan1 //start
-{	
+{
 	using namespace Leviathan1Namespace;
 	
 	const int VARS_HEADNPC = 0;
@@ -24,7 +24,7 @@ npc script Leviathan1 //start
 	int hitBySideSwipe = 0;
 	
 	void run(int fight) //start
-	{		
+	{
 	//start Setup
 		Hero->Dir = DIR_UP;
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
@@ -38,10 +38,10 @@ npc script Leviathan1 //start
 		int angle, dist;
 		
 		eweapon e;
-		
 		untyped vars[16];
+		
 		npc head = CreateNPCAt(NPC_LEVIATHANHEAD, this->X, this->Y);
-
+		
 		vars[VARS_HEADNPC] = head;
 		vars[VARS_BODYHP] = this->HP;
 		vars[VARS_INITHP] = this->HP;
@@ -58,7 +58,6 @@ npc script Leviathan1 //start
 		int attack;	
 		
 		Audio->PlayEnhancedMusic(NULL, 0);
-		
 		//
 		//    The leviathan is rising and screen is quaking
 		//
@@ -77,6 +76,7 @@ npc script Leviathan1 //start
 			Waitframe(this, vars);
 		} //end
 		
+			TraceS("inside intro");
 		//
 		//    The leviathan pauses, roars, then pauses
 		//			
@@ -494,7 +494,12 @@ npc script Leviathan1 //start
 	
 	void GlideFrame(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames, int i) //start
 	{
+		float num = 9.4;
+		sprintf("angle: ", "%f", num);
+	
 		int angle = Angle(x1, y1, x2, y2);
+		
+		
 		int dist = Distance(x1, y1, x2, y2);
 		int x = x1 + VectorX(dist * (i / numFrames), angle);
 		int y = y1 + VectorY(dist * (i / numFrames), angle);
@@ -584,6 +589,7 @@ npc script Leviathan1 //start
 			this->CollDetection = false;
 		
 		npc head = <npc>vars[VARS_HEADNPC];
+		
 		
 		if(head->isValid())
 		{

@@ -45,18 +45,10 @@ screendata script OverheadTransparency //start
 screendata script RadialTransparency //start
 {
 	void run(int layers, int radius)
-<<<<<<< HEAD
-	{	
-		mapdata m[6];
-		
-		//start Looping through the 6 layers
-		for (int l = 1; l < 6; ++l) 
-=======
 	{			
 		mapdata m[6];
 		
 		for (int l = 1; l < 6; ++l)
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 		{
 			unless(layers & (1b << (l - 1)))
 				continue;
@@ -67,14 +59,8 @@ screendata script RadialTransparency //start
 				ohead_bmps[l] = create(256, 176);
 		 
 			m[l] = Game->LoadTempScreen(l);
-<<<<<<< HEAD
-		} //end
-		
-		// Main loop
-=======
 		}
 		
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 		while(true)
 		{
 			for (int l = 1; l < 6; ++l)
@@ -97,10 +83,6 @@ screendata script RadialTransparency //start
 			
 			Waitframe();
 			
-<<<<<<< HEAD
-			// If disable transparency is on
-=======
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 			if (disableTrans)
 			{
 				for (int l = 1; l < 6; ++l)
@@ -115,10 +97,6 @@ screendata script RadialTransparency //start
 					Waitframe();
 			}
 			
-<<<<<<< HEAD
-			// If the player is scrolling also enable the transparency
-=======
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 			if (HeroIsScrolling())
 				for (int l = 1; l < 6; ++l)
 				{
@@ -135,11 +113,7 @@ screendata script RadialTransparency //start
 					
 					Screen->LayerInvisible[l] = true;
 				}
-<<<<<<< HEAD
-		}
-=======
 		}	
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 	}
 } //end
 
