@@ -160,6 +160,12 @@ CONFIG CR_HEARTPIECES = CR_SCRIPT2;
 
 //~~~~~Footprints~~~~~//
 //start
+CONFIG CT_LIGHT_EMITING_TORCH = CT_SCRIPT19;
+
+//end
+
+//~~~~~Footprints~~~~~//
+//start
 CONFIG CT_FOOTPRINT = CT_SCRIPT20;
 
 //end

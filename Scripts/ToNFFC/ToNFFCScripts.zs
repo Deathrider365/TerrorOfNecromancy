@@ -1170,3 +1170,34 @@ ffc script BurningOilandBushes //start
 }
 //end
 
+ffc script ChangeComboTypeFromCollision
+{
+	void run() 
+	{
+		// while (true)
+		// {
+			// for(int i = Screen->NumEWeapons(); i >= 1; i--)
+			// {
+				// eweapon weapon = Screen->LoadEWeapon(i);
+				
+				// if (weapon->ID = EW_FIRE)
+				// {
+					// this->Type = CT_LIGHT_EMITING_TORCH;
+				// }
+			// }
+			// for(int i = Screen->NumLWeapons(); i >= 1; i--)
+			// {
+				// lweapon weapon = Screen->LoadLWeapon(i);
+				
+				// if (weapon->ID == LW_FIRE)
+				// {
+					// this->Type == CT_LIGHT_EMITING_TORCH;	
+					// int comboId = ComboAt(CenterX(weapon), CenterY(weapon));
+					// Screen->ComboD[comboId]++;
+					
+				// }
+			// }
+			// Waitframe();
+		// }
+	}
+}
