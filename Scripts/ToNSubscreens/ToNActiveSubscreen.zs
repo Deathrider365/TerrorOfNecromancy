@@ -477,6 +477,8 @@ int checkID(int id) //start
 						break;
 						
 					case IC_ARROW:
+						// if (id == -1 && Hero->Item[15])
+							// return IC_BOW;			Do something about when you have the bow and not arrows
 						unless (Game->Counter[CR_ARROWS])
 							return 0;
 						break;

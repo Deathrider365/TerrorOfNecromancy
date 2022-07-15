@@ -1589,6 +1589,22 @@ ffc script ActivateTorches //start
 } //end
 
 
+//~~~~~ScreenQuakeOnSecret~~~~~//
+//D0: Power of the quake
+@Author("Deathrider365")
+ffc script ScreenQuakeOnSecret //start
+{
+	void run(int quakePower)
+	{
+		if (Screen->State[ST_SECRET])
+			Quit();
+
+		until (Screen->State[ST_SECRET])
+			Waitframe();
+
+		Screen->Quake = quakePower;
+	}
+} //end
 
 
 

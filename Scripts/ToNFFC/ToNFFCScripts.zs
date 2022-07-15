@@ -767,23 +767,6 @@ ffc script PoisonWater //start
 	}
 } //end
 
-//~~~~~ScreenQuakeOnSecret~~~~~//
-//D0: Power of the quake
-@Author("Deathrider365")
-ffc script ScreenQuakeOnSecret //start
-{
-	void run(int quakePower)
-	{
-		if (Screen->State[ST_SECRET])
-			Quit();
-
-		until (Screen->State[ST_SECRET])
-			Waitframe();
-
-		Screen->Quake = quakePower;
-	}
-} //end
-
 ffc script CircMove //start
 {
 	void run(int a, int v, int theta)
@@ -1169,35 +1152,3 @@ ffc script BurningOilandBushes //start
 	} //end
 }
 //end
-
-ffc script ChangeComboTypeFromCollision
-{
-	void run() 
-	{
-		// while (true)
-		// {
-			// for(int i = Screen->NumEWeapons(); i >= 1; i--)
-			// {
-				// eweapon weapon = Screen->LoadEWeapon(i);
-				
-				// if (weapon->ID = EW_FIRE)
-				// {
-					// this->Type = CT_LIGHT_EMITING_TORCH;
-				// }
-			// }
-			// for(int i = Screen->NumLWeapons(); i >= 1; i--)
-			// {
-				// lweapon weapon = Screen->LoadLWeapon(i);
-				
-				// if (weapon->ID == LW_FIRE)
-				// {
-					// this->Type == CT_LIGHT_EMITING_TORCH;	
-					// int comboId = ComboAt(CenterX(weapon), CenterY(weapon));
-					// Screen->ComboD[comboId]++;
-					
-				// }
-			// }
-			// Waitframe();
-		// }
-	}
-}
