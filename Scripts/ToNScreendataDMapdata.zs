@@ -173,7 +173,7 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 										comboT = m->ComboT[pos];
 								}
 							
-							if (comboT == CT_LIGHT_EMITING_TORCH)
+							if (comboT == CT_SCRIPT_TORCH)
 								darkness_bmp->Circle(layer, xPos + 8 + 256, yPos + 8 + 176, (radius * torchPower) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
 						}
 					}

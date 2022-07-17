@@ -114,6 +114,7 @@ CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
 CONFIG SFX_SIZZLE = 128;
 CONFIG SFX_ROCKINGSHIP = 9;
+CONFIG SFX_FLAMMING_ARROW = 13;
 //end
 
 //~~~~~Sprite ~~~~~//
@@ -124,12 +125,17 @@ CONFIG SPR_FOOTSTEP = 113;
 CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for ZC default)
 CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
 
+CONFIG SPR_FLAME_TRAIL = 123;
 //end
 
 //~~~~~Combo~~~~~//
 //start
 CONFIG COMBO_INVIS = 1;
+//end
 
+//~~~~~Combo Types~~~~~//
+//start
+CONFIG CT_SCRIPT_TORCH = CT_SCRIPT19;
 //end
 
 //~~~~~Tile~~~~~//
@@ -155,12 +161,6 @@ CONFIG MIDI_GAMEOVER = 8;
 //start
 CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
 CONFIG CR_HEARTPIECES = CR_SCRIPT2;
-
-//end
-
-//~~~~~Footprints~~~~~//
-//start
-CONFIG CT_LIGHT_EMITING_TORCH = CT_SCRIPT19;
 
 //end
 
