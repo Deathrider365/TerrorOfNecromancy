@@ -327,7 +327,7 @@ ffc script SFXPlay //start
 
 //end
 
-//~~~~~BattleArena~~~~~//
+//~~~~~Battle Arena~~~~~//
 //D0: Arena list number to determine what enemies will spawn in this arena
 @Author ("Deathrider365")
 ffc script BattleArena //start
@@ -1152,3 +1152,38 @@ ffc script BurningOilandBushes //start
 	} //end
 }
 //end
+
+ffc script Thrower
+{
+	void run(int coolDown, int lowVariance, int highVariance, int screenD)
+	{
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			unless (coolDown)
+			{
+				eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+				RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	
+	}
+}
+
+combodata script LightTorch
+{
+	void run(int permanant)
+	{
+		if (Collision(this, LW_FIRE) || Collision(this, LW_FIRESPARKLE))
+		{
+			++Screen->ComboD[ComboAt(this->X, this->Y)];
+		}
+	}
+}

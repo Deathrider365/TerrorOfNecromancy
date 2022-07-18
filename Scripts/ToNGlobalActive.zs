@@ -203,6 +203,11 @@ global script GlobalScripts //start
 						return 001100b;
 					case 0x07:
 						return 001100b;
+					case 0x38:
+					case 0x39:
+					case 0x48:
+					case 0x49:
+						return 001000b;
 					
 				}
 				break;

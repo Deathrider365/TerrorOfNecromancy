@@ -219,11 +219,12 @@ namespace Enemy::Candlehead //start
 		
 		bool hitByFire(npc n) //start
 		{
-			if (n->HitBy[2])
+			if (n->HitBy[2] || n->HitBy[1])
 			{
-				lweapon weapon = Screen->LoadLWeapon(n->HitBy[2]);
+				lweapon lWeapon = Screen->LoadLWeapon(n->HitBy[2]);
+				lweapon eWeapon = Screen->LoadLWeapon(n->HitBy[1]);
 				
-				if (weapon->Type == LW_FIRE)
+				if (lWeapon->Type == LW_FIRE || lWeapon->Type == LW_FIRESPARKLE || eWeapon->Type == EW_FIRE)
 					return true;
 				else
 					return false;
