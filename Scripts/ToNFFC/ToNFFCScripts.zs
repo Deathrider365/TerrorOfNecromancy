@@ -1176,14 +1176,3 @@ ffc script Thrower
 	
 	}
 }
-
-combodata script LightTorch
-{
-	void run(int permanant)
-	{
-		if (Collision(this, LW_FIRE) || Collision(this, LW_FIRESPARKLE))
-		{
-			++Screen->ComboD[ComboAt(this->X, this->Y)];
-		}
-	}
-}
