@@ -202,7 +202,7 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemID, int gettingItemString, int alreadyGotItemString, int anySide)
+	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int itemId2)
 	{
 		Waitframes(2);
 
@@ -226,8 +226,15 @@ ffc script ItemGuy //start
 
 				Waitframes(2);
 
-				itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
+				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
 				it->Pickup = IP_HOLDUP;
+				
+				if (itemId2)
+				{
+					itemsprite it = CreateItemAt(itemId2, Hero->X, Hero->Y);
+					it->Pickup = IP_HOLDUP;
+				}
+				
 				Input->Button[CB_SIGNPOST] = false;
 				setScreenD(255, true);
 			}
@@ -1155,7 +1162,7 @@ ffc script BurningOilandBushes //start
 
 ffc script Thrower
 {
-	void run(int coolDown, int lowVariance, int highVariance, int screenD)
+	void run(int coolDown, int lowVariance, int highVariance)
 	{
 		unless(coolDown)
 			coolDown = 120;
@@ -1164,8 +1171,21 @@ ffc script Thrower
 		{
 			unless (coolDown)
 			{
-				eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-				RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+				int randNum = Rand(0, 1);
+				
+				if (randNum)
+				{
+					eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+				}
+				else
+				{
+					itemsprite it = CreateItemAt(59, this->X, this->Y);
+					it->Script = Game->GetItemSpriteScript("MoveAtAngle");
+					it->InitD[0] = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+					it->InitD[1] = 5;
+					
+				}
 				
 				coolDown = 120 + Rand(lowVariance, highVariance);
 			}
@@ -1175,4 +1195,22 @@ ffc script Thrower
 		}
 	
 	}
+}
+
+itemsprite script MoveAtAngle 
+{
+    void run(int angle, int step) 
+	{
+        int x = this->X;
+        int y = this->Y;
+		
+        while(true)
+		{
+            x += VectorX(step, angle);
+            y += VectorY(step, angle);
+            this->X = x;
+            this->Y = y;
+            Waitframe();
+        }
+    }
 }

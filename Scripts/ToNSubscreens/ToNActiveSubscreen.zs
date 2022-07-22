@@ -167,17 +167,22 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	//start Legionnaire Ring
 	Screen->FastTile(4, 122, y + 84, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
 	counter(RT_SCREEN, 4, 141, y + 88, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-	//end Legionnaire Ring
+	//end
 	
 	//start Leviathan Scale	
 	if(Hero->Item[183])
 		Screen->FastTile(4, 110, y + 6, TILE_LEVIATHAN_SCALE, CSET_LEVIATHAN_SCALE, OP_OPAQUE);
-	//end Leviathan Scale
+	//end
 	
 	//start Toxic Forest Key
 	if(Hero->Item[184])
 		Screen->FastTile(4, 110, y + 24, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
-	//end ale
+	//end
+	
+	//start Guard Tower Key
+	if(Hero->Item[202])
+		Screen->FastTile(4, 110, y + 42, TILE_GUARD_TOWER_KEY, CSET_GUARD_TOWER_KEY, OP_OPAQUE);
+	//end
 	
 	//start Main Trading Sequence items
 	int itemId = GetHighestLevelItemOwned(IC_TRADING_SEQ);
@@ -547,23 +552,4 @@ void tile(untyped bit, int layer, int x, int y, int tile, int cset) //start
 {
 	<bitmap>(bit)->FastTile(layer, x, y, tile, cset, OP_OPAQUE);
 } //end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
