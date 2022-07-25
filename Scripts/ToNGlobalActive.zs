@@ -205,8 +205,6 @@ global script GlobalScripts //start
 						return 001100b;
 					case 0x38:
 					case 0x39:
-					case 0x48:
-					case 0x49:
 						return 001000b;
 					
 				}
@@ -231,7 +229,7 @@ global script GlobalScripts //start
 				switch(scr)
 				{
 					case 0x77:
-						return 001000;
+						return 000100;
 				}
 		}
 		return 0;
