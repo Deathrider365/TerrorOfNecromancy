@@ -1250,7 +1250,7 @@ ffc script GB_Shutter //start
 			LinkY = 0;
 			
 		int moveDir = Link->Dir;
-		
+				
 		if(GB_Shutter_InShutter(this, LinkX, LinkY, 0))
 		{
 			if(LinkY == 0)

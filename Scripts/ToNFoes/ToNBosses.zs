@@ -698,10 +698,14 @@ ffc script LegionnaireLevel1 //start
 	void run(int enemyid)
 	{	//start Set Up
 	
-		if (Screen->State[ST_SECRET])
-			Quit();
-	
 		npc ghost = Ghost_InitAutoGhost(this, enemyid);			// pairing enemy with ffc
+		
+		if (Screen->State[ST_SECRET])
+		{
+			ghost->Remove();
+			Quit();
+		}
+	
 		Ghost_SetFlag(GHF_4WAY);								// 4 way movement
 		int combo = ghost->Attributes[10];						// finds enemy first combo
 		int attackCoolDown = 90 + Rand(30);

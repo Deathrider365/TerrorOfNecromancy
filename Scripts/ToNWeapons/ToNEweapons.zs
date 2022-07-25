@@ -49,19 +49,20 @@ eweapon script ArcingWeapon //start
 {
 	void run(int initJump, int gravity, int effect)
 	{
+		this->Gravity = false;
+		
 		int jump = initJump;
 		int linkDistance = Distance(Hero->X, Hero->Y, this->X, this->Y);
 		
 		if (initJump == -1 && gravity == 0)
 			jump = FindJumpLength(linkDistance / (this->Step / 100), true);
 		
-		if (gravity == 0)
-			gravity = 0.16;
+		unless (gravity)
+			gravity = Game->Gravity[GR_STRENGTH];
 
 		while (jump > 0 || this->Z > 0)
 		{
 			this->Z += jump;
-			this->Jump = 0;
 			jump -= gravity;
 			
 			this->DeadState = WDS_ALIVE;

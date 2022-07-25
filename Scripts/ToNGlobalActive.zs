@@ -275,39 +275,29 @@ global script GlobalScripts //start
 		{
 			case 0...8:
 				return 0.4;
-				break;
 			case 9:
 				return 2;
-				break;
 			case 10:
 				return 1;
-				break;
 			case 11:
 				return 0.3333;
-				break;
-			case 18...20:
+			case 18...23:
 				return 1;
-				break;
 		}
+		
+		return 0;
 	} //end
 	
 	void createFootprint(int fadeMult) //start
 	{
-		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
-		footprint->X = Hero->X;
-		footprint->Y = Hero->Y;
-		footprint->UseSprite(SPR_FOOTSTEP);
-		footprint->Behind = true;
+		if (int scr = CheckLWeaponScript("CustomSparkle"))
+		{
+			lweapon footprint = RunLWeaponScriptAt(LW_SCRIPT1, scr, Hero->X, Hero->Y, {SPR_FOOTSTEP, fadeMult});
+			footprint->Behind = true;
+			footprint->Dir = Hero->Dir;
+			footprint->ScriptTile = TILE_INVIS;
+		}
 		
-		unless(footprint->ASpeed)
-			footprint->ASpeed = 1;
-		
-		footprint->ASpeed = Round(footprint->ASpeed * fadeMult);
-		
-		unless(footprint->NumFrames)
-			footprint->NumFrames = 1;
-			
-		footprint->OriginalTile += Hero->Dir * footprint->NumFrames;
 	} //end
 	
 	void onDMapChange() //start

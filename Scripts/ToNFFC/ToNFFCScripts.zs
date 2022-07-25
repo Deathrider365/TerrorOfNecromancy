@@ -21,21 +21,18 @@ ffc script CompassBeep //start
 
 //~~~~~BossMusic~~~~~//
 //D0: Number that correlates with the song desired
-//D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
 {
-	void run(int musicChoice, int isFanfare)
+	void run(int musicChoice)
 	{
 		char32 areaMusic[256];
 
 		if (Screen->State[ST_SECRET])
 			Quit();
 
-		Waitframes(4);
-
-		unless (EnemiesAlive())
-			return;
+		until (EnemiesAlive())
+			Waitframe();
 
 		switch(musicChoice)
 		{
@@ -46,6 +43,9 @@ ffc script BossMusic //start
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
 			case 3:
+				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+				break;
+			case 4:
 				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
 				break;
 
@@ -202,7 +202,7 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int itemId2)
+	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide)
 	{
 		Waitframes(2);
 
@@ -228,12 +228,6 @@ ffc script ItemGuy //start
 
 				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
 				it->Pickup = IP_HOLDUP;
-				
-				if (itemId2)
-				{
-					itemsprite it = CreateItemAt(itemId2, Hero->X, Hero->Y);
-					it->Pickup = IP_HOLDUP;
-				}
 				
 				Input->Button[CB_SIGNPOST] = false;
 				setScreenD(255, true);
@@ -1160,7 +1154,7 @@ ffc script BurningOilandBushes //start
 }
 //end
 
-ffc script Thrower
+ffc script Thrower //start
 {
 	void run(int coolDown, int lowVariance, int highVariance)
 	{
@@ -1176,14 +1170,17 @@ ffc script Thrower
 				if (randNum)
 				{
 					eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-					RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+					
+					if (int scr = CheckEWeaponScript("ArcingWeapon"))
+						RunEWeaponScript(rockProjectile, scr, {-1, 0, AE_ROCK_PROJECTILE});
 				}
 				else
 				{
-					itemsprite it = CreateItemAt(59, this->X, this->Y);
-					it->Script = Game->GetItemSpriteScript("MoveAtAngle");
-					it->InitD[0] = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
-					it->InitD[1] = 5;
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(59, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}
 					
 				}
 				
@@ -1193,24 +1190,40 @@ ffc script Thrower
 			coolDown--;
 			Waitframe();
 		}
-	
 	}
-}
+} //end
 
-itemsprite script MoveAtAngle 
+itemsprite script ArcingItemSprite //start
 {
-    void run(int angle, int step) 
+    void run(int angle, int step, int initJump, int gravity) 
 	{
+		this->Gravity = false;
+		bool timeout = this->Pickup & IP_TIMEOUT;
+		this->Pickup ~= IP_TIMEOUT;
+		
         int x = this->X;
         int y = this->Y;
+		int jump = initJump;
+		int linkDistance = Distance(Hero->X + Rand(-16, 16), Hero->Y + Rand(-16, 16), this->X, this->Y);
 		
-        while(true)
+		if (initJump == -1 && gravity == 0)
+			jump = FindJumpLength(linkDistance / (step), true);
+		
+		unless (gravity)
+			gravity = Game->Gravity[GR_STRENGTH];
+		
+        while(jump > 0 || this->Z > 0)
 		{
             x += VectorX(step, angle);
             y += VectorY(step, angle);
             this->X = x;
             this->Y = y;
+			this->Z += jump;
+			jump -= gravity;
             Waitframe();
         }
+		
+		if (timeout)
+			this->Pickup |= IP_TIMEOUT;
     }
-}
+} //end

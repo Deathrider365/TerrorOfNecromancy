@@ -484,7 +484,7 @@ namespace Enemy::Manhandala //start
 				this->CSet = hurtCSet;
 				
 				for (int i = 0; i < 20; ++i)
-					(this->Defense[i] == NPCD_FIRE) ? (this->Defense[i] = NPCDT_IGNORE) : (this->Defense[i] = NPCDT_NONE);
+					this->Defense[i] = (i == NPCD_FIRE) ? NPCDT_IGNORE : NPCDT_NONE;
 				
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
