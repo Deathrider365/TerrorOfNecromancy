@@ -26,6 +26,9 @@ ffc script BossMusic //start
 {
 	void run(int musicChoice)
 	{
+		unless(musicChoice)
+			Quit();
+			
 		char32 areaMusic[256];
 
 		if (Screen->State[ST_SECRET])

@@ -920,7 +920,7 @@ ffc script Shambles //start
 		int bombsToLob = 3;
 		int difficultyMultiplier = 0.33;
 		
-		Audio->PlayEnhancedMusic(NULL, 0);
+		// Audio->PlayEnhancedMusic(NULL, 0);
 		
 		//start spawning animation
 		Ghost_X = 128;				// sets him off screen as a time buffer

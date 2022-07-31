@@ -114,7 +114,8 @@ namespace Enemy::Candlehead //start
 			{
 				this->Slide();
 				
-				//TODO Add EW_FIRE to this function to support the fires dropped by the candles to also have the ability to light other candles
+				//TODO Add EW_FIRE to this function to support the fires dropped by the 
+				//candles to also have the ability to light other candles
 				
 				if (hitByFire(this))
 					deathAnimation(this);

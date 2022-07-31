@@ -296,6 +296,7 @@ global script GlobalScripts //start
 			footprint->Behind = true;
 			footprint->Dir = Hero->Dir;
 			footprint->ScriptTile = TILE_INVIS;
+			footprint->CollDetection = false;
 		}
 		
 	} //end
