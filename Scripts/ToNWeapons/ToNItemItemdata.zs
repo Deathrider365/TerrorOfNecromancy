@@ -419,6 +419,7 @@ lweapon script FlamingArrow
 		sparkle->Damage = 2;
 		sparkle->UseSprite(sprite);
 		sparkle->LightRadius = 12;
+		sparkle->CSet = 
 		
 		return sparkle;
 	} //end

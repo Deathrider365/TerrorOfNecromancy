@@ -18,12 +18,7 @@ global script GlobalScripts //start
 	void run()
 	{		
 		if (DEBUG)									//turn off debug when releasing
-			debug();
-		
-		Trace(Hero->ItemA);
-		Trace(Hero->ItemB);
-		Trace(asubscr_pos);
-		
+			debug();		
 		
 		int map = -1, dmap = -1, scr = -1;
 		

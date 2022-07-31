@@ -88,6 +88,7 @@ npc script Mimic //start
 } //end
 
 //~~~~~Candlehead~~~~~//
+// D0: if chungo set to 1 
 namespace Enemy::Candlehead //start
 {
 	@Author("Deathrider365")
@@ -100,7 +101,7 @@ namespace Enemy::Candlehead //start
 		const int NORMAL_HOMING = 10;
 		const int AGGRESSIVE_HOMING = 20;
 		
-		void run()
+		void run(int chungo)
 		{
 			int knockbackDist = 4;
 			
@@ -118,7 +119,7 @@ namespace Enemy::Candlehead //start
 				//candles to also have the ability to light other candles
 				
 				if (hitByFire(this))
-					deathAnimation(this);
+					burnToDeath(this, chungo);
 					
 				unless (gameframe % RandGen->Rand(45, 60))
 				{
@@ -127,7 +128,7 @@ namespace Enemy::Candlehead //start
 						this->Slide();
 						
 						if (hitByFire(this))
-							deathAnimation(this);
+							burnToDeath(this, chungo);
 							
 						doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
 						Waitframe();
@@ -137,7 +138,7 @@ namespace Enemy::Candlehead //start
 			} //end
 		}
 		
-		void deathAnimation(npc n) //start
+		void burnToDeath(npc n, int chungo) //start
 		{
 			n->Dir = getInvertedDir(n->Dir);
 			n->Step += n->Step / 2;
@@ -148,10 +149,11 @@ namespace Enemy::Candlehead //start
 			else if (Hero->Item[158])
 				cset = 8;
 			
-			
-			//TODO when making the miniboss variant of these guys set this bound to a timer 
 			until (n->HP <= 0)
 			{
+				int x = chungo ? n->X + 8 : n->X;
+				int y = chungo ? n->Y + 8 : n->Y;
+
 				if (n->HP < 10)
 					n->HP = 0;
 				else
@@ -165,7 +167,7 @@ namespace Enemy::Candlehead //start
 					spritedata sprite = Game->LoadSpriteData(115);
 					setFlameSpriteCSet(sprite);
 				
-					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);	
+					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, x, y);	
 					flame->Dir = n->Dir;
 					flame->Step = n->Step;
 					flame->Angular = true;
@@ -178,6 +180,12 @@ namespace Enemy::Candlehead //start
 				} //end
 				
 				Screen->FastCombo(7, n->X, n->Y, 6344, cset, OP_OPAQUE);
+				if (chungo)
+				{
+					Screen->FastCombo(7, n->X + 16, n->Y, 6344, cset, OP_OPAQUE);
+					Screen->FastCombo(7, n->X, n->Y + 16, 6344, cset, OP_OPAQUE);
+					Screen->FastCombo(7, n->X + 16, n->Y + 16, 6344, cset, OP_OPAQUE);
+				}
 				
 				doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
 				
@@ -189,18 +197,16 @@ namespace Enemy::Candlehead //start
 			{
 				spritedata sprite = Game->LoadSpriteData(115);
 				setFlameSpriteCSet(sprite);
-				
-				
-				//TODO increase the range of the fire explosion
+
 				eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);
 				flame->Dir = i;
-				flame->Step = 120;
+				flame->Step = chungo ? 160 : 120;
 				flame->Angular = true;
 				flame->Angle = DirRad(flame->Dir);
 				flame->Script = Game->GetEWeaponScript("StopperKiller");
 				flame->Z = n->Z;
-				flame->InitD[0] = 20;
-				flame->InitD[1] = 150;
+				flame->InitD[0] = chungo ? 40 : 20;
+				flame->InitD[1] = chungo ? 250 : 150;
 				flame->Gravity = true;
 				flame->Damage = 2;
 				flame->UseSprite(115);
@@ -223,9 +229,9 @@ namespace Enemy::Candlehead //start
 			if (n->HitBy[2] || n->HitBy[1])
 			{
 				lweapon lWeapon = Screen->LoadLWeapon(n->HitBy[2]);
-				lweapon eWeapon = Screen->LoadLWeapon(n->HitBy[1]);
+				// lweapon eWeapon = Screen->LoadLWeapon(n->HitBy[1]);
 				
-				if (lWeapon->Type == LW_FIRE || lWeapon->Type == LW_FIRESPARKLE || eWeapon->Type == EW_FIRE)
+				if (lWeapon->Type == LW_FIRE /*|| lWeapon->Type == LW_FIRESPARKLE || eWeapon->Type == EW_FIRE*/)
 					return true;
 				else
 					return false;

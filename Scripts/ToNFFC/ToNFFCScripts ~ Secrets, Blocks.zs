@@ -853,7 +853,6 @@ ffc script SwitchTrap //start
 	} //end
 } //end
 
-
 //~~~~~SwitchSequential~~~~~//
 // D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
 // D1: Set to 1 to make the secret that's triggered permanent.
@@ -1606,7 +1605,48 @@ ffc script ScreenQuakeOnSecret //start
 	}
 } //end
 
-
+ffc script TriggerSignpostsOnOtherScreens
+{
+	void run(int msg, bool anySide)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			Screen->Message(msg);
+			Game->Suspend[susptSCREENDRAW] = false;
+			
+			int curPosOfKid = 38;
+			int curMapOfKid = 40;
+			int curScrOfKid = 94;
+			
+			int curPosOfDad = 109;
+			int curMapOfDad = 9;
+			int curScrOfDad = 7;
+			
+			int newPosOfKid = 119;
+			int newPosOfDad = 135;
+			int newMapOfBoth = 9;
+			
+			mapdata mapOfKid = Game->LoadMapData(curMapOfKid, curScrOfKid);
+			mapdata mapOfDad = Game->LoadMapData(curMapOfDad, curScrOfDad);
+			
+			
+			
+			Waitframe();
+		}
+	}
+}
 
 
 

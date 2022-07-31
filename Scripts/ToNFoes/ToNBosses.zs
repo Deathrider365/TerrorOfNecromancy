@@ -766,10 +766,10 @@ ffc script LegionnaireLevel1 //start
 			
 			Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
 			
-			if (timeToSpawnAnother >= 600 && enemyCount < 2) //start Spawning more
+			if (timeToSpawnAnother >= 100/*600*/ && enemyCount < 2) //start Spawning more
 			{
 				enemyShake(this, ghost, 32, 1);
-				Audio->PlaySound(132); // was 64 (general spawn sfx)
+				Audio->PlaySound(143); // was 64 (general spawn sfx)
 				npc n1 = Screen->CreateNPC(220);
 				
 				int pos, x, y;
@@ -896,7 +896,7 @@ ffc script LegionnaireLevel1 //start
 				}
 			}
 			
-			if (Ghost_HP <= startHP * 0.40)
+			if (Ghost_HP <= startHP * 0.50)
 				timeToSpawnAnother++;
 			
 			Ghost_Waitframe(this, ghost);
