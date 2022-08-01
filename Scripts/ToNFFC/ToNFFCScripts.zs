@@ -242,7 +242,6 @@ ffc script ItemGuy //start
 		}
 	}
 }
-
 //end
 
 //~~~~~TradingGuy~~~~~//
@@ -341,9 +340,11 @@ ffc script BattleArena //start
 		if (!Hero->Item[191])
 		{
 			Screen->TriggerSecrets();
+			setScreenD(255, true);
 			Quit();
 		}
 		
+		setScreenD(255, false);
 		Hero->Item[191] = false;
 		
         int round = 0;
@@ -360,6 +361,7 @@ ffc script BattleArena //start
 			Waitframe();
 			
 		Screen->TriggerSecrets();
+		setScreenD(255, true);
 		
 		char32 areaMusic[256];
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
@@ -1157,9 +1159,14 @@ ffc script BurningOilandBushes //start
 }
 //end
 
+//~~~~~Thrower~~~~~//
+//D0: 
+//D1: 
+//D2: 
+//D3: 
 ffc script Thrower //start
 {
-	void run(int coolDown, int lowVariance, int highVariance)
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
 	{
 		unless(coolDown)
 			coolDown = 120;
@@ -1168,23 +1175,79 @@ ffc script Thrower //start
 		{
 			unless (coolDown)
 			{
-				int randNum = Rand(0, 1);
-				
-				if (randNum)
-				{
-					eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-					
-					if (int scr = CheckEWeaponScript("ArcingWeapon"))
-						RunEWeaponScript(rockProjectile, scr, {-1, 0, AE_ROCK_PROJECTILE});
-				}
-				else
+				if (throwsItem)
 				{
 					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
 					{
-						itemsprite it = RunItemSpriteScriptAt(59, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
 						it->Pickup |= IP_TIMEOUT;
-					}
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 					
+					if (hasArc)
+					{
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
+				}
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	}
+} //end
+
+//~~~~~SecretThrower~~~~~//
+//D0: 
+//D1: 
+//D2: 
+//D3: 
+ffc script SecretThrower //start
+{
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
+	{
+		if (getScreenD(255))
+			Quit();
+				
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			if (getScreenD(255))
+				Quit();
+				
+			unless (coolDown)
+			{
+				if (throwsItem)
+				{
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					
+					if (hasArc)
+					{
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
 				}
 				
 				coolDown = 120 + Rand(lowVariance, highVariance);

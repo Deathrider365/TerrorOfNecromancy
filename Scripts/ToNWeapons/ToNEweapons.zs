@@ -181,6 +181,9 @@ eweapon script ArcingWeapon //start
 					
 					break; //end
 					
+				case AE_ARROW: //start
+					// Audio->PlaySound(SFX_ARROW);
+					break; //end
 				case AE_DEBUG: //start
 					this->Step = 0;
 					

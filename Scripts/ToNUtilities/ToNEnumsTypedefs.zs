@@ -421,6 +421,9 @@ enum ArcingWeaponEffects //start
 	AE_BOULDER_PROJECTILE,
 	AE_RACCOON_PROJECTILE,
 	
+	//Misc
+	AE_ARROW,
+	
 	AE_DEBUG
 }; //end
 

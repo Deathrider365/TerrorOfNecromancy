@@ -1072,6 +1072,7 @@ namespace Enemy::OvergrownRaccoon //start
 			Waitframes(30);
 			
 			NoAction();
+			
 			unless (getScreenD(255))
 			{
 				Screen->Message(403);

@@ -31,50 +31,84 @@ float TurnToAngle(float angle1, float angle2, float step) //start
 // Function to set Screen->D
 void setScreenD(int reg, bool state) //start
 {
-	#option BINARY_32BIT on
-	
-	int d = Div(reg, 32);
-	reg %= 32;
-	
-	if (state)
-		Screen->D[d] |= 1b<<reg;
-	else
-		Screen->D[d] ~= 1b<<reg;
-	
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    if (state)
+        Screen->D[d] |= 1Lb<<reg;
+    else
+        Screen->D[d] ~= 1Lb<<reg;
 }
 //end
 
 // Function to get Screen->D
 bool getScreenD(int reg) //start
 {
-	#option BINARY_32BIT on
-	
-	int d = Div(reg, 32);
-	reg %= 32;
-	
-	return Screen->D[d] & (1b<<reg);
-	
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    return Screen->D[d] & (1Lb<<reg);
 }
 //end
 
 // Function to set Screen->D
-void setScreenD(int d, int bit, bool state) //start
+void setScreenD(int d, long bit, bool state) //start
 {
-	#option BINARY_32BIT on
-	
-	if (state)
-		Screen->D[d] |= bit;
-	else
-		Screen->D[d] ~= bit;
+    if (state)
+        Screen->D[d] |= bit;
+    else
+        Screen->D[d] ~= bit;
 }
 //end
 
 // Function to get Screen->D
-int getScreenD(int d, int bit) //start
+long getScreenD(int d, long bit) //start
 {
-	#option BINARY_32BIT on
-	
-	return Screen->D[d] & bit;
+    return Screen->D[d] & bit;
+}
+//end
+
+// Function to set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int reg, bool state) //start
+{
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    long val = Game->GetDMapScreenD(dmap,scr,d);
+    if (state)
+        val |= 1Lb<<reg;
+    else
+        val ~= 1Lb<<reg;
+    Game->SetDMapScreenD(dmap,scr,d,val);
+}
+//end
+
+// Function to get Screen->D for remote screen
+bool getScreenD(int dmap, int scr, int reg) //start
+{
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    return Game->GetDMapScreenD(dmap,scr,d) & (1Lb<<reg);
+}
+//end
+
+// Function to set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int d, long bit, bool state) //start
+{
+    long val = Game->GetDMapScreenD(dmap,scr,d);
+    if (state)
+        val |= bit;
+    else
+        val ~= bit;
+    Game->SetDMapScreenD(dmap,scr,d,val);
+}
+//end
+
+// Function to get Screen->D for remote screen
+long getScreenD(int dmap, int scr, int d, long bit) //start
+{
+    return Game->GetDMapScreenD(dmap,scr,d) & bit;
 }
 //end
 

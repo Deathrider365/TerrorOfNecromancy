@@ -287,7 +287,6 @@ ffc script Signpost //start
 		}
 	}
 }
-
 //end
 
 //~~~~~ConditionalSignPost~~~~~//
@@ -397,7 +396,59 @@ ffc script ShopIntroMessage //start
 	}
 } //end
 
+//~~~~~FatherAndSonDialogue~~~~~//
+// Sets screenD(255) upon receiving
+//D0: Item ID to give
+//D1: String for getting the item
+//D2: String for if you already got the item
+//D3: 1 for all dirs, 0 for only front (up)
+@Author("Deathrider365")
+ffc script FatherAndSonDialogue //start
+{
+	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide)
+	{
+		if (Game->GetDMapScreenD(4, 0x07, 1) == 1)
+		{
+			this->Data = 0;
+			Quit();
+		}
+		
+		Waitframes(2);
 
+		int loc = ComboAt(this->X, this->Y);
+
+		while(true)
+		{
+			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])
+			{
+				if (AgainstComboBase(loc, anySide))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+				Waitframe();
+			}
+
+			Input->Button[CB_SIGNPOST] = false;
+
+			unless (getScreenD(255))
+			{
+				Screen->Message(gettingItemString);
+
+				Waitframes(2);
+
+				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+				it->Pickup = IP_HOLDUP;
+				
+				Input->Button[CB_SIGNPOST] = false;
+				setScreenD(255, true);
+			}
+			else
+				Screen->Message(alreadyGotItemString);
+
+			Waitframe();
+		}
+	}
+}
+//end
 
 
 

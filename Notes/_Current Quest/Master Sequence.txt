@@ -161,7 +161,7 @@
    <Items>
    - 10 Rupee (fields)
    - Heart Piece #3 (fields)
-   - Red / Blue Potions
+   - Red / Blue / Purple Potions 
 
 <With the Forest Key Link has access to the Pernicious Forest>
    <Items>
@@ -183,7 +183,7 @@
      - Heart Container #2
      - Triforce of Power Shard #1
      <Boss>
-      - Manhandala idk
+      - Hazarond
      
       <Link finds way to the boss's nest and finds notes from some researcher underling of the Necromancer giving you hints where to go next>
  
@@ -208,7 +208,7 @@
 ||||||||||||||||||||||||||||||||||||||||||||| Continue Cleaning From Here |||||||||||||||||||||||||||||||||||||||||||||
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Level 1:  - Obtains the Wooden Bow
+Level 2:  - Obtains the Wooden Bow
 
 Triforce of Power:	- 1
 Triforce of Wisdom:	- 0
