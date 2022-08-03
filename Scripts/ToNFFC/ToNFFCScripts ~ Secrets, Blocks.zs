@@ -1587,7 +1587,6 @@ ffc script ActivateTorches //start
 	}
 } //end
 
-
 //~~~~~ScreenQuakeOnSecret~~~~~//
 //D0: Power of the quake
 @Author("Deathrider365")
@@ -1638,26 +1637,60 @@ ffc script TriggerSignpostsOnOtherScreens
 	}
 }
 
+ffc script GettingGoddessJewels
+{
+	void run(int message, int x, int y, int itemId, int finalTriforceShard)
+	{
+		if (getScreenD(254))
+			Quit();
+			
+		if (!Hero->Item[finalTriforceShard])
+			Quit();
+			
+		Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
+			
+		NoAction();
+		Link->PressStart = false;
+		Link->InputStart = false;
+		Link->PressMap = false;
+		Link->InputMap = false;
+		
+		for (int i = 120; i >0; --i)
+		{
+			NoAction();
+			
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;
+			
+			Waitframe();
+		}
+		
+		for (int i = 0; i < 32; ++i)
+		{
+			//link should walk up
+			
+			NoAction();
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;	
+			
+			Waitframe();
+		}
+		
+		Screen->Message(message); //message about assembling the triforce
+		
+		//Link holds up all 4 shards and they assemble in the air splendidly, then the
+		//triforce appears on top of the pedestal spinning and shining
+		//then a message is played about how one is rewarded for assembling the triforce
+		//then that respective goddess jewel appears in front of the pedestal from above the screen
+		
+		itemsprite it = CreateItemAt(itemId, x, y);
+		it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+		
+		setScreenD(254, true);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

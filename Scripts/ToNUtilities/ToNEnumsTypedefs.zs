@@ -440,8 +440,3 @@ enum Status //start
 	NUM_STATUSES
 }; //end
 //end
-
-
-
-
-
