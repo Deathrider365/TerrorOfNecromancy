@@ -807,7 +807,18 @@ ffc script SwitchTrap //start
 			npcs[i] = n;
 			Game->PlaySound(SFX_FALL);
 			n->Z = 176;
-			Waitframes(20);
+			
+			for (int j = 0; j < 20; j++)
+			{
+				for (int k = 0; k < count; k++)
+				{
+					if (npcs[k])
+						npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
+				}
+				Waitframe();
+			}
+			
+			Waitframe();
 		}
 		
 		unless (fallSpeed)
