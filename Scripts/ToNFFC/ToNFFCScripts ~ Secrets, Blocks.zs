@@ -515,7 +515,6 @@ ffc script SwitchRemote //start
 					
 			}
 		} //end
-		
 		else //start
 		{
 			until (SwitchPressed(this->X, this->Y, noLink))
@@ -785,10 +784,10 @@ ffc script SwitchHitAll //start
 //~~~~~SwitchTrap~~~~~//
 // D0: Set to the ID of the enemy to drop in
 // D1: Set to the number of enemies to drop
-@Author("Moosh")
+@Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap //start
 { 
-	void run(int enemyid, int count) //start
+	void run(int enemyid, int count, int fallSpeed, int perm) //start
 	{
 		until(SwitchPressed(this->X, this->Y, false))
 			Waitframe();
@@ -797,14 +796,37 @@ ffc script SwitchTrap //start
 		Game->PlaySound(SFX_SWITCH_PRESS);
 		Game->PlaySound(SFX_SWITCH_ERROR);
 		
+		Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
+		
+		npc npcs[255];
+		
 		for (int i = 0; i < count; i++)
 		{
 			int pos = Switch_GetSpawnPos();
 			npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
+			npcs[i] = n;
 			Game->PlaySound(SFX_FALL);
 			n->Z = 176;
 			Waitframes(20);
 		}
+		
+		unless (fallSpeed)
+			fallSpeed = 5;
+		
+		for (int i = 0; i < 60; ++i)
+		{
+			for (int j = 0; j < count; j++)
+				npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
+			Waitframe();
+		}
+		
+		while(Screen->NumNPCs())
+			Waitframe();
+						
+		char32 areaMusic[256];
+		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+		Audio->PlayEnhancedMusic(areaMusic, 0);
+			
 	} //end
 	
 	int Switch_GetSpawnPos() //start
@@ -812,6 +834,7 @@ ffc script SwitchTrap //start
 		int pos;
 		bool invalid = true;
 		int failSafe = 0;
+		
 		while(invalid && failSafe < 512)
 		{
 			pos = Rand(176);
@@ -1693,4 +1716,29 @@ ffc script GettingGoddessJewels
 		setScreenD(254, true);
 	}
 
+}
+
+ffc script TriggerOnceEnemiesKilled
+{
+	void run(int flag)
+	{
+		int comboD[176];
+		
+		for (int i = 0; i < 176; i++)
+			if (Screen->ComboF[i] == flag)
+			{
+				comboD[i] = Screen->ComboD[i];
+				Screen->ComboF[i] = 0;
+			}
+			
+		until(Screen->NumNPCs())
+			Waitframe();
+			
+		while(Screen->NumNPCs())
+			Waitframe();
+		
+		for (int i = 0; i < 176; i++)
+			if (comboD[i] > 0)
+				Screen->ComboD[i] = comboD[i] + 1;
+	}
 }
