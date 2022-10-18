@@ -833,7 +833,7 @@ ffc script SwitchTrap //start
 		
 		while(Screen->NumNPCs())
 			Waitframe();
-						
+		
 		char32 areaMusic[256];
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
