@@ -197,7 +197,7 @@ ffc script Leviathan1Ending //start
 				waterfallRight->InitD[1] = 64;	
 			}
 			
-			// Removing link's advanced items
+			// Removing link's items
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
@@ -440,7 +440,6 @@ ffc script PreInteritusLeviathanScene //start
 		} //end
 		
 		Waitframes(60);
-		// leavingTransition(12, 80, 0);
 		leavingTransition(0, 81, 0);
 	}
 }

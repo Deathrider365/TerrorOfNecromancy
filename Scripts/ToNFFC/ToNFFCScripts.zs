@@ -580,7 +580,7 @@ ffc script DisableLink //start
 @Author("Tabletpillow, EmilyV99")
 ffc script SimpleShop //start
 {
-    void run(int itemId, int price, int boughtMessage, int notBoughtMessage)
+    void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount)
 	{
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
@@ -596,7 +596,7 @@ ffc script SimpleShop //start
 
         while(true)
 		{
-			if(checkStock && Hero->Item[itemId] && itemId != 2 && itemId != 114 && itemId != 165)
+			if(checkStock && Hero->Item[itemId] && itemId != 2 && itemId != 114 && itemId != 165 || (!Hero->Item[74] && itemId == 205))
 			{
 				dummy->ScriptTile = TILE_INVIS;
 				this->Data = noStockCombo;
@@ -619,6 +619,18 @@ ffc script SimpleShop //start
 					{
 						Game->DCounter[CR_RUPEES] -= price;
 						item shpitm = CreateItemAt(itemId, Hero->X, Hero->Y);
+						
+						if (itemId == 187)
+						{
+							Game->Counter[CR_BOMBS] += upgradeIncreaseAmount;
+							numBombUpgrades++;
+						}
+						if (itemId == 205)
+						{
+							Game->Counter[CR_ARROWS] += upgradeIncreaseAmount;
+							numQuiverUpgrades++;
+						}
+					
 
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);

@@ -259,6 +259,22 @@ ffc script DungeonString //start
 
 //end
 
+//~~~~~Play Test~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Deathrider365")
+ffc script PlayText //start
+{
+	void run(int msg) {
+		
+		unless(getScreenD(255))
+			Screen->Message(msg);
+		
+		setScreenD(255, true);
+	}
+}
+//end
+
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside

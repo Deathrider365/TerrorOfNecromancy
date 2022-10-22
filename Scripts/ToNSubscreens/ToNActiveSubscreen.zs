@@ -146,14 +146,14 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	Screen->FastTile(7, 86, 14 + y, 30082, 8, OP_OPAQUE);
 	Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	
-	Screen->FastTile(7, 86, 44 + y, 30262, 8, OP_OPAQUE);
+	Screen->FastTile(7, 86, 44 + y, 30260, 8, OP_OPAQUE);
 	Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	//end
 	
 	//end
 	
-	
-	for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) //start Dungeon Item Draws
+	//start Dungeon Item Draws
+	for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) 
 	{
 		int id = checkID(dungeonItemIds[q]);
 		

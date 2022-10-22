@@ -768,7 +768,7 @@ ffc script LegionnaireLevel1 //start
 			
 			numEnemies = Screen->NumNPCs();
 			
-			if (timeToSpawnAnother >= 100 && numEnemies < 3) //start Spawning more
+			if (timeToSpawnAnother >= 300 && numEnemies < 3) //start Spawning more
 			{
 				enemyShake(this, ghost, 32, 1);
 				Audio->PlaySound(143);
@@ -798,7 +798,6 @@ ffc script LegionnaireLevel1 //start
 				n1->X = x;
 				n1->Y = y;
 
-				// ++numEnemies;
 				timeToSpawnAnother = 0;
 			} //end
 			
@@ -902,7 +901,7 @@ ffc script LegionnaireLevel1 //start
 				}
 			}
 			
-			if (Ghost_HP <= startHP * 0.50)
+			if (Ghost_HP <= startHP * 0.5)
 				timeToSpawnAnother++;
 			
 			Ghost_Waitframe(this, ghost);

@@ -40,8 +40,9 @@ namespace WaterPaths //start
 	
 	CONFIG CT_FLUID = CT_SCRIPT2;
 	CONFIG MAX_PATHS = 32;
-	DEFINE SZ_PATHSTATES = MAX_PATHS*2+1;
-	DEFINE UPDATE_PATHS = SZ_PATHSTATES-1;
+	DEFINE SZ_PATHSTATES = MAX_PATHS * 2 + 1;
+	DEFINE UPDATE_PATHS = SZ_PATHSTATES - 1;
+	
 	untyped pathStates[SZ_PATHSTATES];
 	long fluidConnections[MAX_DMAPS * MAX_PATHS];
 	
@@ -525,7 +526,7 @@ namespace WaterPaths //start
 								{
 									if(flowpath)
 										m1->ComboD[q] = getCombo(getFluid(flowpath), cmb>0);
-																				
+									
 									m2->ComboD[q] = cmb;
 									m2->ComboC[q] = t1->ComboC[q];
 								}
