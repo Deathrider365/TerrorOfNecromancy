@@ -20,7 +20,7 @@ screendata script OverheadTransparency //start
 				
 				int combos[] = {m->ComboD[ComboAt(Hero->X, Hero->Y)], 
 				                m->ComboD[ComboAt(Hero->X + 15, Hero->Y)], 
-				                m->ComboD[ComboAt(Hero->X, Hero->Y +15)],
+				                m->ComboD[ComboAt(Hero->X, Hero->Y + 15)],
 				                m->ComboD[ComboAt(Hero->X + 15, Hero->Y + 15)]};
 				
 				Screen->LayerOpacity[l] = 255;

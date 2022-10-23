@@ -663,7 +663,7 @@ npc script Leviathan1 //start
 		WaitframeLite(this, vars);
 		
 		Audio->PlaySound(120);
-					
+		
 		while(this->Y < 112)
 		{
 			this->Y += 0.5;
@@ -1240,6 +1240,339 @@ ffc script Demonwall //start
 		// }
 
 	}
+} //end
+
+//~~Foreman~~//
+/*
+	Enter room, room is dark
+	Upon lighting 4 torches, soldier appears from right calls out to foreman
+	Foreman materialized between the torches, they talk
+	Foreman blows torches out, also launching soldier into wall, incapacitating him
+	Foreman vanishes, fight begins
+	
+	<Fight>
+		<Idle Phase>
+			Room starts dark, until link lights all 4, he spawns zombies (special that drop magic), their spawn in animation is like shambles
+			He is flying around the room during this time, above link so no collision, every x second he blows out a random torch
+			
+			Upon all 4 torches lit he materializes where ever he was, and throws his scythe at link in a circle similar to ganon
+			Once his scythe returns to him he floats around, always facing link, moving similarly to legionnairs
+			"Fight Phase" lasts for 10 seconds
+		
+		<Attack Phase>
+			- Ground Slam - *Guaranteed at least once*, makes rocks fall from the ceiling
+			- Scythe swing - Swings at link if too close for too long
+			- Charge - Charges at link
+
+		Once the Fight Phase is done, return to Idle Phase
+*/
+
+
+
+//~~~~~Foreman of Darkness - Servus Malus~~~~~//
+namespace Enemy::ServusMalus //startHP
+{
+	enum State //start
+	{
+		STATE_IDLE,
+		STATE_ATTACK,
+		STATE_GROUND_SLAM,
+		STATE_SCYTHE_SWING,
+		STATE_CHARGE
+	}; //end
+
+	npc script ServusMalus
+	{
+		void run()
+		{
+			bool torchesLit;
+			int unlitTorch = 7168;
+			int litTorch = 7169;
+			
+			combodata lt = Game->LoadComboData(litTorch);
+			lt->Attribytes[0] = 16;
+			
+			int attackCooldown, previousState, timer;
+			mapdata mapData, template;
+			
+			int originalTile = this->OriginalTile;
+			int invisibleTile = 49220;
+			this->X = -32;
+			this->Y = -32;
+			
+			// Prefight setup
+			// until (torchesLit && !getScreenD(255))
+			// {
+				// if (
+					// Screen->State[ST_SECRET]
+					// upLeftTorch == unlitTorch 
+					// && upRightTorch == unlitTorch 
+					// && bottomLeftTorch == unlitTorch 
+					// && bottomRightTorch == unlitTorch
+				// )
+				// {
+					// setScreenD(255, true);
+					// commenceIntroCutscene();
+					// Screen->Message(404);
+				// }
+				
+				// Waitframe();
+			// }
+			
+			// Actual fight begins
+			this->X = 128;
+			this->Y = 32;
+			
+			while(true)
+			{
+				this->Z = 20;
+				this->CollDetection = false;
+				torchesLit = false;
+				State state = STATE_IDLE;
+				this->OriginalTile = invisibleTile;
+				// this->Dir = faceLink(this);
+				
+				until (torchesLit)
+				{
+					template = Game->LoadTempScreen(1);
+					
+					int count = 0;
+					
+					count += <int> (template->ComboD[ComboAt(80, 48)] == litTorch);
+					count += <int> (template->ComboD[ComboAt(160, 48)] == litTorch);
+					count += <int> (template->ComboD[ComboAt(80, 112)] == litTorch);
+					count += <int> (template->ComboD[ComboAt(160, 112)] == litTorch);
+					
+					doWalk(this, 5, 10, this->Step, true);
+					
+					if (count == 4)	
+						torchesLit = true;
+						
+					switch(count)
+					{
+						case 0: 
+						case 1:
+							lt->Attribytes[0] = 16;
+							break;
+						case 2:
+							lt->Attribytes[0] = 32;
+							break;
+						case 3:
+							lt->Attribytes[0] = 64;
+							break;
+						case 4:
+							lt->Attribytes[0] = 255;
+							break;
+						
+					}
+					
+					Waitframe();
+				}
+				
+				this->CollDetection = true;
+				
+				this->OriginalTile = originalTile;
+				
+				for (int i = 0; i < 120; ++i)
+					Waitframe();
+				
+				attackCooldown = 120;
+				timer = 0;
+				
+				while(timer < 600)
+				{
+					float percent = timer / 600;
+					// float percent = timer / 300 - 1;
+					// if (percent < 0)
+						// percent = 0;
+						
+					lt->Attribytes[0] = 255 * (1 - percent);
+					
+					if (this->HP <= 0)
+						deathAnimation(this, 136);
+						
+					if (this->Z > 0 && !(gameframe % 6))
+						this->Z -= 1;
+						
+					previousState = state;
+					
+					// unless (attackCooldown)
+					// {
+						// chooseAttack(this, previousState);
+						// attackCooldown = 120;
+					// }
+					
+					doWalk(this, 5, 10, this->Step, true);
+					
+					--attackCooldown;
+					++timer;
+					Waitframe();
+				}
+				
+				template->ComboD[ComboAt(80, 48)] = unlitTorch;
+				template->ComboD[ComboAt(160, 48)] = unlitTorch;
+				template->ComboD[ComboAt(80, 112)] = unlitTorch;
+				template->ComboD[ComboAt(160, 112)] = unlitTorch;
+				lt->Attribytes[0] = 16;
+
+				Waitframe();
+			}
+		}
+		
+		void commenceIntroCutscene()
+		{
+			int soldierLeftFast = 6715;
+			int soldierUp = 6722;
+			int soldierDown = 6723;
+			int soldierLeft = 6726;
+			int soldierRight = 6727;
+			int servusFullStartingCombo = 6916;
+			int servusTransStartingCombo = 6920;
+			
+			int baseString = 653;
+			
+			Audio->PlayEnhancedMusic(NULL, 0);
+			
+			for (int i = 0; i < 120; ++i)
+			{			
+				NoAction();
+				Link->PressStart = false;
+				Link->InputStart = false;
+				Link->PressMap = false;
+				Link->InputMap = false;
+				Waitframe();
+			}
+		
+			Hero->X = 32;
+			Hero->Y = 80;
+			
+			int xLocation = 256;
+			until (xLocation == 120)
+			{
+				Screen->FastCombo(1, xLocation, 80, soldierLeftFast, 0, OP_OPAQUE);
+				--xLocation;
+				Waitframe();
+			}
+			
+			for (int i = 0; i < 120; ++i)
+			{
+				Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(baseString);
+
+				Waitframe();
+			}
+			
+			
+			for (int i = 0; i < 120; ++i)
+			{
+				Screen->FastCombo(1, 120, 80, soldierLeft, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(++baseString);
+				Waitframe();
+			}
+			
+			
+			for (int i = 0; i < 120; ++i)
+			{
+				Screen->FastCombo(1, 120, 80, soldierRight, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(++baseString);
+				Waitframe();
+			}
+			
+			
+			int modifier;
+			int counter;
+			bool alternate;
+			
+			for (int i = 0; i < 60; ++i)
+			{
+				if (i % 4)
+				{				
+					Screen->FastCombo(1, 112, 32, servusTransStartingCombo, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 32, servusTransStartingCombo + 1, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 112, 48, servusTransStartingCombo + 2, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 48, servusTransStartingCombo + 3, 0, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
+				Waitframe();
+			}
+			
+			for (int i = 0; i < 300; ++i)
+			{
+				if (i < 120)
+					modifier = 1;
+				else if (i < 210) 
+					modifier = 2;
+				else if (i < 270) 
+					modifier = 4;
+				else if (i < 300) 
+					modifier = 8;
+				
+				if (counter > modifier)
+				{
+					counter = 0;
+					alternate = !alternate;
+				}
+				
+				if (alternate) {
+					Screen->FastCombo(1, 112, 32, servusFullStartingCombo, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 32, servusFullStartingCombo + 1, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 112, 48, servusFullStartingCombo + 2, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 48, servusFullStartingCombo + 3, 0, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(1, 112, 32, servusTransStartingCombo, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 32, servusTransStartingCombo + 1, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 112, 48, servusTransStartingCombo + 2, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 48, servusTransStartingCombo + 3, 0, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				if (i == 299)
+				{
+					Screen->FastCombo(1, 112, 32, servusFullStartingCombo, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 32, servusFullStartingCombo + 1, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 112, 48, servusFullStartingCombo + 2, 0, OP_OPAQUE);
+					Screen->FastCombo(1, 128, 48, servusFullStartingCombo + 3, 0, OP_OPAQUE);
+				
+					Screen->Message(++baseString);
+				}
+				
+				counter++;
+				Waitframe();
+			}
+			baseString = 658;
+			Screen->Message(baseString);
+			
+			baseString = 660;
+			Screen->Message(baseString);
+		}
+		
+		void chooseAttack(npc this, int previousState)
+		{
+			if (Hero->X < 48 && Hero->Y < 48)
+				executeSlash(this);
+		}
+		
+		void executeSlash(npc this)
+		{
+			int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+			this->Dir = AngleDir4(angle);
+			
+			while(this->MoveAtAngle(angle, 4, SPW_NONE))
+				Waitframe();
+
+		}
+	}
+
 } //end
 
 

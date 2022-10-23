@@ -582,6 +582,10 @@ ffc script SimpleShop //start
 {
     void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount)
 	{
+		if (!Hero->Item[74] && itemId == 205) {
+			Quit();
+		}
+		
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
 		itemsprite dummy = CreateItemAt(itemId, this->X, this->Y);
@@ -596,7 +600,7 @@ ffc script SimpleShop //start
 
         while(true)
 		{
-			if(checkStock && Hero->Item[itemId] && itemId != 2 && itemId != 114 && itemId != 165 || (!Hero->Item[74] && itemId == 205))
+			if(checkStock && Hero->Item[itemId] && itemId != 2 && itemId != 114 && itemId != 165)
 			{
 				dummy->ScriptTile = TILE_INVIS;
 				this->Data = noStockCombo;
@@ -622,16 +626,15 @@ ffc script SimpleShop //start
 						
 						if (itemId == 187)
 						{
-							Game->Counter[CR_BOMBS] += upgradeIncreaseAmount;
+							Game->MCounter[CR_BOMBS] += upgradeIncreaseAmount;
 							numBombUpgrades++;
-						}
-						if (itemId == 205)
+						} 
+						else if (itemId == 205)
 						{
-							Game->Counter[CR_ARROWS] += upgradeIncreaseAmount;
+							Game->MCounter[CR_ARROWS] += upgradeIncreaseAmount;
 							numQuiverUpgrades++;
 						}
-					
-
+						
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);
 					}

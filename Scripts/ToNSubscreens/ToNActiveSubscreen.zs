@@ -136,17 +136,39 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 		unless(id) 
 			continue;
 			
-		drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
+		if (id == 81 || id == 74)
+		{
+			int bombBagTile = 30080;
+			int quiverTile = 30260;
+			
+			if (numBombUpgrades > 2)
+				bombBagTile += 1;
+			if (numBombUpgrades > 4)
+				bombBagTile += 1;
+				
+			if (numQuiverUpgrades > 2)
+				quiverTile += 1;
+			if (numQuiverUpgrades > 4)
+				quiverTile += 1;
+				
+			drawTileToLoc(1, id == 81 ? bombBagTile : quiverTile, loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
+		}
+		else 	
+			drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
 	}
 	
 	//start Bomb bag and Quiver counter draws
 	sprintf(numBombUpgradesBuf, "%d", numBombUpgrades);
 	sprintf(numQuiverUpgradesBuf, "%d", numQuiverUpgrades);
 	
-	Screen->FastTile(7, 86, 14 + y, 30082, 8, OP_OPAQUE);
+	int bombBagTile = 30080;
+	int quiverTile = 30260;
+
+		
+	Screen->FastTile(7, 86, 14 + y, bombBagTile, 8, OP_OPAQUE);
 	Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	
-	Screen->FastTile(7, 86, 44 + y, 30260, 8, OP_OPAQUE);
+	Screen->FastTile(7, 86, 44 + y, quiverTile, 8, OP_OPAQUE);
 	Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 	//end
 	

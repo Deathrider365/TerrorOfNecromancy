@@ -1223,7 +1223,7 @@ namespace Enemy //start
 		return Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < distance; 
 	} //end
 	
-	void doWalk(npc n, int rand, int homing, int step) //start
+	void doWalk(npc n, int rand, int homing, int step, bool flying = false) //start
 	{
 		//rand = n in 1000 to do something
 		//homing = n in 1000 to do something
@@ -1237,19 +1237,19 @@ namespace Enemy //start
 			do
 			{
 				n->Dir = RandGen->Rand(3);
-			} until(n->CanMove(n->Dir, 1, 0) || ++attemptCounter > 500);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 		}
 		else if (homing >= RandGen->Rand(ONE_IN_N - 1))
 			n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
 		
-		unless (n->Move(n->Dir, step / 100, SPW_NONE))
+		unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE))
 		{
 			int attemptCounter  = 0;
 			
 			do
 			{
 				n->Dir = RandGen->Rand(3);
-			} until(n->CanMove(n->Dir, 1, 0) || ++attemptCounter > 500);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 			
 		}
 	} //end

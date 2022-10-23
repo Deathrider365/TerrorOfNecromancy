@@ -10,7 +10,7 @@ Text Colors:
 \1\0\2	- Necromancer
 
 \1\0\11	- Item
-\1\0\17	- Boss Name
+\1\0\19	- Boss Name
 
 \1\0\18	- Hint for a future occurance
 \1\0\20	- Hint for a future action to take
