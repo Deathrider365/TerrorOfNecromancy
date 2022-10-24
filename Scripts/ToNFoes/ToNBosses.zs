@@ -1336,7 +1336,7 @@ namespace Enemy::ServusMalus //startHP
 						lowerRightTorchLoc
 					);
 					
-					Audio->PlayEnhancedMusic("BOSS MUSIC!!", 0);
+					Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
 					Screen->Message(404);
 				}
 				
@@ -1441,6 +1441,7 @@ namespace Enemy::ServusMalus //startHP
 		){
 			int soldierLeftFast = 6715;
 			int soldierUpStunned = 6714;
+			int soldierUpLaying = 6709;
 			int soldierUp = 6722;
 			int soldierDown = 6723;
 			int soldierLeft = 6726;
@@ -1450,6 +1451,7 @@ namespace Enemy::ServusMalus //startHP
 			int servusAttackingStartingCombo = 6924;
 			int servusMovingUpStartingCombo = 6932;
 			int servusVanishingStartingCombo = 6936;
+			int servusTurningStartingCombo = 6940;
 			
 			// Buffer
 			for (int i = 0; i < 120; ++i)
@@ -1573,19 +1575,20 @@ namespace Enemy::ServusMalus //startHP
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 				
-				if (i == 299)
-				{
-					Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-					Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-					Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-					Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				// if (i == 299)
+				// {
+					// Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+					// Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+					// Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+					// Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-					Screen->Message(656);
-				}
+				// }
 				
 				counter++;
 				Waitframe();
 			}
+			
+			Screen->Message(656);
 			
 			// Servus fully appears
 			for (int i = 0; i < 60; ++i)
@@ -1597,11 +1600,12 @@ namespace Enemy::ServusMalus //startHP
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 				
-				if (i == 59)
-					Screen->Message(658);
+				// if (i == 59)
 					
 				Waitframe();
 			}
+			
+			Screen->Message(658);
 			
 			// Buffer
 			for (int i = 0; i < 60; ++i)
@@ -1613,10 +1617,60 @@ namespace Enemy::ServusMalus //startHP
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 				
+				if (i == 59)
+					Screen->Message(660);
+				
 				Waitframe();
 			}
 			
-			Screen->Message(660);
+			
+			// Turns around
+			for (int i = 0; i < 15; ++i)
+			{
+				if (i < 8)
+				{
+					Screen->FastCombo(2, 112, 32, servusTurningStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusTurningStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusTurningStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusTurningStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Screen->Message(663);
+			
+			// Turns around
+			for (int i = 0; i < 15; ++i)
+			{
+				if (i < 8)
+				{
+					Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				Waitframe();
+			}
 			
 			// Servus about to charge
 			for (int i = 0; i < 30; ++i)
@@ -1671,11 +1725,11 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
-			Screen->Message(661);
+			Screen->Message(665);
 			
 			// Link intervenes
 			until (Hero->X >= 120)
@@ -1696,7 +1750,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1710,11 +1764,11 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
-			Screen->Message(662);
+			Screen->Message(666);
 			
 			// Buffer before Big Summer Blowout
 			for (int i = 0; i < 30; ++i)
@@ -1724,7 +1778,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1736,7 +1790,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1748,7 +1802,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1767,7 +1821,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1789,7 +1843,7 @@ namespace Enemy::ServusMalus //startHP
 					Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
 				}
 				
-				Screen->FastCombo(2, 120, 144, soldierUpStunned, 0, OP_OPAQUE);
+				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
