@@ -1295,7 +1295,6 @@ namespace Enemy::ServusMalus //startHP
 			int lowerRightTorchLoc = ComboAt(160, 112);
 			
 			int attackCooldown, previousState, timer;
-			int litTorchCount;
 			
 			combodata cmbLitTorch = Game->LoadComboData(litTorch);
 			cmbLitTorch->Attribytes[0] = 32;
@@ -1326,6 +1325,7 @@ namespace Enemy::ServusMalus //startHP
 					torchesLit = true;
 					setScreenD(255, true);
 					commenceIntroCutscene(
+						this,
 						template,
 						unlitTorch,
 						cmbLitTorch,
@@ -1346,8 +1346,6 @@ namespace Enemy::ServusMalus //startHP
 			// Actual fight begins
 			this->X = 128;
 			this->Y = 32;
-			
-			litTorchCount = 0;
 			
 			while(true)
 			{
@@ -1388,15 +1386,16 @@ namespace Enemy::ServusMalus //startHP
 				
 				attackCooldown = 120;
 				timer = 0;
+				CONFIG START_TIMER = 300;
 				
-				while(timer < 600)
+				while(timer < START_TIMER)
 				{
-					float percent = timer / 600;
+					float percent = timer / START_TIMER;
 					// float percent = timer / 300 - 1;
 					// if (percent < 0)
 						// percent = 0;
 						
-					cmbLitTorch->Attribytes[0] = 50 * (1 - percent);
+					cmbLitTorch->Attribytes[0] = lerp(24, 50, 1 - percent);
 					
 					if (this->HP <= 0)
 						deathAnimation(this, 136);
@@ -1419,17 +1418,41 @@ namespace Enemy::ServusMalus //startHP
 					Waitframe();
 				}
 				
-				template->ComboD[upperLeftTorchLoc] = unlitTorch;
-				template->ComboD[upperRightTorchLoc] = unlitTorch;
-				template->ComboD[lowerLeftTorchLoc] = unlitTorch;
-				template->ComboD[lowerRightTorchLoc] = unlitTorch;
-				cmbLitTorch->Attribytes[0] = 32;
+				int clk = 0;
+				CONFIG FRAMES = 15;
+				
+				int litTorchCount = 0;
+					
+				do
+				{
+					litTorchCount = 0;
+					
+					unless(clk++ % FRAMES)
+						windBlast(this, Div(clk, FRAMES) + 1);
+					
+					litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
+					litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
+					litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
+					litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
+					
+					checkTorchBrightness(litTorchCount, cmbLitTorch, 1);
+					
+					Waitframe();
+					
+				} while(litTorchCount);
+				
+				// template->ComboD[upperLeftTorchLoc] = unlitTorch;
+				// template->ComboD[upperRightTorchLoc] = unlitTorch;
+				// template->ComboD[lowerLeftTorchLoc] = unlitTorch;
+				// template->ComboD[lowerRightTorchLoc] = unlitTorch;
+				// cmbLitTorch->Attribytes[0] = 32;
 
 				Waitframe();
 			}
 		}
 		
 		void commenceIntroCutscene(
+			npc this,
 			mapdata template,
 			int unlitTorch,
 			combodata cmbLitTorch,
@@ -1574,16 +1597,7 @@ namespace Enemy::ServusMalus //startHP
 				}
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-				
-				// if (i == 299)
-				// {
-					// Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-					// Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-					// Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-					// Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-				
-				// }
-				
+								
 				counter++;
 				Waitframe();
 			}
@@ -1717,6 +1731,8 @@ namespace Enemy::ServusMalus //startHP
 			Audio->PlaySound(121);
 			Screen->Quake = 20;
 			
+			setScreenD(254, true);
+			
 			// Buffer as soldier is against the wall
 			for (int i = 0; i < 30; ++i)
 			{
@@ -1725,7 +1741,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1750,7 +1766,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1764,7 +1780,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1778,7 +1794,7 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1790,40 +1806,49 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
 			// Buffer before Big Summer Blowout
 			for (int i = 0; i < 30; ++i)
 			{
-				Screen->FastCombo(2, 112, 14, servusFullStartingCombo, 3, OP_OPAQUE);
-				Screen->FastCombo(2, 128, 14, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 16, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 16, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
 			// Big Summer Blowout
+			Audio->PlaySound(63);
+			this->X = 112;
+			this->Y = 16;
+			windBlast(this, 2);
+				
 			for (int i = 0; i < 60; ++i)
 			{
-				Audio->PlaySound(63);
-
-				Screen->FastCombo(2, 80, 48, bigSummerBlowout, 2, OP_OPAQUE);
-				Screen->FastCombo(2, 160, 48, bigSummerBlowout, 2, OP_OPAQUE);
-				Screen->FastCombo(2, 80, 112, bigSummerBlowout, 2, OP_OPAQUE);
-				Screen->FastCombo(2, 160, 112, bigSummerBlowout, 2, OP_OPAQUE);
+				// Screen->FastCombo(2, 80, 48, bigSummerBlowout, 2, OP_OPAQUE);
+				// Screen->FastCombo(2, 160, 48, bigSummerBlowout, 2, OP_OPAQUE);
+				// Screen->FastCombo(2, 80, 112, bigSummerBlowout, 2, OP_OPAQUE);
+				// Screen->FastCombo(2, 160, 112, bigSummerBlowout, 2, OP_OPAQUE);
 			
 				Screen->FastCombo(2, 112, 14, servusAttackingStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 14, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
+			
+			// template->ComboD[upperLeftTorchLoc] = unlitTorch;
+			// template->ComboD[upperRightTorchLoc] = unlitTorch;
+			// template->ComboD[lowerLeftTorchLoc] = unlitTorch;
+			// template->ComboD[lowerRightTorchLoc] = unlitTorch;
+			// cmbLitTorch->Attribytes[0] = 32;
 			
 			// Servus vanishes
 			for (int i = 0; i < 20; ++i)
@@ -1843,16 +1868,9 @@ namespace Enemy::ServusMalus //startHP
 					Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
 				}
 				
-				Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
+				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
-			}
-			
-			template->ComboD[upperLeftTorchLoc] = unlitTorch;
-			template->ComboD[upperRightTorchLoc] = unlitTorch;
-			template->ComboD[lowerLeftTorchLoc] = unlitTorch;
-			template->ComboD[lowerRightTorchLoc] = unlitTorch;
-			cmbLitTorch->Attribytes[0] = 32;
-			
+			}			
 		}
 		
 		void disableLink()
@@ -1864,41 +1882,220 @@ namespace Enemy::ServusMalus //startHP
 			Link->InputMap = false;
 		}
 		
-		void checkTorchBrightness(int litTorchCount, combodata cmbLitTorch)
+		void checkTorchBrightness(int litTorchCount, combodata cmbLitTorch, int mode = 0)
 		{
-			switch(litTorchCount)
+			switch(mode)
 			{
-				case 0: 
+				case 0:
+				{
+					switch(litTorchCount)
+					{
+						case 0: 
+						case 1:
+							cmbLitTorch->Attribytes[0] = 32;
+							return;
+						case 2:
+							cmbLitTorch->Attribytes[0] = 44;
+							return;
+						case 3:
+							cmbLitTorch->Attribytes[0] = 48;
+							return;
+						case 4:
+							cmbLitTorch->Attribytes[0] = 50;
+							return;
+					}
+					break;
+				}
 				case 1:
-					cmbLitTorch->Attribytes[0] = 32;
-					return;
-				case 2:
-					cmbLitTorch->Attribytes[0] = 44;
-					return;
-				case 3:
-					cmbLitTorch->Attribytes[0] = 48;
-					return;
-				case 4:
-					cmbLitTorch->Attribytes[0] = 50;
-					return;
+				{
+					switch(litTorchCount)
+					{
+						case 0: 
+						case 1:
+							cmbLitTorch->Attribytes[0] = 12;
+							return;
+						case 2:
+							cmbLitTorch->Attribytes[0] = 16;
+							return;
+						case 3:
+							cmbLitTorch->Attribytes[0] = 20;
+							return;
+						case 4:
+							cmbLitTorch->Attribytes[0] = 24;
+							return;
+					}
+					break;
+				}
 			}
-		
 		}
 		
 		void chooseAttack(npc this, int previousState)
 		{
-			if (Hero->X < 48 && Hero->Y < 48)
-				executeSlash(this);
+			
 		}
 		
 		void executeSlash(npc this)
 		{
+		
+		}
+		
+		CONFIG WIND_COUNT = 32;
+		
+		void windBlast(npc this, int mult = 1)
+		{
+			int wc = WIND_COUNT * mult;
 			int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
-			this->Dir = AngleDir4(angle);
+			int inc = 360 / wc;
 			
-			while(this->MoveAtAngle(angle, 4, SPW_NONE))
+			int escr = CheckEWeaponScript("EwWindBlast");
+			int lscr = CheckLWeaponScript("LwWindBlast");
+			
+			if(escr && lscr)
+			{
+				WindHandler.init();
+				
+				for(int q = 0; q < wc; ++q)
+				{
+					eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, CenterX(this) - 8, CenterY(this) - 8);
+					ewind->Angular = true;
+					ewind->Angle = DegtoRad(WrapDegrees(angle + inc * q));
+					ewind->Step = 250;
+					ewind->UseSprite(36);
+					ewind->Unblockable = UNBLOCK_ALL;
+					
+					lweapon lwind = RunLWeaponScriptAt(LW_SCRIPT2, lscr, CenterX(this) - 8, CenterY(this) - 8);
+					lwind->Angular = true;
+					lwind->Angle = DegtoRad(WrapDegrees(angle + inc * q));
+					lwind->Step = 250;
+					lwind->UseSprite(36);
+					// lwind->Unblockable = UNBLOCK_NORM | UNBLOCK_SHLD | UNBLOCK_REFL;
+				}
+			}
+			
+		}
+	}
+	
+	eweapon script EwWindBlast
+	{
+		void run()
+		{
+			until(this->Misc[0])
 				Waitframe();
+			
+			while(this->isValid())
+			{
+				unless (Screen->isSolid(this->X, this->Y) 
+					|| Screen->isSolid(this->X + 15, this->Y)
+					|| Screen->isSolid(this->X, this->Y + 15)
+					|| Screen->isSolid(this->X + 15, this->Y + 15)
+				)
+				{
+					Hero->X = this->X;
+					Hero->Y = this->Y;
+				}
+				
+				Hero->Stun = 2;
+				
+				Waitframe();
+			}
+		}
+	}
+	
+	lweapon script LwWindBlast
+	{
+		void run()
+		{
+			untyped arr[600];
+			
+			this->Misc[0] = arr;
+		
+			until(arr[0])
+				Waitframe();
+			
+			while(this->isValid())
+			{
+				for (int q = 1; q <= arr[0]; ++q)
+				{
+					npc n = arr[q];
+					
+					unless (n->isValid())
+						continue;
+						
+					n->X = this->X;
+					n->Y = this->Y;
+					n->Stun = 2;
+				}
+				
+				Waitframe();
+			}
+		}
+	}
+	
+	generic script WindHandler
+	{
+		void run()
+		{
+			this->EventListen[GENSCR_EVENT_HERO_HIT_1] = true;
+			this->EventListen[GENSCR_EVENT_ENEMY_HIT2] = true;
+			
+			int ewWindBlast = CheckEWeaponScript("EwWindBlast");
+			int lwWindBlast = CheckLWeaponScript("LwWindBlast");
+			
+			while(true)
+			{
+				switch(WaitEvent())
+				{
+					case GENSCR_EVENT_HERO_HIT_1:
+					{
+						if (Game->EventData[GENEV_HEROHIT_HITTYPE] != OBJTYPE_EWPN)
+							break;
+						
+						eweapon weapon = Game->EventData[GENEV_HEROHIT_HITOBJ];
 
+						if (weapon->Script != ewWindBlast)
+							break;
+							
+						Game->EventData[GENEV_HEROHIT_NULLIFY] = true;
+						
+						if (Hero->Stun)
+							break;
+							
+						weapon->Misc[0] = 1;
+						Hero->Stun = 2;
+						
+						break;
+					}
+					case GENSCR_EVENT_ENEMY_HIT2:
+					{
+						npc n = Game->EventData[GENEV_EHIT_NPCPTR];
+						
+						lweapon weapon = Game->EventData[GENEV_EHIT_LWPNPTR];
+
+						if (weapon->Script != lwWindBlast)
+							break;
+							
+						Game->EventData[GENEV_EHIT_NULLIFY] = true;
+						
+						if (n->Stun)
+							break;
+							
+						untyped arr = weapon->Misc[0];
+						arr[++arr[0]] = n;
+						n->Stun = 2;
+						
+						break;
+					}
+				}
+			}
+		}
+		
+		void init()
+		{
+			if (int scr = CheckGenericScript("WindHandler"))
+			{
+				genericdata gd = Game->LoadGenericData(scr);
+				gd->Running = true;
+			}
 		}
 	}
 

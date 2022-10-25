@@ -205,9 +205,21 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide)
+	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int triggerOnScreenD, int screenDIndex)
 	{
 		Waitframes(2);
+		
+		int originalCombo = this->Data;
+
+		if (triggerOnScreenD)
+		{		
+			this->Data = COMBO_INVIS;
+			
+			until (getScreenD(screenDIndex))
+				Waitframe();
+		}
+
+		this->Data = originalCombo;
 
 		int loc = ComboAt(this->X, this->Y);
 

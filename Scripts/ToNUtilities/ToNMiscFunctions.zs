@@ -600,7 +600,16 @@ void takeMapScreenshot() //start
 	}
 } //end
 
-
+int lerp(int low, int high, float mult)
+{
+    if(low > high)
+    {
+        int temp = low;
+        low = high;
+        high = temp;
+    }
+    return low + (mult * (high - low));
+}
 
 
 
