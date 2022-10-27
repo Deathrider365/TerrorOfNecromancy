@@ -205,7 +205,7 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int triggerOnScreenD, int screenDIndex)
+	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int triggerOnScreenD, int screenDIndexToActivate, int screenDIndexForItem)
 	{
 		Waitframes(2);
 		
@@ -215,7 +215,7 @@ ffc script ItemGuy //start
 		{		
 			this->Data = COMBO_INVIS;
 			
-			until (getScreenD(screenDIndex))
+			until (getScreenD(screenDIndexToActivate))
 				Waitframe();
 		}
 
@@ -235,7 +235,7 @@ ffc script ItemGuy //start
 
 			Input->Button[CB_SIGNPOST] = false;
 
-			unless (getScreenD(255))
+			unless (getScreenD(screenDIndexForItem))
 			{
 				Screen->Message(gettingItemString);
 
@@ -245,7 +245,7 @@ ffc script ItemGuy //start
 				it->Pickup = IP_HOLDUP;
 				
 				Input->Button[CB_SIGNPOST] = false;
-				setScreenD(255, true);
+				setScreenD(screenDIndexForItem, true);
 			}
 			else
 				Screen->Message(alreadyGotItemString);
@@ -663,7 +663,12 @@ ffc script SimpleShop //start
 
     bool AgainstComboBase(int loc)
 	{
-        return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc) + 8 && Abs(Link->X - ComboX(loc)) < 8);
+        return Link->Z == 0 && 
+		(
+			Link->Dir == DIR_UP 
+			&& Link->Y == ComboY(loc) + 8 
+			&& Abs(Link->X - ComboX(loc)) < 8
+		);
     }
 } //end
 

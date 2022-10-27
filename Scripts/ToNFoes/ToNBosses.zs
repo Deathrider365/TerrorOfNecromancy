@@ -1381,19 +1381,16 @@ namespace Enemy::ServusMalus //startHP
 				
 				this->OriginalTile = originalTile;
 				
-				for (int i = 0; i < 120; ++i)
+				for (int i = 0; i < 90; ++i)
 					Waitframe();
 				
-				attackCooldown = 120;
+				attackCooldown = 90;
 				timer = 0;
-				CONFIG START_TIMER = 300;
+				CONFIG START_TIMER = 600;
 				
 				while(timer < START_TIMER)
 				{
 					float percent = timer / START_TIMER;
-					// float percent = timer / 300 - 1;
-					// if (percent < 0)
-						// percent = 0;
 						
 					cmbLitTorch->Attribytes[0] = lerp(24, 50, 1 - percent);
 					
@@ -1408,7 +1405,7 @@ namespace Enemy::ServusMalus //startHP
 					unless (attackCooldown)
 					{
 						chooseAttack(this, previousState);
-						attackCooldown = 120;
+						attackCooldown = 90;
 					}
 					
 					doWalk(this, 5, 10, this->Step, true);
@@ -1440,12 +1437,6 @@ namespace Enemy::ServusMalus //startHP
 					Waitframe();
 					
 				} while(litTorchCount);
-				
-				// template->ComboD[upperLeftTorchLoc] = unlitTorch;
-				// template->ComboD[upperRightTorchLoc] = unlitTorch;
-				// template->ComboD[lowerLeftTorchLoc] = unlitTorch;
-				// template->ComboD[lowerRightTorchLoc] = unlitTorch;
-				// cmbLitTorch->Attribytes[0] = 32;
 
 				Waitframe();
 			}
@@ -1597,7 +1588,7 @@ namespace Enemy::ServusMalus //startHP
 				}
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-								
+				
 				counter++;
 				Waitframe();
 			}
@@ -1607,6 +1598,8 @@ namespace Enemy::ServusMalus //startHP
 			// Servus fully appears
 			for (int i = 0; i < 60; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
@@ -1614,8 +1607,6 @@ namespace Enemy::ServusMalus //startHP
 				
 				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 				
-				// if (i == 59)
-					
 				Waitframe();
 			}
 			
@@ -1624,6 +1615,8 @@ namespace Enemy::ServusMalus //startHP
 			// Buffer
 			for (int i = 0; i < 60; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
@@ -1641,6 +1634,8 @@ namespace Enemy::ServusMalus //startHP
 			// Turns around
 			for (int i = 0; i < 15; ++i)
 			{
+				disableLink();
+				
 				if (i < 8)
 				{
 					Screen->FastCombo(2, 112, 32, servusTurningStartingCombo, 3, OP_OPAQUE);
@@ -1666,6 +1661,8 @@ namespace Enemy::ServusMalus //startHP
 			// Turns around
 			for (int i = 0; i < 15; ++i)
 			{
+				disableLink();
+				
 				if (i < 8)
 				{
 					Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
@@ -1689,6 +1686,8 @@ namespace Enemy::ServusMalus //startHP
 			// Servus about to charge
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
@@ -1701,6 +1700,8 @@ namespace Enemy::ServusMalus //startHP
 			// Servus charges at soldier
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 32 + i, servusAttackingStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 32 + i, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 48 + i, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
@@ -1717,6 +1718,8 @@ namespace Enemy::ServusMalus //startHP
 			
 			until (distanceTraveled == 64)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
@@ -1736,12 +1739,13 @@ namespace Enemy::ServusMalus //startHP
 			// Buffer as soldier is against the wall
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1766,7 +1770,6 @@ namespace Enemy::ServusMalus //startHP
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1775,12 +1778,13 @@ namespace Enemy::ServusMalus //startHP
 			// Buffer as link just got in front of Servus
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1789,36 +1793,39 @@ namespace Enemy::ServusMalus //startHP
 			// Buffer before Big Summer Blowout
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
 			// Servus moves up for the Big Summer Blowout
 			for (int i = 0; i < 48; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 62 - i, servusMovingUpStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 62 - i, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
 			// Buffer before Big Summer Blowout
 			for (int i = 0; i < 30; ++i)
 			{
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 16, servusFullStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 16, servusFullStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
 			
@@ -1830,29 +1837,21 @@ namespace Enemy::ServusMalus //startHP
 				
 			for (int i = 0; i < 60; ++i)
 			{
-				// Screen->FastCombo(2, 80, 48, bigSummerBlowout, 2, OP_OPAQUE);
-				// Screen->FastCombo(2, 160, 48, bigSummerBlowout, 2, OP_OPAQUE);
-				// Screen->FastCombo(2, 80, 112, bigSummerBlowout, 2, OP_OPAQUE);
-				// Screen->FastCombo(2, 160, 112, bigSummerBlowout, 2, OP_OPAQUE);
-			
+				disableLink();
+				
 				Screen->FastCombo(2, 112, 14, servusAttackingStartingCombo, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 14, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
 				Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}
-			
-			// template->ComboD[upperLeftTorchLoc] = unlitTorch;
-			// template->ComboD[upperRightTorchLoc] = unlitTorch;
-			// template->ComboD[lowerLeftTorchLoc] = unlitTorch;
-			// template->ComboD[lowerRightTorchLoc] = unlitTorch;
-			// cmbLitTorch->Attribytes[0] = 32;
 			
 			// Servus vanishes
 			for (int i = 0; i < 20; ++i)
 			{
+				disableLink();
+				
 				if (i < 10)
 				{
 					Screen->FastCombo(2, 112, 14, servusVanishingStartingCombo, 3, OP_OPAQUE);
@@ -1868,7 +1867,6 @@ namespace Enemy::ServusMalus //startHP
 					Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
 				}
 				
-				// Screen->FastCombo(2, 120, 144, soldierUpLaying, 0, OP_OPAQUE);
 				Waitframe();
 			}			
 		}
@@ -1931,6 +1929,7 @@ namespace Enemy::ServusMalus //startHP
 		
 		void chooseAttack(npc this, int previousState)
 		{
+			
 			
 		}
 		
