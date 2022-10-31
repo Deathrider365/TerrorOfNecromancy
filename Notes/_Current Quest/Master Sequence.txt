@@ -361,7 +361,7 @@ Total items as of beating Minidungeon 2
 <With giant bombs in hand you can blow the boulder blocking the way to the area that level 5 is in>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Level 5:  - Ocarina
+Level 5: - Ocarina
 
 Triforce of Power:	- 2
 Triforce of Wisdom:	- 1

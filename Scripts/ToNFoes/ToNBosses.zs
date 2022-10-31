@@ -1260,14 +1260,13 @@ ffc script Demonwall //start
 			"Fight Phase" lasts for 10 seconds
 		
 		<Attack Phase>
-			- Ground Slam - *Guaranteed at least once*, makes rocks fall from the ceiling
 			- Scythe swing - Swings at link if too close for too long
-			- Charge - Charges at link
+			- Scythe throw - Throws scythe like ganon
 
 		Once the Fight Phase is done, return to Idle Phase
 */
 //~~~~~Foreman of Darkness - Servus Malus~~~~~//
-namespace Enemy::ServusMalus //startHP
+namespace Enemy::ServusMalus
 {
 	enum State //start
 	{

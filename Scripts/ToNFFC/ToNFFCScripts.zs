@@ -872,7 +872,7 @@ ffc script BurningOilandBushes //start
 	const int OILBUSH_BUSH_SPREAD_FREQ = 10; //How frequently burning bushes/grass spread
 
 	const int CMB_OIL_BURNING = 6344; //First combo for burning oil
-	const int CS_OIL_BURNING = 8; //CSet for burning oil
+	const int CS_OIL_BURNING = 7; //was 8 CSet for burning oil
 	const int OILBUSH_ENDFRAMES_OILBURN = 4; //Number of combos for oil burning out
 	const int OILBUSH_ENDDURATION_OILBURN = 16; //Duration of the burning out animation
 
