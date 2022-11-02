@@ -249,10 +249,14 @@ eweapon script StopperKiller //start
     {
         while(true)
         {
-            unless(stopTime--)
-                this->Step = 0;
-            unless(killTime--)
-                this->Remove();
+            if (stopTime > 0)
+				unless(--stopTime)
+					this->Step = 0;
+			
+			if (killTime > 0)
+				unless(--killTime)
+					this->Remove();
+				
             Waitframe();
         }
     }

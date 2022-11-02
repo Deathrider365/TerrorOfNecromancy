@@ -394,6 +394,25 @@ void sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //s
 	
 } //end
 
+void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+{
+	int hitX = x;
+	int hitY = y;
+	
+	x += VectorX(8 + dist, angle) - 8;
+	y += VectorY(8 + dist, angle);
+	
+	Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+	
+	MakeHitbox(x, y, 16, 16, dmg);
+	
+	hitX += VectorX(16, angle);
+	hitY += VectorY(16, angle);
+	
+	MakeHitbox(x, y, 16, 16, dmg);
+	
+} //end
+
 void enemyShake(ffc this, npc ghost, int frames, int intensity) //start
 {
 	for (int i = 0; i < frames; ++i)
@@ -600,20 +619,11 @@ void takeMapScreenshot() //start
 	}
 } //end
 
-int lerp(int low, int high, float mult)
+untyped Choose(untyped arr)
 {
-    if(low > high)
-    {
-        int temp = low;
-        low = high;
-        high = temp;
-    }
-    return low + (mult * (high - low));
+    int sz = SizeOfArray(arr);
+    return arr[Rand(sz)];
 }
-
-
-
-
 
 
 

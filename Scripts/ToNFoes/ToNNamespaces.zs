@@ -1253,6 +1253,11 @@ namespace Enemy //start
 			
 		}
 	} //end
+	
+	float lazyChase(int velocity, int currentPosition, int targetPosition, int acceleration, int topSpeed)
+	{
+		return Clamp(velocity + Sign(targetPosition - currentPosition) * acceleration, -topSpeed, topSpeed);
+	}
 
 	bool MoveTowardsPoint(npc n, int x, int y, int pxamnt, int special, bool center) //start
 	{

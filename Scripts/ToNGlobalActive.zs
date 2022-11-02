@@ -25,7 +25,10 @@ global script GlobalScripts //start
 		LinkMovement_Init();
 		StartGhostZH();
 		DifficultyGlobal_Init();
-				
+		
+		Game->MaxLWeapons(1024);
+		Game->MaxEWeapons(1024);
+		
 		mapdata m[6];
 		
 		int footprintArray[3] = {1, 0, 0};

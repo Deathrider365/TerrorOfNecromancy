@@ -184,7 +184,7 @@ lweapon script ScholarCandelabra //start
 //end
 
 //~~~~~Sine Wave~~~~~//
-@Author("KoolAidWannaBe I THINK")
+@Author("KoolAidWannaBe")
 lweapon script SineWave //start
 {
 	void run(int amplitude, int frequency)
