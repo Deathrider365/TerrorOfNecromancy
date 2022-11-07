@@ -1309,41 +1309,41 @@ namespace Enemy::ServusMalus
 			Audio->PlayEnhancedMusic(NULL, 0);
 			
 			// Prefight setup
-			// until (getScreenD(255))
-			// {
-				// int litTorchCount = 0;
+			until (getScreenD(255))
+			{
+				int litTorchCount = 0;
 			
-				// template = Game->LoadTempScreen(1);
+				template = Game->LoadTempScreen(1);
 				
-				// litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
-				// litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
-				// litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
-				// litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
 				
-				// checkTorchBrightness(litTorchCount, cmbLitTorch);
+				checkTorchBrightness(litTorchCount, cmbLitTorch);
 					
-				// if (litTorchCount == 4)
-				// {
-					// torchesLit = true;
-					// setScreenD(255, true);
-					// commenceIntroCutscene(
-						// this,
-						// template,
-						// unlitTorch,
-						// cmbLitTorch,
-						// bigSummerBlowout,
-						// upperLeftTorchLoc, 
-						// upperRightTorchLoc,
-						// lowerLeftTorchLoc,
-						// lowerRightTorchLoc
-					// );
+				if (litTorchCount == 4)
+				{
+					torchesLit = true;
+					setScreenD(255, true);
+					commenceIntroCutscene(
+						this,
+						template,
+						unlitTorch,
+						cmbLitTorch,
+						bigSummerBlowout,
+						upperLeftTorchLoc, 
+						upperRightTorchLoc,
+						lowerLeftTorchLoc,
+						lowerRightTorchLoc
+					);
 					
-					// Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
-					// Screen->Message(404);
-				// }
+					Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+					Screen->Message(404);
+				}
 				
-				// Waitframe();
-			// }
+				Waitframe();
+			}
 			
 			// Actual fight begins
 			this->X = 128;

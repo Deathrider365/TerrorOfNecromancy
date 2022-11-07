@@ -236,7 +236,8 @@ namespace Emily
 	
 	//start CanWalkM
 	/** If true, then calling CanWalkM with the current screen's mapdata will use `Screen->` instead of the provided `mapdata->` */
-	CONFIGB MAPDATA_USECURSCREEN = true;
+	// CONFIGB MAPDATA_USECURSCREEN = true;
+	MAPDATA_USECURSCREEN = true;
 	//start Standard (only checks ahead)
 	/**
 	* This function (and set of overloads) acts as CanWalk, but uses an arbitrary 
