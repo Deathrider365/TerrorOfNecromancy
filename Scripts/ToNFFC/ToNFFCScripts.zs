@@ -205,7 +205,14 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide, int triggerOnScreenD, int screenDIndexToActivate, int screenDIndexForItem)
+	void run(
+		int itemId, 
+		int gettingItemString, 
+		int alreadyGotItemString, 
+		int anySide, 
+		int triggerOnScreenD, 
+		int screenDIndexToActivate, 
+		int screenDIndexForItem)
 	{
 		Waitframes(2);
 		

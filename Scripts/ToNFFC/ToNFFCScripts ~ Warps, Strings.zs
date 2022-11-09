@@ -421,13 +421,38 @@ ffc script ShopIntroMessage //start
 @Author("Deathrider365")
 ffc script FatherAndSonDialogue //start
 {
-	void run(int itemId, int gettingItemString, int alreadyGotItemString, int anySide)
+	void run(
+		int itemId, 
+		int gettingItemString, 
+		int alreadyGotItemString, 
+		int anySide, 
+		int triggerOnScreenD, 
+		int itemToCheckFor
+		)
 	{
-		if (Game->GetDMapScreenD(4, 0x07, 1) == 1)
+		mapdata template = Game->LoadTempScreen(1);
+		int prevData = this->Data;
+		
+		if (Hero->Item[itemToCheckFor])
 		{
 			this->Data = 0;
+			template->ComboD[ComboAt(this->X, this->Y)] = 0;
 			Quit();
 		}
+		
+		if (triggerOnScreenD)
+		{
+			until(getScreenD(triggerOnScreenD))
+			{
+				this->Data = 0;
+				template->ComboD[ComboAt(this->X, this->Y)] = 0;
+				Waitframe();
+			}
+		
+		}
+			
+		template->ComboD[ComboAt(this->X, this->Y)] = COMBO_SOLID;
+		this->Data = prevData;
 		
 		Waitframes(2);
 
@@ -435,10 +460,16 @@ ffc script FatherAndSonDialogue //start
 
 		while(true)
 		{
+			while (triggerOnScreenD && !Screen->State[ST_SECRET]) 
+				Waitframe();
+			
 			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])
 			{
 				if (AgainstComboBase(loc, anySide))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				if (getScreenD(triggerOnScreenD) && Screen->State[ST_SECRET]) 
+					this->Data = 6755;
 
 				Waitframe();
 			}

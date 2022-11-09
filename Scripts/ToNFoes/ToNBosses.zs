@@ -1309,7 +1309,7 @@ namespace Enemy::ServusMalus
 			Audio->PlayEnhancedMusic(NULL, 0);
 			
 			// Prefight setup
-			until (getScreenD(255))
+			until (getScreenD(254))
 			{
 				int litTorchCount = 0;
 			
@@ -1325,7 +1325,7 @@ namespace Enemy::ServusMalus
 				if (litTorchCount == 4)
 				{
 					torchesLit = true;
-					setScreenD(255, true);
+					setScreenD(254, true);
 					commenceIntroCutscene(
 						this,
 						template,
@@ -1818,7 +1818,7 @@ namespace Enemy::ServusMalus
 			Audio->PlaySound(121);
 			Screen->Quake = 20;
 			
-			setScreenD(254, true);
+			setScreenD(253, true);
 			
 			// Buffer as soldier is against the wall
 			for (int i = 0; i < 30; ++i)
@@ -1912,13 +1912,6 @@ namespace Enemy::ServusMalus
 				
 				Waitframe();
 			}
-			
-			// Big Summer Blowout
-			Audio->PlaySound(63);
-			this->X = 112;
-			this->Y = 16;
-			windBlast(this, 2);
-				
 			for (int i = 0; i < 60; ++i)
 			{
 				disableLink();
@@ -1930,6 +1923,13 @@ namespace Enemy::ServusMalus
 				
 				Waitframe();
 			}
+			
+			// Big Summer Blowout
+			Audio->PlaySound(63);
+			this->X = 112;
+			this->Y = 16;
+			windBlast(this, 2);
+			
 			
 			// Servus vanishes
 			for (int i = 0; i < 20; ++i)
@@ -1974,16 +1974,16 @@ namespace Enemy::ServusMalus
 					{
 						case 0: 
 						case 1:
-							cmbLitTorch->Attribytes[0] = 32;
+							cmbLitTorch->Attribytes[0] = 36;
 							return;
 						case 2:
-							cmbLitTorch->Attribytes[0] = 44;
+							cmbLitTorch->Attribytes[0] = 40;
 							return;
 						case 3:
-							cmbLitTorch->Attribytes[0] = 48;
+							cmbLitTorch->Attribytes[0] = 58;
 							return;
 						case 4:
-							cmbLitTorch->Attribytes[0] = 50;
+							cmbLitTorch->Attribytes[0] = 64;
 							return;
 					}
 					break;
@@ -2289,6 +2289,51 @@ namespace Enemy::ServusMalus
 
 } //end
 
+ffc script ServusFloatingAbout //start
+{
+	void run(int startX, int startY, int moveInX, int moveInY, int isXPositiveDirection, int isYPositiveDirection)
+	{
+		if (Hero->Item[166])
+			Quit();
+	
+		int startingRightCombo = 6920;
+		int startingLeftCombo = 6948;
+		
+		unless (gameframe % 4) Quit();
+	
+		for (int i = 0; i < 300; ++i)
+		{
+			int xModifier = 0;
+			int yModifier = 0;
+			
+			if (moveInX)
+			{
+				if (isXPositiveDirection)
+					xModifier += i;
+				else
+					xModifier -= i;
+			} 
+			
+			if (moveInY)
+			{
+				if (isYPositiveDirection)
+					yModifier += i;
+				else
+					yModifier -= i;
+			}
+			
+			if (i % 3)
+			{
+				Screen->FastCombo(6, startX + xModifier, startY + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo), 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + 16 + xModifier, startY + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + xModifier, startY + 16 + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + 16 + xModifier, startY + 16 + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 3, 3, OP_OPAQUE);
+			}
+			
+			Waitframe();
+		}
+	}
+} //end
 
 
 

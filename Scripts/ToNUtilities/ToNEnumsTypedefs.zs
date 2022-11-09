@@ -132,6 +132,7 @@ CONFIG SPR_FLAME_TRAIL = 123;
 //~~~~~Combo~~~~~//
 //start
 CONFIG COMBO_INVIS = 1;
+CONFIG COMBO_SOLID = 31;
 //end
 
 //~~~~~Combo Types~~~~~//
