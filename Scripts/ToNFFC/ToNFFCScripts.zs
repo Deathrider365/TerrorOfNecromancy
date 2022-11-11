@@ -601,6 +601,7 @@ ffc script SimpleShop //start
 {
     void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount)
 	{
+		// Doesnt have quiver and is quiver upgrade
 		if (!Hero->Item[74] && itemId == 205) {
 			Quit();
 		}
@@ -615,7 +616,7 @@ ffc script SimpleShop //start
 		sprintf(priceBuf, "%d", price);
 
 		itemdata id = Game->LoadItemData(itemId);
-		bool checkStock = !id->Combine && id->Keep;
+		bool checkStock = false;//!id->Combine && id->Keep;
 
         while(true)
 		{
@@ -721,7 +722,7 @@ ffc script SpawnItem //start
 @Author("Deathrider365")
 ffc script CapacityIncreasor //start
 {
-	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy)
+	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy, int itemToKillMessage)
 	{		
 		bool alreadyBought = false;
 
@@ -736,7 +737,8 @@ ffc script CapacityIncreasor //start
 
 		Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
-		Screen->Message(message);
+		unless (Hero->Item[itemToKillMessage])
+			Screen->Message(message);
 
 		Waitframe();
 
