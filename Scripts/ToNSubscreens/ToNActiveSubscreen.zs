@@ -161,8 +161,8 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	sprintf(numBombUpgradesBuf, "%d", numBombUpgrades);
 	sprintf(numQuiverUpgradesBuf, "%d", numQuiverUpgrades);
 	
-	int bombBagTile = 30080;
-	int quiverTile = 30260;
+	int bombBagTile = 30060;
+	int quiverTile = 30264;
 
 		
 	Screen->FastTile(7, 86, 14 + y, bombBagTile, 8, OP_OPAQUE);
