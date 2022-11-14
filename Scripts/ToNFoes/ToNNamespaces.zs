@@ -946,7 +946,7 @@ namespace Enemy::Manhandala //start
 		flame->InitD[1] = RandGen->Rand(60, 180);
 		flame->Gravity = true;
 		flame->Damage = 2;
-		flame->UseSprite(115);
+		flame->UseSprite(SPR_FLAME_OIL);
 	} //end
 	
 	void oilSpray(int data, npc this, npc heads, bool isDifficultyChange) //start

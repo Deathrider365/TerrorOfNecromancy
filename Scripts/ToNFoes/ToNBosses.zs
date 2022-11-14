@@ -813,7 +813,7 @@ ffc script LegionnaireLevel1 //start
 					case 0: //start Fire Swordz
 					{
 						Ghost_Data = combo;
-						int swordDamage = 3;
+						int swordDamage = 2;
 						
 						enemyShake(this, ghost, 16, 1);
 				

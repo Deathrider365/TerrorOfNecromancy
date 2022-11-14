@@ -880,13 +880,12 @@ ffc script BurningOilandBushes //start
 	const int OILBUSH_OIL_SPREAD_FREQ = 2; //How frequently burning oil spreads (should be shorter than burn duration)
 	const int OILBUSH_BUSH_SPREAD_FREQ = 10; //How frequently burning bushes/grass spread
 
-	const int CMB_OIL_BURNING = 6344; //First combo for burning oil
 	const int CS_OIL_BURNING = 7; //was 8 CSet for burning oil
 	const int OILBUSH_ENDFRAMES_OILBURN = 4; //Number of combos for oil burning out
 	const int OILBUSH_ENDDURATION_OILBURN = 16; //Duration of the burning out animation
 
 	const int CMB_BUSH_BURNING = 6344; //First combo for burning oil
-	const int CS_BUSH_BURNING = 8; //CSet for burning oil
+	const int CS_BUSH_BURNING = 0; //CSet for burning oil (I set this to 0 since the combos are 8 bit anyway)
 	const int OILBUSH_ENDFRAMES_BUSHBURN = 4; //Number of combos for bushes/grass burning out
 	const int OILBUSH_ENDDURATION_BUSHBURN = 16; //Duration of the burning out animation
 
@@ -906,10 +905,10 @@ ffc script BurningOilandBushes //start
 		int burnTimers[176];
 		int burnTypes[176];
 		lweapon burnHitboxes[176];
-		
+					
 		while(true)
 		{
-			//start Loop through all LWeapons
+			//start Loop through all EWeapons
 			for(i = Screen->NumEWeapons(); i >= 1; i--)
 			{
 				eweapon e = Screen->LoadEWeapon(i);
@@ -953,46 +952,49 @@ ffc script BurningOilandBushes //start
 				} 
 			}//end
 			
-			//start Loop through all LWeapons
-			for(i = Screen->NumLWeapons(); i >= 1; i--)
+			if (GetHighestLevelItemOwned(IC_CANDLE) != 158)
 			{
-				lweapon l = Screen->LoadLWeapon(i);
-				//Only fire weapons can burn oil/bushes
-				if(l->ID == LW_FIRE)
+				//start Loop through all LWeapons
+				for(i = Screen->NumLWeapons(); i >= 1; i--)
 				{
-					c = ComboAt(CenterX(l), CenterY(l));
-					//Check to make sure it isn't already burning
-					if(burnTimers[c] <= 0)
+					lweapon l = Screen->LoadLWeapon(i);
+					//Only fire weapons can burn oil/bushes
+					if(l->ID == LW_FIRE)
 					{
-						//Check if oil is allowed and if the combo is a water combo
-						if(!noOil && OilBush_IsWater(c))
+						c = ComboAt(CenterX(l), CenterY(l));
+						//Check to make sure it isn't already burning
+						if(burnTimers[c] <= 0)
 						{
-							if(SFX_OIL_BURN > 0)
-								Game->PlaySound(SFX_OIL_BURN);
+							//Check if oil is allowed and if the combo is a water combo
+							if(!noOil && OilBush_IsWater(c))
+							{
+								if(SFX_OIL_BURN > 0)
+									Game->PlaySound(SFX_OIL_BURN);
+									
+								burnTimers[c] = OILBUSH_OIL_DURATION;
+								burnTypes[c] = 0; //Mark as an oil burn
+							}
+							//Else check if bushes are allowd and if the combo is a bush
+							else if(!noBushes && OilBush_IsBush(c))
+							{
+								if(SFX_BUSH_BURN > 0)
+									Game->PlaySound(SFX_BUSH_BURN);
+									
+								burnTimers[c] = OILBUSH_BUSH_DURATION;
+								burnTypes[c] = 1; //Mark as a bush burn
+								Screen->ComboD[c]++; //Advance to the next combo
 								
-							burnTimers[c] = OILBUSH_OIL_DURATION;
-							burnTypes[c] = 0; //Mark as an oil burn
-						}
-						//Else check if bushes are allowd and if the combo is a bush
-						else if(!noBushes && OilBush_IsBush(c))
-						{
-							if(SFX_BUSH_BURN > 0)
-								Game->PlaySound(SFX_BUSH_BURN);
-								
-							burnTimers[c] = OILBUSH_BUSH_DURATION;
-							burnTypes[c] = 1; //Mark as a bush burn
-							Screen->ComboD[c]++; //Advance to the next combo
-							
-							if(OILBUSH_BUSHESSTILLDROPITEMS)
-							{ //If item drops are allowed, create and kill a dummy enemy
-								npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
-								n->HP = -1000;
-								n->DrawYOffset = -1000;
+								if(OILBUSH_BUSHESSTILLDROPITEMS)
+								{ //If item drops are allowed, create and kill a dummy enemy
+									npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
+									n->HP = -1000;
+									n->DrawYOffset = -1000;
+								}
 							}
 						}
 					}
-				}
-			} //end
+				} //end
+			}
 			
 			//start Loop through all Combos (spread the fire around)
 			for(i = 0; i < 176; i++)
@@ -1150,18 +1152,18 @@ ffc script BurningOilandBushes //start
 					
 					int cmbBurn;
 					
-					if(burnTypes[i] == 0)
-					{
-						//Set animation for oil burning out
-						cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN / OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
-						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
-					}
-					else
-					{
-						//Set animation for bush burning out
-						cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0, OILBUSH_ENDFRAMES_BUSHBURN - 1);
-						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, CS_BUSH_BURNING, 128);
-					}
+					// if(burnTypes[i] == 0)
+					// {
+						// Set animation for oil burning out
+						// cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN / OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
+						// Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
+					// }
+					// else
+					// {
+						// Set animation for bush burning out
+						// cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0, OILBUSH_ENDFRAMES_BUSHBURN - 1);
+						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), getBurningCombo(), CS_BUSH_BURNING, 128);
+					// }
 				}
 				else
 				{
@@ -1197,6 +1199,22 @@ ffc script BurningOilandBushes //start
 		else
 			return false;
 	} //end
+	
+		int getBurningCombo()
+		{
+			switch(GetHighestLevelItemOwned(IC_CANDLE))
+			{
+				case 158:
+					return 6344;
+				case 10:
+					return 6345;
+				case 11:
+					return 6346;
+				case 150:
+					return 6347;
+			}
+		}
+	
 }
 //end
 
