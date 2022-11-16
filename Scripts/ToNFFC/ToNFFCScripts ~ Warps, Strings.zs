@@ -460,19 +460,19 @@ ffc script FatherAndSonDialogue //start
 
 		while(true)
 		{
-			while (triggerOnScreenD && !Screen->State[ST_SECRET]) 
+			while (triggerOnScreenD && Screen->NumNPCs())
 				Waitframe();
 			
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST])
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (AgainstCombo(loc))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				if (getScreenD(triggerOnScreenD) && Screen->State[ST_SECRET]) 
 					this->Data = 6755;
 
 				Waitframe();
-			}
+			}			
 
 			Input->Button[CB_SIGNPOST] = false;
 

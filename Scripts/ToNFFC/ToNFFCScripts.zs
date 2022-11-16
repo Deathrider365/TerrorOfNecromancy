@@ -668,16 +668,6 @@ ffc script SimpleShop //start
 			Waitframe();
         }
     }
-
-    bool AgainstComboBase(int loc)
-	{
-        return Link->Z == 0 && 
-		(
-			Link->Dir == DIR_UP 
-			&& Link->Y == ComboY(loc) + 8 
-			&& Abs(Link->X - ComboX(loc)) < 8
-		);
-    }
 } //end
 
 //D0: Info string #

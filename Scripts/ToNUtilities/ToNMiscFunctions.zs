@@ -575,6 +575,15 @@ bool AgainstComboBase(int loc, bool anySide) //start
 		return false;
 } //end
 
+bool AgainstCombo(int loc) //start
+{
+	return Hero->Z == 0 && 
+	(
+		(Abs(Hero->Y - ComboY(loc)) <= 17) && 
+		(Abs(Hero->X - ComboX(loc)) <= 16)
+	);
+} //end
+
 void leavingTransition(int dmap, int screen, int usingPresents) //start
 {	
 	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)

@@ -1271,15 +1271,6 @@ ffc script Demonwall //start
 //~~~~~Foreman of Darkness - Servus Malus~~~~~//
 namespace Enemy::ServusMalus
 {
-	enum State //start
-	{
-		STATE_IDLE,
-		STATE_ATTACK,
-		STATE_GROUND_SLAM,
-		STATE_SCYTHE_SWING,
-		STATE_SCYTHE_THROW
-	}; //end
-
 	npc script ServusMalus
 	{
 		void run()
@@ -1288,7 +1279,9 @@ namespace Enemy::ServusMalus
 			int unlitTorch = 7156;
 			int litTorch = 7157;
 			int bigSummerBlowout = 6928;
-			int originalTile = this->OriginalTile;
+			CONFIG originalTile = this->OriginalTile;
+			CONFIG attackingTile = 49660;
+			bool gettingDesperate = false;
 			int invisibleTile = 49220;
 			
 			int upperLeftTorchLoc = 36;
@@ -1296,7 +1289,7 @@ namespace Enemy::ServusMalus
 			int lowerLeftTorchLoc = 132;
 			int lowerRightTorchLoc = 139;
 			
-			int attackCooldown, previousState, timer;
+			int attackCooldown, timer;
 			
 			combodata cmbLitTorch = Game->LoadComboData(litTorch);
 			cmbLitTorch->Attribytes[0] = 32;
@@ -1309,42 +1302,45 @@ namespace Enemy::ServusMalus
 			Audio->PlayEnhancedMusic(NULL, 0);
 			
 			// Prefight setup
-			until (getScreenD(254))
-			{
-				int litTorchCount = 0;
+			// until (getScreenD(254))
+			// {
+				// int litTorchCount = 0;
 			
-				template = Game->LoadTempScreen(1);
+				// template = Game->LoadTempScreen(1);
 				
-				litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
-				litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
-				litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
-				litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
+				// litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
+				// litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
+				// litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
+				// litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
 				
-				checkTorchBrightness(litTorchCount, cmbLitTorch);
+				// checkTorchBrightness(litTorchCount, cmbLitTorch);
 					
-				if (litTorchCount == 4)
-				{
-					torchesLit = true;
-					setScreenD(254, true);
-					commenceIntroCutscene(
-						this,
-						template,
-						unlitTorch,
-						cmbLitTorch,
-						bigSummerBlowout,
-						upperLeftTorchLoc, 
-						upperRightTorchLoc,
-						lowerLeftTorchLoc,
-						lowerRightTorchLoc
-					);
+				// if (litTorchCount == 4)
+				// {
+					// torchesLit = true;
+					// setScreenD(254, true);
+					// commenceIntroCutscene(
+						// this,
+						// template,
+						// unlitTorch,
+						// cmbLitTorch,
+						// bigSummerBlowout,
+						// upperLeftTorchLoc, 
+						// upperRightTorchLoc,
+						// lowerLeftTorchLoc,
+						// lowerRightTorchLoc,
+						// originalTile,
+						// attackingTile
+					// );
 					
-					Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
-					Screen->Message(404);
-				}
+					// Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+					// Screen->Message(404);
+				// }
 				
-				Waitframe();
-			}
+				// Waitframe();
+			// }
 			
+									Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
 			// Actual fight begins
 			this->X = 128;
 			this->Y = 32;
@@ -1355,13 +1351,16 @@ namespace Enemy::ServusMalus
 			{
 				this->Z = 20;
 				this->CollDetection = false;
-				torchesLit = false;
-				State state = STATE_IDLE;
 				this->OriginalTile = invisibleTile;
+				
+				int blowOutRandomTorchTimer = 180;
+				int chosenTorch;
+				int spawnTimer = 90;
+				int maxEnemies = 5;
+				
+				torchesLit = false;
 				vX = 0;
 				vY = 0;
-				int blowOutRandomTorchTimer = 120;
-				int chosenTorch;
 				
 				until (torchesLit)
 				{
@@ -1402,7 +1401,9 @@ namespace Enemy::ServusMalus
 								eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, ComboX(chosenTorch), ComboY(chosenTorch), {0, 60});
 								ewind->UseSprite(36);
 								ewind->Unblockable = UNBLOCK_ALL;
+								ewind->UseSprite(128);
 							}
+							Audio->PlaySound(63);
 							chosenTorch = 0;
 						}
 					}
@@ -1411,18 +1412,28 @@ namespace Enemy::ServusMalus
 						vX = lazyChase(vX, this->X, Hero->X - 8, .05, Hero->Step / 100);
 						vY = lazyChase(vY, this->Y, Hero->Y - 8, .05, Hero->Step / 100);
 					}
+					
+					unless(spawnTimer)
+					{
+						spawnEnemy(this);
+						spawnTimer = 90;
+					}
 
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
 					if (litTorchCount == 4)	
 						torchesLit = true;
-						
+					
+					unless (Screen->NumNPCs() == maxEnemies)
+						--spawnTimer;
+					
 					Waitframe();
 				}
 				
-				this->CollDetection = true;
+				//Commence Battle
 				
+				this->CollDetection = true;
 				this->OriginalTile = originalTile;
 				
 				for (int i = 0; i < 90; ++i)
@@ -1431,13 +1442,19 @@ namespace Enemy::ServusMalus
 				vX = 0;
 				vY = 0;
 				
-				attackCooldown = 30;
+				attackCooldown = 60;
 				timer = 0;
 				CONFIG START_TIMER = 600;
 				int dodgeTimer;
 				
 				while(timer < START_TIMER)
 				{
+					if (this->HP <= this->HP * .3) //NOT WORKING??? TODO
+						gettingDesperate = true;
+					
+					if (gettingDesperate)
+						this->Step *= .75;
+						
 					float percent = timer / START_TIMER;
 						
 					cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
@@ -1445,22 +1462,20 @@ namespace Enemy::ServusMalus
 					if (this->HP <= 0)
 						deathAnimation(this, 136);
 						
-					if (this->Z > 0 && !(gameframe % 6))
+					if (this->Z > 0 && !(gameframe % 2))
 						this->Z -= 1;
-						
-					previousState = state;
 					
 					unless (attackCooldown)
 					{
-						chooseAttack(this, previousState);
-						attackCooldown = 90;
+						chooseAttack(this, originalTile, attackingTile, gettingDesperate);
+						attackCooldown = 60;
 					}
 					
 					int tX, tY;
 					int angle = Angle(Hero->X - 8, Hero->Y - 8, this->X, this->Y);
 					
-					tX = Hero->X - 8 + VectorX(48, angle);
-					tY = Hero->Y - 8 + VectorY(48, angle);
+					tX = Hero->X - 8 + VectorX(30, angle); //48
+					tY = Hero->Y - 8 + VectorY(30, angle); //48
 					
 					if (dodgeTimer)
 						--dodgeTimer;
@@ -1489,7 +1504,7 @@ namespace Enemy::ServusMalus
 					this->Dir = faceLink(this);
 					
 					--attackCooldown;
-					++timer;
+																							// ++timer;
 					Waitframe();
 				}
 				
@@ -1509,7 +1524,7 @@ namespace Enemy::ServusMalus
 					}
 					
 					unless(clk++ % FRAMES)
-						windBlast(this, Div(clk, FRAMES) + 1);
+						windBlast(this, Div(clk, FRAMES) + 1, originalTile, attackingTile);
 					
 					litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
 					litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
@@ -1535,7 +1550,9 @@ namespace Enemy::ServusMalus
 			int upperLeftTorchLoc, 
 			int upperRightTorchLoc,
 			int lowerLeftTorchLoc,
-			int lowerRightTorchLoc
+			int lowerRightTorchLoc,
+			int originalTile,
+			int attackingTile
 		){
 			int soldierLeftFast = 6715;
 			int soldierUpStunned = 6714;
@@ -1612,7 +1629,6 @@ namespace Enemy::ServusMalus
 				
 				Waitframe();
 			}
-			
 			
 			int modifier;
 			int counter;
@@ -1928,8 +1944,7 @@ namespace Enemy::ServusMalus
 			Audio->PlaySound(63);
 			this->X = 112;
 			this->Y = 16;
-			windBlast(this, 2);
-			
+			windBlast(this, originalTile, attackingTile, 2);
 			
 			// Servus vanishes
 			for (int i = 0; i < 20; ++i)
@@ -1954,7 +1969,7 @@ namespace Enemy::ServusMalus
 				Waitframe();
 			}			
 		}
-		
+			
 		void disableLink()
 		{
 			NoAction();
@@ -2011,34 +2026,103 @@ namespace Enemy::ServusMalus
 			}
 		}
 		
-		void chooseAttack(npc this, int previousState)
+		void spawnEnemy(npc this)
 		{
-			// scytheThrow(this);
-			scytheSlash(this);
+			
+			for (int i = 0; i < 30; ++i)
+				Waitframe();
+				
+			Game->PlaySound(60);
+			
+			for (int i = 0; i <= 30; ++i)
+			{
+				unless (i % 5)
+					i < 15 ? this->Z-- : this->Z++;
+					
+				Waitframe();
+			}
+			
+			this->Z = 20;
+			
+			for (int i = 0; i < 45; ++i)
+				Waitframe();
+				
+			Game->PlaySound(64);
+			
+			npc enemy = Screen->CreateNPC(35);
+			enemy->X = this->X + 12;
+			enemy->Y = this->Y + 12;
+			
+			for (int i = 0; i < 30; ++i)
+				Waitframe();
 		}
 		
-		void executeSlash(npc this)
+		void chooseAttack(npc this, int originalTile, int attackingTile, bool gettingDesperate)
 		{
 		
+			for (int i = 0; i < (gettingDesperate ? 3 : 1); i++)
+			{
+				if (Distance(this->X, this->Y, Hero->X, Hero->Y) <= 48)
+					scytheSlash(this, originalTile, attackingTile, gettingDesperate);
+				
+				if (gettingDesperate)
+					for (int i = 0; i < 15; ++i)
+						Waitframe();
+			}
+			
+			for (int i = 0; i < (gettingDesperate ? 3 : 1); i++)
+			{
+				if (Distance(this->X, this->Y, Hero->X, Hero->Y) > 56)
+					scytheThrow(this, originalTile, attackingTile, gettingDesperate);
+					
+				if (gettingDesperate)
+					for (int i = 0; i < 15; ++i)
+						Waitframe();
+			}
 		}
 		
-		void scytheSlash(npc this)
+		void scytheSlash(npc this, int originalTile, int attackingTile, bool gettingDesperate)
 		{
 			int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
 			
+			this->OriginalTile = attackingTile;
+			Audio->PlaySound(147);
+			
+			for (int i = 0; i < 30; ++i)
+				Waitframe();
+			
 			for (int i = 0; i < 15; ++i)
 			{
+				// this->OriginalTile = attacking no scythe tile;
 				sword2x1(this->X + 8, this->Y + 8, angle + Lerp(-90, 90, i / 14), 16, 6944, 10, 4);
 				
 				Waitframe();
 			}
+			
+			for (int i = 0; i < 30; ++i)
+			{
+				this->OriginalTile = originalTile;
+				Waitframe();
+			}
 		}
 		
-		void scytheThrow(npc this)
+		void scytheThrow(npc this, int originalTile, int attackingTile, bool gettingDesperate)
 		{
+			Audio->PlaySound(146);
+			
+			for (int i = 0; i < 30; ++i)
+			{
+				this->OriginalTile = attackingTile;
+				Waitframe();
+			}
+			
+			Audio->PlaySound(145);
+			
 			if (int escr = CheckEWeaponScript("BoomerangThrow"))
 			{			
-				eweapon scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 40, 1});
+				// this->OriginalTile = attacking no scythe tile;
+				
+				eweapon scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 10, 1});
 				scythe->Damage = 4;
 				scythe->UseSprite(125);
 				scythe->Extend = 3;
@@ -2053,11 +2137,17 @@ namespace Enemy::ServusMalus
 				while(scythe->isValid())
 					Waitframe();
 			}
+			
+			for (int i = 0; i < 15; ++i)
+			{
+				this->OriginalTile = originalTile;
+				Waitframe();
+			}
 		}
 		
 		CONFIG WIND_COUNT = 32;
 		
-		void windBlast(npc this, int mult = 1)
+		void windBlast(npc this, int originalTile, int attackingTile, int mult = 1)
 		{
 			int wc = WIND_COUNT * mult;
 			int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
@@ -2069,6 +2159,9 @@ namespace Enemy::ServusMalus
 			if(escr && lscr)
 			{
 				WindHandler.init();
+				
+				Audio->PlaySound(63);
+				this->OriginalTile = attackingTile;
 				
 				for(int q = 0; q < wc; ++q)
 				{
@@ -2086,79 +2179,79 @@ namespace Enemy::ServusMalus
 					lwind->UseSprite(36);
 					// lwind->Unblockable = UNBLOCK_NORM | UNBLOCK_SHLD | UNBLOCK_REFL;
 				}
+				this->OriginalTile = originalTile;
 			}
-			
 		}
 	}
 	
 	eweapon script BoomerangThrow
 	{
-		// void run(npc parent, int tX, int tY, int step, int skew)
-		// {
-			// for(int i=0; i<360;)
-			// {
-				// int cX = (parent->X+tX)/2;
-				// int cY = (parent->Y+tY)/2;
-				// int r = Distance(cX, cY, parent->X, parent->Y);
-				// int ang = Angle(cX, cY, parent->X, parent->Y);
-				// int rstep = step/(2 * PI * (r + r * skew / 2)) * 360;
-				
-				// int axis1 = VectorX(r, i);
-				// int axis2 = VectorY(r * skew, i);
-				
-				// this->X = cX+VectorX(axis1, ang)+VectorX(axis2, ang+90); 
-				// this->Y = cY+VectorY(axis1, ang)+VectorY(axis2, ang+90); 
-				
-				// i += rstep;
-				// this->DeadState = WDS_ALIVE;
-				
-				// Waitframe();
-			// }
-			// this->Remove();
-		// }
-		
-		void run(npc parent, int targetX, int targetY, int spd)
+		void run(npc parent, int tX, int tY, int step, int skew)
 		{
-			const int angleOffset = 45;
-			int targetAngle = Angle(this->X, this->Y, targetX, targetY);
-			int dist = Distance(this->X, this->Y, targetX, targetY);
-			int time = (PI2*dist) / spd;
-			int vAngle = angleOffset * 2 / time;
-			
-			int ang = targetAngle+angleOffset;
-			printf("%d,%d,%d,%d,%d\n",targetAngle,dist,time,vAngle,ang);
-			
-			this->Step = spd*100;
-			this->Angle = DegtoRad(ang);
-			Waitframe();
-			for(int q = 0; q < time; ++q)
+			for(int i = 0; i < 360;)
 			{
-				ang += vAngle;
-				this->Angle = DegtoRad(ang);
+				int cX = (parent->X + tX) / 2;
+				int cY = (parent->Y + tY) / 2;
+				int r = Distance(cX, cY, parent->X, parent->Y);
+				int ang = Angle(cX, cY, parent->X, parent->Y);
+				int rstep = step / (2 * PI * (r + r * skew / 2)) * 360;
+				
+				int axis1 = VectorX(r, i);
+				int axis2 = VectorY(r * skew, i);
+				
+				this->X = cX + VectorX(axis1, ang) + VectorX(axis2, ang + 90); 
+				this->Y = cY + VectorY(axis1, ang) + VectorY(axis2, ang + 90); 
+				
+				i += rstep;
 				this->DeadState = WDS_ALIVE;
-				Waitframe();
-			}
-			targetAngle = WrapDegrees(360-targetAngle);
-			ang = targetAngle-angleOffset;
-			this->Angle = DegtoRad(ang);
-			this->DeadState = WDS_ALIVE;
-			Waitframe();
-			for(int q = 0; q < time; ++q)
-			{
-				ang += vAngle;
-				this->Angle = DegtoRad(ang);
-				this->DeadState = WDS_ALIVE;
-				Waitframe();
-			}
-			
-			while(Distance(this->X,this->Y,parent->X,parent->Y) > 16)
-			{
-				this->Angle = DegtoRad(Angle(this->X, this->Y, parent->X, parent->Y));
-				this->DeadState = WDS_ALIVE;
+				
 				Waitframe();
 			}
 			this->Remove();
 		}
+		
+		// void run(npc parent, int targetX, int targetY, int spd)
+		// {
+			// const int angleOffset = 45;
+			// int targetAngle = Angle(this->X, this->Y, targetX, targetY);
+			// int dist = Distance(this->X, this->Y, targetX, targetY);
+			// int time = (PI2*dist) / spd;
+			// int vAngle = angleOffset * 2 / time;
+			
+			// int ang = targetAngle+angleOffset;
+			// printf("%d,%d,%d,%d,%d\n",targetAngle,dist,time,vAngle,ang);
+			
+			// this->Step = spd*100;
+			// this->Angle = DegtoRad(ang);
+			// Waitframe();
+			// for(int q = 0; q < time; ++q)
+			// {
+				// ang += vAngle;
+				// this->Angle = DegtoRad(ang);
+				// this->DeadState = WDS_ALIVE;
+				// Waitframe();
+			// }
+			// targetAngle = WrapDegrees(360-targetAngle);
+			// ang = targetAngle-angleOffset;
+			// this->Angle = DegtoRad(ang);
+			// this->DeadState = WDS_ALIVE;
+			// Waitframe();
+			// for(int q = 0; q < time; ++q)
+			// {
+				// ang += vAngle;
+				// this->Angle = DegtoRad(ang);
+				// this->DeadState = WDS_ALIVE;
+				// Waitframe();
+			// }
+			
+			// while(Distance(this->X,this->Y,parent->X,parent->Y) > 16)
+			// {
+				// this->Angle = DegtoRad(Angle(this->X, this->Y, parent->X, parent->Y));
+				// this->DeadState = WDS_ALIVE;
+				// Waitframe();
+			// }
+			// this->Remove();
+		// }
 	}
 	
 	eweapon script EwWindBlast
