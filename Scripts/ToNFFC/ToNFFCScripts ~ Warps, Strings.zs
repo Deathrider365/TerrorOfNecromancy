@@ -460,8 +460,9 @@ ffc script FatherAndSonDialogue //start
 
 		while(true)
 		{
-			while (triggerOnScreenD && Screen->NumNPCs())
-				Waitframe();
+			if (triggerOnScreenD)
+				while (Screen->NumNPCs() && !Screen->State[ST_SECRET])
+					Waitframe();
 			
 			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST])
 			{
