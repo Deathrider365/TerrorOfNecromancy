@@ -1,0 +1,227 @@
+NPCAnim.zh ver 1.1.0
+
++---------------+
+| What and Why? |
++---------------+
+
+This is a header for handling basic enemy animations and movement with npc scripts.
+Think animation handler crossed with LinkMovement.zh but for enemies. What this 
+isn't is a substitute for ghost, I have no plans to make anything as robust or user 
+friendly as that. This is just my answer to the many times I've reinvented the wheel
+when writing npc scripts. I'm hoping that this time I have a system that I can 
+stick with.
+
++------------+
+| How to use |
++------------+
+
+All scripts using this sytem should start by declaring an array for storing
+animation data and calling the InitAnims function. Individual animations can then
+be defined with the AddAnim function. In order to update animations, there's a
+special Waitframe function that takes the npc pointer as an argument. If you have a
+custom waitframe function for your enemy, you can call UpdateAnims(this) in that
+instead. From there you can start an animation with the PlayAnim function.
+
+
+npc script Example{
+	using namespace NPCAnim;
+	void run(){
+		int aptr[ANIM_BUFFER_LENGTH];
+		InitAnims(this, aptr);
+
+		AddAnim(aptr, WALKING, 0, 4, 8, 0);
+
+		while(true){
+			Waitframe(this)
+		}
+	}
+}
+
++----------------+
+| Init Functions |
++----------------+
+
+void InitAnims(npc n, int aptr)
+ * This will set the animation pointer in the npc's NPCM_ANIMPOINTER misc index and  
+ * set up some other things at the start of the script.
+
+void SetAnimSpriteHitbox(npc n, int w, int h, int top, int bottom, int left, 
+                         int right)
+ * Use this to quickly resize and adjust an enemy's damage hitbox.
+ * w and h are the enemy's width and height in tiles.
+ * top, bottom, left, and right are pixels to shave off each respective side of 
+ * its hitbox, starting from the width and height of its tiles
+
+void SetAnimMovementHitbox(npc n, int top, int bottom, int left, int right)
+ * Use this to adjust the enemy's hitbox for movement. 
+ * Top, bottom, left, and right are pixels to shave off each respective side of
+ * its hitbox, starting from the width and height of its tiles.
+ * Until this function is called, the movement and damage hitboxes are 
+ * considered to be the same.
+
+int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, 
+            int loopFrame, int nextAnim, int flags)
+int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, 
+            int loopFrame, int flags)
+int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int flags)
+ * Defines an animation. If animID is -1, will pick a new ID and return that, 
+ * else pass it a unique animation ID constant. loopFrame is the frame to loop back
+ * to when an animation ends. nextAnim is an animation to immediately play when 
+ * the animation ends. flags should be any of the following flags ORed together, 
+ * or 0 for none:
+ * 
+ * ADF_4WAY
+ *     The animation comes in 4 different directions.
+ * ADF_8WAY
+ *     The animation comes in 8 different directions.
+ * ADF_FLIPRIGHT
+ *     Right facing sprites use the left facing ones but flipped. 
+ *     (Only works with 1 tile wide enemies)
+ * ADF_NOLOOP
+ *     The animation repeats its last frame when it finishes.
+ * ADF_NORELATIVE
+ *     The tile given for teh animation is absolute rather than relative to the 
+ *     original tile in the editor.
+ * ADF_NORESET
+ *     The animation doesn't reset when switched to another. May look odd if frame 
+ *     counts are different.
+ * ADF_REVERSE
+ *     The animation plays in reverse. loopFrame is then counted backwards from 
+ *     the last frame.
+
+void SetFakeShadow(npc n, int spr, int w, int h, int offset)
+ * Sets up a fake shadow sprite to draw under the enemy. w and h let you 
+ * expand the size of the shadow and offset moves it down or up on the Y axis.
+
++---------------------+
+| Animation Functions |
++---------------------+
+
+void PlayAnim(npc n, int animID, bool noReset)
+void PlayAnim(npc n, int animID)
+ * This will play one of teh NPC's animations. animID is a constant or variable
+ * defined by the user. If noReset is true, the animation will not reset the frame
+ * and animation clock on the new animation.
+ * If animID is -1, this will instead render the enemy invisible and invulnerable.
+
+void PlayDeathAnim(npc n, int spr, int w, int h, int sfx, bool noFreeze)
+void PlayDeathAnim(npc n, bool noFreeze)
+void PlayDeathAnim(npc n)
+ * Plays a simple explosion animation for bosses. If spr is > 0, will use a
+ * sprite animation with size w and h and play an explosion sound specified by sfx.
+ * If noFreeze is true, the enemy will keep animating while exploding.
+ * Note: This function requires npc->Immortal be set for it to work.
+
+void FaceLink(npc n, bool eightDirectional)
+void FaceLink(npc n)
+ * Turns the enemy to face Link.
+
+bool AnimFinished(npc n)
+ * Returns true if the current playing animation is finished playing. 
+ * This will return on a looped animation but not on one that has switched 
+ * to a new animation with the nextAnim property.
+
+int GetCurAnim(npc n)
+ * This will return the enemy's current playing animation.
+
+int GetCurAnimFrame(npc n)
+ * This will return the current animation frame of the currently playing animation.
+
+int SetAnimSpeed(npc n, int speed)
+ * This will set a speed multiplier for all of the enemy's animations. 
+ * 1 is the base speed and higher or lower will make it animate
+ * faster or slower respectively.
+
++------------------+
+| Update Functions |
++------------------+
+
+void UpdateAnims(npc n)
+ * This will run the enemy's animation for the frame. As such it should only be 
+ * called once per frame. All the replacement Waitframe functions call this by 
+ * default.
+
+void Waitframe(npc n)
+void Waitframe(npc n, int frames)
+ * A replacement waitframe that calls UpdateAnims as well.
+
+void Waitanim(npc n)
+ * Waits until the enemy's current animation has ended. 
+ * This will halt on a looping animation but not on one that has switched 
+ * to a new animation with the nextAnim property.
+
+void Waitanim(npc n, int animID)
+ * Waits until the enemy's current animation is not animID.
+
++--------------------+
+| Movement Functions |
++--------------------+
+
+The following functions all have a moveStyle argument. This is one of several 
+presets for making certain types of enemy movement. A hackish substitute for ghost's
+movement flags. You can also write your own with the CanMovePixelCustom function.
+
+ * AM_NONE
+ *    Typical walking behavior. Can't walk on solids, no enemy, liquids, pits, 
+ *    warps, or offscreen
+ * AM_FLIER
+ *    For flying enemies. Can fly over most things but not no fly zones.
+ * AM_WATERONLY
+ *    A waterlocked enemy that can only move on shallow or deep water.
+ * AM_DEEPWATERONLY
+ *    Same as above but only for deep water
+ * AM_PITONLY
+ *    Same as above but for pits
+ * AM_IGNOREALL
+ *    Obeys no solidity except for screen edges
+ * AM_IGNOREALLOFFSCREEN
+ *    Can move anywhere.
+
+bool CanMovePixel(int x, int y, int moveStyle)
+ * Returns true if a pixel position is walkable for the given moveStyle.
+
+bool CanMove(npc n, int dir, int moveStyle)
+ * Returns true if the enemy can walk one pixel forward in the given direction.
+
+bool CanPlace(npc n, int x, int y, int moveStyle)
+ * Returns true if the enemy can be placed at the given position.
+
+void MoveXY(npc n, int vx, int vy, int moveStyle)
+ * Moves the enemy on the X and Y axis in the given moveStyle. 
+ * Works similar to LinkMovement.zh.
+
+void MoveAtAngle(npc n, int angle, int step, int moveStyle)
+ * Moves the enemy at an angle by a pixel step.
+
+void MoveTowardLink(npc n, int step, int moveStyle)
+ * Moves the enemy toward Link by a pixel step.
+
+MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle)
+ * Moves the enemy toward a point by a pixel step.
+
++-------------------+
+| Custom Movestyles |
++-------------------+
+
+You can give the above functions whatever collision logic you want by modifying the
+CanMovePixelCustom function and using a negative moveStyle. All negative movestyles
+are reserved for user defined ones. I don't advise doing this for database scripts
+though, as it will require modifying the header. 
+
++--------------------+
+| Internal Functions |
++--------------------+
+
+These two functions are for reading and writing from the aptr array. 
+They're mostly just for readability but if you need to access something 
+I didn't write another function for, be my guest:
+
+int GetAnimProperty(int aptr, int animID, int prop)
+* Gets property prop from animation animID in aptr. 
+* See the AnimDefIndex enum for the property constants.
+
+void SetAnimProperty(int aptr, int animID, int prop)
+* Sets property prop for animation animID in aptr to value. 
+* See the AnimDefIndex enum for the property constants.
+
+------------------------------------------------------------------------------------

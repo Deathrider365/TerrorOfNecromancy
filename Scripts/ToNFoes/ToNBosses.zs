@@ -1245,29 +1245,6 @@ ffc script Demonwall //start
 	}
 } //end
 
-//~~Foreman~~//
-/*
-	Enter room, room is dark
-	Upon lighting 4 torches, soldier appears from right calls out to foreman
-	Foreman materialized between the torches, they talk
-	Foreman blows torches out, also launching soldier into wall, incapacitating him
-	Foreman vanishes, fight begins
-	
-	<Fight>
-		<Idle Phase>
-			Room starts dark, until link lights all 4, he spawns zombies (special that drop magic), their spawn in animation is like shambles
-			He is flying around the room during this time, above link so no collision, every x second he blows out a random torch
-			
-			Upon all 4 torches lit he materializes where ever he was, and throws his scythe at link in a circle similar to ganon
-			Once his scythe returns to him he floats around, always facing link, moving similarly to legionnairs
-			"Fight Phase" lasts for 10 seconds
-		
-		<Attack Phase>
-			- Scythe swing - Swings at link if too close for too long
-			- Scythe throw - Throws scythe like ganon
-
-		Once the Fight Phase is done, return to Idle Phase
-*/
 //~~~~~Foreman of Darkness - Servus Malus~~~~~//
 namespace Enemy::ServusMalus
 {
@@ -2497,7 +2474,110 @@ ffc script ServusFloatingAbout //start
 	}
 } //end
 
-
+npc script SeizedGuardGeneral
+{
+	using namespace NPCAnim;
+	
+	enum Animations
+	{
+		WALKING,
+		ATTACK
+	};
+	
+	
+	void run()
+	{
+        int aptr[ANIM_BUFFER_LENGTH];
+        InitAnims(this, aptr);
+		
+        AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
+        AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+		
+		while(true)
+		{
+			int movementDirection = Choose(90, -90);
+			int attackCoolDown = 120;
+			
+			PlayAnim(this, WALKING);
+				
+			while (attackCoolDown)
+			{
+				
+				int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y) + movementDirection;
+				this->MoveAtAngle(angle, this->Step / 100, SPW_NONE);
+				--attackCoolDown;
+				TraceToScreen(0, 0, this->Dir);
+				
+				FaceLink(this);
+			
+				CustomWaitframe(this);
+			}
+			
+			int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+			int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
+			int dashFrames = Max(6, (distance - 36) / 3);
+			
+			bool swordCollided;
+			PlayAnim(this, ATTACK);
+			
+			for (int i = 0; i < dashFrames; ++i)
+			{
+				this->MoveAtAngle(moveAngle, this->Step / 30, SPW_NONE);
+				
+				FaceLink(this);
+				
+				if (i > dashFrames / 2)
+					sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 1);
+					
+				CustomWaitframe(this);
+			}
+			
+			Audio->PlaySound(SFX_SWORD);
+			
+			for (int i = 0; i <= 12 && !swordCollided; ++i)
+			{
+				this->MoveAtAngle(moveAngle, this->Step / 30, SPW_NONE);
+				FaceLink(this);
+				swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 1);
+				CustomWaitframe(this);
+			}
+			
+			if (swordCollided)
+			{
+				// Audio->PlaySound(clang);
+				
+				for(int i = 0; i < 12; ++i)
+				{
+					FaceLink(this);
+					this->MoveAtAngle(moveAngle + 180, this->Step / 30, SPW_NONE);
+					CustomWaitframe(this);
+				}
+				
+				CustomWaitframe(this, 40);
+			}
+			
+			attackCoolDown = 90;
+            CustomWaitframe(this);
+		}	
+	}
+	
+	void CustomWaitframe(npc n)
+	{
+		if (n->HP <= 0)
+		{
+			n->Immortal = false;
+			PlayDeathAnim(n);
+		}
+	
+		Waitframe(n);
+	}
+	
+	void CustomWaitframe(npc n, int frames)
+	{
+		for (int i = 0; i < frames; ++i)
+			CustomWaitframe(n);
+	}
+}
 
 
 

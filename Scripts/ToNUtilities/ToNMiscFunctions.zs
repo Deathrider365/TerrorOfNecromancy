@@ -371,7 +371,7 @@ int FindJumpLength(int jumpInput, bool inputFrames) //start
 } //end
 
 //Makes a hitbox with ghost.zh weapons
-void MakeHitbox(int x, int y, int w, int h, int damage) //start
+eweapon MakeHitbox(int x, int y, int w, int h, int damage) //start
 {
     eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
     e->HitXOffset = x-e->X;
@@ -381,16 +381,27 @@ void MakeHitbox(int x, int y, int w, int h, int damage) //start
     e->HitHeight = h;
     SetEWeaponLifespan(e, EWL_TIMER, 1);
     SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+	
+	return e;
 } //end
 
-void sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
 {
 	x += VectorX(dist, angle);
 	y += VectorY(dist, angle);
 	
 	Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
 	
-	MakeHitbox(x, y, 16, 16, dmg);
+	return MakeHitbox(x, y, 16, 16, dmg);
+} //end
+
+bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+{
+	eweapon hitbox = sword1x1(x, y, angle, dist, cmb, cset, dmg);
+	lweapon sword = LoadLWeaponOf(LW_SWORD);
+	
+	if (sword->isValid())
+		return Collision(sword, hitbox) && Hero->Action == LA_ATTACKING;
 	
 } //end
 
@@ -634,7 +645,9 @@ untyped Choose(untyped arr)
     return arr[Rand(sz)];
 }
 
-
+void TraceToScreen(int x, int y, int val){
+    Screen->DrawInteger(6, x, y, FONT_Z3SMALL, 0x01, 0x08, -1, -1, val, 0, 128);
+}
 
 
 

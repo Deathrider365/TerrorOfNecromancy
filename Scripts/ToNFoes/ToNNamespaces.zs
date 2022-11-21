@@ -1259,7 +1259,7 @@ namespace Enemy //start
 		return Clamp(velocity + Sign(targetPosition - currentPosition) * acceleration, -topSpeed, topSpeed);
 	}
 
-	bool MoveTowardsPoint(npc n, int x, int y, int pxamnt, int special, bool center) //start
+	bool MoveTowardsPoint(npc n, int x, int y, int xDistance, int special, bool center) //start
 	{
 		int nx = n->X + n->HitXOffset + (center ? n->HitWidth/2 : 0);
 		int ny = n->Y + n->HitYOffset + (center ? n->HitHeight/2 : 0);
@@ -1268,7 +1268,7 @@ namespace Enemy //start
 		if(dist < 0.0010) 
 			return false;
 		
-		return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(pxamnt, dist), special);
+		return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(xDistance, dist), special);
 	} //end
 
 	bool isDifficultyChange(npc n, int maxHp) //start
@@ -1313,9 +1313,9 @@ namespace Enemy //start
 		}
 	} //end
 
-	int faceLink(npc n) //start
+	int faceLink(npc n)
 	{
-		//start Link is below him
+		// Link is below him
 		if (Hero->Y > n->Y)
 		{
 			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
@@ -1327,9 +1327,9 @@ namespace Enemy //start
 			}
 			else
 				return DIR_DOWN;
-		} //end
+		}
 		
-		//start Like is above him
+		// Link is above him
 		else 
 		{
 			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
@@ -1341,11 +1341,11 @@ namespace Enemy //start
 			}
 			else
 				return DIR_UP;
-		}//end
-	
-	} //end
-	
-} //end
+		}
+	}
+
+
+}
 
 
 

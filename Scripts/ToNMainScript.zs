@@ -15,7 +15,7 @@
 #include "std_zh/dmapgrid.zh"
 #include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
 #include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
-// #include "../ToN Main Quest/Scripts/Headers/EmilyMisc.zh"
+#include "../ToN Main Quest/Scripts/Headers/NPCAnim.zh"
 #include "../ToN Main Quest/Scripts/Headers/Credits.zh"
 #include "../ToN Main Quest/Scripts/Headers/EmDebug.zs"
 
