@@ -2474,6 +2474,7 @@ ffc script ServusFloatingAbout //start
 	}
 } //end
 
+@Author("Moosh")
 npc script SeizedGuardGeneral
 {
 	using namespace NPCAnim;
@@ -2484,7 +2485,6 @@ npc script SeizedGuardGeneral
 		ATTACK
 	};
 	
-	
 	void run()
 	{
         int aptr[ANIM_BUFFER_LENGTH];
@@ -2492,6 +2492,8 @@ npc script SeizedGuardGeneral
 		
         AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
         AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+		
+		int maxHp = this->HP;
 		
 		while(true)
 		{
@@ -2502,49 +2504,48 @@ npc script SeizedGuardGeneral
 				
 			while (attackCoolDown)
 			{
-				
-				int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y) + movementDirection;
-				this->MoveAtAngle(angle, this->Step / 100, SPW_NONE);
+				int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
+				this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
 				--attackCoolDown;
-				TraceToScreen(0, 0, this->Dir);
 				
 				FaceLink(this);
 			
 				CustomWaitframe(this);
 			}
 			
-			int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
-			int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
-			int dashFrames = Max(6, (distance - 36) / 3);
+			int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+			int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+			int dashFrames = Max(2, (distance - 36) / 3);
 			
 			bool swordCollided;
 			PlayAnim(this, ATTACK);
 			
 			for (int i = 0; i < dashFrames; ++i)
 			{
-				this->MoveAtAngle(moveAngle, this->Step / 30, SPW_NONE);
+				this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
 				
 				FaceLink(this);
 				
 				if (i > dashFrames / 2)
-					sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 1);
+					sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 6);
 					
 				CustomWaitframe(this);
 			}
 			
 			Audio->PlaySound(SFX_SWORD);
+			distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
 			
 			for (int i = 0; i <= 12 && !swordCollided; ++i)
 			{
-				this->MoveAtAngle(moveAngle, this->Step / 30, SPW_NONE);
+				this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
 				FaceLink(this);
-				swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 1);
+				swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 6);
 				CustomWaitframe(this);
 			}
 			
 			if (swordCollided)
 			{
-				// Audio->PlaySound(clang);
+				Audio->PlaySound(6);
 				
 				for(int i = 0; i < 12; ++i)
 				{
@@ -2559,6 +2560,11 @@ npc script SeizedGuardGeneral
 			attackCoolDown = 90;
             CustomWaitframe(this);
 		}	
+	}
+	
+	bool gettingDesperate(npc this, int maxHp)
+	{
+		return this->HP < maxHp * .4;
 	}
 	
 	void CustomWaitframe(npc n)

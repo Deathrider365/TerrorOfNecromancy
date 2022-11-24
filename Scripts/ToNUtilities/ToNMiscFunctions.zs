@@ -401,7 +401,7 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 	lweapon sword = LoadLWeaponOf(LW_SWORD);
 	
 	if (sword->isValid())
-		return Collision(sword, hitbox) && Hero->Action == LA_ATTACKING;
+		return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
 	
 } //end
 
