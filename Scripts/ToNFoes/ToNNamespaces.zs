@@ -1173,11 +1173,11 @@ namespace Enemy //start
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
 		
-		// for(int i = Screen->NumNPCs(); i >= 1; i--)
-		// {
-			// npc n = Screen->LoadNPC(i);
-			// n->Remove();
-		// }
+		for(int i = Screen->NumNPCs(); i >= 1; i--)
+		{
+			npc n = Screen->LoadNPC(i);
+			n->Remove();
+		}
 		
 		n->Immortal = false;
 		n->Remove();

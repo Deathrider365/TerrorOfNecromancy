@@ -240,13 +240,6 @@ dmapdata script PassiveSubscreen //start
 			Screen->Rectangle(7, 162 + MAGIC_METER_FILL_XOFF,                                     y + 44 + MAGIC_METER_FILL_YOFF,
 			                     162 + MAGIC_METER_FILL_XOFF + Round(MAGIC_METER_PIX_WIDTH*perc), y + 44 + MAGIC_METER_FILL_YOFF + MAGIC_METER_PIX_HEIGHT,
 								 C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
-		// int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
-		// Screen->DrawTile(7, 162, y + 44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-		
-		// if(MAGIC_METER_PIX_WIDTH * perc >= 0.5)
-			// Screen->Rectangle(7, 162 + MAGIC_METER_FILL_XOFF,                                     y + 44 + MAGIC_METER_FILL_YOFF,
-			                     // 162 + MAGIC_METER_FILL_XOFF + Round(MAGIC_METER_PIX_WIDTH*perc), y + 44 + MAGIC_METER_FILL_YOFF + MAGIC_METER_PIX_HEIGHT,
-								 // C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 		//end Magic Meter
 		
 		//start Difficulty Item Display

@@ -201,7 +201,7 @@ ffc script Leviathan1Ending //start
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
-					unless(q == 3 || q == I_DIFF_NORMAL || q == 183)
+					unless(q == 3 || q == I_DIFF_NORMAL || q == 183 || q == 208)
 						Hero->Item[q] = false;
 					
 				Game->Counter[CR_SBOMBS] = 0;

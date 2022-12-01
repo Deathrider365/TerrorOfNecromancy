@@ -599,7 +599,7 @@ ffc script DisableLink //start
 @Author("Tabletpillow, EmilyV99")
 ffc script SimpleShop //start
 {
-    void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount)
+    void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount, int boughtOnce)
 	{
 		// Doesnt have quiver and is quiver upgrade
 		if (!Hero->Item[74] && itemId == 205) {
@@ -616,7 +616,7 @@ ffc script SimpleShop //start
 		sprintf(priceBuf, "%d", price);
 
 		itemdata id = Game->LoadItemData(itemId);
-		bool checkStock = false;//!id->Combine && id->Keep;
+		bool checkStock = boughtOnce;//!id->Combine && id->Keep;
 
         while(true)
 		{
@@ -659,10 +659,8 @@ ffc script SimpleShop //start
 						Screen->Message(boughtMessage);
 					}
 					else
-					{
-						Input->Button[CB_SIGNPOST] = false;
 						Screen->Message(notBoughtMessage);
-					}
+					Input->Button[CB_SIGNPOST] = false;
 				}
 			}
 			Waitframe();
@@ -677,15 +675,52 @@ ffc script SimpleShop //start
 @Author("Deathrider365")
 ffc script InfoShop //start
 {
-	void run(int introMessage, int price, int toPoor, int intro)
+    void run(int boughtString, int price, int notBoughtMessage)
 	{
         int loc = ComboAt(this->X + 8, this->Y + 8);
-		Screen->Message(introMessage);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 
-	}
+        while(true)
+		{
+			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
+			if (AgainstCombo(loc))
+			{
+				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+				if(Input->Press[CB_SIGNPOST])
+				{
+					Hero->Action = LA_NONE;
+					Hero->Stun = 15;
+					
+					if (Game->Counter[CR_RUPEES] >= price)
+					{
+						Game->DCounter[CR_RUPEES] -= price;
+						Input->Button[CB_SIGNPOST] = false;
+						
+						for (int i = 0; i < price * 2; ++i)
+						{
+							NoAction();
+							Waitframe();
+						}
+							
+						Hero->Action = LA_NONE;
+						Hero->Stun = 15;
+						
+						Screen->Message(boughtString);
+					}
+					else
+					{
+						Input->Button[CB_SIGNPOST] = false;
+						Screen->Message(notBoughtMessage);
+					}
+					
+				}
+			}
+			Waitframe();
+        }
+    }
 } //end
 
 //~~~~~SpawnItem~~~~~//
@@ -1255,11 +1290,6 @@ ffc script Thrower //start
 	}
 } //end
 
-//~~~~~SecretThrower~~~~~//
-//D0: 
-//D1: 
-//D2: 
-//D3: 
 ffc script SecretThrower //start
 {
 	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
@@ -1308,6 +1338,54 @@ ffc script SecretThrower //start
 	}
 } //end
 
+ffc script SecretArrowThrower //start
+{
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
+	{
+		if (getScreenD(255))
+			Quit();
+				
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			if (getScreenD(255))
+				Quit();
+				
+			unless (coolDown)
+			{
+				if (throwsItem)
+				{
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					
+					if (hasArc)
+					{
+						Game->PlaySound(1); //arrow shooting sound
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
+				}
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	}
+} //end
 itemsprite script ArcingItemSprite //start
 {
     void run(int angle, int step, int initJump, int gravity) 

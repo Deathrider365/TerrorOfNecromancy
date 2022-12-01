@@ -588,11 +588,20 @@ bool AgainstComboBase(int loc, bool anySide) //start
 
 bool AgainstCombo(int loc) //start
 {
-	return Hero->Z == 0 && 
-	(
-		(Abs(Hero->Y - ComboY(loc)) <= 17) && 
-		(Abs(Hero->X - ComboX(loc)) <= 16)
-	);
+	if (Hero->Z == 0)
+	{
+		if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8)
+		{
+			if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8)
+				return true;
+			else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16)
+				return true;
+		}
+		else if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 16)
+			if (Abs(Hero->Y - ComboY(loc)) <= 8)
+				return true;
+	}
+	return false;
 } //end
 
 void leavingTransition(int dmap, int screen, int usingPresents) //start

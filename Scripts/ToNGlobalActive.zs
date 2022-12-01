@@ -273,8 +273,10 @@ global script GlobalScripts //start
 	{
 		switch(Game->GetCurDMap())
 		{
-			case 0...1:
+			case 0:
 				return .5;
+			case 1:
+				return 1;
 			case 3:
 				return 2;
 			case 4:

@@ -305,6 +305,77 @@ ffc script Signpost //start
 }
 //end
 
+//~~~~~TalkToMeTwice~~~~~//
+@Author("Joe123")
+ffc script TalkToMeTwice //start
+{
+	void run(int talkToMeOnce, int talkToMeTwice)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstCombo(loc))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			
+			if (getScreenD(255))
+				Screen->Message(talkToMeTwice);
+			else
+				Screen->Message(talkToMeOnce);
+				
+			Game->Suspend[susptSCREENDRAW] = false;
+			
+			setScreenD(255, true);
+			
+			Waitframe();
+		}
+	}
+}
+//end
+
+//~~~~~SignPostOnSecret~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Joe123")
+ffc script SignPostOnSecret //start
+{
+	void run(int messageNoSecret, int messageSecret)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstCombo(loc))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			
+			if (Screen->State[ST_SECRET])
+				Screen->Message(messageSecret);
+			else
+				Screen->Message(messageNoSecret);
+			
+			Game->Suspend[susptSCREENDRAW] = false;
+			Waitframe();
+		}
+	}
+}
+//end
+
 //~~~~~ConditionalSignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside
@@ -449,19 +520,19 @@ ffc script FatherAndSonDialogue //start
 				Waitframe();
 			}
 		
+			template->ComboD[ComboAt(this->X, this->Y)] = COMBO_SOLID;
 		}
 			
-		template->ComboD[ComboAt(this->X, this->Y)] = COMBO_SOLID;
 		this->Data = prevData;
 		
-		Waitframes(2);
+		// Waitframes(2);
 
 		int loc = ComboAt(this->X, this->Y);
 
 		while(true)
 		{
 			if (triggerOnScreenD)
-				while (Screen->NumNPCs() && !Screen->State[ST_SECRET])
+				while (/*Screen->NumNPCs() && */!Screen->State[ST_SECRET])
 					Waitframe();
 			
 			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST])

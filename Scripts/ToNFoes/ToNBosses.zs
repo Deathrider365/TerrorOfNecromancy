@@ -1280,6 +1280,9 @@ namespace Enemy::ServusMalus
 			
 			Audio->PlayEnhancedMusic(NULL, 0);
 			
+			if (getScreenD(254))
+				Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+				
 			// Prefight setup
 			until (getScreenD(254))
 			{
@@ -1372,7 +1375,7 @@ namespace Enemy::ServusMalus
 						vX = VectorX(Hero->Step / 100, moveAngle);
 						vY = VectorY(Hero->Step / 100, moveAngle);
 						
-						if (Distance(this->X, this->Y, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 16)
+						if (Distance(this->X, this->Y, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 8)
 						{
 							if (int escr = CheckEWeaponScript("StopperKiller"))
 							{
@@ -1386,8 +1389,8 @@ namespace Enemy::ServusMalus
 					}
 					else
 					{
-						vX = lazyChase(vX, this->X, Hero->X - 8, .05, Hero->Step / 100);
-						vY = lazyChase(vY, this->Y, Hero->Y - 8, .05, Hero->Step / 100);
+						vX = lazyChase(vX, this->X + 12, getXNoStuck(Hero->X - 8), .05, Hero->Step / 100);
+						vY = lazyChase(vY, this->Y + 12, getYNoStuck(Hero->Y - 8), .05, Hero->Step / 100);
 					}
 					
 					unless(spawnTimer)
@@ -1474,8 +1477,8 @@ namespace Enemy::ServusMalus
 						}
 					}
 					
-					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
-					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
+					vX = lazyChase(vX, this->X, getXNoStuck(tX), .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, getYNoStuck(tY), .05, Hero->Step / 100);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
@@ -1515,9 +1518,8 @@ namespace Enemy::ServusMalus
 							dodgeTimer = 90;
 						}
 					}
-					
-					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
-					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
+					vX = lazyChase(vX, this->X, getXNoStuck(tX), .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, getYNoStuck(tY), .05, Hero->Step / 100);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
@@ -1526,6 +1528,8 @@ namespace Enemy::ServusMalus
 				
 				int unlitTorchCount = 0;
 				
+				int multipler = 1;
+					
 				do
 				{
 					if (this->HP <= 0)
@@ -1534,7 +1538,10 @@ namespace Enemy::ServusMalus
 					unlitTorchCount = 0;
 					
 					unless(gameframe % 60)
-						windBlast(this, originalTile, attackingTile, 1);
+					{
+						windBlast(this, originalTile, attackingTile, multipler);
+						++multipler;
+					}
 					
 					unlitTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
 					unlitTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
@@ -1549,6 +1556,25 @@ namespace Enemy::ServusMalus
 
 				Waitframe();
 			}
+		}
+		
+		int getXNoStuck(int originalTarget)
+		{
+			if (Hero->X < 48)
+				return 128;
+			if (Hero->X > 208)
+				return 128;
+			
+			return originalTarget;
+		}
+		
+		int getYNoStuck(int originalTarget)
+		{
+			if (Hero->Y < 48)
+				return 88;
+			if (Hero->Y > 128)
+				return 88;
+			return originalTarget;
 		}
 		
 		void commenceIntroCutscene(
@@ -2099,8 +2125,8 @@ namespace Enemy::ServusMalus
 					
 					int vX = VectorX(this->Step / (40 - (attackCount * 7)), angle);
 					int vY = VectorY(this->Step / (40 - (attackCount * 7)), angle);
-					vX = lazyChase(vX, this->X, Hero->X, .05, this->Step);
-					vY = lazyChase(vY, this->Y, Hero->Y, .05, this->Step);
+					vX = lazyChase(vX, this->X, getXNoStuck(Hero->X), .05, this->Step);
+					vY = lazyChase(vY, this->Y, getYNoStuck(Hero->Y), .05, this->Step);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
@@ -2501,9 +2527,31 @@ npc script SeizedGuardGeneral
 			int attackCoolDown = 120;
 			
 			PlayAnim(this, WALKING);
-				
+			
+			int tooCloseBoiCounter = 0;
+			
 			while (attackCoolDown)
 			{
+				int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+				int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
+				
+				if (distance < 48)
+					tooCloseBoiCounter++;
+				else
+					tooCloseBoiCounter = 0;
+				
+				if (tooCloseBoiCounter == 60)
+				{
+					for (int i = 0; i < 15; ++i)
+					{
+						FaceLink(this);
+						sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 10);
+						CustomWaitframe(this);
+					}
+					
+					tooCloseBoiCounter = 0;
+				}
+				
 				int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
 				this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
 				--attackCoolDown;

@@ -144,7 +144,7 @@ CONFIG SPR_FLAME_HELLS2X2 = 132;
 //~~~~~Combo~~~~~//
 //start
 CONFIG COMBO_INVIS = 1;
-CONFIG COMBO_SOLID = 31;
+CONFIG COMBO_SOLID = 39;
 //end
 
 //~~~~~Combo Types~~~~~//

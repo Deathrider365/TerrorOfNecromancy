@@ -122,7 +122,7 @@ screendata script RadialTransparency //start
 // D1: itemClass (probably a candle)
 // D2: Layer
 @Author ("EmilyV99, Dimi for pulsing lantern effect")
-dmapdata script DarkRegion //start		Credit Dimi for candle style
+dmapdata script DarkRegion //start
 {	
 	void run(int radius, int itemClass, int layer, int torchPower)
 	{
