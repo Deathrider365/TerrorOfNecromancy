@@ -230,6 +230,9 @@ namespace Emily::EmilyMap
 					genMap(bmp, this, lockPalette, curscr);
 			} until(Input->Press[CB_MAP]); //end
 			
+			Input->Press[CB_MAP] = false;
+			Input->Button[CB_MAP] = false;
+			
 			bmp->Free();
 		}
 	} //end
