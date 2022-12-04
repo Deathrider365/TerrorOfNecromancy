@@ -81,9 +81,12 @@ CONFIG COMPASS_SFX = 20; 			//Set this to the SFX id you want to hear when you h
 
 CONFIG CB_SIGNPOST = CB_A;			//Button to press to read a sign
 
-CONFIG SFX_SWITCH_PRESS = 0; 		//SFX when a switch is pressed
+CONFIG SFX_SWITCH_PRESS = 17; 		//SFX when a switch is pressed
 CONFIG SFX_SWITCH_RELEASE = 0; 		//SFX when a switch is released
 CONFIG SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
+
+CONFIG SFX_SHUTTER_OPEN = 151; 		//SFX when a shutter door opens
+CONFIG SFX_SHUTTER_CLOSE = 152; 		//SFX when a shutter door closes
 
 CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving

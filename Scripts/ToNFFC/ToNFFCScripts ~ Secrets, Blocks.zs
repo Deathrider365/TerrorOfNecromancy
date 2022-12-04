@@ -661,9 +661,9 @@ ffc script SwitchHitAll //start
 			if (id > 0)
 			{
 				if (sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else if (sfx == -1)
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
 						Screen->ComboD[i] = comboD[i] + 1;
@@ -685,7 +685,6 @@ ffc script SwitchHitAll //start
 					Screen->State[ST_SECRET] = true;
 			}
 		} //end
-		
 		else //start
 		{
 			while(switches[1] < switches[0])
@@ -766,8 +765,8 @@ ffc script SwitchHitAll //start
 			{
 				if (switchesPressed[j])
 				{
-					if (pressure
-					){
+					if (pressure)
+					{
 						Audio->PlaySound(SFX_SWITCH_RELEASE);
 						Screen->ComboD[k] = switchCmb;
 						switchesPressed[j] = false;
@@ -1313,12 +1312,11 @@ ffc script GB_Shutter //start
 				Waitframe();
 			}
 			
-			//MooshPit_ResetEntry();
-			Game->PlaySound(SFX_SHUTTER);
+			Game->PlaySound(SFX_SHUTTER_CLOSE);
 			m->ComboD[cp] = underCombo;
 			m->ComboC[cp] = underCSet;
-			Game->LoadComboData(thisData + 1)->Frame = 0;
 			this->Data = thisData + 1;
+			Game->LoadComboData(this->Data)->Frame = 0;
 			this->CSet = thisCSet;
 			
 			for(int i = 0; i < 4; i++)
@@ -1385,7 +1383,7 @@ ffc script GB_Shutter //start
 					Waitframe();
 				}
 				
-				Game->PlaySound(SFX_SHUTTER);
+				Game->PlaySound(SFX_SHUTTER_CLOSE);
 				m->ComboD[cp] = underCombo;
 				m->ComboC[cp] = underCSet;
 				Game->LoadComboData(thisData + 1)->Frame = 0;
@@ -1432,7 +1430,7 @@ ffc script GB_Shutter //start
 			Waitframe();
 		}
 		
-		Game->PlaySound(SFX_SHUTTER);
+		Game->PlaySound(SFX_SHUTTER_OPEN);
 		m->ComboD[cp] = underCombo;
 		m->ComboC[cp] = underCSet;
 		Game->LoadComboData(thisData + 1)->Frame = 0;
@@ -1447,9 +1445,7 @@ ffc script GB_Shutter //start
 	
 	bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway) //start
 	{
-		if(Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway)
-			return true;
-		return false;
+		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
 	} //end
 	
 	bool GB_Shutter_CheckEnemies() //start
