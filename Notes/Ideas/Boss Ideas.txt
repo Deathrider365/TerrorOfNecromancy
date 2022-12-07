@@ -98,3 +98,5 @@ continues down there (the fish from LA)
 
 a boss using dancing mad 4th movement (prob final boss) after taking a lot of consecutive damage he staggers (similar to gamon FSA) and he has
 a stagger animation. The lower his heath gets the easier he staggers 
+
+Deathrider will be a future boss

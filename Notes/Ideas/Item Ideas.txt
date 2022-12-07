@@ -40,3 +40,5 @@ like flow of time have some items like the raft require you to get materials lik
 
 multiple levels of spin attack that do more damage or more spins
 
+An item that has 2 states
+
