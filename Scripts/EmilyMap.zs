@@ -1,5 +1,3 @@
-
-
 namespace Emily::EmilyMap
 {
 	CONFIG COLOR_NULL = 0x0F;

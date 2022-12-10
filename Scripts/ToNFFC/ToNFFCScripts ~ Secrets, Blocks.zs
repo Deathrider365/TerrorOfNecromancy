@@ -540,12 +540,17 @@ ffc script SwitchRemote //start
 
 //~~~~~SwitchHitAll~~~~~//
 // D0: Set this to the combo number used for the unpressed switches.
-// D1: Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
+// D1: Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). 
+// 	Set to 2 to make it a pressure switch that only reacts to push blocks.
 // D2: Set to 1 to make the secret that's triggered permanent.
 // D3: Set to the controller's ID. Set to 0 if the switch is temporary or you're using screen secrets.
 // D4: Set to the flag that specifies the region for the remote secret. If you're using screen secrets instead of remote ones, this can be ignored.
 // D5: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-// D6: If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
+// D6: If you want the script to remember which switches were pressed after leaving the screen, 
+// 	set to the starting ID for the group of switches. This will reference this ID as well as the 
+// 	next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly 
+// 	test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. 
+// 	If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
 // D7 (2.55 version only): Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.
 @Author("Moosh")
 ffc script SwitchHitAll //start

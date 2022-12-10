@@ -1386,6 +1386,7 @@ ffc script SecretArrowThrower //start
 		}
 	}
 } //end
+
 itemsprite script ArcingItemSprite //start
 {
     void run(int angle, int step, int initJump, int gravity) 

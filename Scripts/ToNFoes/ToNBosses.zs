@@ -1070,10 +1070,7 @@ namespace Enemy::OvergrownRaccoon //start
 			this->Dir = faceLink(this);
 			
 			until (this->Z == 0)
-			{
-				NoAction();
 				Waitframe();
-			}
 			
 			Screen->Quake = 60;
 			Audio->PlaySound(3);
