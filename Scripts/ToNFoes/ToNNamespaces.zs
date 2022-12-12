@@ -503,7 +503,7 @@ namespace Enemy::Manhandala //start
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					
 					if ((!(this->CanMove(this->Dir, 1, 0)) || (this->X == previousX && this->Y == previousY)) 
-						&& linkClose(this, 32))
+						&& linkClose(this, 48))
 						stuckAction(this, data, fleeDuration);
 					
 					previousX = this->X;
@@ -543,7 +543,8 @@ namespace Enemy::Manhandala //start
 						effectBitmap->DrawTile(4, this->X, this->Y + i, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
 						effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-						Screen->DrawCombo(4, this->X, this->Y + 22, 6725, 2, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						custom_waitframe(this, data);
 					}
@@ -574,7 +575,8 @@ namespace Enemy::Manhandala //start
 						
 						effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
 						effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-						Screen->DrawCombo(4, this->X, this->Y + 22, 6725, 2, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						custom_waitframe(this, data);
 					}
@@ -681,7 +683,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 		
 			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
@@ -707,7 +709,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 		
 			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
@@ -733,7 +735,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -764,7 +766,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -800,7 +802,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -823,7 +825,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -883,7 +885,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 2, 10276, 2, OP_OPAQUE);

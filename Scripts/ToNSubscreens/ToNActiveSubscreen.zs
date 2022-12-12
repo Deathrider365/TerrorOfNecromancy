@@ -93,7 +93,7 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 			asubscr_pos %= (4 * 6);
 		
 		//start State where the triforce of death should not be visible, so filter it
-		unless(Game->GetCurDMap() == 2)
+		unless(Game->GetCurDMap() <= 2) //TODO change once you actually get the raft
 		{
 			if(currTriforceIndex == -1)
 				currTriforceIndex = 3;

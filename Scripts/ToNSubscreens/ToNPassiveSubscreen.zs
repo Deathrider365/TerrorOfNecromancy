@@ -57,6 +57,7 @@ dmapdata script PassiveSubscreen //start
 			
 			unless(subscr_open) //start Cycling; Not while the active subscreen is open
 			{
+				//TODO source of the dual sword issue
 				if(Input->Press[CB_L]) //start Left Cycle
 				{
 					int pos = 0;
@@ -251,7 +252,7 @@ dmapdata script PassiveSubscreen //start
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
 		
 		if (y > -55)
-			Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			Screen->DrawString(7, 234, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end Clock
 		
 		//start Minimap

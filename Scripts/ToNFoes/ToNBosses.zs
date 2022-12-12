@@ -2169,6 +2169,8 @@ namespace Enemy::ServusMalus
 					
 					eweapon scythe, scythe2;
 					
+					Audio->PlaySound(145);
+					
 					scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
 					scythe->Damage = 4;
 					scythe->UseSprite(125);

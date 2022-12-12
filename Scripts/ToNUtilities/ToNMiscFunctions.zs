@@ -533,7 +533,6 @@ float PercentOfWhole(int part, int whole) //start
 	return (100 * part)/whole;
 } //end
 
-//~~~~~SwitchPressed (used for switch scripts)~~~~~//
 int SwitchPressed(int x, int y, bool noLink) //start
 {
 	int xOff = 0;

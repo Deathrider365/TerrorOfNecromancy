@@ -195,16 +195,22 @@ global script GlobalScripts //start
 			case 4:
 				switch(scr)
 				{
-					case 0x06:
-						return 011000b;
 					case 0x26:
 						return 011000b;
-					case 0x07:
-						return 001100b;
 					case 0x38:
 					case 0x39:
 						return 001000b;
 					
+				}
+				break;
+			
+			case 32:
+				switch(scr)
+				{
+					case 0x06:
+						return 011000b;
+					case 0x07:
+						return 001100b;
 				}
 				break;
 			case 5:
