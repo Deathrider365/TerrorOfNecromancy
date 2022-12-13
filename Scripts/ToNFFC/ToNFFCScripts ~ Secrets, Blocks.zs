@@ -484,7 +484,7 @@ ffc script SwitchRemote //start
 				
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
-						Screen->ComboD[i] = comboD[i] + 1;
+						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
 						
 				Quit();
 			}
@@ -502,7 +502,7 @@ ffc script SwitchRemote //start
 				
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
-						Screen->ComboD[i] = comboD[i] + 1;
+						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;;
 						
 				while (SwitchPressed(this->X, this->Y, noLink))
 					Waitframe();
