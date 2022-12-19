@@ -1178,7 +1178,7 @@ namespace Enemy //start
 		for(int i = Screen->NumNPCs(); i >= 1; i--)
 		{
 			npc n = Screen->LoadNPC(i);
-			n->Remove();
+			n->HP = 0;
 		}
 		
 		n->Immortal = false;

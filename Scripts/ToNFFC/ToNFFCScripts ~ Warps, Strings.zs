@@ -287,7 +287,7 @@ ffc script Signpost //start
 		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			while(!(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])) 
 			{
 				if (AgainstComboBase(loc, anySide))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
