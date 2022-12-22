@@ -1357,22 +1357,33 @@ namespace Enemy::ServusMalus
 					
 					ResizeArray(litTorches, litTorchCount);
 					
+					// if all torches are until for x seconds, do something kool
+					
 					checkTorchBrightness(litTorchCount, cmbLitTorch);
 					
 					unless (chosenTorch || --blowOutRandomTorchTimer)
 					{
-						chosenTorch = Choose(litTorches);
+						for (int i = 0; i < SizeOfArray(litTorches); i++)
+						{
+							if (!chosenTorch) 
+								chosenTorch = litTorches[0];
+							
+							int selectedTorchDistance = Distance(this->X - 12, this->Y - 12, ComboX(litTorches[i]) - 8, ComboY(litTorches[i]) - 8);
+							int chosenTorchDistance = Distance(this->X - 12, this->Y - 12, ComboX(chosenTorch) - 8, ComboY(chosenTorch) - 8);
+							chosenTorch = (chosenTorchDistance < selectedTorchDistance) ? chosenTorch : litTorches[i];
+						}
+					
 						blowOutRandomTorchTimer = 120;
 					}
 					
 					if (chosenTorch)
 					{
-						int moveAngle = Angle(this->X, this->Y, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8);
+						int moveAngle = Angle(this->X + 12, this->Y + 12, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8);
 						
 						vX = VectorX(Hero->Step / 100, moveAngle);
 						vY = VectorY(Hero->Step / 100, moveAngle);
 						
-						if (Distance(this->X, this->Y, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 8)
+						if (Distance(this->X + 12, this->Y + 12, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 16)
 						{
 							if (int escr = CheckEWeaponScript("StopperKiller"))
 							{
@@ -1386,8 +1397,8 @@ namespace Enemy::ServusMalus
 					}
 					else
 					{
-						vX = lazyChase(vX, this->X + 12, getXNoStuck(Hero->X - 8), .05, Hero->Step / 100);
-						vY = lazyChase(vY, this->Y + 12, getYNoStuck(Hero->Y - 8), .05, Hero->Step / 100);
+						vX = lazyChase(vX, this->X + 12, Hero->X - 8, .05, Hero->Step / 100);
+						vY = lazyChase(vY, this->Y + 12, Hero->Y - 8, .05, Hero->Step / 100);
 					}
 					
 					unless(spawnTimer)
@@ -1402,7 +1413,7 @@ namespace Enemy::ServusMalus
 					if (litTorchCount == 4)	
 						torchesLit = true;
 					
-					unless (Screen->NumNPCs() == maxEnemies)
+					if ((Screen->NumNPCs() - 1) < maxEnemies && chosenTorch == 0)
 						--spawnTimer;
 					
 					Waitframe();
@@ -1474,8 +1485,8 @@ namespace Enemy::ServusMalus
 						}
 					}
 					
-					vX = lazyChase(vX, this->X, getXNoStuck(tX), .05, Hero->Step / 100);
-					vY = lazyChase(vY, this->Y, getYNoStuck(tY), .05, Hero->Step / 100);
+					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
@@ -1515,8 +1526,9 @@ namespace Enemy::ServusMalus
 							dodgeTimer = 90;
 						}
 					}
-					vX = lazyChase(vX, this->X, getXNoStuck(tX), .05, Hero->Step / 100);
-					vY = lazyChase(vY, this->Y, getYNoStuck(tY), .05, Hero->Step / 100);
+					
+					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
@@ -1553,25 +1565,6 @@ namespace Enemy::ServusMalus
 
 				Waitframe();
 			}
-		}
-		
-		int getXNoStuck(int originalTarget)
-		{
-			if (Hero->X < 48)
-				return 128;
-			if (Hero->X > 208)
-				return 128;
-			
-			return originalTarget;
-		}
-		
-		int getYNoStuck(int originalTarget)
-		{
-			if (Hero->Y < 48)
-				return 88;
-			if (Hero->Y > 128)
-				return 88;
-			return originalTarget;
 		}
 		
 		void commenceIntroCutscene(
@@ -2122,8 +2115,8 @@ namespace Enemy::ServusMalus
 					
 					int vX = VectorX(this->Step / (40 - (attackCount * 7)), angle);
 					int vY = VectorY(this->Step / (40 - (attackCount * 7)), angle);
-					vX = lazyChase(vX, this->X, getXNoStuck(Hero->X), .05, this->Step);
-					vY = lazyChase(vY, this->Y, getYNoStuck(Hero->Y), .05, this->Step);
+					vX = lazyChase(vX, this->X, Hero->X, .05, this->Step);
+					vY = lazyChase(vY, this->Y, Hero->Y, .05, this->Step);
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					

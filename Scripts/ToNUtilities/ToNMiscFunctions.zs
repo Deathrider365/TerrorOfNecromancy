@@ -647,11 +647,11 @@ void takeMapScreenshot() //start
 	}
 } //end
 
-// untyped Choose(untyped arr)
-// {
-    // int sz = SizeOfArray(arr);
-    // return arr[Rand(sz)];
-// }
+untyped ChooseArray(untyped arr)
+{
+    int sz = SizeOfArray(arr);
+    return arr[Rand(sz)];
+}
 
 void TraceToScreen(int x, int y, int val){
     Screen->DrawInteger(6, x, y, FONT_Z3SMALL, 0x01, 0x08, -1, -1, val, 0, 128);
