@@ -7,7 +7,7 @@
 //~~~~~Leviathan1~~~~~//
 @Author("Moosh, modified by Deathrider365")
 npc script Leviathan1 //start
-{	
+{
 	using namespace Leviathan1Namespace;
 	
 	const int VARS_HEADNPC = 0;
@@ -24,7 +24,7 @@ npc script Leviathan1 //start
 	int hitBySideSwipe = 0;
 	
 	void run(int fight) //start
-	{		
+	{
 	//start Setup
 		Hero->Dir = DIR_UP;
 		if (waterfall_bmp && waterfall_bmp->isAllocated())
@@ -38,10 +38,10 @@ npc script Leviathan1 //start
 		int angle, dist;
 		
 		eweapon e;
-		
 		untyped vars[16];
+		
 		npc head = CreateNPCAt(NPC_LEVIATHANHEAD, this->X, this->Y);
-
+		
 		vars[VARS_HEADNPC] = head;
 		vars[VARS_BODYHP] = this->HP;
 		vars[VARS_INITHP] = this->HP;
@@ -58,7 +58,6 @@ npc script Leviathan1 //start
 		int attack;	
 		
 		Audio->PlayEnhancedMusic(NULL, 0);
-		
 		//
 		//    The leviathan is rising and screen is quaking
 		//
@@ -77,6 +76,7 @@ npc script Leviathan1 //start
 			Waitframe(this, vars);
 		} //end
 		
+			TraceS("inside intro");
 		//
 		//    The leviathan pauses, roars, then pauses
 		//			
@@ -494,7 +494,12 @@ npc script Leviathan1 //start
 	
 	void GlideFrame(npc this, untyped vars, int x1, int y1, int x2, int y2, int numFrames, int i) //start
 	{
+		float num = 9.4;
+		sprintf("angle: ", "%f", num);
+	
 		int angle = Angle(x1, y1, x2, y2);
+		
+		
 		int dist = Distance(x1, y1, x2, y2);
 		int x = x1 + VectorX(dist * (i / numFrames), angle);
 		int y = y1 + VectorY(dist * (i / numFrames), angle);
@@ -585,6 +590,7 @@ npc script Leviathan1 //start
 		
 		npc head = <npc>vars[VARS_HEADNPC];
 		
+		
 		if(head->isValid())
 		{
 			if(head->Y + head->HitYOffset+head->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
@@ -657,7 +663,7 @@ npc script Leviathan1 //start
 		WaitframeLite(this, vars);
 		
 		Audio->PlaySound(120);
-					
+		
 		while(this->Y < 112)
 		{
 			this->Y += 0.5;
@@ -692,10 +698,14 @@ ffc script LegionnaireLevel1 //start
 	void run(int enemyid)
 	{	//start Set Up
 	
-		if (Screen->State[ST_SECRET])
-			Quit();
-	
 		npc ghost = Ghost_InitAutoGhost(this, enemyid);			// pairing enemy with ffc
+		
+		if (Screen->State[ST_SECRET])
+		{
+			ghost->Remove();
+			Quit();
+		}
+	
 		Ghost_SetFlag(GHF_4WAY);								// 4 way movement
 		int combo = ghost->Attributes[10];						// finds enemy first combo
 		int attackCoolDown = 90 + Rand(30);
@@ -756,11 +766,17 @@ ffc script LegionnaireLevel1 //start
 			
 			Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
 			
-			if (timeToSpawnAnother >= 600 && enemyCount < 2) //start Spawning more
+			numEnemies = Screen->NumNPCs();
+			
+			if (timeToSpawnAnother >= 300 && numEnemies < 3) //start Spawning more
 			{
 				enemyShake(this, ghost, 32, 1);
-				Audio->PlaySound(132); // was 64 (general spawn sfx)
+				Audio->PlaySound(143);
 				npc n1 = Screen->CreateNPC(220);
+				n1->ItemSet = 0;
+				n1->HP *= .5;
+				n1->Step *= .5;
+				n1->Damage *= .5;
 				
 				int pos, x, y;
 			
@@ -782,7 +798,6 @@ ffc script LegionnaireLevel1 //start
 				n1->X = x;
 				n1->Y = y;
 
-				++enemyCount;
 				timeToSpawnAnother = 0;
 			} //end
 			
@@ -796,8 +811,9 @@ ffc script LegionnaireLevel1 //start
 				switch(attack)
 				{
 					case 0: //start Fire Swordz
+					{
 						Ghost_Data = combo;
-						int swordDamage = 3;
+						int swordDamage = 2;
 						
 						enemyShake(this, ghost, 16, 1);
 				
@@ -812,8 +828,9 @@ ffc script LegionnaireLevel1 //start
 						movementDirection = Choose(90, -90);
 						
 						break; //end
-						
+					}
 					case 1: //start Jump Essplode
+					{
 						Ghost_Data = combo + 8;
 						int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
 						int jumpAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
@@ -848,8 +865,9 @@ ffc script LegionnaireLevel1 //start
 						movementDirection = Choose(90, -90);
 						
 						break; //end
-						
+					}
 					case 2: //start Sprint slash
+					{
 						enemyShake(this, ghost, 32, 2);
 						Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
 						
@@ -882,11 +900,11 @@ ffc script LegionnaireLevel1 //start
 						movementDirection = Choose(90, -90);
 						
 						break; //end
-					
+					}
 				}
 			}
 			
-			if (Ghost_HP <= startHP * 0.40)
+			if (Ghost_HP <= startHP * 0.5)
 				timeToSpawnAnother++;
 			
 			Ghost_Waitframe(this, ghost);
@@ -910,7 +928,7 @@ ffc script Shambles //start
 		int bombsToLob = 3;
 		int difficultyMultiplier = 0.33;
 		
-		Audio->PlayEnhancedMusic(NULL, 0);
+		// Audio->PlayEnhancedMusic(NULL, 0);
 		
 		//start spawning animation
 		Ghost_X = 128;				// sets him off screen as a time buffer
@@ -1052,16 +1070,14 @@ namespace Enemy::OvergrownRaccoon //start
 			this->Dir = faceLink(this);
 			
 			until (this->Z == 0)
-			{
-				NoAction();
 				Waitframe();
-			}
 			
 			Screen->Quake = 60;
 			Audio->PlaySound(3);
 			Waitframes(30);
 			
 			NoAction();
+			
 			unless (getScreenD(255))
 			{
 				Screen->Message(403);
@@ -1226,8 +1242,1389 @@ ffc script Demonwall //start
 	}
 } //end
 
+//~~~~~Foreman of Darkness - Servus Malus~~~~~//
+namespace Enemy::ServusMalus
+{
+	npc script ServusMalus
+	{
+		void run()
+		{
+			bool torchesLit = false;
+			int unlitTorch = 7156;
+			int litTorch = 7157;
+			int bigSummerBlowout = 6928;
+			CONFIG originalTile = this->OriginalTile;
+			CONFIG attackingTile = 49660;
+			CONFIG unarmedTile = 49740;
+			bool gettingDesperate = false;
+			int invisibleTile = 49220;
+			
+			int upperLeftTorchLoc = 36;
+			int upperRightTorchLoc = 43;
+			int lowerLeftTorchLoc = 132;
+			int lowerRightTorchLoc = 139;
+			
+			int attackCooldown, timer;
+			
+			combodata cmbLitTorch = Game->LoadComboData(litTorch);
+			cmbLitTorch->Attribytes[0] = 32;
+			
+			mapdata mapData, template;
+			
+			this->X = -32;
+			this->Y = -32;
+			int maxHp = this->HP;
+			
+			Audio->PlayEnhancedMusic(NULL, 0);
+			
+			if (getScreenD(254))
+				Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+				
+			// Prefight setup
+			until (getScreenD(254))
+			{
+				int litTorchCount = 0;
+			
+				template = Game->LoadTempScreen(1);
+				
+				litTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
+				litTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
+				
+				checkTorchBrightness(litTorchCount, cmbLitTorch);
+					
+				if (litTorchCount == 4)
+				{
+					torchesLit = true;
+					setScreenD(254, true);
+					commenceIntroCutscene(
+						this,
+						template,
+						unlitTorch,
+						cmbLitTorch,
+						bigSummerBlowout,
+						upperLeftTorchLoc, 
+						upperRightTorchLoc,
+						lowerLeftTorchLoc,
+						lowerRightTorchLoc,
+						originalTile,
+						attackingTile
+					);
+					
+					Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+					Screen->Message(404);
+				}
+				
+				Waitframe();
+			}
+			
+			// Actual fight begins
+			this->X = 128;
+			this->Y = 32;
+			
+			int vX, vY;
+			
+			while(true)
+			{
+				this->Z = 20;
+				this->CollDetection = false;
+				this->OriginalTile = invisibleTile;
+				
+				int blowOutRandomTorchTimer = 180;
+				int chosenTorch;
+				int spawnTimer = 90;
+				int maxEnemies = 5;
+				
+				torchesLit = false;
+				vX = 0;
+				vY = 0;
+				
+				until (torchesLit)
+				{
+					template = Game->LoadTempScreen(1);
+					
+					int litTorchCount = 0;
+					
+					int litTorches[4];
+					int allTorches[4] = {upperLeftTorchLoc, upperRightTorchLoc, lowerLeftTorchLoc, lowerRightTorchLoc};
 
+					for(int q = 0; q < 4; ++q)
+					{
+						if(template->ComboD[allTorches[q]] == litTorch)
+							litTorches[litTorchCount++] = allTorches[q];
+					}
+					
+					ResizeArray(litTorches, litTorchCount);
+					
+					// if all torches are until for x seconds, do something kool
+					
+					checkTorchBrightness(litTorchCount, cmbLitTorch);
+					
+					unless (chosenTorch || --blowOutRandomTorchTimer)
+					{
+						for (int i = 0; i < SizeOfArray(litTorches); i++)
+						{
+							if (!chosenTorch) 
+								chosenTorch = litTorches[0];
+							
+							int selectedTorchDistance = Distance(this->X - 12, this->Y - 12, ComboX(litTorches[i]) - 8, ComboY(litTorches[i]) - 8);
+							int chosenTorchDistance = Distance(this->X - 12, this->Y - 12, ComboX(chosenTorch) - 8, ComboY(chosenTorch) - 8);
+							chosenTorch = (chosenTorchDistance < selectedTorchDistance) ? chosenTorch : litTorches[i];
+						}
+					
+						blowOutRandomTorchTimer = 120;
+					}
+					
+					if (chosenTorch)
+					{
+						int moveAngle = Angle(this->X + 12, this->Y + 12, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8);
+						
+						vX = VectorX(Hero->Step / 100, moveAngle);
+						vY = VectorY(Hero->Step / 100, moveAngle);
+						
+						if (Distance(this->X + 12, this->Y + 12, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 16)
+						{
+							if (int escr = CheckEWeaponScript("StopperKiller"))
+							{
+								eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, ComboX(chosenTorch), ComboY(chosenTorch), {0, 60});
+								ewind->Unblockable = UNBLOCK_ALL;
+								ewind->UseSprite(128);
+								ewind->Damage = 2;
+							}
+							Audio->PlaySound(63);
+							chosenTorch = 0;
+						}
+					}
+					else
+					{
+						vX = lazyChase(vX, this->X + 12, Hero->X - 8, .05, Hero->Step / 100);
+						vY = lazyChase(vY, this->Y + 12, Hero->Y - 8, .05, Hero->Step / 100);
+					}
+					
+					unless(spawnTimer)
+					{
+						spawnEnemy(this);
+						spawnTimer = 90;
+					}
 
+					this->MoveXY(vX, vY, SPW_FLOATER);
+					this->Dir = faceLink(this);
+					
+					if (litTorchCount == 4)	
+						torchesLit = true;
+					
+					if ((Screen->NumNPCs() - 1) < maxEnemies && chosenTorch == 0)
+						--spawnTimer;
+					
+					Waitframe();
+				}
+				
+				Audio->PlaySound(149);
+				
+				//Commence Battle
+				
+				this->CollDetection = true;
+				this->OriginalTile = originalTile;
+				
+				for (int i = 0; i < 90; ++i)
+					Waitframe();
+				
+				vX = 0;
+				vY = 0;
+				
+				attackCooldown = gettingDesperate ? 60 : 90;
+				timer = 0;
+				CONFIG START_TIMER = 600;
+				int dodgeTimer;
+				
+				while(timer < START_TIMER)
+				{
+					if (this->HP <= maxHp * .3)
+						gettingDesperate = true;
+						
+					float percent = timer / START_TIMER;
+						
+					cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
+					
+					if (this->HP <= 0)
+						deathAnimation(this, 148);
+						
+					if (this->Z > 0 && !(gameframe % 2))
+						this->Z -= 1;
+					
+					unless (attackCooldown)
+					{
+						chooseAttack(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+						attackCooldown = gettingDesperate ? 60 : 90;
+					}
+					
+					int tX, tY;
+					int angle = Angle(Hero->X - 8, Hero->Y - 8, this->X, this->Y);
+					
+					tX = Hero->X - 8 + VectorX(30, angle); //48
+					tY = Hero->Y - 8 + VectorY(30, angle); //48
+					
+					if (dodgeTimer)
+						--dodgeTimer;
+						
+					if (dodgeTimer || tX < 0 || tX > 255 - 32 || tY < 0 || tY > 175 - 32)
+					{
+						tX = 128 - 16;
+						tY = 88 - 16;
+						
+						unless (dodgeTimer)
+						{
+							int dodgeAngle = Angle(this->X, this->Y, tX, tY);
+							int diff = AngDiff(dodgeAngle, angle);
+							
+							dodgeAngle += diff < 0 ? -90 : 90;
+							
+							vX = VectorX(Hero->Step / 100, dodgeAngle);
+							vY = VectorY(Hero->Step / 100, dodgeAngle);
+							dodgeTimer = 90;
+						}
+					}
+					
+					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
+					this->MoveXY(vX, vY, SPW_FLOATER);
+					this->Dir = faceLink(this);
+					
+					--attackCooldown;
+					++timer;
+					Waitframe();
+				}
+				
+				while (Distance(this->X, this->Y, 128, 88) > 64)
+				{
+					if (this->HP <= 0)
+						deathAnimation(this, 148);
+						
+					int tX, tY;
+					int angle = Angle(Hero->X - 8, Hero->Y - 8, this->X - 12, this->Y - 12);
+					
+					tX = Hero->X - 8 + VectorX(30, angle);
+					tY = Hero->Y - 8 + VectorY(30, angle);
+					
+					if (dodgeTimer)
+						--dodgeTimer;
+						
+					if (dodgeTimer || tX < 0 || tX > 255 - 32 || tY < 0 || tY > 175 - 32)
+					{
+						tX = 128 - 16;
+						tY = 88 - 16;
+						
+						unless (dodgeTimer)
+						{
+							int dodgeAngle = Angle(this->X, this->Y, tX, tY);
+							int diff = AngDiff(dodgeAngle, angle);
+							
+							dodgeAngle += diff < 0 ? -90 : 90;
+							
+							vX = VectorX(Hero->Step / 100, dodgeAngle);
+							vY = VectorY(Hero->Step / 100, dodgeAngle);
+							dodgeTimer = 90;
+						}
+					}
+					
+					vX = lazyChase(vX, this->X, tX, .05, Hero->Step / 100);
+					vY = lazyChase(vY, this->Y, tY, .05, Hero->Step / 100);
+					this->MoveXY(vX, vY, SPW_FLOATER);
+					this->Dir = faceLink(this);
+					
+					Waitframe();
+				}
+				
+				int unlitTorchCount = 0;
+				
+				int multipler = 1;
+					
+				do
+				{
+					if (this->HP <= 0)
+						deathAnimation(this, 148);
+						
+					unlitTorchCount = 0;
+					
+					unless(gameframe % 60)
+					{
+						windBlast(this, originalTile, attackingTile, multipler);
+						++multipler;
+					}
+					
+					unlitTorchCount += <int> (template->ComboD[upperLeftTorchLoc] == litTorch);
+					unlitTorchCount += <int> (template->ComboD[upperRightTorchLoc] == litTorch);
+					unlitTorchCount += <int> (template->ComboD[lowerLeftTorchLoc] == litTorch);
+					unlitTorchCount += <int> (template->ComboD[lowerRightTorchLoc] == litTorch);
+					
+					checkTorchBrightness(unlitTorchCount, cmbLitTorch, 1);
+					
+					Waitframe();
+					
+				} while(unlitTorchCount)
+
+				Waitframe();
+			}
+		}
+		
+		void commenceIntroCutscene(
+			npc this,
+			mapdata template,
+			int unlitTorch,
+			combodata cmbLitTorch,
+			int bigSummerBlowout,
+			int upperLeftTorchLoc, 
+			int upperRightTorchLoc,
+			int lowerLeftTorchLoc,
+			int lowerRightTorchLoc,
+			int originalTile,
+			int attackingTile
+		){
+			int soldierLeftFast = 6715;
+			int soldierUpStunned = 6714;
+			int soldierUpLaying = 6709;
+			int soldierUp = 6722;
+			int soldierDown = 6723;
+			int soldierLeft = 6726;
+			int soldierRight = 6727;
+			int servusFullStartingCombo = 6916;
+			int servusTransStartingCombo = 6920;
+			int servusAttackingStartingCombo = 6924;
+			int servusMovingUpStartingCombo = 6932;
+			int servusVanishingStartingCombo = 6936;
+			int servusTurningStartingCombo = 6940;
+			
+			// Buffer
+			for (int i = 0; i < 120; ++i)
+			{
+				disableLink();
+				Waitframe();
+			}
+		
+			Hero->X = 32;
+			Hero->Y = 80;
+			Hero->Dir = DIR_RIGHT;
+			
+			int xLocation = 256;
+			
+			// Soldier walks in from right
+			until (xLocation == 120)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, xLocation, 80, soldierLeftFast, 0, OP_OPAQUE);
+				--xLocation;
+				Waitframe();
+			}
+			
+			// Turns up 
+			for (int i = 0; i < 120; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(653);
+
+				Waitframe();
+			}
+			
+			// Turns left
+			for (int i = 0; i < 120; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 120, 80, soldierLeft, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(654);
+					
+				Waitframe();
+			}
+			
+			// Turns right
+			for (int i = 0; i < 120; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 120, 80, soldierRight, 0, OP_OPAQUE);
+				
+				if (i == 60) 
+					Screen->Message(655);
+				
+				Waitframe();
+			}
+			
+			int modifier;
+			int counter;
+			bool alternate;
+			
+			// Turns up and buffer
+			for (int i = 0; i < 60; ++i)
+			{
+				disableLink();
+				
+				if (i % 4)
+				{				
+					Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
+				Waitframe();
+			}
+			
+			Audio->PlayEnhancedMusic("Metroid Fusion - Environmental Intrigue.ogg", 0);
+
+			// Servus apparates in 
+			for (int i = 0; i < 300; ++i)
+			{
+				disableLink();
+				
+				if (i < 120)
+					modifier = 1;
+				else if (i < 210) 
+					modifier = 2;
+				else if (i < 270) 
+					modifier = 4;
+				else if (i < 300) 
+					modifier = 8;
+				
+				if (counter > modifier)
+				{
+					counter = 0;
+					alternate = !alternate;
+				}
+				
+				if (alternate) {
+					Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				counter++;
+				Waitframe();
+			}
+			
+			Screen->Message(656);
+			
+			// Servus fully appears
+			for (int i = 0; i < 60; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Screen->Message(658);
+			
+			// Buffer
+			for (int i = 0; i < 60; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				if (i == 59)
+					Screen->Message(660);
+				
+				Waitframe();
+			}
+			
+			
+			// Turns around
+			for (int i = 0; i < 15; ++i)
+			{
+				disableLink();
+				
+				if (i < 8)
+				{
+					Screen->FastCombo(2, 112, 32, servusTurningStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusTurningStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusTurningStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusTurningStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Screen->Message(663);
+			
+			// Turns around
+			for (int i = 0; i < 15; ++i)
+			{
+				disableLink();
+				
+				if (i < 8)
+				{
+					Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else
+				{
+					Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			// Servus about to charge
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				Waitframe();
+			}
+			
+			// Servus charges at soldier
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 32 + i, servusAttackingStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 32 + i, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 48 + i, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 48 + i, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+				Waitframe();
+			}
+			
+			Audio->PlaySound(144);
+
+			// Soldier flies back
+			int distanceTraveled = 2;
+			
+			until (distanceTraveled == 64)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Screen->FastCombo(2, 120, 80 + distanceTraveled, soldierUpStunned, 0, OP_OPAQUE);
+				
+				distanceTraveled += 2;
+				Waitframe();
+			}
+
+			Audio->PlaySound(121);
+			Screen->Quake = 20;
+			
+			setScreenD(253, true);
+			
+			// Buffer as soldier is against the wall
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Screen->Message(665);
+			
+			// Link intervenes
+			until (Hero->X >= 120)
+			{
+				disableLink();
+				
+				if (Hero->Y <= 96)
+				{
+					Hero->InputRight = true;
+					Hero->InputDown = true;
+				}
+				else
+					Hero->InputRight = true;
+				
+				
+				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Hero->Dir = DIR_UP;
+			
+			// Buffer as link just got in front of Servus
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			Screen->Message(666);
+			
+			// Buffer before Big Summer Blowout
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			// Servus moves up for the Big Summer Blowout
+			for (int i = 0; i < 48; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 62 - i, servusMovingUpStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 62 - i, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			// Buffer before Big Summer Blowout
+			for (int i = 0; i < 30; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 16, servusFullStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 16, servusFullStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			for (int i = 0; i < 60; ++i)
+			{
+				disableLink();
+				
+				Screen->FastCombo(2, 112, 14, servusAttackingStartingCombo, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 14, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
+				
+				Waitframe();
+			}
+			
+			// Big Summer Blowout
+			Audio->PlaySound(63);
+			this->X = 112;
+			this->Y = 16;
+			windBlast(this, originalTile, attackingTile, 2);
+			
+			// Servus vanishes
+			for (int i = 0; i < 20; ++i)
+			{
+				disableLink();
+				
+				if (i < 10)
+				{
+					Screen->FastCombo(2, 112, 14, servusVanishingStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 14, servusVanishingStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 30, servusVanishingStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 30, servusVanishingStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				else 
+				{
+					Screen->FastCombo(2, 112, 14, servusTransStartingCombo, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 14, servusTransStartingCombo + 1, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 112, 30, servusTransStartingCombo + 2, 3, OP_OPAQUE);
+					Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
+				}
+				
+				Waitframe();
+			}			
+		}
+			
+		void disableLink()
+		{
+			NoAction();
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;
+		}
+		
+		void checkTorchBrightness(int litTorchCount, combodata cmbLitTorch, int mode = 0)
+		{
+			switch(mode)
+			{
+				case 0:
+				{
+					switch(litTorchCount)
+					{
+						case 0: 
+						case 1:
+							cmbLitTorch->Attribytes[0] = 36;
+							return;
+						case 2:
+							cmbLitTorch->Attribytes[0] = 40;
+							return;
+						case 3:
+							cmbLitTorch->Attribytes[0] = 58;
+							return;
+						case 4:
+							cmbLitTorch->Attribytes[0] = 64;
+							return;
+					}
+					break;
+				}
+				case 1:
+				{
+					switch(litTorchCount)
+					{
+						case 0: 
+						case 1:
+							cmbLitTorch->Attribytes[0] = 12;
+							return;
+						case 2:
+							cmbLitTorch->Attribytes[0] = 16;
+							return;
+						case 3:
+							cmbLitTorch->Attribytes[0] = 20;
+							return;
+						case 4:
+							cmbLitTorch->Attribytes[0] = 24;
+							return;
+					}
+					break;
+				}
+			}
+		}
+		
+		void spawnEnemy(npc this)
+		{
+			
+			for (int i = 0; i < 30; ++i)
+				Waitframe();
+				
+			Game->PlaySound(60);
+			
+			for (int i = 0; i <= 30; ++i)
+			{
+				unless (i % 5)
+					i < 15 ? this->Z-- : this->Z++;
+					
+				Waitframe();
+			}
+			
+			this->Z = 20;
+			
+			for (int i = 0; i < 45; ++i)
+				Waitframe();
+				
+			Game->PlaySound(64);
+			
+			npc enemy = Screen->CreateNPC(243);
+			enemy->X = this->X + 12;
+			enemy->Y = this->Y + 12;
+			
+			for (int i = 0; i < 30; ++i)
+				Waitframe();
+		}
+		
+		void chooseAttack(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate)
+		{
+			if (Distance(this->X, this->Y, Hero->X, Hero->Y) <= (gettingDesperate ? 56 : 48))
+				scytheSlash(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+				
+			if (Distance(this->X, this->Y, Hero->X, Hero->Y) > (gettingDesperate ? 48 : 56))
+				scytheThrow(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+		}
+		
+		void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate)
+		{
+			for (int attackCount = 1; attackCount < (gettingDesperate ? 4 : 2); attackCount++)
+			{
+				if (this->HP <= 0)
+					deathAnimation(this, 148);
+					
+				int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
+				this->OriginalTile = attackingTile;
+				Audio->PlaySound(147);
+				
+				for (int i = 0; i < (gettingDesperate ? 5 : 15); ++i)
+					Waitframe();
+				
+				if (attackCount == 3)
+					Waitframes(5);
+				
+				for (int i = 0; i < 15; ++i)
+				{
+					this->OriginalTile = unarmedTile;
+					
+					int vX = VectorX(this->Step / (40 - (attackCount * 7)), angle);
+					int vY = VectorY(this->Step / (40 - (attackCount * 7)), angle);
+					vX = lazyChase(vX, this->X, Hero->X, .05, this->Step);
+					vY = lazyChase(vY, this->Y, Hero->Y, .05, this->Step);
+					this->MoveXY(vX, vY, SPW_FLOATER);
+					this->Dir = faceLink(this);
+					
+					sword2x1(this->X + 8, this->Y + 8, angle + Lerp((attackCount % 2 ? -90 : 90), (attackCount % 2 ? 90 : -90), i / 14), 16, 6944, 3, 5);
+					
+					Waitframe();
+				}
+				for (int i = 0; i < (gettingDesperate ? 8 : 15); ++i)
+				{
+					if (this->HP <= 0)
+						deathAnimation(this, 148);
+						
+					this->OriginalTile = originalTile;
+					Waitframe();
+				}
+			}
+		}
+		
+		void scytheThrow(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate)
+		{
+			Audio->PlaySound(146);
+			
+			for (int i = 0; i < 30; ++i)
+			{
+				if (this->HP <= 0)
+					deathAnimation(this, 148);
+					
+				this->OriginalTile = attackingTile;
+				Waitframe();
+			}
+			
+			if (int escr = CheckEWeaponScript("BoomerangThrow"))
+			{
+				for (int i = 0; i < (gettingDesperate ? 2 : 1); i++)
+				{
+					if (this->HP <= 0)
+						deathAnimation(this, 148);
+						
+					if (i > 0)
+						Audio->PlaySound(146);
+						
+					this->OriginalTile = unarmedTile;
+					
+					eweapon scythe, scythe2;
+					
+					Audio->PlaySound(145);
+					
+					scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
+					scythe->Damage = 7;
+					scythe->UseSprite(125);
+					scythe->Extend = 3;
+					scythe->TileWidth = 2;
+					scythe->TileHeight = 2;
+					scythe->HitWidth = 24;
+					scythe->HitHeight = 24;
+					scythe->HitXOffset = 4;
+					scythe->HitYOffset = 4;
+					scythe->Unblockable = UNBLOCK_ALL;
+					
+					if (gettingDesperate)
+					{
+						scythe2 = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 1});
+						scythe2->Damage = 8;
+						scythe2->UseSprite(125);
+						scythe2->Extend = 3;
+						scythe2->TileWidth = 2;
+						scythe2->TileHeight = 2;
+						scythe2->HitWidth = 24;
+						scythe2->HitHeight = 24;
+						scythe2->HitXOffset = 4;
+						scythe2->HitYOffset = 4;
+						scythe2->Unblockable = UNBLOCK_ALL;
+					}
+					
+					while(scythe2->isValid() || scythe->isValid())
+						Waitframe();
+					
+					
+					for (int i = 0; i < 15; ++i)
+					{
+						if (this->HP <= 0)
+							deathAnimation(this, 148);
+							
+						this->OriginalTile = attackingTile;
+						Waitframe();
+					}
+				}
+			}
+			
+			for (int i = 0; i < 15; ++i)
+			{
+				if (this->HP <= 0)
+					deathAnimation(this, 148);
+				this->OriginalTile = originalTile;
+				Waitframe();
+			}
+		}
+		
+		CONFIG WIND_COUNT = 8;
+		
+		void windBlast(npc this, int originalTile, int attackingTile, int mult = 1)
+		{
+			Audio->PlaySound(149);
+				
+			int wc = WIND_COUNT * mult;
+			int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+			int inc = 360 / wc;
+			
+			int escr = CheckEWeaponScript("EwWindBlast");
+			int lscr = CheckLWeaponScript("LwWindBlast");
+			
+			Audio->PlaySound(63);
+			this->OriginalTile = attackingTile; //TODO not doing this for some reason
+			
+			for (int i = 0; i < 15; i++)
+			{
+				unless (i % 5)
+				{
+					switch(this->Dir)
+					{
+						case DIR_UP:
+							this->Dir = DIR_RIGHT;
+							break;
+						case DIR_DOWN:
+							this->Dir = DIR_LEFT;
+							break;
+						case DIR_RIGHT:
+							this->Dir = DIR_DOWN;
+							break;
+						case DIR_LEFT:
+							this->Dir = DIR_UP;
+							break;
+					}
+				}
+				Waitframe();
+			}
+				
+			if(escr && lscr)
+			{
+				WindHandler.init();
+				
+				for(int i = 0; i < wc; ++i)
+				{
+					if (this->HP <= 0)
+						deathAnimation(this, 136);
+						
+					eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, CenterX(this) - 8, CenterY(this) - 8);
+					ewind->Angular = true;
+					ewind->Angle = DegtoRad(WrapDegrees(angle + inc * i));
+					ewind->Step = 250;
+					ewind->UseSprite(128);
+					ewind->Unblockable = UNBLOCK_ALL;
+					
+					// lweapon lwind = RunLWeaponScriptAt(LW_SCRIPT2, lscr, CenterX(this) - 8, CenterY(this) - 8);
+					// lwind->Angular = true;
+					// lwind->Angle = DegtoRad(WrapDegrees(angle + inc * i));
+					// lwind->Step = 250;
+					// lwind->UseSprite(36);
+					// lwind->Unblockable = UNBLOCK_NORM | UNBLOCK_SHLD | UNBLOCK_REFL;
+					
+				}
+				
+				this->OriginalTile = originalTile;
+			}
+		}
+	}
+	
+	eweapon script BoomerangThrow
+	{
+		void run(npc parent, int tX, int tY, int step, int skew, int clockWise)
+		{
+			for(int i = 0; i < 360;)
+			{
+				int cX = (parent->X + tX) / 2;
+				int cY = (parent->Y + tY) / 2;
+				int r = Distance(cX, cY, parent->X, parent->Y);
+				int ang = Angle(cX, cY, parent->X, parent->Y);
+				int rstep = step / (2 * PI * (r + r * skew / 2)) * 360;
+				
+				int axis1 = VectorX(r, i);
+				int axis2 = VectorY(r * skew, i);
+				
+				this->X = cX + VectorX(axis1, ang) + VectorX(axis2, ang + (clockWise ? 90 : -90)); 
+				this->Y = cY + VectorY(axis1, ang) + VectorY(axis2, ang + (clockWise ? 90 : -90)); 
+				
+				i += rstep;
+				this->DeadState = WDS_ALIVE;
+				
+				Waitframe();
+			}
+			this->Remove();
+		}
+	}
+	
+	eweapon script EwWindBlast
+	{
+		void run()
+		{
+			until(this->Misc[0])
+				Waitframe();
+			
+			int catchCounter = 0;
+			
+			while(this->isValid())
+			{
+				unless (Screen->isSolid(this->X, this->Y)
+					|| Screen->isSolid(this->X + 15, this->Y)
+					|| Screen->isSolid(this->X, this->Y + 15)
+					|| Screen->isSolid(this->X + 15, this->Y + 15)
+					|| this->X < 0 || this->X > 240 || this->Y < 0 || this->Y > 160
+				)
+				{
+					if (catchCounter < 20)
+					{
+						Hero->X = this->X;
+						Hero->Y = this->Y;
+						Hero->Action = LA_NONE;
+						// Hero->Stun = true;
+						catchCounter++;
+					}
+					else
+						this->Remove();
+				}
+				
+				Waitframe();
+			}
+		}
+	}
+	
+	lweapon script LwWindBlast
+	{
+		void run()
+		{
+			untyped arr[600];
+			
+			this->Misc[0] = arr;
+		
+			until(arr[0])
+				Waitframe();
+			
+			while(this->isValid())
+			{
+				for (int q = 1; q <= arr[0]; ++q)
+				{
+					npc n = arr[q];
+					
+					unless (n->isValid())
+						continue;
+						
+					n->X = this->X;
+					n->Y = this->Y;
+					n->Stun = 2;
+				}
+				
+				Waitframe();
+			}
+		}
+	}
+	
+	generic script WindHandler
+	{
+		void run()
+		{
+			this->EventListen[GENSCR_EVENT_HERO_HIT_1] = true;
+			this->EventListen[GENSCR_EVENT_ENEMY_HIT2] = true;
+			
+			int ewWindBlast = CheckEWeaponScript("EwWindBlast");
+			int lwWindBlast = CheckLWeaponScript("LwWindBlast");
+			
+			while(true)
+			{
+				switch(WaitEvent())
+				{
+					case GENSCR_EVENT_HERO_HIT_1:
+					{
+						if (Game->EventData[GENEV_HEROHIT_HITTYPE] != OBJTYPE_EWPN)
+							break;
+						
+						eweapon weapon = Game->EventData[GENEV_HEROHIT_HITOBJ];
+
+						if (weapon->Script != ewWindBlast)
+							break;
+							
+						Game->EventData[GENEV_HEROHIT_NULLIFY] = true;
+						
+						if (Hero->Stun)
+							break;
+							
+						weapon->Misc[0] = 1;
+						Hero->Stun = 2;
+						
+						break;
+					}
+					case GENSCR_EVENT_ENEMY_HIT2:
+					{
+						npc n = Game->EventData[GENEV_EHIT_NPCPTR];
+						
+						lweapon weapon = Game->EventData[GENEV_EHIT_LWPNPTR];
+
+						if (weapon->Script != lwWindBlast)
+							break;
+							
+						Game->EventData[GENEV_EHIT_NULLIFY] = true;
+						
+						if (n->Stun)
+							break;
+							
+						untyped arr = weapon->Misc[0];
+						arr[++arr[0]] = n;
+						n->Stun = 2;
+						
+						break;
+					}
+				}
+			}
+		}
+		
+		void init()
+		{
+			if (int scr = CheckGenericScript("WindHandler"))
+			{
+				genericdata gd = Game->LoadGenericData(scr);
+				gd->Running = true;
+			}
+		}
+	}
+
+} //end
+
+ffc script ServusFloatingAbout //start
+{
+	void run(int startX, int startY, int moveInX, int moveInY, int isXPositiveDirection, int isYPositiveDirection)
+	{
+		if (Hero->Item[166])
+			Quit();
+	
+		int startingRightCombo = 6920;
+		int startingLeftCombo = 6948;
+		
+		unless (gameframe % 4) Quit();
+	
+		for (int i = 0; i < 300; ++i)
+		{
+			int xModifier = 0;
+			int yModifier = 0;
+			
+			if (moveInX)
+			{
+				if (isXPositiveDirection)
+					xModifier += i;
+				else
+					xModifier -= i;
+			} 
+			
+			if (moveInY)
+			{
+				if (isYPositiveDirection)
+					yModifier += i;
+				else
+					yModifier -= i;
+			}
+			
+			if (i % 3)
+			{
+				Screen->FastCombo(6, startX + xModifier, startY + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo), 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + 16 + xModifier, startY + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 1, 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + xModifier, startY + 16 + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 2, 3, OP_OPAQUE);
+				Screen->FastCombo(6, startX + 16 + xModifier, startY + 16 + yModifier, (isXPositiveDirection ? startingRightCombo : startingLeftCombo) + 3, 3, OP_OPAQUE);
+			}
+			
+			Waitframe();
+		}
+	}
+} //end
+
+@Author("Moosh")
+npc script SeizedGuardGeneral
+{
+	using namespace NPCAnim;
+	
+	enum Animations
+	{
+		WALKING,
+		ATTACK
+	};
+	
+	void run()
+	{
+        int aptr[ANIM_BUFFER_LENGTH];
+        InitAnims(this, aptr);
+		
+        AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
+        AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+		
+		int maxHp = this->HP;
+		
+		while(true)
+		{
+			int movementDirection = Choose(90, -90);
+			int attackCoolDown = 120;
+			
+			PlayAnim(this, WALKING);
+			
+			int tooCloseBoiCounter = 0;
+			
+			while (attackCoolDown)
+			{
+				int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+				int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
+				
+				if (distance < 48)
+					tooCloseBoiCounter++;
+				else
+					tooCloseBoiCounter = 0;
+				
+				if (tooCloseBoiCounter == 60)
+				{
+					for (int i = 0; i < 15; ++i)
+					{
+						FaceLink(this);
+						sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 10);
+						CustomWaitframe(this);
+					}
+					
+					tooCloseBoiCounter = 0;
+				}
+				
+				int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
+				this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
+				--attackCoolDown;
+				
+				FaceLink(this);
+			
+				CustomWaitframe(this);
+			}
+			
+			int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+			int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+			int dashFrames = Max(2, (distance - 36) / 3);
+			
+			bool swordCollided;
+			PlayAnim(this, ATTACK);
+			
+			for (int i = 0; i < dashFrames; ++i)
+			{
+				this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
+				
+				FaceLink(this);
+				
+				if (i > dashFrames / 2)
+					sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 6);
+					
+				CustomWaitframe(this);
+			}
+			
+			Audio->PlaySound(SFX_SWORD);
+			distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+			
+			for (int i = 0; i <= 12 && !swordCollided; ++i)
+			{
+				this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
+				FaceLink(this);
+				swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 6);
+				CustomWaitframe(this);
+			}
+			
+			if (swordCollided)
+			{
+				Audio->PlaySound(6);
+				
+				for(int i = 0; i < 12; ++i)
+				{
+					FaceLink(this);
+					this->MoveAtAngle(moveAngle + 180, this->Step / 30, SPW_NONE);
+					CustomWaitframe(this);
+				}
+				
+				CustomWaitframe(this, 40);
+			}
+			
+			attackCoolDown = 90;
+            CustomWaitframe(this);
+		}	
+	}
+	
+	bool gettingDesperate(npc this, int maxHp)
+	{
+		return this->HP < maxHp * .4;
+	}
+	
+	void CustomWaitframe(npc n)
+	{
+		if (n->HP <= 0)
+		{
+			n->Immortal = false;
+			PlayDeathAnim(n);
+		}
+	
+		Waitframe(n);
+	}
+	
+	void CustomWaitframe(npc n, int frames)
+	{
+		for (int i = 0; i < frames; ++i)
+			CustomWaitframe(n);
+	}
+}
 
 
 

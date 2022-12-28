@@ -25,8 +25,7 @@ ffc script Leviathan1Cabin //start
 	{
 		Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
 	}
-}
-//end
+} //end
 
 //~~~~~ScreenBeforeLeviathan1~~~~~//
 //D0: Message number to show
@@ -198,11 +197,11 @@ ffc script Leviathan1Ending //start
 				waterfallRight->InitD[1] = 64;	
 			}
 			
-			// Removing link's advanced items
+			// Removing link's items
 			if (i == 31)
 			{
 				for(int q = 0; q < MAX_ITEMDATA; ++q)
-					unless(q == 3 || q == I_DIFF_NORMAL || q == 183)
+					unless(q == 3 || q == I_DIFF_NORMAL || q == 183 || q == 208)
 						Hero->Item[q] = false;
 					
 				Game->Counter[CR_SBOMBS] = 0;
@@ -441,7 +440,6 @@ ffc script PreInteritusLeviathanScene //start
 		} //end
 		
 		Waitframes(60);
-		// leavingTransition(12, 80, 0);
 		leavingTransition(0, 81, 0);
 	}
 }

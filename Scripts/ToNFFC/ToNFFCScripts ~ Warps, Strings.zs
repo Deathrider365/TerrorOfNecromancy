@@ -259,6 +259,22 @@ ffc script DungeonString //start
 
 //end
 
+//~~~~~Play Test~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Deathrider365")
+ffc script PlayText //start
+{
+	void run(int msg) {
+		
+		unless(getScreenD(255))
+			Screen->Message(msg);
+		
+		setScreenD(255, true);
+	}
+}
+//end
+
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside
@@ -271,7 +287,7 @@ ffc script Signpost //start
 		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			while(!(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])) 
 			{
 				if (AgainstComboBase(loc, anySide))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
@@ -287,7 +303,77 @@ ffc script Signpost //start
 		}
 	}
 }
+//end
 
+//~~~~~TalkToMeTwice~~~~~//
+@Author("Joe123")
+ffc script TalkToMeTwice //start
+{
+	void run(int talkToMeOnce, int talkToMeTwice)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstCombo(loc))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			
+			if (getScreenD(255))
+				Screen->Message(talkToMeTwice);
+			else
+				Screen->Message(talkToMeOnce);
+				
+			Game->Suspend[susptSCREENDRAW] = false;
+			
+			setScreenD(255, true);
+			
+			Waitframe();
+		}
+	}
+}
+//end
+
+//~~~~~SignPostOnSecret~~~~~//
+//D0: Number of string to show
+//D1: 0 for not anyside 1 for anyside
+@Author("Joe123")
+ffc script SignPostOnSecret //start
+{
+	void run(int messageNoSecret, int messageSecret)
+	{
+		int loc = ComboAt(this->X, this->Y);
+		
+		while(true)
+		{
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			{
+				if (AgainstCombo(loc))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				Waitframe();
+			}			
+			
+			Input->Button[CB_SIGNPOST] = false;
+			Game->Suspend[susptSCREENDRAW] = true;
+			
+			if (Screen->State[ST_SECRET])
+				Screen->Message(messageSecret);
+			else
+				Screen->Message(messageNoSecret);
+			
+			Game->Suspend[susptSCREENDRAW] = false;
+			Waitframe();
+		}
+	}
+}
 //end
 
 //~~~~~ConditionalSignPost~~~~~//
@@ -397,7 +483,91 @@ ffc script ShopIntroMessage //start
 	}
 } //end
 
+//~~~~~FatherAndSonDialogue~~~~~//
+// Sets screenD(255) upon receiving
+//D0: Item ID to give
+//D1: String for getting the item
+//D2: String for if you already got the item
+//D3: 1 for all dirs, 0 for only front (up)
+@Author("Deathrider365")
+ffc script FatherAndSonDialogue //start
+{
+	void run(
+		int itemId, 
+		int gettingItemString, 
+		int alreadyGotItemString, 
+		int anySide, 
+		int triggerOnScreenD, 
+		int itemToCheckFor
+		)
+	{
+		mapdata template = Game->LoadTempScreen(1);
+		int prevData = this->Data;
+		
+		if (Hero->Item[itemToCheckFor])
+		{
+			this->Data = 0;
+			template->ComboD[ComboAt(this->X, this->Y)] = 0;
+			Quit();
+		}
+		
+		if (triggerOnScreenD)
+		{
+			until(getScreenD(triggerOnScreenD))
+			{
+				this->Data = 0;
+				template->ComboD[ComboAt(this->X, this->Y)] = 0;
+				Waitframe();
+			}
+		
+			template->ComboD[ComboAt(this->X, this->Y)] = COMBO_SOLID;
+		}
+			
+		this->Data = prevData;
+		
+		// Waitframes(2);
 
+		int loc = ComboAt(this->X, this->Y);
+
+		while(true)
+		{
+			if (triggerOnScreenD)
+				while (/*Screen->NumNPCs() && */!Screen->State[ST_SECRET])
+					Waitframe();
+			
+			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST])
+			{
+				if (AgainstCombo(loc))
+					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+					
+				if (getScreenD(triggerOnScreenD) && Screen->State[ST_SECRET]) 
+					this->Data = 6755;
+
+				Waitframe();
+			}			
+
+			Input->Button[CB_SIGNPOST] = false;
+
+			unless (getScreenD(255))
+			{
+				Screen->Message(gettingItemString);
+
+				Waitframes(2);
+
+				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+				it->Pickup = IP_HOLDUP;
+				
+				Input->Button[CB_SIGNPOST] = false;
+				setScreenD(255, true);
+			}
+			else
+				Screen->Message(alreadyGotItemString);
+
+			Waitframe();
+		}
+	}
+}
+//end
 
 
 

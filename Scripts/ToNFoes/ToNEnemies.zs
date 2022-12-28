@@ -88,6 +88,7 @@ npc script Mimic //start
 } //end
 
 //~~~~~Candlehead~~~~~//
+// D0: if chungo set to 1 
 namespace Enemy::Candlehead //start
 {
 	@Author("Deathrider365")
@@ -100,7 +101,7 @@ namespace Enemy::Candlehead //start
 		const int NORMAL_HOMING = 10;
 		const int AGGRESSIVE_HOMING = 20;
 		
-		void run()
+		void run(int chungo)
 		{
 			int knockbackDist = 4;
 			
@@ -114,10 +115,8 @@ namespace Enemy::Candlehead //start
 			{
 				this->Slide();
 				
-				//TODO Add EW_FIRE to this function to support the fires dropped by the candles to also have the ability to light other candles
-				
 				if (hitByFire(this))
-					deathAnimation(this);
+					burnToDeath(this, chungo);
 					
 				unless (gameframe % RandGen->Rand(45, 60))
 				{
@@ -126,7 +125,7 @@ namespace Enemy::Candlehead //start
 						this->Slide();
 						
 						if (hitByFire(this))
-							deathAnimation(this);
+							burnToDeath(this, chungo);
 							
 						doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
 						Waitframe();
@@ -136,21 +135,19 @@ namespace Enemy::Candlehead //start
 			} //end
 		}
 		
-		void deathAnimation(npc n) //start
+		void burnToDeath(npc n, int chungo) //start
 		{
+			int burningCombo = getBurningCombo(chungo);
+			int sprite = getBurningSprite(chungo);
+			
 			n->Dir = getInvertedDir(n->Dir);
 			n->Step += n->Step / 2;
-			int cset;
 			
-			if(Hero->Item[10])
-				cset = 7;
-			else if (Hero->Item[158])
-				cset = 8;
-			
-			
-			//TODO when making the miniboss variant of these guys set this bound to a timer 
 			until (n->HP <= 0)
 			{
+				int x = chungo ? n->X + 8 : n->X;
+				int y = chungo ? n->Y + 8 : n->Y;
+
 				if (n->HP < 10)
 					n->HP = 0;
 				else
@@ -161,22 +158,34 @@ namespace Enemy::Candlehead //start
 				//start Dropping flames while dying
 				if (gameframe % 16 == 0)
 				{
-					spritedata sprite = Game->LoadSpriteData(115);
-					setFlameSpriteCSet(sprite);
-				
-					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);	
+					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));	
 					flame->Dir = n->Dir;
-					flame->Step = n->Step;
-					flame->Angular = true;
 					flame->Script = Game->GetEWeaponScript("StopperKiller");
 					flame->Z = n->Z;
 					flame->InitD[1] = 120;
 					flame->Gravity = true;
 					flame->Damage = 2;
-					flame->UseSprite(115);
+					flame->UseSprite(sprite);
+					
+					if (chungo) 
+					{
+						flame->Extend = 3;
+						flame->TileWidth = 2;
+						flame->TileHeight = 2;
+						flame->HitWidth = 32;
+						flame->HitHeight = 32;
+						flame->UseSprite(sprite);
+					}
 				} //end
 				
-				Screen->FastCombo(7, n->X, n->Y, 6344, cset, OP_OPAQUE);
+				Screen->FastCombo(7, n->X, n->Y, burningCombo, 0, OP_OPAQUE);
+				
+				if (chungo)
+				{
+					Screen->FastCombo(7, n->X + 16, n->Y, burningCombo + 1, 0, OP_OPAQUE);
+					Screen->FastCombo(7, n->X, n->Y + 16, burningCombo + 2, 0, OP_OPAQUE);
+					Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
+				}
 				
 				doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
 				
@@ -186,44 +195,71 @@ namespace Enemy::Candlehead //start
 			//start Death Explosion
 			for (int i = 0; i < 8; ++i)
 			{
-				spritedata sprite = Game->LoadSpriteData(115);
-				setFlameSpriteCSet(sprite);
-				
-				
-				//TODO increase the range of the fire explosion
 				eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);
 				flame->Dir = i;
-				flame->Step = 120;
+				flame->Step = chungo ? 160 : 120;
 				flame->Angular = true;
 				flame->Angle = DirRad(flame->Dir);
 				flame->Script = Game->GetEWeaponScript("StopperKiller");
 				flame->Z = n->Z;
-				flame->InitD[0] = 20;
-				flame->InitD[1] = 150;
+				flame->InitD[0] = chungo ? 40 : 20;
+				flame->InitD[1] = chungo ? 250 : 150;
 				flame->Gravity = true;
 				flame->Damage = 2;
-				flame->UseSprite(115);
+				flame->UseSprite(sprite);
+				
+				if (chungo) 
+				{
+					flame->Extend = 3;
+					flame->TileWidth = 2;
+					flame->TileHeight = 2;
+					flame->HitWidth = 32;
+					flame->HitHeight = 32;
+					flame->UseSprite(sprite);
+				}
 			} //end
 			
 			Audio->PlaySound(10);
 			n->Remove();
 		} //end
 		
-		void setFlameSpriteCSet(spritedata sprite) //start
+		int getBurningCombo(int chungo)
 		{
-			if(Hero->Item[10])
-				sprite->CSet = 7;
-			else if (Hero->Item[158])
-				sprite->CSet = 8;
-		} //end
+			switch(GetHighestLevelItemOwned(IC_CANDLE))
+			{
+				case 158:
+					return chungo ? 7180 : 6344;
+				case 10:
+					return chungo ? 7184 : 6345;
+				case 11:
+					return chungo ? 7188 : 6346;
+				case 150:
+					return chungo ? 7192 : 6347;
+			}
+		}
+		
+		int getBurningSprite(int chungo)
+		{
+			switch(GetHighestLevelItemOwned(IC_CANDLE))
+			{
+				case 158:
+					return chungo ? SPR_FLAME_WAX2X2 : SPR_FLAME_WAX;
+				case 10:
+					return chungo ? SPR_FLAME_OIL2X2 : SPR_FLAME_OIL;
+				case 11:
+					return chungo ? SPR_FLAME_INCENDIARY2X2 : SPR_FLAME_INCENDIARY;
+				case 150:
+					return chungo ? SPR_FLAME_HELLS2X2 : SPR_FLAME_HELLS;
+			}
+		}
 		
 		bool hitByFire(npc n) //start
 		{
-			if (n->HitBy[2])
+			if (n->HitBy[2] || n->HitBy[1])
 			{
-				lweapon weapon = Screen->LoadLWeapon(n->HitBy[2]);
+				lweapon lWeapon = Screen->LoadLWeapon(n->HitBy[2]);
 				
-				if (weapon->Type == LW_FIRE)
+				if (lWeapon->Type == LW_FIRE)
 					return true;
 				else
 					return false;

@@ -16,8 +16,6 @@ dmapdata script PassiveSubscreen //start
 		
 		int lastButton = -1;
 		int lastA = Hero->ItemA;
-		
-		Trace(Hero->ItemB);
 		int lastB = Hero->ItemB;
 		
 		while(true)
@@ -57,6 +55,7 @@ dmapdata script PassiveSubscreen //start
 			
 			unless(subscr_open) //start Cycling; Not while the active subscreen is open
 			{
+				//TODO source of the dual sword issue
 				if(Input->Press[CB_L]) //start Left Cycle
 				{
 					int pos = 0;
@@ -175,15 +174,15 @@ dmapdata script PassiveSubscreen //start
 		
 		//start Counters
 		//Rupees
-		minitile(RT_SCREEN, 7, 134, y + 4, 32780, 1, 0);
+		minitile(RT_SCREEN, 7, 134, y + 4, 32780, 0, 0);
 		counter(RT_SCREEN, 7, 134 + 10, y + 4, CR_RUPEES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y + 14, 32780, 1, 1);
+		minitile(RT_SCREEN, 7, 134, y + 14, 32780, 0, 1);
 		counter(RT_SCREEN, 7, 134 + 10, y + 14, CR_BOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y + 24, 32780, 1, 3);
+		minitile(RT_SCREEN, 7, 134, y + 24, 32780, 0, 3);
 		counter(RT_SCREEN, 7, 134 + 10, y + 24, CR_SBOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y + 34, 32780, 1, 2);
+		minitile(RT_SCREEN, 7, 134, y + 34, 32780, 0, 2);
 		counter(RT_SCREEN, 7, 134 + 10, y + 34, CR_ARROWS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
-		minitile(RT_SCREEN, 7, 134, y + 44, 32800, 1, 0);
+		minitile(RT_SCREEN, 7, 134, y + 44, 32800, 0, 0);
 		counter(RT_SCREEN, 7, 134 + 10, y + 44, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 		//end Counters
 		
@@ -251,7 +250,7 @@ dmapdata script PassiveSubscreen //start
 		sprintf(buf, "%d:%02d:%02d",Hours(),Minutes(),Seconds());
 		
 		if (y > -55)
-			Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			Screen->DrawString(7, 234, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 		//end Clock
 		
 		//start Minimap

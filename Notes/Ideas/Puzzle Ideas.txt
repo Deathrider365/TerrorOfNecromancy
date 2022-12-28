@@ -8,3 +8,5 @@ pits
 like warp mazes, have dive mazes
 
 push blocks into water
+
+statues looking at eachother denoting which one to hit (last one looked at is the one to hit)

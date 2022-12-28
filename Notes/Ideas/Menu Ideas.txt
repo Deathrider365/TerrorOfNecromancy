@@ -1,1 +1,0 @@
-menu displays a side quest tracker of sorts, very basic

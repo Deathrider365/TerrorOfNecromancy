@@ -484,7 +484,14 @@ namespace Enemy::Manhandala //start
 				this->CSet = hurtCSet;
 				
 				for (int i = 0; i < 20; ++i)
-					(this->Defense[i] == NPCD_FIRE) ? (this->Defense[i] = NPCDT_IGNORE) : (this->Defense[i] = NPCDT_NONE);
+				{
+					if (i == NPCD_FIRE)
+						this->Defense[i] = NPCDT_IGNORE;
+					else if(i == NPCD_ARROW)		//TODO make him rage if an arrow collides with him
+						this->Defense[i] = NPCDT_BLOCK;
+					else
+					this->Defense[i] = NPCDT_NONE;
+				}
 				
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);
@@ -503,7 +510,7 @@ namespace Enemy::Manhandala //start
 					angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
 					
 					if ((!(this->CanMove(this->Dir, 1, 0)) || (this->X == previousX && this->Y == previousY)) 
-						&& linkClose(this, 32))
+						&& linkClose(this, 48))
 						stuckAction(this, data, fleeDuration);
 					
 					previousX = this->X;
@@ -543,7 +550,8 @@ namespace Enemy::Manhandala //start
 						effectBitmap->DrawTile(4, this->X, this->Y + i, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
 						effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-						Screen->DrawCombo(4, this->X, this->Y + 22, 6725, 2, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						custom_waitframe(this, data);
 					}
@@ -574,7 +582,8 @@ namespace Enemy::Manhandala //start
 						
 						effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
 						effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-						Screen->DrawCombo(4, this->X, this->Y + 22, 6725, 2, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+						Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 						
 						custom_waitframe(this, data);
 					}
@@ -681,7 +690,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 		
 			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
@@ -707,7 +716,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 		
 			introSequenceBitmap->Blit(7, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
@@ -733,7 +742,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -764,7 +773,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -800,7 +809,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -823,7 +832,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X, this->Y + 2, 10278, 2, OP_OPAQUE);
@@ -883,7 +892,7 @@ namespace Enemy::Manhandala //start
 			introSequenceBitmap->DrawLayer(7, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_OPAQUE);
+			introSequenceBitmap->DrawLayer(7, 37, 44, 2, 256, 0, 0, OP_TRANS);
 			introSequenceBitmap->DrawLayer(7, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 			
 			introSequenceBitmap->FastCombo(7, this->X + 1, this->Y + 2, 10276, 2, OP_OPAQUE);
@@ -946,7 +955,7 @@ namespace Enemy::Manhandala //start
 		flame->InitD[1] = RandGen->Rand(60, 180);
 		flame->Gravity = true;
 		flame->Damage = 2;
-		flame->UseSprite(115);
+		flame->UseSprite(SPR_FLAME_OIL);
 	} //end
 	
 	void oilSpray(int data, npc this, npc heads, bool isDifficultyChange) //start
@@ -1173,11 +1182,11 @@ namespace Enemy //start
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
 		Audio->PlayEnhancedMusic(areaMusic, 0);
 		
-		// for(int i = Screen->NumNPCs(); i >= 1; i--)
-		// {
-			// npc n = Screen->LoadNPC(i);
-			// n->Remove();
-		// }
+		for(int i = Screen->NumNPCs(); i >= 1; i--)
+		{
+			npc n = Screen->LoadNPC(i);
+			n->HP = 0;
+		}
 		
 		n->Immortal = false;
 		n->Remove();
@@ -1223,7 +1232,7 @@ namespace Enemy //start
 		return Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < distance; 
 	} //end
 	
-	void doWalk(npc n, int rand, int homing, int step) //start
+	void doWalk(npc n, int rand, int homing, int step, bool flying = false) //start
 	{
 		//rand = n in 1000 to do something
 		//homing = n in 1000 to do something
@@ -1237,24 +1246,29 @@ namespace Enemy //start
 			do
 			{
 				n->Dir = RandGen->Rand(3);
-			} until(n->CanMove(n->Dir, 1, 0) || ++attemptCounter > 500);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 		}
 		else if (homing >= RandGen->Rand(ONE_IN_N - 1))
 			n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
 		
-		unless (n->Move(n->Dir, step / 100, SPW_NONE))
+		unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE))
 		{
 			int attemptCounter  = 0;
 			
 			do
 			{
 				n->Dir = RandGen->Rand(3);
-			} until(n->CanMove(n->Dir, 1, 0) || ++attemptCounter > 500);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 			
 		}
 	} //end
+	
+	float lazyChase(int velocity, int currentPosition, int targetPosition, int acceleration, int topSpeed)
+	{
+		return Clamp(velocity + Sign(targetPosition - currentPosition) * acceleration, -topSpeed, topSpeed);
+	}
 
-	bool MoveTowardsPoint(npc n, int x, int y, int pxamnt, int special, bool center) //start
+	bool MoveTowardsPoint(npc n, int x, int y, int xDistance, int special, bool center) //start
 	{
 		int nx = n->X + n->HitXOffset + (center ? n->HitWidth/2 : 0);
 		int ny = n->Y + n->HitYOffset + (center ? n->HitHeight/2 : 0);
@@ -1263,7 +1277,7 @@ namespace Enemy //start
 		if(dist < 0.0010) 
 			return false;
 		
-		return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(pxamnt, dist), special);
+		return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(xDistance, dist), special);
 	} //end
 
 	bool isDifficultyChange(npc n, int maxHp) //start
@@ -1308,9 +1322,9 @@ namespace Enemy //start
 		}
 	} //end
 
-	int faceLink(npc n) //start
+	int faceLink(npc n)
 	{
-		//start Link is below him
+		// Link is below him
 		if (Hero->Y > n->Y)
 		{
 			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
@@ -1322,9 +1336,9 @@ namespace Enemy //start
 			}
 			else
 				return DIR_DOWN;
-		} //end
+		}
 		
-		//start Like is above him
+		// Link is above him
 		else 
 		{
 			if (Abs(Hero->X - n->X) > Abs(Hero->Y - n->Y))
@@ -1336,11 +1350,11 @@ namespace Enemy //start
 			}
 			else
 				return DIR_UP;
-		}//end
-	
-	} //end
-	
-} //end
+		}
+	}
+
+
+}
 
 
 

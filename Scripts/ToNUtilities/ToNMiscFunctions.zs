@@ -31,50 +31,84 @@ float TurnToAngle(float angle1, float angle2, float step) //start
 // Function to set Screen->D
 void setScreenD(int reg, bool state) //start
 {
-	#option BINARY_32BIT on
-	
-	int d = Div(reg, 32);
-	reg %= 32;
-	
-	if (state)
-		Screen->D[d] |= 1b<<reg;
-	else
-		Screen->D[d] ~= 1b<<reg;
-	
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    if (state)
+        Screen->D[d] |= 1Lb<<reg;
+    else
+        Screen->D[d] ~= 1Lb<<reg;
 }
 //end
 
 // Function to get Screen->D
 bool getScreenD(int reg) //start
 {
-	#option BINARY_32BIT on
-	
-	int d = Div(reg, 32);
-	reg %= 32;
-	
-	return Screen->D[d] & (1b<<reg);
-	
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    return Screen->D[d] & (1Lb<<reg);
 }
 //end
 
 // Function to set Screen->D
-void setScreenD(int d, int bit, bool state) //start
+void setScreenD(int d, long bit, bool state) //start
 {
-	#option BINARY_32BIT on
-	
-	if (state)
-		Screen->D[d] |= bit;
-	else
-		Screen->D[d] ~= bit;
+    if (state)
+        Screen->D[d] |= bit;
+    else
+        Screen->D[d] ~= bit;
 }
 //end
 
 // Function to get Screen->D
-int getScreenD(int d, int bit) //start
+long getScreenD(int d, long bit) //start
 {
-	#option BINARY_32BIT on
-	
-	return Screen->D[d] & bit;
+    return Screen->D[d] & bit;
+}
+//end
+
+// Function to set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int reg, bool state) //start
+{
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    long val = Game->GetDMapScreenD(dmap,scr,d);
+    if (state)
+        val |= 1Lb<<reg;
+    else
+        val ~= 1Lb<<reg;
+    Game->SetDMapScreenD(dmap,scr,d,val);
+}
+//end
+
+// Function to get Screen->D for remote screen
+bool getScreenD(int dmap, int scr, int reg) //start
+{
+    int d = Div(reg, 32);
+    reg %= 32;
+    
+    return Game->GetDMapScreenD(dmap,scr,d) & (1Lb<<reg);
+}
+//end
+
+// Function to set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int d, long bit, bool state) //start
+{
+    long val = Game->GetDMapScreenD(dmap,scr,d);
+    if (state)
+        val |= bit;
+    else
+        val ~= bit;
+    Game->SetDMapScreenD(dmap,scr,d,val);
+}
+//end
+
+// Function to get Screen->D for remote screen
+long getScreenD(int dmap, int scr, int d, long bit) //start
+{
+    return Game->GetDMapScreenD(dmap,scr,d) & bit;
 }
 //end
 
@@ -337,7 +371,7 @@ int FindJumpLength(int jumpInput, bool inputFrames) //start
 } //end
 
 //Makes a hitbox with ghost.zh weapons
-void MakeHitbox(int x, int y, int w, int h, int damage) //start
+eweapon MakeHitbox(int x, int y, int w, int h, int damage) //start
 {
     eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
     e->HitXOffset = x-e->X;
@@ -347,14 +381,44 @@ void MakeHitbox(int x, int y, int w, int h, int damage) //start
     e->HitHeight = h;
     SetEWeaponLifespan(e, EWL_TIMER, 1);
     SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+	
+	return e;
 } //end
 
-void sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
 {
 	x += VectorX(dist, angle);
 	y += VectorY(dist, angle);
 	
 	Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+	
+	return MakeHitbox(x, y, 16, 16, dmg);
+} //end
+
+bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+{
+	eweapon hitbox = sword1x1(x, y, angle, dist, cmb, cset, dmg);
+	lweapon sword = LoadLWeaponOf(LW_SWORD);
+	
+	if (sword->isValid())
+		return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+	
+} //end
+
+void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
+{
+	int hitX = x;
+	int hitY = y;
+	
+	x += VectorX(8 + dist, angle) - 8;
+	y += VectorY(8 + dist, angle);
+	
+	Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+	
+	MakeHitbox(x, y, 16, 16, dmg);
+	
+	hitX += VectorX(16, angle);
+	hitY += VectorY(16, angle);
 	
 	MakeHitbox(x, y, 16, 16, dmg);
 	
@@ -469,7 +533,6 @@ float PercentOfWhole(int part, int whole) //start
 	return (100 * part)/whole;
 } //end
 
-//~~~~~SwitchPressed (used for switch scripts)~~~~~//
 int SwitchPressed(int x, int y, bool noLink) //start
 {
 	int xOff = 0;
@@ -522,6 +585,24 @@ bool AgainstComboBase(int loc, bool anySide) //start
 		return false;
 } //end
 
+bool AgainstCombo(int loc) //start
+{
+	if (Hero->Z == 0)
+	{
+		if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8)
+		{
+			if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8)
+				return true;
+			else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16)
+				return true;
+		}
+		else if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 16)
+			if (Abs(Hero->Y - ComboY(loc)) <= 8)
+				return true;
+	}
+	return false;
+} //end
+
 void leavingTransition(int dmap, int screen, int usingPresents) //start
 {	
 	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
@@ -566,13 +647,15 @@ void takeMapScreenshot() //start
 	}
 } //end
 
+untyped ChooseArray(untyped arr)
+{
+    int sz = SizeOfArray(arr);
+    return arr[Rand(sz)];
+}
 
-
-
-
-
-
-
+void TraceToScreen(int x, int y, int val){
+    Screen->DrawInteger(6, x, y, FONT_Z3SMALL, 0x01, 0x08, -1, -1, val, 0, 128);
+}
 
 
 

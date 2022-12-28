@@ -20,7 +20,7 @@ screendata script OverheadTransparency //start
 				
 				int combos[] = {m->ComboD[ComboAt(Hero->X, Hero->Y)], 
 				                m->ComboD[ComboAt(Hero->X + 15, Hero->Y)], 
-				                m->ComboD[ComboAt(Hero->X, Hero->Y +15)],
+				                m->ComboD[ComboAt(Hero->X, Hero->Y + 15)],
 				                m->ComboD[ComboAt(Hero->X + 15, Hero->Y + 15)]};
 				
 				Screen->LayerOpacity[l] = 255;
@@ -45,18 +45,10 @@ screendata script OverheadTransparency //start
 screendata script RadialTransparency //start
 {
 	void run(int layers, int radius)
-<<<<<<< HEAD
-	{	
-		mapdata m[6];
-		
-		//start Looping through the 6 layers
-		for (int l = 1; l < 6; ++l) 
-=======
 	{			
 		mapdata m[6];
 		
 		for (int l = 1; l < 6; ++l)
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 		{
 			unless(layers & (1b << (l - 1)))
 				continue;
@@ -67,14 +59,8 @@ screendata script RadialTransparency //start
 				ohead_bmps[l] = create(256, 176);
 		 
 			m[l] = Game->LoadTempScreen(l);
-<<<<<<< HEAD
-		} //end
-		
-		// Main loop
-=======
 		}
 		
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 		while(true)
 		{
 			for (int l = 1; l < 6; ++l)
@@ -97,10 +83,6 @@ screendata script RadialTransparency //start
 			
 			Waitframe();
 			
-<<<<<<< HEAD
-			// If disable transparency is on
-=======
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 			if (disableTrans)
 			{
 				for (int l = 1; l < 6; ++l)
@@ -115,10 +97,6 @@ screendata script RadialTransparency //start
 					Waitframe();
 			}
 			
-<<<<<<< HEAD
-			// If the player is scrolling also enable the transparency
-=======
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 			if (HeroIsScrolling())
 				for (int l = 1; l < 6; ++l)
 				{
@@ -135,11 +113,7 @@ screendata script RadialTransparency //start
 					
 					Screen->LayerInvisible[l] = true;
 				}
-<<<<<<< HEAD
-		}
-=======
 		}	
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
 	}
 } //end
 
@@ -147,20 +121,17 @@ screendata script RadialTransparency //start
 // D0: Radius
 // D1: itemClass (probably a candle)
 // D2: Layer
-@Author ("EmilyV99")
-dmapdata script DarkRegion //start		Credit Dimi for candle style
+@Author ("EmilyV99, Dimi for pulsing lantern effect")
+dmapdata script DarkRegion //start
 {	
-	void run(int radius, int itemClass, int layer)
+	void run(int radius, int itemClass, int layer, int torchPower)
 	{
 		unless(darkness_bmp->isValid())
-			darkness_bmp = create(256 * 3, 176 * 3);
+			darkness_bmp = create(256 * 3, 176 * 4.5); //This and 132 shoould be * 3, * 4.5 is not a good fix
 		else
-			recreate(darkness_bmp, 256 * 3, 176 * 3);
+			recreate(darkness_bmp, 256 * 3, 176 * 4.5);
 		
-		Waitframe();
-		Trace(darkness_bmp->Width);
-		
-		int animationCounter; 
+		int animationCounter;
 		
 		while(true)
 		{
@@ -169,36 +140,51 @@ dmapdata script DarkRegion //start		Credit Dimi for candle style
 			int id = GetHighestLevelItemOwned(itemClass);
 			itemdata idata = id < 0 ? NULL : Game->LoadItemData(id);
 			int power = idata ? idata->Attributes[9] : 0;
-			int mode = idata ? (idata->Flags[14] ? BITDX_TRANS : 0) : 0; 
+			int mode = 0;
+			
+			if (idata) 
+				mode = idata->Flags[14] ? BITDX_TRANS : 0;
 			
 			animationCounter += 2;
 			animationCounter %= 360;
 			
 			for (int i = layer; i >= 0; --i)
 			{
-				darkness_bmp->ClearToColor(7, C_BLACK);
+				darkness_bmp->ClearToColor(layer, C_BLACK);
 				
 				if (power)
-					darkness_bmp->Circle(7, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
+					darkness_bmp->Circle(layer, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
 				
-				if (DEBUG && Input->Button[CB_EX4])
-					darkness_bmp->Write(7, "Test.png", true);
+				if (torchPower)
+				{
+					for (int xPos = 0; xPos < 256; xPos += 16)
+					{
+						for (int yPos = 0; yPos < 176; yPos += 16)
+						{
+							int pos = ComboAt(xPos, yPos);
+							int comboT = Screen->ComboT[pos]; 
+							
+							for (int lightLayer = 1; lightLayer < 3; ++lightLayer)
+								if (Screen->LayerMap[lightLayer])
+								{
+									mapdata m = Game->LoadTempScreen(lightLayer);
+									
+									if (m->ComboD[pos])
+										comboT = m->ComboT[pos];
+								}
+							
+							if (comboT == CT_SCRIPT_TORCH)
+								darkness_bmp->Circle(layer, xPos + 8 + 256, yPos + 8 + 176, (radius * torchPower) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
+						}
+					}
+				}
 				
-				darkness_bmp->Blit(7, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, /*mode*/ 1, 0, true);
+				darkness_bmp->Blit(layer, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, 1, 0, true);
 			}
 			
 			Waitframe();
 		}
 	}
 } //end
-
-
-
-
-
-
-
-
-
 
 

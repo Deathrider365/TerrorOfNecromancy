@@ -21,21 +21,21 @@ ffc script CompassBeep //start
 
 //~~~~~BossMusic~~~~~//
 //D0: Number that correlates with the song desired
-//D1: 0 for no 1 for yes to fanfare music
 @Author("Deathrider365")
 ffc script BossMusic //start
 {
-	void run(int musicChoice, int isFanfare)
+	void run(int musicChoice)
 	{
+		unless(musicChoice)
+			Quit();
+			
 		char32 areaMusic[256];
 
 		if (Screen->State[ST_SECRET])
 			Quit();
 
-		Waitframes(4);
-
-		unless (EnemiesAlive())
-			return;
+		until (EnemiesAlive())
+			Waitframe();
 
 		switch(musicChoice)
 		{
@@ -46,6 +46,9 @@ ffc script BossMusic //start
 				Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg", 0);
 				break;
 			case 3:
+				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+				break;
+			case 4:
 				Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
 				break;
 
@@ -77,7 +80,16 @@ ffc script BossMusic //start
 //D7: Y Coordinate where the item spawns
 ffc script ConditionalItem //start
 {
-	void run(int hasRequiredItemStrings, int noHasRequiredItemInitialString, int itemIdToNeed, int itemIdToGet, int guyStringNoHasRequiredItem, int guyStringHasRequiredItem, int itemLocX, int itemLocY)
+	void run(
+		int hasRequiredItemStrings, 
+		int noHasRequiredItemInitialString, 
+		int itemIdToNeed, 
+		int itemIdToGet, 
+		int guyStringNoHasRequiredItem, 
+		int guyStringHasRequiredItem, 
+		int itemLocX, 
+		int itemLocY
+		) 
 	{
 		int loc = ComboAt(this->X, this->Y);
 
@@ -87,7 +99,7 @@ ffc script ConditionalItem //start
 		while (true)
 		{
 			// If you have the item he gives, do nothing but have him talk when against saying "use dat item well andcall that" (this is essentially the "done" state)
-			if (Hero->Item[itemIdToGet])
+			if (Hero->Item[itemIdToGet]) 
 			{
 				while (true)
 				{
@@ -193,9 +205,28 @@ ffc script ConditionalItem //start
 @Author("Deathrider365")
 ffc script ItemGuy //start
 {
-	void run(int itemID, int gettingItemString, int alreadyGotItemString, int anySide)
+	void run(
+		int itemId, 
+		int gettingItemString, 
+		int alreadyGotItemString, 
+		int anySide, 
+		int triggerOnScreenD, 
+		int screenDIndexToActivate, 
+		int screenDIndexForItem)
 	{
 		Waitframes(2);
+		
+		int originalCombo = this->Data;
+
+		if (triggerOnScreenD)
+		{		
+			this->Data = COMBO_INVIS;
+			
+			until (getScreenD(screenDIndexToActivate))
+				Waitframe();
+		}
+
+		this->Data = originalCombo;
 
 		int loc = ComboAt(this->X, this->Y);
 
@@ -211,16 +242,17 @@ ffc script ItemGuy //start
 
 			Input->Button[CB_SIGNPOST] = false;
 
-			unless (getScreenD(255))
+			unless (getScreenD(screenDIndexForItem))
 			{
 				Screen->Message(gettingItemString);
 
 				Waitframes(2);
 
-				itemsprite it = CreateItemAt(itemID, Hero->X, Hero->Y);
+				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
 				it->Pickup = IP_HOLDUP;
+				
 				Input->Button[CB_SIGNPOST] = false;
-				setScreenD(255, true);
+				setScreenD(screenDIndexForItem, true);
 			}
 			else
 				Screen->Message(alreadyGotItemString);
@@ -229,7 +261,6 @@ ffc script ItemGuy //start
 		}
 	}
 }
-
 //end
 
 //~~~~~TradingGuy~~~~~//
@@ -318,7 +349,7 @@ ffc script SFXPlay //start
 
 //end
 
-//~~~~~BattleArena~~~~~//
+//~~~~~Battle Arena~~~~~//
 //D0: Arena list number to determine what enemies will spawn in this arena
 @Author ("Deathrider365")
 ffc script BattleArena //start
@@ -328,9 +359,11 @@ ffc script BattleArena //start
 		if (!Hero->Item[191])
 		{
 			Screen->TriggerSecrets();
+			setScreenD(255, true);
 			Quit();
 		}
 		
+		setScreenD(255, false);
 		Hero->Item[191] = false;
 		
         int round = 0;
@@ -347,6 +380,7 @@ ffc script BattleArena //start
 			Waitframe();
 			
 		Screen->TriggerSecrets();
+		setScreenD(255, true);
 		
 		char32 areaMusic[256];
 		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
@@ -565,8 +599,13 @@ ffc script DisableLink //start
 @Author("Tabletpillow, EmilyV99")
 ffc script SimpleShop //start
 {
-    void run(int itemId, int price, int boughtMessage, int notBoughtMessage)
+    void run(int itemId, int price, int boughtMessage, int notBoughtMessage, int upgradeIncreaseAmount, int boughtOnce)
 	{
+		// Doesnt have quiver and is quiver upgrade
+		if (!Hero->Item[74] && itemId == 205) {
+			Quit();
+		}
+		
 		int noStockCombo = this->Data;
 		this->Data = COMBO_INVIS;
 		itemsprite dummy = CreateItemAt(itemId, this->X, this->Y);
@@ -577,7 +616,7 @@ ffc script SimpleShop //start
 		sprintf(priceBuf, "%d", price);
 
 		itemdata id = Game->LoadItemData(itemId);
-		bool checkStock = !id->Combine && id->Keep;
+		bool checkStock = boughtOnce;//!id->Combine && id->Keep;
 
         while(true)
 		{
@@ -604,24 +643,28 @@ ffc script SimpleShop //start
 					{
 						Game->DCounter[CR_RUPEES] -= price;
 						item shpitm = CreateItemAt(itemId, Hero->X, Hero->Y);
-
+						
+						if (itemId == 187)
+						{
+							Game->MCounter[CR_BOMBS] += upgradeIncreaseAmount;
+							numBombUpgrades++;
+						} 
+						else if (itemId == 205)
+						{
+							Game->MCounter[CR_ARROWS] += upgradeIncreaseAmount;
+							numQuiverUpgrades++;
+						}
+						
 						shpitm->Pickup = IP_HOLDUP;
 						Screen->Message(boughtMessage);
 					}
 					else
-					{
-						Input->Button[CB_SIGNPOST] = false;
 						Screen->Message(notBoughtMessage);
-					}
+					Input->Button[CB_SIGNPOST] = false;
 				}
 			}
 			Waitframe();
         }
-    }
-
-    bool AgainstComboBase(int loc)
-	{
-        return Link->Z == 0 && (Link->Dir == DIR_UP && Link->Y == ComboY(loc) + 8 && Abs(Link->X - ComboX(loc)) < 8);
     }
 } //end
 
@@ -632,15 +675,52 @@ ffc script SimpleShop //start
 @Author("Deathrider365")
 ffc script InfoShop //start
 {
-	void run(int introMessage, int price, int toPoor, int intro)
+    void run(int boughtString, int price, int notBoughtMessage)
 	{
         int loc = ComboAt(this->X + 8, this->Y + 8);
-		Screen->Message(introMessage);
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 
-	}
+        while(true)
+		{
+			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
+			if (AgainstCombo(loc))
+			{
+				Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+				if(Input->Press[CB_SIGNPOST])
+				{
+					Hero->Action = LA_NONE;
+					Hero->Stun = 15;
+					
+					if (Game->Counter[CR_RUPEES] >= price)
+					{
+						Game->DCounter[CR_RUPEES] -= price;
+						Input->Button[CB_SIGNPOST] = false;
+						
+						for (int i = 0; i < price * 2; ++i)
+						{
+							NoAction();
+							Waitframe();
+						}
+							
+						Hero->Action = LA_NONE;
+						Hero->Stun = 15;
+						
+						Screen->Message(boughtString);
+					}
+					else
+					{
+						Input->Button[CB_SIGNPOST] = false;
+						Screen->Message(notBoughtMessage);
+					}
+					
+				}
+			}
+			Waitframe();
+        }
+    }
 } //end
 
 //~~~~~SpawnItem~~~~~//
@@ -667,7 +747,7 @@ ffc script SpawnItem //start
 @Author("Deathrider365")
 ffc script CapacityIncreasor //start
 {
-	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy)
+	void run(int message, int price, int increaseAmount, int itemToIncrease, int sfxOnBuy, int itemToKillMessage)
 	{		
 		bool alreadyBought = false;
 
@@ -680,15 +760,16 @@ ffc script CapacityIncreasor //start
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 
-		Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+		Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
-		Screen->Message(message);
+		unless (Hero->Item[itemToKillMessage])
+			Screen->Message(message);
 
 		Waitframe();
 
         while(!alreadyBought)
 		{
-			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
 			if (onTop(this->X, this->Y))
 				if (Game->Counter[CR_RUPEES] >= price)
@@ -758,23 +839,6 @@ ffc script PoisonWater //start
 	}
 } //end
 
-//~~~~~ScreenQuakeOnSecret~~~~~//
-//D0: Power of the quake
-@Author("Deathrider365")
-ffc script ScreenQuakeOnSecret //start
-{
-	void run(int quakePower)
-	{
-		if (Screen->State[ST_SECRET])
-			Quit();
-
-		until (Screen->State[ST_SECRET])
-			Waitframe();
-
-		Screen->Quake = quakePower;
-	}
-} //end
-
 ffc script CircMove //start
 {
 	void run(int a, int v, int theta)
@@ -841,13 +905,12 @@ ffc script BurningOilandBushes //start
 	const int OILBUSH_OIL_SPREAD_FREQ = 2; //How frequently burning oil spreads (should be shorter than burn duration)
 	const int OILBUSH_BUSH_SPREAD_FREQ = 10; //How frequently burning bushes/grass spread
 
-	const int CMB_OIL_BURNING = 6344; //First combo for burning oil
-	const int CS_OIL_BURNING = 8; //CSet for burning oil
+	const int CS_OIL_BURNING = 7; //was 8 CSet for burning oil
 	const int OILBUSH_ENDFRAMES_OILBURN = 4; //Number of combos for oil burning out
 	const int OILBUSH_ENDDURATION_OILBURN = 16; //Duration of the burning out animation
 
 	const int CMB_BUSH_BURNING = 6344; //First combo for burning oil
-	const int CS_BUSH_BURNING = 8; //CSet for burning oil
+	const int CS_BUSH_BURNING = 0; //CSet for burning oil (I set this to 0 since the combos are 8 bit anyway)
 	const int OILBUSH_ENDFRAMES_BUSHBURN = 4; //Number of combos for bushes/grass burning out
 	const int OILBUSH_ENDDURATION_BUSHBURN = 16; //Duration of the burning out animation
 
@@ -870,13 +933,13 @@ ffc script BurningOilandBushes //start
 		
 		while(true)
 		{
-			//start Loop through all LWeapons
+			//start Loop through all EWeapons
 			for(i = Screen->NumEWeapons(); i >= 1; i--)
 			{
 				eweapon e = Screen->LoadEWeapon(i);
 				
 				//Only fire weapons can burn oil/bushes
-				if(e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800)
+				if((e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800) && GetHighestLevelItemOwned(IC_CANDLE) != 158)
 				{
 					c = ComboAt(CenterX(e), CenterY(e));
 					//Check to make sure it isn't already burning
@@ -914,46 +977,49 @@ ffc script BurningOilandBushes //start
 				} 
 			}//end
 			
-			//start Loop through all LWeapons
-			for(i = Screen->NumLWeapons(); i >= 1; i--)
+			if (GetHighestLevelItemOwned(IC_CANDLE) != 158)
 			{
-				lweapon l = Screen->LoadLWeapon(i);
-				//Only fire weapons can burn oil/bushes
-				if(l->ID == LW_FIRE)
+				//start Loop through all LWeapons
+				for(i = Screen->NumLWeapons(); i >= 1; i--)
 				{
-					c = ComboAt(CenterX(l), CenterY(l));
-					//Check to make sure it isn't already burning
-					if(burnTimers[c] <= 0)
+					lweapon l = Screen->LoadLWeapon(i);
+					//Only fire weapons can burn oil/bushes
+					if(l->ID == LW_FIRE)
 					{
-						//Check if oil is allowed and if the combo is a water combo
-						if(!noOil && OilBush_IsWater(c))
+						c = ComboAt(CenterX(l), CenterY(l));
+						//Check to make sure it isn't already burning
+						if(burnTimers[c] <= 0)
 						{
-							if(SFX_OIL_BURN > 0)
-								Game->PlaySound(SFX_OIL_BURN);
+							//Check if oil is allowed and if the combo is a water combo
+							if(!noOil && OilBush_IsWater(c))
+							{
+								if(SFX_OIL_BURN > 0)
+									Game->PlaySound(SFX_OIL_BURN);
+									
+								burnTimers[c] = OILBUSH_OIL_DURATION;
+								burnTypes[c] = 0; //Mark as an oil burn
+							}
+							//Else check if bushes are allowd and if the combo is a bush
+							else if(!noBushes && OilBush_IsBush(c))
+							{
+								if(SFX_BUSH_BURN > 0)
+									Game->PlaySound(SFX_BUSH_BURN);
+									
+								burnTimers[c] = OILBUSH_BUSH_DURATION;
+								burnTypes[c] = 1; //Mark as a bush burn
+								Screen->ComboD[c]++; //Advance to the next combo
 								
-							burnTimers[c] = OILBUSH_OIL_DURATION;
-							burnTypes[c] = 0; //Mark as an oil burn
-						}
-						//Else check if bushes are allowd and if the combo is a bush
-						else if(!noBushes && OilBush_IsBush(c))
-						{
-							if(SFX_BUSH_BURN > 0)
-								Game->PlaySound(SFX_BUSH_BURN);
-								
-							burnTimers[c] = OILBUSH_BUSH_DURATION;
-							burnTypes[c] = 1; //Mark as a bush burn
-							Screen->ComboD[c]++; //Advance to the next combo
-							
-							if(OILBUSH_BUSHESSTILLDROPITEMS)
-							{ //If item drops are allowed, create and kill a dummy enemy
-								npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
-								n->HP = -1000;
-								n->DrawYOffset = -1000;
+								if(OILBUSH_BUSHESSTILLDROPITEMS)
+								{ //If item drops are allowed, create and kill a dummy enemy
+									npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
+									n->HP = -1000;
+									n->DrawYOffset = -1000;
+								}
 							}
 						}
 					}
-				}
-			} //end
+				} //end
+			}
 			
 			//start Loop through all Combos (spread the fire around)
 			for(i = 0; i < 176; i++)
@@ -1111,18 +1177,18 @@ ffc script BurningOilandBushes //start
 					
 					int cmbBurn;
 					
-					if(burnTypes[i] == 0)
-					{
-						//Set animation for oil burning out
-						cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN / OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
-						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
-					}
-					else
-					{
-						//Set animation for bush burning out
-						cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0, OILBUSH_ENDFRAMES_BUSHBURN - 1);
-						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, CS_BUSH_BURNING, 128);
-					}
+					// if(burnTypes[i] == 0)
+					// {
+						// Set animation for oil burning out
+						// cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN / OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
+						// Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
+					// }
+					// else
+					// {
+						// Set animation for bush burning out
+						// cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0, OILBUSH_ENDFRAMES_BUSHBURN - 1);
+						Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), getBurningCombo(), CS_BUSH_BURNING, 128);
+					// }
 				}
 				else
 				{
@@ -1158,6 +1224,200 @@ ffc script BurningOilandBushes //start
 		else
 			return false;
 	} //end
+	
+		int getBurningCombo()
+		{
+			switch(GetHighestLevelItemOwned(IC_CANDLE))
+			{
+				case 158:
+					return 6344;
+				case 10:
+					return 6345;
+				case 11:
+					return 6346;
+				case 150:
+					return 6347;
+			}
+		}
+	
 }
 //end
 
+//~~~~~Thrower~~~~~//
+//D0: 
+//D1: 
+//D2: 
+//D3: 
+ffc script Thrower //start
+{
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
+	{
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			unless (coolDown)
+			{
+				if (throwsItem)
+				{
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					
+					if (hasArc)
+					{
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
+				}
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	}
+} //end
+
+ffc script SecretThrower //start
+{
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
+	{
+		if (getScreenD(255))
+			Quit();
+				
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			if (getScreenD(255))
+				Quit();
+				
+			unless (coolDown)
+			{
+				if (throwsItem)
+				{
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					
+					if (hasArc)
+					{
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
+				}
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	}
+} //end
+
+ffc script SecretArrowThrower //start
+{
+	void run(int coolDown, int lowVariance, int highVariance, int throwsItem, int projectileId, int projectileType, int sprite, int hasArc)
+	{
+		if (getScreenD(255))
+			Quit();
+				
+		unless(coolDown)
+			coolDown = 120;
+		
+		while (true)
+		{
+			if (getScreenD(255))
+				Quit();
+				
+			unless (coolDown)
+			{
+				if (throwsItem)
+				{
+					if (int scr = CheckItemSpriteScript("ArcingItemSprite"))
+					{
+						itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
+						it->Pickup |= IP_TIMEOUT;
+					}	
+				}
+				else
+				{
+					if (!projectileType)
+						projectileType = AE_DEBUG;
+						
+					eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+					
+					if (hasArc)
+					{
+						Game->PlaySound(1); //arrow shooting sound
+						if (int scr = CheckEWeaponScript("ArcingWeapon"))
+							RunEWeaponScript(projectile, scr, {-1, 0, projectileType});
+					}
+				}
+				
+				coolDown = 120 + Rand(lowVariance, highVariance);
+			}
+			
+			coolDown--;
+			Waitframe();
+		}
+	}
+} //end
+
+itemsprite script ArcingItemSprite //start
+{
+    void run(int angle, int step, int initJump, int gravity) 
+	{
+		this->Gravity = false;
+		bool timeout = this->Pickup & IP_TIMEOUT;
+		this->Pickup ~= IP_TIMEOUT;
+		
+        int x = this->X;
+        int y = this->Y;
+		int jump = initJump;
+		int linkDistance = Distance(Hero->X + Rand(-16, 16), Hero->Y + Rand(-16, 16), this->X, this->Y);
+		
+		if (initJump == -1 && gravity == 0)
+			jump = FindJumpLength(linkDistance / (step), true);
+		
+		unless (gravity)
+			gravity = Game->Gravity[GR_STRENGTH];
+		
+        while(jump > 0 || this->Z > 0)
+		{
+            x += VectorX(step, angle);
+            y += VectorY(step, angle);
+            this->X = x;
+            this->Y = y;
+			this->Z += jump;
+			jump -= gravity;
+            Waitframe();
+        }
+		
+		if (timeout)
+			this->Pickup |= IP_TIMEOUT;
+    }
+} //end

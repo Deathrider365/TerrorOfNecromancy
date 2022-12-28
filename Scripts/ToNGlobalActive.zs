@@ -18,19 +18,17 @@ global script GlobalScripts //start
 	void run()
 	{		
 		if (DEBUG)									//turn off debug when releasing
-			debug();
-		
-		Trace(Hero->ItemA);
-		Trace(Hero->ItemB);
-		Trace(asubscr_pos);
-		
+			debug();		
 		
 		int map = -1, dmap = -1, scr = -1;
 		
 		LinkMovement_Init();
 		StartGhostZH();
 		DifficultyGlobal_Init();
-				
+		
+		Game->MaxLWeapons(1024);
+		Game->MaxEWeapons(1024);
+		
 		mapdata m[6];
 		
 		int footprintArray[3] = {1, 0, 0};
@@ -199,10 +197,9 @@ global script GlobalScripts //start
 				{
 					case 0x26:
 						return 011000b;
-					case 0x16:
-						return 001100b;
-					case 0x07:
-						return 001100b;
+					case 0x38:
+					case 0x39:
+						return 001000b;
 					
 				}
 				break;
@@ -226,8 +223,17 @@ global script GlobalScripts //start
 				switch(scr)
 				{
 					case 0x77:
-						return 001000;
+						return 000100;
 				}
+			case 32:
+				switch(scr)
+				{
+					case 0x06:
+						return 011000b;
+					case 0x07:
+						return 001100b;
+				}
+				break;
 		}
 		return 0;
 	} //end
@@ -270,41 +276,42 @@ global script GlobalScripts //start
 	{
 		switch(Game->GetCurDMap())
 		{
-			case 0...8:
-				return 0.4;
-				break;
-			case 9:
+			case 0:
+				return .5;
+			case 1:
+				return 1;
+			case 3:
 				return 2;
-				break;
-			case 10:
+			case 4:
 				return 1;
-				break;
-			case 11:
-				return 0.3333;
-				break;
-			case 18...20:
+			case 5...6:
+				return 2;
+			case 7:
+				return .2;
+			case 8:
 				return 1;
-				break;
+			case 9:
+				return .2;
+			case 10...13:
+				return 1;
+			case 18...23:
+				return 2;
 		}
+		
+		return 0;
 	} //end
 	
 	void createFootprint(int fadeMult) //start
 	{
-		lweapon footprint = Screen->CreateLWeapon(LW_SPARKLE);
-		footprint->X = Hero->X;
-		footprint->Y = Hero->Y;
-		footprint->UseSprite(SPR_FOOTSTEP);
-		footprint->Behind = true;
+		if (int scr = CheckLWeaponScript("CustomSparkle"))
+		{
+			lweapon footprint = RunLWeaponScriptAt(LW_SCRIPT1, scr, Hero->X, Hero->Y, {SPR_FOOTSTEP, fadeMult});
+			footprint->Behind = true;
+			footprint->Dir = Hero->Dir;
+			footprint->ScriptTile = TILE_INVIS;
+			footprint->CollDetection = false;
+		}
 		
-		unless(footprint->ASpeed)
-			footprint->ASpeed = 1;
-		
-		footprint->ASpeed = Round(footprint->ASpeed * fadeMult);
-		
-		unless(footprint->NumFrames)
-			footprint->NumFrames = 1;
-			
-		footprint->OriginalTile += Hero->Dir * footprint->NumFrames;
 	} //end
 	
 	void onDMapChange() //start

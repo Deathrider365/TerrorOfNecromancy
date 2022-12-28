@@ -1,3 +1,5 @@
+Binding of Isaac
+
 boss that latches on and absorbs life or maybe magic and it would actually heal the boss for as long as you are 
 latched and the only way off is with a light weapon (probably a bonus boss or enemy, maybe a dungeon boss)
 
@@ -81,12 +83,20 @@ its like dr lugae and barnabas where you fight him then he morphs into a beat or
 
 vire boss from Oracle of seasons
 
-<<<<<<< HEAD
 boss that flies around and the only way to hurt it is to wait for it to attack you and get its weapon stuck (think royal ghost)
 
 boss that flips away from link to buf itself like soul of cinder
 
-
 Shadowrobe from Flow of time remastered (level 6 boss)
-=======
->>>>>>> d0258e2b42ff1f5e75a9f18ab6da07cf80f42854
+
+multi-tiered boss like kefka
+
+helmasaur king link between worlds
+
+second fight against levaithan starts like the first one but eventually he pulls link into the water and the fight 
+continues down there (the fish from LA)
+
+a boss using dancing mad 4th movement (prob final boss) after taking a lot of consecutive damage he staggers (similar to gamon FSA) and he has
+a stagger animation. The lower his heath gets the easier he staggers 
+
+Deathrider will be a future boss

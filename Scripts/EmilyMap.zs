@@ -1,5 +1,3 @@
-
-
 namespace Emily::EmilyMap
 {
 	CONFIG COLOR_NULL = 0x0F;
@@ -228,7 +226,12 @@ namespace Emily::EmilyMap
 				
 				if(ALLOW_COMBO_ANIMS)
 					genMap(bmp, this, lockPalette, curscr);
-			} until(Input->Press[CB_MAP]); //end
+			} until(Input->Press[CB_MAP] || Input->Press[CB_START]); //end
+			
+			Input->Press[CB_MAP] = false;
+			Input->Button[CB_MAP] = false;
+			Input->Press[CB_START] = false;
+			Input->Button[CB_START] = false;
 			
 			bmp->Free();
 		}
@@ -289,7 +292,7 @@ namespace Emily::EmilyMap
 						break;
 				}
 					
-				int u,d,l,r;
+				int u, d, l, r;
 				
 				//start calculations
 				unless(q < 0x10)
@@ -320,7 +323,7 @@ namespace Emily::EmilyMap
 					if(fl(u, flag) && fl(d, flag) && fl(l, flag) && fl(r, flag)) //all same
 					{
 						//start Inner Corners
-						int ul,ur,bl,br;
+						int ul, ur, bl, br;
 						
 						if(q > 0xF && q % 0x10)
 							ul = Game->LoadComboData(t1->ComboD[q - 0x11])->Attributes[ATTBU_FLUIDPATH];

@@ -8,8 +8,8 @@
 //D0: turn rate (degrees per frame)
 //D1: wind drop rate (every x frames, drop wind visual effect)
 // Sprites[]:
-// -0 = sprite for the weapon
-// -1 = sprite for the wind visual effect
+// - 0 = sprite for the weapon
+// - 1 = sprite for the wind visual effect
 @Author("EmilyV99")
 lweapon script GaleBRang //start
 {	
@@ -184,7 +184,7 @@ lweapon script ScholarCandelabra //start
 //end
 
 //~~~~~Sine Wave~~~~~//
-@Author("KoolAidWannaBe I THINK")
+@Author("KoolAidWannaBe")
 lweapon script SineWave //start
 {
 	void run(int amplitude, int frequency)
@@ -249,3 +249,45 @@ lweapon script DeathsTouch //start
 }
 //end
 
+lweapon script CustomSparkle
+{
+	void run(int sprId, int fadeMult)
+	{
+		unless (fadeMult)
+			fadeMult = 1;
+			
+		spritedata spr = Game->LoadSpriteData(sprId);
+		this->CSet = spr->CSet;
+		
+		int clk = 0;
+		int tile = spr->Tile;
+		int speed = Max(1, spr->Speed);
+		int frames = Max(1, spr->Frames);
+		int frame = 0;
+		
+		Trace(speed);
+		Trace(fadeMult);
+		
+		speed = Round(speed * fadeMult);
+		tile += this->Dir * frames;
+
+		Trace(speed);
+
+		while(true)
+		{
+			if (++clk >= speed)
+			{
+				if (++frame >= frames)
+					break;
+					
+				clk = 0;
+			}
+		
+			this->ScriptTile = tile + frame;
+		
+			Waitframe();
+		}
+		
+		this->Remove();
+	}
+}

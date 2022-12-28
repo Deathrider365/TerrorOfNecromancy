@@ -11,12 +11,13 @@
 
 #include "std.zh"
 #include "ffcscript.zh"
-#include "Time.zh"
+// #include "Time.zh"
 #include "std_zh/dmapgrid.zh"
 #include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
 #include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
-#include "../ToN Main Quest/Scripts/Headers/EmilyMisc.zh"
+#include "../ToN Main Quest/Scripts/Headers/NPCAnim.zh"
 #include "../ToN Main Quest/Scripts/Headers/Credits.zh"
+#include "../ToN Main Quest/Scripts/Headers/EmDebug.zs"
 
 #include "../ToN Main Quest/Scripts/ToNFFC/ToNFFCScripts.zs"
 #include "../ToN Main Quest/Scripts/ToNFFC/ToNFFCScripts ~ Secrets, Blocks.zs"

@@ -448,7 +448,7 @@ ffc script SwitchSecret //start
 @Author("Moosh")
 ffc script SwitchRemote //start
 { 
-	void run(int pressure, int id, int flag, int sfx)
+	void run(int pressure, int id, int flag, int sfx, int nextCombo)
 	{
 		bool noLink;
 		if (pressure == 2)
@@ -484,7 +484,7 @@ ffc script SwitchRemote //start
 				
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
-						Screen->ComboD[i] = comboD[i] + 1;
+						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
 						
 				Quit();
 			}
@@ -497,11 +497,12 @@ ffc script SwitchRemote //start
 					Waitframe();
 					
 				this->Data = data + 1;
+				
 				Game->PlaySound(SFX_SWITCH_PRESS);
 				
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
-						Screen->ComboD[i] = comboD[i] + 1;
+						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;;
 						
 				while (SwitchPressed(this->X, this->Y, noLink))
 					Waitframe();
@@ -511,17 +512,17 @@ ffc script SwitchRemote //start
 				
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
-						Screen->ComboD[i] = comboD[i];
+						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
 					
 			}
 		} //end
-		
 		else //start
 		{
 			until (SwitchPressed(this->X, this->Y, noLink))
 				Waitframe();
-				
-			this->Data = data+1;
+			
+			this->Data = data + 1;
+			
 			Game->PlaySound(SFX_SWITCH_PRESS);
 			
 			if (sfx > 0)
@@ -531,7 +532,7 @@ ffc script SwitchRemote //start
 				
 			for (i = 0; i < 176; i++)
 				if (comboD[i] > 0)
-					Screen->ComboD[i] = comboD[i] + 1;
+					Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
 					
 			if (id > 0)
 				Screen->D[d] |= db;
@@ -541,12 +542,17 @@ ffc script SwitchRemote //start
 
 //~~~~~SwitchHitAll~~~~~//
 // D0: Set this to the combo number used for the unpressed switches.
-// D1: Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
+// D1: Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). 
+// 	Set to 2 to make it a pressure switch that only reacts to push blocks.
 // D2: Set to 1 to make the secret that's triggered permanent.
 // D3: Set to the controller's ID. Set to 0 if the switch is temporary or you're using screen secrets.
 // D4: Set to the flag that specifies the region for the remote secret. If you're using screen secrets instead of remote ones, this can be ignored.
 // D5: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-// D6: If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
+// D6: If you want the script to remember which switches were pressed after leaving the screen, 
+// 	set to the starting ID for the group of switches. This will reference this ID as well as the 
+// 	next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly 
+// 	test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. 
+// 	If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
 // D7 (2.55 version only): Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.
 @Author("Moosh")
 ffc script SwitchHitAll //start
@@ -662,9 +668,9 @@ ffc script SwitchHitAll //start
 			if (id > 0)
 			{
 				if (sfx > 0)
-					Game->PlaySound(sfx);
+					Audio->PlaySound(sfx);
 				else if (sfx == -1)
-					Game->PlaySound(SFX_SECRET);
+					Audio->PlaySound(SFX_SECRET);
 				for (i = 0; i < 176; i++)
 					if (comboD[i] > 0)
 						Screen->ComboD[i] = comboD[i] + 1;
@@ -686,7 +692,6 @@ ffc script SwitchHitAll //start
 					Screen->State[ST_SECRET] = true;
 			}
 		} //end
-		
 		else //start
 		{
 			while(switches[1] < switches[0])
@@ -767,8 +772,8 @@ ffc script SwitchHitAll //start
 			{
 				if (switchesPressed[j])
 				{
-					if (pressure
-					){
+					if (pressure)
+					{
 						Audio->PlaySound(SFX_SWITCH_RELEASE);
 						Screen->ComboD[k] = switchCmb;
 						switchesPressed[j] = false;
@@ -785,10 +790,10 @@ ffc script SwitchHitAll //start
 //~~~~~SwitchTrap~~~~~//
 // D0: Set to the ID of the enemy to drop in
 // D1: Set to the number of enemies to drop
-@Author("Moosh")
+@Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap //start
 { 
-	void run(int enemyid, int count) //start
+	void run(int enemyid, int count, int fallSpeed, int perm) //start
 	{
 		until(SwitchPressed(this->X, this->Y, false))
 			Waitframe();
@@ -797,14 +802,48 @@ ffc script SwitchTrap //start
 		Game->PlaySound(SFX_SWITCH_PRESS);
 		Game->PlaySound(SFX_SWITCH_ERROR);
 		
+		Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
+		
+		npc npcs[255];
+		
 		for (int i = 0; i < count; i++)
 		{
 			int pos = Switch_GetSpawnPos();
 			npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
+			npcs[i] = n;
 			Game->PlaySound(SFX_FALL);
 			n->Z = 176;
-			Waitframes(20);
+			
+			for (int j = 0; j < 20; j++)
+			{
+				for (int k = 0; k < count; k++)
+				{
+					if (npcs[k])
+						npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
+				}
+				Waitframe();
+			}
+			
+			Waitframe();
 		}
+		
+		unless (fallSpeed)
+			fallSpeed = 5;
+		
+		for (int i = 0; i < 60; ++i)
+		{
+			for (int j = 0; j < count; j++)
+				npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
+			Waitframe();
+		}
+		
+		while(Screen->NumNPCs())
+			Waitframe();
+		
+		char32 areaMusic[256];
+		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+		Audio->PlayEnhancedMusic(areaMusic, 0);
+			
 	} //end
 	
 	int Switch_GetSpawnPos() //start
@@ -812,6 +851,7 @@ ffc script SwitchTrap //start
 		int pos;
 		bool invalid = true;
 		int failSafe = 0;
+		
 		while(invalid && failSafe < 512)
 		{
 			pos = Rand(176);
@@ -852,7 +892,6 @@ ffc script SwitchTrap //start
 		return true;
 	} //end
 } //end
-
 
 //~~~~~SwitchSequential~~~~~//
 // D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
@@ -1250,7 +1289,7 @@ ffc script GB_Shutter //start
 			LinkY = 0;
 			
 		int moveDir = Link->Dir;
-		
+				
 		if(GB_Shutter_InShutter(this, LinkX, LinkY, 0))
 		{
 			if(LinkY == 0)
@@ -1280,12 +1319,11 @@ ffc script GB_Shutter //start
 				Waitframe();
 			}
 			
-			//MooshPit_ResetEntry();
-			Game->PlaySound(SFX_SHUTTER);
+			Game->PlaySound(SFX_SHUTTER_CLOSE);
 			m->ComboD[cp] = underCombo;
 			m->ComboC[cp] = underCSet;
-			Game->LoadComboData(thisData + 1)->Frame = 0;
 			this->Data = thisData + 1;
+			Game->LoadComboData(this->Data)->Frame = 0;
 			this->CSet = thisCSet;
 			
 			for(int i = 0; i < 4; i++)
@@ -1352,7 +1390,7 @@ ffc script GB_Shutter //start
 					Waitframe();
 				}
 				
-				Game->PlaySound(SFX_SHUTTER);
+				Game->PlaySound(SFX_SHUTTER_CLOSE);
 				m->ComboD[cp] = underCombo;
 				m->ComboC[cp] = underCSet;
 				Game->LoadComboData(thisData + 1)->Frame = 0;
@@ -1399,7 +1437,7 @@ ffc script GB_Shutter //start
 			Waitframe();
 		}
 		
-		Game->PlaySound(SFX_SHUTTER);
+		Game->PlaySound(SFX_SHUTTER_OPEN);
 		m->ComboD[cp] = underCombo;
 		m->ComboC[cp] = underCSet;
 		Game->LoadComboData(thisData + 1)->Frame = 0;
@@ -1414,9 +1452,7 @@ ffc script GB_Shutter //start
 	
 	bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway) //start
 	{
-		if(Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway)
-			return true;
-		return false;
+		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
 	} //end
 	
 	bool GB_Shutter_CheckEnemies() //start
@@ -1588,35 +1624,135 @@ ffc script ActivateTorches //start
 	}
 } //end
 
+//~~~~~ScreenQuakeOnSecret~~~~~//
+//D0: Power of the quake
+@Author("Deathrider365")
+ffc script ScreenQuakeOnSecret //start
+{
+	void run(int quakePower)
+	{
+		if (Screen->State[ST_SECRET])
+			Quit();
 
+		until (Screen->State[ST_SECRET])
+			Waitframe();
 
+		Screen->Quake = quakePower;
+	}
+} //end
 
+ffc script TriggerSignpostsOnOtherScreens
+{
+	void run()
+	{
+		while(true)
+		{
+			if (Hero->Item[202])
+			{
+				Audio->PlaySound(7);
+				int curPosOfKid = 38;
+				int curPosOfDad = 109;
+				
+				int newPosOfKid = 119;
+				int newPosOfDad = 135;
+				int newMapOfBoth = 9;
+				
+				Game->SetDMapScreenD(4, 0x07, 1, 1);
+				mapdata mapOfDad = Game->LoadMapData(10, 0x07);
+				
+				Game->SetDMapScreenD(23, 0x56, 1, 1);
+				mapdata mapOfKid = Game->LoadMapData(41, 0x5E);
+				
+				mapOfKid->ComboD[curPosOfKid] = 0;
+				mapOfDad->ComboD[curPosOfDad] = 0;
+				
+				Quit();
+			}
+			
+			Waitframe();
+		}
+	}
+}
 
+ffc script GettingGoddessJewels
+{
+	void run(int message, int x, int y, int itemId, int finalTriforceShard)
+	{
+		if (getScreenD(254))
+			Quit();
+			
+		if (!Hero->Item[finalTriforceShard])
+			Quit();
+			
+		Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
+			
+		NoAction();
+		Link->PressStart = false;
+		Link->InputStart = false;
+		Link->PressMap = false;
+		Link->InputMap = false;
+		
+		for (int i = 120; i >0; --i)
+		{
+			NoAction();
+			
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;
+			
+			Waitframe();
+		}
+		
+		for (int i = 0; i < 32; ++i)
+		{
+			//link should walk up
+			
+			NoAction();
+			Link->PressStart = false;
+			Link->InputStart = false;
+			Link->PressMap = false;
+			Link->InputMap = false;	
+			
+			Waitframe();
+		}
+		
+		Screen->Message(message); //message about assembling the triforce
+		
+		//Link holds up all 4 shards and they assemble in the air splendidly, then the
+		//triforce appears on top of the pedestal spinning and shining
+		//then a message is played about how one is rewarded for assembling the triforce
+		//then that respective goddess jewel appears in front of the pedestal from above the screen
+		
+		itemsprite it = CreateItemAt(itemId, x, y);
+		it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+		
+		setScreenD(254, true);
+	}
 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ffc script TriggerOnceEnemiesKilled
+{
+	void run(int flag)
+	{
+		int comboD[176];
+		
+		for (int i = 0; i < 176; i++)
+			if (Screen->ComboF[i] == flag)
+			{
+				comboD[i] = Screen->ComboD[i];
+				Screen->ComboF[i] = 0;
+			}
+			
+		until(Screen->NumNPCs())
+			Waitframe();
+			
+		while(Screen->NumNPCs())
+			Waitframe();
+		
+		for (int i = 0; i < 176; i++)
+			if (comboD[i] > 0)
+				Screen->ComboD[i] = comboD[i] + 1;
+	}
+}
