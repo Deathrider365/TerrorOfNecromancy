@@ -226,10 +226,12 @@ namespace Emily::EmilyMap
 				
 				if(ALLOW_COMBO_ANIMS)
 					genMap(bmp, this, lockPalette, curscr);
-			} until(Input->Press[CB_MAP]); //end
+			} until(Input->Press[CB_MAP] || Input->Press[CB_START]); //end
 			
 			Input->Press[CB_MAP] = false;
 			Input->Button[CB_MAP] = false;
+			Input->Press[CB_START] = false;
+			Input->Button[CB_START] = false;
 			
 			bmp->Free();
 		}

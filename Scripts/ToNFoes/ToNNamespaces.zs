@@ -484,7 +484,14 @@ namespace Enemy::Manhandala //start
 				this->CSet = hurtCSet;
 				
 				for (int i = 0; i < 20; ++i)
-					this->Defense[i] = (i == NPCD_FIRE) ? NPCDT_IGNORE : NPCDT_NONE;
+				{
+					if (i == NPCD_FIRE)
+						this->Defense[i] = NPCDT_IGNORE;
+					else if(i == NPCD_ARROW)		//TODO make him rage if an arrow collides with him
+						this->Defense[i] = NPCDT_BLOCK;
+					else
+					this->Defense[i] = NPCDT_NONE;
+				}
 				
 				for(int i = 0; i < 10; ++i)
 					custom_waitframe(this, data);

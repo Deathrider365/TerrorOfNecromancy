@@ -203,16 +203,6 @@ global script GlobalScripts //start
 					
 				}
 				break;
-			
-			case 32:
-				switch(scr)
-				{
-					case 0x06:
-						return 011000b;
-					case 0x07:
-						return 001100b;
-				}
-				break;
 			case 5:
 				switch(scr)
 				{
@@ -235,6 +225,15 @@ global script GlobalScripts //start
 					case 0x77:
 						return 000100;
 				}
+			case 32:
+				switch(scr)
+				{
+					case 0x06:
+						return 011000b;
+					case 0x07:
+						return 001100b;
+				}
+				break;
 		}
 		return 0;
 	} //end

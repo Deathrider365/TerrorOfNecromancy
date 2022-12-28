@@ -760,7 +760,7 @@ ffc script CapacityIncreasor //start
 		char32 priceBuf[6];
 		sprintf(priceBuf, "%d", price);
 
-		Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+		Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
 		unless (Hero->Item[itemToKillMessage])
 			Screen->Message(message);
@@ -769,7 +769,7 @@ ffc script CapacityIncreasor //start
 
         while(!alreadyBought)
 		{
-			Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+			Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
 			if (onTop(this->X, this->Y))
 				if (Game->Counter[CR_RUPEES] >= price)
@@ -930,7 +930,7 @@ ffc script BurningOilandBushes //start
 		int burnTimers[176];
 		int burnTypes[176];
 		lweapon burnHitboxes[176];
-					
+		
 		while(true)
 		{
 			//start Loop through all EWeapons
@@ -939,7 +939,7 @@ ffc script BurningOilandBushes //start
 				eweapon e = Screen->LoadEWeapon(i);
 				
 				//Only fire weapons can burn oil/bushes
-				if(e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800)
+				if((e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800) && GetHighestLevelItemOwned(IC_CANDLE) != 158)
 				{
 					c = ComboAt(CenterX(e), CenterY(e));
 					//Check to make sure it isn't already burning

@@ -1390,6 +1390,7 @@ namespace Enemy::ServusMalus
 								eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, ComboX(chosenTorch), ComboY(chosenTorch), {0, 60});
 								ewind->Unblockable = UNBLOCK_ALL;
 								ewind->UseSprite(128);
+								ewind->Damage = 2;
 							}
 							Audio->PlaySound(63);
 							chosenTorch = 0;
@@ -2120,7 +2121,7 @@ namespace Enemy::ServusMalus
 					this->MoveXY(vX, vY, SPW_FLOATER);
 					this->Dir = faceLink(this);
 					
-					sword2x1(this->X + 8, this->Y + 8, angle + Lerp((attackCount % 2 ? -90 : 90), (attackCount % 2 ? 90 : -90), i / 14), 16, 6944, 3, 4);
+					sword2x1(this->X + 8, this->Y + 8, angle + Lerp((attackCount % 2 ? -90 : 90), (attackCount % 2 ? 90 : -90), i / 14), 16, 6944, 3, 5);
 					
 					Waitframe();
 				}
@@ -2165,7 +2166,7 @@ namespace Enemy::ServusMalus
 					Audio->PlaySound(145);
 					
 					scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
-					scythe->Damage = 4;
+					scythe->Damage = 7;
 					scythe->UseSprite(125);
 					scythe->Extend = 3;
 					scythe->TileWidth = 2;
@@ -2179,7 +2180,7 @@ namespace Enemy::ServusMalus
 					if (gettingDesperate)
 					{
 						scythe2 = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 1});
-						scythe2->Damage = 4;
+						scythe2->Damage = 8;
 						scythe2->UseSprite(125);
 						scythe2->Extend = 3;
 						scythe2->TileWidth = 2;
