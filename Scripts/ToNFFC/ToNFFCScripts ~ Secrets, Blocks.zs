@@ -2,170 +2,26 @@
 //~~~~~~~~~~The Terror of Necromancy FFC Scripts ~ Secrets, Block ~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~ItemGuySecret~~~~~//
-// D0: Number of string to show
-// D1: Item to be given
-// D2: X position of where the item will appear
-// D3: Y position of where the item will appear
-@Author("Deathrider365")
-ffc script ItemGuySecret //start
-{
-    void run(int message, int itemID, int x, int y)
-    {
-        while (true)
-        {
-            if (Screen->State[ST_SPECIALITEM])
-                return;
+@Author("Moosh")
+ffc script OpenForItemId {
+   void run(int itemId, bool perm) {
+      if(Screen->State[ST_SECRET]) 
+         Quit();
+         
+      while(true) {
+         if (Hero->Item[itemId]) {
+            Screen->TriggerSecrets();
             
-            if (Screen->State[ST_SECRET])
-            {
-                Waitframes(2);
-                itemsprite it = CreateItemAt(itemID, x, y);
-                it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
-				
-				unless(getScreenD(255))
-					Screen->Message(message);
-				
-				setScreenD(255, true);
-				
-                return;
-            }
-            Waitframe();
-        }
-    }
+            if(perm) 
+               Screen->State[ST_SECRET] = true;
+               
+            return;
+         }
+         Waitframe();
+      }
+   }
 }
 
-//end
-
-//~~~~~SecretGuyWithItem~~~~~//
-//D0: String for if you have the required item
-//D1: String for if you don't have the required item
-//D2: The final message that plays when you wrapped up this guy's significance
-//D3: 1 for anySide, 0 for below?
-//D4: Id of item to given
-//D5: 1 for perm, 0 for temp
-@Author("Deathrider365")
-ffc script SecretGuyWithItem //start
-{
-	void run(int hasItemMessage, int hasntItemMessage, int alreadyDidTheThingMessage, bool anySide, int itemId, int perm)
-	{
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}
-			
-			if(Link->Item[itemId] && !Screen->State[ST_SECRET])
-			{
-				Input->Button[CB_SIGNPOST] = false;
-				Screen->Message(hasItemMessage);
-				
-				Waitframes(2);
-				
-				Screen->TriggerSecrets();
-				Audio->PlaySound(SFX_SECRET);
-				
-				if(perm) 
-					Screen->State[ST_SECRET] = true;
-			}
-			else if (!Link->Item[itemId] && !Screen->State[ST_SECRET])
-			{
-				Input->Button[CB_SIGNPOST] = false;
-				Screen->Message(hasntItemMessage);
-			}
-			else
-			{
-				Input->Button[CB_SIGNPOST] = false;
-				Screen->Message(alreadyDidTheThingMessage);
-			}
-			
-			Waitframe();
-		}
-	}
-} //end
-
-//~~~~~SecretGuy~~~~~//
-//D0: String for if you have the required item
-//D1: String for if you don't have the required item
-//D2: The final message that plays when you wrapped up this guy's significance
-//D3: 1 for anySide, 0 for below?
-//D4: Id of item to given
-//D5: 1 for perm, 0 for temp
-@Author("Deathrider365")
-ffc script SecretGuyNoItemVanishes //start
-{
-	void run(int hasItemMessage, int hasntItemMessage, int itemId, bool anySide, int perm)
-	{
-		if (Screen->State[ST_SECRET])
-			Quit();
-		
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}
-			
-			if(Link->Item[itemId])
-			{
-				Input->Button[CB_SIGNPOST] = false;
-				Screen->Message(hasItemMessage);
-				
-				Waitframes(2);
-				
-				Screen->TriggerSecrets();
-				Audio->PlaySound(SFX_SECRET);
-				
-				if(perm) 
-					Screen->State[ST_SECRET] = true;
-					
-				Quit();
-			}
-			else
-			{
-				Input->Button[CB_SIGNPOST] = false;
-				Screen->Message(hasntItemMessage);
-			}
-			
-			Waitframe();
-		}
-	}
-} //end
-
-
-//~~~~~OpenForItem~~~~~//
-//D0: Item number to check for
-//D1: 0 for non-perm, 1 for perm
-@Author("Moosh")
-ffc script OpenForItemID //start
-{
-	void run(int itemid, bool perm)
-	{
-		if(Screen->State[ST_SECRET]) 
-			Quit();
-			
-		while(true)
-		{
-			if(Link->Item[itemid])
-			{
-				Screen->TriggerSecrets();
-				
-				if(perm) 
-					Screen->State[ST_SECRET] = true;
-					
-				return;
-			}
-			Waitframe();
-		}
-	}
-} //end
 
 //~~~~~ScriptWeaponTrigger~~~~~//
 // D0: The LW_ weapon type to check for (std_constants.zh)

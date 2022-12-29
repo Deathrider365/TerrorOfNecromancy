@@ -97,6 +97,18 @@ CONFIG MISC_SFFC_X = 0;  			//This can be used by other ffcs as long as they're 
 CONFIG MSG_LINK_BEATEN = 24;
 //end
 
+//~~~~~TriggerTypes~~~~~//
+//start
+   CONFIG TT_NO_TRIGGER_SET = 1;
+   CONFIG TT_SCREEND_SET = 2;
+   CONFIG TT_SCREEND_NOT_SET = 3;
+   CONFIG TT_SECRETS_TRIGGERED = 4;
+   CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
+   CONFIG TT_ITEM_ACQUIRED = 6;
+   CONFIG TT_ITEM_NOT_ACQUIRED = 7;
+   
+//end
+
 //~~~~~Itemdata~~~~~//
 //start
 CONFIG SUB_B_X = 94;
@@ -114,8 +126,6 @@ CONFIG ITEM_EXPANSION_QUIVER = 205;
 CONFIG ITEM_BATTLE_ARENA_TICKET = 191;
 
 CONFIG ITEM_QUIVER1_SMALL = 74;
-
-
 //end
 
 //~~~~~LWeapon~~~~~//

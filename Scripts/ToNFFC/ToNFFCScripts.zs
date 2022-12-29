@@ -2,15 +2,7 @@
 //~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~ConditionalItem~~~~~//
-//D0: String id when you first enter the room and you have the required item
-//D1: Same as D0 but you don't have the required item
-//D2: Item id you get
-//D3: Item id that is required
-//D4: String id for when you talk to the NPC if you don't have the required item
-//D5: Same as D4 but you have the required item
-//D6: X Coordinate where the item spawns
-//D7: Y Coordinate where the item spawns
+//TODO blech
 ffc script ConditionalItem {
 	void run(
 		int hasRequiredItemStrings,
@@ -127,125 +119,241 @@ ffc script ConditionalItem {
 	}
 }
 
-//~~~~~ItemGuy~~~~~//
-// Sets screenD(255) upon receiving
-//D0: Item ID to give
-//D1: String for getting the item
-//D2: String for if you already got the item
-//D3: 1 for all dirs, 0 for only front (up)
 @Author("Deathrider365")
-ffc script ItemGuy //start
-{
-	void run(
-		int itemId,
-		int gettingItemString,
-		int alreadyGotItemString,
-		int anySide,
-		int triggerOnScreenD,
-		int screenDIndexToActivate,
-		int screenDIndexForItem)
-	{
-		Waitframes(2);
-
-		int originalCombo = this->Data;
-
-		if (triggerOnScreenD)
-		{
-			this->Data = COMBO_INVIS;
-
-			until (getScreenD(screenDIndexToActivate))
-				Waitframe();
-		}
-
-		this->Data = originalCombo;
-
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-				Waitframe();
-			}
-
-			Input->Button[CB_SIGNPOST] = false;
-
-			unless (getScreenD(screenDIndexForItem))
-			{
-				Screen->Message(gettingItemString);
-
-				Waitframes(2);
-
-				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-				it->Pickup = IP_HOLDUP;
-
-				Input->Button[CB_SIGNPOST] = false;
-				setScreenD(screenDIndexForItem, true);
-			}
-			else
-				Screen->Message(alreadyGotItemString);
-
-			Waitframe();
-		}
-	}
-}
-//end
-
-//~~~~~TradingGuy~~~~~//
-// Sets screenD(255) upon receiving
-//D0: Item Id required							//0
-//D1: Item ID to give							//185
-//D2: String for not having required item		//0
-//D3: String for getting the item				//505
-//D4: String for if you already got the item	//509
-//D5: 1 for all dirs, 0 for only front (up)
-@Author("Deathrider365")
-ffc script TradingGuy //start
-{
-	void run(int itemIdRequired, int itemIdToGet, int noRequiredItemString, int gettingItemString, int alreadyGotItemString)
-	{
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-				Waitframe();
-			}
-
-			Input->Button[CB_SIGNPOST] = false;
-
-			unless (Hero->Item[itemIdRequired])
-			{
-				Screen->Message(noRequiredItemString);
-				Waitframes(2);
-				Input->Button[CB_SIGNPOST] = false;
-			}
-			else if (Hero->Item[itemIdRequired])
-			{
-				unless (getScreenD(255))
-				{
-					Screen->Message(gettingItemString);
-
-					Waitframes(2);
-
-					itemsprite it = CreateItemAt(itemIdToGet, Hero->X, Hero->Y);
-					it->Pickup = IP_HOLDUP;
-					Input->Button[CB_SIGNPOST] = false;
-					setScreenD(255, true);
-				}
-				else
-					Screen->Message(alreadyGotItemString);
-			}
-
-			Waitframe();
-		}
-	}
+ffc script GetItemFromSecret {
+   void run(int message, int itemId, int itemX, int itemY, int screenD) {
+      if (Screen->State[ST_SPECIALITEM])
+         Quit();
+      
+      while (true) {
+         if (Screen->State[ST_SECRET]) {
+            CreateItemAt(itemId, itemX, itemY)->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+            
+            unless(getScreenD(screenD))
+               Screen->Message(message);
+            
+            setScreenD(screenD, true);
+            Quit();
+         }
+         Waitframe();
+      }
+   }
 }
 
-//end
+@Author("Deathrider365")
+ffc script GetItem {
+   void run(int hasItem, int trader, int gettingItemString, int gottenItemString, int scriptSelfTrigger, int selfTriggerValue, int layer, int screenD) {  
+      CONFIG TA_KILL_SCRIPT = 1;
+      CONFIG TA_START_SCRIPT = 2;
+   
+      CONFIG SELF_TRIGGER_ITEM = 1;
+      CONFIG SELF_TRIGGER_SCREEND = 2;
+      CONFIG SELF_TRIGGER_SECRETS = 3;
+      
+      CONFIG HIDE_FFC_UNTIL_TRIGGERED = 9999;
+      
+      int untriggeredSecretsDialogue;
+      
+      mapdata template = Game->LoadTempScreen(layer);
+      
+      int prevData = this->Data;
+      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
+      
+      while(true) {
+         if (scriptSelfTrigger) {
+            int selfTriggerAction = Floor(scriptSelfTrigger);
+            int selfTriggerRequirement = (scriptSelfTrigger % 1) / 1L;
+            
+            this->Data = 0;
+            template->ComboD[ComboAt(this->X, this->Y)] = 0;
+            
+            // needed is to say you either need it, or CANNOT have it
+            int neededToHave = Floor(selfTriggerValue);
+            int neededValue = (selfTriggerValue % 1) / 1L;
+            
+            switch(selfTriggerAction) {
+               case TA_KILL_SCRIPT:
+                  switch(selfTriggerRequirement) {
+                     case SELF_TRIGGER_ITEM:
+                        if (neededToHave && Hero->Item[neededValue]) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else if (!neededToHave && !Hero->Item[neededValue]) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        }
+                        break;
+                     case SELF_TRIGGER_SCREEND:
+                        if (neededToHave && getScreenD(neededValue)) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else if (!neededToHave && !getScreenD(neededValue)) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        }
+                        break;
+                     case SELF_TRIGGER_SECRETS:
+                        if (neededToHave && Screen->State[ST_SECRET]) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else if (!neededToHave && !Screen->State[ST_SECRET]) {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        else {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        }
+                  }
+                  break;
+               case TA_START_SCRIPT:
+                  switch(selfTriggerRequirement) {
+                     case SELF_TRIGGER_ITEM:
+                        if (neededToHave && Hero->Item[neededValue]) {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } 
+                        else if (!neededToHave && Hero->Item[neededValue]) {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } else {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        break;
+                     case SELF_TRIGGER_SCREEND:
+                        if (neededToHave && getScreenD(neededValue)) {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } 
+                        else if (!neededToHave && !getScreenD(neededValue)) {
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } else {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                        break;
+                     case SELF_TRIGGER_SECRETS:
+                        if (neededToHave && Screen->State[ST_SECRET]) {
+                           untriggeredSecretsDialogue = 0;
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } 
+                        else if (!neededToHave && !Screen->State[ST_SECRET]) {
+                           untriggeredSecretsDialogue = 0;
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } 
+                        else if (neededValue != HIDE_FFC_UNTIL_TRIGGERED) {
+                           untriggeredSecretsDialogue = neededValue;
+                           this->Data = prevData;
+                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+                        } else {
+                           this->Data = 0;
+                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                        }
+                  }
+                  break;
+               default:
+                  break;
+            }
+         }
+         
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Waitframe();
+         }
+
+         Input->Button[CB_SIGNPOST] = false;
+         
+         int itemIdOrTriggerValue = Floor(hasItem);
+         int noItemTrigger = (hasItem % 1) / 1L;
+            
+         if (Screen->State[ST_SECRET])
+            untriggeredSecretsDialogue = 0;
+         
+         if (untriggeredSecretsDialogue) {
+            Screen->Message(untriggeredSecretsDialogue);
+            Waitframe();
+            Input->Button[CB_SIGNPOST] = false;
+         } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
+            Screen->Message(gottenItemString);
+            Waitframe();
+            Input->Button[CB_SIGNPOST] = false;
+         } else {
+            if (trader) {
+               int requiredItem = Floor(trader);
+               int noItemString = (trader % 1) / 1L;
+               
+               if (Hero->Item[requiredItem]) {
+                  Screen->Message(gettingItemString);
+                  setScreenD(screenD, true);
+                  Waitframe();
+                  
+                  unless (noItemTrigger) {
+                     itemsprite it = CreateItemAt(itemIdOrTriggerValue, Hero->X, Hero->Y);
+                     it->Pickup = IP_HOLDUP;
+                  } 
+                  else
+                     executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
+                  
+                  Input->Button[CB_SIGNPOST] = false;
+               } else {
+                  Screen->Message(noItemString);
+                  Waitframe();
+                  Input->Button[CB_SIGNPOST] = false;
+               }
+            } else {
+               Screen->Message(gettingItemString);
+               setScreenD(screenD, true);
+               Waitframe();
+               
+               unless (noItemTrigger) {
+                  itemsprite it = CreateItemAt(itemIdOrTriggerValue, Hero->X, Hero->Y);
+                  it->Pickup = IP_HOLDUP;
+               }
+               else
+                     executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
+               
+               Input->Button[CB_SIGNPOST] = false;
+            }
+         }
+         
+         Waitframe();
+      }
+   }
+   
+   void executeNoItemTrigger(int triggerValue, int triggerType) {
+      switch (triggerType) {
+         case TT_SCREEND_SET:
+            setScreenD(triggerValue, true);
+            break;
+         case TT_SCREEND_NOT_SET:
+            setScreenD(triggerValue, false);
+            break;
+         case TT_SECRETS_TRIGGERED:
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+				Audio->PlaySound(SFX_SECRET);
+            break;
+         default:
+            break;
+      }
+   }
+}
 
 @Author("Tabletpillow, EmilyV99, Deathrider365")
 ffc script SimpleShop {
@@ -330,11 +438,11 @@ ffc script SimpleShop {
 }
 
 @Author("Deathrider365")
-ffc script GetItem {
-   void run(int entryMessage, int price, int itemId) {
+ffc script BuyItem {
+   void run(int entryMessage, int price, int itemId, bool buyOnce, bool entryMessageOnce) {
       bool alreadyBought = false;
 
-      if (getScreenD(255)) {
+      if (buyOnce && Hero->Item[itemId]) {
          this->Data = COMBO_INVIS;
          Quit();
       }
@@ -343,8 +451,14 @@ ffc script GetItem {
       sprintf(priceBuf, "%d", price);
 
       Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-      Screen->Message(entryMessage);
-
+      
+      if (!getScreenD(255))
+         Screen->Message(entryMessage);
+         
+      if (entryMessageOnce) {
+         setScreenD(255, true);
+      }
+      
       Waitframe();
          
       while(!alreadyBought) {
@@ -367,8 +481,7 @@ ffc script GetItem {
                   Screen->TriggerSecrets();
                   break;
             }
-
-            setScreenD(255, true);
+            
             alreadyBought = true;
             this->Data = COMBO_INVIS;
          }
@@ -441,6 +554,14 @@ ffc script CompassBeep {
          !Screen->State[ST_SPECIALITEM] &&
          (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
          Audio->PlaySound(COMPASS_BEEP);
+   }
+}
+
+@Author("Deathrider365")
+ffc script removeItem {
+   void run(int itemId) {
+      if (Hero->Item[itemId])
+         Hero->Item[itemId] = false;
    }
 }
 
@@ -1073,14 +1194,6 @@ ffc script BurningOilandBushes {
 
 @Author("Deathrider365")
 ffc script Thrower {
-   CONFIG TT_NO_TRIGGER_SET = 1;
-   CONFIG TT_SCREEND_SET = 2;
-   CONFIG TT_SCREEND_NOT_SET = 3;
-   CONFIG TT_SECRETS_TRIGGERED = 4;
-   CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
-   CONFIG TT_ITEM_ACQUIRED = 6;
-   CONFIG TT_ITEM_NOT_ACQUIRED = 7;
-   
    void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
       int lowVariance = Floor(variance);
       int highVariance = -(variance % 1) / 1L;
@@ -1092,7 +1205,8 @@ ffc script Thrower {
          coolDown = 120;
          
       while (true) {
-         checkIfStopped(trigger);
+         if (wasTriggered(trigger))
+            Quit();
          
          unless (coolDown) {
             if (throwsItem) {
@@ -1124,40 +1238,6 @@ ffc script Thrower {
 
          coolDown--;
          Waitframe();
-      }
-   }
-   
-   void checkIfStopped(float trigger) {
-      int triggerType = Floor(trigger);
-      int triggerValue = (trigger % 1) / 1L;
-      
-      switch (triggerType) {
-         case TT_NO_TRIGGER_SET:
-            break;
-         case TT_SCREEND_SET:
-            if (getScreenD(triggerValue))
-               Quit();
-            break;
-         case TT_SCREEND_NOT_SET:
-            unless (getScreenD(triggerValue))
-               Quit();
-            break;
-         case TT_SECRETS_TRIGGERED:
-            if (Screen->State[ST_SECRET])
-               Quit();
-            break;
-         case TT_SECRETS_NOT_TRIGGERED:
-            unless (Screen->State[ST_SECRET])
-               Quit();
-            break;
-         case TT_ITEM_ACQUIRED:
-            if (Hero->Item[triggerValue])
-               Quit();
-            break;
-         case TT_ITEM_NOT_ACQUIRED:
-            unless (Hero->Item[triggerValue])
-               Quit();
-            break;
       }
    }
 }

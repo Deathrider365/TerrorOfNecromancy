@@ -630,7 +630,30 @@ itemsprite script ArcingItemSprite {
    }
 }
 
-
+// Checks if a certain trigger went off
+bool wasTriggered(float trigger) {
+   int triggerType = Floor(trigger);
+   int triggerValue = (trigger % 1) / 1L;
+   
+   switch (triggerType) {
+      case TT_NO_TRIGGER_SET:
+         return false;
+      case TT_SCREEND_SET:
+         return getScreenD(triggerValue);
+      case TT_SCREEND_NOT_SET:
+         return !getScreenD(triggerValue);
+      case TT_SECRETS_TRIGGERED:
+         return Screen->State[ST_SECRET];
+      case TT_SECRETS_NOT_TRIGGERED:
+         return !Screen->State[ST_SECRET];
+      case TT_ITEM_ACQUIRED:
+         return Hero->Item[triggerValue];
+      case TT_ITEM_NOT_ACQUIRED:
+         return !Hero->Item[triggerValue];
+      default:
+         return false;
+   }
+}
 
 
 

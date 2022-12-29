@@ -177,8 +177,6 @@ global script GlobalScripts //start
 			m[l] = Game->LoadTempScreen(l);
 		}
 		
-		//
-		
 		if (Screen->Palette != lastPal)
 		{
 			lastPal = Screen->Palette;
@@ -271,7 +269,7 @@ global script GlobalScripts //start
 			}
 		}
 	} //end
-	
+   
 	int getFadeMult() //start
 	{
 		switch(Game->GetCurDMap())
