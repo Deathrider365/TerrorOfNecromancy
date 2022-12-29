@@ -55,7 +55,7 @@ eweapon script ArcingWeapon //start
 		int linkDistance = Distance(Hero->X, Hero->Y, this->X, this->Y);
 		
 		if (initJump == -1 && gravity == 0)
-			jump = FindJumpLength(linkDistance / (this->Step / 100), true);
+			jump = getJumpLength(linkDistance / (this->Step / 100), true);
 		
 		unless (gravity)
 			gravity = Game->Gravity[GR_STRENGTH];
@@ -152,7 +152,7 @@ eweapon script ArcingWeapon //start
 					for (int i = 0; i < 4; ++i)
 					{
 						eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-						RunEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
+						runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
 					}
 					break; //end
 				
@@ -160,7 +160,7 @@ eweapon script ArcingWeapon //start
 					for (int i = 0; i < 4; ++i)
 					{
 						eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 2, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-						RunEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});	
+						runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});	
 					}
 					Audio->PlaySound(SFX_BOMB);
 					break; //end
@@ -170,7 +170,7 @@ eweapon script ArcingWeapon //start
 					for (int i = 0; i < 4; ++i)
 					{
 						eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-						RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
+						runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
 					}
 				
 					Audio->PlaySound(SFX_BOMB);

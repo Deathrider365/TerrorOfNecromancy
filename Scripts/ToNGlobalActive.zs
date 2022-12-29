@@ -351,7 +351,7 @@ global script OnLaunch //start
 		subscr_y_offset = -224;
 		subscr_open = false;
 
-		SetGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
+		setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
 
 		if(onContHP != 0)
 		{

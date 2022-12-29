@@ -468,12 +468,14 @@ ffc script OfficialIntro //start
 	{
 		for (int i = 0; i < 120; ++i)
 		{
+         disableLink();
 			Screen->Rectangle(7, 24, 24, 232, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}
 		
 		for (int i = 0; i < 45; ++i)
 		{
+         disableLink();
 			Screen->Rectangle(7, 24 - i * 5, 24, 232 - i * 5, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();			
@@ -481,6 +483,7 @@ ffc script OfficialIntro //start
 		
 		for (int i = 0; i < 120; ++i)	//with presenting
 		{
+         disableLink();
 			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}
@@ -497,15 +500,19 @@ ffc script IntroSceneTransitions //start
 	{
 		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
 		{
+         disableLink();
 			Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}
 		
-		for (int i = 0; i < 180; ++i)
+		for (int i = 0; i < 180; ++i) {
+         disableLink();
 			Waitframe();
+      }
 		
 		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
 		{
+         disableLink();
 			Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}
@@ -523,11 +530,14 @@ ffc script FinalScene //start
 	{
 		enteringTransition();
 		
-		for (int i = 0; i < 180; ++i)
+		for (int i = 0; i < 180; ++i) {
+         disableLink();
 			Waitframe();
+      }
 		
 		for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
 		{
+         disableLink();
 			Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			Waitframe();
 		}

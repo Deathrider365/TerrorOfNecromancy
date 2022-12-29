@@ -2,8 +2,6 @@
 //~~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Bosses~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-// IN SEQUENTIAL ORDER
-
 //~~~~~Leviathan1~~~~~//
 @Author("Moosh, modified by Deathrider365")
 npc script Leviathan1 //start
@@ -221,9 +219,9 @@ npc script Leviathan1 //start
 					for(i = 0; i < 32; ++i)
 					{
 						if(this->HP < vars[VARS_INITHP]*0.45)
-							angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.75);
+							angle = turnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.75);
 						if(this->HP < vars[VARS_INITHP]*0.25)
-							angle = TurnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 2.25);
+							angle = turnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 2.25);
 						
 						Audio->PlaySound(SFX_SHOT);
 						
@@ -691,9 +689,8 @@ npc script Leviathan1 //start
 	}//end
 } //end
 
-//~~~~~LegionnaireLevel1~~~~~//
 @Author("Moosh")
-ffc script LegionnaireLevel1 //start
+ffc script Legionnaire //start
 {
 	void run(int enemyid)
 	{	//start Set Up
@@ -837,7 +834,7 @@ ffc script LegionnaireLevel1 //start
 						
 						int explosionDamage = 4;
 						
-						Ghost_Jump = FindJumpLength(distance / 2, true);
+						Ghost_Jump = getJumpLength(distance / 2, true);
 						
 						Audio->PlaySound(SFX_JUMP);
 						
@@ -852,7 +849,7 @@ ffc script LegionnaireLevel1 //start
 						
 						for (int i = 0; i < 24; ++i)
 						{
-							MakeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, explosionDamage);
+							makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, explosionDamage);
 							
 							if (i > 7 && i <= 15)
 								Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, TIL_IMPACTBIG, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
@@ -928,7 +925,6 @@ ffc script Shambles //start
 		int bombsToLob = 3;
 		int difficultyMultiplier = 0.33;
 		
-		// Audio->PlayEnhancedMusic(NULL, 0);
 		
 		//start spawning animation
 		Ghost_X = 128;				// sets him off screen as a time buffer
@@ -957,8 +953,7 @@ ffc script Shambles //start
 		Screen->Quake = 60;
 		ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
 
-		if (firstRun)
-		{
+		if (firstRun) {
 			Screen->Message(401);
 			firstRun = false;
 		}
@@ -1021,7 +1016,7 @@ ffc script Shambles //start
 						ShamblesWaitframe(this, ghost, 16);
 						eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 						Audio->PlaySound(129);
-						RunEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
+						runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
 						Waitframes(6);
 					}
 					break; //end
@@ -1123,7 +1118,7 @@ namespace Enemy::OvergrownRaccoon //start
 						
 						eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 6, 119, -1, EWF_UNBLOCKABLE, 2, 2);
 						// Audio->PlaySound(throw sound);
-						RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
+						runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
 						
 						state = STATE_NORMAL;
 						break; //end
@@ -1144,7 +1139,7 @@ namespace Enemy::OvergrownRaccoon //start
 							{
 								eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 								// Audio->PlaySound(throw sound);
-								RunEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+								runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
 							}
 							
 							Waitframe();
@@ -1167,7 +1162,7 @@ namespace Enemy::OvergrownRaccoon //start
 							
 							eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
 							// Audio->PlaySound(throw sound);
-							RunEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
+							runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
 						}
 						
 						state = STATE_NORMAL;
@@ -1476,7 +1471,7 @@ namespace Enemy::ServusMalus
 						unless (dodgeTimer)
 						{
 							int dodgeAngle = Angle(this->X, this->Y, tX, tY);
-							int diff = AngDiff(dodgeAngle, angle);
+							int diff = angleDiff(dodgeAngle, angle);
 							
 							dodgeAngle += diff < 0 ? -90 : 90;
 							
@@ -1518,7 +1513,7 @@ namespace Enemy::ServusMalus
 						unless (dodgeTimer)
 						{
 							int dodgeAngle = Angle(this->X, this->Y, tX, tY);
-							int diff = AngDiff(dodgeAngle, angle);
+							int diff = angleDiff(dodgeAngle, angle);
 							
 							dodgeAngle += diff < 0 ? -90 : 90;
 							
@@ -1995,15 +1990,6 @@ namespace Enemy::ServusMalus
 				
 				Waitframe();
 			}			
-		}
-			
-		void disableLink()
-		{
-			NoAction();
-			Link->PressStart = false;
-			Link->InputStart = false;
-			Link->PressMap = false;
-			Link->InputMap = false;
 		}
 		
 		void checkTorchBrightness(int litTorchCount, combodata cmbLitTorch, int mode = 0)
@@ -2513,6 +2499,7 @@ npc script SeizedGuardGeneral
         AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
 		
 		int maxHp = this->HP;
+      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 		
 		while(true)
 		{
@@ -2608,10 +2595,8 @@ npc script SeizedGuardGeneral
 		return this->HP < maxHp * .4;
 	}
 	
-	void CustomWaitframe(npc n)
-	{
-		if (n->HP <= 0)
-		{
+	void CustomWaitframe(npc n) {
+		if (n->HP <= 0) {
 			n->Immortal = false;
 			PlayDeathAnim(n);
 		}

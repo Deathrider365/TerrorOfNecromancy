@@ -107,10 +107,20 @@ CONFIG SUB_A_Y = -10;
 
 //end
 
+//~~~~~Item~~~~~//
+//start
+CONFIG ITEM_EXPANSION_BOMB = 186;
+CONFIG ITEM_EXPANSION_QUIVER = 205;
+CONFIG ITEM_BATTLE_ARENA_TICKET = 191;
+
+CONFIG ITEM_QUIVER1_SMALL = 74;
+
+
+//end
+
 //~~~~~LWeapon~~~~~//
 //start
 CONFIG LW_EZB_DEATHEXPLOSION = 40; //LWeapon type used for death explosions. Script 10 by default
-
 
 //end
 
@@ -393,6 +403,29 @@ CONFIG TILE_DIFF_PALADIN = 32142;
 
 //end
 
+//~~~~~Enemies~~~~~//
+//start
+CONFIG ENEMY_OCTOROCK_LV1_SLOW = 20;
+CONFIG ENEMY_OCTOROCK_LV1_FAST = 22;
+CONFIG ENEMY_OCTOROCK_LV2_SLOW = 21;
+CONFIG ENEMY_OCTOROCK_LV2_FAST = 23;
+
+CONFIG ENEMY_MOBLIN_LV1 = 28;
+CONFIG ENEMY_MOBLIN_LV2 = 29;
+
+CONFIG ENEMY_STALFOS_LV1 = 41;
+CONFIG ENEMY_ROPE_LV1 = 44;
+CONFIG ENEMY_GORIYA_LV1 = 45;
+
+CONFIG ENEMY_LEEVER_LV1_INSIDE = 190;
+CONFIG ENEMY_LEEVER_LV2_INSIDE = 27;
+
+CONFIG ENEMY_CANDLEHEAD = 237;
+
+CONFIG ENEMY_OVERGROWN_RACCOON = 235;
+
+//end
+
 //~~~~~Enums~~~~~//
 //start
 enum Color //start
@@ -414,13 +447,12 @@ enum Color //start
 	C_DEEPBLUE = 0x1F
 }; //end
 
-enum ScreenType //start
-{
-	DM_DUNGEON,
-	DM_OVERWORLD,
-	DM_INTERIOR,
-	DM_BSOVERWORLD
-}; //end
+enum ScreenType {
+   DM_DUNGEON,
+   DM_OVERWORLD,
+   DM_INTERIOR,
+   DM_BSOVERWORLD
+};
 
 enum ArcingWeaponEffects //start
 {

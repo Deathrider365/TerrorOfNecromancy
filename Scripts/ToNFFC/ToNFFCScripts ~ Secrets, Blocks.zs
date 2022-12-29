@@ -49,13 +49,11 @@ ffc script SecretGuyWithItem //start
 {
 	void run(int hasItemMessage, int hasntItemMessage, int alreadyDidTheThingMessage, bool anySide, int itemId, int perm)
 	{
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -105,13 +103,11 @@ ffc script SecretGuyNoItemVanishes //start
 		if (Screen->State[ST_SECRET])
 			Quit();
 		
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -418,7 +414,7 @@ ffc script SwitchSecret //start
 			}
 		}
 		
-		until(SwitchPressed(this->X, this->Y, false))
+		until(switchPressed(this->X, this->Y, false))
 			Waitframe();
 			
 		this->Data++;
@@ -493,7 +489,7 @@ ffc script SwitchRemote //start
 		{
 			while (true)
 			{
-				unless (SwitchPressed(this->X, this->Y, noLink))
+				unless (switchPressed(this->X, this->Y, noLink))
 					Waitframe();
 					
 				this->Data = data + 1;
@@ -504,7 +500,7 @@ ffc script SwitchRemote //start
 					if (comboD[i] > 0)
 						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;;
 						
-				while (SwitchPressed(this->X, this->Y, noLink))
+				while (switchPressed(this->X, this->Y, noLink))
 					Waitframe();
 					
 				this->Data = data;
@@ -518,7 +514,7 @@ ffc script SwitchRemote //start
 		} //end
 		else //start
 		{
-			until (SwitchPressed(this->X, this->Y, noLink))
+			until (switchPressed(this->X, this->Y, noLink))
 				Waitframe();
 			
 			this->Data = data + 1;
@@ -745,7 +741,7 @@ ffc script SwitchHitAll //start
 		{
 			int j = i + 2;
 			int k = switches[j];
-			int p = SwitchPressed(ComboX(k), ComboY(k), noLink);
+			int p = switchPressed(ComboX(k), ComboY(k), noLink);
 			
 			if (p)
 			{
@@ -795,7 +791,7 @@ ffc script SwitchTrap //start
 { 
 	void run(int enemyid, int count, int fallSpeed, int perm) //start
 	{
-		until(SwitchPressed(this->X, this->Y, false))
+		until(switchPressed(this->X, this->Y, false))
 			Waitframe();
 		
 		this->Data++;
@@ -1007,7 +1003,7 @@ ffc script SwitchSequential //start
 		{
 			int j = i + 2;
 			int k = switches[j];
-			int p = SwitchPressed(ComboX(k), ComboY(k), false);
+			int p = switchPressed(ComboX(k), ComboY(k), false);
 			
 			if (p == 1)
 				return true;
@@ -1023,7 +1019,7 @@ ffc script SwitchSequential //start
 		{
 			int j = i + 2;
 			int k = switches[j];
-			int p = SwitchPressed(ComboX(k), ComboY(k), false);
+			int p = switchPressed(ComboX(k), ComboY(k), false);
 			
 			unless (switchesPressed[j])
 			{
@@ -1067,7 +1063,7 @@ ffc script SwitchSequential //start
 			{
 				int j = i + 2;
 				int k = switches[j];
-				int p = SwitchPressed(ComboX(k), ComboY(k), false);
+				int p = switchPressed(ComboX(k), ComboY(k), false);
 				switchesPressed[j] = false;
 			}
 		}

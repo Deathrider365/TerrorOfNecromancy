@@ -6,15 +6,13 @@ BurningOilAndBushes	-	-	-  -  - 9:09, 9:0A, 9:0B, 9:1B, 28:1B, 28:1C, 28:2C, 32:
                                    32:31, 32:34, 32:39, 32:3B, 32:3C, 32:40, 32:41, 32:43, 32:44, 32:46, 32:49, 
                                    32:4A-32:4E, 32:51-32:5E, 32:60, 32:61, 32:65, 32:70, 32:76, 37:2B, 37:2C,
                                    37:5B, 37:5C, 37:6B, 37:6C
-CapacityIncreasor -  -  -  -  -  - 28:0C, 28:15, 37:68
+GetItem  -  -  -  -  -  -  -  -  - 28:0C, 28:15, 37:68
 CompassBeep	-	- 	-	- 	-  -  -  - 7:10, 7:14, 7:62, 32:53, 32:5A, 32:5D, 37:5C, 40:3A, 40:49, 40:58, 40:60, 40:6B
                                    40:6D, 44:13, 44:15, 44:35, 46:22, 46:3C
 ConditionalItem   -  -  -  -  -  - 28:09
 ConditionalSignPost  -  -  -  -  - 16:3E
-ContinuePoint	-	- 	- 	-  -  -  - 1:00, 6:07, 6:08, 6:09, 6:0A, 6:0B, 7:42, 9:49, 16:3E, 40:78, 40:7B, 40:7E
 DifficultyChoice	-	- 	-  -  -  - 6:0D
 DifficultySelectionScreen  -  -  - 16:3E
-DisableLink	-	- 	-	- 	-  -  -  - 6:0D, 6:50, 6:60-6:6B
 DisableRadialTransparency 	-  -  - 9:07, 9:0A
 DungeonString	-	- 	- 	-  -  -  - 1:00, 7:42, 32:71, 40:73, 44:33
 EnemiesChest	-	-	- 	-  -  -  - 7:62
@@ -39,12 +37,9 @@ PostSceneEnteringInteritus	-  -  - 9:2F
 ServusFloatingAbout  -  -  -  -  - 40:39, 40:3A, 40:3C, 40:3D, 40:49, 40:4D, 40:59, 40:5C, 40:69-40:6D
 ScreenBeforeLeviathan1	- 	-  -  - 6:08
 ScreenQuakeOnSecret	- 	- 	-  -  - 7:21, 40:24, 40:2B, 40:49, 40:5E, 40:65, 40:6B
-SecretArrowThrower	-	-	-  -  - 9:38, 9:39, 9:48, 9:49
 SecretGuyNoItemVanishes	-	-  -  - 9:15
 SecretGuyWithItem	-	-	-  -  -  - 9:26, 9:49
-SecretThrower  -  -  -  -  -  -  - 37:58
 SecretTriggersWaterPaths   -  -  - 32:20, 32:26, 32:34, 32:41, 32:42, 32:44, 32:51, 32:70, 32:76
-ShopIntroMessage  -  -  -  -  -  - 16:15, 16:35, 16:3B, 16:3C, 16:4C
 Signpost	-	- 	-	- 	-  -  -  -  - 1:22, 6:07, 6:08, 7:24, 7:30, 9:04, 9:06, 9:07, 9:0B, 9:25, 9:34, 9:36, 
                                    9:3A, 9:3B, 9:44, 9:4A, 9:4B, 9:4C, 9:5B, 9:5C, 9:5D, 9:64, 9:6D, 16:05, 
                                    16:15, 16:1C, 16:34, 16:35, 16:3B, 16:3C, 16:4B, 16:4C, 16:4D, 16:51, 16:55, 

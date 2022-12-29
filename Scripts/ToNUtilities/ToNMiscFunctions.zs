@@ -2,240 +2,100 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-// Function to get the difference between two angles
-float AngDiff(float angle1, float angle2) //start
-{
-	// Get the difference between the two angles
+// Set Screen->D
+void setScreenD(int reg, bool state) {
+   int d = Div(reg, 32);
+   reg %= 32;
+   
+   if (state) 
+      Screen->D[d] |= 1Lb << reg;
+   else
+      Screen->D[d] ~= 1Lb << reg;
+}
+
+// Get Screen->D
+bool getScreenD(int reg) {
+   int d = Div(reg, 32);
+   reg %= 32;
+   return Screen->D[d] & (1Lb << reg);
+}
+
+// Set Screen->D
+void setScreenD(int d, long bit, bool state) {
+   if (state)
+      Screen->D[d] |= bit;
+   else
+      Screen->D[d] ~= bit;
+}
+
+// Get Screen->D
+long getScreenD(int d, long bit) {
+   return Screen->D[d] & bit;
+}
+
+// Set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int reg, bool state) {
+   int d = Div(reg, 32);
+   reg %= 32;
+
+   long val = Game->GetDMapScreenD(dmap, scr, d);
+   
+   if (state)
+      val |= 1Lb << reg;
+   else
+      val ~= 1Lb << reg;
+   
+   Game->SetDMapScreenD(dmap, scr, d, val);
+}
+
+// Get Screen->D for remote screen
+bool getScreenD(int dmap, int scr, int reg) {
+   int d = Div(reg, 32);
+   reg %= 32;
+   return Game->GetDMapScreenD(dmap, scr, d) & (1Lb << reg);
+}
+
+// Set Screen->D for remote screen
+void setScreenD(int dmap, int scr, int d, long bit, bool state) {
+   long val = Game->GetDMapScreenD(dmap, scr, d);
+   
+   if (state)
+      val |= bit;
+   else
+      val ~= bit;
+   
+   Game->SetDMapScreenD(dmap, scr, d, val);
+}
+
+// Get Screen->D for remote screen
+long getScreenD(int dmap, int scr, int d, long bit) {
+   return Game->GetDMapScreenD(dmap, scr, d) & bit;
+}
+
+// Calculate difference between 2 angles
+float angleDiff(float angle1, float angle2) {
 	float dif = angle2 - angle1;
-	
-	// Compensate for the difference being outside of normal bounds
-	if(dif >= 180)
-		dif -= 360;
-	else if(dif <= -180)
+
+	if (dif >= 180)
+      dif -= 360;
+	else if (dif <= -180)
 		dif += 360;
-		
+
 	return dif;
 }
-//end
 
-// Function to turn one angle towards another angle by a fixed amount
-float TurnToAngle(float angle1, float angle2, float step) //start
-{
-	if(Abs(AngDiff(angle1, angle2)) > step)
-		return angle1 + Sign(AngDiff(angle1, angle2)) * step;
+// Turn one angle towards another angle by a fixed amount
+float turnToAngle(float angle1, float angle2, float step) {
+	if (Abs(angleDiff(angle1, angle2)) > step)
+		return angle1 + Sign(angleDiff(angle1, angle2)) * step;
 	else
 		return angle2;
 }
-//end
 
-// Function to set Screen->D
-void setScreenD(int reg, bool state) //start
-{
-    int d = Div(reg, 32);
-    reg %= 32;
-    
-    if (state)
-        Screen->D[d] |= 1Lb<<reg;
-    else
-        Screen->D[d] ~= 1Lb<<reg;
-}
-//end
-
-// Function to get Screen->D
-bool getScreenD(int reg) //start
-{
-    int d = Div(reg, 32);
-    reg %= 32;
-    
-    return Screen->D[d] & (1Lb<<reg);
-}
-//end
-
-// Function to set Screen->D
-void setScreenD(int d, long bit, bool state) //start
-{
-    if (state)
-        Screen->D[d] |= bit;
-    else
-        Screen->D[d] ~= bit;
-}
-//end
-
-// Function to get Screen->D
-long getScreenD(int d, long bit) //start
-{
-    return Screen->D[d] & bit;
-}
-//end
-
-// Function to set Screen->D for remote screen
-void setScreenD(int dmap, int scr, int reg, bool state) //start
-{
-    int d = Div(reg, 32);
-    reg %= 32;
-    
-    long val = Game->GetDMapScreenD(dmap,scr,d);
-    if (state)
-        val |= 1Lb<<reg;
-    else
-        val ~= 1Lb<<reg;
-    Game->SetDMapScreenD(dmap,scr,d,val);
-}
-//end
-
-// Function to get Screen->D for remote screen
-bool getScreenD(int dmap, int scr, int reg) //start
-{
-    int d = Div(reg, 32);
-    reg %= 32;
-    
-    return Game->GetDMapScreenD(dmap,scr,d) & (1Lb<<reg);
-}
-//end
-
-// Function to set Screen->D for remote screen
-void setScreenD(int dmap, int scr, int d, long bit, bool state) //start
-{
-    long val = Game->GetDMapScreenD(dmap,scr,d);
-    if (state)
-        val |= bit;
-    else
-        val ~= bit;
-    Game->SetDMapScreenD(dmap,scr,d,val);
-}
-//end
-
-// Function to get Screen->D for remote screen
-long getScreenD(int dmap, int scr, int d, long bit) //start
-{
-    return Game->GetDMapScreenD(dmap,scr,d) & bit;
-}
-//end
-
-// Converts an 18 bit value to a 32 bit value
-int convertBit(int b18) //start
-{
-	return b18 / 10000;
-} //end
-
-// Gets screen type
-ScreenType getScreenType(bool dmapOnly)//start
-{
-	unless(dmapOnly)
-	{
-		if(IsDungeonFlag())return DM_DUNGEON;
-		if(IsInteriorFlag())return DM_INTERIOR;
-	}
-	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
-	return <ScreenType> (dm->Type & 11b);
-}//end
-
-// Checks if overworld
-bool isOverworld(bool dmapOnly) //start
-{
-	switch(getScreenType(dmapOnly))
-	{
-		case DM_DUNGEON:
-		case DM_INTERIOR:
-			return false;
-	}
-	return true;
-} //end
-
-// Prioretizes the horizontal direction when dealing with diagonals
-int dir8To4(int dir) //start
-{
-	if (dir <= DIR_RIGHT)
-		return dir;
-	return remY(dir);
-} //end
-
-// Does a jump to link and flies off screen
-void jumpOffScreenAttack(npc n, int upTile, int downTile) //start
-{
-	CONFIG JUMP_RATE = 4;
-	CONFIG SLAM_RATE = JUMP_RATE * 3;
-	CONFIG EW_SLAM = EW_SCRIPT10;
-	CONFIG STUN = 30;
-	CONFIG SLAM_COMBO = 6852;
-	CONFIG SLAM_COMBO_CSET = 8;
-	
-	combodata cd = Game->LoadComboData(SLAM_COMBO);
-
-	
-	Audio->PlaySound(SFX_SUPER_JUMP);
-	
-	bool grav = n->Gravity;
-	int oTile = n->ScriptTile;
-	
-	n->Gravity = false;
-	n->CollDetection = false;
-	
-	n->ScriptTile = upTile;
-	
-	while (n->Z < 256)
-	{
-		n->Z += JUMP_RATE;
-		Waitframe();
-	}
-	
-	n->X = Hero->X;
-	n->Y = Hero->Y;
-	
-	n->ScriptTile = downTile;
-	
-	while (n->Z > 0)
-	{
-		n->Z -= SLAM_RATE;
-		Waitframe();
-	}
-	
-	Audio->PlaySound(SFX_SLAM);
-	eweapon weap = Screen->CreateEWeapon(EW_SLAM);
-	weap->ScriptTile = TILE_INVIS;
-	weap->HitHeight = 16 * 3;
-	weap->HitWidth = 16 * 3;
-	weap->HitXOffset = -16;
-	weap->HitYOffset = -16;
-	weap->X = n->X;
-	weap->Y = n->Y;
-	weap->Damage = n->Damage * 2;
-	
-	cd->Frame = 0;
-	cd->AClk = 0;
-	Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-	
-	Waitframe();
-	
-	Remove(weap);
-	
-	n->CollDetection = true;
-	n->Gravity = grav;
-	
-	Screen->Quake = STUN;
-	
-	for (int i = 0; i < STUN; ++i)
-	{
-		Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-		
-		Waitframe();
-	}
-	
-	n->ScriptTile = oTile;
-	
-} //end
-
-// Charges towards link and slashes
-void chargeSlash() //start
-{
-	
-} //end
-
-int FindJumpLength(int jumpInput, bool inputFrames) //start
-{
-	//Big ol table of rough jump values and their durations
-	int jumpTBL[] = //start
-	{
+// Calculates a jump length
+int getJumpLength(int jumpInput, bool inputFrames) {
+   //Big ol table of rough jump values and their durations
+   int jumpTBL[] = {
 		0.0, 0,
 		0.1, 3,
 		0.2, 4,
@@ -337,195 +197,277 @@ int FindJumpLength(int jumpInput, bool inputFrames) //start
 		9.8, 168,
 		9.9, 170,
 		10.0, 173
-	}; //end
+	};
 
-	//When getting a duration from a jump
-	unless (inputFrames)
-	{
-		//Keep values between 0 and 10, nothing beyond that would be sensible in most cases
-		jumpInput = Clamp(jumpInput, 0, 10);
-		//Round to the nearest 0.1
-		jumpInput *= 10;
-		jumpInput = Round(jumpInput);
-		jumpInput *= 0.1;
-		
-		return jumpTBL[jumpInput*2+1];
+   //When getting a duration from a jump
+   unless (inputFrames) {
+      //Keep values between 0 and 10, nothing beyond that would be sensible in most cases
+      jumpInput = Clamp(jumpInput, 0, 10);
+      
+      //Round to the nearest 0.1
+      jumpInput *= 10;
+      jumpInput = Round(jumpInput);
+      jumpInput *= 0.1;
+
+      return jumpTBL[jumpInput * 2 + 1];
+   } 
+   //When getting a jump from a duration
+	else {
+      int closestIndex = 0;
+      int closest = 0;
+      //Cycle through the table to find the closest duration to the desired one
+      for (int i = 1; i < 100; ++i) {
+         if (Abs(jumpTBL[i * 2 + 1]-jumpInput) < Abs(closest - jumpInput)) {
+            closestIndex = i;
+            closest = jumpTBL[i * 2 + 1];
+         }
+      }
+
+      return jumpTBL[closestIndex * 2 + 0];
 	}
-	//When getting a jump from a duration
-	else
-	{
-		int closestIndex = 0;
-		int closest = 0;
-		//Cycle through the table to find the closest duration to the desired one
-		for(int i=1; i<100; ++i)
-		{
-			if(Abs(jumpTBL[i*2+1]-jumpInput)<Abs(closest-jumpInput))
-			{
-				closestIndex = i;
-				closest = jumpTBL[i*2+1];
-			}
-		}
-		
-		return jumpTBL[closestIndex*2+0];
+}
+
+// Converts an 18 bit value to a 32 bit value
+int convertBit(int b18) {
+	return b18 / 10000;
+}
+
+// Gets screen type
+ScreenType getScreenType(bool dmapOnly) {
+   unless(dmapOnly) {
+      if (IsDungeonFlag())
+         return DM_DUNGEON;
+      if (IsInteriorFlag())
+         return DM_INTERIOR;
+   }
+   
+	dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
+	return <ScreenType> (dm->Type & 11b);
+}
+
+// Checks if overworld
+bool isOverworld(bool dmapOnly) {
+   switch(getScreenType(dmapOnly)) {
+      case DM_DUNGEON:
+      case DM_INTERIOR:
+         return false;
+   }
+	return true;
+}
+
+// Prioretizes the horizontal direction when dealing with diagonals
+int dir8To4(int dir) {
+   return dir <= DIR_RIGHT ? dir : remY(dir);
+}
+
+// Does a jump to link and flies off screen
+void jumpOffScreenAttack(npc n, int upTile, int downTile) {
+   CONFIG JUMP_RATE = 4;
+   CONFIG SLAM_RATE = JUMP_RATE * 3;
+   CONFIG EW_SLAM = EW_SCRIPT10;
+   CONFIG STUN = 30;
+   CONFIG SLAM_COMBO = 6852;
+   CONFIG SLAM_COMBO_CSET = 8;
+   
+   combodata cd = Game->LoadComboData(SLAM_COMBO);
+   bool grav = n->Gravity;
+   int oTile = n->ScriptTile;
+   
+   Audio->PlaySound(SFX_SUPER_JUMP);
+   
+   n->Gravity = false;
+   n->CollDetection = false;
+   n->ScriptTile = upTile;
+   
+   while (n->Z < 256) {
+      n->Z += JUMP_RATE;
+      Waitframe();
 	}
-} //end
+   
+   n->X = Hero->X;
+   n->Y = Hero->Y;
+   n->ScriptTile = downTile;
+   
+   while (n->Z > 0) {
+      n->Z -= SLAM_RATE;
+      Waitframe();
+   }
 
-//Makes a hitbox with ghost.zh weapons
-eweapon MakeHitbox(int x, int y, int w, int h, int damage) //start
-{
-    eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
-    e->HitXOffset = x-e->X;
-    e->HitYOffset = y-e->Y;
-    e->DrawYOffset = -1000;
-    e->HitWidth = w;
-    e->HitHeight = h;
-    SetEWeaponLifespan(e, EWL_TIMER, 1);
-    SetEWeaponDeathEffect(e, EWD_VANISH, 0);
-	
-	return e;
-} //end
+   Audio->PlaySound(SFX_SLAM);
+   
+   eweapon weap = Screen->CreateEWeapon(EW_SLAM);
+   weap->ScriptTile = TILE_INVIS;
+   weap->HitHeight = 16 * 3;
+   weap->HitWidth = 16 * 3;
+   weap->HitXOffset = -16;
+   weap->HitYOffset = -16;
+   weap->X = n->X;
+   weap->Y = n->Y;
+   weap->Damage = n->Damage * 2;
 
-eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
-{
-	x += VectorX(dist, angle);
-	y += VectorY(dist, angle);
-	
-	Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
-	
-	return MakeHitbox(x, y, 16, 16, dmg);
-} //end
+   cd->Frame = 0;
+   cd->AClk = 0;
+   Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
 
-bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
-{
-	eweapon hitbox = sword1x1(x, y, angle, dist, cmb, cset, dmg);
-	lweapon sword = LoadLWeaponOf(LW_SWORD);
-	
-	if (sword->isValid())
-		return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
-	
-} //end
+   Waitframe();
 
-void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) //start
-{
-	int hitX = x;
-	int hitY = y;
-	
-	x += VectorX(8 + dist, angle) - 8;
-	y += VectorY(8 + dist, angle);
-	
-	Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
-	
-	MakeHitbox(x, y, 16, 16, dmg);
-	
-	hitX += VectorX(16, angle);
-	hitY += VectorY(16, angle);
-	
-	MakeHitbox(x, y, 16, 16, dmg);
-	
-} //end
+   Remove(weap);
 
-void enemyShake(ffc this, npc ghost, int frames, int intensity) //start
-{
-	for (int i = 0; i < frames; ++i)
-	{
-		ghost->DrawXOffset = Rand(-intensity, intensity);
-		ghost->DrawYOffset = Rand(-intensity, intensity) - 2;
-	
-		Ghost_Waitframe(this, ghost);
+   n->CollDetection = true;
+   n->Gravity = grav;
+
+   Screen->Quake = STUN;
+
+   for (int i = 0; i < STUN; ++i) {
+      Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+      Waitframe();
 	}
 
-	ghost->DrawXOffset = 0;
-	ghost->DrawYOffset = -2;
-} //end
+   n->ScriptTile = oTile;
 
-void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) //start
-{
-    int til;
-    if(addDir)
-        til = Game->ComboTile(Ghost_Data+Ghost_Dir);
-    else
-        til = Game->ComboTile(Ghost_Data);
-		
-    int cset = this->CSet;
-    int w = Ghost_TileWidth;
-    int h = Ghost_TileHeight;
-    
-    lweapon trail = CreateLWeaponAt(LW_SCRIPT10, Ghost_X, Ghost_Y);
-    trail->OriginalTile = til;
-    trail->Tile = til;
-    trail->CSet = cset;
-    trail->Extend = 3;
-    trail->TileWidth = w;
-    trail->TileHeight = h;
-    trail->CollDetection = false;
-    trail->DeadState = duration;
-    trail->DrawStyle = DS_PHANTOM;
-} //end
+}
+
+// Makes a hitbox with ghost.zh weapons
+eweapon makeHitbox(int x, int y, int w, int h, int damage) {
+   eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
+   e->HitXOffset = x-e->X;
+   e->HitYOffset = y-e->Y;
+   e->DrawYOffset = -1000;
+   e->HitWidth = w;
+   e->HitHeight = h;
+   SetEWeaponLifespan(e, EWL_TIMER, 1);
+   SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+
+   return e;
+}
+
+// Creates a 1x1 weapon
+eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+   x += VectorX(dist, angle);
+   y += VectorY(dist, angle);
+
+   Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+
+   return makeHitbox(x, y, 16, 16, dmg);
+} 
+
+// sword1x1 but checks for lweapon sword collision
+bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+   eweapon hitbox = sword1x1(x, y, angle, dist, cmb, cset, dmg);
+   lweapon sword = LoadLWeaponOf(LW_SWORD);
+
+   if (sword->isValid())
+      return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+}
+
+// sword1x1 but is 2 wide
+void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+   int hitX = x;
+   int hitY = y;
+
+   x += VectorX(8 + dist, angle) - 8;
+   y += VectorY(8 + dist, angle);
+
+   Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+
+   makeHitbox(x, y, 16, 16, dmg);
+
+   hitX += VectorX(16, angle);
+   hitY += VectorY(16, angle);
+
+   makeHitbox(x, y, 16, 16, dmg);
+}
+
+// Ghost enemees beh shakin
+void enemyShake(ffc this, npc ghost, int frames, int intensity) {
+   for (int i = 0; i < frames; ++i) {
+      ghost->DrawXOffset = Rand(-intensity, intensity);
+      ghost->DrawYOffset = Rand(-intensity, intensity) - 2;
+      
+      Ghost_Waitframe(this, ghost);
+   }
+
+   ghost->DrawXOffset = 0;
+   ghost->DrawYOffset = -2;
+}
+
+// Ghost enemy shadowtrail
+void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
+   int tile = addDir ? Game->ComboTile(Ghost_Data + Ghost_Dir) : Game->ComboTile(Ghost_Data);
+
+   int cset = this->CSet;
+   int w = Ghost_TileWidth;
+   int h = Ghost_TileHeight;
+
+   lweapon trail = CreateLWeaponAt(LW_SCRIPT10, Ghost_X, Ghost_Y);
+   trail->OriginalTile = tile;
+   trail->Tile = tile;
+   trail->CSet = cset;
+   trail->Extend = 3;
+   trail->TileWidth = w;
+   trail->TileHeight = h;
+   trail->CollDetection = false;
+   trail->DeadState = duration;
+   trail->DrawStyle = DS_PHANTOM;
+}
 
 //	Calls an EWeapon script
-void RunEWeaponScript(eweapon e, int scr, int args) //start
-{
-    e->Script = scr;
-    int numArgs = SizeOfArray(args);
-	
-    for(int i = 0; i < numArgs; ++i)
-        e->InitD[i] = args[i];
-		
-} //end
+void runEWeaponScript(eweapon e, int scr, int args) {
+   e->Script = scr;
+   int numArgs = SizeOfArray(args);
 
-// Returns true if a rectangular section of screen is walkable to a ghosted enemy
-bool Ghost_CanPlace(int X, int Y, int w, int h) //start
-{
-    for(int x=0; x<=w-1; x=Min(x+8, w-1)){
-        for(int y=0; y<=h-1; y=Min(y+8, h-1)){
-            if(!Ghost_CanMovePixel(X+x, Y+y))
-                return false;
-            
-            if(y==h-1)
-                break;
-        }
-        if(x==w-1)
+   for (int i = 0; i < numArgs; ++i)
+      e->InitD[i] = args[i];
+}
+
+// Checks if ghost enemy can move
+bool Ghost_CanPlace(int X, int Y, int w, int h) {
+   for (int x = 0; x <= w - 1; x = Min(x + 8, w - 1)) {
+      for(int y = 0; y <= h - 1; y = Min(y + 8, h - 1)) {
+         if (!Ghost_CanMovePixel(X + x, Y + y))
+            return false;
+         if (y == h - 1)
             break;
-    }
-    return true;
-} //end
+      }
+      if (x == w - 1)
+         break;
+   }
+   return true;
+}
 
 // Modifies the game over menu text, background color, and midi
-void SetGameOverMenu(Color bg, Color text, Color flash, int midi) //start
-{
-	Game->GameOverScreen[GOS_BACKGROUND] = bg;
-	
-	Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_RETRY_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_DONTSAVE_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_SAVEQUIT_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_SAVE2_COLOUR] = text;
-	Game->GameOverScreen[GOS_TEXT_QUIT_COLOUR] = text;
-	
-	Game->GameOverScreen[GOS_TEXT_CONTINUE_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_SAVE_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_RETRY_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_DONTSAVE_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_SAVEQUIT_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_SAVE2_FLASH] = flash;
-	Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
-	
-	Game->GameOverScreen[GOS_MIDI] = midi;
-} //end
+void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
+   Game->GameOverScreen[GOS_BACKGROUND] = bg;   
+   
+   Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_RETRY_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_DONTSAVE_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_SAVEQUIT_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_SAVE2_COLOUR] = text;
+   Game->GameOverScreen[GOS_TEXT_QUIT_COLOUR] = text;
+
+   Game->GameOverScreen[GOS_TEXT_CONTINUE_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_SAVE_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_RETRY_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_DONTSAVE_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_SAVEQUIT_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_SAVE2_FLASH] = flash;
+   Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
+
+   Game->GameOverScreen[GOS_MIDI] = midi;
+}
 
 // Creates Bitmap again
-bitmap recreate(bitmap b, int w, int h) //start
-{
-	unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
-		b->Create(0, h, w);
-	else
-		b->Create(0, w, h);
-		
-	return b;
+bitmap recreate(bitmap b, int w, int h) {
+   unless (Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
+      b->Create(0, h, w);
+   else
+      b->Create(0, w, h);
+
+   return b;
 }
-//end
 
 // Calcualtes the percent that part is of whole
 float PercentOfWhole(int part, int whole) //start
@@ -533,135 +475,160 @@ float PercentOfWhole(int part, int whole) //start
 	return (100 * part)/whole;
 } //end
 
-int SwitchPressed(int x, int y, bool noLink) //start
-{
-	int xOff = 0;
-	int yOff = 4;
-	int xDist = 8;
-	int yDist = 8;
-	
-	if(Abs(Link->X+xOff-x)<=xDist&&Abs(Link->Y+yOff-y)<=yDist&&Link->Z==0&&!noLink)
-		return 1;
-		
-	if(Screen->MovingBlockX>-1)
-		if(Abs(Screen->MovingBlockX-x)<=8&&Abs(Screen->MovingBlockY-y)<=8)
-			return 1;
-	
-	if(Screen->isSolid(x+4, y+4)||
-		Screen->isSolid(x+12, y+4)||
-		Screen->isSolid(x+4, y+12)||
-		Screen->isSolid(x+12, y+12)){
-		return 2;
-	}
-	
-	return 0;
-}
-//end
+// Checks if switch is pressed
+int switchPressed(int x, int y, bool noLink) {
+   int xOff = 0;
+   int yOff = 4;
+   int xDist = 8;
+   int yDist = 8;
 
-bool AgainstComboBase(int loc, bool anySide) //start
-{
-	if(Hero->Z) 
-		return false;
-		
-	if(Hero->BigHitbox && !anySide)
-		return (Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 16 && Abs(Hero->X-ComboX(loc)) < 8);
-		
-	else unless(Hero->BigHitbox||anySide)
-		return (Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 8 && Abs(Hero->X-ComboX(loc)) < 8);
-		
-	else if (Hero->BigHitbox && anySide)
-		return ((Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 16 && Abs(Hero->X-ComboX(loc)) < 8)
-		|| (Hero->Dir == DIR_DOWN && Hero->Y == ComboY(loc) - 16 && Abs(Hero->X-ComboX(loc)) < 8) 
-		|| (Hero->Dir == DIR_LEFT && Hero->X == ComboX(loc) + 16 && Abs(Hero->Y-ComboY(loc)) < 8)
-		|| (Hero->Dir == DIR_RIGHT && Hero->X == ComboX(loc) - 16 && Abs(Hero->Y-ComboY(loc)) < 8));
-		
-	else if (!Hero->BigHitbox && anySide)
-		return ((Hero->Dir == DIR_UP && Hero->Y == ComboY(loc) + 8 && Abs(Hero->X-ComboX(loc)) < 8) 
-		|| (Hero->Dir == DIR_DOWN && Hero->Y == ComboY(loc) - 16 && Abs(Hero->X-ComboX(loc)) < 8) 
-		|| (Hero->Dir == DIR_LEFT && Hero->X == ComboX(loc) + 16 && Abs(Hero->Y-ComboY(loc)) < 8)
-		|| (Hero->Dir == DIR_RIGHT && Hero->X == ComboX(loc) - 16 && Abs(Hero->Y-ComboY(loc)) < 8));
-		
-	else 
-		return false;
-} //end
+   if (Abs(Link->X + xOff - x) <= xDist && Abs(Link->Y + yOff - y) <= yDist && Link->Z == 0 && !noLink)
+      return 1;
 
-bool AgainstCombo(int loc) //start
-{
-	if (Hero->Z == 0)
-	{
-		if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8)
-		{
-			if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8)
-				return true;
-			else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16)
-				return true;
-		}
-		else if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 16)
-			if (Abs(Hero->Y - ComboY(loc)) <= 8)
-				return true;
-	}
-	return false;
-} //end
+   if (Screen->MovingBlockX >- 1)
+      if(Abs(Screen->MovingBlockX - x) <= 8 && Abs(Screen->MovingBlockY - y) <= 8)
+         return 1;
 
-void leavingTransition(int dmap, int screen, int usingPresents) //start
-{	
-	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
-	{
-		if (usingPresents)
-			Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
-		Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
-		Waitframe();
-	}
-	
-	Hero->Warp(dmap, screen);
-} //end
+   if (Screen->isSolid(x + 4, y + 4) ||
+      Screen->isSolid(x + 12, y + 4) ||
+      Screen->isSolid(x + 4, y + 12) ||
+      Screen->isSolid(x + 12, y + 12)) {
+      return 2;
+   }
 
-void enteringTransition() //start
-{	
-	for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i)
-	{
-		Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
-		Waitframe();
-	}
-	
-} //end
-
-bool onTop(int x, int y) //start
-{
-	if ((Abs(Hero->X - x) <= 8) && (Abs(Hero->Y - y) <= 8))
-		return true;
-	else
-		return false;
-} //end
-
-void takeMapScreenshot() //start
-{
-	unless(DEBUG) return;
-	if(DEBUG && Input->KeyPress[KEY_P])
-	{
-		CONFIG DELAY = 3;
-		if(PressControl())
-			Emily::doAllMapScreenshots(DELAY);
-		else
-			Emily::doMapScreenshot(Game->GetCurMap(),DELAY);
-	}
-} //end
-
-untyped ChooseArray(untyped arr)
-{
-    int sz = SizeOfArray(arr);
-    return arr[Rand(sz)];
+   return 0;
 }
 
-void TraceToScreen(int x, int y, int val){
-    Screen->DrawInteger(6, x, y, FONT_Z3SMALL, 0x01, 0x08, -1, -1, val, 0, 128);
+// Checks if link is against a combo and looking at it
+bool againstCombo(int loc) {
+   if (Hero->Z == 0) {
+      if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8) {
+         if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8 && Hero->Dir == DIR_UP)
+            return true;
+         else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+            return true;
+      }
+      else if (Abs((Hero->Y + 8) - (ComboY(loc) + 8)) <= 8) {
+         if (Hero->X > ComboX(loc) && Hero->X - ComboX(loc) <= 16 && Hero->Dir == DIR_LEFT)
+            return true;
+         else if (Hero->X < ComboX(loc) && ComboX(loc) - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
+            return true;
+      }
+   }
+   return false;
 }
 
+// Checks if link is against a ffc and looking at it
+bool againstFFC(int ffcX, int ffcY) {
+   if (Hero->Z == 0) {
+      if (Abs((Hero->X) - (ffcX)) <= 8) {
+         if (Hero->Y > ffcY && Hero->Y - ffcY <= 8 && Hero->Dir == DIR_UP)
+            return true;
+         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+            return true;
+      }
+      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
+         if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
+            return true;
+         else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
+            return true;
+      }
+   }
+   return false;
+}
 
+// TODO not a misc function
+void leavingTransition(int dmap, int screen, int usingPresents) {
+   for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+      disableLink();
+      
+      if (usingPresents)
+         Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+         
+      Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+      Waitframe();
+   }
 
+   Hero->Warp(dmap, screen);
+}
 
+// TODO not a misc function
+void enteringTransition() {
+   for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+      Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+      Waitframe();
+   }
+}
 
+// Checks if FFC is on top of link
+bool onTop(int ffcX, int ffcY) {
+   return (Abs(Hero->X - ffcX) <= 8 && Abs(Hero->Y - ffcY) <= 8);
+}
 
+// Chooses a random value from a give array
+untyped chooseArray(untyped arr) {
+   return arr[Rand(SizeOfArray(arr))];
+}
+
+// Draws a given integer to the screen
+void traceToScreen(int x, int y, int val){
+   Screen->DrawInteger(7, x, y, FONT_Z3SMALL, 0x01, 0x08, -1, -1, val, 0, 128);
+}
+
+// Creats a screenshot of the current map 
+void takeMapScreenshot() {
+   unless(DEBUG) return;
+   
+   if(DEBUG && Input->KeyPress[KEY_P]) {
+      CONFIG DELAY = 3;
+      
+      if (PressControl()) 
+         Emily::doAllMapScreenshots(DELAY); 
+      else
+         Emily::doMapScreenshot(Game->GetCurMap(), DELAY);
+   }
+}
+
+// Disables Link	
+void disableLink() {
+   NoAction();
+   Link->PressStart = false;
+   Link->InputStart = false;
+   Link->PressMap = false;
+   Link->InputMap = false;
+}
+
+itemsprite script ArcingItemSprite {
+   void run(int angle, int step, int initJump, int gravity) {
+      int x = this->X;
+      int y = this->Y;
+      int jump = initJump;
+      bool timeout = this->Pickup & IP_TIMEOUT;
+      int linkDistance = Distance(Hero->X + Rand(-16, 16), Hero->Y + Rand(-16, 16), this->X, this->Y);
+
+      this->Gravity = false;
+      this->Pickup ~= IP_TIMEOUT;
+
+      if (initJump == -1 && gravity == 0)
+         jump = getJumpLength(linkDistance / (step), true);
+
+      unless (gravity)
+         gravity = Game->Gravity[GR_STRENGTH];
+
+      while(jump > 0 || this->Z > 0) {
+         x += VectorX(step, angle);
+         y += VectorY(step, angle);
+         this->X = x;
+         this->Y = y;
+         this->Z += jump;
+         jump -= gravity;
+         Waitframe();
+      }
+
+      if (timeout)
+      this->Pickup |= IP_TIMEOUT;
+   }
+}
 
 
 

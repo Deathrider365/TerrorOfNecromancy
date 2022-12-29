@@ -206,39 +206,6 @@ ffc script BossNameString //start
 
 //end
 
-//~~~~~NormalString~~~~~//
-//D0: Number of string to show
-//D1: 1 -> Trigger on secret, 0 -> No Secret
-@Author("Deathrider365")
-ffc script NormalString //start
-{
-	void run(int m, int triggerOnSecret, int playOnce)
-	{
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		if (getScreenD(255))
-			Quit();
-			
-		if (triggerOnSecret)
-		{
-			if (Screen->State[ST_SECRET])
-			{
-				Waitframes(2);
-				Screen->Message(m);
-				setScreenD(255, true);
-			}
-			else
-				Waitframe();
-		}
-		else
-		{
-			Waitframes(2);
-			Screen->Message(m);
-			setScreenD(255, true);
-		}
-	}
-}
-
-//end
 
 //~~~~~DungeonString~~~~~//
 //D0: Number of string to show
@@ -259,37 +226,19 @@ ffc script DungeonString //start
 
 //end
 
-//~~~~~Play Test~~~~~//
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
-@Author("Deathrider365")
-ffc script PlayText //start
-{
-	void run(int msg) {
-		
-		unless(getScreenD(255))
-			Screen->Message(msg);
-		
-		setScreenD(255, true);
-	}
-}
-//end
-
 //~~~~~SignPost~~~~~//
 //D0: Number of string to show
 //D1: 0 for not anyside 1 for anyside
-@Author("Joe123")
+@Author("Joe123, Deathrider365")
 ffc script Signpost //start
 {
-	void run(int msg, bool anySide)
+	void run(int msg)
 	{
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			while(!(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST])) 
+			while(!(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])) 
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -311,13 +260,11 @@ ffc script TalkToMeTwice //start
 {
 	void run(int talkToMeOnce, int talkToMeTwice)
 	{
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstCombo(loc))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -349,13 +296,11 @@ ffc script SignPostOnSecret //start
 {
 	void run(int messageNoSecret, int messageSecret)
 	{
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstCombo(loc))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -384,13 +329,11 @@ ffc script ConditionalSignPost //start
 {
 	void run(int msg, bool anySide, int itemConditional, int specialMsg)
 	{
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -419,13 +362,11 @@ ffc script SignpostBasedOnScreenD //start
 		Waitframes(2);
 		while(Game->Suspend[susptGUYS]) Waitframe();
 		
-		int loc = ComboAt(this->X, this->Y);
-		
 		while(true)
 		{
-			until(AgainstComboBase(loc, anySide) && Input->Press[CB_SIGNPOST]) 
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
 			{
-				if (AgainstComboBase(loc, anySide))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				Waitframe();
@@ -452,36 +393,18 @@ ffc script SignpostBasedOnScreenD //start
 
 //end
 
-//~~~~~MessageOnce~~~~~//
-//D0: Number of string to show
 @Author("Deathrider365")
-ffc script MessageOnce //start
-{
-	void run(int msg)
-	{
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		unless(getScreenD(255))
-			Screen->Message(msg);
-		
-		setScreenD(255, true);
-	}
-} //end
-
-//~~~~~ShopIntroMessage~~~~~//
-//D0: Message to show
-@Author("Deathrider365")
-ffc script ShopIntroMessage //start
-{
-	void run(int message)
-	{
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		unless (getScreenD(255))
-		{
-			setScreenD(255, true);
-			Screen->Message(message);
-		}
-	}
-} //end
+ffc script MessageOnce {
+   void run(int message) {
+      while(Game->Suspend[susptGUYS]) 
+         Waitframe();
+      
+      unless(getScreenD(255))
+         Screen->Message(message);
+      
+      setScreenD(255, true);
+   }
+}
 
 //~~~~~FatherAndSonDialogue~~~~~//
 // Sets screenD(255) upon receiving
@@ -524,10 +447,6 @@ ffc script FatherAndSonDialogue //start
 		}
 			
 		this->Data = prevData;
-		
-		// Waitframes(2);
-
-		int loc = ComboAt(this->X, this->Y);
 
 		while(true)
 		{
@@ -535,9 +454,9 @@ ffc script FatherAndSonDialogue //start
 				while (/*Screen->NumNPCs() && */!Screen->State[ST_SECRET])
 					Waitframe();
 			
-			until(AgainstCombo(loc) && Input->Press[CB_SIGNPOST])
+			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
 			{
-				if (AgainstCombo(loc))
+				if (againstFFC(this->X, this->Y))
 					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 					
 				if (getScreenD(triggerOnScreenD) && Screen->State[ST_SECRET]) 
