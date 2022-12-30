@@ -91,21 +91,17 @@ CONFIG SFX_SHUTTER_CLOSE = 152; 		//SFX when a shutter door closes
 CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
 
-CONFIG MISC_SOLIDFFC = 14; 			//A misc value between 0 and 15 to denote a ffc as solid.
-CONFIG MISC_SFFC_X = 0;  			//This can be used by other ffcs as long as they're not solid.
-
-CONFIG MSG_LINK_BEATEN = 24;
 //end
 
 //~~~~~TriggerTypes~~~~~//
 //start
-   CONFIG TT_NO_TRIGGER_SET = 1;
-   CONFIG TT_SCREEND_SET = 2;
-   CONFIG TT_SCREEND_NOT_SET = 3;
-   CONFIG TT_SECRETS_TRIGGERED = 4;
-   CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
-   CONFIG TT_ITEM_ACQUIRED = 6;
-   CONFIG TT_ITEM_NOT_ACQUIRED = 7;
+CONFIG TT_NO_TRIGGER_SET = 1;
+CONFIG TT_SCREEND_SET = 2;
+CONFIG TT_SCREEND_NOT_SET = 3;
+CONFIG TT_SECRETS_TRIGGERED = 4;
+CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
+CONFIG TT_ITEM_ACQUIRED = 6;
+CONFIG TT_ITEM_NOT_ACQUIRED = 7;
    
 //end
 
@@ -115,7 +111,6 @@ CONFIG SUB_B_X = 94;
 CONFIG SUB_B_Y = -10;
 CONFIG SUB_A_X = 118;
 CONFIG SUB_A_Y = -10;
-
 
 //end
 
@@ -130,7 +125,6 @@ CONFIG ITEM_QUIVER1_SMALL = 74;
 
 //~~~~~LWeapon~~~~~//
 //start
-CONFIG LW_EZB_DEATHEXPLOSION = 40; //LWeapon type used for death explosions. Script 10 by default
 
 //end
 
@@ -249,8 +243,7 @@ char32 numQuiverUpgradesBuf[6];
 int scrollingOffset;
 
 //start Active Items
-int activeItemIDs[] = 
-{
+int activeItemIDs[] = {
 	IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
 	IC_CANDLE, 		IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
 	IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND,
@@ -259,8 +252,7 @@ int activeItemIDs[] =
 	IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6
 };
 
-int activeItemLocsX[] = 
-{	
+int activeItemLocsX[] = {	
 	166, 188, 210, 232,
 	166, 188, 210, 232,
 	166, 188, 210, 232,
@@ -269,8 +261,7 @@ int activeItemLocsX[] =
 	166, 188, 210, 232
 };
 
-int activeItemLocsY[] =	
-{
+int activeItemLocsY[] =	{
 	32,  32,  32,  32,
 	54,  54,  54,  54,
 	76,  76,  76,  76,
@@ -281,22 +272,19 @@ int activeItemLocsY[] =
 //end
 
 //start Inactive Items
-int inactiveItemIDs[] = 
-{
+int inactiveItemIDs[] = {
 	IC_SHIELD, 		IC_RING,		IC_RAFT,		IC_LADDER, 
 	IC_BRACELET, 	IC_FLIPPERS, 	IC_BOMBBAG,		IC_QUIVER,
 	IC_LANTERN
 };
 
-int inactiveItemLocsX[] = 
-{
+int inactiveItemLocsX[] = {
 	4, 22, 40, 58,
 	4, 22, 40, 58,
 	4
 };
 
-int inactiveItemLocsY[] = 
-{
+int inactiveItemLocsY[] = {
 	4,  4,  4,  4,
 	22, 22, 22, 22,
 	40
@@ -438,8 +426,7 @@ CONFIG ENEMY_OVERGROWN_RACCOON = 235;
 
 //~~~~~Enums~~~~~//
 //start
-enum Color //start
-{
+enum Color {
 	C_TRANSBG = -1,
 	C_TRANS = 0x00,
 	C_GREEN = 0x06,
@@ -455,7 +442,7 @@ enum Color //start
 	C_SEABLUE = 0x76,
 	C_DARKBLUE = 0x77,
 	C_DEEPBLUE = 0x1F
-}; //end
+};
 
 enum ScreenType {
    DM_DUNGEON,
@@ -464,8 +451,7 @@ enum ScreenType {
    DM_BSOVERWORLD
 };
 
-enum ArcingWeaponEffects //start
-{
+enum ArcingWeaponEffects {
 	// Shambles
 	AE_BOMB,
 	AE_SMALLPOISONPOOL,
@@ -485,18 +471,16 @@ enum ArcingWeaponEffects //start
 	AE_ARROW,
 	
 	AE_DEBUG
-}; //end
+};
 
-enum StatusPos //start
-{
+enum StatusPos {
 	SP_ABOVE_HEAD,
 	SP_TOP_RIGHT
-}; //end
+};
 
-enum Status //start
-{
+enum Status {
 	ATTACK_BOOST, 
 	DEFENSE_BOOST, 
 	NUM_STATUSES
-}; //end
+};
 //end

@@ -1,7 +1,7 @@
 //----- Script Locations -----//
 ActivateTorches   -  -  -  -  -  - 32:43
 BattleArena -  -  -  -  -  -  -  - 37:58
-BossMusic	-	- 	-	- 	-  -  -  - 7:12, 7:22, 32:3B, 40:13, 46:1C, 47:27
+BossMusic	-	- 	-	- 	-  -  -  - 6:07, 7:12, 7:22, 32:3B, 40:13, 46:1C, 47:27
 BurningOilAndBushes	-	-	-  -  - 9:09, 9:0A, 9:0B, 9:1B, 28:1B, 28:1C, 28:2C, 32:20, 32:25, 32:26, 32:30,
                                    32:31, 32:34, 32:39, 32:3B, 32:3C, 32:40, 32:41, 32:43, 32:44, 32:46, 32:49, 
                                    32:4A-32:4E, 32:51-32:5E, 32:60, 32:61, 32:65, 32:70, 32:76, 37:2B, 37:2C,
@@ -24,8 +24,7 @@ InfoShop -  -  -  -  -  -  -  -  - 16:3C
 GetItem  -  -	-	-	-	-  -  -  - 9:07, 9:15, 9:26, 9:49, 9:4C, 9:5A, 16:05, 16:3A, 16:4B, 16:64, 16:71, 28:09,
                                    28:65, 37:57, 37:77, 40:5E, 40:5C
                                    
-GetItemFromSecret -  -  -  -  -  - 7:02                                   
-LeviathanCabin	-	- 	- 	-  -  -  - 6:07
+GetItemFromSecret -  -  -  -  -  - 7:02
 LeviathanFailureP1	-	- 	-  -  - 6:09
 LeviathanFailureP2	-	- 	-  -  - 6:0A
 Leviathan1Ending	-	- 	-  -  -  - 6:0B
@@ -34,7 +33,7 @@ OfficialIntro	-	- 	- 	-  -  -  - 6:50
 OpenForItemId	-	-	- 	-  -  -  - 9:05
 PostSceneEnteringInteritus	-  -  - 9:2F
 ServusFloatingAbout  -  -  -  -  - 40:39, 40:3A, 40:3C, 40:3D, 40:49, 40:4D, 40:59, 40:5C, 40:69-40:6D
-ScreenBeforeLeviathan1	- 	-  -  - 6:08
+IntroAwaitingLeviathan	- 	-  -  - 6:08
 ScreenQuakeOnSecret	- 	- 	-  -  - 7:21, 40:24, 40:2B, 40:49, 40:5E, 40:65, 40:6B
 SecretTriggersWaterPaths   -  -  - 32:20, 32:26, 32:34, 32:41, 32:42, 32:44, 32:51, 32:70, 32:76
 Signpost	-	- 	-	- 	-  -  -  -  - 1:22, 6:07, 6:08, 7:24, 7:30, 9:04, 9:06, 9:07, 9:0B, 9:25, 9:34, 9:36, 
@@ -51,7 +50,6 @@ SwitchTrap  -  -  -  -  -  -  -  - 44:12, 46:1B
 TorchFirePaths -  -  -  -  -  -  - 32:20, 32:26, 32:70, 32:76
 TorchLight  -  -  -  -  -  -  -  - 32:43
 TriggerOnceEnemiesKilled   -  -  - 44:12, 46:1B
-TriggerSignpostsOnOtherScreens   - 40:5B
 WarpCustomReturn  -  -  -  -  -  - 16:35, 16:72, 28:24
 
 

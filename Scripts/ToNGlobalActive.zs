@@ -7,8 +7,8 @@ global script Init //start
 {
 	void run()
 	{
-		Hero->ItemA = checkID(IC_SWORD);
-		Hero->ItemB = checkID(IC_BRANG);
+		Hero->ItemA = checkId(IC_SWORD);
+		Hero->ItemB = checkId(IC_BRANG);
 	}
 } //end
 

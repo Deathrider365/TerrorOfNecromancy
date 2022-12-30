@@ -2,6 +2,32 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+void removeAllItems() {
+   for(int q = 0; q < MAX_ITEMDATA; ++q)
+      unless(q == 3 || q == I_DIFF_NORMAL || q == 183 || q == 208)
+         Hero->Item[q] = false;
+      
+   Game->Counter[CR_SBOMBS] = 0;
+   Game->Counter[CR_BOMBS] = 0;
+   Game->Counter[CR_ARROWS] = 0;
+   Game->Counter[CR_RUPEES] = 0;				
+
+   Game->MCounter[CR_SBOMBS] = 0;
+   Game->MCounter[CR_BOMBS] = 0;
+   Game->MCounter[CR_ARROWS] = 0;
+   Game->MCounter[CR_RUPEES] = 255;
+   Game->Generic[GEN_MAGICDRAINRATE] = 2;
+
+   numBombUpgrades = 0;
+   numQuiverUpgrades = 0;
+   
+   Hero->MaxHP = 48;
+   Hero->MaxMP = 32;
+
+   Hero->HP = Hero->MaxHP;
+   Hero->MP = Hero->MaxMP;
+}
+
 // Set Screen->D
 void setScreenD(int reg, bool state) {
    int d = Div(reg, 32);
@@ -653,6 +679,18 @@ bool wasTriggered(float trigger) {
       default:
          return false;
    }
+}
+
+lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight, int frames) {
+   lweapon weapon = CreateLWeaponAt(LW_SCRIPT1, x, y);
+   weapon->UseSprite(sprite);
+   weapon->TileWidth = tileWidth ? tileWidth : 1;
+   weapon->TileHeight = tileHeight ? tileHeight : 1;
+   weapon->Script = Game->GetLWeaponScript("timedEffect");
+   weapon->CollDetection = false;
+   weapon->InitD[0] = frames;
+
+   return weapon;
 }
 
 

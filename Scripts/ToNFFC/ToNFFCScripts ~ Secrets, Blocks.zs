@@ -22,375 +22,638 @@ ffc script OpenForItemId {
    }
 }
 
+@Author("EmilyV99")
+ffc script EnemiesChest {
+   void run(int flag, int newCombo, bool perm, int screenD, int cset, int sfx) {
+      if (perm && getScreenD(screenD)) {
+         for (int i = 0; i < 176; ++i)
+            if (ComboFI(i, flag)) {
+               Screen->ComboD[i] = newCombo;
+               Screen->ComboC[i] = cset;
+            }
+         return;
+      }
+      
+      while (EnemiesAlive())
+         Waitframe();
+         
+      if (perm)
+         setScreenD(screenD, true);
+      
+      for (int i = 0; i < 176; ++i)
+         if (ComboFI(i, flag)) {
+            Screen->ComboD[i] = newCombo;
+            Screen->ComboC[i] = cset;
+            Audio->PlaySound(sfx);
+         }
+   }
+}
 
-//~~~~~ScriptWeaponTrigger~~~~~//
-// D0: The LW_ weapon type to check for (std_constants.zh)
-// D1: The screen flag to check for on layer 0. If 0, the FFC itself is the trigger.
-// D2: The type of secret it's using:
-//		-0: Self only
-//		-1: Trigger Secrets (Temp)
-//		-2: Trigger Secrets (Perm)
-//		-3: Hit All (Temp)
-//		-4: Hit All (Perm)
-// D3: The combo to set the trigger combo to. If 0, will increase the combo by 1
-// D4: The CSet for the trigger combo
-// D5: The sound to play when the secret is triggered
 @Author("Moosh")
-ffc script ScriptWeaponTrigger //start
-{
-	void run(int weaponType, int markerFlag, int secretType, int secretCombo, int secretCSet, int sfx)
-	{
-		int i; int j; int k;
-		if (secretType == 4)	//start If a permanent trigger is set
-		{
-			if (Screen->State[ST_SECRET])
-			{
-				if (markerFlag == 0)	//If the FFC is the trigger
-				{ 
-					if (secretCombo > 0)
-					{
-						this->Data = secretCombo;
-						this->CSet = secretCSet;
-					}
-					else
-						this->Data++;
-				}
-				else //If a combo is the trigger
-				{ 
-					for (j = 0; j < 176; j++)
-					{
-						if (ComboFI(j, markerFlag))
-						{
-							if (secretCombo > 0)
-							{
-								Screen->ComboD[j] = secretCombo;
-								Screen->ComboC[j] = secretCSet;
-								Screen->ComboF[j] = 0;
-							}
-							else
-							{
-								Screen->ComboD[j]++;
-								Screen->ComboF[j] = 0;
-							}
-						}
-					}
-				}
-			}
-		} //end
+ffc script SwitchRemote {
+   //start Instructions
+   // D0: Set to 0 if no pressure. Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
+   // D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
+   // D2: Set to the flag that specifies the region for the remote secret.
+   // D3: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
+   // D4 (2.55 version only): Specifies the layer for the remote secret.
+   //end
+   void run(int pressure, int id, int flag, int sfx, int nextCombo) {
+      bool noLink;
+      
+      if (pressure == 2) {
+         pressure = 1;
+         noLink = true;
+      }
+      
+      int data = this->Data;
+      int i, j, k, d, db;
+      
+      if (id > 0) {
+         d = Floor((id - 1) / 16);
+         db = 1 << ((id - 1) % 16);
+      }
+      
+      int comboD[176];
+      
+      for (i = 0; i < 176; i++)
+         if (Screen->ComboF[i] == flag) {
+            comboD[i] = Screen->ComboD[i];
+            Screen->ComboF[i] = 0;
+         }
+      
+      if (id > 0)
+         if (Screen->D[d] & db) {
+            this->Data = data + 1;
+            
+            for (i = 0; i < 176; i++)
+               if (comboD[i] > 0)
+                  Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
+                  
+            Quit();
+         }
+         
+      if (pressure) {
+         while (true) {
+            unless (switchPressed(this->X, this->Y, noLink))
+               Waitframe();
+               
+            this->Data = data + 1;
+            
+            Game->PlaySound(SFX_SWITCH_PRESS);
+            
+            for (i = 0; i < 176; i++)
+               if (comboD[i] > 0)
+                  Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;;
+                  
+            while (switchPressed(this->X, this->Y, noLink))
+               Waitframe();
+               
+            this->Data = data;
+            Game->PlaySound(SFX_SWITCH_RELEASE);
+            
+            for (i = 0; i < 176; i++)
+               if (comboD[i] > 0)
+                  Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
+               
+         }
+      } else {
+         until (switchPressed(this->X, this->Y, noLink))
+            Waitframe();
+         
+         this->Data = data + 1;
+         
+         Game->PlaySound(SFX_SWITCH_PRESS);
+         
+         if (sfx > 0)
+            Game->PlaySound(sfx);
+         else if (sfx == -1)
+            Game->PlaySound(SFX_SECRET);
+            
+         for (i = 0; i < 176; i++)
+            if (comboD[i] > 0)
+               Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
+               
+         if (id > 0)
+            Screen->D[d] |= db;
+      }
+   }
+}
+
+@Author("Moosh, Modified by Deathrider365")
+ffc script SwitchTrap { 
+   void run(int enemyid, int count, int fallSpeed, int perm) {
+      until(switchPressed(this->X, this->Y, false))
+         Waitframe();
+      
+      this->Data++;
+      Game->PlaySound(SFX_SWITCH_PRESS);
+      Game->PlaySound(SFX_SWITCH_ERROR);
+      
+      Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
+      
+      npc npcs[255];
+      
+      for (int i = 0; i < count; i++) {
+         int pos = getSpawnPos();
+         npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
+         npcs[i] = n;
+         Game->PlaySound(SFX_FALL);
+         n->Z = 176;
+         
+         for (int j = 0; j < 20; j++) {
+            for (int k = 0; k < count; k++) {
+               if (npcs[k])
+                  npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
+            }
+            Waitframe();
+         }
+         Waitframe();
+      }
+      
+      unless (fallSpeed)
+         fallSpeed = 5;
+      
+      for (int i = 0; i < 60; ++i) {
+         for (int j = 0; j < count; j++)
+            npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
+         Waitframe();
+      }
+      
+      while(Screen->NumNPCs())
+         Waitframe();
+      
+      char32 areaMusic[256];
+      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Audio->PlayEnhancedMusic(areaMusic, 0);
+   }
+	
+   int getSpawnPos() {
+      int pos;
+      bool invalid = true;
+      int failSafe = 0;
+      
+      while (invalid && failSafe < 512) {
+         pos = Rand(176);
+         
+         if (validSpawn(pos))
+            return pos;
+      }
+      
+      for (int i = 0; i < 176; i++) {
+         pos = i;
+         
+         if (validSpawn(pos))
+            return pos;
+      }
+   }
+	
+   bool validSpawn(int pos) {
+      int x = ComboX(pos);
+      int y = ComboY(pos);
+      
+      if (Screen->isSolid(x + 4, y + 4) 
+       || Screen->isSolid(x + 12, y + 4) 
+       || Screen->isSolid(x + 4, y + 12) 
+       || Screen->isSolid(x + 12, y + 12))
+         return false;
+         
+      if (ComboFI(pos, CF_NOENEMY) || ComboFI(pos, CF_NOGROUNDENEMY))
+         return false;
+         
+      int ct = Screen->ComboT[pos];
+      
+      if (ct == CT_NOENEMY || ct == CT_NOGROUNDENEMY || ct == CT_NOJUMPZONE)
+         return false;
+      if (ct == CT_WATER || ct == CT_LADDERONLY || ct == CT_HOOKSHOTONLY || ct == CT_LADDERHOOKSHOT)
+         return false;
+      if (ct == CT_PIT || ct == CT_PITB || ct == CT_PITC || ct == CT_PITD || ct == CT_PITR)
+         return false;
+         
+      return true;
+   }
+}
+
+@Author("Moosh")
+ffc script GB_Shutter {
+   //start Instructions
+   // type: 1 for enemy, otherwise secrets
+   //end
+	void run(int type, int perm) {
+		int thisData = this->Data;
+		int thisCSet = this->CSet;
+		this->Data = FFCS_INVISIBLE_COMBO;
 		
-		bool trigger;
+		mapdata m = Game->LoadTempScreen(1);
+		int cp = ComboAt(this->X + 8, this->Y + 8);
+		int underCombo = m->ComboD[cp];
+		int underCSet = m->ComboC[cp];
+		int LinkX = Link->X;
 		
-		until(trigger) //start Cycle through weapons backwards to save the frames
-		{
-			for (i = Screen->NumLWeapons(); i >= 1; i--)
-			{
-				lweapon l = Screen->LoadLWeapon(i);
+		if(perm && Screen->State[ST_SECRET])
+			Quit();
+			
+		if(LinkX <= 0)
+			LinkX = 240;
+		else if(LinkX >= 240)
+			LinkX = 0;
+			
+		int LinkY = Link->Y;
+		
+		if(LinkY <= 0)
+			LinkY = 160;
+		else if(LinkY >= 160)
+			LinkY = 0;
+			
+		int moveDir = Link->Dir;
 				
-				if (l->ID == weaponType) //First check if the weapon is the right type
-				{ 
-					if (l->CollDetection && l->DeadState < 0) //Then check if it has collision
-					{ 
-						if (markerFlag == 0) // start If the FFC is the trigger
-						{
-							if (Collision(this, l))
-							{
-								Game->PlaySound(sfx);
-								SWT_BounceWeapon(l);
-								
-								if (secretCombo > 0) //If a secret combo is specified, change to that
-								{
-									this->Data = secretCombo;
-									this->CSet = secretCSet;
-								}
-								else //Else increase by 1
-									this->Data++;
-								
-								if (secretType == 0) //A self only secret quits out here
-									Quit();
-									
-								else if (secretType == 1 || secretType == 2) //A screen secret trigger breaks the loop
-									trigger = true;
-								
-								else if (secretType == 3 || secretType == 4) //A hit all trigger breaks the loop
-								{ 
-									if (CountFFCsRunning(this->Script) == 1) //Only if it's the last one
-										trigger = true;
-									else //Otherwise it quits
-										Quit();
-								}
-							}
-						} //end
-						
-						else //start If a combo is the trigger
-						{
-							int flagCount;
-							
-							for (j = 0; j < 176; j++)
-							{
-								if (ComboFI(j, markerFlag))
-								{
-									flagCount++;
-									int x = l->X + l->HitXOffset;
-									int y = l->Y + l->HitYOffset;
-									
-									if (RectCollision(ComboX(j), ComboY(j), ComboX(j) + 15, ComboY(j) + 15, x, y, x + l->HitWidth - 1, y + l->HitHeight - 1))
-									{
-										Game->PlaySound(sfx);
-										SWT_BounceWeapon(l);
-										
-										if (secretCombo > 0) //If a secret combo is specified, change to that
-										{ 
-											Screen->ComboD[j] = secretCombo;
-											Screen->ComboC[j] = secretCSet;
-											Screen->ComboF[j] = 0;
-										}
-										else //Else increase by 1
-										{ 
-											Screen->ComboD[j]++;
-											Screen->ComboF[j] = 0;
-										}
-										if (secretType == 1 || secretType == 2) //A screen secret triggers secrets
-										{ 
-											Screen->TriggerSecrets();
-											
-											if (secretType == 2)
-												Screen->State[ST_SECRET] = true;
-										}
-									}
-								}
-							}
-							
-							if (flagCount == 0) //If all triggers are hit and type is 3 or 4, break out of the loop
-								if (secretType == 3 || secretType == 4)
-									trigger = true;
-						} //end
-					}
-				}
+		if(GB_Shutter_InShutter(this, LinkX, LinkY, 0)) {
+			if(LinkY == 0)
+				moveDir = DIR_DOWN;
+			else if(LinkY == 160)
+				moveDir = DIR_UP;
+			else if(LinkX == 0)
+				moveDir = DIR_RIGHT;
+			else if(LinkX == 240)
+				moveDir = DIR_LEFT;
 				
-				if (trigger)
-					break;
+			Waitframe();
+			
+			while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false)) {
+				NoAction();
+				
+				if(moveDir == DIR_UP)
+					Link->InputUp = true;
+				else if(moveDir == DIR_DOWN)
+					Link->InputDown = true;
+				else if(moveDir == DIR_LEFT)
+					Link->InputLeft = true;
+				else if(moveDir == DIR_RIGHT)
+					Link->InputRight = true;
+					
+				Waitframe();
 			}
 			
+			Game->PlaySound(SFX_SHUTTER_CLOSE);
+			m->ComboD[cp] = underCombo;
+			m->ComboC[cp] = underCSet;
+			this->Data = thisData + 1;
+			Game->LoadComboData(this->Data)->Frame = 0;
+			this->CSet = thisCSet;
+			
+			for(int i = 0; i < 4; i++) {
+				if(moveDir == DIR_UP)
+					Link->Y = Min(Link->Y, 144);
+				else if(moveDir == DIR_DOWN)
+					Link->Y = Max(Link->Y, 8);
+				else if(moveDir == DIR_LEFT)
+					Link->X = Min(Link->X, 224);
+				else if(moveDir == DIR_RIGHT)
+					Link->X = Max(Link->X, 16);
+					
+				Waitframe();
+			}
+			
+			this->Data = FFCS_INVISIBLE_COMBO;
+			m->ComboD[cp] = thisData;
+			m->ComboC[cp] = thisCSet;
+			
+			if(type == 1)
+				Waitframes(8);
+		}
+		else {
+			m->ComboD[cp] = thisData;
+			m->ComboC[cp] = thisCSet;
+			
+			if(type == 1)
+				Waitframes(8);
+			else
+				Waitframe();
+		}
+		
+		while(true) {
+			if(GB_Shutter_InShutter(this, Link->X, Link->Y, 3)) {
+				m->ComboD[cp] = underCombo;
+				m->ComboC[cp] = underCSet;
+				
+				if(Link->Y == 0)
+					moveDir = DIR_DOWN;
+				else if(Link->Y == 160)
+					moveDir = DIR_UP;
+				else if(Link->X == 0)
+					moveDir = DIR_RIGHT;
+				else if(Link->X == 240)
+					moveDir = DIR_LEFT;
+					
+				while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false)) {
+					NoAction();
+					
+					if(moveDir == DIR_UP)
+						Link->InputUp = true;
+					else if(moveDir == DIR_DOWN)
+						Link->InputDown = true;
+					else if(moveDir == DIR_LEFT)
+						Link->InputLeft = true;
+					else if(moveDir == DIR_RIGHT)
+						Link->InputRight = true;
+						
+					Waitframe();
+				}
+				
+				Game->PlaySound(SFX_SHUTTER_CLOSE);
+				m->ComboD[cp] = underCombo;
+				m->ComboC[cp] = underCSet;
+				Game->LoadComboData(thisData + 1)->Frame = 0;
+				this->Data = thisData + 1;
+				this->CSet = thisCSet;
+				
+				for(int i = 0; i < 4; i++) {
+					if(moveDir == DIR_UP)
+						Link->Y = Min(Link->Y, 144);
+					else if(moveDir == DIR_DOWN)
+						Link->Y = Max(Link->Y, 8);
+					else if(moveDir == DIR_LEFT)
+						Link->X = Min(Link->X, 224);
+					else if(moveDir == DIR_RIGHT)
+						Link->X = Max(Link->X, 16);
+						
+					Waitframe();
+				}
+				
+				this->Data = FFCS_INVISIBLE_COMBO;
+				m->ComboD[cp] = thisData;
+				m->ComboC[cp] = thisCSet;
+				
+				if(moveDir == DIR_UP)
+					Link->Y = Min(Link->Y, 144);
+				else if(moveDir == DIR_DOWN)
+					Link->Y = Max(Link->Y, 8);
+				else if(moveDir == DIR_LEFT)
+					Link->X = Min(Link->X, 224);
+				else if(moveDir == DIR_RIGHT)
+					Link->X = Max(Link->X, 16);
+					
+				Waitframes(8);
+			}
+			
+			if(type == 0 && Screen->SecretsTriggered())
+				break;
+			
+			if(type == 1)
+				unless(GB_Shutter_CheckEnemies())
+					break;
+					
 			Waitframe();
-		} //end
+		}
 		
-		Screen->TriggerSecrets();
-		
-		if (secretType == 2 || secretType == 4)
+		Game->PlaySound(SFX_SHUTTER_OPEN);
+		m->ComboD[cp] = underCombo;
+		m->ComboC[cp] = underCSet;
+		Game->LoadComboData(thisData + 1)->Frame = 0;
+		this->Data = thisData + 1;
+		this->CSet = thisCSet;
+		Waitframes(4);
+	
+		this->Data = FFCS_INVISIBLE_COMBO;
+		if(perm)
 			Screen->State[ST_SECRET] = true;
 	}
 	
-	void SWT_BounceWeapon(lweapon l) //start
-	{
-		if (l->ID == LW_BRANG || l->ID == LW_HOOKSHOT)
-			l->DeadState = WDS_BOUNCE;
-		else if (l->ID == LW_ARROW)
-			l->DeadState = WDS_ARROW;
-		else if (l->ID == LW_BEAM)
-			l->DeadState = WDS_BEAMSHARDS;
-	} //end
+	bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway) {
+		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
+	}
+	
+	bool GB_Shutter_CheckEnemies() {
+		for(int i = Screen->NumNPCs(); i >= 1; i--) {
+			npc n = Screen->LoadNPC(i);
+			if(n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
+				if(!(n->MiscFlags & (1 << 3)))
+					return true;
+		}
+		return false;
+	}
 }
-//end
 
-//~~~~~EnemiesChest~~~~~//
-// D0: Flag to trigger 
-// D1: Combo to change into
-// D2: Whether perm of not
-// D3: (used only if perm) ScreenD reg
-// D4: CSet
-// D5: SFX
 @Author("EmilyV99")
-ffc script EnemiesChest //start
-{
-	void run(int flag, int combo, bool perm, int reg, int cset, int sfx)
-	{
-		if (perm && getScreenD(reg))
-		{
-			for (int q = 0; q < 176; ++q)
-				if (ComboFI(q, flag))
-				{
-					Screen->ComboD[q] = combo;
-					Screen->ComboC[q] = cset;
-				}
-			return;
-		}
-		
-		Waitframes(6);
-		
-		while (EnemiesAlive())
-			Waitframe();
-			
-		if (perm)
-			setScreenD(reg, true);
-		
-		for (int q = 0; q < 176; ++q)
-			if (ComboFI(q, flag))
-			{
-				Screen->ComboD[q] = combo;
-				Screen->ComboC[q] = cset;
-				Audio->PlaySound(sfx);
-			}
-	}
+ffc script TorchFirePaths {
+	using namespace WaterPaths;
+	
+   void run(int layers) {
+      while(true) {
+         for(int q = Screen->NumLWeapons(); q > 0; --q) {
+            lweapon wep = Screen->LoadLWeapon(q);
+            
+            unless (wep->Type == LW_FIRE && GetHighestLevelItemOwned(IC_CANDLE) != 158)
+               continue;
+               
+            int l1, l2;
+
+            for(int q = 6; q >= 0; --q) {
+               if(layers & (1b << q)) {
+                  if(l2) {
+                     l1 = q;
+                     break;
+                  }
+                  else 
+                     l2 = q;
+               }
+            }
+
+            mapdata template = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+            mapdata t1 = Emily::loadLayer(template, l1), t2 = Emily::loadLayer(template, l2);
+            int cmb[4] = {
+               ComboAt(wep->X,wep->Y),
+               ComboAt(wep->X + 15, wep->Y),
+               ComboAt(wep->X, wep->Y + 15),
+               ComboAt(wep->X + 15, wep->Y + 15)
+            };
+            
+            for(int p = 0; p < 4; ++p) {
+               combodata cd = Game->LoadComboData(t1->ComboD[cmb[p]]);
+               
+               if(cd->Type == CT_FLUID) {
+                  int flag = cd->Attributes[ATTBU_FLUIDPATH];
+                  
+                  if(flag > 0) {
+                     Fluid f = getFluid(flag);
+                     
+                     if(f == FL_PURPLE)
+                        connectRoots(flag, FL_PURPLE, 32);
+                  }
+               }
+            }
+         }
+         Waitframe();
+      }
+   }
+   
+   void connectRoots(int path, Fluid sourcetype, int connectTo) {
+      DEFINE MAX_PATH_PAIRS = MAX_PATHS * (MAX_PATHS - 1) + 1;
+      int v1[MAX_PATH_PAIRS];
+      int v2[MAX_PATH_PAIRS];
+        
+      //Cache the pairs of connected paths
+      int ind = 0;
+        
+      for(int q = 0; q < MAX_PATHS; ++q) {
+         int c = getConnection(Game->GetCurLevel(), q+1);
+            
+         unless(c)
+            continue;
+                
+         for(int p = q+1; p < MAX_PATHS; ++p) {
+            unless(c & (1L << p))
+               continue;
+            v1[ind] = q;
+            v2[ind++] = p;
+         }
+      }
+        
+      v1[ind] = -1;
+        
+      bool isConnected[MAX_PATHS];
+      bool didSomething;
+      
+      isConnected[path-1] = true;
+        
+      do {
+         didSomething = false;
+            
+         for(int q = 0; v1[q] > -1; ++q)
+         {
+            if(isConnected[v1[q]] ^^ isConnected[v2[q]])
+            {
+               isConnected[v1[q]] = true;
+               isConnected[v2[q]] = true;
+               didSomething = true;
+            }
+         }
+      } while(didSomething);
+        
+      for(int q = 0; q < MAX_PATHS; ++q)
+         if(isConnected[q])
+            if(getSource(q + 1) == FL_PURPLE)
+               setConnection(Game->GetCurLevel(), q + 1, connectTo, true);
+      
+      updateFluidFlow();
+   }
 }
-//end
 
-//~~~~~EnemiesChest~~~~~//
-// D0: Set to 1 to make the secret permanent
-// D1: Set to the switch's ID if the secret is tiered, 0 otherwise.
-// D2: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-@Author("Moosh")
-ffc script SwitchSecret //start
-{
-	void run(int perm, int id, int sfx)
-	{
-		int d;
-		int db;
-		
-		if (id > 0)
-		{
-			d = Floor((id - 1) / 16);
-			db = 1 << ((id - 1) % 16);
-		}
-		
-		if (perm)
-		{
-			if (id > 0)
-			{
-				if (Screen->D[d] & db)
-				{
-					this->Data++;
-					Screen->TriggerSecrets();
-					Quit();
-				}
-			}
-			else if (Screen->State[ST_SECRET])
-			{
-				this->Data++;
-				Quit();
-			}
-		}
-		
-		until(switchPressed(this->X, this->Y, false))
-			Waitframe();
-			
-		this->Data++;
-		Screen->TriggerSecrets();
-		Game->PlaySound(SFX_SWITCH_PRESS);
-		
-		if (sfx > 0)
-			Game->PlaySound(sfx);
-		else if (sfx == -1)
-			Game->PlaySound(SFX_SECRET);
-		if (perm)
-		{
-			if (id > 0)
-				Screen->D[d] |= db;
-			else
-				Screen->State[ST_SECRET] = true;
-		}
-	}
-} //end
+@Author("EmilyV99")
+ffc script TorchLight {
+   using namespace WaterPaths;
 
-//~~~~~SwitchRemote~~~~~//
-// D0: Set to 0 if no pressure. Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
-// D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
-// D2: Set to the flag that specifies the region for the remote secret.
-// D3: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-// D4 (2.55 version only): Specifies the layer for the remote secret.
-@Author("Moosh")
-ffc script SwitchRemote //start
-{ 
-	void run(int pressure, int id, int flag, int sfx, int nextCombo)
-	{
-		bool noLink;
-		if (pressure == 2)
-		{
-			pressure = 1;
-			noLink = true;
-		}
-		
-		int data = this->Data;
-		int i; int j; int k;
-		int d;
-		int db;
-		
-		if (id > 0)
-		{
-			d = Floor((id - 1) / 16);
-			db = 1 << ((id - 1) % 16);
-		}
-		
-		int comboD[176];
-		
-		for (i = 0; i < 176; i++)
-			if (Screen->ComboF[i] == flag)
-			{
-				comboD[i] = Screen->ComboD[i];
-				Screen->ComboF[i] = 0;
-			}
-		
-		if (id > 0)
-			if (Screen->D[d] & db)
-			{
-				this->Data = data + 1;
-				
-				for (i = 0; i < 176; i++)
-					if (comboD[i] > 0)
-						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
-						
-				Quit();
-			}
-			
-		if (pressure) //start
-		{
-			while (true)
-			{
-				unless (switchPressed(this->X, this->Y, noLink))
-					Waitframe();
-					
-				this->Data = data + 1;
-				
-				Game->PlaySound(SFX_SWITCH_PRESS);
-				
-				for (i = 0; i < 176; i++)
-					if (comboD[i] > 0)
-						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;;
-						
-				while (switchPressed(this->X, this->Y, noLink))
-					Waitframe();
-					
-				this->Data = data;
-				Game->PlaySound(SFX_SWITCH_RELEASE);
-				
-				for (i = 0; i < 176; i++)
-					if (comboD[i] > 0)
-						Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
-					
-			}
-		} //end
-		else //start
-		{
-			until (switchPressed(this->X, this->Y, noLink))
-				Waitframe();
-			
-			this->Data = data + 1;
-			
-			Game->PlaySound(SFX_SWITCH_PRESS);
-			
-			if (sfx > 0)
-				Game->PlaySound(sfx);
-			else if (sfx == -1)
-				Game->PlaySound(SFX_SECRET);
-				
-			for (i = 0; i < 176; i++)
-				if (comboD[i] > 0)
-					Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
-					
-			if (id > 0)
-				Screen->D[d] |= db;
-		} //end
-	}
-} //end
+   void run(int litCombo, int path) {
+      until(getFluid(path) == FL_FLAMING)
+         Waitframe();
+         
+      this->Data = litCombo;
+   }
+}
+
+@Author("EmilyV99")
+ffc script ActivateTorches {
+   using namespace WaterPaths;
+
+   void run(int p1, int p2, int p3, int p4) {
+      if (Screen->State[ST_SECRET])
+         return;
+         
+      until(getFluid(p1) == FL_FLAMING && getFluid(p2) == FL_FLAMING && getFluid(p3) == FL_FLAMING && getFluid(p4) == FL_FLAMING)
+         Waitframe();
+         
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+      Audio->PlaySound(SFX_SECRET);
+   }
+}
+
+@Author("Deathrider365")
+ffc script ScreenQuakeOnSecret {
+   void run(int quakePower) {
+      if (Screen->State[ST_SECRET])
+         Quit();
+
+      until (Screen->State[ST_SECRET])
+         Waitframe();
+
+      Screen->Quake = quakePower;
+   }
+}
+
+@Author("Deathrider365")
+ffc script GettingGoddessJewels {
+   void run(int message, int x, int y, int itemId, int finalTriforceShard) {
+      if (getScreenD(254))
+         Quit();
+         
+      if (!Hero->Item[finalTriforceShard])
+         Quit();
+         
+      Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
+         
+      NoAction();
+      Link->PressStart = false;
+      Link->InputStart = false;
+      Link->PressMap = false;
+      Link->InputMap = false;
+      
+      for (int i = 120; i > 0; --i) {
+         disableLink();
+         Waitframe();
+      }
+      
+      for (int i = 0; i < 32; ++i) {
+         //link should walk up
+         disableLink();
+         
+         Waitframe();
+      }
+      
+      Screen->Message(message); //message about assembling the triforce
+      
+      //Link holds up all 4 shards and they assemble in the air splendidly, then the
+      //triforce appears on top of the pedestal spinning and shining
+      //then a message is played about how one is rewarded for assembling the triforce
+      //then that respective goddess jewel appears in front of the pedestal from above the screen
+      
+      itemsprite it = CreateItemAt(itemId, x, y);
+      it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
+      
+      setScreenD(254, true);
+   }
+}
+
+@Author("Deathrider365")
+ffc script TriggerOnceEnemiesKilled {
+   void run(int flag) {
+      int comboD[176];
+      
+      for (int i = 0; i < 176; i++)
+         if (Screen->ComboF[i] == flag) {
+            comboD[i] = Screen->ComboD[i];
+            Screen->ComboF[i] = 0;
+         }
+         
+      until(Screen->NumNPCs())
+         Waitframe();
+         
+      while(Screen->NumNPCs())
+         Waitframe();
+      
+      for (int i = 0; i < 176; i++)
+         if (comboD[i] > 0)
+            Screen->ComboD[i] = comboD[i] + 1;
+   }
+}
+
+
+
+
+
+
+
+
 
 //~~~~~SwitchHitAll~~~~~//
 // D0: Set this to the combo number used for the unpressed switches.
@@ -639,112 +902,6 @@ ffc script SwitchHitAll //start
 	} //end
 } //end
 
-//~~~~~SwitchTrap~~~~~//
-// D0: Set to the ID of the enemy to drop in
-// D1: Set to the number of enemies to drop
-@Author("Moosh, Modified by Deathrider365")
-ffc script SwitchTrap //start
-{ 
-	void run(int enemyid, int count, int fallSpeed, int perm) //start
-	{
-		until(switchPressed(this->X, this->Y, false))
-			Waitframe();
-		
-		this->Data++;
-		Game->PlaySound(SFX_SWITCH_PRESS);
-		Game->PlaySound(SFX_SWITCH_ERROR);
-		
-		Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
-		
-		npc npcs[255];
-		
-		for (int i = 0; i < count; i++)
-		{
-			int pos = Switch_GetSpawnPos();
-			npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
-			npcs[i] = n;
-			Game->PlaySound(SFX_FALL);
-			n->Z = 176;
-			
-			for (int j = 0; j < 20; j++)
-			{
-				for (int k = 0; k < count; k++)
-				{
-					if (npcs[k])
-						npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
-				}
-				Waitframe();
-			}
-			
-			Waitframe();
-		}
-		
-		unless (fallSpeed)
-			fallSpeed = 5;
-		
-		for (int i = 0; i < 60; ++i)
-		{
-			for (int j = 0; j < count; j++)
-				npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
-			Waitframe();
-		}
-		
-		while(Screen->NumNPCs())
-			Waitframe();
-		
-		char32 areaMusic[256];
-		Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
-		Audio->PlayEnhancedMusic(areaMusic, 0);
-			
-	} //end
-	
-	int Switch_GetSpawnPos() //start
-	{
-		int pos;
-		bool invalid = true;
-		int failSafe = 0;
-		
-		while(invalid && failSafe < 512)
-		{
-			pos = Rand(176);
-			
-			if (Switch_ValidSpawn(pos))
-				return pos;
-		}
-		
-		for (int i = 0; i < 176; i++)
-		{
-			pos = i;
-			
-			if (Switch_ValidSpawn(pos))
-				return pos;
-		}
-	} //end
-	
-	bool Switch_ValidSpawn(int pos) //start
-	{
-		int x = ComboX(pos);
-		int y = ComboY(pos);
-		
-		if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) || Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12))
-			return false;
-			
-		if (ComboFI(pos, CF_NOENEMY) || ComboFI(pos, CF_NOGROUNDENEMY))
-			return false;
-			
-		int ct = Screen->ComboT[pos];
-		
-		if (ct == CT_NOENEMY || ct == CT_NOGROUNDENEMY || ct == CT_NOJUMPZONE)
-			return false;
-		if (ct == CT_WATER || ct == CT_LADDERONLY || ct == CT_HOOKSHOTONLY || ct == CT_LADDERHOOKSHOT)
-			return false;
-		if (ct == CT_PIT || ct == CT_PITB || ct == CT_PITC || ct == CT_PITD || ct == CT_PITR)
-			return false;
-			
-		return true;
-	} //end
-} //end
-
 //~~~~~SwitchSequential~~~~~//
 // D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
 // D1: Set to 1 to make the secret that's triggered permanent.
@@ -926,27 +1083,6 @@ ffc script SwitchSequential //start
 	} //end
 } //end
 
-//~~~~~BlockPermSecrets~~~~~//
-//1. Make a new combo with inherent flag 16 (or any secret flag)
-//2. Set this FFC to the above combo
-//3. When secrets are triggered by blocks, this script will make it permanent
-@Author("MoscowModder")
-ffc script BlockPermSecrets //start
-{
-	void run()
-	{
-		int thisCombo = this->Data;
-	
-		until(Screen->State[ST_SECRET])
-		{
-			if(this->Data != thisCombo) 
-				Screen->State[ST_SECRET] = true;
-				
-			Waitframe();
-		}
-	}
-} //end
-
 //~~~~~IceBlock~~~~~//
 @Author("Colossal")
 ffc script IceBlock //start
@@ -1106,505 +1242,3 @@ ffc script IceTrigger //start
 		}
 	}
 } //end
-
-//~~~~~GB_Shutter~~~~~//
-// D0: Set to 1 if it's an enemy shutter, otherwise it will open when the secret combo underneath it is changed
-// D1: Set to 1 if the secret should be permanent.
-@Author("Moosh")
-ffc script GB_Shutter //start
-{
-	void run(int type, int perm) //start
-	{
-		int thisData = this->Data;
-		int thisCSet = this->CSet;
-		this->Data = FFCS_INVISIBLE_COMBO;
-		
-		mapdata m = Game->LoadTempScreen(1);
-		int cp = ComboAt(this->X + 8, this->Y + 8);
-		int underCombo = m->ComboD[cp];
-		int underCSet = m->ComboC[cp];
-		int LinkX = Link->X;
-		
-		if(perm && Screen->State[ST_SECRET])
-			Quit();
-			
-		if(LinkX <= 0)
-			LinkX = 240;
-		else if(LinkX >= 240)
-			LinkX = 0;
-			
-		int LinkY = Link->Y;
-		
-		if(LinkY <= 0)
-			LinkY = 160;
-		else if(LinkY >= 160)
-			LinkY = 0;
-			
-		int moveDir = Link->Dir;
-				
-		if(GB_Shutter_InShutter(this, LinkX, LinkY, 0))
-		{
-			if(LinkY == 0)
-				moveDir = DIR_DOWN;
-			else if(LinkY == 160)
-				moveDir = DIR_UP;
-			else if(LinkX == 0)
-				moveDir = DIR_RIGHT;
-			else if(LinkX == 240)
-				moveDir = DIR_LEFT;
-				
-			Waitframe();
-			
-			while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false))
-			{
-				NoAction();
-				
-				if(moveDir == DIR_UP)
-					Link->InputUp = true;
-				else if(moveDir == DIR_DOWN)
-					Link->InputDown = true;
-				else if(moveDir == DIR_LEFT)
-					Link->InputLeft = true;
-				else if(moveDir == DIR_RIGHT)
-					Link->InputRight = true;
-					
-				Waitframe();
-			}
-			
-			Game->PlaySound(SFX_SHUTTER_CLOSE);
-			m->ComboD[cp] = underCombo;
-			m->ComboC[cp] = underCSet;
-			this->Data = thisData + 1;
-			Game->LoadComboData(this->Data)->Frame = 0;
-			this->CSet = thisCSet;
-			
-			for(int i = 0; i < 4; i++)
-			{
-				if(moveDir == DIR_UP)
-					Link->Y = Min(Link->Y, 144);
-				else if(moveDir == DIR_DOWN)
-					Link->Y = Max(Link->Y, 8);
-				else if(moveDir == DIR_LEFT)
-					Link->X = Min(Link->X, 224);
-				else if(moveDir == DIR_RIGHT)
-					Link->X = Max(Link->X, 16);
-					
-				Waitframe();
-			}
-			
-			this->Data = FFCS_INVISIBLE_COMBO;
-			m->ComboD[cp] = thisData;
-			m->ComboC[cp] = thisCSet;
-			
-			if(type == 1)
-				Waitframes(8);
-		}
-		else
-		{
-			m->ComboD[cp] = thisData;
-			m->ComboC[cp] = thisCSet;
-			
-			if(type == 1)
-				Waitframes(8);
-			else
-				Waitframe();
-		}
-		
-		while(true)
-		{
-			if(GB_Shutter_InShutter(this, Link->X, Link->Y, 3))
-			{
-				m->ComboD[cp] = underCombo;
-				m->ComboC[cp] = underCSet;
-				
-				if(Link->Y == 0)
-					moveDir = DIR_DOWN;
-				else if(Link->Y == 160)
-					moveDir = DIR_UP;
-				else if(Link->X == 0)
-					moveDir = DIR_RIGHT;
-				else if(Link->X == 240)
-					moveDir = DIR_LEFT;
-					
-				while(GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false))
-				{
-					NoAction();
-					
-					if(moveDir == DIR_UP)
-						Link->InputUp = true;
-					else if(moveDir == DIR_DOWN)
-						Link->InputDown = true;
-					else if(moveDir == DIR_LEFT)
-						Link->InputLeft = true;
-					else if(moveDir == DIR_RIGHT)
-						Link->InputRight = true;
-						
-					Waitframe();
-				}
-				
-				Game->PlaySound(SFX_SHUTTER_CLOSE);
-				m->ComboD[cp] = underCombo;
-				m->ComboC[cp] = underCSet;
-				Game->LoadComboData(thisData + 1)->Frame = 0;
-				this->Data = thisData + 1;
-				this->CSet = thisCSet;
-				
-				for(int i = 0; i < 4; i++)
-				{
-					if(moveDir == DIR_UP)
-						Link->Y = Min(Link->Y, 144);
-					else if(moveDir == DIR_DOWN)
-						Link->Y = Max(Link->Y, 8);
-					else if(moveDir == DIR_LEFT)
-						Link->X = Min(Link->X, 224);
-					else if(moveDir == DIR_RIGHT)
-						Link->X = Max(Link->X, 16);
-						
-					Waitframe();
-				}
-				
-				this->Data = FFCS_INVISIBLE_COMBO;
-				m->ComboD[cp] = thisData;
-				m->ComboC[cp] = thisCSet;
-				
-				if(moveDir == DIR_UP)
-					Link->Y = Min(Link->Y, 144);
-				else if(moveDir == DIR_DOWN)
-					Link->Y = Max(Link->Y, 8);
-				else if(moveDir == DIR_LEFT)
-					Link->X = Min(Link->X, 224);
-				else if(moveDir == DIR_RIGHT)
-					Link->X = Max(Link->X, 16);
-					
-				Waitframes(8);
-			}
-			
-			if(type == 0 && Screen->SecretsTriggered())
-				break;
-			
-			if(type == 1)
-				unless(GB_Shutter_CheckEnemies())
-					break;
-					
-			Waitframe();
-		}
-		
-		Game->PlaySound(SFX_SHUTTER_OPEN);
-		m->ComboD[cp] = underCombo;
-		m->ComboC[cp] = underCSet;
-		Game->LoadComboData(thisData + 1)->Frame = 0;
-		this->Data = thisData + 1;
-		this->CSet = thisCSet;
-		Waitframes(4);
-	
-		this->Data = FFCS_INVISIBLE_COMBO;
-		if(perm)
-			Screen->State[ST_SECRET] = true;
-	} //end
-	
-	bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway) //start
-	{
-		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
-	} //end
-	
-	bool GB_Shutter_CheckEnemies() //start
-	{
-		for(int i = Screen->NumNPCs(); i >= 1; i--)
-		{
-			npc n = Screen->LoadNPC(i);
-			if(n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-				if(!(n->MiscFlags&(1<<3)))
-					return true;
-		}
-		return false;
-	} //end
-} //end
-
-ffc script TorchFirePaths //start
-{
-	using namespace WaterPaths;
-	
-	void run(int layers)
-	{
-		while(true)
-		{
-			for(int q = Screen->NumLWeapons(); q > 0; --q)
-			{
-				lweapon wep = Screen->LoadLWeapon(q);
-				
-				unless (wep->Type == LW_FIRE && GetHighestLevelItemOwned(IC_CANDLE) != 158)
-					continue;
-					
-				int l1, l2;
-
-				for(int q = 6; q >= 0; --q) //start calculate layers
-				{
-					if(layers & (1b << q))
-					{
-						if(l2)
-						{
-							l1 = q;
-							break;
-						}
-						else 
-							l2 = q;
-					}
-				} //end
-
-				mapdata template = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
-				mapdata t1 = Emily::loadLayer(template, l1), t2 = Emily::loadLayer(template, l2);
-				int cmb[4] = {ComboAt(wep->X,wep->Y),
-							  ComboAt(wep->X+15, wep->Y),
-							  ComboAt(wep->X, wep->Y+15),
-							  ComboAt(wep->X+15, wep->Y+15)};
-							  
-				for(int p = 0; p < 4; ++p)
-				{
-					combodata cd = Game->LoadComboData(t1->ComboD[cmb[p]]);
-					
-					if(cd->Type == CT_FLUID)
-					{
-						int flag = cd->Attributes[ATTBU_FLUIDPATH];
-						
-						if(flag > 0)
-						{
-							Fluid f = getFluid(flag);
-							
-							if(f == FL_PURPLE)
-								connectRoots(flag, FL_PURPLE, 32);
-						}
-					}
-				}
-			}
-			
-			Waitframe();
-		}
-	}
-	void connectRoots(int path, Fluid sourcetype, int connectTo) //start
-    {
-        //start calculate pairs
-        DEFINE MAX_PATH_PAIRS = MAX_PATHS * (MAX_PATHS - 1) + 1;
-        int v1[MAX_PATH_PAIRS];
-        int v2[MAX_PATH_PAIRS];
-        
-        //Cache the pairs of connected paths
-        int ind = 0;
-        
-        for(int q = 0; q < MAX_PATHS; ++q)
-        {
-            int c = getConnection(Game->GetCurLevel(), q+1);
-            
-            unless(c)
-                continue;
-                
-            for(int p = q+1; p < MAX_PATHS; ++p)
-            {
-                unless(c & (1L << p))
-                    continue;
-                v1[ind] = q;
-                v2[ind++] = p;
-            }
-        }
-        
-        v1[ind] = -1;
-        //end calculate pairs
-        //start Find connections
-        bool isConnected[MAX_PATHS];
-		bool didSomething;
-        isConnected[path-1] = true;
-        do
-        {
-            didSomething = false;
-            
-            for(int q = 0; v1[q] > -1; ++q)
-            {
-                if(isConnected[v1[q]] ^^ isConnected[v2[q]])
-                {
-                    isConnected[v1[q]] = true;
-                    isConnected[v2[q]] = true;
-                    didSomething = true;
-                }
-            }
-        }
-        while(didSomething);
-        //end Find connections
-        for(int q = 0; q < MAX_PATHS; ++q)
-        {
-            if(isConnected[q])
-            {
-                if(getSource(q + 1) == FL_PURPLE)
-                {
-                    setConnection(Game->GetCurLevel(), q + 1, connectTo, true);
-                }
-            }
-        }
-		
-		updateFluidFlow();
-    } //end
-} //end
-
-// Set in rooms where fire activates the paths
-ffc script TorchLight //start
-{
-    using namespace WaterPaths;
-	
-    void run(int litCombo, int path)
-    {
-		until(getFluid(path) == FL_FLAMING)
-			Waitframe();
-			
-        this->Data = litCombo;
-    }
-} //end
-
-// p1-p4 represent the paths that would activate the torches
-ffc script ActivateTorches //start
-{
-	using namespace WaterPaths;
-	
-	void run(int p1, int p2, int p3, int p4)
-	{
-		if (Screen->State[ST_SECRET])
-			return;
-			
-		until(getFluid(p1) == FL_FLAMING && getFluid(p2) == FL_FLAMING && getFluid(p3) == FL_FLAMING && getFluid(p4) == FL_FLAMING)
-			Waitframe();
-			
-		Screen->TriggerSecrets();
-		Screen->State[ST_SECRET] = true;
-		Audio->PlaySound(SFX_SECRET);
-	}
-} //end
-
-//~~~~~ScreenQuakeOnSecret~~~~~//
-//D0: Power of the quake
-@Author("Deathrider365")
-ffc script ScreenQuakeOnSecret //start
-{
-	void run(int quakePower)
-	{
-		if (Screen->State[ST_SECRET])
-			Quit();
-
-		until (Screen->State[ST_SECRET])
-			Waitframe();
-
-		Screen->Quake = quakePower;
-	}
-} //end
-
-ffc script TriggerSignpostsOnOtherScreens
-{
-	void run()
-	{
-		while(true)
-		{
-			if (Hero->Item[202])
-			{
-				Audio->PlaySound(7);
-				int curPosOfKid = 38;
-				int curPosOfDad = 109;
-				
-				int newPosOfKid = 119;
-				int newPosOfDad = 135;
-				int newMapOfBoth = 9;
-				
-				Game->SetDMapScreenD(4, 0x07, 1, 1);
-				mapdata mapOfDad = Game->LoadMapData(10, 0x07);
-				
-				Game->SetDMapScreenD(23, 0x56, 1, 1);
-				mapdata mapOfKid = Game->LoadMapData(41, 0x5E);
-				
-				mapOfKid->ComboD[curPosOfKid] = 0;
-				mapOfDad->ComboD[curPosOfDad] = 0;
-				
-				Quit();
-			}
-			
-			Waitframe();
-		}
-	}
-}
-
-ffc script GettingGoddessJewels
-{
-	void run(int message, int x, int y, int itemId, int finalTriforceShard)
-	{
-		if (getScreenD(254))
-			Quit();
-			
-		if (!Hero->Item[finalTriforceShard])
-			Quit();
-			
-		Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
-			
-		NoAction();
-		Link->PressStart = false;
-		Link->InputStart = false;
-		Link->PressMap = false;
-		Link->InputMap = false;
-		
-		for (int i = 120; i >0; --i)
-		{
-			NoAction();
-			
-			Link->PressStart = false;
-			Link->InputStart = false;
-			Link->PressMap = false;
-			Link->InputMap = false;
-			
-			Waitframe();
-		}
-		
-		for (int i = 0; i < 32; ++i)
-		{
-			//link should walk up
-			
-			NoAction();
-			Link->PressStart = false;
-			Link->InputStart = false;
-			Link->PressMap = false;
-			Link->InputMap = false;	
-			
-			Waitframe();
-		}
-		
-		Screen->Message(message); //message about assembling the triforce
-		
-		//Link holds up all 4 shards and they assemble in the air splendidly, then the
-		//triforce appears on top of the pedestal spinning and shining
-		//then a message is played about how one is rewarded for assembling the triforce
-		//then that respective goddess jewel appears in front of the pedestal from above the screen
-		
-		itemsprite it = CreateItemAt(itemId, x, y);
-		it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
-		
-		setScreenD(254, true);
-	}
-
-}
-
-ffc script TriggerOnceEnemiesKilled
-{
-	void run(int flag)
-	{
-		int comboD[176];
-		
-		for (int i = 0; i < 176; i++)
-			if (Screen->ComboF[i] == flag)
-			{
-				comboD[i] = Screen->ComboD[i];
-				Screen->ComboF[i] = 0;
-			}
-			
-		until(Screen->NumNPCs())
-			Waitframe();
-			
-		while(Screen->NumNPCs())
-			Waitframe();
-		
-		for (int i = 0; i < 176; i++)
-			if (comboD[i] > 0)
-				Screen->ComboD[i] = comboD[i] + 1;
-	}
-}

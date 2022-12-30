@@ -2,7 +2,6 @@
 //~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-
 @Author("Deathrider365")
 ffc script ServusSoldier {
    void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
@@ -94,10 +93,13 @@ ffc script GetItem {
       int prevData = this->Data;
       int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
       
+      int triggerRequirement;
+      
       while(true) {
          if (scriptSelfTrigger) {
             int selfTriggerAction = Floor(scriptSelfTrigger);
             int selfTriggerRequirement = (scriptSelfTrigger % 1) / 1L;
+            triggerRequirement = selfTriggerRequirement;
             
             this->Data = 0;
             template->ComboD[ComboAt(this->X, this->Y)] = 0;
@@ -214,7 +216,7 @@ ffc script GetItem {
          int itemIdOrTriggerValue = Floor(hasItem);
          int noItemTrigger = (hasItem % 1) / 1L;
          
-         unless (Screen->State[ST_SECRET]) {
+         if (triggerRequirement == SELF_TRIGGER_SECRETS && !Screen->State[ST_SECRET]) {
             Screen->Message(gettingItemString);
             Waitframe();
             Input->Button[CB_SIGNPOST] = false;
@@ -504,15 +506,13 @@ ffc script BossMusic {
       unless(musicChoice)
          Quit();
 
-
       if (Screen->State[ST_SECRET])
          Quit();
 
       until (EnemiesAlive())
          Waitframe();
 
-      switch(musicChoice)
-      {
+      switch(musicChoice) {
          case 1:
             Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
             break;
@@ -751,44 +751,6 @@ ffc script PoisonWater {
       }
    }
 } //end
-
-ffc script CircMove {
-	void run(int a, int v, int theta) {
-		int x = this->X;
-		int y = this->Y;
-
-		if(theta < 0)
-			theta = Rand(180);
-
-		while(true) {
-			theta += v;
-			WrapDegrees(theta);
-			this->X = x + a * Cos(theta);
-			this->Y = y + a * Sin(theta);
-         
-			Waitframe();
-		}
-	}
-}
-
-ffc script OvMove {
-   void run(int a, int b, int v, int theta, int phi) {
-      int x = this->X;
-      int y = this->Y;
-
-      if(theta < 0)
-         theta = Rand(180);
-
-      while(true) {
-         theta += v;
-         WrapDegrees(theta);
-         this->X = x + a * Cos(theta) * Cos(phi) - b * Sin(theta) * Sin(phi);
-         this->Y = y + b * Sin(theta) * Cos(phi) + a * Cos(theta) * Sin(phi);
-         
-         Waitframe();
-      }
-   }
-}
 
 @Author("Moosh")
 ffc script BurningOilandBushes {
