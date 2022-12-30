@@ -117,10 +117,13 @@ void do_asub_frame(bitmap b, int y, bool isActive) //start
 	for(int q = 0; q < NUM_SUBSCR_SEL_ITEMS; ++q) 
 	{
 		int id = checkID(activeItemIDs[q]);
-		
+      
 		unless(id) 
 			continue;
-		
+         
+      // if (id == IC_BOW);// && GetHighestLevelItemOwned(IC_BOW) < 1)
+         // continue;
+         
 		if(q == asubscr_pos) 
 			selID = id;
 		
@@ -512,11 +515,9 @@ int checkID(int id) //start
 						unless (id > 0)
 							id = GetHighestLevelItemOwned(IC_LETTER);
 						break;
-						
+                  
 					case IC_ARROW:
-						// if (id == -1 && Hero->Item[15])
-							// return IC_BOW;			Do something about when you have the bow and not arrows
-						unless (Game->Counter[CR_ARROWS])
+						if (Game->Counter[CR_ARROWS] == 0 || !Hero->Item[15])
 							return 0;
 						break;
 					

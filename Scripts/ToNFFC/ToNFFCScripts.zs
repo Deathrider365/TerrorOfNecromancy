@@ -2,121 +2,58 @@
 //~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//TODO blech
-ffc script ConditionalItem {
-	void run(
-		int hasRequiredItemStrings,
-		int noHasRequiredItemInitialString,
-		int itemIdToNeed,
-		int itemIdToGet,
-		int guyStringNoHasRequiredItem,
-		int guyStringHasRequiredItem,
-		int itemLocX,
-		int itemLocY
-		)
-	{
 
-		int hasRequiredItemInitialString = Floor(hasRequiredItemStrings);
-		int hasRequiredItemButAlreadyEnteredString = (hasRequiredItemStrings % 1) / 1L;
+@Author("Deathrider365")
+ffc script ServusSoldier {
+   void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
+      mapdata template = Game->LoadTempScreen(1);
+      int prevData = this->Data;
+      
+      if (Hero->Item[itemToCheckFor]) {
+         this->Data = 0;
+         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
+         Quit();
+      }
+      
+      until(getScreenD(253))  {
+         this->Data = 0;
+         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
+         Waitframe();
+      }
 
-		while (true)
-		{
-			// If you have the item he gives, do nothing but have him talk when against saying "use dat item well andcall that" (this is essentially the "done" state)
-			if (Hero->Item[itemIdToGet])
-			{
-				while (true)
-				{
-					until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-					{
-						if (againstFFC(this->X, this->Y))
-							Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+      template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
+         
+      this->Data = prevData;
 
-						Waitframe();
-					}
+      while(true) {
+         until (Screen->State[ST_SECRET])
+            Waitframe();
+         
+         this->Data = 6755;
+            
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Waitframe();
+         }			
 
-					Input->Button[CB_SIGNPOST] = false;
-					Screen->Message(guyStringHasRequiredItem);
+         Input->Button[CB_SIGNPOST] = false;
 
-					Waitframe();
-				}
-			}
-			// If you haven't gotten the item he gives, actually do things
-			else
-			{
-				// If you have the required item but have not yet picked it up
-				if (Hero->Item[itemIdToNeed] && !getScreenD(255))
-				{
-					// If first entry, give initial has needed item string
-					unless (getScreenD(254))
-					{
-						Screen->Message(hasRequiredItemInitialString);
-						setScreenD(254, true);
-					}
-					else unless (getScreenD(253))
-					{
-						Screen->Message(hasRequiredItemButAlreadyEnteredString);
-						setScreenD(253, true);
-					}
+         unless (getScreenD(255)) {
+            Screen->Message(gettingItemString);
+            Waitframe();
+            itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            
+            Input->Button[CB_SIGNPOST] = false;
+            setScreenD(255, true);
+         }
+         else
+            Screen->Message(alreadyGotItemString);
 
-					Audio->PlaySound(SFX_CLEARED);
-
-					int itemXLoc = itemLocX;
-					int itemYLoc = itemLocY;
-					item givenItem = CreateItemAt(itemIdToGet, itemXLoc, itemYLoc);
-					givenItem->Pickup = IP_HOLDUP;
-
-					// Waiting to pick up the item
-					while (true && !getScreenD(255))
-					{
-						until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-						{
-							if (againstFFC(this->X, this->Y))
-								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-							Waitframe();
-						}
-
-						Input->Button[CB_SIGNPOST] = false;
-						Screen->Message(guyStringHasRequiredItem);
-
-						if (Hero->Item[itemIdToGet])
-						{
-							setScreenD(255, true);
-							break;
-						}
-
-						Waitframe();
-					}
-				}
-				// If you do not have the required item
-				else
-				{
-					// If first entry, give initial has needed item string
-					unless (getScreenD(254))
-					{
-						Screen->Message(noHasRequiredItemInitialString);
-						setScreenD(254, true);
-					}
-
-					while (true)
-					{
-						until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-						{
-							if (againstFFC(this->X, this->Y))
-								Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-							Waitframe();
-						}
-
-						Input->Button[CB_SIGNPOST] = false;
-						Screen->Message(guyStringNoHasRequiredItem);
-
-						Waitframe();
-					}
-				}
-			}
-		}
-	}
+         Waitframe();
+      }
+   }
 }
 
 @Author("Deathrider365")
@@ -151,8 +88,6 @@ ffc script GetItem {
       CONFIG SELF_TRIGGER_SECRETS = 3;
       
       CONFIG HIDE_FFC_UNTIL_TRIGGERED = 9999;
-      
-      int untriggeredSecretsDialogue;
       
       mapdata template = Game->LoadTempScreen(layer);
       
@@ -247,17 +182,14 @@ ffc script GetItem {
                         break;
                      case SELF_TRIGGER_SECRETS:
                         if (neededToHave && Screen->State[ST_SECRET]) {
-                           untriggeredSecretsDialogue = 0;
                            this->Data = prevData;
                            template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
                         } 
                         else if (!neededToHave && !Screen->State[ST_SECRET]) {
-                           untriggeredSecretsDialogue = 0;
                            this->Data = prevData;
                            template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
                         } 
                         else if (neededValue != HIDE_FFC_UNTIL_TRIGGERED) {
-                           untriggeredSecretsDialogue = neededValue;
                            this->Data = prevData;
                            template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
                         } else {
@@ -281,12 +213,9 @@ ffc script GetItem {
          
          int itemIdOrTriggerValue = Floor(hasItem);
          int noItemTrigger = (hasItem % 1) / 1L;
-            
-         if (Screen->State[ST_SECRET])
-            untriggeredSecretsDialogue = 0;
          
-         if (untriggeredSecretsDialogue) {
-            Screen->Message(untriggeredSecretsDialogue);
+         unless (Screen->State[ST_SECRET]) {
+            Screen->Message(gettingItemString);
             Waitframe();
             Input->Button[CB_SIGNPOST] = false;
          } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
@@ -317,7 +246,11 @@ ffc script GetItem {
                   Input->Button[CB_SIGNPOST] = false;
                }
             } else {
-               Screen->Message(gettingItemString);
+               if (Screen->State[ST_SECRET])
+                  Screen->Message(gottenItemString);
+               else
+                  Screen->Message(gettingItemString);
+                  
                setScreenD(screenD, true);
                Waitframe();
                
@@ -326,7 +259,7 @@ ffc script GetItem {
                   it->Pickup = IP_HOLDUP;
                }
                else
-                     executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
+                  executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
                
                Input->Button[CB_SIGNPOST] = false;
             }
@@ -439,7 +372,7 @@ ffc script SimpleShop {
 
 @Author("Deathrider365")
 ffc script BuyItem {
-   void run(int entryMessage, int price, int itemId, bool buyOnce, bool entryMessageOnce) {
+   void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
       bool alreadyBought = false;
 
       if (buyOnce && Hero->Item[itemId]) {
@@ -452,11 +385,11 @@ ffc script BuyItem {
 
       Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
       
-      if (!getScreenD(255))
+      unless (getScreenD(entryMessageOnce))
          Screen->Message(entryMessage);
          
       if (entryMessageOnce) {
-         setScreenD(255, true);
+         setScreenD(entryMessageOnce, true);
       }
       
       Waitframe();
@@ -558,7 +491,7 @@ ffc script CompassBeep {
 }
 
 @Author("Deathrider365")
-ffc script removeItem {
+ffc script RemoveItem {
    void run(int itemId) {
       if (Hero->Item[itemId])
          Hero->Item[itemId] = false;

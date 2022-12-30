@@ -2,27 +2,88 @@
 //~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts ~ Warps, Strings~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~MessageThenWarp~~~~~//
-//D0: Message number to show
-//D1: Dmap to warp Link to
-//D2: Screen on the specified dmap to warp Link to
 @Author("Deathrider365")
-ffc script MessageThenWarp //start
-{	
-	void run(int msg, int dmap, int scr)
-	{
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		NoAction();
-		Link->PressStart = false;
-		Link->InputStart = false;
-		Link->PressMap = false;
-		Link->InputMap = false;
-		Screen->Message(msg);
-		Waitframe();
-		Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPFX_NONE, 0, 0, DIR_DOWN});
-	}
+ffc script MessageOnce {
+   void run(int message, bool dungeonString, int screenD) {
+      while(Game->Suspend[susptGUYS]) 
+         Waitframe();
+      
+      if (dungeonString) {
+         unless (levelEntries[Game->GetCurLevel()]) {
+            levelEntries[Game->GetCurLevel()] = true;
+            Waitframe();
+            Screen->Message(message);		
+         }
+      } else {
+         unless(getScreenD(screenD))
+            Screen->Message(message);
+         
+         setScreenD(screenD, true);
+      }
+   }
 }
-//end
+
+@Author("Joe123, Deathrider365")
+ffc script Signpost {
+   CONFIG SMT_SCREEND = 1;
+   CONFIG SMT_SECRETS = 2;
+   CONFIG SMT_HAS_ITEM = 3;
+
+   void run(int message, int warp, int hasSecondMessage, int secondMessage) { 
+      int secondMessageTrigger, secondMessageTriggerValue;
+      
+      if (hasSecondMessage) {
+         secondMessageTrigger = Floor(hasSecondMessage);
+         secondMessageTriggerValue = (hasSecondMessage % 1) / 1L; 
+      }
+
+      while(true) {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Waitframe();
+         }         
+         
+         Input->Button[CB_SIGNPOST] = false;
+         Game->Suspend[susptSCREENDRAW] = true;
+         
+         switch(secondMessageTrigger) {
+            case SMT_SCREEND:
+               unless (getScreenD(secondMessageTriggerValue)) {
+                  Screen->Message(message);
+                  setScreenD(secondMessageTriggerValue, true);
+               } else {
+                  Screen->Message(secondMessage);
+               }
+               break;
+            case SMT_SECRETS:
+               unless (Screen->State[ST_SECRET])
+                  Screen->Message(message);
+               else
+                  Screen->Message(secondMessage);
+               break;
+            case SMT_HAS_ITEM:
+               unless (Hero->Item[secondMessageTriggerValue])
+                  Screen->Message(message);
+               else
+                  Screen->Message(secondMessage);
+               break;
+            default:
+               Screen->Message(message);
+               break;
+         }
+         
+         Game->Suspend[susptSCREENDRAW] = false;
+         Waitframe();
+         
+         if (warp) {
+            int dmap = Floor(warp);
+            int screen = (warp % 1) / 1L;
+            Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPFX_NONE, 0, 0, DIR_DOWN});
+         }
+      }
+   }
+}
 
 //~~~~~WarpCustomReturn~~~~~//
 //Dirs: -1 = Tile, 0 = Up, 1 = Down, 2 = Left, 3 = Right
@@ -188,308 +249,6 @@ ffc script WarpCustomReturnOneSide //start
 	
 	}
 } //end
-
-//~~~~~BossNameString~~~~~//
-//D0: String number
-@Author("Deathrider365")
-ffc script BossNameString //start
-{
-	void run(int string)
-	{
-		Waitframes(4);
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		
-		if (EnemiesAlive())
-			Screen->Message(string);
-	}
-}
-
-//end
-
-
-//~~~~~DungeonString~~~~~//
-//D0: Number of string to show
-@Author("Deathrider365")
-ffc script DungeonString //start
-{
-	void run(int m)
-	{
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		unless (levelEntries[Game->GetCurLevel()])
-		{
-			levelEntries[Game->GetCurLevel()] = true;
-			Waitframes(2);
-			Screen->Message(m);		
-		}
-	}
-}
-
-//end
-
-//~~~~~SignPost~~~~~//
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
-@Author("Joe123, Deathrider365")
-ffc script Signpost //start
-{
-	void run(int msg)
-	{
-		while(true)
-		{
-			while(!(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}			
-			
-			Input->Button[CB_SIGNPOST] = false;
-			Game->Suspend[susptSCREENDRAW] = true;
-			Screen->Message(msg);
-			Game->Suspend[susptSCREENDRAW] = false;
-			Waitframe();
-		}
-	}
-}
-//end
-
-//~~~~~TalkToMeTwice~~~~~//
-@Author("Joe123")
-ffc script TalkToMeTwice //start
-{
-	void run(int talkToMeOnce, int talkToMeTwice)
-	{
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}			
-			
-			Input->Button[CB_SIGNPOST] = false;
-			Game->Suspend[susptSCREENDRAW] = true;
-			
-			if (getScreenD(255))
-				Screen->Message(talkToMeTwice);
-			else
-				Screen->Message(talkToMeOnce);
-				
-			Game->Suspend[susptSCREENDRAW] = false;
-			
-			setScreenD(255, true);
-			
-			Waitframe();
-		}
-	}
-}
-//end
-
-//~~~~~SignPostOnSecret~~~~~//
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
-@Author("Joe123")
-ffc script SignPostOnSecret //start
-{
-	void run(int messageNoSecret, int messageSecret)
-	{
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}			
-			
-			Input->Button[CB_SIGNPOST] = false;
-			Game->Suspend[susptSCREENDRAW] = true;
-			
-			if (Screen->State[ST_SECRET])
-				Screen->Message(messageSecret);
-			else
-				Screen->Message(messageNoSecret);
-			
-			Game->Suspend[susptSCREENDRAW] = false;
-			Waitframe();
-		}
-	}
-}
-//end
-
-//~~~~~ConditionalSignPost~~~~~//
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
-@Author("Joe123")
-ffc script ConditionalSignPost //start
-{
-	void run(int msg, bool anySide, int itemConditional, int specialMsg)
-	{
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}			
-			
-			Input->Button[CB_SIGNPOST] = false;
-			Game->Suspend[susptSCREENDRAW] = true;
-			Screen->Message(Hero->Item[itemConditional] ? specialMsg : msg);
-			Game->Suspend[susptSCREENDRAW] = false;
-			Waitframe();
-		}
-	}
-}
-
-//end
-
-//~~~~~SignPostOnce~~~~~//
-//DOESNT AFFECT screenD, just plays messages based on if screenD was changed!
-//D0: Number of string to show
-//D1: 0 for not anyside 1 for anyside
-@Author("Joe123 + Deathrider365")
-ffc script SignpostBasedOnScreenD //start
-{
-	void run(int msgFirst, int msgSubsequent, bool anySide)
-	{
-		Waitframes(2);
-		while(Game->Suspend[susptGUYS]) Waitframe();
-		
-		while(true)
-		{
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) 
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				Waitframe();
-			}			
-			
-			Input->Button[CB_SIGNPOST] = false;
-			
-			unless (getScreenD(255))
-			{
-				Screen->Message(msgFirst);
-				
-				Waitframes(2);
-				
-				Input->Button[CB_SIGNPOST] = false;
-			}
-			else
-				Screen->Message(msgSubsequent);
-			
-			Waitframe();
-			
-		}
-	}
-}
-
-//end
-
-@Author("Deathrider365")
-ffc script MessageOnce {
-   void run(int message) {
-      while(Game->Suspend[susptGUYS]) 
-         Waitframe();
-      
-      unless(getScreenD(255))
-         Screen->Message(message);
-      
-      setScreenD(255, true);
-   }
-}
-
-//~~~~~FatherAndSonDialogue~~~~~//
-// Sets screenD(255) upon receiving
-//D0: Item ID to give
-//D1: String for getting the item
-//D2: String for if you already got the item
-//D3: 1 for all dirs, 0 for only front (up)
-@Author("Deathrider365")
-ffc script FatherAndSonDialogue //start
-{
-	void run(
-		int itemId, 
-		int gettingItemString, 
-		int alreadyGotItemString, 
-		int anySide, 
-		int triggerOnScreenD, 
-		int itemToCheckFor
-		)
-	{
-		mapdata template = Game->LoadTempScreen(1);
-		int prevData = this->Data;
-		
-		if (Hero->Item[itemToCheckFor])
-		{
-			this->Data = 0;
-			template->ComboD[ComboAt(this->X, this->Y)] = 0;
-			Quit();
-		}
-		
-		if (triggerOnScreenD)
-		{
-			until(getScreenD(triggerOnScreenD))
-			{
-				this->Data = 0;
-				template->ComboD[ComboAt(this->X, this->Y)] = 0;
-				Waitframe();
-			}
-		
-			template->ComboD[ComboAt(this->X, this->Y)] = COMBO_SOLID;
-		}
-			
-		this->Data = prevData;
-
-		while(true)
-		{
-			if (triggerOnScreenD)
-				while (/*Screen->NumNPCs() && */!Screen->State[ST_SECRET])
-					Waitframe();
-			
-			until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST])
-			{
-				if (againstFFC(this->X, this->Y))
-					Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-					
-				if (getScreenD(triggerOnScreenD) && Screen->State[ST_SECRET]) 
-					this->Data = 6755;
-
-				Waitframe();
-			}			
-
-			Input->Button[CB_SIGNPOST] = false;
-
-			unless (getScreenD(255))
-			{
-				Screen->Message(gettingItemString);
-
-				Waitframes(2);
-
-				itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-				it->Pickup = IP_HOLDUP;
-				
-				Input->Button[CB_SIGNPOST] = false;
-				setScreenD(255, true);
-			}
-			else
-				Screen->Message(alreadyGotItemString);
-
-			Waitframe();
-		}
-	}
-}
-//end
-
-
-
 
 
 
