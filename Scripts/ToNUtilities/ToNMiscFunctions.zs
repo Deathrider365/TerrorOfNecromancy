@@ -17,6 +17,10 @@ void removeAllItems() {
    Game->MCounter[CR_ARROWS] = 0;
    Game->MCounter[CR_RUPEES] = 255;
    Game->Generic[GEN_MAGICDRAINRATE] = 2;
+   
+   Game->Counter[CR_TRIFORCE_OF_COURAGE] = 0;
+   Game->Counter[CR_TRIFORCE_OF_POWER] = 0;
+   Game->Counter[CR_TRIFORCE_OF_WISDOM] = 0;
 
    numBombUpgrades = 0;
    numQuiverUpgrades = 0;

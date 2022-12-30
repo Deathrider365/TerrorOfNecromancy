@@ -4,36 +4,36 @@
 
 @Author("EmilyV99, Modified by Deathrider365")
 dmapdata script ActiveSubscreen {
-	void run() {
-		if(Game->Suspend[susptSUBSCREENSCRIPTS]) 
-			return;
-			
-		subscr_open = true;
-		bitmap b = Game->CreateBitmap(256, 224);
-		b->ClearToColor(0, BG_COLOR);
-		b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0);
-		
-		for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED) {
-			do_asub_frame(b, subscr_y_offset, false);
-			Waitframe();
-		}
-		
-		subscr_y_offset = -56;
-		
-		do {
-			do_asub_frame(b, subscr_y_offset, true);
-			Waitframe();
-		} until(Input->Press[CB_START]);
-		
-		for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED) {
-			do_asub_frame(b, subscr_y_offset, false);
-			Waitframe();
-		}
-		subscr_y_offset = -224;
-		subscr_open = false;
-	}
+   void run() {
+      if(Game->Suspend[susptSUBSCREENSCRIPTS]) 
+         return;
+         
+      subscreenOpen = true;
+      bitmap b = Game->CreateBitmap(256, 224);
+      b->ClearToColor(0, BG_COLOR);
+      b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0);
+      
+      for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED) {
+         doActiveMenuFrame(b, subscr_y_offset, false);
+         Waitframe();
+      }
+      
+      subscr_y_offset = -56;
+      
+      do {
+         doActiveMenuFrame(b, subscr_y_offset, true);
+         Waitframe();
+      } until(Input->Press[CB_START]);
+      
+      for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED) {
+         doActiveMenuFrame(b, subscr_y_offset, false);
+         Waitframe();
+      }
+      subscr_y_offset = -224;
+      subscreenOpen = false;
+   }
    
-   void do_asub_frame(bitmap b, int y, bool isActive) {
+   void doActiveMenuFrame(bitmap b, int y, bool isActive) {
       gameframe = (gameframe + 1) % 3600;
       b->Blit(0, RT_SCREEN, 0, 0, 256, 168, 0, y, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
       
@@ -41,19 +41,19 @@ dmapdata script ActiveSubscreen {
       if(isActive) {
          if(Input->Press[CB_LEFT]) {
             Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-            --asubscr_pos;
+            --activeSubscreenPosition;
          }
          else if(Input->Press[CB_RIGHT]) {
             Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-            ++asubscr_pos;
+            ++activeSubscreenPosition;
          }
          else if(Input->Press[CB_UP]) {
             Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-            asubscr_pos -= 4;
+            activeSubscreenPosition -= 4;
          }
          else if(Input->Press[CB_DOWN]) {
             Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-            asubscr_pos += 4;
+            activeSubscreenPosition += 4;
          }
          
          // Triforce cycling
@@ -66,10 +66,10 @@ dmapdata script ActiveSubscreen {
             ++currTriforceIndex;
          }
             
-         if(asubscr_pos < 0)
-            asubscr_pos += (4 * 6);
+         if(activeSubscreenPosition < 0)
+            activeSubscreenPosition += (4 * 6);
          else 
-            asubscr_pos %= (4 * 6);
+            activeSubscreenPosition %= (4 * 6);
          
          unless(Game->GetCurDMap() <= 2) {
             if(currTriforceIndex == -1)
@@ -94,7 +94,7 @@ dmapdata script ActiveSubscreen {
          unless(id) 
             continue;
             
-         if(q == asubscr_pos) 
+         if(q == activeSubscreenPosition) 
             selectedId = id;
          
          drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), activeItemLocsX[q], activeItemLocsY[q], y);
@@ -104,25 +104,25 @@ dmapdata script ActiveSubscreen {
       for(int q = 0; q < NUM_SUBSCR_INAC_ITEMS; ++q) {
          int id = checkId(inactiveItemIDs[q]);
          
+         int upgradeBombTile = TILE_BOMB_BAG;
+         int upgradeQuiverTile = TILE_QUIVER;
+         
          unless(id) 
             continue;
             
          if (id == 81 || id == 74) {
-            int bombBagTile = 30080;
-            int quiverTile = 30260;
-            
             if (numBombUpgrades > 2)
-               bombBagTile += 1;
+               upgradeBombTile += 1;
             if (numBombUpgrades > 4)
-               bombBagTile += 1;
+               upgradeBombTile += 1;
                
             if (numQuiverUpgrades > 2)
-               quiverTile += 1;
+               upgradeQuiverTile += 1;
             if (numQuiverUpgrades > 4)
-               quiverTile += 1;
+               upgradeQuiverTile += 1;
                
-            drawTileToLoc(1, id == 81 ? bombBagTile : quiverTile, loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
-         }
+            drawTileToLoc(1, id == 81 ? upgradeBombTile : upgradeQuiverTile, loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
+         } 
          else 	
             drawTileToLoc(1, loadItemTile(id), loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
       }
@@ -131,13 +131,10 @@ dmapdata script ActiveSubscreen {
       sprintf(numBombUpgradesBuf, "%d", numBombUpgrades);
       sprintf(numQuiverUpgradesBuf, "%d", numQuiverUpgrades);
       
-      int bombBagTile = 30060;
-      int quiverTile = 30264;
-      
-      Screen->FastTile(7, 86, 14 + y, bombBagTile, 8, OP_OPAQUE);
+      Screen->FastTile(7, 86, 14 + y, TILE_BOMB_BAG_UPGRADE, 8, OP_OPAQUE);
       Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
       
-      Screen->FastTile(7, 86, 44 + y, quiverTile, 8, OP_OPAQUE);
+      Screen->FastTile(7, 86, 44 + y, TILE_QUIVER_UPGRADE, 8, OP_OPAQUE);
       Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
       
       // Dungeon Item Draws
@@ -194,8 +191,8 @@ dmapdata script ActiveSubscreen {
       Emily::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
 
       // Selecting item 
-      drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), activeItemLocsX[asubscr_pos], activeItemLocsY[asubscr_pos], y);
-      drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), activeItemLocsX[asubscr_pos], activeItemLocsY[asubscr_pos], y);
+      drawTileToLoc(7, loadItemTile(I_SELECTA), loadItemCSet(I_SELECTA), activeItemLocsX[activeSubscreenPosition], activeItemLocsY[activeSubscreenPosition], y);
+      drawTileToLoc(7, loadItemTile(I_SELECTB), loadItemCSet(I_SELECTB), activeItemLocsX[activeSubscreenPosition], activeItemLocsY[activeSubscreenPosition], y);
       
       if (isActive && selectedId) {
          if (Input->Press[CB_A]) {
@@ -232,7 +229,6 @@ dmapdata script ActiveSubscreen {
       counter(RT_SCREEN, 4, 141, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 
       // Triforce Frame Cycling / Drawing
-      
       if (currTriforceIndex == 0)
          Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
       if (currTriforceIndex == 1)
@@ -243,98 +239,25 @@ dmapdata script ActiveSubscreen {
          Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          
       Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-         
+      
       switch(currTriforceIndex) {
          case 0:
-            switch(amountOfCourageTriforceShards) {
-               case 1:
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 2:
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 3:
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 4:
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, courageShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-            }
+            for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_COURAGE]; ++i)
+               Screen->DrawTile(0, 14, 80 + y, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
             break;
-         case 1: 
-            switch(amountOfPowerTriforceShards) {
-               case 1:
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 2:
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 3:
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 4:
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, powerShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-            }
+         case 1:
+            for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_POWER]; ++i)
+               Screen->DrawTile(0, 14, 80 + y, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
             break;
          case 2:
-            switch(amountOfWisdomTriforceShards) {
-               case 1:
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 2:
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 3:
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-               case 4:
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  Screen->DrawTile(0, 14, 80 + y, wisdomShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                  break;
-            }
+            for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_WISDOM]; ++i)
+               Screen->DrawTile(0, 14, 80 + y, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
             break;
          case 3:
-            unless (Game->GetCurDMap() == 2) {
-               switch(amountOfDeathTriforceShards) {
-                  case 1:
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     break;
-                  case 2:
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     break;
-                  case 3:
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     break;
-                  case 4:
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[0], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[1], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[2], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     Screen->DrawTile(0, 14, 80 + y, deathShards[3], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
-                     break;
-               }
-               break; 
-            }
+            for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
+               Screen->DrawTile(0, 14, 80 + y, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+            break;
+               
       }
    }
 
@@ -346,39 +269,6 @@ dmapdata script ActiveSubscreen {
       Screen->FastTile(layer, locX, locY + y, tile, cset, OP_OPAQUE);
    }
 }
-
-int getAmountOfShards(int type) {
-   switch(type) {
-      case 0:
-         if (Link->Item[169]) return 4;
-         else if (Link->Item[168]) return 3;
-         else if (Link->Item[167]) return 2;
-         else if (Link->Item[166]) return 1;
-         else return 0;
-         break;
-      case 1:	
-         if (Link->Item[173]) return 4;
-         else if (Link->Item[172]) return 3;
-         else if (Link->Item[171]) return 2;
-         else if (Link->Item[170]) return 1;
-         else return 0;
-         break;
-      case 2:	
-         if (Link->Item[177]) return 4;
-         else if (Link->Item[176])return 3;
-         else if (Link->Item[175]) return 2;
-         else if (Link->Item[174]) return 1;
-         else  return 0;
-         break;
-      case 3:
-         if (Link->Item[181]) return 4;
-         else if (Link->Item[180]) return 3;
-         else if (Link->Item[179]) return 2;
-         else if (Link->Item[178]) return 1;
-         else return 0;
-         break;
-   }
-} //end
 
 int loadItemTile(int itemId) {
    unless(itemId > 0) 
@@ -486,9 +376,3 @@ void tile(untyped bit, int layer, int x, int y, int tile, int cset) {
    <bitmap>(bit)->FastTile(layer, x, y, tile, cset, OP_OPAQUE);
 }
    
-
-
-
-
-
-

@@ -162,6 +162,11 @@ CONFIG SPR_FLAME_HELLS2X2 = 132;
 //start
 CONFIG COMBO_INVIS = 1;
 CONFIG COMBO_SOLID = 39;
+
+CONFIG COMBO_L = 7744;
+CONFIG COMBO_R= 7745;
+CONFIG COMBO_LEFT_ARROW = 7746;
+CONFIG COMBO_RIGHT_ARROW = 7747;
 //end
 
 //~~~~~Combo Types~~~~~//
@@ -183,6 +188,11 @@ CONFIG TILE_BATTLE_ARENA_TICKET = 31803;
 CONFIG TILE_ALLEGIANCE_SIGNET = 29141;
 CONFIG TILE_MYSTERIOUS_KEY = 31440;
 
+CONFIG TILE_BOMB_BAG = 30080;
+CONFIG TILE_QUIVER = 30260;
+CONFIG TILE_BOMB_BAG_UPGRADE = 30060;
+CONFIG TILE_QUIVER_UPGRADE = 30264;
+
 //end
 
 //~~~~~Midi~~~~~//
@@ -193,8 +203,12 @@ CONFIG MIDI_GAMEOVER = 8;
 
 //~~~~~Counters~~~~~//
 //start
-CONFIG CR_LEGIONNAIRE_RING = CR_SCRIPT1;
-CONFIG CR_HEARTPIECES = CR_SCRIPT2;
+CONFIG CR_TRIFORCE_OF_COURAGE = CR_CUSTOM1;
+CONFIG CR_TRIFORCE_OF_POWER = CR_CUSTOM2;
+CONFIG CR_TRIFORCE_OF_WISDOM = CR_CUSTOM3;
+CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;
+CONFIG CR_LEGIONNAIRE_RING = CR_CUSTOM5;
+CONFIG CR_HEARTPIECES = CR_CUSTOM6;
 
 //end
 
@@ -290,8 +304,6 @@ int inactiveItemLocsY[] = {
 	40
 };
 
-//end
-
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};
 int dungeonItemY[] = {108, 125, 142};
@@ -303,22 +315,15 @@ int powerShards[] = {POWER_SHARD1, POWER_SHARD2, POWER_SHARD3, POWER_SHARD4};
 int wisdomShards[] = {WISDOM_SHARD1, WISDOM_SHARD2, WISDOM_SHARD3, WISDOM_SHARD4};
 int deathShards[] = {DEATH_SHARD1, DEATH_SHARD2, DEATH_SHARD3, DEATH_SHARD4};
 
-int amountOfShardsToDraw = 0;
-
-int asubscr_pos = 0;
+int activeSubscreenPosition = 0;
 int currTriforceIndex = 0;
-
-int amountOfCourageTriforceShards = 0;
-int amountOfPowerTriforceShards = 0;
-int amountOfWisdomTriforceShards = 0;
-int amountOfDeathTriforceShards = 0;
 
 int numHeartPieces = 0;
 
-bool subscr_open = false;
+bool subscreenOpen = false;
 //end
 
-// Consts start
+//start Constants
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
 DEFINE NUM_SUBSCR_INAC_ITEMS = 9;
 DEFINE NUM_SUBSCR_DUNGEON_ITEMS = 3;
@@ -388,7 +393,6 @@ CONFIG DEATH_SHARD1 = 654;
 CONFIG DEATH_SHARD2 = 534;
 CONFIG DEATH_SHARD3 = 714;
 CONFIG DEATH_SHARD4 = 594;
-//end
 //end
 
 //~~~~~PassiveSubscreen~~~~~//

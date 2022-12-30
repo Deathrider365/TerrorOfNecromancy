@@ -3,6 +3,32 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("Deathrider365")
+ffc script Debug {
+   void run() {
+      while (true) {
+         traceToScreen(0, 0, Hero->ItemA);
+         traceToScreen(0, 8, Hero->ItemB);
+         Waitframe();
+      }
+   }
+}
+
+@Author ("EmilyV99")
+ffc script ContinuePoint {
+   void run(int dmap, int scrn) { 
+      unless (dmap || scrn) {
+         dmap = Game->GetCurDMap();
+         scrn = Game->GetCurScreen();
+      }
+
+      Game->LastEntranceDMap = dmap;
+      Game->LastEntranceScreen = scrn;
+      Game->ContinueDMap = dmap;
+      Game->ContinueScreen = scrn;
+   }
+}
+
+@Author("Deathrider365")
 ffc script ServusSoldier {
    void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
       mapdata template = Game->LoadTempScreen(1);

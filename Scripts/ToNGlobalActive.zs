@@ -69,9 +69,7 @@ global script GlobalScripts //start
 			
 			LinkMovement_Update2();
 			UpdateGhostZH2();
-			
-			checkTriforceShards();
-			
+						
 			takeMapScreenshot();
 			
 			Waitframe();
@@ -148,15 +146,7 @@ global script GlobalScripts //start
 				Screen->LayerInvisible[l] = true;
 			}
 	} //end
-	
-	void checkTriforceShards() //start
-	{
-		amountOfCourageTriforceShards = getAmountOfShards(0);
-		amountOfPowerTriforceShards = getAmountOfShards(1);
-		amountOfWisdomTriforceShards = getAmountOfShards(2);
-		amountOfDeathTriforceShards = getAmountOfShards(3);		
-	} //end
-	
+		
 	void onScreenChange(mapdata m) //start
 	{
 		disableTrans = false;
@@ -347,7 +337,7 @@ global script OnLaunch //start
 	{
 		lastPal = -1;
 		subscr_y_offset = -224;
-		subscr_open = false;
+		subscreenOpen = false;
 
 		setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
 

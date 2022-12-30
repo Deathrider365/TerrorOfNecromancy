@@ -5,7 +5,7 @@
 @Author("Deathrider365")
 item script LegionRings {
    void run() {
-      if(Game->Counter[CR_CUSTOM1] == 19) {
+      if(Game->Counter[CR_LEGIONNAIRE_RING] == 19) {
          Screen->TriggerSecrets();
          Screen->State[ST_SECRET] = true;
          return;	
