@@ -39,7 +39,7 @@ global script GlobalScripts {
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
          
-         getTransparentLayers();
+         setupTransparentLayers();
          Waitdraw();
          drawRadialTransparency(mapData);
          
@@ -63,7 +63,7 @@ global script GlobalScripts {
       }
 	}
 	
-   void getTransparentLayers() {
+   void setupTransparentLayers() {
       int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
       
       for (int l = 1; l < 6; ++l) {
