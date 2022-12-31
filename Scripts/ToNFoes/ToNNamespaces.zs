@@ -988,15 +988,15 @@ namespace Enemy::Candlehead {
 			
 			while(true) {
 				this->Slide();
-				
-				if (hitByFire(this))
+            
+				if (hitByLWeapon(this, LW_FIRE) || hitByEWeapon(this, EW_FIRE) || hitByEWeapon(this, EW_SCRIPT1))
 					burnToDeath(this, chungo);
 					
 				unless (gameframe % RandGen->Rand(45, 60)) {
 					for (int i = 0; i < (linkClose(this, 24) ? AGGRESSIVE_MOVE_DURATION : NORMAL_MOVE_DURATION); ++i) {
 						this->Slide();
 						
-						if (hitByFire(this))
+                  if (hitByLWeapon(this, LW_FIRE) || hitByEWeapon(this, EW_FIRE) || hitByEWeapon(this, EW_SCRIPT1))
 							burnToDeath(this, chungo);
 							
 						doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
@@ -1028,7 +1028,7 @@ namespace Enemy::Candlehead {
 				n->Slide();
 				
 				if (gameframe % 20 == 0) {
-					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));	
+					eweapon flame = CreateEWeaponAt(EW_SCRIPT1, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
 					flame->Dir = n->Dir;
 					flame->Script = Game->GetEWeaponScript("StopperKiller");
 					flame->Z = n->Z;
@@ -1055,6 +1055,7 @@ namespace Enemy::Candlehead {
 					Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
 				}
 				
+				// doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
 				doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
 				
 				Waitframe();
@@ -1114,36 +1115,6 @@ namespace Enemy::Candlehead {
 			}
 		}
 		
-		bool hitByFire(npc n) {
-			if (n->HitBy[2] || n->HitBy[1]) {
-				lweapon lWeapon = Screen->LoadLWeapon(n->HitBy[2]);
-				
-				if (lWeapon->Type == LW_FIRE)
-					return true;
-				else
-					return false;
-			}
-		}
-		
-		bool hitByFireNOTWORKING(npc n) {
-			if (n->HitBy[HIT_BY_LWEAPON]) {
-				lweapon lWeapon = Screen->LoadLWeapon(n->HitBy[HIT_BY_LWEAPON_UID]);
-				
-				if (lWeapon->Type == LW_FIRE)
-					return true;
-				else
-					return false;
-         }
-         
-			if (n->HitBy[HIT_BY_EWEAPON]) {
-				eweapon eWeapon = Screen->LoadEWeapon(n->HitBy[HIT_BY_EWEAPON_UID]);
-				
-				if (eWeapon->Type == EW_FIRE)
-					return true;
-				else
-					return false;
-			}
-		}
 	}
 }
 
@@ -1210,7 +1181,7 @@ namespace Enemy {
       }
       
       n->Immortal = false;
-      n->Remove();
+      n->HP = 0;
    }
 
    void EnemyWaitframe(npc n, int data) {
@@ -1276,29 +1247,41 @@ namespace Enemy {
       return Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < distance; 
    }
    
-   
-// doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
    void doWalk(npc n, int rand, int homing, int step, bool flying = false) {
       const int ONE_IN_N = 1000;
       
       if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
-         int attemptCounter  = 0;
+         // int attemptCounter  = 0;
          
          do {
             n->Dir = RandGen->Rand(3);
-         } until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
+            
+            if (byEdgeOfScreen(n))
+               n->Dir = RandGen->Rand(3);
+         } until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE));// || ++attemptCounter > 500);
       }
       else if (homing >= RandGen->Rand(ONE_IN_N - 1))
          n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
       
       unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE)) {
-         int attemptCounter  = 0;
+         // int attemptCounter  = 0;
          
          do {
             n->Dir = RandGen->Rand(3);
-         } until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
-         
+            int forceDir = byEdgeOfScreen(n);
+            
+            if (forceDir > -1)
+               n->Dir = forceDir;
+         } until(n->CanMove(n->Dir, 2, flying ? SPW_FLOATER : SPW_NONE));// || ++attemptCounter > 500);
       }
+   }
+   
+   int byEdgeOfScreen(npc n) {
+      if (n->Dir == DIR_UP && n->Y < 16) return DIR_DOWN;
+      else if (n->Dir == DIR_LEFT && n->X < 16) return DIR_RIGHT;
+      else if (n->Dir == DIR_DOWN && n->Y > 144) return DIR_UP;
+      else if (n->Dir == DIR_RIGHT && n->X < 224) return DIR_LEFT;
+      else return -1;
    }
 
    float lazyChase(int velocity, int currentPosition, int targetPosition, int acceleration, int topSpeed) {
@@ -1333,11 +1316,18 @@ namespace Enemy {
       } 
    }
 
-   bool npcHitByLWeapon(npc n, int weaponId) {
-      if (n->HitBy[2]) {
-         lweapon weapon = Screen->LoadLWeapon(n->HitBy[2]);
-         
-         if (weapon->Type == weaponId)
+   bool hitByLWeapon(npc n, int weaponId) {
+      if (n->HitBy[HIT_BY_LWEAPON_UID]) {
+         if (Screen->LoadLWeapon(n->HitBy[HIT_BY_LWEAPON])->Type == weaponId)
+            return true;
+         else
+            return false;
+      }
+   }
+   
+   bool hitByEWeapon(npc n, int weaponId) {      
+      if (n->HitBy[HIT_BY_EWEAPON_UID]) {
+         if (Screen->LoadEWeapon(n->HitBy[HIT_BY_EWEAPON])->Type == weaponId)
             return true;
          else
             return false;
