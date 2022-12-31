@@ -583,11 +583,11 @@ ffc script ScreenQuakeOnSecret {
 
 @Author("Deathrider365")
 ffc script GettingGoddessJewels {
-   void run(int message, int x, int y, int itemId, int finalTriforceShard) {
+   void run(int message, int x, int y, int itemId, int triforceCounter) {
       if (getScreenD(254))
          Quit();
-         
-      if (!Hero->Item[finalTriforceShard])
+      
+      unless (Game->Counter[triforceCounter] == 4)
          Quit();
          
       Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);

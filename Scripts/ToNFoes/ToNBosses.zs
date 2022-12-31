@@ -25,10 +25,10 @@ npc script Leviathan1 //start
 	{
 	//start Setup
 		Hero->Dir = DIR_UP;
-		if (waterfall_bmp && waterfall_bmp->isAllocated())
-			waterfall_bmp->Free();
+		if (waterfallBitmap && waterfallBitmap->isAllocated())
+			waterfallBitmap->Free();
 			
-		waterfall_bmp = Game->CreateBitmap(32, 176);
+		waterfallBitmap = Game->CreateBitmap(32, 176);
 		
 		int i; int j; int k;
 		int x; int y;
@@ -554,19 +554,19 @@ npc script Leviathan1 //start
 	void UpdateWaterfallBitmap() //start
 	{
 		int cmb;
-		waterfall_bmp->Clear(0);
+		waterfallBitmap->Clear(0);
 		int ptr[5 * 22];
 		for(int i = 0; i < 11; ++i)
 		{
 			cmb = CMB_WATERFALL;
 			if(i == 0)
 				cmb = CMB_WATERFALL + 1;
-			waterfall_bmp->FastCombo(0, 0, 16 * i, cmb, CS_WATERFALL, 128);
+			waterfallBitmap->FastCombo(0, 0, 16 * i, cmb, CS_WATERFALL, 128);
 			
 			cmb = CMB_WATERFALL + 2;
 			if(i == 10)
 				cmb = CMB_WATERFALL + 3;
-			waterfall_bmp->FastCombo(0, 16, 16 * i, cmb, CS_WATERFALL, 128);
+			waterfallBitmap->FastCombo(0, 16, 16 * i, cmb, CS_WATERFALL, 128);
 		}
 	} //end
 	

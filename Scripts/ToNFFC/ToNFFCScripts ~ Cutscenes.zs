@@ -91,10 +91,10 @@ ffc script IntroLeviathanEnding {
    void run(int dmap, int scrn) {
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
-      if (waterfall_bmp && waterfall_bmp->isAllocated())
-         waterfall_bmp->Free();
+      if (waterfallBitmap && waterfallBitmap->isAllocated())
+         waterfallBitmap->Free();
          
-      waterfall_bmp = Game->CreateBitmap(32, 176);
+      waterfallBitmap = Game->CreateBitmap(32, 176);
       Leviathan1.UpdateWaterfallBitmap();
       
       Hero->Dir = DIR_UP;
@@ -206,10 +206,10 @@ ffc script IntroPreInteritusLeviathanScene {
       
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
-      if (waterfall_bmp && waterfall_bmp->isAllocated())
-         waterfall_bmp->Free();
+      if (waterfallBitmap && waterfallBitmap->isAllocated())
+         waterfallBitmap->Free();
          
-      waterfall_bmp = Game->CreateBitmap(32, 176);
+      waterfallBitmap = Game->CreateBitmap(32, 176);
       
       Leviathan1.UpdateWaterfallBitmap();
       
