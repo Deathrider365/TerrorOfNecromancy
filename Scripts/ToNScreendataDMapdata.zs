@@ -55,8 +55,8 @@ screendata script RadialTransparency //start
 			
 			Screen->LayerInvisible[l] = true;
 			
-			unless(ohead_bmps[l]->isValid())
-				ohead_bmps[l] = create(256, 176);
+			unless(overheadBitmaps[l]->isValid())
+				overheadBitmaps[l] = create(256, 176);
 		 
 			m[l] = Game->LoadTempScreen(l);
 		}
@@ -68,17 +68,17 @@ screendata script RadialTransparency //start
 				unless(layers & (1b << (l - 1)))
 					continue;
 				
-				ohead_bmps[l]->Clear(0);
+				overheadBitmaps[l]->Clear(0);
 				
 				for (int q = 0; q < 176; ++q)
-					ohead_bmps[l]->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_OPAQUE);
+					overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_OPAQUE);
 				
-				ohead_bmps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
+				overheadBitmaps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
 				
 				for (int q = 0; q < 176; ++q)
 					Screen->FastCombo(l, ComboX(q), ComboY(q), m[l]->ComboD[q], m[l]->ComboC[q], OP_TRANS);
 					
-				ohead_bmps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
+				overheadBitmaps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
 			}
 			
 			Waitframe();

@@ -251,31 +251,13 @@ lweapon script CustomSparkle {
    }
 }
 
-@Author("DONT REMEMBER")
-lweapon script timedEffect {
+@Author("Moosh")
+lweapon script TimedEffect {
    void run(int timer) {
       while(timer--) Waitframe();
       this->Remove();
    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

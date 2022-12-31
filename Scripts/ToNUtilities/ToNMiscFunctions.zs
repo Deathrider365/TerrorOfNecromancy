@@ -690,7 +690,7 @@ lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight
    weapon->UseSprite(sprite);
    weapon->TileWidth = tileWidth ? tileWidth : 1;
    weapon->TileHeight = tileHeight ? tileHeight : 1;
-   weapon->Script = Game->GetLWeaponScript("timedEffect");
+   weapon->Script = Game->GetLWeaponScript("TimedEffect");
    weapon->CollDetection = false;
    weapon->InitD[0] = frames;
 

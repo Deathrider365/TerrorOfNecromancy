@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("EmilyV99, Modified by Deathrider365")
-dmapdata script ActiveSubscreen {
+dmapdata script SubscreenActive {
    void run() {
       if(Game->Suspend[susptSUBSCREENSCRIPTS]) 
          return;
@@ -13,23 +13,23 @@ dmapdata script ActiveSubscreen {
       b->ClearToColor(0, BG_COLOR);
       b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0);
       
-      for(subscr_y_offset = -224; subscr_y_offset < -56; subscr_y_offset += SCROLL_SPEED) {
-         doActiveMenuFrame(b, subscr_y_offset, false);
+      for(subscreenYOffset = -224; subscreenYOffset < -56; subscreenYOffset += SCROLL_SPEED) {
+         doActiveMenuFrame(b, subscreenYOffset, false);
          Waitframe();
       }
       
-      subscr_y_offset = -56;
+      subscreenYOffset = -56;
       
       do {
-         doActiveMenuFrame(b, subscr_y_offset, true);
+         doActiveMenuFrame(b, subscreenYOffset, true);
          Waitframe();
       } until(Input->Press[CB_START]);
       
-      for(subscr_y_offset = -56; subscr_y_offset > -224; subscr_y_offset -= SCROLL_SPEED) {
-         doActiveMenuFrame(b, subscr_y_offset, false);
+      for(subscreenYOffset = -56; subscreenYOffset > -224; subscreenYOffset -= SCROLL_SPEED) {
+         doActiveMenuFrame(b, subscreenYOffset, false);
          Waitframe();
       }
-      subscr_y_offset = -224;
+      subscreenYOffset = -224;
       subscreenOpen = false;
    }
    

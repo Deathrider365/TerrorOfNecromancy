@@ -363,6 +363,7 @@ lweapon script FlamingArrow {
    }
 }
 
+@Author("Moosh")
 lweapon script DieTimeOut {
    void run(int frames) {
       Waitframes(frames);

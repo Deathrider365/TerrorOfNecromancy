@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("EmilyV99")
-dmapdata script PassiveSubscreen {
+dmapdata script SubscreenPassive {
    using namespace time;
 
 	void run() {
@@ -112,7 +112,7 @@ dmapdata script PassiveSubscreen {
          }
             
          Waitdraw();
-         doPassiveMenuFrame(bm, subscr_y_offset + 168);
+         doPassiveMenuFrame(bm, subscreenYOffset + 168);
          
          lastA = Hero->ItemA;
          lastB = Hero->ItemB;
@@ -206,7 +206,7 @@ dmapdata script PassiveSubscreen {
       sprintf(buf, "%d:%02d:%02d", Hours(), Minutes(), Seconds());
       
       if (y > -55)
-         Screen->DrawString(7, 234, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         Screen->DrawString(7, 224, y+3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
       
       //start Minimap
       ScreenType ow = getScreenType(true);

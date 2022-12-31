@@ -5,7 +5,7 @@
 @Author("EmilyV99")
 hero script HeroInit {
    void run() {
-      subscr_y_offset = -224;
+      subscreenYOffset = -224;
    }
 }
 

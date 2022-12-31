@@ -2,7 +2,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~Consts / Typedefs / Enums~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-CONFIGB DEBUG = true;
+CONFIGB DEBUG = true; // TODO disable for final release
 
 //~~~~~Global Variables~~~~~//
 //start
@@ -19,7 +19,7 @@ int statuses[NUM_STATUSES];
 bitmap status_bmp;
 bitmap waterfall_bmp;
 bitmap darkness_bmp;
-bitmap ohead_bmps[7];
+bitmap overheadBitmaps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
 //end
@@ -247,7 +247,7 @@ CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
 //start
 
 // Globals start
-int subscr_y_offset = -224;
+int subscreenYOffset = -224;
 
 int numBombUpgrades = 7;
 int numQuiverUpgrades = 7;
