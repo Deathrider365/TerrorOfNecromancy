@@ -86,7 +86,7 @@ ffc script IntroLeviathanFailDialogue {
 
 @Author ("Deathrider365")
 ffc script IntroLeviathanEnding {
-	using namespace Leviathan1Namespace;
+	using namespace LeviathanNamespace;
 	
    void run(int dmap, int scrn) {
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
@@ -95,7 +95,7 @@ ffc script IntroLeviathanEnding {
          waterfallBitmap->Free();
          
       waterfallBitmap = Game->CreateBitmap(32, 176);
-      Leviathan1.UpdateWaterfallBitmap();
+      Leviathan.UpdateWaterfallBitmap();
       
       Hero->Dir = DIR_UP;
       disableLink();
@@ -190,7 +190,7 @@ ffc script IntroLeavingIsleOfHaeren {
 
 @Author ("Deathrider365")
 ffc script IntroPreInteritusLeviathanScene {
-   using namespace Leviathan1Namespace;
+   using namespace LeviathanNamespace;
 	
    void run() {	
       Hero->Item[26] = false;
@@ -211,7 +211,7 @@ ffc script IntroPreInteritusLeviathanScene {
          
       waterfallBitmap = Game->CreateBitmap(32, 176);
       
-      Leviathan1.UpdateWaterfallBitmap();
+      Leviathan.UpdateWaterfallBitmap();
       
       Hero->Dir = DIR_UP;
       

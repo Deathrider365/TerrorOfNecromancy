@@ -27,7 +27,7 @@ GetItem  -  -	-	-	-	-  -  -  - 9:07, 9:15, 9:26, 9:49, 9:4C, 9:5A, 16:05, 16:3A,
 GetItemFromSecret -  -  -  -  -  - 7:02
 LeviathanFailureP1	-	- 	-  -  - 6:09
 LeviathanFailureP2	-	- 	-  -  - 6:0A
-Leviathan1Ending	-	- 	-  -  -  - 6:0B
+LEVIATHANEnding	-	- 	-  -  -  - 6:0B
 MessageOnce -  -  -  -  -  -  - 1:00, 7:42, 16:3E, 32:71, 40:73, 44:33
 OfficialIntro	-	- 	- 	-  -  -  - 6:50
 OpenForItemId	-	-	- 	-  -  -  - 9:05

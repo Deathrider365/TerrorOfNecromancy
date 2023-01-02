@@ -2,40 +2,35 @@
 //~~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Bosses~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//~~~~~Leviathan1~~~~~//
 @Author("Moosh, modified by Deathrider365")
-npc script Leviathan1 //start
-{
-	using namespace Leviathan1Namespace;
-	
-	const int VARS_HEADNPC = 0;
-	const int VARS_HEADCX = 1;
-	const int VARS_HEADCY = 2;
-	const int VARS_FLIP = 3;
-	const int VARS_BODYHP = 8;
-	const int VARS_FLASHTIMER = 5;
-	const int VARS_INITHP = 6;
-	
-	int hitByWaterfall = 0;
-	int hitByWaterCannon = 0;
-	int hitByBurstCannon = 0;
-	int hitBySideSwipe = 0;
-	
-	void run(int fight) //start
-	{
-	//start Setup
+npc script Leviathan {
+   using namespace LeviathanNamespace;
+
+   CONFIG ATTACK_WATERFALL = 0;
+   CONFIG ATTACK_WATERBEAM = 1;
+   CONFIG ATTACK_WATERCANNON = 2;
+   CONFIG ATTACK_SIDE_SWIPE = 3;
+   
+   CONFIG DIFFICULTY_STAGE_1 = 0;
+   CONFIG DIFFICULTY_STAGE_2 = 1;
+   CONFIG DIFFICULTY_STAGE_3 = 2;
+
+   const int VARS_HEADNPC = 0;
+   const int VARS_HEAD_CENTERX = 1;
+   const int VARS_HEAD_CENTERY = 2;
+   const int VARS_FLIP = 3;
+   const int VARS_FLASHTIMER = 5;
+   const int VARS_INITHP = 6;
+   const int VARS_BODYHP = 8;
+   
+	void run() {
 		Hero->Dir = DIR_UP;
+      
 		if (waterfallBitmap && waterfallBitmap->isAllocated())
 			waterfallBitmap->Free();
 			
 		waterfallBitmap = Game->CreateBitmap(32, 176);
-		
-		int i; int j; int k;
-		int x; int y;
-		int x2; int y2;
-		int angle, dist;
-		
-		eweapon e;
+      
 		untyped vars[16];
 		
 		npc head = CreateNPCAt(NPC_LEVIATHANHEAD, this->X, this->Y);
@@ -46,225 +41,159 @@ npc script Leviathan1 //start
 		
 		this->HitXOffset = 64;
 		this->HitYOffset = 32;
-		
 		this->HitWidth = 48;
 		this->HitHeight = 48;
-		
 		this->X = 52;
 		this->Y = 112;
-		
 		int attack;	
 		
 		Audio->PlayEnhancedMusic(NULL, 0);
-		//
-		//    The leviathan is rising and screen is quaking
-		//
-		for(i = 0; i < 180; ++i) //start
-		{
-			Hero->Dir = DIR_UP;
-			NoAction();
+      
+		for (int i = 0; i < 180; ++i) {
+			disableLink();
 			GlideFrame(this, vars, 52, 112, 52, 32, 180, i);
 			
-			if(i % 40 == 0)
-			{
+			if(i % 40 == 0) {
 				Audio->PlaySound(SFX_ROCKINGSHIP);
 				Screen->Quake = 20;
 			}
 
 			Waitframe(this, vars);
-		} //end
+		}
 		
-			TraceS("inside intro");
-		//
-		//    The leviathan pauses, roars, then pauses
-		//			
-		for(i = 0; i < 120; ++i) //start
-		{
-			NoAction();
-			if (i == 60)
-			{
+		for (int i = 0; i < 120; ++i) {
+			disableLink();
+         
+			if (i == 60) {
 			   Audio->PlaySound(SFX_ROAR);
 			   Audio->PlayEnhancedMusic("DS3 - Old Demon King.ogg", 0);
-			   if (firstRun)
-			   {
+			   if (firstRun) {
 					Screen->Message(400);
 					firstRun = false;
 			   }
 			}
 			 
 			Waitframe(this, vars);
-		} //end
-		
-		//
-		//    The leviathan dives
-		//
-		for(i = 0; i < 20; ++i) //start
-		{
+		}
+      
+		for (int i = 0; i < 20; ++i) {
 			GlideFrame(this, vars, 52, 32, 52, 112, 20, i);
 			Waitframe(this, vars);
-		} //end
+		}
 		
-		//
-		//    The splash SFX he makes when diving
-		//
 		Audio->PlaySound(SFX_SPLASH);
 		Splash(this->X + 64, 100);
 		
-		//end setup
-				
-		//
-		//    Leviathan's behavior loop
-		//
-
-		while(true)
-		{
+		while(true) {
 			attack = attackChoice(this, vars);
-			
+         
 			int riseAnim = 120;
-			if(this->HP < vars[VARS_INITHP] * 0.45)
-			{
+         
+			if (changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2) {
 				riseAnim = 60;		
-				LEVIATHAN1_WATERCANNON_DMG = 70;
-				LEVIATHAN1_BURSTCANNON_DMG = 40;
-				LEVIATHAN1_WATERFALL_DMG = 60;
+				LEVIATHAN_WATERCANNON_DMG = 70;
+				LEVIATHAN_BURSTCANNON_DMG = 40;
+				LEVIATHAN_WATERFALL_DMG = 60;
 			}
-			if(this->HP < vars[VARS_INITHP] * 0.25)
-			{
+         else if(changeInDifficulty(this, vars) == DIFFICULTY_STAGE_3) {
 				riseAnim = 30;		
-				LEVIATHAN1_WATERCANNON_DMG = 80;
-				LEVIATHAN1_BURSTCANNON_DMG = 50;
-				LEVIATHAN1_WATERFALL_DMG = 70;
+				LEVIATHAN_WATERCANNON_DMG = 80;
+				LEVIATHAN_BURSTCANNON_DMG = 50;
+				LEVIATHAN_WATERFALL_DMG = 70;
 			}
 				
-			switch(attack) 
-			{
-				// Waterfall Attack
-				case 0: //start
-					x = Link->X-64;
-					x2 = x + Choose(-8, 8);
+			switch(attack) {
+				case ATTACK_WATERFALL:
+					int centerOnLinkX = Link->X - 72;
+					int xModifier = centerOnLinkX + Choose(-8, 8);
 				
-					Glide(this, vars, x, 112, x2, 32, riseAnim);
+					Glide(this, vars, centerOnLinkX, 112, xModifier, 32, riseAnim);
 					Waitframe(this, vars, 40);
 					
-					for(i = 0; i < 20; ++i)
-					{
-						GlideFrame(this, vars, x2, 32, x2, 112, 20, i);
+					for (int i = 0; i < 20; ++i) {
+						GlideFrame(this, vars, xModifier, 32, xModifier, 112, 20, i);
 						Audio->PlaySound(SFX_WATERFALL);
-						if(i == 3)
-						{								
-							if(this->HP < vars[VARS_INITHP]*0.45)
-							{
-								int cx1 = this->X + this->HitXOffset + (this->HitWidth / 2) - 24;
-								eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, cx1 - 8, 112);
-								waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
-								waterfall->Script = Game->GetEWeaponScript("Waterfall");
-								waterfall->DrawYOffset = -1000;
-								waterfall->InitD[0] = 3;
-								waterfall->InitD[1] = 64;
-								
-								int cx2 = this->X + this->HitXOffset + (this->HitWidth / 2) + 24;
-								eweapon waterfall2 = CreateEWeaponAt(EW_SCRIPT10, cx2 - 8, 112);
-								waterfall2->Damage = LEVIATHAN1_WATERFALL_DMG;
-								waterfall2->Script = Game->GetEWeaponScript("Waterfall");
-								waterfall2->DrawYOffset = -1000;
-								waterfall2->InitD[0] = 3;
-								waterfall2->InitD[1] = 64;
-							}
-							else
-							{
-								int cx = this->X + this->HitXOffset + (this->HitWidth / 2);
-								eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, cx - 8, 112);
-								waterfall->Damage = LEVIATHAN1_WATERFALL_DMG;
-								waterfall->Script = Game->GetEWeaponScript("Waterfall");
-								waterfall->DrawYOffset = -1000;
-								waterfall->InitD[0] = 3;
-								waterfall->InitD[1] = 64;
-							
-							}
-
+                  
+						if (i == 3) {
+                     int weaponX = this->X + this->HitXOffset + (this->HitWidth / 2) - ((changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2) ? 24 : 0);
+                     eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, weaponX - 8, 112);
+                     waterfall->Damage = LEVIATHAN_WATERFALL_DMG;
+                     waterfall->Script = Game->GetEWeaponScript("Waterfall");
+                     waterfall->DrawYOffset = -1000;
+                     waterfall->InitD[0] = changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2 ? 6 : 3;
+                     waterfall->InitD[1] = 64;
 						}
 						
 						Waitframe(this, vars);
 					}			
 					
 					Audio->PlaySound(SFX_SPLASH);
-					break; //end
-				
-				// Water Cannon
-				case 1: //start
-					x = Rand(-32, 144);
-					x2 = x + Choose(-8, 8);
+					break;
+				case ATTACK_WATERBEAM:
+					int risingX = Rand(-32, 144);
+					int xModifier = risingX + Choose(-8, 8);
 					
-					if(x < 56)
-						vars[VARS_FLIP] = 0;
-					else
-						vars[VARS_FLIP] = 1;
-				
-					// Rise out of water
-					Glide(this, vars, x, 112, x2, 32, riseAnim);
+               vars[VARS_FLIP] = risingX < 56 ? 0 : 1;
+               
+					Glide(this, vars, risingX, 112, xModifier, 32, riseAnim);
 					
-					x = vars[VARS_HEADCX];
-					y = vars[VARS_HEADCY];
+					int centerY = vars[VARS_HEAD_CENTERY];
+					risingX = vars[VARS_HEAD_CENTERX];
 					Audio->PlaySound(SFX_CHARGE);
 					
-					// Charge animation
-					Charge(this, vars, x, y, 60, 24);
+					chargeAttack(this, vars, risingX, centerY, 60, 24);
 					
-					angle = Angle(x, y, Link->X + 8, Link->Y + 8);
+					int angle = Angle(risingX, centerY, Link->X + 8, Link->Y + 8);
 					
 					int wSizes[4] = {-24, 24, -12, 12};
 					int wSpeeds[4] = {16, 16, 12, 12};
 					
 					// Shooting loop
-					for(i = 0; i < 32; ++i)
-					{
-						if(this->HP < vars[VARS_INITHP]*0.45)
-							angle = turnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 1.75);
-						if(this->HP < vars[VARS_INITHP]*0.25)
-							angle = turnToAngle(angle, Angle(x, y, Link->X + 8, Link->Y + 8), 2.25);
+					for(int i = 0; i < 32; ++i) {
+                  switch(changeInDifficulty(this, vars)) {
+                     case DIFFICULTY_STAGE_2:
+                        angle = turnToAngle(angle, Angle(risingX, centerY, Link->X + 8, Link->Y + 8), 1.75);
+                        break;
+                     case DIFFICULTY_STAGE_3:
+                        angle = turnToAngle(angle, Angle(risingX, centerY, Link->X + 8, Link->Y + 8), 2.25);
+                        break;
+                     case DIFFICULTY_STAGE_1:
+                        break;
+                  }
 						
 						Audio->PlaySound(SFX_SHOT);
 						
-						for(j = 0; j < 4; ++j)
-						{
-							e = CreateEWeaponAt(EW_SCRIPT1, x - 8, y - 8);
-							e->Damage = LEVIATHAN1_WATERCANNON_DMG;
-							e->UseSprite(SPR_WATERBALL);
-							e->Angular = true;
-							e->Angle = DegtoRad(angle);
-							e->Dir = AngleDir4(angle);
-							e->Step = 300;
-							e->Script = Game->GetEWeaponScript("LeviathanSignWave");
-							e->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
-							e->InitD[1] = wSpeeds[j];
-							e->InitD[2] = true;
+						for(int j = 0; j < 4; ++j) {
+							eweapon waterBall = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
+							waterBall->Damage = LEVIATHAN_WATERCANNON_DMG;
+							waterBall->UseSprite(SPR_WATERBALL);
+							waterBall->Angular = true;
+							waterBall->Angle = DegtoRad(angle);
+							waterBall->Dir = AngleDir4(angle);
+							waterBall->Step = 300;
+							waterBall->Script = Game->GetEWeaponScript("LeviathanSignWave");
+							waterBall->InitD[0] = wSizes[j]         * (0.5 + 0.5 * (i / 32));
+							waterBall->InitD[1] = wSpeeds[j];
+							waterBall->InitD[2] = true;
 						}
 						
 						Waitframe(this, vars, 4);
 					}
-					
-					// Splashing animation
-					Glide(this, vars, x2, 32, x2, 112, 20);
+               
+					Glide(this, vars, xModifier, 32, xModifier, 112, 20);
 					Audio->PlaySound(SFX_SPLASH);
 					Splash(this->X + 64, 100);
 					
-					break; //end
-				
-				// Water Cannon (Burst)
-				case 2: //start
-					x = Rand(-32, 144);
-					x2 = x + Choose(-8, 8);
+					break;
+				case ATTACK_WATERCANNON:
+					int risingX = Rand(-32, 144);
+					int xModifier = risingX + Choose(-8, 8);
 					
-					if(x < 56)
-						vars[VARS_FLIP] = 0;
-					else
-						vars[VARS_FLIP] = 1;
-				
-					// Rise out of water
-					Glide(this, vars, x, 112, x2, 32, riseAnim);
+               vars[VARS_FLIP] = risingX < 56 ? 0 : 1;
+					Glide(this, vars, risingX, 112, xModifier, 32, riseAnim);
 					
-					x = vars[VARS_HEADCX];
-					y = vars[VARS_HEADCY];
+					risingX = vars[VARS_HEAD_CENTERX];
+					int centerY = vars[VARS_HEAD_CENTERY];
 					Audio->PlaySound(SFX_CHARGE);
 					
 					int wSizes[2] = {-32, 32};
@@ -272,137 +201,127 @@ npc script Leviathan1 //start
 					
 					int numBursts = 3;
 					int burstDelay = 40;
+               
+               switch (changeInDifficulty(this, vars)) {
+                  case DIFFICULTY_STAGE_2:
+                     numBursts = 5;
+                     burstDelay = 24;
+                     break;
+                  case DIFFICULTY_STAGE_3:
+                     numBursts = 7;
+                     burstDelay = 12;
+                     break;
+                  case DIFFICULTY_STAGE_1:
+                     break;
+               }
 					
-					if(this->HP < vars[VARS_INITHP]*0.45)
-					{
-						numBursts = 5;
-						burstDelay = 24;
-					}
-					
-					if(this->HP < vars[VARS_INITHP]*0.25)
-					{
-						numBursts = 7;
-						burstDelay = 12;
-					}
-					
-					// Shooting loop
-					for(i = 0; i < numBursts; ++i)
-					{
-						// Charge animation
-						Charge(this, vars, x, y, 20, 16);
+					for (int i = 0; i < numBursts; ++i) {
+						chargeAttack(this, vars, risingX, centerY, 20, 16);
 						
-						angle = Angle(x, y, Link->X + 8, Link->Y + 8) + Rand(-20, 20);
+						int angle = Angle(risingX, centerY, Link->X + 8, Link->Y + 8) + Rand(-20, 20);
 						
-						for(j = 0; j < 3; ++j)
-						{
+						for(int j = 0; j < 3; ++j) {
 							Audio->PlaySound(SFX_SHOT);
 							
-							for(k = 0; k < 2; ++k)
-							{
-								e = CreateEWeaponAt(EW_SCRIPT1, x - 8, y - 8);
-								e->Damage = LEVIATHAN1_BURSTCANNON_DMG; //this->WeaponDamage;
-								e->UseSprite(SPR_WATERBALL);
-								e->Angular = true;
-								e->Angle = DegtoRad(angle);
-								e->Dir = AngleDir4(angle);
-								e->Step = 200;
-								e->Script = Game->GetEWeaponScript("LeviathanSignWave");
-								e->InitD[0] = wSizes[k]-Rand(-4, 4);
-								e->InitD[1] = wSpeeds[k];
-								e->InitD[2] = true;
+							for(int k = 0; k < 2; ++k) {
+								eweapon wavyShots = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
+								wavyShots->Damage = LEVIATHAN_BURSTCANNON_DMG;
+								wavyShots->UseSprite(SPR_WATERBALL);
+								wavyShots->Angular = true;
+								wavyShots->Angle = DegtoRad(angle);
+								wavyShots->Dir = AngleDir4(angle);
+								wavyShots->Step = 200;
+								wavyShots->Script = Game->GetEWeaponScript("LeviathanSignWave");
+								wavyShots->InitD[0] = wSizes[k]-Rand(-4, 4);
+								wavyShots->InitD[1] = wSpeeds[k];
+								wavyShots->InitD[2] = true;
 							}
+                     
 							Waitframe(this, vars, 4);
 						}
 						
 						Waitframe(this, vars, 16);
 						
-						for(j = 0; j < 2; ++j)
-						{
-							e = CreateEWeaponAt(EW_SCRIPT1, x - 8, y - 8);
-							e->Damage = LEVIATHAN1_BURSTCANNON_DMG; //this->WeaponDamage;
-							e->UseSprite(SPR_WATERBALL);
-							e->Angular = true;
-							e->Angle = DegtoRad(angle);
-							e->Dir = AngleDir4(angle);
-							e->Step = 150;
-							e->Script = Game->GetEWeaponScript("LeviathanSignWave");
-							e->InitD[0] = 4;
-							e->InitD[1] = 16;
-							e->InitD[2] = true;
+						for (int j = 0; j < 2; ++j) {
+							eweapon straightShots = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
+							straightShots->Damage = LEVIATHAN_BURSTCANNON_DMG;
+							straightShots->UseSprite(SPR_WATERBALL);
+							straightShots->Angular = true;
+							straightShots->Angle = DegtoRad(angle);
+							straightShots->Dir = AngleDir4(angle);
+							straightShots->Step = 150;
+							straightShots->Script = Game->GetEWeaponScript("LeviathanSignWave");
+							straightShots->InitD[0] = 4;
+							straightShots->InitD[1] = 16;
+							straightShots->InitD[2] = true;
 							Waitframe(this, vars, 4);
 						}
 						
 						Waitframe(this, vars, burstDelay);
 					}
 					
-					// Splashing animation
-					Glide(this, vars, x2, 32, x2, 112, 20);
+					Glide(this, vars, xModifier, 32, xModifier, 112, 20);
 					Audio->PlaySound(SFX_SPLASH);
 					Splash(this->X + 64, 100);
-					
-					break; //end
-				
-				// Side Swipe
-				case 3: //start
+					break;
+				case 3:
 					int side = Choose(-1, 1);
+					int risingX = side == -1 ? -32 : 144;
+					int xModifier = risingX + 32 * side;
 					
-					x = side == -1 ? -32 : 144;
-					x2 = x + 32*side;
+               vars[VARS_FLIP] = risingX < 56 ? 0 : 1;
+               
+					Glide(this, vars, risingX, 112, xModifier, 32, riseAnim);
 					
-					if(x < 56)
-						vars[VARS_FLIP] = 0;
-					else
-						vars[VARS_FLIP] = 1;
-				
-					// Rise out of water
-					Glide(this, vars, x, 112, x2, 32, riseAnim);
-					
-					for(i = 0; i < 64; ++i)
-					{
+					for (int i = 0; i < 64; ++i) {
 						this->X += side * 0.25;
 						this->Y -= 0.125;
 						Waitframe(this, vars);
 					}
-					
-					j = 8;
-					k = 8;
-					for(i=0; i<64; ++i)
-					{
-						this->X -= side*4;
+               
+					for (int i = 0; i < 64; ++i) {
+						this->X -= side * 4;
 						this->Y += 0.5;
 						
 						eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, this->X + 80, 112);
-						waterfall->Damage = LEVIATHAN1_WATERFALL_DMG + 20;
+						waterfall->Damage = LEVIATHAN_WATERFALL_DMG + 20;
 						waterfall->Script = Game->GetEWeaponScript("Waterfall");
 						waterfall->DrawYOffset = -1000;
 						waterfall->InitD[0] = 1;
-						waterfall->InitD[1] = 64-i*0.5;
+						waterfall->InitD[1] = 64 - i * 0.5;
 						
 						Waitframe(this, vars);
 					}
 					
-					// Splashing animation
 					Glide(this, vars, this->X, this->Y, this->X, 112, 20);
 					Audio->PlaySound(SFX_SPLASH);
 					Splash(this->X + 64, 100);
 					
-					break; //end
+					break;
 			}
 			
 			Waitframe(this, vars);
 		}
 	} //end
+   
+   int changeInDifficulty(npc n, int vars) {
+      if (n->HP < vars[VARS_INITHP] * 0.50)
+         return DIFFICULTY_STAGE_2;
+      if (n->HP < vars[VARS_INITHP] * 0.25)
+         return DIFFICULTY_STAGE_3;
+      return DIFFICULTY_STAGE_1;
+   }
 	
 	int attackChoice(npc this, untyped vars) //start
 	{		
 		if (this->HP < vars[VARS_INITHP] * 0.25)
 		{					
-			if (Link->Y < 144)
+			if (Hero->Y < 144)
 			{
 				if (Rand(2) == 0)
 					return 0; 
 			}
-			if(Link->X < 48 || Link->X > 192)
+			if(Hero->X < 48 || Hero->X > 192)
 			{
 				if(Rand(2) == 0)
 					return 1;
@@ -412,7 +331,7 @@ npc script Leviathan1 //start
 					return 2;
 			}
 			//Don't do Waterfall if not near the top of the arena
-			if(Link->Y >= 144)
+			if(Hero->Y >= 144)
 			{
 				if(Rand(2)==0)
 					return 2;
@@ -427,14 +346,14 @@ npc script Leviathan1 //start
 		{
 			//Do stream at left and right sides
 			
-			if (Link->Y < 144)
+			if (Hero->Y < 144)
 			{
 				if (Rand(3) == 0)
 					return 0; 
 				if (Rand(3) == 1)
 					return 1;
 			}
-			if(Link->X < 48 || Link->X > 192)
+			if(Hero->X < 48 || Hero->X > 192)
 			{
 				if(Rand(4) == 0)
 					return 1;
@@ -442,7 +361,7 @@ npc script Leviathan1 //start
 					return 3;
 			}
 			//Don't do Waterfall if not near the top of the arena
-			if(Link->Y >= 144)
+			if(Hero->Y >= 144)
 			{
 				if(Rand(2)==0)
 					return Choose(1, 2);
@@ -452,19 +371,19 @@ npc script Leviathan1 //start
 		else
 		{
 			//Do stream at left and right sides
-			if (Link->Y < 144)
+			if (Hero->Y < 144)
 			{
 				if (Rand(3) == 0)
 					return 0;
 				if (Rand(2) == 1)
 					return 1;
 			}
-			if(Link->X < 48 || Link->X > 192)
+			if(Hero->X < 48 || Hero->X > 192)
 			{
 				if(Rand(2) == 0)
 					return 1;
 			}
-			if(Link->Y >= 144)
+			if(Hero->Y >= 144)
 			{
 				if(Rand(2) == 0)
 					return 1;
@@ -505,11 +424,11 @@ npc script Leviathan1 //start
 		this->Y = y;
 	} //end
 	
-	void Charge(npc this, untyped vars, int x, int y, int chargeFrames, int chargeMaxSize) //start
+	void chargeAttack(npc this, untyped vars, int x, int y, int chargeFrames, int chargeMaxSize) //start
 	{
 		Audio->PlaySound(SFX_CHARGE);
 					
-		// Charge animation
+		// chargeAttack animation
 		for(int i = 0; i < chargeFrames; ++i)
 		{
 			Screen->Circle(4, x + Rand(-2, 2), y + Rand(-2, 2), (i / chargeFrames) * chargeMaxSize, Choose(C_CHARGE1, C_CHARGE2, C_CHARGE3), 1, 0, 0, 0, true, OP_OPAQUE);
@@ -600,13 +519,13 @@ npc script Leviathan1 //start
 			head->Stun = 10;
 			
 			if(vars[VARS_FLIP])
-				vars[VARS_HEADCX] = this->X + 16 + 12;
+				vars[VARS_HEAD_CENTERX] = this->X + 16 + 12;
 			else
-				vars[VARS_HEADCX] = this->X + 104 + 12;
+				vars[VARS_HEAD_CENTERX] = this->X + 104 + 12;
 			
-			vars[VARS_HEADCY] = this->Y + 48 + 8;
-			head->X = vars[VARS_HEADCX] - 12;
-			head->Y = vars[VARS_HEADCY] - 8;
+			vars[VARS_HEAD_CENTERY] = this->Y + 48 + 8;
+			head->X = vars[VARS_HEAD_CENTERX] - 12;
+			head->Y = vars[VARS_HEAD_CENTERY] - 8;
 			head->HitWidth = 24;
 			head->HitHeight = 16;
 			
@@ -675,7 +594,7 @@ npc script Leviathan1 //start
 		
 		Waitframe();
 		
-		item theItem = CreateItemAt(183, Link->X, Link->Y);
+		item theItem = CreateItemAt(183, Hero->X, Hero->Y);
 		theItem->Pickup = IP_HOLDUP;
 		Screen->Message(MSG_LEVIATHAN_SCALE);
 		

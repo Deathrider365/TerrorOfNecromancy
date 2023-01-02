@@ -2,17 +2,16 @@
 //~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Namespaces~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace Leviathan1Namespace {
-   //Leviathan's waterfall combos: Up (BG, middle) Up, (BG, foam) Down (FG, middle), Down (FG, foam)
-   const int CMB_WATERFALL = 6828; 
+namespace LeviathanNamespace {
+   const int CMB_WATERFALL = 6828;
    const int CS_WATERFALL = 0;
 
    const int NPC_LEVIATHANHEAD = 177;
 
-   CONFIG SFX_RISE = 67;		//9
+   CONFIG SFX_RISE = 67;
    CONFIG SFX_WATERFALL = 26;
-   CONFIG SFX_LEVIATHAN1_ROAR = SFX_ROAR;
-   CONFIG SFX_LEVIATHAN1_SPLASH = SFX_SPLASH;
+   CONFIG SFX_LEVIATHAN_ROAR = SFX_ROAR;
+   CONFIG SFX_LEVIATHAN_SPLASH = SFX_SPLASH;
    CONFIG SFX_CHARGE = 35;
    CONFIG SFX_SHOT = 40;
 
@@ -23,19 +22,18 @@ namespace Leviathan1Namespace {
    COLOR C_CHARGE2 = C_SEABLUE;
    COLOR C_CHARGE3 = C_TAN;
 
-   int LEVIATHAN1_WATERCANNON_DMG = 60;
-   int LEVIATHAN1_BURSTCANNON_DMG = 30;
-   int LEVIATHAN1_WATERFALL_DMG = 50;
+   int LEVIATHAN_WATERCANNON_DMG = 60;
+   int LEVIATHAN_BURSTCANNON_DMG = 30;
+   int LEVIATHAN_WATERFALL_DMG = 50;
 
    int MSG_BEATEN = 23;
    int MSG_LEVIATHAN_SCALE = 122;
 
    bool firstRun = true;
 
-   @Author("Moosh")
-   eweapon script Waterfall {
+   eweapon script Waterfall{
       void run(int width, int peakHeight) {
-         this->UseSprite(SPR_WATERBALL);
+         this->UseSprite(94);
          
          unless (waterfallBitmap->isAllocated()) {
             this->DeadState = 0;
@@ -51,29 +49,29 @@ namespace Leviathan1Namespace {
          
          int waterfallTop = this->Y;
          int waterfallBottom = this->Y;
-         int waterfallRisingHeight;
-         int waterfallFallingHeight;
+         int bgHeight;
+         int fgHeight;
          this->CollDetection = false;
          
-         while (waterfallTop > peakHeight) {
+         while(waterfallTop > peakHeight) {
             waterfallTop = Max(waterfallTop - 1.5, peakHeight);
-            waterfallRisingHeight = waterfallBottom - waterfallTop;
+            bgHeight = waterfallBottom - waterfallTop;
             
             for (int i = 0; i < width; ++i) {
-               int x = startX - (width - 1) * 8 + i * 16;
-               waterfallBitmap->Blit(0, -2, 0, 0, 16, waterfallRisingHeight, x, waterfallTop, 16, waterfallRisingHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
+               int xWithOffset = startX - (width - 1) * 8 + i * 16;
+               waterfallBitmap->Blit(0, -2, 0, 0, 16, bgHeight, xWithOffset, waterfallTop, 16, bgHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
             }
             
             Waitframe();
          }
          
-         waterfallRisingHeight = waterfallBottom - waterfallTop;
+         bgHeight = waterfallBottom-waterfallTop;
          waterfallTop = peakHeight;
          waterfallBottom = peakHeight;
          hitbox->CollDetection = true;
          
          while (waterfallBottom < 176) {
-            unless (!hitbox->isValid()) {
+            if (!hitbox->isValid()) {
                hitbox = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
                hitbox->Damage = this->Damage;
                hitbox->DrawYOffset = -1000;
@@ -86,22 +84,22 @@ namespace Leviathan1Namespace {
             hitbox->HitXOffset = (startX - (width - 1) * 8) - 120;
             hitbox->HitYOffset = waterfallTop - 80;
             hitbox->HitWidth = width * 16;
-            hitbox->HitHeight = waterfallFallingHeight;
+            hitbox->HitHeight = fgHeight;
             
             waterfallBottom += 3;
-            waterfallFallingHeight = waterfallBottom - waterfallTop;
+            fgHeight = waterfallBottom - waterfallTop;
             
-            for(int i = 0; i < width; ++i) {
-               int x = startX - (width - 1) * 8 + i * 16;
-               waterfallBitmap->Blit(0, -2, 0, 0, 16, waterfallRisingHeight, x, peakHeight, 16, waterfallRisingHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
-               waterfallBitmap->Blit(4, -2, 16, 175-waterfallFallingHeight, 16, waterfallFallingHeight, x, peakHeight, 16, waterfallFallingHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
+            for (int i = 0; i < width; ++i) {
+               int xWithOffset = startX - (width - 1) * 8 + i * 16;
+               waterfallBitmap->Blit(0, -2, 0, 0, 16, bgHeight, xWithOffset, peakHeight, 16, bgHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
+               waterfallBitmap->Blit(4, -2, 16, 175-fgHeight, 16, fgHeight, xWithOffset, peakHeight, 16, fgHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
             }
             
             Waitframe();
          }
          
-         while(waterfallTop < 176) {
-            if(!hitbox->isValid()) {
+         while (waterfallTop < 176) {
+            if (!hitbox->isValid()) {
                hitbox = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
                hitbox->Damage = this->Damage;
                hitbox->DrawYOffset = -1000;
@@ -114,14 +112,14 @@ namespace Leviathan1Namespace {
             hitbox->HitXOffset = (startX - (width - 1) * 8) - 120;
             hitbox->HitYOffset = waterfallTop - 80;
             hitbox->HitWidth = width * 16;
-            hitbox->HitHeight = waterfallFallingHeight;
+            hitbox->HitHeight = fgHeight;
             
             waterfallTop += 3;
-            waterfallFallingHeight = waterfallBottom-waterfallTop;
+            fgHeight = waterfallBottom-waterfallTop;
             
-            for(int i = 0; i < width; ++i) {
-               int x = startX - (width - 1) * 8 + i * 16;
-               waterfallBitmap->Blit(4, -2, 16, 175 - waterfallFallingHeight, 16, waterfallFallingHeight, x, waterfallTop, 16, waterfallFallingHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
+            for (int i = 0; i < width; ++i) {
+               int xWithOffset = startX - (width - 1) * 8 + i * 16;
+               waterfallBitmap->Blit(4, -2, 16, 175 - fgHeight, 16, fgHeight, xWithOffset, waterfallTop, 16, fgHeight, 0, 0, 0, BITDX_NORMAL, 0, false);
             }
             
             Waitframe();
@@ -135,8 +133,7 @@ namespace Leviathan1Namespace {
          Quit();
       }
    }
-   
-   @Author("Moosh")
+
    eweapon script LeviathanSignWave {
       void run(int size, int speed, bool noBlock) {
          int x = this->X;
@@ -164,7 +161,7 @@ namespace Leviathan1Namespace {
          }
       }
    }
-} 
+}
 
 namespace ShamblesNamespace {
    bool firstRun = true;
@@ -980,6 +977,8 @@ namespace Enemy::Candlehead {
 		
 		void run(int chungo) {
 			int knockbackDist = 4;
+         
+         gridLockNPC(this);
 			
 			if (knockbackDist < 0)
 				this->NoSlide = true;
@@ -1114,8 +1113,7 @@ namespace Enemy::Candlehead {
 					return chungo ? SPR_FLAME_HELLS2X2 : SPR_FLAME_HELLS;
 			}
 		}
-		
-	}
+   }
 }
 
 namespace Enemy {		
@@ -1151,7 +1149,7 @@ namespace Enemy {
          n->HitHeight = 16;
    }
 
-   void deathAnimation(npc n, int deathSound) {
+   void deathAnimation(npc n, int deathSound) { // TODO can still hear the normal bomb sfx behind explosions
       n->Immortal = true;
       n->CollDetection = false;
       n->Stun = 9999;
@@ -1163,10 +1161,12 @@ namespace Enemy {
       
       for(int i = 0; i < 45; i++) {
          unless (i % 3) {
-            lweapon explosion = Screen->CreateLWeaponDx(LW_BOMBBLAST, 213);
-            explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
-            explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+				lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+				explosion->CollDetection = false;
+            // Audio->EndSound(SFX_BOMB);
+				Audio->PlaySound(SFX_POWDER_KEG_BLAST);
          }
          Waitframes(5);
       }
@@ -1177,7 +1177,7 @@ namespace Enemy {
       
       for(int i = Screen->NumNPCs(); i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
-         n->HP = 0;
+         n->Remove();
       }
       
       n->Immortal = false;
@@ -1247,34 +1247,45 @@ namespace Enemy {
       return Distance(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY()) < distance; 
    }
    
-   void doWalk(npc n, int rand, int homing, int step, bool flying = false) {
-      const int ONE_IN_N = 1000;
-      
-      if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
-         // int attemptCounter  = 0;
-         
-         do {
-            n->Dir = RandGen->Rand(3);
-            
-            if (byEdgeOfScreen(n))
-               n->Dir = RandGen->Rand(3);
-         } until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE));// || ++attemptCounter > 500);
-      }
-      else if (homing >= RandGen->Rand(ONE_IN_N - 1))
-         n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
-      
-      unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE)) {
-         // int attemptCounter  = 0;
-         
-         do {
-            n->Dir = RandGen->Rand(3);
-            int forceDir = byEdgeOfScreen(n);
-            
-            if (forceDir > -1)
-               n->Dir = forceDir;
-         } until(n->CanMove(n->Dir, 2, flying ? SPW_FLOATER : SPW_NONE));// || ++attemptCounter > 500);
-      }
+   bool canMove(npc n) { // TODO account for HITWIDTH and HITX/YOffset
+      if (n->Y - 1 <= 1 && n->Dir == DIR_DOWN) return false;
+      if (n->Y + 1 >= 175 && n->Dir == DIR_UP) return false;
+      if (n->X - 1 <= 1 && n->Dir == DIR_RIGHT) return false;
+      if (n->X + 1 >= 255 && n->Dir == DIR_LEFT) return false;
+      return true;
    }
+   
+   bool forceDir(npc n) { // TODO account for HITWIDTH and HITX/YOffset
+      if (n->Y - 1 <= 1) return DIR_DOWN;
+      if (n->Y + 1 >= 175) return DIR_UP;
+      if (n->X - 1 <= 1) return DIR_RIGHT;
+      if (n->X + 1 >= 255) return DIR_LEFT;
+      return false;
+   }
+   
+   void doWalk(npc n, int rand, int homing, int step, bool flying = false) { // TODO is broken a little
+		const int ONE_IN_N = 1000;
+		
+		if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
+			int attemptCounter  = 0;
+			
+			do {
+				n->Dir = RandGen->Rand(3);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
+		}
+		else if (homing >= RandGen->Rand(ONE_IN_N - 1))
+			n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+		
+		unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE)) {
+			int attemptCounter  = 0;
+			
+			do {
+				n->Dir = RandGen->Rand(3);
+			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
+		}
+      
+      traceToScreen(0, 0, n->X);
+	}
    
    int byEdgeOfScreen(npc n) {
       if (n->Dir == DIR_UP && n->Y < 16) return DIR_DOWN;
@@ -1282,6 +1293,25 @@ namespace Enemy {
       else if (n->Dir == DIR_DOWN && n->Y > 144) return DIR_UP;
       else if (n->Dir == DIR_RIGHT && n->X < 224) return DIR_LEFT;
       else return -1;
+   }
+
+   void gridLockNPC(npc n) {
+      int remainderX = n->X % 16;
+      int remainderY = n->Y % 16;
+      
+      if (remainderX) {
+         if (remainderX < 8)
+            n->X -= remainderX;
+         else 
+            n->X += remainderX;
+      }
+      
+      if (remainderY) {
+         if (remainderY < 8)
+            n->Y -= remainderY;
+         else 
+            n->Y += remainderY;
+      }
    }
 
    float lazyChase(int velocity, int currentPosition, int targetPosition, int acceleration, int topSpeed) {
@@ -1326,11 +1356,17 @@ namespace Enemy {
    }
    
    bool hitByEWeapon(npc n, int weaponId) {      
-      if (n->HitBy[HIT_BY_EWEAPON_UID]) {
-         if (Screen->LoadEWeapon(n->HitBy[HIT_BY_EWEAPON])->Type == weaponId)
+      // if (n->HitBy[HIT_BY_EWEAPON_UID]) {
+         // if (Screen->LoadEWeapon(n->HitBy[HIT_BY_EWEAPON])->Type == weaponId)
+            // return true;
+         // else
+            // return false;
+      // }
+      
+      if (n->HitBy[HIT_BY_EWEAPON]) {
+         if (n->HitBy[HIT_BY_EWEAPON_UID] == weaponId) 
             return true;
-         else
-            return false;
+         return false;
       }
    }
 
