@@ -293,7 +293,7 @@ ffc script IntroPreInteritusLeviathanScene {
 }
 
 @Author("Deathrider365")
-ffc script IntroFinalMessageBeforeIsleOfHaeren {
+ffc script IntroFinalMessageBeforeIoH {
    void run(int message) {
       Audio->PlayEnhancedMusic(NULL, 0);
       Screen->Message(message);
