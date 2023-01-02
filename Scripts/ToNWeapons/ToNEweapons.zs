@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~EWeapon~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EWeapons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("KoolAidWannaBe")
@@ -193,6 +193,27 @@ eweapon script StopperKiller {
    }
 }
 
+eweapon makeHitbox(int x, int y, int w, int h, int damage) {
+   eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
+   e->HitXOffset = x-e->X;
+   e->HitYOffset = y-e->Y;
+   e->DrawYOffset = -1000;
+   e->HitWidth = w;
+   e->HitHeight = h;
+   SetEWeaponLifespan(e, EWL_TIMER, 1);
+   SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+
+   return e;
+}
+
+eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+   x += VectorX(dist, angle);
+   y += VectorY(dist, angle);
+
+   Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+
+   return makeHitbox(x, y, 16, 16, dmg);
+} 
 
 
 

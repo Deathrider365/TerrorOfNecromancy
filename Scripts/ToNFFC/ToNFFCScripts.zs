@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("Deathrider365")
@@ -28,483 +28,6 @@ ffc script ContinuePoint {
    }
 }
 
-@Author("Deathrider365")
-ffc script ServusSoldier {
-   void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
-      mapdata template = Game->LoadTempScreen(1);
-      int prevData = this->Data;
-      
-      if (Hero->Item[itemToCheckFor]) {
-         this->Data = 0;
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
-         Quit();
-      }
-      
-      until(getScreenD(253))  {
-         this->Data = 0;
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
-         Waitframe();
-      }
-
-      template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
-         
-      this->Data = prevData;
-
-      while(true) {
-         until (Screen->State[ST_SECRET])
-            Waitframe();
-         
-         this->Data = 6755;
-            
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Waitframe();
-         }			
-
-         Input->Button[CB_SIGNPOST] = false;
-
-         unless (getScreenD(255)) {
-            Screen->Message(gettingItemString);
-            Waitframe();
-            itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-            
-            Input->Button[CB_SIGNPOST] = false;
-            setScreenD(255, true);
-         }
-         else
-            Screen->Message(alreadyGotItemString);
-
-         Waitframe();
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script GetItemFromSecret {
-   void run(int message, int itemId, int itemX, int itemY, int screenD) {
-      if (Screen->State[ST_SPECIALITEM])
-         Quit();
-      
-      while (true) {
-         if (Screen->State[ST_SECRET]) {
-            CreateItemAt(itemId, itemX, itemY)->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
-            
-            unless(getScreenD(screenD))
-               Screen->Message(message);
-            
-            setScreenD(screenD, true);
-            Quit();
-         }
-         Waitframe();
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script GetItem {
-   void run(int hasItem, int trader, int gettingItemString, int gottenItemString, int scriptSelfTrigger, int selfTriggerValue, int layer, int screenD) {  
-      CONFIG TA_KILL_SCRIPT = 1;
-      CONFIG TA_START_SCRIPT = 2;
-   
-      CONFIG SELF_TRIGGER_ITEM = 1;
-      CONFIG SELF_TRIGGER_SCREEND = 2;
-      CONFIG SELF_TRIGGER_SECRETS = 3;
-      
-      CONFIG HIDE_FFC_UNTIL_TRIGGERED = 9999;
-      
-      mapdata template = Game->LoadTempScreen(layer);
-      
-      int prevData = this->Data;
-      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
-      
-      int triggerRequirement;
-      
-      while(true) {
-         if (scriptSelfTrigger) {
-            int selfTriggerAction = Floor(scriptSelfTrigger);
-            int selfTriggerRequirement = (scriptSelfTrigger % 1) / 1L;
-            triggerRequirement = selfTriggerRequirement;
-            
-            this->Data = 0;
-            template->ComboD[ComboAt(this->X, this->Y)] = 0;
-            
-            // needed is to say you either need it, or CANNOT have it
-            int neededToHave = Floor(selfTriggerValue);
-            int neededValue = (selfTriggerValue % 1) / 1L;
-            
-            switch(selfTriggerAction) {
-               case TA_KILL_SCRIPT:
-                  switch(selfTriggerRequirement) {
-                     case SELF_TRIGGER_ITEM:
-                        if (neededToHave && Hero->Item[neededValue]) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else if (!neededToHave && !Hero->Item[neededValue]) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        }
-                        break;
-                     case SELF_TRIGGER_SCREEND:
-                        if (neededToHave && getScreenD(neededValue)) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else if (!neededToHave && !getScreenD(neededValue)) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        }
-                        break;
-                     case SELF_TRIGGER_SECRETS:
-                        if (neededToHave && Screen->State[ST_SECRET]) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else if (!neededToHave && !Screen->State[ST_SECRET]) {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        else {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        }
-                  }
-                  break;
-               case TA_START_SCRIPT:
-                  switch(selfTriggerRequirement) {
-                     case SELF_TRIGGER_ITEM:
-                        if (neededToHave && Hero->Item[neededValue]) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } 
-                        else if (!neededToHave && Hero->Item[neededValue]) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } else {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        break;
-                     case SELF_TRIGGER_SCREEND:
-                        if (neededToHave && getScreenD(neededValue)) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } 
-                        else if (!neededToHave && !getScreenD(neededValue)) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } else {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                        break;
-                     case SELF_TRIGGER_SECRETS:
-                        if (neededToHave && Screen->State[ST_SECRET]) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } 
-                        else if (!neededToHave && !Screen->State[ST_SECRET]) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } 
-                        else if (neededValue != HIDE_FFC_UNTIL_TRIGGERED) {
-                           this->Data = prevData;
-                           template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-                        } else {
-                           this->Data = 0;
-                           template->ComboD[ComboAt(this->X, this->Y)] = 0;
-                        }
-                  }
-                  break;
-               default:
-                  break;
-            }
-         }
-         
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Waitframe();
-         }
-
-         Input->Button[CB_SIGNPOST] = false;
-         
-         int itemIdOrTriggerValue = Floor(hasItem);
-         int noItemTrigger = (hasItem % 1) / 1L;
-         
-         if (triggerRequirement == SELF_TRIGGER_SECRETS && !Screen->State[ST_SECRET]) {
-            Screen->Message(gettingItemString);
-            Waitframe();
-            Input->Button[CB_SIGNPOST] = false;
-         } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
-            Screen->Message(gottenItemString);
-            Waitframe();
-            Input->Button[CB_SIGNPOST] = false;
-         } else {
-            if (trader) {
-               int requiredItem = Floor(trader);
-               int noItemString = (trader % 1) / 1L;
-               
-               if (Hero->Item[requiredItem]) {
-                  Screen->Message(gettingItemString);
-                  setScreenD(screenD, true);
-                  Waitframe();
-                  
-                  unless (noItemTrigger) {
-                     itemsprite it = CreateItemAt(itemIdOrTriggerValue, Hero->X, Hero->Y);
-                     it->Pickup = IP_HOLDUP;
-                  } 
-                  else
-                     executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
-                  
-                  Input->Button[CB_SIGNPOST] = false;
-               } else {
-                  Screen->Message(noItemString);
-                  Waitframe();
-                  Input->Button[CB_SIGNPOST] = false;
-               }
-            } else {
-               if (Screen->State[ST_SECRET])
-                  Screen->Message(gottenItemString);
-               else
-                  Screen->Message(gettingItemString);
-                  
-               setScreenD(screenD, true);
-               Waitframe();
-               
-               unless (noItemTrigger) {
-                  itemsprite it = CreateItemAt(itemIdOrTriggerValue, Hero->X, Hero->Y);
-                  it->Pickup = IP_HOLDUP;
-               }
-               else
-                  executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
-               
-               Input->Button[CB_SIGNPOST] = false;
-            }
-         }
-         
-         Waitframe();
-      }
-   }
-   
-   void executeNoItemTrigger(int triggerValue, int triggerType) {
-      switch (triggerType) {
-         case TT_SCREEND_SET:
-            setScreenD(triggerValue, true);
-            break;
-         case TT_SCREEND_NOT_SET:
-            setScreenD(triggerValue, false);
-            break;
-         case TT_SECRETS_TRIGGERED:
-            Screen->TriggerSecrets();
-            Screen->State[ST_SECRET] = true;
-				Audio->PlaySound(SFX_SECRET);
-            break;
-         default:
-            break;
-      }
-   }
-}
-
-@Author("Tabletpillow, EmilyV99, Deathrider365")
-ffc script SimpleShop {
-   void run(int itemId, int price, bool boughtOnce) {
-      if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
-         Quit();
-   
-      int noStockCombo = this->Data;
-      this->Data = COMBO_INVIS;
-      
-      itemdata itemData = Game->LoadItemData(itemId);
-      int itemTile = itemData->Tile;
-      int itemCSet = itemData->CSet;
-
-      int loc = ComboAt(this->X + 8, this->Y + 8);
-      char32 priceBuf[6];
-      sprintf(priceBuf, "%d", price);
-
-      while(true) {
-         if(boughtOnce && Hero->Item[itemId]) {
-            this->Data = noStockCombo;
-
-            while (Hero->Item[itemId])
-               Waitframe();
-
-            this->Data = COMBO_INVIS;
-         }
-
-         Screen->FastTile(7, this->X, this->Y, itemTile, itemCSet, OP_OPAQUE);
-         Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-
-         if (againstItem(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-            if(Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_RUPEES] >= price) {
-                  Game->DCounter[CR_RUPEES] -= price;
-                  item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
-
-                  switch(itemId) {
-                     case ITEM_EXPANSION_BOMB:
-                        numBombUpgrades++;
-                        break;
-                     case ITEM_EXPANSION_QUIVER:
-                        numQuiverUpgrades++;
-                        break;
-                     case ITEM_BATTLE_ARENA_TICKET:
-                        Screen->TriggerSecrets();
-                        break;
-                  }
-
-                  itemToBuy->Pickup = IP_HOLDUP;
-               } 
-               else
-                  Screen->Message(123);
-               
-               Input->Button[CB_SIGNPOST] = false;
-            }
-         }
-         
-         Waitframe();
-      }
-   }
-   
-   bool againstItem(int ffcX, int ffcY) {
-      if (Hero->Z == 0) {
-         if (Abs((Hero->X) - (ffcX)) <= 8) {
-            if (Hero->Y > ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
-               return true;
-            else if (Hero->Y < ffcY && ffcY - Hero->Y <= 10 && Hero->Dir == DIR_DOWN)
-               return true;
-         }
-         else if (Abs((Hero->Y) - (ffcY)) <= 8) {
-            if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
-               return true;
-            else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-               return true;
-         }
-      }
-      return false;
-   }
-}
-
-@Author("Deathrider365")
-ffc script BuyItem {
-   void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
-      bool alreadyBought = false;
-
-      if (buyOnce && Hero->Item[itemId]) {
-         this->Data = COMBO_INVIS;
-         Quit();
-      }
-
-      char32 priceBuf[6];
-      sprintf(priceBuf, "%d", price);
-
-      Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-      
-      unless (getScreenD(entryMessageOnce))
-         Screen->Message(entryMessage);
-         
-      if (entryMessageOnce) {
-         setScreenD(entryMessageOnce, true);
-      }
-      
-      Waitframe();
-         
-      while(!alreadyBought) {
-         Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-         
-         if (onTop(this->X, this->Y) && Game->Counter[CR_RUPEES] >= price) {
-            Game->DCounter[CR_RUPEES] -= price;
-            
-            item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
-            itemToBuy->Pickup = IP_HOLDUP;
-            
-            switch(itemId) {
-               case ITEM_EXPANSION_BOMB:
-                  numBombUpgrades++;
-                  break;
-               case ITEM_EXPANSION_QUIVER:
-                  numQuiverUpgrades++;
-                  break;
-               case ITEM_BATTLE_ARENA_TICKET:
-                  Screen->TriggerSecrets();
-                  break;
-            }
-            
-            alreadyBought = true;
-            this->Data = COMBO_INVIS;
-         }
-         Waitframe();
-      }
-   }
-}
-
-@Author ("Moosh")
-ffc script DifficultyChoice {
-    void run() {
-		for (int i = 0; i < 20; ++i) {
-         notDuringCutsceneLink();
-			Screen->Rectangle(7, 0, 0, 256, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
-			Waitframe();
-		}
-
-		enteringTransition();
-      
-      bool cursor = false;
-
-		while(true) {
-         notDuringCutsceneLink();
-         
-         Screen->FastTile(7, 96, !cursor ? 96 : 112, 46675, 0, OP_OPAQUE);
-         
-         if (Input->Press[CB_DOWN] || Input->Press[CB_UP]) {
-            Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-            cursor = !cursor;
-         }
-            
-			if (Input->Press[CB_A]) {
-            Hero->Item[!cursor ? I_DIFF_NORMAL : I_DIFF_VERYHARD] = true;
-            Audio->PlaySound(!cursor ? 139 : 140);
-
-            for (int i = 0; i < 45; ++i) {
-               Screen->FastTile(7, 80, !cursor ? 96 : 112, !cursor ? 46594 : 46634, 0, OP_OPAQUE);
-               Screen->FastTile(7, 96, !cursor ? 96 : 112, !cursor ? 46595 : 46635, 0, OP_OPAQUE);
-               Screen->FastTile(7, 112, !cursor ? 96 : 112, !cursor ? 46596 : 46636, 0, OP_OPAQUE);
-               Screen->FastTile(7, 128, !cursor ? 96 : 112, !cursor ? 46597 : 46637, 0, OP_OPAQUE);
-               Screen->FastTile(7, 144, !cursor ? 96 : 112, !cursor ? 46598 : 46638, 0, OP_OPAQUE);
-               Screen->FastTile(7, 160, !cursor ? 96 : 112, !cursor ? 46599 : 46639, 0, OP_OPAQUE);
-               Waitframe();
-            }
-
-            Waitframes(30);
-            Hero->WarpEx({WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
-			}
-
-			Waitframe();
-		}
-    }
-    
-    void notDuringCutsceneLink() {    
-      Hero->Stun = 999;
-      Link->PressStart = false;
-      Link->InputStart = false;
-      Link->PressMap = false;
-      Link->InputMap = false;
-   }
-}
-
 @Author("Demonlink")
 ffc script CompassBeep {
    void run() {
@@ -515,14 +38,6 @@ ffc script CompassBeep {
          !Screen->State[ST_SPECIALITEM] &&
          (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
          Audio->PlaySound(COMPASS_BEEP);
-   }
-}
-
-@Author("Deathrider365")
-ffc script RemoveItem {
-   void run(int itemId) {
-      if (Hero->Item[itemId])
-         Hero->Item[itemId] = false;
    }
 }
 
@@ -707,46 +222,6 @@ ffc script DisableRadialTransparency {
    void run(int pos) {
       while(true) {
          disableTrans = Screen->ComboD[pos] ? true : false;
-         Waitframe();
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script InfoShop {
-   void run(int boughtString, int price, int notBoughtMessage) {
-      char32 priceBuf[6];
-      sprintf(priceBuf, "%d", price);
-
-      while(true) {
-         Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-
-         if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-
-            if(Input->Press[CB_SIGNPOST]) {
-               Hero->Action = LA_NONE;
-               Hero->Stun = 15;
-
-               if (Game->Counter[CR_RUPEES] >= price) {
-                  Game->DCounter[CR_RUPEES] -= price;
-                  Input->Button[CB_SIGNPOST] = false;
-
-                  for (int i = 0; i < price * 2; ++i) {
-                     NoAction();
-                     Waitframe();
-                  }
-
-                  Hero->Action = LA_NONE;
-                  Hero->Stun = 15;
-
-                  Screen->Message(boughtString);
-               } else {
-                  Input->Button[CB_SIGNPOST] = false;
-                  Screen->Message(notBoughtMessage);
-               }
-            }
-         }
          Waitframe();
       }
    }
@@ -1162,4 +637,71 @@ ffc script Thrower {
       }
    }
 }
+
+@Author("EmilyV99")
+ffc script WarpCustomReturn {
+   void run(int dmapScreen1, int x1, int y1, int dmapScreen2, int x2, int y2, int sideFacing, int warp) {
+      int dmap1 = Floor(dmapScreen1);
+      int screen1 = (dmapScreen1 % 1) / 1L;
+      int dmap2 = Floor(dmapScreen2);
+      int screen2 = (dmapScreen2 % 1) / 1L;
+      int warpType = Floor(warp);
+      int warpEffect = (warp % 1) / 1L;
+      int side = Floor(sideFacing);
+      int dir = (sideFacing % 1) / 1L;
+      
+      switch(side) {
+         case DIR_UP:
+            while(true) {
+               if(Hero->Y <= 1.5 && Hero->InputUp) {
+                  if(dmap2 && Hero->X >= this->X)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_DOWN: 
+            while(true) {
+               if(Hero->Y >= 158.5 && Hero->InputDown) {
+                  if(dmap2 && Hero->X >= this->X)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_LEFT:
+            while(true) {
+               if(Hero->X <= 1.5 && Hero->InputLeft) {
+                  if(dmap2 && Hero->Y >= this->Y)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_RIGHT:
+            while(true) {
+               if(Hero->X >= 238.5 && Hero->InputRight) {
+                  if(dmap2 && Hero->Y >= this->Y)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         default:
+            while(true) {
+               if (Abs(Hero->X - this->X) <= 14 && Abs(Hero->Y - this->Y) <= 14)
+                  Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               Waitframe();
+            }
+      }
+   }
+}
+
+
+
+
 

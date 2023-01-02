@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~The Terror of Necromancy ActiveSubscreen~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ActiveSubscreen ~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-@Author("EmilyV99, Modified by Deathrider365")
+@Author("EmilyV99, Deathrider365")
 dmapdata script SubscreenActive {
    void run() {
       if(Game->Suspend[susptSUBSCREENSCRIPTS]) 

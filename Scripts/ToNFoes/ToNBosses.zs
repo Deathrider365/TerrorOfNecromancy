@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Bosses~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bosses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("Moosh, modified by Deathrider365")
@@ -930,6 +930,258 @@ ffc script Shambles {
 }
 
 @Author("EmilyV99, Deathrider365")
+npc script Hazarond {
+   using namespace EnemyNamespace;
+   using namespace HazarondNamespace;
+   
+   CONFIG DEFAULT_COMBO = 10272;
+   CONFIG JUMP_PREP_COMBO = 10273;
+   CONFIG JUMPING_COMBO = 10274;
+   CONFIG JUMP_LANDING_COMBO = 10275;
+   
+   CONFIG TIME_BETWEEN_ATTACKS = 180;
+   
+   void run(int hurtCSet, int minion) {
+      if (firstRun)
+         disableLink();
+         
+      setupNPC(this);
+      
+      untyped data[SZ_DATA];
+      int oCSet = this->CSet;
+      int timeSinceLastAttack = 180;
+      
+      setNPCToCombo(data, this, DEFAULT_COMBO);
+      
+      npc heads[4];
+      
+      int eweaponStopper = Game->GetEWeaponScript("StopperKiller");
+      
+      bitmap effectBitmap = create(256, 168);
+      this->Immortal = true;
+      
+      const int maxHp = this->HP;
+      
+      for (int headIndex = 0; headIndex < 4; ++headIndex) {
+         heads[headIndex] = Screen->CreateNPC(minion);
+         heads[headIndex]->InitD[0] = this;
+         heads[headIndex]->Dir = headIndex + 4;
+      }
+      
+      if (firstRun) {
+         disableLink();
+         commenceIntroSequence(this, data, heads);
+         Screen->Message(402);
+         firstRun = false;
+      }
+      else
+         Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+      
+      disableLink();
+      
+      while(this->HP > 0) {
+         int previousAttack;
+         
+         int angle;
+         int headOpen = 20;
+         int headOpenIndex;
+         
+         while(true) {
+            if (isHeadsDead(heads))
+               break;
+            
+            for (int i = 0; i < 20; ++i)
+               this->Defense[i] = NPCDT_IGNORE;
+            
+            for (int i = 0; i < 4; ++i)
+               if (heads[i])
+                  heads[i]->CollDetection = true;
+               
+            if (headOpen == 20) {
+               headOpenIndex = RandGen->Rand(3);
+               
+               until (heads[headOpenIndex])
+                  headOpenIndex = RandGen->Rand(3);
+            
+               if (heads[headOpenIndex])
+                  heads[headOpenIndex]->OriginalTile -= 1;
+            }
+            
+            if (headOpen == 0) {
+               if (heads[headOpenIndex])
+                  heads[headOpenIndex]->OriginalTile += 1;
+               
+               headOpenIndex = RandGen->Rand(3);
+               
+               until (heads[headOpenIndex])
+                  headOpenIndex = RandGen->Rand(3);
+                  
+               if (heads[headOpenIndex])
+                  heads[headOpenIndex]->OriginalTile -= 1;
+                  
+               headOpen = 20;
+            }
+               
+            angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+            
+            unless (data[DATA_CLK] % 3)
+               this->MoveAtAngle(angle, 1, SPW_NONE);
+            
+            bool justSprayed = false;
+            
+            if (TIME_BETWEEN_ATTACKS <= timeSinceLastAttack) {
+               if (heads[headOpenIndex])
+                  heads[headOpenIndex]->OriginalTile += 1;
+                  
+               oilSpray(data, this, heads, isDifficultyChange(this, maxHp));
+               
+               headOpen = 21;
+               justSprayed = true;
+               timeSinceLastAttack = 0;
+            }
+            
+            if (this->HP <= 0)
+               deathAnimation(this, 142);
+               
+            if (isHeadsDead(heads))
+               break;
+            
+            if (linkClose(this, 32)) {
+               timeSinceLastAttack += 60;
+            
+               if (heads[headOpenIndex] && timeSinceLastAttack != 0 && !justSprayed)
+                  heads[headOpenIndex]->OriginalTile += 1;
+                  
+               headOpen = 21;
+               
+               groundPound(this, data, heads, headOpenIndex);
+               
+               if (HazarondWaitframe(this, data, 45, heads))
+                  break;
+            }
+            
+            if (headOpen == 10)
+               if (heads[headOpenIndex] && heads[headOpenIndex]->isValid())
+                  dropFlame(heads, headOpenIndex, eweaponStopper);
+            
+            ++timeSinceLastAttack;
+            --headOpen;
+            
+            EnemyWaitframe(this, data);
+         }
+         
+         this->CollDetection = true;
+         int originalCSet = this->CSet;
+         this->CSet = hurtCSet;
+         
+         for (int i = 0; i < 20; ++i) {
+            if (i == NPCD_FIRE)
+               this->Defense[i] = NPCDT_IGNORE;
+            else if(i == NPCD_ARROW)
+               this->Defense[i] = NPCDT_BLOCK;
+            else
+               this->Defense[i] = NPCDT_NONE;
+         }
+         
+         for(int i = 0; i < 10; ++i)
+            EnemyWaitframe(this, data);
+         
+         int previousX, previousY, prevIndex;
+         
+         int fleeDuration = 5 * 60;
+         
+         while (fleeDuration) {
+            if (this->HP <= 0)
+               deathAnimation(this, 142);
+            
+            angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
+            
+            if ((!(this->CanMove(this->Dir, 1, 0)) || (this->X == previousX && this->Y == previousY)) && linkClose(this, 48))
+               stuckAction(this, data, fleeDuration);
+            
+            previousX = this->X;
+            previousY = this->Y;
+            
+            this->MoveAtAngle(180 + angle, 1, SPW_NONE);
+            
+            --fleeDuration;
+            EnemyWaitframe(this, data);
+         }
+         
+         EnemyWaitframe(this, data, 60);
+         
+         if (this->HP <= 0)
+            deathAnimation(this, 142);
+         
+         int centerX = 256 / 2;
+         int centerY = 176 / 2 - 16;
+         
+         while(Distance(this->X + this->HitXOffset + this->HitWidth / 2, this->Y + this->HitYOffset + this->HitHeight / 2, centerX, centerY) > 3)
+            while (MoveTowardsPoint(this, centerX, centerY, 2, SPW_FLOATER, true))
+               EnemyWaitframe(this, data, 2);
+         
+         this->CollDetection = false;
+         
+         for (int i = 0; i < 20; ++i)
+            this->Defense[i] == NPCDT_IGNORE;
+            
+         data[DATA_INVIS] = true;
+         
+         for (int i = 0; i < 32; ++i) {
+            for(int j = 0; j < 4; ++j) {
+               effectBitmap->Clear(0);
+               effectBitmap->DrawTile(4, this->X, this->Y + i, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
+               effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+               Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               
+               EnemyWaitframe(this, data);
+            }
+         }
+         
+         for (int headIndex = 0; headIndex < 4; ++headIndex) {
+            heads[headIndex] = Screen->CreateNPC(minion);
+            heads[headIndex]->InitD[0] = this;
+            heads[headIndex]->Dir = headIndex + 4;
+            heads[headIndex]->DrawXOffset = 1000;
+            heads[headIndex]->CollDetection = false;
+         }
+         
+         this->CSet = originalCSet;
+         
+         for (int i = 31; i >= 0; --i) {				
+            for(int j = 0; j < 4; ++j) {
+               effectBitmap->Clear(0);
+               effectBitmap->DrawTile(4, this->X, this->Y + i, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               
+               for (int headIndex = 0; headIndex < 4; ++headIndex)
+                  effectBitmap->DrawTile(4, heads[headIndex]->X, heads[headIndex]->Y + i - 2, heads[headIndex]->ScriptTile, 1, 1, heads[headIndex]->CSet, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               
+               effectBitmap->Rectangle(4, this->X - 8, 167, this->X + 39, this->Y + 31, 0, -1, 0, 0, 0, true, OP_OPAQUE);
+               effectBitmap->Blit(4, RT_SCREEN, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+               Screen->DrawCombo(4, this->X, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               Screen->DrawCombo(4, this->X + 16, this->Y + 24, 6725, 1, 1, 2, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+               
+               EnemyWaitframe(this, data);
+            }
+         }
+         
+         this->HP += 6;
+         data[DATA_INVIS] = false;
+         this->CollDetection = true;
+         
+         for (int headIndex = 0; headIndex < 4; ++headIndex)
+            heads[headIndex]->DrawXOffset = 0;		
+      }
+      
+      effectBitmap->Free();
+      this->CollDetection = false;
+      deathAnimation(this, 142);
+   }
+}
+
+@Author("EmilyV99, Deathrider365")
 npc script OvergrownRaccoon {
    using namespace OvergrownRaccoonNamespace;
    using namespace EnemyNamespace;
@@ -1062,21 +1314,6 @@ npc script OvergrownRaccoon {
          
          Waitframe();
       }
-   }
-}
-
-@Author("Deathrider365")
-npc script Demonwall {
-   void run() {
-      // for (int i = 0; i < roomsize since the wall can squish link for instakill; ++i)
-      // {
-         // move the guy perhaps 1/8th of a tile every frame 
-         // if (demonwall->HP at 70%)
-            // move demonwall back 3 tiles if it can, otherwise just back the the left wall
-            
-         // do some attacks
-         
-      // }
    }
 }
 
@@ -1859,4 +2096,17 @@ npc script ServusMalus {
 }
 
 
-
+@Author("Deathrider365")
+npc script Demonwall {
+   void run() {
+      // for (int i = 0; i < roomsize since the wall can squish link for instakill; ++i)
+      // {
+         // move the guy perhaps 1/8th of a tile every frame 
+         // if (demonwall->HP at 70%)
+            // move demonwall back 3 tiles if it can, otherwise just back the the left wall
+            
+         // do some attacks
+         
+      // }
+   }
+}

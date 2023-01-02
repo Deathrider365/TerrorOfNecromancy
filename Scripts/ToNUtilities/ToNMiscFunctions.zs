@@ -357,30 +357,6 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
 
 }
 
-// Makes a hitbox with ghost.zh weapons
-eweapon makeHitbox(int x, int y, int w, int h, int damage) {
-   eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
-   e->HitXOffset = x-e->X;
-   e->HitYOffset = y-e->Y;
-   e->DrawYOffset = -1000;
-   e->HitWidth = w;
-   e->HitHeight = h;
-   SetEWeaponLifespan(e, EWL_TIMER, 1);
-   SetEWeaponDeathEffect(e, EWD_VANISH, 0);
-
-   return e;
-}
-
-// Creates a 1x1 weapon
-eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
-   x += VectorX(dist, angle);
-   y += VectorY(dist, angle);
-
-   Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
-
-   return makeHitbox(x, y, 16, 16, dmg);
-} 
-
 // sword1x1 but checks for lweapon sword collision
 bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
    eweapon hitbox = sword1x1(x, y, angle, dist, cmb, cset, dmg);
@@ -628,38 +604,6 @@ void disableLink() {
    Link->InputMap = false;
 }
 
-itemsprite script ArcingItemSprite {
-   void run(int angle, int step, int initJump, int gravity) {
-      int x = this->X;
-      int y = this->Y;
-      int jump = initJump;
-      bool timeout = this->Pickup & IP_TIMEOUT;
-      int linkDistance = Distance(Hero->X + Rand(-16, 16), Hero->Y + Rand(-16, 16), this->X, this->Y);
-
-      this->Gravity = false;
-      this->Pickup ~= IP_TIMEOUT;
-
-      if (initJump == -1 && gravity == 0)
-         jump = getJumpLength(linkDistance / (step), true);
-
-      unless (gravity)
-         gravity = Game->Gravity[GR_STRENGTH];
-
-      while(jump > 0 || this->Z > 0) {
-         x += VectorX(step, angle);
-         y += VectorY(step, angle);
-         this->X = x;
-         this->Y = y;
-         this->Z += jump;
-         jump -= gravity;
-         Waitframe();
-      }
-
-      if (timeout)
-      this->Pickup |= IP_TIMEOUT;
-   }
-}
-
 // Checks if a certain trigger went off
 bool wasTriggered(float trigger) {
    int triggerType = Floor(trigger);
@@ -683,18 +627,6 @@ bool wasTriggered(float trigger) {
       default:
          return false;
    }
-}
-
-lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight, int frames) {
-   lweapon weapon = CreateLWeaponAt(LW_SCRIPT1, x, y);
-   weapon->UseSprite(sprite);
-   weapon->TileWidth = tileWidth ? tileWidth : 1;
-   weapon->TileHeight = tileHeight ? tileHeight : 1;
-   weapon->Script = Game->GetLWeaponScript("TimedEffect");
-   weapon->CollDetection = false;
-   weapon->InitD[0] = frames;
-
-   return weapon;
 }
 
 

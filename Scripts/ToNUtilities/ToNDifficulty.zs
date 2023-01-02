@@ -1,8 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy FFC Scripts~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Difficulty ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-//start constants
 const int NPCM_DIFFICULTYFLAG = 14; //npc->Misc[] index used to track enemy difficulty modification. Be sure this doesn't overlap with other scripts.
 const int DIFFICULTY_APPLY_NPC_SCALING = 1; //If 1, scaling will be applied to enemies based on settings. If not, that will be skipped completely
 
@@ -42,21 +41,18 @@ const int I_DIFF_EASY = 160;
 const int I_DIFF_NORMAL = 161;
 const int I_DIFF_HARD = 162;
 const int I_DIFF_VERYHARD = 164;
-//end
 
-void DifficultyGlobal_SetEnemyHP(npc n, int val) //start
-{
+void DifficultyGlobal_SetEnemyHP(npc n, int val) {
 	//If using ghost.zh, uncomment the following and comment out the line below
 		SetEnemyProperty(n, ENPROP_HP, val);
 		// n->HP = val;
-} //end
+}
 
-int DifficultyGlobal_GetEnemyHP(npc n) //start
-{
+int DifficultyGlobal_GetEnemyHP(npc n) {
 	//If using ghost.zh, uncomment the following and comment out the line below
 		return GetEnemyProperty(n, ENPROP_HP);
 		// return n->HP;
-} //end
+} 
 
 //This function handles exceptions to enemy stat calculation / manual stat assignment based on difficulty
 //
@@ -74,8 +70,7 @@ int DifficultyGlobal_GetEnemyHP(npc n) //start
 //	EnemyDiff_Homing(NPCID, VeryEasy, Easy, Normal, Hard, VeryHard) - Sets homing
 //	EnemyDiff_Weapon(NPCID, VeryEasy, Easy, Normal, Hard, VeryHard) - Sets weapon (use WPN_ constants from std_constants.zh)
 //	EnemyDiff_ItemSet(NPCID, VeryEasy, Easy, Normal, Hard, VeryHard) - Sets item dropset
-void DifficultyGlobal_InitEnemyTables() //start
-{
+void DifficultyGlobal_InitEnemyTables() {
 	//Example Enemy Configuration: 
 	//This would set the Stalfos 2's HP, beam damage, turns off beams on easy mode, and turns off hearts on higher difficulties
 	
@@ -107,9 +102,9 @@ void DifficultyGlobal_InitEnemyTables() //start
 	// EnemyDiff_Damage(NPC_GIBDO, -1, -1, -1, 16, 24);
 	
 	// EnemyDiff_HP(NPC_SHOOTFBALL, -1000, -1000, -1, -1, -1);
-} //end
+}
 
-//start ======= INTERNAL CONSTANTS, DO NOT CHANGE ======
+//======= INTERNAL CONSTANTS, DO NOT CHANGE ======
 const int DIFF_VERYEASY = 0;
 const int DIFF_EASY = 1;
 const int DIFF_NORMAL = 2;
@@ -138,18 +133,16 @@ const int __DIT_HOMING = 6;
 const int __DIT_WEAPON = 7; //Use WPN_ constants!
 const int __DIT_ITEMSET = 8;
 
-//end ===============================================
+//===============================================
 
 int DifficultyGlobal[65536];
 
 //Init function for the difficulty script. Call once in global script before void run(){
-void DifficultyGlobal_Init() //start
-{
+void DifficultyGlobal_Init() {
 	DifficultyGlobal_Init(true);
-} //end
+} 
 
-void DifficultyGlobal_Init(bool resetOverride) //start
-{
+void DifficultyGlobal_Init(bool resetOverride) {
 	int i;
 	
 	for(i=0; i<23040; ++i)
@@ -161,28 +154,23 @@ void DifficultyGlobal_Init(bool resetOverride) //start
 		DifficultyGlobal[__DI_DIFFICULTYOVERRIDE] = 0;
 	
 	DifficultyGlobal_InitEnemyTables();
-} //end
+}
 
 //Update function for the difficulty script. Call once in global script before Waitframe();
-void DifficultyGlobal_Update() //start
-{
+void DifficultyGlobal_Update() {
 	//Update difficulty every frame in case items change
 	DifficultyGlobal[__DI_CURDIFFICULTY] = Difficulty_GetDifficulty();
 	
 	//Apply difficulty override
-	if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE])
-	{
+	if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]) {
 		//<100 = temporary (1 frame) override
-		if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]<100)
-		{
+		if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]<100) {
 			DifficultyGlobal[__DI_CURDIFFICULTY] = DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]-1;
 			DifficultyGlobal[__DI_DIFFICULTYOVERRIDE] = 0;
 		}
 		//>100 = permanent override
 		else if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]>100)
-		{
 			DifficultyGlobal[__DI_CURDIFFICULTY] = DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]-101;
-		}
 	}
 	
 	//Remember Link's last HP and apply damage modifiers
@@ -201,44 +189,36 @@ void DifficultyGlobal_Update() //start
 		}
 		DifficultyGlobal[__DI_LINKLASTHP] = Link->HP;
 	}
-} //end
+} 
 
 //Enemy update loop for the difficulty script. Call once in global script after DifficultyGlobal_Update();
-void DifficultyGlobal_EnemyUpdate() //start
-{
+void DifficultyGlobal_EnemyUpdate() {
 	int i;
-	for(i=Screen->NumNPCs(); i>=1; --i)
-	{
+	for(i=Screen->NumNPCs(); i>=1; --i) {
 		npc n = Screen->LoadNPC(i);
 		__DifficultyGlobal_EnemyUpdate_Difficulty(n);
 	}
-} //end
+} 
 
 //Updates difficulty per enemy as they spawn
-void __DifficultyGlobal_EnemyUpdate_Difficulty(npc n) //start
-{
+void __DifficultyGlobal_EnemyUpdate_Difficulty(npc n) {
 	int id = n->ID;
 	int stat;
 	int mult;
-	if(!n->Misc[NPCM_DIFFICULTYFLAG]&&DIFFICULTY_APPLY_NPC_SCALING)
-	{
-		if(n->Type!=NPCT_GUY&&n->Type!=NPCT_FAIRY)
-		{
+	if(!n->Misc[NPCM_DIFFICULTYFLAG]&&DIFFICULTY_APPLY_NPC_SCALING){
+		if(n->Type!=NPCT_GUY&&n->Type!=NPCT_FAIRY) {
 			//<< ENEMY HP >>
 			stat = __EnemyDiff_GetAttrib(id, __DIT_HP, DifficultyGlobal[__DI_CURDIFFICULTY]); 
 			mult = DifficultyGlobal_GetEnemyHPMultiplier();
 			//If an override was set, use that
-			if(stat>0)
-			{
+			if(stat>0) {
 				//Prevent lowering the HP of a splitter
 				if(!__DifficultyGlobal_HPExceptions(n, stat-1))
 					DifficultyGlobal_SetEnemyHP(n, stat-1);
 			}
 			//Else use the base multiplier
-			else if(mult>0)
-			{
-				if(DifficultyGlobal_GetEnemyHP(n)>0&&stat!=-1)
-				{
+			else if(mult>0) {
+				if(DifficultyGlobal_GetEnemyHP(n)>0&&stat!=-1) {
 					stat = Max(1, Ceiling(DifficultyGlobal_GetEnemyHP(n)*mult));
 					//Prevent lowering the HP of a splitter
 					if(!__DifficultyGlobal_HPExceptions(n, stat))
@@ -313,10 +293,9 @@ void __DifficultyGlobal_EnemyUpdate_Difficulty(npc n) //start
 		}
 		n->Misc[NPCM_DIFFICULTYFLAG] = 1;
 	}
-} //end
+} 
 
-void __EnemyDiff_SetAttrib(int npcID, int attrib, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void __EnemyDiff_SetAttrib(int npcID, int attrib, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	if(veryHard!=-1)
 		DifficultyGlobal[__DI_ENEMYTABLES_START+__DI_ENEMYTABLES_DIFFSIZE*DIFF_VERYHARD+__DI_ENEMYTABLES_SLOTSIZE*npcID+attrib] = veryHard+1;
 	if(hard!=-1)
@@ -328,77 +307,64 @@ void __EnemyDiff_SetAttrib(int npcID, int attrib, int veryEasy, int easy, int no
 	if(veryEasy!=-1)
 		DifficultyGlobal[__DI_ENEMYTABLES_START+__DI_ENEMYTABLES_DIFFSIZE*DIFF_VERYEASY+__DI_ENEMYTABLES_SLOTSIZE*npcID+attrib] = veryEasy+1;
 	
-} //end
+} 
 
-int __EnemyDiff_GetAttrib(int npcID, int attrib, int diff) //start
-{
+int __EnemyDiff_GetAttrib(int npcID, int attrib, int diff) {
 	return DifficultyGlobal[__DI_ENEMYTABLES_START+__DI_ENEMYTABLES_DIFFSIZE*diff+__DI_ENEMYTABLES_SLOTSIZE*npcID+attrib];
-} //end
+} 
 
-void EnemyDiff_HP(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_HP(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_HP, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_Damage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_Damage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_DAMAGE, veryEasy, easy, normal, hard, veryHard);
 	__EnemyDiff_SetAttrib(npcID, __DIT_WDAMAGE, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_ContactDamage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_ContactDamage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_DAMAGE, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_WeaponDamage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_WeaponDamage(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_WDAMAGE, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_Step(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_Step(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_STEP, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_RandomRate(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_RandomRate(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_RANDRATE, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_HaltRate(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_HaltRate(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_HALTRATE, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_Homing(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_Homing(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_HOMING, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_Weapon(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_Weapon(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_WEAPON, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
-void EnemyDiff_ItemSet(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) //start
-{
+void EnemyDiff_ItemSet(int npcID, int veryEasy, int easy, int normal, int hard, int veryHard) {
 	__EnemyDiff_SetAttrib(npcID, __DIT_ITEMSET, veryEasy, easy, normal, hard, veryHard);
-} //end
+} 
 
 //Returns true if an enemy has problems with lowering HP
-bool __DifficultyGlobal_HPExceptions(npc n, int targetHP) //start
-{
+bool __DifficultyGlobal_HPExceptions(npc n, int targetHP) {
 	int hp = DifficultyGlobal_GetEnemyHP(n);
 	if(n->Type==NPCT_WALK&&n->Attributes[1]==1)
 		return true;
 	if(n->Type==NPCT_GLEEOK&&targetHP<hp)
 		return true;
 	return false;
-} //end
+} 
 
-void DifficultyGlobal_SetDifficulty(int diffLevel) //start
-{
+void DifficultyGlobal_SetDifficulty(int diffLevel) {
 	//Remove items for all active levels of difficulty
 	if(I_DIFF_VERYEASY)
 		Link->Item[I_DIFF_VERYEASY] = false;
@@ -424,14 +390,12 @@ void DifficultyGlobal_SetDifficulty(int diffLevel) //start
 		Link->Item[I_DIFF_VERYHARD] = true;
 	else
 		Link->Item[I_DIFF_NORMAL] = true;
-} //end
+} 
 
 //Returns a numbered value for the current difficulty level
 //Based on items in Link's inventory
-int Difficulty_GetDifficulty() //start
-{
-	if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE])
-	{
+int Difficulty_GetDifficulty() {
+	if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]) {
 		//<100 = temporary (1 frame) override
 		if(DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]<100)
 			return DifficultyGlobal[__DI_DIFFICULTYOVERRIDE]-1;
@@ -461,11 +425,10 @@ int Difficulty_GetDifficulty() //start
 	if(I_DIFF_VERYEASY)
 		if(Link->Item[I_DIFF_VERYEASY])
 			return DIFF_VERYEASY;
-} //end
+} 
 
 //Returns one of 5 options based on the current difficulty, starting from easy and going to very hard
-int Difficulty_DiffMod(int dVeryEasy, int dEasy, int dNormal, int dHard, int dVeryHard) //start
-{
+int Difficulty_DiffMod(int dVeryEasy, int dEasy, int dNormal, int dHard, int dVeryHard) {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
 		return dVeryHard;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
@@ -477,11 +440,10 @@ int Difficulty_DiffMod(int dVeryEasy, int dEasy, int dNormal, int dHard, int dVe
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
 		return dVeryEasy;
 	return dNormal;
-} //end
+} 
 
 //Returns the global damage multiplier, which all Link's damage is multiplied by
-int Difficulty_GetGlobalDamageMultiplier() //start
-{
+int Difficulty_GetGlobalDamageMultiplier() {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
 		return DIFFICULTY_VERYHARD_DAMAGE_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
@@ -493,11 +455,10 @@ int Difficulty_GetGlobalDamageMultiplier() //start
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
 		return DIFFICULTY_VERYEASY_DAMAGE_MULTIPLIER;
 	return DIFFICULTY_NORMAL_DAMAGE_MULTIPLIER;
-} //end
+} 
 
 //Returns the enemy HP multiplier, which all enemy HP is multiplied by
-int DifficultyGlobal_GetEnemyHPMultiplier() //start
-{
+int DifficultyGlobal_GetEnemyHPMultiplier() {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
 		return DIFFICULTY_ENEMY_VERYHARD_HP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
@@ -509,11 +470,10 @@ int DifficultyGlobal_GetEnemyHPMultiplier() //start
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
 		return DIFFICULTY_ENEMY_VERYEASY_HP_MULTIPLIER;
 	return DIFFICULTY_ENEMY_NORMAL_HP_MULTIPLIER;
-} //end
+} 
 
 //Returns the enemy damage multiplier, which all enemy damage to Link is multiplied by
-int Difficulty_GetEnemyDamageMultiplier() //start
-{
+int Difficulty_GetEnemyDamageMultiplier() {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
 		return DIFFICULTY_ENEMY_VERYHARD_DAMAGE_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
@@ -525,11 +485,10 @@ int Difficulty_GetEnemyDamageMultiplier() //start
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
 		return DIFFICULTY_ENEMY_VERYEASY_DAMAGE_MULTIPLIER;
 	return DIFFICULTY_ENEMY_NORMAL_DAMAGE_MULTIPLIER;
-} //end
+} 
 
 //Returns the enemy step multiplier, which all enemy step speed is multiplied by
-int Difficulty_GetEnemyStepMultiplier() //start
-{
+int Difficulty_GetEnemyStepMultiplier() {
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYHARD)
 		return DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER;
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_HARD)
@@ -541,14 +500,12 @@ int Difficulty_GetEnemyStepMultiplier() //start
 	if(DifficultyGlobal[__DI_CURDIFFICULTY]==DIFF_VERYEASY)
 		return DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER;
 	return DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER;
-} //end
+} 
 
 //Item script for difficulty pickups (for removing other difficulty items)
 //D0: ID of this item
-item script Difficulty_PickupItem //start
-{
-	void run(int itemID)
-	{
+item script Difficulty_PickupItem {
+	void run(int itemID)	{
 		//Remove items for all active levels of difficulty
 		if(I_DIFF_VERYEASY)
 			Link->Item[I_DIFF_VERYEASY] = false;
@@ -566,22 +523,18 @@ item script Difficulty_PickupItem //start
 		
 		DifficultyGlobal_Init();
 	}
-} //end
+} 
 
 //Forces difficulty on a screen to the desired level
 //D0: Level to set difficulty to. 0 = Very Easy, 4 = Very Hard. -1 = Unset Override
 //D1: Whether to make the change permanent
 //		If 1, the difficulty change will give Link the actual difficulty item and apply forever.
 //		If 2, it will persist until F6 or encountering another instance of this script
-ffc script Difficulty_Override //start
-{
-	void run(int diffLevel, int perm)
-	{
-		if(perm)
-		{
+ffc script Difficulty_Override {
+	void run(int diffLevel, int perm) {
+		if(perm) {
 			//Give item permanently
-			if(perm==1)
-			{
+			if(perm==1) {
 				diffLevel = Clamp(diffLevel, 0, 4);
 				
 				DifficultyGlobal_SetDifficulty(diffLevel);
@@ -590,8 +543,7 @@ ffc script Difficulty_Override //start
 				DifficultyGlobal_Init();
 			}
 			//Turn on long term override
-			else if(perm==2)
-			{
+			else if(perm==2) {
 				diffLevel = Clamp(diffLevel, -1, 4);
 				
 				//Turn off long term override
@@ -604,9 +556,7 @@ ffc script Difficulty_Override //start
 				//Initialize the difficulty global to update enemy data
 				DifficultyGlobal_Init(false);
 			}
-		}
-		else
-		{
+		} else {
 			diffLevel = Clamp(diffLevel, 0, 4);
 			
 			DifficultyGlobal[__DI_DIFFICULTYOVERRIDE] = 1+diffLevel;
@@ -614,15 +564,14 @@ ffc script Difficulty_Override //start
 			//Initialize the difficulty global to update enemy data
 			DifficultyGlobal_Init(false);
 			
-			while(true)
-			{
+			while(true) {
 				//Difficulty Override >1 means temporary override is on for that frame
 				DifficultyGlobal[__DI_DIFFICULTYOVERRIDE] = 1+diffLevel;
 				Waitframe();
 			}
 		}
 	}
-} //end
+} 
 
 const int SFX_DIFFICULTY_SELECT = 6; //Sound when moving difficulty selection cursor
 const int CMB_AUTOWARPA = 32; //An invisible combo with the Auto Side Warp A type
@@ -635,18 +584,13 @@ const int CMB_AUTOWARPA = 32; //An invisible combo with the Auto Side Warp A typ
 //Very basic script for a difficulty selection menu:
 //D0: The default difficulty. See DIFF_ constants.
 //D3-D7: Editor strings containing the names of each difficulty level from Very Easy (D3) to Very Hard (D7). If 0, that difficulty will be skipped
-ffc script Difficulty_SelectionScreen //start
-{
-	void run(int defaultDifficulty, int dummy1, int dummy2, int msgVeryEasy, int msgEasy, int msgNormal, int msgHard, int msgVeryHard)
-	{
+ffc script Difficulty_SelectionScreen {
+	void run(int defaultDifficulty, int dummy1, int dummy2, int msgVeryEasy, int msgEasy, int msgNormal, int msgHard, int msgVeryHard) {
 		bool chosen = false;
 		
-		while(!false)
-		{
-			if((Hero->X >= 140 && Hero->X <= 156) && (Hero->Y >= 100 && Hero->Y <= 116))
-			{
-				if (Hero->Item[164])
-				{
+		while(!false) {
+			if((Hero->X >= 140 && Hero->X <= 156) && (Hero->Y >= 100 && Hero->Y <= 116)) {
+				if (Hero->Item[164]) {
 					Screen->Message(498);
 					Quit();
 				}
@@ -666,8 +610,7 @@ ffc script Difficulty_SelectionScreen //start
 				int selection;
 				int numOptions;
 				
-				if(msgVeryEasy)
-				{
+				if(msgVeryEasy) {
 					GetMessage(msgVeryEasy, sVeryEasy);
 					if(defaultDifficulty==DIFF_VERYEASY)
 						selection = numOptions;
@@ -675,8 +618,7 @@ ffc script Difficulty_SelectionScreen //start
 					optionValues[numOptions] = 0;
 					++numOptions;
 				}
-				if(msgEasy)
-				{
+				if(msgEasy) {
 					GetMessage(msgEasy, sEasy);
 					if(defaultDifficulty==DIFF_EASY)
 						selection = numOptions;
@@ -684,8 +626,7 @@ ffc script Difficulty_SelectionScreen //start
 					optionValues[numOptions] = 1;
 					++numOptions;
 				}
-				if(msgNormal)
-				{
+				if(msgNormal) {
 					GetMessage(msgNormal, sNormal);
 					if(defaultDifficulty==DIFF_NORMAL)
 						selection = numOptions;
@@ -693,8 +634,7 @@ ffc script Difficulty_SelectionScreen //start
 					optionValues[numOptions] = 2;
 					++numOptions;
 				}
-				if(msgHard)
-				{
+				if(msgHard) {
 					GetMessage(msgHard, sHard);
 					if(defaultDifficulty==DIFF_HARD)
 						selection = numOptions;
@@ -702,8 +642,7 @@ ffc script Difficulty_SelectionScreen //start
 					optionValues[numOptions] = 3;
 					++numOptions;
 				}
-				if(msgVeryHard)
-				{
+				if(msgVeryHard) {
 					GetMessage(msgVeryHard, sVeryHard);
 					if(defaultDifficulty==DIFF_VERYHARD)
 						selection = numOptions;
@@ -712,37 +651,31 @@ ffc script Difficulty_SelectionScreen //start
 					++numOptions;
 				}
 				
-				if(numOptions)
-				{
-					while(true)
-					{
+				if(numOptions) {
+					while(true) {
 						DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
 						
-						if(Link->PressUp)
-						{
+						if(Link->PressUp) 						{
 							Game->PlaySound(SFX_DIFFICULTY_SELECT);
 							--selection;
 							if(selection<0)
 								selection = numOptions-1;
 						}
-						else if(Link->PressDown)
-						{
+						else if(Link->PressDown) {
 							Game->PlaySound(SFX_DIFFICULTY_SELECT);
 							++selection;
 							if(selection>numOptions-1)
 								selection = 0;
 						}
 						
-						for(i=0; i<numOptions; ++i)
-						{
+						for(i=0; i<numOptions; ++i) {
 							if(selection==i)
 								DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, options[i], 128);
 							else
 								DiffMenu_DrawString(6, 128, 64+12*i, FONT_GBLA, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
 						}
 						
-						if(Link->PressA)
-						{
+						if(Link->PressA){
 							DifficultyGlobal_SetDifficulty(optionValues[selection]);
 							chosen = true;
 							Audio->PlaySound(20);
@@ -761,8 +694,8 @@ ffc script Difficulty_SelectionScreen //start
 			Waitframe();
 		}
 	}
-	void DiffMenu_DrawString(int layer, int x, int y, int font, int c1, int c2, int tf, int str, int op)
-	{
+   
+	void DiffMenu_DrawString(int layer, int x, int y, int font, int c1, int c2, int tf, int str, int op) {
 		Screen->DrawString(layer, x-1, y, font, c2, -1, tf, str, op);
 		Screen->DrawString(layer, x+1, y, font, c2, -1, tf, str, op);
 		Screen->DrawString(layer, x, y-1, font, c2, -1, tf, str, op);
@@ -770,45 +703,32 @@ ffc script Difficulty_SelectionScreen //start
 		
 		Screen->DrawString(layer, x, y, font, c1, -1, tf, str, op);
 	}
-} //end
+} 
 
 //Script to copy an entire screen onto another screen or layer based on difficulty.
 //This cannot change enemy lists or FFC data. Sorry.
 //D0: Map to copy screens from
 //D1: If >0, copy to that layer on this screen (this change is permanent until save/load)
 //D3-D7: Screens on the map (in decimal) to copy from for difficulties Very Easy (D3) to Very Hard (D7). If -1, don't copy screen
-ffc script Difficulty_ReplaceScreen //start
-{
-	void run(int map, int layer, int dummy1, int scrnVeryEasy, int scrnEasy, int scrnNormal, int scrnHard, int scrnVeryHard)
-	{
+ffc script Difficulty_ReplaceScreen {
+	void run(int map, int layer, int dummy1, int scrnVeryEasy, int scrnEasy, int scrnNormal, int scrnHard, int scrnVeryHard) {
 		layer = Clamp(layer, 0, 6);
 		int diff = Difficulty_GetDifficulty();
 		if(diff==DIFF_VERYEASY)
-		{
 			if(scrnVeryEasy>-1)
 				ChangeScreen_CopyScreen(map, scrnVeryEasy, layer);
-		}
 		else if(diff==DIFF_EASY)
-		{
 			if(scrnEasy>-1)
 				ChangeScreen_CopyScreen(map, scrnEasy, layer);
-		}		
-		else if(diff==DIFF_NORMAL)
-		{
+		else if(diff==DIFF_NORMAL) 
 			if(scrnNormal>-1)
 				ChangeScreen_CopyScreen(map, scrnNormal, layer);
-		}
-		else if(diff==DIFF_HARD)
-		{
+		else if(diff==DIFF_HARD) 
 			if(scrnHard>-1)
 				ChangeScreen_CopyScreen(map, scrnHard, layer);
-		}
-
-		else if(diff==DIFF_VERYHARD)
-		{
+      else if(diff==DIFF_VERYHARD)
 			if(scrnVeryHard>-1)
 				ChangeScreen_CopyScreen(map, scrnVeryHard, layer);
-		}
 	}
 	
 	void ChangeScreen_CopyScreen(int map, int scrn, int layer)
@@ -834,15 +754,13 @@ ffc script Difficulty_ReplaceScreen //start
 				}
 		}
 	}
-} //end
+} 
 
 //Script to replace all instances of a combo onscreen based on difficulty
 //D0: A combo to search for on layer 0
 //D3-D7: Combos to replace it with on each difficulty from Very Easy (D3) to Very Hard (D7). If 0, don't replace for that difficulty.
-ffc script Difficulty_ReplaceCombo //start
-{
-	void run(int srcCombo, int dummy1, int dummy2, int destVeryEasy, int destEasy, int destNormal, int destHard, int destVeryHard)
-	{
+ffc script Difficulty_ReplaceCombo {
+	void run(int srcCombo, int dummy1, int dummy2, int destVeryEasy, int destEasy, int destNormal, int destHard, int destVeryHard) {
 		int diff = Difficulty_GetDifficulty();
 		int destCombo = -1;
 		if(diff==DIFF_VERYEASY)
@@ -866,7 +784,7 @@ ffc script Difficulty_ReplaceCombo //start
 				if(Screen->ComboD[i]==srcCombo)
 					Screen->ComboD[i] = destCombo;
 	}
-} //end
+} 
 
 //Script to change a warp based on difficulty
 //D0: Warp DMap
@@ -874,24 +792,18 @@ ffc script Difficulty_ReplaceCombo //start
 //D2: Whether to change a tile warp or side warp. 0 = Tile Warp, 1 = Side Warp
 //D3: Which warp to change (0 = A, 1 = B, 2 = C, 3 = D)
 //D4: Difficulty level to activate the warp (See DIFF_ constants)
-ffc script Difficulty_ChangeWarp //start
-{
-	void run(int dmap, int scrn, int sideWarp, int whichWarp, int warpDifficulty)
-	{
+ffc script Difficulty_ChangeWarp {
+	void run(int dmap, int scrn, int sideWarp, int whichWarp, int warpDifficulty) {
 		int warpType;
 		int diff = Difficulty_GetDifficulty();
 		
-		if(diff==warpDifficulty)
-		{
-			if(sideWarp==0)
-			{
+		if(diff==warpDifficulty) {
+			if(sideWarp==0) {
 				warpType = Screen->GetTileWarpType(whichWarp);
 				if(warpType==WT_CAVE)
 					warpType = WT_IWARPBLACKOUT;
 				Screen->SetTileWarp(whichWarp, scrn, dmap, warpType);
-			}
-			else
-			{
+			} else {
 				warpType = Screen->GetSideWarpType(whichWarp);
 				if(warpType==WT_CAVE)
 					warpType = WT_IWARPBLACKOUT;
@@ -899,7 +811,7 @@ ffc script Difficulty_ChangeWarp //start
 			}
 		}
 	}
-} //end
+} 
 
 //Example global script
 // global script Difficulty_Example

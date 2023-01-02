@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LWeapons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LWeapons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("EmilyV99")
@@ -258,6 +258,125 @@ lweapon script TimedEffect {
       this->Remove();
    }
 }
+
+@Author("Moosh")
+lweapon script FlamingArrow {
+   void run() {
+      unless (this->ID == LW_ARROW)
+         Quit();
+
+      bool collided;
+      
+      while(true) {
+         unless (collided) 			{
+            for (int i = Screen->NumLWeapons(); i > 0; --i) {
+               lweapon weapon = Screen->LoadLWeapon(i);
+               
+               switch(weapon->ID) {
+                  case LW_FIRE:
+                     if (weapon->CollDetection && Collision(this, weapon)) {
+                        collided = true;
+                        Audio->PlaySound(SFX_FLAMMING_ARROW);
+                     }
+                     break;
+               }
+            }
+            for (int i = Screen->NumEWeapons(); i > 0; --i) {
+               eweapon weapon = Screen->LoadEWeapon(i);
+               
+               switch(weapon->ID) {
+                  case EW_FIRE:
+                  case EW_FIRE2:
+                  case EW_FIRETRAIL:
+                     if (weapon->CollDetection && Collision(this, weapon)) {
+                        collided = true;
+                        Audio->PlaySound(SFX_FLAMMING_ARROW);
+                     }
+                     break;
+               }
+            }
+            
+            if (arrowPointCollision(this->X + 7, this->Y + 7)) {
+               collided = true;
+               Audio->PlaySound(SFX_FLAMMING_ARROW);
+            }
+         } 
+         else if (this->DeadState == WDS_ALIVE) {
+            if (gameframe % 4 == 0) {
+               lweapon flame = dropFlame(this->X + Rand(-4, 4), this->Y + Rand(-4, 4), SPR_FLAME_TRAIL);
+               flame->Script = 0;
+            }
+            
+            lweapon flameHitbox = CreateLWeaponAt(LW_FIRE, this->X, this->Y);
+            flameHitbox->DrawYOffset = -1000;
+            flameHitbox->Damage = this->Damage;
+            flameHitbox->Dir = this->Dir;
+            
+            flameHitbox->Script = Game->GetLWeaponScript("DieTimeOut");
+            flameHitbox->InitD[0] = 1;
+         }
+         
+         Waitframe();
+      }
+   }
+	
+	bool arrowPointCollision(int x, int y) {
+      int pos = ComboAt(x, y);
+      int comboType = Screen->ComboT[pos];
+      
+      if (comboType == CT_LANTERN)
+         return true;
+         
+      mapdata layer1 = Game->LoadTempScreen(1);
+      comboType = layer1->ComboT[pos];
+      
+      if (comboType == CT_LANTERN)
+         return true;
+         
+      mapdata layer2 = Game->LoadTempScreen(2);
+      comboType = layer2->ComboT[pos];
+      
+      if (comboType == CT_LANTERN)
+         return true;
+      
+      return false;
+	}
+	
+   lweapon dropFlame(int x, int y, int sprite) {
+      lweapon sparkle = Screen->CreateLWeapon(LW_FIRESPARKLE);
+      sparkle->X = x;
+      sparkle->Y = y;
+      sparkle->Damage = 2;
+      sparkle->UseSprite(sprite);
+      sparkle->LightRadius = 12;
+      
+      return sparkle;
+   }
+}
+
+@Author("Moosh")
+lweapon script DieTimeOut {
+   void run(int frames) {
+      Waitframes(frames);
+      this->DeadState = WDS_DEAD;
+   }
+}
+
+lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight, int frames) {
+   lweapon weapon = CreateLWeaponAt(LW_SCRIPT1, x, y);
+   weapon->UseSprite(sprite);
+   weapon->TileWidth = tileWidth ? tileWidth : 1;
+   weapon->TileHeight = tileHeight ? tileHeight : 1;
+   weapon->Script = Game->GetLWeaponScript("TimedEffect");
+   weapon->CollDetection = false;
+   weapon->InitD[0] = frames;
+
+   return weapon;
+}
+
+
+
+
 
 
 

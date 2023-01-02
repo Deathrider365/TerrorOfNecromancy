@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~The Terror of Necromancy PassiveSubscreen~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Passive Subscreen ~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-@Author("EmilyV99")
+@Author("EmilyV99, Deathrider365")
 dmapdata script SubscreenPassive {
    using namespace time;
 

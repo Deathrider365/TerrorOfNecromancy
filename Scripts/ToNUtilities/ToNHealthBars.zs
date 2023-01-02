@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Health Bar Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Health Bar Scripts ~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,9 +42,8 @@ const int I_HEALTHBAR = 159;
 // D1: Which ZQuest string to use for the enemy's title. If 0, will use the enemy's editor name. If you don't want a name, you can set this to a blank string.
 // D2: If multiple enemies of the same ID are using the health bar script, this argument specifies which one of them to attach the health bar to.
 // D3: Set to 1 if you want the health bar to disappear shortly after the enemy dies. Otherwise, set it to 0 and it will hang around until you leave the screen. 
-ffc script HealthBar_Single	 
-{
-	void run(int npcid, int str, int npcNumber, int disappearOnDeath){
+ffc script HealthBar_Single {
+	void run(int npcid, int str, int npcNumber, int disappearOnDeath) {
 		if(!Link->Item[I_HEALTHBAR])
 			Quit();
 		
