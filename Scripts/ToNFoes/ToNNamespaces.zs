@@ -155,7 +155,7 @@ namespace LeviathanNamespace {
             this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
             
             if(noBlock)
-               this->Dir = Link->Dir;
+               this->Dir = Hero->Dir;
             
             Waitframe();
          }
@@ -232,7 +232,7 @@ namespace ShamblesNamespace {
 
    void spawnZambos(ffc this, npc ghost) {
       for (int i = 0; i < 3; ++i) {
-         Audio->PlaySound(SFX_SUMMON);
+         Audio->PlaySound(SFX_SUMMON_MINE);
          int zamboChoice = Rand(0, 2);
          npc zambo;
          
@@ -266,7 +266,6 @@ namespace ShamblesNamespace {
          Ghost_Waitframe(this, ghost, 1, true);
       }
    }
-
 }
 
 namespace Enemy::Hazarond {
