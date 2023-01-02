@@ -18,7 +18,7 @@ int lastPal = -1;
 int statuses[NUM_STATUSES];
 bitmap status_bmp;
 bitmap waterfallBitmap;
-bitmap darkness_bmp;
+bitmap darknessBitmap;
 bitmap overheadBitmaps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
