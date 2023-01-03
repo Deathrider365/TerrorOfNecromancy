@@ -156,7 +156,7 @@ ffc script IntroEndOfOpeningScene {
 }
 
 @Author ("Deathrider365")
-ffc script IntroLeavingIsleOfHaeren {
+ffc script IntroLeavingIoH {
    void run()	{
       while(true) {
          if (Hero->X == 0 && Hero->Y > 59) {
@@ -241,7 +241,6 @@ ffc script IntroPreInteritusLeviathanScene {
 
       int x, x2;
       
-      //Charging
       for (int i = 0; i < 120; ++i) {		
          disableLink();
          

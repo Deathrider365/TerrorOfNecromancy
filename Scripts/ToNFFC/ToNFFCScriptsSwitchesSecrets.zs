@@ -14,12 +14,14 @@ ffc script EnemiesChest {
          return;
       }
       
+      Waitframes(6);
+      
       while (EnemiesAlive())
          Waitframe();
          
       if (perm)
          setScreenD(screenD, true);
-      
+            
       for (int i = 0; i < 176; ++i)
          if (ComboFI(i, flag)) {
             Screen->ComboD[i] = newCombo;
@@ -293,9 +295,10 @@ ffc script SwitchRemote {
    // D2: Set to the flag that specifies the region for the remote secret.
    // D3: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
    // D4 (2.55 version only): Specifies the layer for the remote secret.
+   // D5: 1 to trigger screen secrets
    //end
    
-   void run(int pressure, int id, int flag, int sfx, int nextCombo) {
+   void run(int pressure, int id, int flag, int sfx, int nextCombo, int triggerScreenSecrets) {
       bool noLink;
       
       if (pressure == 2) {
@@ -361,6 +364,9 @@ ffc script SwitchRemote {
          this->Data = data + 1;
          
          Game->PlaySound(SFX_SWITCH_PRESS);
+         
+         if (triggerScreenSecrets)
+            Screen->TriggerSecrets();
          
          if (sfx > 0)
             Game->PlaySound(sfx);

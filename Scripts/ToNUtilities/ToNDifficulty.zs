@@ -584,7 +584,7 @@ const int CMB_AUTOWARPA = 32; //An invisible combo with the Auto Side Warp A typ
 //Very basic script for a difficulty selection menu:
 //D0: The default difficulty. See DIFF_ constants.
 //D3-D7: Editor strings containing the names of each difficulty level from Very Easy (D3) to Very Hard (D7). If 0, that difficulty will be skipped
-ffc script Difficulty_SelectionScreen {
+ffc script DifficultySelectionScreen {
 	void run(int defaultDifficulty, int dummy1, int dummy2, int msgVeryEasy, int msgEasy, int msgNormal, int msgHard, int msgVeryHard) {
 		bool chosen = false;
 		

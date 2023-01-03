@@ -1107,11 +1107,11 @@ namespace ServusMalusNamespace {
    void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate) {
       for (int attackCount = 1; attackCount < (gettingDesperate ? 4 : 2); attackCount++) {
          if (this->HP <= 0)
-            deathAnimation(this, 148);
+            deathAnimation(this, SFX_GOMESS_DIE);
             
          int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
          this->OriginalTile = attackingTile;
-         Audio->PlaySound(147);
+         Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR2);
          
          for (int i = 0; i < (gettingDesperate ? 5 : 15); ++i)
             Waitframe();
@@ -1148,7 +1148,7 @@ namespace ServusMalusNamespace {
       
       for (int i = 0; i < 30; ++i) {
          if (this->HP <= 0)
-            deathAnimation(this, 148);
+            deathAnimation(this, SFX_GOMESS_DIE);
             
          this->OriginalTile = attackingTile;
          Waitframe();
@@ -1157,10 +1157,10 @@ namespace ServusMalusNamespace {
       if (int escr = CheckEWeaponScript("BoomerangThrow")) {
          for (int i = 0; i < (gettingDesperate ? 2 : 1); i++) {
             if (this->HP <= 0)
-               deathAnimation(this, 148);
+               deathAnimation(this, SFX_GOMESS_DIE);
                
             if (i > 0)
-               Audio->PlaySound(146);
+               Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
                
             this->OriginalTile = unarmedTile;
             
@@ -1227,7 +1227,7 @@ namespace ServusMalusNamespace {
       int inc = 360 / wc;
       
       int escr = CheckEWeaponScript("EwWindBlast");
-      int lscr = CheckLWeaponScript("LwWindBlast");
+      // int lscr = CheckLWeaponScript("LwWindBlast");
       
       Audio->PlaySound(SFX_ONOX_TORNADO);
       this->OriginalTile = attackingTile;
@@ -1252,7 +1252,7 @@ namespace ServusMalusNamespace {
          Waitframe();
       }
          
-      if(escr && lscr) {
+      if(escr) { // && lscr) {
          WindHandler.init();
          
          for(int i = 0; i < wc; ++i) {
@@ -1353,10 +1353,10 @@ namespace ServusMalusNamespace {
    generic script WindHandler {
       void run() {
          this->EventListen[GENSCR_EVENT_HERO_HIT_1] = true;
-         this->EventListen[GENSCR_EVENT_ENEMY_HIT2] = true;
+         // this->EventListen[GENSCR_EVENT_ENEMY_HIT2] = true;
          
          int ewWindBlast = CheckEWeaponScript("EwWindBlast");
-         int lwWindBlast = CheckLWeaponScript("LwWindBlast");
+         // int lwWindBlast = CheckLWeaponScript("LwWindBlast");
          
          while(true) {
             switch(WaitEvent()) {
@@ -1378,24 +1378,24 @@ namespace ServusMalusNamespace {
                   Hero->Stun = 2;
                   
                   break;
-               case GENSCR_EVENT_ENEMY_HIT2: 
-                  npc n = Game->EventData[GENEV_EHIT_NPCPTR];
+               // case GENSCR_EVENT_ENEMY_HIT2: 
+                  // npc n = Game->EventData[GENEV_EHIT_NPCPTR];
                   
-                  lweapon weapon = Game->EventData[GENEV_EHIT_LWPNPTR];
+                  // lweapon weapon = Game->EventData[GENEV_EHIT_LWPNPTR];
 
-                  if (weapon->Script != lwWindBlast)
-                     break;
+                  // if (weapon->Script != lwWindBlast)
+                     // break;
                      
-                  Game->EventData[GENEV_EHIT_NULLIFY] = true;
+                  // Game->EventData[GENEV_EHIT_NULLIFY] = true;
                   
-                  if (n->Stun)
-                     break;
+                  // if (n->Stun)
+                     // break;
                      
-                  untyped arr = weapon->Misc[0];
-                  arr[++arr[0]] = n;
-                  n->Stun = 2;
+                  // untyped arr = weapon->Misc[0];
+                  // arr[++arr[0]] = n;
+                  // n->Stun = 2;
                   
-                  break;
+                  // break;
             }
          }
       }

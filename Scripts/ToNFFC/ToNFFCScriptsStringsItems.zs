@@ -31,9 +31,9 @@ ffc script Signpost {
                unless (getScreenD(secondMessageTriggerValue)) {
                   Screen->Message(message);
                   setScreenD(secondMessageTriggerValue, true);
-               } else {
-                  Screen->Message(secondMessage);
                }
+               else
+                  Screen->Message(secondMessage);
                break;
             case SMT_SECRETS:
                unless (Screen->State[ST_SECRET])
@@ -42,7 +42,7 @@ ffc script Signpost {
                   Screen->Message(secondMessage);
                break;
             case SMT_HAS_ITEM:
-               unless (Hero->Item[secondMessageTriggerValue])
+               unless (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM])
                   Screen->Message(message);
                else
                   Screen->Message(secondMessage);
@@ -103,6 +103,7 @@ ffc script GetItem {
       int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
       
       int triggerRequirement;
+      int finalStringForSecrets;
       
       while(true) {
          if (scriptSelfTrigger) {
@@ -116,6 +117,8 @@ ffc script GetItem {
             // needed is to say you either need it, or CANNOT have it
             int neededToHave = Floor(selfTriggerValue);
             int neededValue = (selfTriggerValue % 1) / 1L;
+            
+            finalStringForSecrets = neededValue;
             
             switch(selfTriggerAction) {
                case TA_KILL_SCRIPT:
@@ -152,6 +155,7 @@ ffc script GetItem {
                         if (neededToHave && Screen->State[ST_SECRET]) {
                            this->Data = 0;
                            template->ComboD[ComboAt(this->X, this->Y)] = 0;
+                           Quit();
                         }
                         else if (!neededToHave && !Screen->State[ST_SECRET]) {
                            this->Data = 0;
@@ -161,6 +165,7 @@ ffc script GetItem {
                            this->Data = prevData;
                            template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
                         }
+                        break;
                   }
                   break;
                case TA_START_SCRIPT:
@@ -225,12 +230,14 @@ ffc script GetItem {
          int itemIdOrTriggerValue = Floor(hasItem);
          int noItemTrigger = (hasItem % 1) / 1L;
          
-         if (triggerRequirement == SELF_TRIGGER_SECRETS && !Screen->State[ST_SECRET]) {
+         if (!trader && triggerRequirement == SELF_TRIGGER_SECRETS && !Screen->State[ST_SECRET]) {
             Screen->Message(gettingItemString);
             Waitframe();
-            Input->Button[CB_SIGNPOST] = false;
          } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
-            Screen->Message(gottenItemString);
+            if (finalStringForSecrets)
+               Screen->Message(finalStringForSecrets);
+            else
+               Screen->Message(gottenItemString);
             Waitframe();
             Input->Button[CB_SIGNPOST] = false;
          } else {
@@ -268,6 +275,7 @@ ffc script GetItem {
                unless (noItemTrigger) {
                   itemsprite it = CreateItemAt(itemIdOrTriggerValue, Hero->X, Hero->Y);
                   it->Pickup = IP_HOLDUP;
+                  setScreenD(layer, true);
                }
                else
                   executeNoItemTrigger(itemIdOrTriggerValue, noItemTrigger);
@@ -321,7 +329,7 @@ ffc script GetItemFromSecret {
 }
 
 @Author("Tabletpillow, EmilyV99, Deathrider365")
-ffc script SimpleShop {
+ffc script Shop {
    void run(int itemId, int price, bool boughtOnce) {
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
          Quit();
@@ -438,14 +446,17 @@ ffc script BuyItem {
             switch(itemId) {
                case ITEM_EXPANSION_BOMB:
                   numBombUpgrades++;
+                  Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_EXPANSION_QUIVER:
                   numQuiverUpgrades++;
+                  Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_BATTLE_ARENA_TICKET:
                   Screen->TriggerSecrets();
                   break;
             }
+            
             
             alreadyBought = true;
             this->Data = COMBO_INVIS;
@@ -502,21 +513,20 @@ ffc script ServusSoldier {
       int prevData = this->Data;
       
       if (Hero->Item[itemToCheckFor]) {
-         this->Data = 0;
+         this->Data = 1;
          template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Quit();
       }
       
-      until(getScreenD(253))  {
-         this->Data = 0;
+      until (getScreenD(253))  {
+         this->Data = 1;
          template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Waitframe();
       }
 
-      template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
-         
       this->Data = prevData;
-
+      template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
+      
       while(true) {
          until (Screen->State[ST_SECRET])
             Waitframe();

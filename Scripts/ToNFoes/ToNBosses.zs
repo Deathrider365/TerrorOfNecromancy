@@ -630,7 +630,7 @@ ffc script Legionnaire {
          ghost->Remove();
          Quit();
       }
-
+      
       Ghost_SetFlag(GHF_4WAY);
       int combo = ghost->Attributes[10];
       int attackCoolDown = 90 + Rand(30);
@@ -671,7 +671,7 @@ ffc script Legionnaire {
          }
          
          Screen->Quake = 10;
-         Audio->PlaySound(3);
+         Audio->PlaySound(SFX_BOMB_BLAST);
          
          for (int i = 0; i < 32; ++i) {
             disableLink();
@@ -1317,123 +1317,6 @@ npc script OvergrownRaccoon {
    }
 }
 
-@Author("Moosh")
-npc script SeizedGuardGeneral {
-   using namespace NPCAnim;
-
-   enum Animations {
-      WALKING,
-      ATTACK
-   };
-
-   void run() {
-     int aptr[ANIM_BUFFER_LENGTH];
-     InitAnims(this, aptr);
-
-     AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
-     AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
-      
-      int maxHp = this->HP;
-      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
-      
-      while(true) {
-         int movementDirection = Choose(90, -90);
-         int attackCoolDown = 120;
-         
-         PlayAnim(this, WALKING);
-         
-         int tooCloseBoiCounter = 0;
-         
-         while (attackCoolDown) 			{
-            int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
-            int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
-            
-            if (distance < 48)
-               tooCloseBoiCounter++;
-            else
-               tooCloseBoiCounter = 0;
-            
-            if (tooCloseBoiCounter == 60) {
-               for (int i = 0; i < 15; ++i) {
-                  FaceLink(this);
-                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 10);
-                  CustomWaitframe(this);
-               }
-               
-               tooCloseBoiCounter = 0;
-            }
-            
-            int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
-            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
-            --attackCoolDown;
-            
-            FaceLink(this);
-            CustomWaitframe(this);
-         }
-         
-         int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
-         int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
-         int dashFrames = Max(2, (distance - 36) / 3);
-         
-         bool swordCollided;
-         PlayAnim(this, ATTACK);
-         
-         for (int i = 0; i < dashFrames; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
-            FaceLink(this);
-            
-            if (i > dashFrames / 2)
-               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 6);
-               
-            CustomWaitframe(this);
-         }
-         
-         Audio->PlaySound(SFX_SWORD);
-         distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
-         
-         for (int i = 0; i <= 12 && !swordCollided; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
-            FaceLink(this);
-            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 6);
-            CustomWaitframe(this);
-         }
-         
-         if (swordCollided) {
-            Audio->PlaySound(SFX_SWORD_ROCK3);
-            
-            for(int i = 0; i < 12; ++i) {
-               FaceLink(this);
-               this->MoveAtAngle(moveAngle + 180, this->Step / 30, SPW_NONE);
-               CustomWaitframe(this);
-            }
-            
-            CustomWaitframe(this, 40);
-         }
-         
-         attackCoolDown = 90;
-            CustomWaitframe(this);
-      }	
-   }
-
-   bool gettingDesperate(npc this, int maxHp) {
-      return this->HP < maxHp * .4;
-   }
-
-   void CustomWaitframe(npc n) {
-      if (n->HP <= 0) {
-         n->Immortal = false;
-         PlayDeathAnim(n);
-      }
-
-      Waitframe(n);
-   }
-
-   void CustomWaitframe(npc n, int frames) {
-      for (int i = 0; i < frames; ++i)
-         CustomWaitframe(n);
-   }
-}
-
 @Author("EmilyV99, Moosh, Deathrider365")
 npc script ServusMalus {
    using namespace EnemyNamespace;
@@ -1606,7 +1489,7 @@ npc script ServusMalus {
             cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
             
             if (this->HP <= 0)
-               deathAnimation(this, 148);
+               deathAnimation(this, SFX_GOMESS_DIE);
                
             if (this->Z > 0 && !(gameframe % 2))
                this->Z -= 1;
@@ -1969,7 +1852,6 @@ npc script ServusMalus {
 
       Audio->PlaySound(121);
       Screen->Quake = 20;
-      
       setScreenD(253, true);
       
       // Buffer as soldier is against the wall
@@ -2092,6 +1974,128 @@ npc script ServusMalus {
          
          Waitframe();
       }         
+   }
+}
+
+@Author("Moosh")
+npc script SeizedGuardGeneral {
+   using namespace NPCAnim;
+
+   enum Animations {
+      WALKING,
+      ATTACK
+   };
+
+   void run() {
+     int aptr[ANIM_BUFFER_LENGTH];
+     InitAnims(this, aptr);
+
+     AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
+     AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+      
+      int maxHp = this->HP;
+      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
+      
+      while(true) {
+         int movementDirection = Choose(90, -90);
+         int attackCoolDown = 120;
+         
+         PlayAnim(this, WALKING);
+         
+         int tooCloseBoiCounter = 0;
+         
+         while (attackCoolDown) 			{
+            int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+            int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
+            
+            if (distance < 48)
+               tooCloseBoiCounter++;
+            else
+               tooCloseBoiCounter = 0;
+               
+            if (tooCloseBoiCounter == 60) {
+               Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK);
+               Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK_SWIPE);
+
+               for (int i = 0; i < 15; ++i) {
+                  FaceLink(this);
+                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 10);
+                  CustomWaitframe(this);
+               }
+               
+               tooCloseBoiCounter = 0;
+            }
+            
+            int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
+            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
+            --attackCoolDown;
+            
+            FaceLink(this);
+            CustomWaitframe(this);
+         }
+         
+         int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+         int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+         int dashFrames = Max(2, (distance - 36) / 3);
+         
+         bool swordCollided;
+         PlayAnim(this, ATTACK);
+         
+         Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK);
+         
+         for (int i = 0; i < dashFrames; ++i) {
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
+            FaceLink(this);
+            
+            if (i > dashFrames / 2)
+               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 6);
+               
+            CustomWaitframe(this);
+         }
+         
+         Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK_SWIPE);
+         distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+         
+         for (int i = 0; i <= 12 && !swordCollided; ++i) {
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
+            FaceLink(this);
+            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 6);
+            CustomWaitframe(this);
+         }
+         
+         if (swordCollided) {
+            Audio->PlaySound(SFX_SWORD_ROCK3);
+            
+            for(int i = 0; i < 12; ++i) {
+               FaceLink(this);
+               this->MoveAtAngle(moveAngle + 180, this->Step / 30, SPW_NONE);
+               CustomWaitframe(this);
+            }
+            
+            CustomWaitframe(this, 40);
+         }
+         
+         attackCoolDown = 90;
+            CustomWaitframe(this);
+      }	
+   }
+
+   bool gettingDesperate(npc this, int maxHp) {
+      return this->HP < maxHp * .4;
+   }
+
+   void CustomWaitframe(npc n) {
+      if (n->HP <= 0) {
+         n->Immortal = false;
+         PlayDeathAnim(n);
+      }
+
+      Waitframe(n);
+   }
+
+   void CustomWaitframe(npc n, int frames) {
+      for (int i = 0; i < frames; ++i)
+         CustomWaitframe(n);
    }
 }
 
