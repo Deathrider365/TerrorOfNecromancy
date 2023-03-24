@@ -41,6 +41,8 @@
 #include "../ToN Main Quest/Scripts/ToNWeapons/ToNEweapons.zs"
 #include "../ToN Main Quest/Scripts/ToNWeapons/ToNItemItemdata.zs"
 
+#include "../ToN Main Quest/Scripts/ToNGeneric/ToNGenericScripts.zs"
+
 #include "../ToN Main Quest/Scripts/ToNGlobalActive.zs"
 #include "../ToN Main Quest/Scripts/ToNScreendataDMapdata.zs"
 

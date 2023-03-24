@@ -1,0 +1,77 @@
+Pernicious Carnivorous Abomination
+	  ~~~Hazarond~~~
+
+- General Theme:
+	- Shoots oil around the room 
+	  that will persist until a flame is dropped on it, 
+	  burning it for x amount of time until vanishing
+
+	- Cannot hurt boss until heads are all dead,
+	  when all heads are dead it just runs around to try not to get hit, 
+	  will dive into center pool to regen them
+
+	- As he walks he lays down a combo for pushed in ground (mini crater), 
+	  but below the layer he sprays his oil
+	
+- When With Heads:
+	~Movement~
+	- Walks slowly towards link, does not walk into or over the pool, will go around
+
+	~Attacks~
+	- Ground Pound: While link is close enough to hit the heads 
+			he will attempt to stomp link by jumping (half way up the screen) onto link's position 
+			doing an AOE attack dealing 1 heart of damage
+
+	- Oil Cannon: Sprays oil at link's location for 4 seconds
+		      deals 1/4 heart to link and reduces his speed by 25%, 
+		      expires in 4 seconds from the last time he was hit by the cannon (not ground oil)
+
+	- Oil Spray: Leaps into the center pool, 
+		     charges for a moment (sfx & flashing | shaking), 
+		     then spins 720 deg shooting oil around him convering the majority of the arena 
+		     (same effect to link as Oil Cannon)
+
+	- Flame Toss: as he is wandering the area the heads will randomly spit a flame from one of the heads
+		      which will do 1/2 heart of damage 
+		      and recursively ignite any oil it comes in contact with
+
+	- Flame Spray: He stops,
+		       shoots a flame out of each head 3 times consecutively 
+
+	- Flame Cannon: Leaps away from link, 
+			charges for a second or two, 
+			then lobs ~10 flames at link in succession with 1 second of time between each shot 
+			ending with a 2x2 large flame
+
+	~Other Behavior~
+	- >45% HP: As stated above
+	- <45% HP: All clock related fields increased by 40%
+
+- When Heads Destroyed:
+	~Movement~
+	- Fast and frantic for 5 seconds, can be injured, stays away from link and will escape from corners
+	- Every 2 seconds randomly each head will drop oil from the head socket (as though it were bleeding)
+	~Attacks~
+	- None, just contact damage
+
+-When Done Fleeing
+	- Stops for a second, 
+	  then leaps same height as the Ground Pound into the center pool (causing a wave that pushes link away) 
+	  stays completely submerged for 4 seconds, 
+	  will regen 20% of HP, 
+	  he rises from the pool 
+	  causing a wave that will push link away so he cannot be hit during his rise, 
+	  continue from "When With Heads"
+
+
+
+
+
+
+
+
+
+
+
+
+

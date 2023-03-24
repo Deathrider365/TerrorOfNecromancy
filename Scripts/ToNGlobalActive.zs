@@ -28,6 +28,8 @@ global script GlobalScripts {
       
       int footprintArray[3] = {1, 0, 0};
 		
+      Hero->HurtSound = 0;
+      
       while(true) {
          gameframe = (gameframe + 1) % 3600;
       

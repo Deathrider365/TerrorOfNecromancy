@@ -1,0 +1,80 @@
+This quest is not chapter divided, the Phases are for organization
+
+The numbers correspond to the event that occurs
+
+Narrative:
+
+<1> Everyone knows of the Golden Goddesses; Din, Farore, and Din, and how they created all things. As time passed, the inhabitants of the world began to forget these golden goddesses, but even more so did they forget the fourth goddess. Jaanusi, the Goddess of Life, governs the death, decay, and rebirth of new life. A sourcerer by the name of Nunebris, studied the power of Jaanusi, and eventually obtained the Triforce of Life. He corrupted it with his dark intentions, turning it into the Triforce of Death. Over time he has adopted many names: Anubis, Thanatos, Apophis. Many have attempted to stop him throughout the ages, until a hero managed to banish him to the Dark Realm through the Temple of the Goddesses on the continent of .  
+
+<2> Link, awaken. 
+
+<3> Link, you may not recognize us but we are the Goddesses Din, Farore, Nayru, and Jaanusi. You have been chosen to take on the Trial of The Goddesses. Undoubtedly you know the name Apophis, his dark necromancy has caused the world to fall into disarray. We believe you are pure enough to pass our trial, and save the world from Apophis. The trial requires you to rid our temple of the evil plaguing it. 
+
+<4> You will find helpful equipment throughout the island that will aid you, also you may find statues depicting us throughout the island, you may communicate with us at them, also there are healing resoviours that will replanish your body from any injuires, body and mind.
+
+<5> 
+<6>
+
+Link! You have succeeded in cleansing the isle and our temple of the undead that plagued it! We will now fill you in on everything you need to know. We each have a Triforce inbued with our power, and if someone with a pure heart and pure intentions obtains all three, they will have the power to vanquish darkness. Link, your task is to obtain all 3 triforce and use their power to vanquish Apophis. Currently, each of our triforce are split into 3 fragments in order to reduce the likeliness of anyone reforming all of the triforces. Each fragment is well hidden throughout the land. But do not freat, we will guide you as you journey on. 
+
+<7>
+<8>
+<9>
+<10>
+<10>
+<11>
+
+Ahh, so you are the one I have heard about, going around trying to reassemble the triforces. Nothing is hidden from me, in MY world. I will have to relieve you of those fragments, <insert name> will destroy you!
+
+<12.1>
+
+No! This is not possible! I have destroyed many of your kind with ease!! How is this possible!!
+
+<12.1.1>
+
+This is not over child! You may have those wretched goddesses to save you now, but their power is depleating by the day, they wont be able to keep you safe for long!
+
+<move to 13>
+
+<12.2>
+
+Just as I expected, there are none that can challenge me! I shall take your triforce fragments back to my lord, I will let you live, mayhaps you will grant me future enjoyment!
+
+<12.2.1>
+
+<12.2.2>
+
+Link do not fret, you did your best which is all we can ask of you, but you must stop him before he delivers the fragment of my triforce to Apophis. there is a fortress through a narrow pass that you can intercept him at, head <insert direction relative to level 3> to the fortress and stop him!
+
+<12.2.3>
+
+You again?! HAHAHA, great! More fun for me! Prepare to meet my lord in the afterlife along with your people!
+
+<12.2.4>
+
+No! This is not possible! I have destroyed many of your kind with ease!! How is this possible!!
+
+<13>
+<14>
+<15>
+
+Are you the one journeying through the land collecting triforce fragments? Have you encountered any <insert items mirroring the cursed skulls>? If you have be sure to bring them to me in the town of <town name>
+
+<16>
+<17>
+<18>
+<19>
+<20>
+<21>
+
+
+P = 1, 3, 5
+W = 2, 6, 9
+C = 4, 8, 11
+D = 7, 10, 12 
+
+
+
+
+
+
