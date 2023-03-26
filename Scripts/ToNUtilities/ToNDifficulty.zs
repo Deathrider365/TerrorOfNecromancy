@@ -591,9 +591,11 @@ ffc script DifficultySelectionScreen {
 		while(!false) {
 			if((Hero->X >= 140 && Hero->X <= 156) && (Hero->Y >= 100 && Hero->Y <= 116)) {
 				if (Hero->Item[164]) {
-					Screen->Message(498);
+					Screen->Message(msgVeryHard);
 					Quit();
-				}
+				} else {
+               msgVeryHard = 0;
+            }
 			
 				int i;
 				

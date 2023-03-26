@@ -330,7 +330,7 @@ ffc script GetItemFromSecret {
 
 @Author("Tabletpillow, EmilyV99, Deathrider365")
 ffc script Shop {
-   void run(int itemId, int price, bool boughtOnce) {
+   void run(int itemId, int price, bool boughtOnce, int noMoneyString) {
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
          Quit();
    
@@ -381,7 +381,7 @@ ffc script Shop {
                   itemToBuy->Pickup = IP_HOLDUP;
                } 
                else
-                  Screen->Message(123);
+                  Screen->Message(noMoneyString);
                
                Input->Button[CB_SIGNPOST] = false;
             }

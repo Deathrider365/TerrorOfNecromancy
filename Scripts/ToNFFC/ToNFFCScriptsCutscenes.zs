@@ -229,7 +229,7 @@ ffc script IntroPreInteritusLeviathanScene {
       
       Audio->PlaySound(SFX_ROAR);
       
-      Screen->Message(Hero->Item[183] ? 49 : 53);
+      Screen->Message(Hero->Item[183] ? 43 : 47);
       
       for(int i = 0; i < 60; ++i) {
          disableLink();
@@ -277,6 +277,9 @@ ffc script IntroPreInteritusLeviathanScene {
                Waitframe();
             }
          }
+         
+         if (i == 60)
+            Audio->PlaySound(SFX_HERO_HURT_1);
          
          if (i % 80 == 0)
             Audio->PlaySound(SFX_ROAR);

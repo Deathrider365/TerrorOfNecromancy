@@ -68,7 +68,7 @@ npc script Leviathan {
             Audio->PlaySound(SFX_ROAR);
             Audio->PlayEnhancedMusic("DS3 - Old Demon King.ogg", 0);
             if (firstRun) {
-               Screen->Message(400);
+               Screen->Message(802);
                firstRun = false;
             }
          }
@@ -858,7 +858,7 @@ ffc script Shambles {
       ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
 
       if (firstRun) {
-         Screen->Message(401);
+         Screen->Message(803);
          firstRun = false;
       }
 
@@ -971,7 +971,7 @@ npc script Hazarond {
       if (firstRun) {
          disableLink();
          commenceIntroSequence(this, data, heads);
-         Screen->Message(402);
+         Screen->Message(804);
          firstRun = false;
       }
       else
@@ -1206,7 +1206,7 @@ npc script OvergrownRaccoon {
       disableLink();
       
       unless (getScreenD(255)) {
-         Screen->Message(403);
+         Screen->Message(805);
          setScreenD(255, true);
       }
          
@@ -1374,7 +1374,7 @@ npc script ServusMalus {
             commenceIntroCutscene(this, template, unlitTorch, cmbLitTorch, bigSummerBlowout, upperLeftTorchLoc, upperRightTorchLoc, lowerLeftTorchLoc, lowerRightTorchLoc, originalTile, attackingTile);
             
             Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
-            Screen->Message(404);
+            Screen->Message(806);
          }
          
          Waitframe();
@@ -1599,7 +1599,19 @@ npc script ServusMalus {
       }
    }
 
-   void commenceIntroCutscene(npc this, mapdata template,int unlitTorch, combodata cmbLitTorch, int bigSummerBlowout, int upperLeftTorchLoc,  int upperRightTorchLoc, int lowerLeftTorchLoc, int lowerRightTorchLoc, int originalTile, int attackingTile) {
+   void commenceIntroCutscene(
+      npc this, 
+      mapdata template, 
+      int unlitTorch, 
+      combodata cmbLitTorch, 
+      int bigSummerBlowout, 
+      int upperLeftTorchLoc,  
+      int upperRightTorchLoc, 
+      int lowerLeftTorchLoc, 
+      int lowerRightTorchLoc, 
+      int originalTile, 
+      int attackingTile
+   ) {
       int soldierLeftFast = 6715;
       int soldierUpStunned = 6714;
       int soldierUpLaying = 6709;
@@ -1641,7 +1653,7 @@ npc script ServusMalus {
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          
          if (i == 60) 
-            Screen->Message(653);
+            Screen->Message(167);
 
          Waitframe();
       }
@@ -1652,7 +1664,7 @@ npc script ServusMalus {
          Screen->FastCombo(2, 120, 80, soldierLeft, 0, OP_OPAQUE);
          
          if (i == 60) 
-            Screen->Message(654);
+            Screen->Message(168);
             
          Waitframe();
       }
@@ -1663,7 +1675,7 @@ npc script ServusMalus {
          Screen->FastCombo(2, 120, 80, soldierRight, 0, OP_OPAQUE);
          
          if (i == 60) 
-            Screen->Message(655);
+            Screen->Message(169);
          
          Waitframe();
       }
@@ -1725,7 +1737,7 @@ npc script ServusMalus {
          Waitframe();
       }
       
-      Screen->Message(656);
+      Screen->Message(170);
       
       // Servus fully appears
       for (int i = 0; i < 60; ++i) {
@@ -1741,7 +1753,7 @@ npc script ServusMalus {
          Waitframe();
       }
       
-      Screen->Message(658);
+      Screen->Message(172);
       
       // Buffer
       for (int i = 0; i < 60; ++i) {
@@ -1755,7 +1767,7 @@ npc script ServusMalus {
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          
          if (i == 59)
-            Screen->Message(660);
+            Screen->Message(174);
          
          Waitframe();
       }
@@ -1782,7 +1794,7 @@ npc script ServusMalus {
          Waitframe();
       }
       
-      Screen->Message(663);
+      Screen->Message(177);
       
       // Turns around
       for (int i = 0; i < 15; ++i) {
@@ -1866,7 +1878,7 @@ npc script ServusMalus {
          Waitframe();
       }
       
-      Screen->Message(665);
+      Screen->Message(179);
       
       // Link intervenes
       until (Hero->X >= 120) {
@@ -1901,7 +1913,7 @@ npc script ServusMalus {
          Waitframe();
       }
       
-      Screen->Message(666);
+      Screen->Message(180);
       
       // Buffer before Big Summer Blowout
       for (int i = 0; i < 30; ++i) {
