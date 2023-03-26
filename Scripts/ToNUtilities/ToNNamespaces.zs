@@ -1504,133 +1504,6 @@ namespace WaterPathsNamespace {
    DEFINE ATTBU_FLUIDPATH = 0;
    DEFINE VAL_BARRIER = -1;
 
-   int getCombo(Fluid fluid, bool solid) {
-      switch(fluid) {
-         case FL_EMPTY:
-            return COMBO_FLUID_EMPTY;
-         case FL_PURPLE:
-            return solid ? COMBO_SOLID_PURPLE : COMBO_NON_SOLID_PURPLE;
-         case FL_FLAMING:
-            return solid ? COMBO_SOLID_FLAMING : COMBO_NON_SOLID_FLAMING;
-      }
-      
-      if (WP_DEBUG)
-         printf("[WaterPaths] ERROR: Invalid fluid '%d' passed to 'getCombo'\n");
-         
-      return 0;
-   }
-
-   Fluid getFluid(int path) {
-      if (path < 1 || path >= MAX_PATHS)
-         return <untyped>(-1);
-         
-      return pathStates[path - 1];
-   }
-
-   Fluid getSource(int path) {
-      if (path < 1 || path >= MAX_PATHS)
-         return <untyped>(-1);
-         
-      return pathStates[path - 1 + MAX_PATHS];
-   }
-
-   int getConnection(int level, int path) {
-      return fluidConnections[level * 512 + path - 1];
-   }
-
-   bool getConnection(int level, int path1, int path2) {
-      return fluidConnections[level * 512 + path1 - 1] & 1L << (path2 - 1);
-   }
-
-   void setConnection(int level, int path1, int path2, bool connect) {
-      if (WP_DEBUG)
-         printf("Try connect: LVL %d, (%d <> %d) %s\n", level, path1 - 1, path2 - 1, connect ? "true" : "false");
-      
-      if (path1 == path2) return; //Can't connect to self
-      --path1;
-      --path2; //From 1-indexed to 0-indexed
-      
-      if (connect) {
-         fluidConnections[level * 512 + path1] |= 1L << path2;
-         fluidConnections[level * 512 + path2] |= 1L << path1;
-      } else {
-         fluidConnections[level * 512 + path1] ~= 1L << path2;
-         fluidConnections[level * 512 + path2] ~= 1L << path1;
-      }
-   }
-
-   void updateFluidFlow() {
-      memcpy(pathStates, 0, pathStates, MAX_PATHS, MAX_PATHS); //Set to default sources
-      
-      DEFINE MAX_PATH_PAIRS = MAX_PATHS * (MAX_PATHS - 1) + 1;
-      int pathPairs1[MAX_PATH_PAIRS];
-      int pathPairs2[MAX_PATH_PAIRS];
-      
-      //Cache the pairs of connected paths, so they don't need to be repeatedly calculated 
-      int index = 0;
-      
-      for (int path1 = 0; path1 < MAX_PATHS; ++path1) {
-         int connection = getConnection(Game->GetCurLevel(), path1 + 1);
-         
-         unless(connection)
-            continue;
-            
-         for (int path2 = path1 + 1; path2 < MAX_PATHS; ++path2)  {
-            unless(connection & (1L << path2))
-               continue;
-            
-            if (WP_DEBUG)
-               printf("Found pair: %d,%d\n", path1, path2);
-               
-            pathPairs1[index] = path1;
-            pathPairs2[index++] = path2;
-         }
-      }
-      
-      pathPairs1[index] = -1;
-      bool flowTriggered;
-      
-      do {
-         flowTriggered = false;
-         
-         for (int q = 0; pathPairs1[q] > -1; ++q)
-            if (flow(pathPairs1[q], pathPairs2[q]))
-               flowTriggered = true;
-               
-      } while (flowTriggered);
-      
-      pathStates[UPDATE_PATHS] = true;
-   }
-
-   bool flow(int path1, int path2) {
-      Fluid fluid1 = pathStates[path1];
-      Fluid fluid2 = pathStates[path2];
-      
-      if (WP_DEBUG)
-         printf("Checking flow between [%d] (%d) and [%d] (%d)\n", path1, fluid1, path2, fluid2);
-      
-      if (fluid1 == fluid2) 
-         return false;
-      
-      if (WP_DEBUG)
-         printf("Flow occurring: %d != %d\n", fluid1, fluid2);
-         
-      //Special fluid mixing logic can occur here, for now the higher value simply flows
-      if (fluid1 < fluid2) {
-         if (WP_DEBUG)
-            printf("%d<%d, setting [%d] = %d\n", fluid1, fluid2, path1, fluid2); 
-         
-         pathStates[path1] = fluid2;
-      } else {
-         if (WP_DEBUG)
-            printf("%d>%d, setting [%d] = %d\n", fluid1, fluid2, path2, fluid1);
-            
-         pathStates[path2] = fluid1;
-      }
-      
-      return true;
-   }
-
    @Author("EmilyV99")
    dmapdata script WaterPaths {
       /**layers form: 0101010b (layers 6543210, 1 for on 0 for off. 2 layers exactly should be enabled.)
@@ -1642,6 +1515,13 @@ namespace WaterPathsNamespace {
        *     ~~ -1 represents barriers between paths
        *     ~~ Any other value will cause the combo to be ignored.
        */
+       
+      enum {
+         PASS_LIQUID,
+         PASS_BARRIERS,
+         PASS_COUNT
+      };
+      
       void run(int layers, int source1, int source2, int source3, int source4, int source5, int source6, int source7) {
          Waitframes(2);
          
@@ -1681,8 +1561,8 @@ namespace WaterPathsNamespace {
          int screen = -1;
          
          while (true) {
-            //if screen has a FL_FLAMING play sound 13
-         
+            //if screen has a FL_FLAMING play sound 117 or 160
+            
             if (screen != Game->GetCurScreen() || pathStates[UPDATE_PATHS]) {
                screen = Game->GetCurScreen();
                pathStates[UPDATE_PATHS] = false;
@@ -1705,28 +1585,22 @@ namespace WaterPathsNamespace {
                mapdata layer1Template = Game->LoadTempScreen(layer1);
                mapdata layer2Template = Game->LoadTempScreen(layer2);
                
-               enum {
-                  PASS_LIQUID,
-                  PASS_BARRIERS,
-                  PASS_COUNT
-               };
-               
                for (int pass = 0; pass < PASS_COUNT; ++pass) {
                   for (int combo = 0; combo < 176; ++combo) {
                      if (currentMapLayer1->ComboT[combo] != CT_FLUID)
                         continue;
-                        
+                     
                      combodata comboData = Game->LoadComboData(currentMapLayer1->ComboD[combo]);
                      int flag = comboData->Attributes[ATTBU_FLUIDPATH];
                      
                      switch(pass) {
                         case PASS_LIQUID:
-                           unless(flag > 0) 
-                           continue;
+                           unless(flag > 0)
+                              continue;
                            break;
                         case PASS_BARRIERS:
                            unless(flag == VAL_BARRIER) 
-                           continue;
+                              continue;
                            break;
                      }
                         
@@ -1958,7 +1832,7 @@ namespace WaterPathsNamespace {
                         if (cmb > -1) {
                            if (flowpath)
                               layer1Template->ComboD[combo] = getCombo(getFluid(flowpath), cmb > 0);
-                           
+                                                         
                            layer2Template->ComboD[combo] = cmb;
                            layer2Template->ComboC[combo] = currentMapLayer1->ComboC[combo];
                         }
@@ -1969,9 +1843,136 @@ namespace WaterPathsNamespace {
                   }
                }
             }
+            
             Waitframe();
          }
       }	
+   }
+
+   int getCombo(Fluid fluid, bool solid) {
+      switch(fluid) {
+         case FL_EMPTY:
+            return COMBO_FLUID_EMPTY;
+         case FL_PURPLE:
+            return solid ? COMBO_SOLID_PURPLE : COMBO_NON_SOLID_PURPLE;
+         case FL_FLAMING:
+            return solid ? COMBO_SOLID_FLAMING : COMBO_NON_SOLID_FLAMING;
+      }
+      
+      if (WP_DEBUG)
+         printf("[WaterPaths] ERROR: Invalid fluid '%d' passed to 'getCombo'\n");
+         
+      return 0;
+   }
+
+   Fluid getFluid(int path) {
+      if (path < 1 || path >= MAX_PATHS)
+         return <untyped>(-1);
+         
+      return pathStates[path - 1];
+   }
+
+   Fluid getSource(int path) {
+      if (path < 1 || path >= MAX_PATHS)
+         return <untyped>(-1);
+         
+      return pathStates[path - 1 + MAX_PATHS];
+   }
+
+   int getConnection(int level, int path) {
+      return fluidConnections[level * 512 + path - 1];
+   }
+
+   bool getConnection(int level, int path1, int path2) {
+      return fluidConnections[level * 512 + path1 - 1] & 1L << (path2 - 1);
+   }
+
+   void setConnection(int level, int path1, int path2, bool connect) {
+      if (WP_DEBUG)
+         printf("Try connect: LVL %d, (%d <> %d) %s\n", level, path1 - 1, path2 - 1, connect ? "true" : "false");
+      
+      if (path1 == path2) return; //Can't connect to self
+      --path1;
+      --path2; //From 1-indexed to 0-indexed
+      
+      if (connect) {
+         fluidConnections[level * 512 + path1] |= 1L << path2;
+         fluidConnections[level * 512 + path2] |= 1L << path1;
+      } else {
+         fluidConnections[level * 512 + path1] ~= 1L << path2;
+         fluidConnections[level * 512 + path2] ~= 1L << path1;
+      }
+   }
+
+   void updateFluidFlow() {
+      memcpy(pathStates, 0, pathStates, MAX_PATHS, MAX_PATHS); //Set to default sources
+      
+      DEFINE MAX_PATH_PAIRS = MAX_PATHS * (MAX_PATHS - 1) + 1;
+      int pathPairs1[MAX_PATH_PAIRS];
+      int pathPairs2[MAX_PATH_PAIRS];
+      
+      //Cache the pairs of connected paths, so they don't need to be repeatedly calculated 
+      int index = 0;
+      
+      for (int path1 = 0; path1 < MAX_PATHS; ++path1) {
+         int connection = getConnection(Game->GetCurLevel(), path1 + 1);
+         
+         unless(connection)
+            continue;
+            
+         for (int path2 = path1 + 1; path2 < MAX_PATHS; ++path2)  {
+            unless(connection & (1L << path2))
+               continue;
+            
+            if (WP_DEBUG)
+               printf("Found pair: %d,%d\n", path1, path2);
+               
+            pathPairs1[index] = path1;
+            pathPairs2[index++] = path2;
+         }
+      }
+      
+      pathPairs1[index] = -1;
+      bool flowTriggered;
+      
+      do {
+         flowTriggered = false;
+         
+         for (int q = 0; pathPairs1[q] > -1; ++q)
+            if (flow(pathPairs1[q], pathPairs2[q]))
+               flowTriggered = true;
+      } while (flowTriggered);
+      
+      pathStates[UPDATE_PATHS] = true;
+   }
+
+   bool flow(int path1, int path2) {
+      Fluid fluid1 = pathStates[path1];
+      Fluid fluid2 = pathStates[path2];
+      
+      if (WP_DEBUG)
+         printf("Checking flow between [%d] (%d) and [%d] (%d)\n", path1, fluid1, path2, fluid2);
+      
+      if (fluid1 == fluid2) 
+         return false;
+      
+      if (WP_DEBUG)
+         printf("Flow occurring: %d != %d\n", fluid1, fluid2);
+         
+      //Special fluid mixing logic can occur here, for now the higher value simply flows
+      if (fluid1 < fluid2) {
+         if (WP_DEBUG)
+            printf("%d<%d, setting [%d] = %d\n", fluid1, fluid2, path1, fluid2); 
+         
+         pathStates[path1] = fluid2;
+      } else {
+         if (WP_DEBUG)
+            printf("%d>%d, setting [%d] = %d\n", fluid1, fluid2, path2, fluid1);
+            
+         pathStates[path2] = fluid1;
+      }
+      
+      return true;
    }
 
    bool isBarrierFlag(int fluid, int barrierFlag) {
