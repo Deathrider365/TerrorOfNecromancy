@@ -17,27 +17,47 @@ ffc script IntroAwaitingLeviathan {
       
       while (true) {
          ++timer;
-         Waitframe();
          
          if (timer == timeUntilWarp) {
+            Audio->PlayEnhancedMusic(NULL, 0);
+            Hero->Dir = DIR_RIGHT;
+            
+            for (int i = 0; i < 16; ++i) {
+               disableLink();
+               Screen->FastCombo(2, 256 - i, 80, 6715, 0, OP_OPAQUE);
+               Waitframe();
+            }
+            
             disableLink();
+            Screen->FastTile(2, 240, 80, 44276, 0, OP_OPAQUE);
             Screen->Message(message);
             Waitframe();
             
             for (int i = 0; i < 240; ++i) {
+               disableLink();
+               
                if (i % 60 == 0) {
                   Screen->Quake = 20;
                   Audio->PlaySound(SFX_ROCKINGSHIP);
                }
                
+               Hero->Dir = DIR_UP;
+               Screen->FastTile(2, 240, 80, 44275, 0, OP_OPAQUE);
                Waitframe();
             }
             
+            disableLink();
+            Hero->Dir = DIR_RIGHT;
+            Screen->FastTile(2, 240, 80, 44276, 0, OP_OPAQUE);
             Screen->Message(message + 1);
             Waitframe();
             
+            disableLink();
+            Screen->FastTile(2, 240, 80, 44276, 0, OP_OPAQUE);
             Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
          }
+         
+         Waitframe();
       }
    }
 }
@@ -180,13 +200,14 @@ ffc script IntroPreInteritusLeviathanScene {
    using namespace LeviathanNamespace;
 	
    void run() {	
-      Hero->Item[26] = false;
+      Hero->Item[189] = false;
       
       Audio->PlayEnhancedMusic(NULL, 0);
       
       for (int i = 0; i < 120; ++i) {
          disableLink();
-         Screen->FastCombo(2, 240 - i, 128, 6743, 0, OP_OPAQUE);
+         Screen->FastCombo(3, 240 - i, 132, 6271, 0, OP_TRANS);
+         Screen->FastCombo(2, 240 - i, 122, 6743, 0, OP_OPAQUE);
          Screen->FastCombo(1, 240 - i, 128, 6742, 0, OP_OPAQUE);
          Waitframe();
       }
@@ -205,7 +226,8 @@ ffc script IntroPreInteritusLeviathanScene {
       // Rising
       for(int i = 0; i < 180; ++i) {
          disableLink();
-         Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+         Screen->FastCombo(3, 120, 132, 6271, 0, OP_TRANS);
+         Screen->FastCombo(2, 120, 122, 6702, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
          Screen->DrawTile(0, -16, 228 - i, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
          Waitframe();
@@ -221,7 +243,8 @@ ffc script IntroPreInteritusLeviathanScene {
       // The leviathan pauses
       for(int i = 0; i < 120; ++i) {
          disableLink();
-         Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+         Screen->FastCombo(3, 120, 132, 6271, 0, OP_TRANS);
+         Screen->FastCombo(2, 120, 122, 6702, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
          Screen->DrawTile(0, -16, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
          Waitframe();
@@ -233,7 +256,8 @@ ffc script IntroPreInteritusLeviathanScene {
       
       for(int i = 0; i < 60; ++i) {
          disableLink();
-         Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+         Screen->FastCombo(3, 120, 132, 6271, 0, OP_TRANS);
+         Screen->FastCombo(2, 120, 122, 6702, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
          Screen->DrawTile(0, -16 - 0.125, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);
          Waitframe();
@@ -245,7 +269,8 @@ ffc script IntroPreInteritusLeviathanScene {
          disableLink();
          
          if (i < 80) {
-            Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+            Screen->FastCombo(3, 120, 132, 6271, 0, OP_TRANS);
+            Screen->FastCombo(2, 120, 122, 6772, 0, OP_OPAQUE);
             Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
          }
          
@@ -259,7 +284,8 @@ ffc script IntroPreInteritusLeviathanScene {
             
             for(i = 0; i < 64; ++i) {
                disableLink();
-               Screen->FastCombo(2, 120, 128, 6743, 0, OP_OPAQUE);
+               Screen->FastCombo(3, 120, 132, 6271, 0, OP_TRANS);
+               Screen->FastCombo(2, 120, 122, 6772, 0, OP_OPAQUE);
                Screen->FastCombo(1, 120, 128, 6742, 0, OP_OPAQUE);
                
                Screen->DrawTile(0, -16 + (i * 2) + 20, 48, 45760, 9, 6, 0, -1, -1, 0, 0, 0, 0, 1, 128);		

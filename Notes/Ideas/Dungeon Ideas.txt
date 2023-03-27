@@ -30,9 +30,9 @@ attack one of them or step on a grave or some trigger, play OOT Ganon's tower th
 
 Dungeon similar to prismatic gate where there is a normal, fire, ice, and some fourth theme (maybe poison)
 
-A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into
-traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens.
-so you leave the triforce room only to find him in the room, he transforms into the boss)
+               A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into
+               traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens.
+               so you leave the triforce room only to find him in the room, he transforms into the boss)
 
 A secondsary idea to the previous one about the npc deceptively helping you through the dungeon, perhaps it can be like LTTP where
 they arent necessarily bad and they get corrupted and their dialogue gets messed up as you go through and he ends up the boss
@@ -51,8 +51,6 @@ Desert structure will be a dungeon called Level #: Mortuary of Corruption
 Level #: The Deep of Dwarrodelf will be an ancient lava filled goron city in a mountain where there is a
 notorious dragon inside
 
-Dawn to Twilight Plus Deep Darkness theme
-
 Can lose dungeon map, and would need to reobtain it
 
 a dungeon that you have to drain it layer by layer and at the end of it you dive (optional) for something idk
@@ -69,12 +67,7 @@ mystic manor glory squad
 
 Think the dungeon from DQVIII where you cannot see until you get an item (this can be the final bonus dungeon)
 
-where the dungeon was in my mini quest can be a legionnaire outpost 
-
 much like the bonus dungeons from FF1 have a dungeon where each floor is styled off of each of the dungeons 
-
-Have an intro area to a lava dungeon using this: https://www.youtube.com/watch?v=MG17fe1iNAU&list=PLvNp0Boas7205R5ySBYZTfH_ePHdDFFkZ&index=14
-Dungeon being this: https://www.youtube.com/watch?v=qxGK8Gussjg&list=PLvNp0Boas7205R5ySBYZTfH_ePHdDFFkZ&index=15 (Maybe use the SM variant)
 
 a dungeon similar to the tower of winds and sunken basin where the side view 
 portion has a lot of verticality where there are paths to various floors
@@ -82,4 +75,4 @@ portion has a lot of verticality where there are paths to various floors
 2 sister towers, one fire and the other ice. each will have wizzrobes but there will also be elemental specific ones. Perhaps fire does DoT and
 ice slows yuou down
 
-Have a sideview dungeon, you swap gravity and,or the dungeon
+Have a sideview dungeon, you swap gravity and, or the dungeon

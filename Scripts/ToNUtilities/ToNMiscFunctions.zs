@@ -3,9 +3,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 void removeAllItems() {
-   for(int q = 0; q < MAX_ITEMDATA; ++q)
-      unless(q == 3 || q == I_DIFF_NORMAL || q == 183 || q == 208)
-         Hero->Item[q] = false;
+   for(int i = 0; i < MAX_ITEMDATA; ++i)
+      unless(i == 3 || i == I_DIFF_NORMAL || i == 183 || i == 208)
+         Hero->Item[i] = false;
       
    Game->Counter[CR_SBOMBS] = 0;
    Game->Counter[CR_BOMBS] = 0;

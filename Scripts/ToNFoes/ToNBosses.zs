@@ -2111,7 +2111,6 @@ npc script SeizedGuardGeneral {
    }
 }
 
-
 @Author("Deathrider365")
 npc script Demonwall {
    void run() {

@@ -8,15 +8,23 @@ ffc script Signpost {
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage) { 
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int layerToClearOnVanish) {
       int secondMessageTrigger, secondMessageTriggerValue;
       
       if (hasSecondMessage) {
          secondMessageTrigger = Floor(hasSecondMessage);
          secondMessageTriggerValue = (hasSecondMessage % 1) / 1L; 
       }
+      
+      if (vanishesOnSecondString) {
+         handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue, layerToClearOnVanish);
+      }
 
       while(true) {
+         if (vanishesOnSecondString) {
+            handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue, layerToClearOnVanish);
+         }
+         
          until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
             if (againstFFC(this->X, this->Y))
                Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
@@ -38,8 +46,9 @@ ffc script Signpost {
             case SMT_SECRETS:
                unless (Screen->State[ST_SECRET])
                   Screen->Message(message);
-               else
+               else {
                   Screen->Message(secondMessage);
+               }
                break;
             case SMT_HAS_ITEM:
                unless (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM])
@@ -60,6 +69,35 @@ ffc script Signpost {
             int screen = (warp % 1) / 1L;
             Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPFX_NONE, 0, 0, DIR_DOWN});
          }
+      }
+   }
+   
+   void handleVanishing(ffc combo, int secondMessageTrigger, int secondMessageTriggerValue, int layerToClearOnVanish) {
+      switch(secondMessageTrigger) {
+         case SMT_SCREEND:
+            if (getScreenD(secondMessageTriggerValue)) {
+               combo->Data = COMBO_INVIS;
+               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
+               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+               Quit();
+            }
+            break;
+         case SMT_SECRETS:
+            if (Screen->State[ST_SECRET]) {
+               combo->Data = COMBO_INVIS;
+               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
+               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+               Quit();
+            }
+            break;
+         case SMT_HAS_ITEM:
+            if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) {
+               combo->Data = COMBO_INVIS;
+               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
+               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+               Quit();
+            }
+            break;
       }
    }
 }
@@ -87,7 +125,16 @@ ffc script MessageOnce {
 
 @Author("Deathrider365")
 ffc script GetItem {
-   void run(int hasItem, int trader, int gettingItemString, int gottenItemString, int scriptSelfTrigger, int selfTriggerValue, int layer, int screenD) {  
+   void run(
+      int hasItem, 
+      int trader, 
+      int gettingItemString, 
+      int gottenItemString, 
+      int scriptSelfTrigger, 
+      int selfTriggerValue, 
+      int layer, 
+      int screenD
+   ) {  
       CONFIG TA_KILL_SCRIPT = 1;
       CONFIG TA_START_SCRIPT = 2;
    
@@ -234,8 +281,9 @@ ffc script GetItem {
             Screen->Message(gettingItemString);
             Waitframe();
          } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
-            if (finalStringForSecrets)
-               Screen->Message(finalStringForSecrets);
+            int oneFinalString = (gottenItemString % 1) / 1L;
+            if (oneFinalString)
+               Screen->Message(oneFinalString);
             else
                Screen->Message(gottenItemString);
             Waitframe();

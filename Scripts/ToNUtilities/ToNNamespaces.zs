@@ -308,7 +308,7 @@ namespace LeviathanNamespace {
    int LEVIATHAN_WATERFALL_DMG = 50;
 
    int MSG_BEATEN = 23;
-   int MSG_LEVIATHAN_SCALE = 122;
+   int MSG_LEVIATHAN_SCALE = 1052;
 
    bool firstRun = true;
 

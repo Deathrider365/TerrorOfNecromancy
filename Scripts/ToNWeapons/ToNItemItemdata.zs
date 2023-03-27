@@ -102,16 +102,16 @@ item script HeartPieces {
 	void run() {
 		switch(Game->Generic[GEN_HEARTPIECES] + 1) {
 			case 1:
-				Screen->Message(115);
+				Screen->Message(712);
 				break;
 			case 2:
-				Screen->Message(116);
+				Screen->Message(713);
 				break;
 			case 3:
-				Screen->Message(117);
+				Screen->Message(714);
 				break;
 			case 4:
-				Screen->Message(118);
+				Screen->Message(715);
 				break;			
 		}
 	}
