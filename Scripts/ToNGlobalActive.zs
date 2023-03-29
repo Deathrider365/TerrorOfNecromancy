@@ -171,6 +171,15 @@ global script GlobalScripts {
                case 0x77:
                   return 000100;
             }
+         case 31:
+            switch(screen) {
+               case 0x41:
+                  return 001000b;
+               case 0x42:
+                  return 001000b;
+               case 0x43:
+                  return 001000b;
+            }
          case 32:
             switch(screen) {
                case 0x06:
