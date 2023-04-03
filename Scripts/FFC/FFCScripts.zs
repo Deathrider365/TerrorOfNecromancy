@@ -629,7 +629,7 @@ ffc script Thrower {
                }
             }
 
-            coolDown = 120 + Rand(lowVariance, highVariance);
+            coolDown = Rand(60, 180) + Rand(lowVariance, highVariance);
          }
 
          coolDown--;
