@@ -222,3 +222,19 @@ npc script Mimic {
       }
    }
 }
+
+npc script HammerBoi {
+   using namespace GhostBasedMovement;
+   
+   void run() {
+      int counter = -1;
+      
+      while(true) {
+         counter = ConstWalk4(this, counter);
+         
+         if ()
+         
+         Waitframe();
+      }
+   }
+}

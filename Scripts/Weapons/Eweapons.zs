@@ -215,7 +215,45 @@ eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) 
    return makeHitbox(x, y, 16, 16, dmg);
 } 
 
-
+eweapon script HammerImpact {
+   void run() {
+      const int TILE_HAMMER_IMPACT = 49916;
+      this->Step = 250;
+      
+      while(true) {
+         int x = this->X + 8 + DirX(this->Dir) * 4;
+         int y = this->Y + 8 + DirY(this->Dir) * 4;
+         
+         if (Screen->isSolid(x, y))
+            break;
+         
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_WALL_SMASH);
+      
+      int angle = DirAngle(OppositeDir(this->Dir));
+      
+      for (int i = 0; i < 4; ++i) {
+         eweapon e = FireEWeapon(EW_SCRIPT10, this->X, this->Y, DegtoRad(angle + Rand(-30, 30)), Rand(100, 250), this->Damage * .5, SPR_SUPER_SMALL_ROCK, 0, EWF_UNBLOCKABLE);
+         e->Timeout = 32;
+      }
+      
+      eweapon e = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
+      e->Damage = this->Damage * .75;
+      
+      this->Step = 0;
+      this->CollDetection = false;
+      this->ScriptTile = TILE_HAMMER_IMPACT + this->Dir;
+      
+      for (int i = 0; i < 60; ++i) {
+         this->DeadState = WDS_ALIVE;
+         Waitframe();
+      }
+      
+      this->Remove();
+   }
+}
 
 
 

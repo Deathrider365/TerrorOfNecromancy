@@ -1260,7 +1260,7 @@ npc script OvergrownRaccoon {
                   this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
                   
                   unless (i % 20) {
-                     eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                     eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
                      runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
                   }

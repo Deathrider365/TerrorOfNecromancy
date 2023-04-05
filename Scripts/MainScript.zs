@@ -13,6 +13,7 @@
 #include "ffcscript.zh"
 #include "Time.zh"
 #include "std_zh/dmapgrid.zh"
+#include "std_zh/ghostBasedMovement.zh"
 
 #include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
 #include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
