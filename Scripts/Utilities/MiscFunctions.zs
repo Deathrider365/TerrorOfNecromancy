@@ -2,6 +2,10 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
+void giveStartingCrap() {
+   //Have what the player would have at the beginning
+}
+
 void removeAllItems() {
    for(int i = 0; i < MAX_ITEMDATA; ++i)
       unless(i == 3 || i == I_DIFF_NORMAL || i == 183 || i == 208)
@@ -18,12 +22,12 @@ void removeAllItems() {
    Game->MCounter[CR_RUPEES] = 255;
    Game->Generic[GEN_MAGICDRAINRATE] = 2;
    
+   Game->Counter[CR_MAGIC_EXPANSIONS] = 0;
    Game->Counter[CR_TRIFORCE_OF_COURAGE] = 0;
    Game->Counter[CR_TRIFORCE_OF_POWER] = 0;
    Game->Counter[CR_TRIFORCE_OF_WISDOM] = 0;
-
-   numBombUpgrades = 0;
-   numQuiverUpgrades = 0;
+   Game->Counter[CR_BOMB_BAG_EXPANSIONS] = 0;
+   Game->Counter[CR_QUIVER_EXPANSIONS] = 0;
    
    Hero->MaxHP = 48;
    Hero->MaxMP = 32;

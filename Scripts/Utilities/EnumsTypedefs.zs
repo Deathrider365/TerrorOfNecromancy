@@ -164,7 +164,7 @@ CONFIG SFX_SIGHTED = 161;
 CONFIG SFX_WALL_SMASH = SFX_ARIN_SPLAT;
 //end
 
-//~~~~~Sprite ~~~~~//
+//~~~~~Sprite~~~~~//
 //start
 CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SPR_FOOTSTEP = 113;
@@ -239,6 +239,9 @@ CONFIG CR_TRIFORCE_OF_WISDOM = CR_CUSTOM3;   //9
 CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;    //10
 CONFIG CR_LEGIONNAIRE_RING = CR_CUSTOM5;
 CONFIG CR_HEARTPIECES = CR_CUSTOM6;
+CONFIG CR_MAGIC_EXPANSIONS = CR_CUSTOM7;
+CONFIG CR_BOMB_BAG_EXPANSIONS = CR_CUSTOM8;
+CONFIG CR_QUIVER_EXPANSIONS = CR_CUSTOM9;
 
 //end
 
@@ -279,8 +282,8 @@ CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
 // Globals start
 int subscreenYOffset = -224;
 
-int numBombUpgrades = 7;
-int numQuiverUpgrades = 7;
+// int numBombUpgrades = 7;
+// int numQuiverUpgrades = 7;
 char32 numBombUpgradesBuf[6];
 char32 numQuiverUpgradesBuf[6];
 

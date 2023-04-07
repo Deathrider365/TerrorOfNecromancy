@@ -111,14 +111,14 @@ dmapdata script SubscreenActive {
             continue;
             
          if (id == 81 || id == 74) {
-            if (numBombUpgrades > 2)
+            if (Game->Counter[CR_BOMB_BAG_EXPANSIONS] > 2)
                upgradeBombTile += 1;
-            if (numBombUpgrades > 4)
+            if (Game->Counter[CR_BOMB_BAG_EXPANSIONS] > 4)
                upgradeBombTile += 1;
                
-            if (numQuiverUpgrades > 2)
+            if (Game->Counter[CR_QUIVER_EXPANSIONS] > 2)
                upgradeQuiverTile += 1;
-            if (numQuiverUpgrades > 4)
+            if (Game->Counter[CR_QUIVER_EXPANSIONS] > 4)
                upgradeQuiverTile += 1;
                
             drawTileToLoc(1, id == 81 ? upgradeBombTile : upgradeQuiverTile, loadItemCSet(id), inactiveItemLocsX[q], inactiveItemLocsY[q], y);
@@ -128,8 +128,8 @@ dmapdata script SubscreenActive {
       }
       
       // Bomb bag and Quiver counter draws
-      sprintf(numBombUpgradesBuf, "%d", numBombUpgrades);
-      sprintf(numQuiverUpgradesBuf, "%d", numQuiverUpgrades);
+      sprintf(numBombUpgradesBuf, "%d", Game->Counter[CR_BOMB_BAG_EXPANSIONS]);
+      sprintf(numQuiverUpgradesBuf, "%d", Game->Counter[CR_QUIVER_EXPANSIONS]);
       
       Screen->FastTile(7, 86, 14 + y, TILE_BOMB_BAG_UPGRADE, 8, OP_OPAQUE);
       Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);

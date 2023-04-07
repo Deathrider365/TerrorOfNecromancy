@@ -591,15 +591,14 @@ ffc script BurningOilandBushes {
 @Author("Deathrider365")
 ffc script Thrower {
    void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
+      const int COOLDOWN = !coolDown ? 120 : coolDown;
+      
       int lowVariance = Floor(variance);
       int highVariance = -(variance % 1) / 1L;
       
       int projectileId = Floor(projectile);
       int projectileType = (projectile % 1) / 1L;
-         
-      unless(coolDown)
-         coolDown = 120;
-         
+      
       while (true) {
          if (wasTriggered(trigger))
             Quit();
@@ -629,7 +628,7 @@ ffc script Thrower {
                }
             }
 
-            coolDown = Rand(60, 180) + Rand(lowVariance, highVariance);
+            coolDown = COOLDOWN + Rand(lowVariance, highVariance);
          }
 
          coolDown--;

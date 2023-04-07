@@ -223,18 +223,157 @@ npc script Mimic {
    }
 }
 
+@Author("Moosh, Emily")
 npc script HammerBoi {
    using namespace GhostBasedMovement;
+   using namespace EnemyNamespace;
    
    void run() {
       int counter = -1;
+      const int COOLDOWN = 60;
+      int timer;
       
       while(true) {
          counter = ConstWalk4(this, counter);
          
-         if ()
+         unless (timer) {
+            if (Abs(this->X - Hero->X) < 32 && Abs(this->Y - Hero->Y) < 16) {
+               int oldDir = this->Dir;
+               this->Dir = faceLink(this);
+               hammerAnim(this);
+               
+               this->Dir = oldDir;
+               
+               timer = COOLDOWN;
+            }
+         }
+         else
+            --timer;
          
          Waitframe();
       }
+   }
+   
+   void hammerAnim(npc this) {
+      this->ScriptTile = this->OriginalTile + 4 * this->Dir;
+      
+      Coordinates xy = new Coordinates();
+      
+      //Hold Up
+      for (int i = 0; i < 20; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 0, this->WeaponDamage, xy);
+         Waitframe();
+      }
+      
+      // Swing
+      for (int i = 0; i < 4; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 1, this->WeaponDamage, xy);
+         Waitframe();
+      }
+      
+      if (this->HP > 0)
+         Audio->PlaySound(SFX_HAMMER);
+      
+      //Smash
+      for (int i = 0; i < 30; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 2, this->WeaponDamage, xy);
+         
+         if (i == 0) {
+            if (int escr = CheckEWeaponScript("HammerImpactEffect")) {
+               eweapon weap = RunEWeaponScriptAt(EW_SCRIPT10, escr, xy->X, xy->Y, { 49852 });
+               weap->ScriptTile = TILE_INVIS;
+            }
+         }
+         
+         Waitframe();
+      }
+      
+      this->ScriptTile = -1;
+      delete xy;
+   }
+   
+   void hammerFrame(npc this, int frame, int damage, Coordinates xy) {
+      const int TILE_HAMMER = 49840;
+      const int CSET_HAMMER = 8;
+      int x = this->X;
+      int y = this->Y;
+      
+      switch(this->Dir) {
+         case DIR_UP:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  y -= 12;
+                  break;
+               case 2:
+                  y -= 13;
+                  break;
+            }
+            break;
+         case DIR_DOWN:
+            switch(frame) {
+               case 0:
+                  y -= 12;
+                  break;
+               case 1:
+                  y += 4;
+                  break;
+               case 2:
+                  y += 14;
+                  break;
+            }
+            break;
+         case DIR_LEFT:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  x -= 12;
+                  y -= 12;
+                  break;
+               case 2:
+                  x -= 14;
+                  break;
+            }
+            break;
+         case DIR_RIGHT:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  x += 12;
+                  y -= 12;
+                  break;
+               case 2:
+                  x += 14;
+                  break;
+            }
+            break;
+      }
+      
+      eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
+      hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
+      hammer->CSet = CSET_HAMMER;
+      // hammer->Behind = true;
+      hammer->Timeout = 2;
+      
+      if (frame < 2)
+         hammer->CollDetection = false;
+      
+      xy->X = x;
+      xy->Y = y;
    }
 }

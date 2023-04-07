@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Imports ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Main Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
 // if issue with star.t / end, do:
@@ -39,6 +39,7 @@
 #include "../ToN Main Quest/Scripts/Utilities/Hero.zs"
 #include "../ToN Main Quest/Scripts/Utilities/MiscFunctions.zs"
 #include "../ToN Main Quest/Scripts/Utilities/Namespaces.zs"
+#include "../ToN Main Quest/Scripts/Utilities/Classes.zs"
 
 #include "../ToN Main Quest/Scripts/Weapons/Lweapons.zs"
 #include "../ToN Main Quest/Scripts/Weapons/Eweapons.zs"
@@ -48,6 +49,7 @@
 
 #include "../ToN Main Quest/Scripts/GlobalActive.zs"
 #include "../ToN Main Quest/Scripts/ScreendataDMapdata.zs"
+
 
 always using namespace Emily;
 

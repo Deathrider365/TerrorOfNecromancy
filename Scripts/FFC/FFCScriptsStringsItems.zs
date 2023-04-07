@@ -416,10 +416,10 @@ ffc script Shop {
 
                   switch(itemId) {
                      case ITEM_EXPANSION_BOMB:
-                        numBombUpgrades++;
+                        Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
                         break;
                      case ITEM_EXPANSION_QUIVER:
-                        numQuiverUpgrades++;
+                        Game->Counter[CR_QUIVER_EXPANSIONS]++;
                         break;
                      case ITEM_BATTLE_ARENA_TICKET:
                         Screen->TriggerSecrets();
@@ -493,11 +493,11 @@ ffc script BuyItem {
             
             switch(itemId) {
                case ITEM_EXPANSION_BOMB:
-                  numBombUpgrades++;
+                  Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
                   Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_EXPANSION_QUIVER:
-                  numQuiverUpgrades++;
+                  Game->Counter[CR_QUIVER_EXPANSIONS]++;
                   Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_BATTLE_ARENA_TICKET:

@@ -255,6 +255,28 @@ eweapon script HammerImpact {
    }
 }
 
+eweapon script HammerImpactEffect {
+   void run(int tile) {
+      this->CollDetection = false;
+      this->ScriptTile = TILE_INVIS;
+      
+      for (int i = 0; i < 5; ++i) {
+         int tempTile = tile + (i > 0 ? 2 : 0);
+         int offset;
+         
+         if (i > 1)
+            offset = 2 * (i - 1);
+         
+         for (int j = 0; j < 3; ++j) {
+            Screen->FastTile(3, this->X - offset, this->Y + 8 - offset, tempTile, 0, OP_OPAQUE);
+            Screen->FastTile(3, this->X + 8 + offset, this->Y + 8 - offset, tempTile + 1, 0, OP_OPAQUE);
+            Waitframe();
+         }
+      }
+      
+      this->Remove();
+   }
+}
 
 
 

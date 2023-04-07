@@ -14,6 +14,8 @@ global script GlobalScripts {
 	void run() {		
       if (DEBUG)
          debug();
+         
+      giveStartingCrap();
       
       int map = -1, dmap = -1, screen = -1;
       
@@ -178,6 +180,7 @@ global script GlobalScripts {
                case 0x5b:
                case 0x5d:
                case 0x7c:
+               case 0x5D:
                   return 001000b;
             }
          case 32:
