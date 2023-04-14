@@ -236,6 +236,8 @@ npc script HammerBoi {
       while(true) {
          counter = ConstWalk4(this, counter);
          
+         this->Slide();
+         
          unless (timer) {
             if (Abs(this->X - Hero->X) < 32 && Abs(this->Y - Hero->Y) < 16) {
                int oldDir = this->Dir;

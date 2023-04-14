@@ -173,8 +173,6 @@ namespace EnemyNamespace {
 				n->Dir = RandGen->Rand(3);
 			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 		}
-      
-      traceToScreen(0, 0, n->X);
 	}
    
    int byEdgeOfScreen(npc n) {
