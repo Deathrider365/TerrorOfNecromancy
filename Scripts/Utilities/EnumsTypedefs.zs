@@ -286,6 +286,7 @@ int subscreenYOffset = -224;
 // int numQuiverUpgrades = 7;
 char32 numBombUpgradesBuf[6];
 char32 numQuiverUpgradesBuf[6];
+char32 numMagicUpgradesBuf[6];
 
 int scrollingOffset;
 //end

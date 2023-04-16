@@ -979,3 +979,17 @@ ffc script IceTrigger {
 		}
 	}
 } 
+
+ffc script EgentumGotcha {
+   void run() {
+      while(true) {
+         if (Screen->SecretsTriggered()) {
+            // Audio->PlaySound(/*some laughing thing*/);
+            Audio->PlayEnhancedMusic(NULL, 0);
+            setScreenD(0, true);
+         }
+         
+         Waitframe();
+      }
+   }
+}

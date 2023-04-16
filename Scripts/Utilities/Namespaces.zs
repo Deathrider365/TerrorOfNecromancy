@@ -153,7 +153,7 @@ namespace EnemyNamespace {
       return false;
    }
    
-   void doWalk(npc n, int rand, int homing, int step, bool flying = false) { // TODO is broken a little
+   void doWalk(npc n, int rand, int homing, int step, bool flying = false) { 
 		const int ONE_IN_N = 1000;
 		
 		if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
@@ -301,12 +301,13 @@ namespace LeviathanNamespace {
    COLOR C_CHARGE2 = C_SEABLUE;
    COLOR C_CHARGE3 = C_TAN;
 
+   //TODO Make not a global
    int LEVIATHAN_WATERCANNON_DMG = 60;
    int LEVIATHAN_BURSTCANNON_DMG = 30;
    int LEVIATHAN_WATERFALL_DMG = 50;
 
-   int MSG_BEATEN = 23;
-   int MSG_LEVIATHAN_SCALE = 1052;
+   CONFIG MSG_BEATEN = 23;
+   CONFIG MSG_LEVIATHAN_SCALE = 1052;
 
    bool firstRun = true;
 
@@ -1445,6 +1446,297 @@ namespace ServusMalusNamespace {
             Waitframe();
          }
       }
+   }
+}
+
+namespace EgentemNamespace {
+   using namespace NPCAnim;
+
+   CONFIG ANIM_SPEED = 16;
+
+   enum Animations {
+      WALKING,
+      STANDING,
+      WALKING_SH,
+      STANDING_SH
+   };
+   
+   class Egentem {
+      int moveAngle;
+      int moveTime;
+      int cooldown;
+      npc owner;
+      
+      Egentem(npc n) {
+         owner = n;
+         cooldown = 60;
+      }
+      
+      void MoveMe(int startStepFrames = 48, int startCooldown = 60) {
+         if (cooldown) {
+            --cooldown;
+            
+            if (cooldown == 0) {
+               moveTime = startStepFrames;
+               moveAngle = Angle(owner->X, owner->Y, Hero->X, Hero->Y);
+               owner->Dir = AngleDir4(moveAngle);
+            }
+         }
+         
+         if (moveTime) {
+            owner->MoveAtAngle(moveAngle, owner->Step / 100, SPW_NONE);
+            --moveTime;
+            
+            if (moveTime == 0) 
+               cooldown = startCooldown;
+         }
+      }
+   }
+   
+   void CustomWaitframe(npc this, Egentem egentem, int frames = 1) {
+      for (int i = 0; i < frames; ++i) {
+         Waitframe(this);
+      }
+   }
+   
+   void closeShutters(npc this) {
+      while(Hero->Y < 16) {
+         disableLink();
+         Hero->InputDown = true;
+         Waitframe(this);
+      }
+   
+      mapdata md = Game->LoadTempScreen(1);
+      
+      md->ComboD[7] = 6974;
+      md->ComboD[8] = 6974;
+      md->ComboD[167] = 6972;
+      md->ComboD[168] = 6972;
+   }
+   
+   void openShutters() {
+      mapdata md = Game->LoadTempScreen(1);
+      
+      md->ComboD[7] = 0;
+      md->ComboD[8] = 0;
+      md->ComboD[167] = 0;
+      md->ComboD[167] = 0;
+   }
+   
+   void introCutscene(npc this) {
+      // Audio->PlayEnhancedMusic(NULL, 0); //play something kool
+      
+      while(Hero->Y > 128)
+         Waitframe();
+      
+      this->X = 120;
+      this->Y = -16;
+      this->Dir = DIR_DOWN;
+      
+      AnimHandler aptr = GetAnimHandler(this);
+      aptr->PlayAnim(WALKING);
+      
+      for (int i = 0; i < 48; ++i) {
+         disableLink();
+         ++this->Y;
+         Waitframe(this);
+      }
+      
+      aptr->PlayAnim(STANDING);
+      
+      for (int i = 0; i < 32; ++i) {
+         disableLink();
+         Waitframe(this);
+      }
+      
+      // do whatever such as dialogue
+      
+      aptr->PlayAnim(STANDING_SH);
+      //play shield sound
+      
+      for (int i = 0; i < 32; ++i) {
+         disableLink();
+         Waitframe(this);
+      }
+      
+      aptr->PlayAnim(WALKING_SH);
+   }
+   
+   void hammerAnimHoldUp(npc this, Coordinates xy, int frames = 20) {
+      for (int i = 0; i < frames; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 0, this->WeaponDamage, xy);
+         Waitframe(this);
+      }
+   }
+   
+   void hammerAnimSwing(npc this, Coordinates xy) {
+      for (int i = 0; i < 4; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 1, this->WeaponDamage, xy);
+         Waitframe(this);
+      }
+      
+      hammerFrame(this, 2, this->WeaponDamage, xy, true);
+      
+      if (this->HP > 0)
+         Audio->PlaySound(SFX_HAMMER);
+   }
+   
+   void hammerAnimSmash(npc this, Coordinates xy, int frames = 30) {
+      for (int i = 0; i < frames; ++i) {
+         if (this->HP <= 0)
+            break;
+            
+         hammerFrame(this, 2, this->WeaponDamage, xy);
+         
+         if (i == 0) {
+            if (int escr = CheckEWeaponScript("HammerImpactEffect")) {
+               eweapon weap = RunEWeaponScriptAt(EW_SCRIPT10, escr, xy->X, xy->Y, { 49852 });
+               weap->ScriptTile = TILE_INVIS;
+            }
+         }
+         
+         Waitframe(this);
+      }
+   }
+   
+   void hammerFrame(npc this, int frame, int damage, Coordinates xy, bool doNothing = false) {
+      const int TILE_HAMMER = 49840;
+      const int CSET_HAMMER = 8;
+      int x = this->X;
+      int y = this->Y;
+      
+      switch(this->Dir) {
+         case DIR_UP:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  y -= 12;
+                  break;
+               case 2:
+                  y -= 13;
+                  break;
+            }
+            break;
+         case DIR_DOWN:
+            switch(frame) {
+               case 0:
+                  y -= 12;
+                  break;
+               case 1:
+                  y += 4;
+                  break;
+               case 2:
+                  y += 14;
+                  break;
+            }
+            break;
+         case DIR_LEFT:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  x -= 12;
+                  y -= 12;
+                  break;
+               case 2:
+                  x -= 14;
+                  break;
+            }
+            break;
+         case DIR_RIGHT:
+            switch(frame) {
+               case 0:
+                  y -= 14;
+                  break;
+               case 1:
+                  x += 12;
+                  y -= 12;
+                  break;
+               case 2:
+                  x += 14;
+                  break;
+            }
+            break;
+      }
+      
+      unless (doNothing) {
+         eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
+         hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
+         hammer->CSet = CSET_HAMMER;
+         // hammer->Behind = true;
+         hammer->Timeout = 2;
+         
+         if (frame < 2)
+            hammer->CollDetection = false;
+      }
+      
+      xy->X = x;
+      xy->Y = y;
+   }
+   
+   void attackHammerEruption(npc this, Egentem egentem, bool shieldBroken) {
+      CONFIG D_ERUPT = 7;
+      AnimHandler aptr = GetAnimHandler(this);
+      Coordinates xy = new Coordinates();
+      // ShockwaveType swt = new ShockwaveType(137, SFX_WALL_SMASH, 24, SFX_ARIN_SPLAT, 136);
+      int shockwaveSlot = Game->GetEWeaponScript("ShockWave");
+      
+      // printf("class created%p\n", swt);
+      
+      FaceLink(this);
+      
+      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      
+      hammerAnimHoldUp(this, xy, 30);
+      hammerAnimSwing(this, xy);
+      
+      int offset = Rand(360);
+      
+      for (int i = 0; i < 8; ++i) {
+         eweapon wave = RunEWeaponScriptAt(EW_SCRIPT10, shockwaveSlot, xy->X, xy->Y, 
+            {137, SFX_WALL_SMASH, 8, SFX_ARIN_SPLAT, 136, 8, offset + i * 45, false}
+         );
+         wave->Damage = this->WeaponDamage;
+      }
+      
+      hammerAnimSmash(this, xy, 45);
+      
+      int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
+      
+      aptr->PlayAnim(shieldBroken ? WALKING : WALKING_SH);
+      
+      for (int i = 0; i < 30; ++i) {
+         this->MoveAtAngle(angle, 2, SPW_NONE);
+         
+         CustomWaitframe(this, egentem);
+      }
+      
+      FaceLink(this);
+      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      
+      hammerAnimHoldUp(this, xy, 8);
+      hammerAnimSwing(this, xy);
+      
+      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+         eweapon e = Screen->LoadEWeapon(i);
+         
+         if (e->Script == shockwaveSlot)
+            e->InitD[D_ERUPT] = true;
+      }
+      
+      hammerAnimSmash(this, xy);
+      
+      delete xy;
+      // delete swt;
    }
 }
 

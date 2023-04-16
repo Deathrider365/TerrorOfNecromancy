@@ -278,7 +278,54 @@ eweapon script HammerImpactEffect {
    }
 }
 
-
+eweapon script ShockWave {
+   void run(int spr, int sfx, int delay, int detonateSfx, int detonateSpr, int waves, int angle, bool doErupt) {
+      if (Screen->isSolid(this->X + 8, this->Y + 8))
+         this->Remove();
+   
+      CONFIG D_ERUPT = 7;
+      int x = this->X + VectorX(16, angle);
+      int y = this->Y + VectorY(16, angle);
+      this->CollDetection = false;
+      this->UseSprite(spr);
+      this->Behind = true;
+      Audio->PlaySound(sfx);
+      
+      Waitframes(delay);
+   
+      if (waves) {
+         eweapon child = RunEWeaponScriptAt(EW_SCRIPT2, this->Script, x, y, {
+            spr, sfx, delay, detonateSfx, detonateSpr, 
+            waves - 1, 
+            angle + Rand(10, 20) * Choose(-1, 1),
+            false
+         });
+         
+         child->Damage = this->Damage;
+      }
+      
+      
+      until(this->InitD[D_ERUPT])
+         Waitframe();
+         
+      this->Behind = false;
+      this->Extend = EXT_NORMAL;
+      this->TileHeight = 2;
+      this->DrawYOffset = -16;
+      this->HitYOffset = -16;
+      this->HitHeight = 32;
+      this->CollDetection = true;
+      this->UseSprite(detonateSpr);
+      Audio->PlaySound(detonateSfx);
+      
+      for (int i = 0; i < this->NumFrames * this->ASpeed; ++i) {
+         this->DeadState = WDS_ALIVE;
+         Waitframe();
+      }
+      
+      this->Remove();
+   }
+}
 
 
 

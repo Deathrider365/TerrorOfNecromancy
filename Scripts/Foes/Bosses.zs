@@ -1992,6 +1992,7 @@ npc script ServusMalus {
 @Author("Moosh")
 npc script SeizedGuardGeneral {
    using namespace NPCAnim;
+   using namespace NPCAnim::Legacy;
 
    enum Animations {
       WALKING,
@@ -1999,11 +2000,10 @@ npc script SeizedGuardGeneral {
    };
 
    void run() {
-     int aptr[ANIM_BUFFER_LENGTH];
-     InitAnims(this, aptr);
-
-     AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
-     AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+      AnimHandler aptr = new AnimHandler(this);
+      
+      AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
+      AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
       
       int maxHp = this->HP;
       Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
@@ -2098,8 +2098,8 @@ npc script SeizedGuardGeneral {
 
    void CustomWaitframe(npc n) {
       if (n->HP <= 0) {
-         n->Immortal = false;
          PlayDeathAnim(n);
+         n->Immortal = false;
       }
 
       Waitframe(n);
@@ -2110,6 +2110,65 @@ npc script SeizedGuardGeneral {
          CustomWaitframe(n);
    }
 }
+
+@Author("Moosh, Deathrider365")
+npc script Egentem {
+   using namespace GhostBasedMovement;
+   using namespace EnemyNamespace;
+   using namespace NPCAnim;
+   using namespace EgentemNamespace;
+   
+   void run() {
+      AnimHandler aptr = new AnimHandler(this);
+      
+      aptr->AddAnim(WALKING, 20, 4, ANIM_SPEED, ADF_4WAY);
+      aptr->AddAnim(STANDING, 44, 1, ANIM_SPEED, ADF_4WAY);
+      aptr->AddAnim(WALKING_SH, 0, 4, ANIM_SPEED, ADF_4WAY);
+      aptr->AddAnim(STANDING_SH, 40, 1, ANIM_SPEED, ADF_4WAY);
+
+      Egentem egentem = new Egentem(this);
+      
+      this->X = -32;
+      this->Y = -32;
+      int maxHp = this->HP;
+      this->CollDetection = false;
+      
+      // unless (getScreenD(31, 0x43, 0)) {
+         // Quit();
+      // }
+      
+      unless (getScreenD(0)) {
+         introCutscene(this);
+         setScreenD(0, true);
+      } else {
+         this->X = 120;
+         this->Y = 128;
+         this->Dir = DIR_UP;
+         aptr->PlayAnim(WALKING_SH);
+      }
+      
+      closeShutters(this);
+      
+      this->CollDetection = true;
+      
+      while(true) {
+         egentem->MoveMe();
+         
+         attackHammerEruption(this, egentem, false);
+         
+         
+         CustomWaitframe(this, egentem, 1);
+      }
+   } 
+}
+
+
+
+
+
+
+
+
 
 @Author("Deathrider365")
 npc script Demonwall {

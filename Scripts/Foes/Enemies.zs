@@ -261,16 +261,25 @@ npc script HammerBoi {
       
       Coordinates xy = new Coordinates();
       
-      //Hold Up
-      for (int i = 0; i < 20; ++i) {
+      hammerAnimHoldUp(this, xy);
+      hammerAnimSwing(this, xy);
+      hammerAnimSmash(this, xy);
+      
+      this->ScriptTile = -1;
+      delete xy;
+   }   
+   
+   void hammerAnimHoldUp(npc this, Coordinates xy, int frames = 20) {
+      for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
             
          hammerFrame(this, 0, this->WeaponDamage, xy);
          Waitframe();
       }
-      
-      // Swing
+   }
+   
+   void hammerAnimSwing(npc this, Coordinates xy) {
       for (int i = 0; i < 4; ++i) {
          if (this->HP <= 0)
             break;
@@ -279,11 +288,14 @@ npc script HammerBoi {
          Waitframe();
       }
       
+      hammerFrame(this, 2, this->WeaponDamage, xy, true);
+      
       if (this->HP > 0)
          Audio->PlaySound(SFX_HAMMER);
-      
-      //Smash
-      for (int i = 0; i < 30; ++i) {
+   }
+   
+   void hammerAnimSmash(npc this, Coordinates xy, int frames = 30) {
+      for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
             
@@ -298,12 +310,9 @@ npc script HammerBoi {
          
          Waitframe();
       }
-      
-      this->ScriptTile = -1;
-      delete xy;
    }
-   
-   void hammerFrame(npc this, int frame, int damage, Coordinates xy) {
+
+   void hammerFrame(npc this, int frame, int damage, Coordinates xy, bool doNothing = false) {
       const int TILE_HAMMER = 49840;
       const int CSET_HAMMER = 8;
       int x = this->X;
@@ -366,14 +375,16 @@ npc script HammerBoi {
             break;
       }
       
-      eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
-      hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
-      hammer->CSet = CSET_HAMMER;
-      // hammer->Behind = true;
-      hammer->Timeout = 2;
-      
-      if (frame < 2)
-         hammer->CollDetection = false;
+      unless (doNothing) {
+         eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
+         hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
+         hammer->CSet = CSET_HAMMER;
+         // hammer->Behind = true;
+         hammer->Timeout = 2;
+         
+         if (frame < 2)
+            hammer->CollDetection = false;
+      }
       
       xy->X = x;
       xy->Y = y;

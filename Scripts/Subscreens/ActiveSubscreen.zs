@@ -137,6 +137,10 @@ dmapdata script SubscreenActive {
       Screen->FastTile(7, 86, 44 + y, TILE_QUIVER_UPGRADE, 8, OP_OPAQUE);
       Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
       
+      // Magic Container upgrades
+      sprintf(numQuiverUpgradesBuf, "%d", Game->Counter[CR_QUIVER_EXPANSIONS]);
+      
+      
       // Dungeon Item Draws
       for(int q = 0; q < NUM_SUBSCR_DUNGEON_ITEMS; ++q) {
          int id = checkId(dungeonItemIds[q]);
