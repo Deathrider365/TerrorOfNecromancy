@@ -459,6 +459,35 @@ ffc script Shop {
 }
 
 @Author("Deathrider365")
+ffc script EgentemShrineSoldier {
+   void run(int message) {
+      mapdata m = Game->LoadMapData(44, 0x33);
+      
+      if (Game->Counter[CR_TRIFORCE_OF_COURAGE] != 2 || m->State[ST_SECRET]) {
+         this->Data = COMBO_INVIS;
+         mapdata template = Game->LoadTempScreen(2);
+         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_INVIS;
+         Quit();
+      }
+      
+      while (true) {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Waitframe();
+         }         
+         
+         Input->Button[CB_SIGNPOST] = false;
+         Game->Suspend[susptSCREENDRAW] = true;
+         
+         Screen->Message(message);
+         Game->Suspend[susptSCREENDRAW] = false;      
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
 ffc script BuyItem {
    void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
       bool alreadyBought = false;

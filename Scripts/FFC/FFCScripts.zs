@@ -118,8 +118,7 @@ ffc script BattleArena {
       int enemyList[50];
       bool shouldReturn;
 
-      switch(arenaListNum)
-      {
+      switch(arenaListNum) {
          case 0: {
             Screen->Pattern = PATTERN_CEILING;
             
@@ -700,7 +699,38 @@ ffc script WarpCustomReturn {
    }
 }
 
+@Author("Deathrider365")
+ffc script PlayEnhancedMusic {
+   void run(int musicChoice) {
+      switch(musicChoice) {
+         case 1:
+            Audio->PlayEnhancedMusic("FFIV - Baron Castle(Quiet).ogg", 0);
+            break;
+      }
+   }
+}
 
+@Author("Deathrider365")
+ffc script AdjustVolume {
+   void run(int startPercent, int endPercent, int revertToNormal) {
+      // if (revertToNormal) {
+         // Audio->AdjustMusicVolume(100);
+         // return;
+      // }
+         
+      // if (startPercent < endPercent) {
+         // for (int i = startPercent; i < endPercent; ++i) {
+            // Audio->AdjustMusicVolume(i);
+            // Waitframe();
+         // }
+      // }
+      // else {
+         // for (int i = startPercent; i > endPercent; --i)
+            // Audio->AdjustMusicVolume(i);
+            // Waitframe();
+      // }
+   }
+}
 
 
 

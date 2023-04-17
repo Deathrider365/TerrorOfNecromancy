@@ -2016,7 +2016,8 @@ npc script SeizedGuardGeneral {
          
          int tooCloseBoiCounter = 0;
          
-         while (attackCoolDown) 			{
+         while (attackCoolDown) {
+            this->Immortal = true;
             int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
             int distance = Distance(this->X, this->Y, Hero->X, Hero->Y);
             

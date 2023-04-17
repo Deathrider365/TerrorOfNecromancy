@@ -256,6 +256,27 @@ ffc script OpenForItemId {
 }
 
 @Author("Deathrider365")
+ffc script OpenForCounterCount {
+   void run(int counterId, int counterValue, bool perm) {
+      
+      unless (Game->Counter[counterId] == counterValue)
+         Quit();
+         
+      while(true) {
+         if (Game->Counter[counterId] == counterValue) {
+            Screen->TriggerSecrets();
+            
+            if (perm) 
+               Screen->State[ST_SECRET] = true;
+               
+            return;
+         }
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
 ffc script ScreenQuakeOnSecret {
    void run(int quakePower) {
       if (Screen->State[ST_SECRET])

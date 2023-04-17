@@ -1415,7 +1415,7 @@ namespace ServusMalusNamespace {
          int startingRightCombo = 6920;
          int startingLeftCombo = 6948;
          
-         unless (gameframe % 4) 
+         if (Rand(1, 10) > 3) 
             Quit();
       
          for (int i = 0; i < 300; ++i) {

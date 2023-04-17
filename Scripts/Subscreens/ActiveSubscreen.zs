@@ -131,14 +131,16 @@ dmapdata script SubscreenActive {
       sprintf(numBombUpgradesBuf, "%d", Game->Counter[CR_BOMB_BAG_EXPANSIONS]);
       sprintf(numQuiverUpgradesBuf, "%d", Game->Counter[CR_QUIVER_EXPANSIONS]);
       
-      Screen->FastTile(7, 86, 14 + y, TILE_BOMB_BAG_UPGRADE, 8, OP_OPAQUE);
-      Screen->DrawString(7, 94, y + 14 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      Screen->DrawString(7, 96, y + 11 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numBombUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      Screen->FastTile(7, 88, y + 8, TILE_BOMB_BAG_UPGRADE, 8, OP_OPAQUE);
       
-      Screen->FastTile(7, 86, 44 + y, TILE_QUIVER_UPGRADE, 8, OP_OPAQUE);
-      Screen->DrawString(7, 94, y + 44 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      Screen->DrawString(7, 96, y + 34 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numQuiverUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      Screen->FastTile(7, 88, y + 31, TILE_QUIVER_UPGRADE, 8, OP_OPAQUE);
       
       // Magic Container upgrades
-      sprintf(numQuiverUpgradesBuf, "%d", Game->Counter[CR_QUIVER_EXPANSIONS]);
+      sprintf(numMagicUpgradesBuf, "%d", Game->Counter[CR_MAGIC_EXPANSIONS]);
+      Screen->DrawString(7, 96, y + 57 - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, numMagicUpgradesBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      Screen->FastTile(7, 88, y + 56, TILE_MAGIC_CONTAINER_UPGRADE, 7, OP_OPAQUE);
       
       
       // Dungeon Item Draws
@@ -234,13 +236,13 @@ dmapdata script SubscreenActive {
 
       // Triforce Frame Cycling / Drawing
       if (currTriforceIndex == 0)
-         Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
       if (currTriforceIndex == 1)
-         Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
       if (currTriforceIndex == 2)
-         Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
       if (currTriforceIndex == 3 && Game->GetCurDMap() != 2)
-         Emily::DrawStrings(4, 62, y + 72, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          
       Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
       

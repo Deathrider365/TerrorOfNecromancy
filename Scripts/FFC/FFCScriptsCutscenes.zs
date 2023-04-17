@@ -466,12 +466,253 @@ ffc script DifficultyChoice {
 }
 
 
+/*How the sequence will go
+ - Play some mysterious music going to the bottom floor of the prison.
+ - you find what appears to be a maiden in the final cell, upon getting next to it it turns out it is a guard who jumps
+   out of the cell and locks it. He talks about how you are imprisoned until the necromancer arrives.
+ - Link bombs a wall to a nearby cell escaping. Escape music kicks in as you fight through rope guards to the entrance of the tower
+ - The necromancer then comes in from the outside and ultimately takes you away
+*/
 
+@Author("Deathrider365")
+ffc script CapturedSequenceImprisioned {
+   void run() {
+      if (getScreenD(0)) {
+         this->Data = COMBO_INVIS;
+         Quit();
+      }
+   
+      while (true) {
+         until (Hero->X < 48 && Hero->Y < 48)
+            Waitframe();
+            
+         mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+         mapdata mapDataLayer3 = Game->LoadTempScreen(3);
+            
+         // Audio->PlayEnhancedMusic(NULL, 0);
+         disableLink();
+         Audio->PlaySound(SFX_SHUTTER_CLOSE);
+         mapDataLayer1->ComboD[98] = 7288;
+         mapDataLayer3->ComboD[82] = 7284;
+         
+         for(int i = 0; i < 15; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         for(int i = 0; i < 30; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         Screen->Message(241);
+         
+         for(int i = 0; i < 30; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         this->Data = 7013;
+         
+         for (int i = 0; i < 45; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         //Make this vary if link is directly below him
+         for (int i = 0; i < 120; ++i) {
+            disableLink();
+            
+            if (i < 48) {
+               Hero->Dir = DIR_LEFT;
+               this->Y += 1;
+            }
+            else if (i < 64) {
+               Hero->Dir = DIR_DOWN;
+               this->Data = 7015;
+               this->X += 1;
+            }
+            else if (i < 80) {
+               this->Data = 7013;
+               this->Y += 1;
+            }
+            
+            Waitframe();
+         }
+            
+         for (int i = 0; i < 4; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         Audio->PlaySound(SFX_SHUTTER_OPEN);
+         mapDataLayer1->ComboD[98] = 0;
+         mapDataLayer3->ComboD[82] = 0;
+         
+         for (int i = 0; i < 32; ++i) {
+            disableLink();
+            
+            if (i < 20)
+               Hero->InputDown = true;
+            
+            this->Y += 1;
+            Waitframe();
+         }
+         
+         this->Data = 7012;
+         
+         for (int j = 0; j < 4; ++j) {
+            disableLink();
+            Waitframe();
+         }
+         
+         mapDataLayer1->ComboD[98] = 7288;
+         mapDataLayer3->ComboD[82] = 7284;
+         Audio->PlaySound(SFX_SHUTTER_CLOSE);
+         
+         Screen->Message(242);
+         Waitframe();
+         
+         int soldierCombo1X = 224;
+         int soldierCombo2X = 224;;
+         
+         for (int i = 0; i < 48; ++i) {
+            Screen->FastCombo(1, soldierCombo1X -= 1, 112, 7014, 7, OP_OPAQUE);
+            
+            if (i > 16)
+               Screen->FastCombo(1, soldierCombo2X -= 1, 112, 7014, 7, OP_OPAQUE);
+            
+            Waitframe();
+         }
+         
+         mapDataLayer1->ComboD[125] = 7011;
+         
+         Screen->FastCombo(1, 208, 112, 5067, 3, OP_OPAQUE);
+         
+         until (Hero->X >= 96 && Hero->Y > 106) {
+            Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
+            Screen->FastCombo(1, soldierCombo2X, 112, 7014, 7, OP_OPAQUE);
+         
+            Waitframe();
+         }
+         
+         this->Data = 7015;
+         
+         Screen->Message(243);
+         Waitframe();
+         
+         
+         this->Data = COMBO_INVIS;
+         npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+         soldier1->X = 176;
+         soldier1->Y = 112;
+         npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+         soldier2->X = 192;
+         soldier2->Y = 112;
+         npc soldier3 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+         soldier3->X = 48;
+         soldier3->Y = 112;
+         
+         while (Screen->NumNPCs()) 
+            Waitframe();
+         
+         Audio->PlaySound(SFX_OOT_SECRET);
+         mapDataLayer1->ComboD[125] = 7007;
+         setScreenD(0, true);
+         Quit();
+      }
+   }
+}
 
+@Author("Deathrider365")
+ffc script CapturedSequenceEscape {
+   void run(int screenNumber) {      
+      if (!getScreenD(33, 0x23, 0) || getScreenD(screenNumber))
+         Quit();
+         
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      int comboPos;
+      
+      npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+      npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+      
+      switch(screenNumber) {
+         case 1:
+            soldier1->X = 32;
+            soldier1->Y = 112;
+            soldier2->X = 48;
+            soldier2->Y = 112;
+            comboPos = 114;
+            break;
+         case 2:
+            soldier1->X = 192;
+            soldier1->Y = 112;
+            soldier2->X = 208;
+            soldier2->Y = 112;
+            comboPos = 125;
+            break;
+            
+         case 3:
+            soldier1->X = 48;
+            soldier1->Y = 112;
+            soldier2->X = 64;
+            soldier2->Y = 112;
+            comboPos = 99;
+            break;
+            
+      }
+      
+      while (Screen->NumNPCs()) {
+         mapDataLayer1->ComboD[comboPos] = 7011;
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_OOT_SECRET);
+      setScreenD(screenNumber, true);
+      mapDataLayer1->ComboD[comboPos] = 7007;
+   }
+}
 
-
-
-
+@Author("Deathrider365")
+ffc script CapturedSequenceNecromancer {
+   void run() {
+      // unless (getScreenD(33, 0x23, 0))
+         // Quit();
+         
+      until (Hero->X > 96 && Hero->X < 160 && Hero->Y >= 128) 
+         Waitframe();
+         
+      for (int i = 0; i < 120; ++i) {
+         disableLink();
+         Waitframe();
+      }
+      
+      int necromancerStartY = 176;
+      
+      for (int i = 0; i < 240; ++i) {
+         disableLink();
+         Hero->Dir = DIR_DOWN;
+         
+         unless (i % 5)
+            Hero->Y -= 1;
+         
+         unless (i % 4)
+            Screen->FastCombo(1, 120, necromancerStartY -= 1, 6744, 9, OP_OPAQUE);
+         
+         Screen->FastCombo(1, 120, necromancerStartY, 6744, 9, OP_OPAQUE);
+         
+         Waitframe();
+      }
+      
+      Screen->FastCombo(1, 120, necromancerStartY, 6744, 9, OP_OPAQUE);
+      Screen->Message(244);
+      
+      
+      
+      Waitframe();
+      
+   }
+}
 
 
 

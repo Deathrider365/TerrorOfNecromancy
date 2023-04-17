@@ -117,6 +117,13 @@ item script HeartPieces {
 	}
 }
 
+@Author ("Deathrider365")
+item script MagicContainerExpansions {
+   void run() {
+      Game->Counter[CR_MAGIC_EXPANSIONS]++;
+   }
+}
+
 @Author("EmilyV99")
 itemdata script GanonRage {
    //start
