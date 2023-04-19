@@ -633,6 +633,13 @@ bool wasTriggered(float trigger) {
    }
 }
 
+ void notDuringCutsceneLink() {    
+   Hero->Stun = 999;
+   Link->PressStart = false;
+   Link->InputStart = false;
+   Link->PressMap = false;
+   Link->InputMap = false;
+}
 
 
 

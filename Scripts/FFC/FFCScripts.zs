@@ -704,7 +704,7 @@ ffc script PlayEnhancedMusic {
    void run(int musicChoice) {
       switch(musicChoice) {
          case 1:
-            Audio->PlayEnhancedMusic("FFIV - Baron Castle(Quiet).ogg", 0);
+            Audio->PlayEnhancedMusic("Tales of Destiny - Ruins.ogg", 0);
             break;
       }
    }
