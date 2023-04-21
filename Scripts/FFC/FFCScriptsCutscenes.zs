@@ -594,8 +594,9 @@ ffc script CapturedSequenceImprisioned {
       Screen->Message(243);
       Waitframe();
       
+      dmapdata dmapData = Game->LoadDMapData(Game->GetCurMap());
+      dmapData->SetMusic("Castlevania Lament of Innocence - Elemental Tactician.ogg");
       Audio->PlayEnhancedMusic("Castlevania Lament of Innocence - Elemental Tactician.ogg", 0);
-      // SetMusic("Castlevania Lament of Innocence - Elemental Tactician.ogg");
       
       this->Data = COMBO_INVIS;
       npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
@@ -616,7 +617,6 @@ ffc script CapturedSequenceImprisioned {
       setScreenD(0, true);
    }
 }
-
 @Author("Deathrider365")
 ffc script CapturedSequenceEscape {
    void run(int screenNumber) {      
@@ -655,7 +655,6 @@ ffc script CapturedSequenceEscape {
             
       }
       
-      Audio->PlayEnhancedMusic("Castlevania Lament of Innocence - Elemental Tactician.ogg", 0);
       while (Screen->NumNPCs()) {
          mapDataLayer1->ComboD[comboPos] = 7011;
          Waitframe();
