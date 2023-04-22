@@ -206,6 +206,22 @@ eweapon makeHitbox(int x, int y, int w, int h, int damage) {
    return e;
 }
 
+eweapon makeHitboxPersistent(eweapon hitbox, int x, int y, int w, int h, int damage) {
+   unless (hitbox->isValid())
+      hitbox = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
+   else 
+      hitbox->DeadState = WDS_ALIVE;
+      
+   hitbox->HitXOffset = x - hitbox->X;
+   hitbox->HitYOffset = y - hitbox->Y;
+   hitbox->DrawYOffset = -1000;
+   hitbox->HitWidth = w;
+   hitbox->HitHeight = h;
+   hitbox->Timeout = 2;
+
+   return hitbox;
+}
+
 eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
    x += VectorX(dist, angle);
    y += VectorY(dist, angle);
@@ -213,7 +229,16 @@ eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) 
    Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
 
    return makeHitbox(x, y, 16, 16, dmg);
-} 
+}
+
+eweapon sword1x1Persistent(eweapon hitbox, int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+   x += VectorX(dist, angle);
+   y += VectorY(dist, angle);
+
+   Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
+
+   return makeHitboxPersistent(hitbox, x, y, 16, 16, dmg);
+}
 
 eweapon script HammerImpact {
    void run() {

@@ -633,7 +633,7 @@ bool wasTriggered(float trigger) {
    }
 }
 
- void notDuringCutsceneLink() {    
+void notDuringCutsceneLink() {    
    Hero->Stun = 999;
    Link->PressStart = false;
    Link->InputStart = false;
@@ -641,6 +641,25 @@ bool wasTriggered(float trigger) {
    Link->InputMap = false;
 }
 
-
+// CanWalk() that respects diagonals
+bool CanWalk8(int x, int y, int dir, int step, bool full_tile){
+    switch(dir){
+        case DIR_LEFTUP:
+            return CanWalk(x, y, DIR_LEFT, step, full_tile)&&CanWalk(x, y, DIR_UP, step, full_tile);
+            break;
+        case DIR_RIGHTUP:
+            return CanWalk(x, y, DIR_RIGHT, step, full_tile)&&CanWalk(x, y, DIR_UP, step, full_tile);
+            break;
+        case DIR_LEFTDOWN:
+            return CanWalk(x, y, DIR_LEFT, step, full_tile)&&CanWalk(x, y, DIR_DOWN, step, full_tile);
+            break;
+        case DIR_RIGHTDOWN:
+            return CanWalk(x, y, DIR_RIGHT, step, full_tile)&&CanWalk(x, y, DIR_DOWN, step, full_tile);
+            break;
+        default:
+            return CanWalk(x, y, dir, step, full_tile);
+            break;
+    }
+}
 
 

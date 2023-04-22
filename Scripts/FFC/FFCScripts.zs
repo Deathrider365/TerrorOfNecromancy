@@ -6,8 +6,6 @@
 ffc script Debug {
    void run() {
       while (true) {
-         traceToScreen(0, 0, Hero->ItemA);
-         traceToScreen(0, 8, Hero->ItemB);
          Waitframe();
       }
    }

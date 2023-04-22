@@ -2134,9 +2134,9 @@ npc script Egentem {
       int maxHp = this->HP;
       this->CollDetection = false;
       
-      // unless (getScreenD(31, 0x43, 0)) {
-         // Quit();
-      // }
+      unless (getScreenD(31, 0x43, 0)) {
+         Quit();
+      }
       
       unless (getScreenD(0)) {
          introCutscene(this);
@@ -2155,8 +2155,12 @@ npc script Egentem {
       while(true) {
          egentem->MoveMe();
          
-         attackHammerEruption(this, egentem, false);
+         int chosenAttack = Choose(-1, 1);
          
+         if (chosenAttack == -1)
+            attackHammerEruption(this, egentem, false);
+         else 
+            attackHammerSpin(this, egentem, false);
          
          CustomWaitframe(this, egentem, 1);
       }

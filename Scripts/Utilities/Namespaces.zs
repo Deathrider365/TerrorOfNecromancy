@@ -1494,6 +1494,9 @@ namespace EgentemNamespace {
    }
    
    void CustomWaitframe(npc this, Egentem egentem, int frames = 1) {
+      if (this->HP <= 0) {
+         openShutters();
+      }
       for (int i = 0; i < frames; ++i) {
          Waitframe(this);
       }
@@ -1683,15 +1686,73 @@ namespace EgentemNamespace {
       xy->Y = y;
    }
    
+   void attackHammerSpin(npc this, Egentem egentem, bool shieldBroken) {
+      CONFIG CMB_HAMMER = 7005;
+      CONFIG CSET_HAMMER = 8;
+      CONFIG SPIN_SPEED = 40;
+      CONFIG TURN_SPEED = 2.5;
+      
+      AnimHandler aptr = GetAnimHandler(this);
+      int spinDir = Choose(-1, 1);
+      int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y) + 30 * spinDir;
+      int facingAngle = moveAngle;
+      
+      this->Dir = AngleDir4(facingAngle);
+      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      eweapon hitbox;
+      
+      // Holding hammer to some side
+      for (int i = 0; i < 45; ++i) {
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, 0 /*TODO CHANGE*/);
+         CustomWaitframe(this, egentem);
+      }
+      
+      bool linkGotHit;
+      
+      for (int i = 0; i < 60; ++i) {
+         facingAngle = WrapDegrees(facingAngle - spinDir * SPIN_SPEED);
+         moveAngle = WrapDegrees(turnToAngle(moveAngle, Angle(this->X, this->Y, Hero->X, Hero->Y), TURN_SPEED));
+         this->Dir = AngleDir4(facingAngle);
+         this->MoveAtAngle(moveAngle, 3, SPW_NONE);
+         
+         if (i % (360 / SPIN_SPEED) == 0)
+            Audio->PlaySound(SFX_SPINATTACK);
+            
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, 0 /*TODO CHANGE*/);
+         
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
+         
+         if (hitId) {
+            eweapon hitLink = Screen->LoadEWeapon(hitId);
+            
+            if (hitLink->isValid() && hitbox == hitLink) {
+               linkGotHit = true;
+               Audio->PlaySound(SFX_BOMB_BLAST);
+               break;
+            }
+         }
+         
+         CustomWaitframe(this, egentem);
+      }
+      
+      if (linkGotHit) {
+         yeetHero(Angle(this->X, this->Y, Hero->X, Hero->Y), 4, 200, true, true);
+         
+         for (int i = 0; i < 45; ++i) {
+            hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
+            CustomWaitframe(this, egentem);
+         }
+      }
+      
+      aptr->PlayAnim(shieldBroken ? WALKING : WALKING_SH);
+   }
+   
    void attackHammerEruption(npc this, Egentem egentem, bool shieldBroken) {
       CONFIG D_ERUPT = 7;
       AnimHandler aptr = GetAnimHandler(this);
       Coordinates xy = new Coordinates();
       // ShockwaveType swt = new ShockwaveType(137, SFX_WALL_SMASH, 24, SFX_ARIN_SPLAT, 136);
       int shockwaveSlot = Game->GetEWeaponScript("ShockWave");
-      
-      // printf("class created%p\n", swt);
-      
       FaceLink(this);
       
       aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
