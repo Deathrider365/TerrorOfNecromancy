@@ -457,15 +457,6 @@ ffc script DifficultyChoice {
     }
 }
 
-
-/*How the sequence will go
- - Play some mysterious music going to the bottom floor of the prison.
- - you find what appears to be a maiden in the final cell, upon getting next to it it turns out it is a guard who jumps
-   out of the cell and locks it. He talks about how you are imprisoned until the necromancer arrives.
- - Link bombs a wall to a nearby cell escaping. Escape music kicks in as you fight through rope guards to the entrance of the tower
- - The necromancer then comes in from the outside and ultimately takes you away
-*/
-
 @Author("Deathrider365")
 ffc script CapturedSequenceImprisioned {
    void run() {
@@ -617,6 +608,7 @@ ffc script CapturedSequenceImprisioned {
       setScreenD(0, true);
    }
 }
+
 @Author("Deathrider365")
 ffc script CapturedSequenceEscape {
    void run(int screenNumber) {      
@@ -817,11 +809,168 @@ ffc script CapturedSequenceNecromancer {
          Waitframe();
       }
       
-      Hero->WarpEx({WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+      Hero->WarpEx({WT_IWARP, 37, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
    }
 }
 
-
+@Author("Deathrider365")
+ffc script CapturesSequenceRightHand {
+   void run() {
+      if (getScreenD(0)) {
+         this->Data = COMBO_INVIS;
+         Quit();
+      }
+      
+      CONFIG COMBO_UPPER_GATE = 7284;
+      CONFIG COMBO_LOWER_GATE = 7288;
+      CONFIG COMBO_RIGHT_HAND_UP = 6800;
+      CONFIG COMBO_RIGHT_HAND_DOWN = 6801;
+      CONFIG COMBO_RIGHT_HAND_LEFT = 6802;
+      CONFIG COMBO_RIGHT_HAND_RIGHT = 6803;
+      
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      mapdata mapDataLayer2 = Game->LoadTempScreen(3);
+      Audio->PlayEnhancedMusic(NULL, 0);
+      
+      for (int i = 0; i < 300; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         
+         Waitframe();
+      }
+      
+      this->Data = COMBO_RIGHT_HAND_DOWN;
+      
+      for (int i = 0; i < 48; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+            
+         ++this->Y;
+         Waitframe();
+      }
+      
+      for (int i = 0; i < 15; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
+      mapDataLayer2->ComboD[61] = COMBO_INVIS;
+      mapDataLayer2->ComboD[62] = COMBO_INVIS;
+      mapDataLayer1->ComboD[77] = COMBO_INVIS;
+      mapDataLayer1->ComboD[78] = COMBO_INVIS;
+      
+      for (int i = 0; i < 32; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+            
+         ++this->Y;
+         Waitframe();
+      }
+      
+      this->Data = COMBO_RIGHT_HAND_UP;
+      
+      for (int i = 0; i < 15; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+      mapDataLayer2->ComboD[61] = COMBO_UPPER_GATE;
+      mapDataLayer2->ComboD[62] = COMBO_UPPER_GATE;
+      mapDataLayer1->ComboD[77] = COMBO_LOWER_GATE;
+      mapDataLayer1->ComboD[78] = COMBO_LOWER_GATE;
+      
+      this->Data = COMBO_RIGHT_HAND_LEFT;
+      
+      for (int i = 0; i < 192; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+            
+         --this->X;
+         Waitframe();
+      }
+      
+      this->Data = COMBO_RIGHT_HAND_UP;
+      Screen->Message(253);
+      Waitframe();
+      
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
+      mapDataLayer2->ComboD[50] = COMBO_INVIS;
+      mapDataLayer1->ComboD[66] = COMBO_INVIS;
+      
+      for (int i = 0; i < 15; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         Waitframe();
+      }
+      
+      
+      Screen->Message(254);
+      Waitframe();
+      
+      this->Data = COMBO_RIGHT_HAND_RIGHT;
+      
+      for (int i = 0; i < 192; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+            
+         ++this->X;
+         Waitframe();
+      }
+      
+      this->Data = COMBO_RIGHT_HAND_UP;
+      
+      for (int i = 0; i < 15; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
+      mapDataLayer2->ComboD[61] = COMBO_INVIS;
+      mapDataLayer2->ComboD[62] = COMBO_INVIS;
+      mapDataLayer1->ComboD[77] = COMBO_INVIS;
+      mapDataLayer1->ComboD[78] = COMBO_INVIS;
+      
+      for (int i = 0; i < 32; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+            
+         --this->Y;
+         Waitframe();
+      }
+      
+      this->Data = COMBO_RIGHT_HAND_DOWN;
+      
+      for (int i = 0; i < 15; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         Waitframe();
+      }
+      
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+      mapDataLayer2->ComboD[61] = COMBO_UPPER_GATE;
+      mapDataLayer2->ComboD[62] = COMBO_UPPER_GATE;
+      mapDataLayer1->ComboD[77] = COMBO_LOWER_GATE;
+      mapDataLayer1->ComboD[78] = COMBO_LOWER_GATE;
+      
+      this->Data = COMBO_RIGHT_HAND_UP;
+      
+      for (int i = 0; i < 48; ++i) {
+         unless (gameframe % 120)
+            Audio->PlaySound(SFX_WATER_DRIPPING);
+         
+         --this->Y;
+         Waitframe();
+      }
+      
+      this->Data = COMBO_INVIS;
+      setScreenD(0, true);
+   }
+}
 
 
 

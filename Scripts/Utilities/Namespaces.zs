@@ -1703,7 +1703,7 @@ namespace EgentemNamespace {
       
       // Holding hammer to some side
       for (int i = 0; i < 45; ++i) {
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, 0 /*TODO CHANGE*/);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage /*TODO CHANGE*/);
          CustomWaitframe(this, egentem);
       }
       
@@ -1718,7 +1718,7 @@ namespace EgentemNamespace {
          if (i % (360 / SPIN_SPEED) == 0)
             Audio->PlaySound(SFX_SPINATTACK);
             
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, 0 /*TODO CHANGE*/);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage /*TODO CHANGE*/);
          
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
          
@@ -1798,6 +1798,22 @@ namespace EgentemNamespace {
       
       delete xy;
       // delete swt;
+   }
+
+   ffc script EgentumGotcha {
+      void run() {
+         while(true) {
+            //Will need to check if the screend of the boss room was set (egentum will set it upon death)
+            //and based on that change the switch combos in the triforce room 
+            if (Screen->SecretsTriggered()) {
+               // Audio->PlaySound(/*some laughing thing*/);
+               Audio->PlayEnhancedMusic(NULL, 0);
+               setScreenD(0, true);
+            }
+            
+            Waitframe();
+         }
+      }
    }
 }
 
