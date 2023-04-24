@@ -158,4 +158,18 @@ dmapdata script DarkRegion {
    }
 }
 
-
+@Author("Deathrider365")
+dmapdata script HeatedRoom {
+   void run(int armorLevel) {
+      while (true) {
+         if (GetHighestLevelItemOwned(IC_RING) < armorLevel) {
+            if (gameframe % 60 == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
+               Hero->HP -= 4;
+               Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+            }
+         }
+         
+         Waitframe();
+      }
+   }
+}

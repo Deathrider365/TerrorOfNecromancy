@@ -82,7 +82,7 @@ ffc script BossMusic {
 
 @Author ("Deathrider365")
 ffc script BattleArena {
-   void run(int arenaListNum, int screenD) {
+   void run(int arenaListNum, int screenD, int map, int screen, int setScreenDOnOtherScreen) {
       unless (Hero->Item[191]) {
          Screen->TriggerSecrets();
          setScreenD(screenD, true);
@@ -106,6 +106,16 @@ ffc script BattleArena {
 
       Screen->TriggerSecrets();
       setScreenD(screenD, true);
+      
+      if (map && screen) {
+         mapdata mapData = Game->LoadMapData(map, screen);
+         mapData->State[ST_SECRET] = true;
+         Audio->PlaySound(SFX_SECRET);
+      }
+      
+      if (setScreenDOnOtherScreen) {
+         setScreenD(map, screen, setScreenDOnOtherScreen, true);
+      }
 
       char32 areaMusic[256];
       Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
@@ -168,9 +178,9 @@ ffc script BattleArena {
                   break;
                case 4:
                   setEnemies({
-                     ENEMY_CANDLEHEAD,
-                     ENEMY_CANDLEHEAD,
-                     ENEMY_CANDLEHEAD
+                     ENEMY_CANDLEHEAD_LV1,
+                     ENEMY_CANDLEHEAD_LV1,
+                     ENEMY_CANDLEHEAD_LV1
                   });
                   break;
                case 5:
@@ -181,6 +191,67 @@ ffc script BattleArena {
             }
             break;
          }
+         case 1: {
+            Screen->Pattern = PATTERN_CEILING;
+            
+            switch(round) {
+               case 0:
+                  playBattleTheme(arenaListNum);
+                  setEnemies({
+                     ENEMY_MOBLIN_LV2,
+                     ENEMY_MOBLIN_LV2,
+                     ENEMY_MOBLIN_LV2,
+                     ENEMY_ROPE_LV2,
+                     ENEMY_ROPE_LV2,
+                     ENEMY_ROPE_LV2
+                  });
+                  break;
+               case 1:
+                  setEnemies({
+                     ENEMY_STALFOS_LV2,
+                     ENEMY_STALFOS_LV2,
+                     ENEMY_STALFOS_LV2,
+                     ENEMY_GORIYA_LV2,
+                     ENEMY_GORIYA_LV1,
+                     ENEMY_GORIYA_LV1
+                  });
+                  break;
+               case 2:
+                  setEnemies({
+                     ENEMY_ARMOS_LV1,
+                     ENEMY_ARMOS_LV1,
+                     ENEMY_ARMOS_LV1,
+                     ENEMY_ARMOS_LV1,
+                     ENEMY_ARMOS_LV2,
+                     ENEMY_ARMOS_LV2,
+                     ENEMY_ARMOS_LV2
+                  });
+                  break;
+               case 3:
+                  setEnemies({
+                     ENEMY_CANDLEHEAD_CHUNGO,
+                     ENEMY_CANDLEHEAD_CHUNGO
+                  });
+                  break;
+               case 4:
+                  setEnemies({
+                     ENEMY_BUBBLE_TEMP_LV1,
+                     ENEMY_BUBBLE_TEMP_LV1,
+                     ENEMY_THIEF_LV1,
+                     ENEMY_THIEF_LV1,
+                     ENEMY_THIEF_LV1,
+                     ENEMY_THIEF_LV1
+                  });
+                  break;
+               case 5:
+                  playBossTheme(arenaListNum);
+                  setEnemies({ ENEMY_OVERGROWN_RACCOON });
+                  shouldReturn = true;
+                  break;
+            }
+            break;
+         }
+      
       }
       
       Screen->SpawnScreenEnemies();

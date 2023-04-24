@@ -282,10 +282,12 @@ ffc script GetItem {
             Waitframe();
          } else if (getScreenD(screenD) || Hero->Item[itemIdOrTriggerValue]) {
             int oneFinalString = (gottenItemString % 1) / 1L;
+            
             if (oneFinalString)
                Screen->Message(oneFinalString);
             else
                Screen->Message(gottenItemString);
+               
             Waitframe();
             Input->Button[CB_SIGNPOST] = false;
          } else {
