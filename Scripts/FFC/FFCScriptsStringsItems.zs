@@ -124,7 +124,7 @@ ffc script MessageOnce {
 }
 
 @Author("Deathrider365")
-ffc script GetItem {
+ffc script GetItemOLD {
    void run(
       int hasItem, 
       int trader, 
@@ -357,8 +357,171 @@ ffc script GetItem {
    }
 }
 
+
+
 @Author("Deathrider365")
-ffc script GetItemFromSecret {
+ffc script GetItemOnScreenD { //TODO implement, then delete GetItemOld
+   //start Instructions
+   //D0: itemIdToReceive      - Item you will receive
+   //D1: stringPreSecret      - String that plays before secrets are triggered
+   //D2: stringGettingItem    - String for when you are getting the item
+   //D3: stringGottenItem     - String for when you are receiving the item
+   //D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
+   //end
+   void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
+      while(true) {
+         if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         }
+         else {
+            until (Screen->State[ST_SECRET]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+                  if (Screen->State[ST_SECRET])
+                     break;
+                  
+                  if (againstFFC(this->X, this->Y))
+                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     
+                  Waitframe();
+               }
+               
+               if (Screen->State[ST_SECRET])
+                  break;
+               
+               Input->Button[CB_SIGNPOST] = false;
+               Screen->Message(stringPreSecret);
+               Waitframe();
+            }
+            
+            waitForTalking(this);
+            
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGettingItem);
+            Waitframe();
+            
+            itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(screenD, true);
+            
+            Waitframe();
+         }
+         
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script GetItemOnSecret {
+   //start Instructions
+   //D0: itemIdToReceive      - Item you will receive
+   //D1: stringPreSecret      - String that plays before secrets are triggered
+   //D2: stringGettingItem    - String for when you are getting the item
+   //D3: stringGottenItem     - String for when you are receiving the item
+   //D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
+   //end
+   void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
+      while(true) {
+         if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         }
+         else {
+            until (Screen->State[ST_SECRET]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+                  if (Screen->State[ST_SECRET])
+                     break;
+                  
+                  if (againstFFC(this->X, this->Y))
+                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     
+                  Waitframe();
+               }
+               
+               if (Screen->State[ST_SECRET])
+                  break;
+               
+               Input->Button[CB_SIGNPOST] = false;
+               Screen->Message(stringPreSecret);
+               Waitframe();
+            }
+            
+            waitForTalking(this);
+            
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGettingItem);
+            Waitframe();
+            
+            itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(screenD, true);
+            
+            Waitframe();
+         }
+         
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script GetItemOnItem {
+   //start Instructions
+   //D0: itemIdToReceive      - Item you will receive
+   //D1: itemIdRequired       - A required item that can either kill the script or make the script wait until you have it
+   //D2: requiredItemKills    - Whether the required item kills the script or makes it wait
+   //D3: gettingItemString    - String for when you are getting the item
+   //D4: gottenItemString     - String for when you are receiving the item
+   //D5: layer                - Layer to handle solidity combo drawing for the FFC
+   //end
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer) {
+      mapdata template = Game->LoadTempScreen(layer);
+      
+      int prevData = this->Data;
+      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
+      
+      while(true) {
+         this->Data = 0;
+         template->ComboD[ComboAt(this->X, this->Y)] = 0;
+         
+         if (itemIdRequired) {       
+            if (requiredItemKills) {
+               if (Hero->Item[itemIdRequired])
+                  Quit();
+            }
+            else {
+               while (!Hero->Item[itemIdRequired])
+                  Waitframe();
+            }
+         }
+         
+         this->Data = prevData;
+         template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+         
+         waitForTalking(this);
+
+         if (Hero->Item[itemIdToReceive]) {
+            Screen->Message(gottenItemString);
+               
+            Waitframe();
+         } else {
+            Screen->Message(gettingItemString);
+            Waitframe();
+            
+            itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+         }
+         
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script GetItemFromSecretAtLocation {
    void run(int message, int itemId, int itemX, int itemY, int screenD) {
       if (Screen->State[ST_SPECIALITEM])
          Quit();

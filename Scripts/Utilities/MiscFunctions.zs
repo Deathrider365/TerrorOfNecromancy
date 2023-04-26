@@ -662,4 +662,10 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile){
     }
 }
 
-
+void waitForTalking(ffc this) {
+   until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+      if (againstFFC(this->X, this->Y))
+         Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+      Waitframe();
+   }
+}

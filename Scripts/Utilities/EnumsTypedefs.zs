@@ -552,4 +552,9 @@ enum Status {
 	DEFENSE_BOOST, 
 	NUM_STATUSES
 };
+   
+enum TriggerAction {
+   TA_KILL_SCRIPT,
+   TA_START_SCRIPT
+};
 //end
