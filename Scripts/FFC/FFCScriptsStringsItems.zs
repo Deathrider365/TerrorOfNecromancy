@@ -46,9 +46,8 @@ ffc script Signpost {
             case SMT_SECRETS:
                unless (Screen->State[ST_SECRET])
                   Screen->Message(message);
-               else {
+               else
                   Screen->Message(secondMessage);
-               }
                break;
             case SMT_HAS_ITEM:
                unless (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM])
@@ -75,30 +74,25 @@ ffc script Signpost {
    void handleVanishing(ffc combo, int secondMessageTrigger, int secondMessageTriggerValue, int layerToClearOnVanish) {
       switch(secondMessageTrigger) {
          case SMT_SCREEND:
-            if (getScreenD(secondMessageTriggerValue)) {
-               combo->Data = COMBO_INVIS;
-               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
-               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
-               Quit();
-            }
+            if (getScreenD(secondMessageTriggerValue))
+               quitFFC(combo, layerToClearOnVanish);
             break;
          case SMT_SECRETS:
-            if (Screen->State[ST_SECRET]) {
-               combo->Data = COMBO_INVIS;
-               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
-               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
-               Quit();
-            }
+            if (Screen->State[ST_SECRET])
+               quitFFC(combo, layerToClearOnVanish);
             break;
          case SMT_HAS_ITEM:
-            if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) {
-               combo->Data = COMBO_INVIS;
-               mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
-               template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
-               Quit();
-            }
+            if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM])
+               quitFFC(combo, layerToClearOnVanish);
             break;
       }
+   }
+   
+   void quitFFC(ffc combo, int layerToClearOnVanish) {
+      combo->Data = COMBO_INVIS;
+      mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
+      template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+      Quit();
    }
 }
 
@@ -357,10 +351,138 @@ ffc script GetItemOLD {
    }
 }
 
-
-
 @Author("Deathrider365")
-ffc script GetItemOnScreenD { //TODO implement, then delete GetItemOld
+ffc script SignpostTriggerFromItem {
+   //start Instructions
+   //D0: itemIdToCheckFor     - Item to set off the script
+   //D1: stringNoItem         - string that plays when you do not have the item
+   //D2: stringHasItem        - string that plays when you have the item and are setting off the script
+   //D3: stringGottenItem     - string that plays when you already set off the script
+   //D4: triggerToSetOff      - indicates the trigger this ffc will do (0 = secrets, 1 = screend, 2 = item(trader))
+   //D4: triggerValue         - Used for ScreenD and items, secrets dont need a value to use when triggered
+   //end
+   void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue) {
+      CONFIG TRIGGER_SECRET = 0;
+      CONFIG TRIGGER_SCREEND = 1;
+      CONFIG TRIGGER_ITEM = 2;
+      
+      // Specifically for TRIGGER_ITEM
+      int itemReceiving = Floor(triggerValue);
+      int screenDToCheck = -(triggerValue % 1) / 1L;
+      
+      while(true) {
+         if (triggerToSetOff == TRIGGER_SECRET && Screen->State[ST_SECRET]) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         }
+         else if (triggerToSetOff == TRIGGER_SCREEND && getScreenD(triggerValue)) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         }
+         else if (triggerToSetOff == TRIGGER_ITEM && Hero->Item[itemReceiving] && getScreenD(screenDToCheck)) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         } else {
+            bool justGotItem;
+            
+            switch(triggerToSetOff) {
+               case TRIGGER_SECRET:
+                  until (Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                     
+                     if (justGotItem)
+                        break;
+                        
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringNoItem);
+                     Waitframe();
+                  } else {
+                     unless (justGotItem)
+                        waitForTalking(this);
+                     
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringHasItem);
+                     Waitframe();
+                     
+                     Screen->State[ST_SECRET] = true;
+                     Screen->TriggerSecrets();
+                     Audio->PlaySound(SFX_SECRET);
+                  }
+                  break;
+               case TRIGGER_SCREEND:
+                  until (Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                     
+                     if (justGotItem)
+                        break;
+                     
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringNoItem);
+                     Waitframe();
+                  } else {
+                     unless (justGotItem)
+                        waitForTalking(this);
+                     
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringHasItem);
+                     Waitframe();
+                     
+                     setScreenD(triggerValue, true);
+                     Audio->PlaySound(SFX_SECRET);                
+                  }
+                  break;
+               case TRIGGER_ITEM:
+                  until (Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                     
+                     if (justGotItem)
+                        break;
+                        
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringNoItem);
+                     Waitframe();
+                  } else {
+                     unless (justGotItem)
+                        waitForTalking(this);
+                     
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(stringHasItem);
+                     Waitframe();
+                     
+                     setScreenD(screenDToCheck, true);
+                     itemsprite it = CreateItemAt(itemReceiving, Hero->X, Hero->Y);
+                     it->Pickup = IP_HOLDUP;
+                  }
+                  break;
+            }
+         }
+         
+         Waitframe();
+      }
+   }
+   
+   bool waitForTalkingJustGotItem(ffc this, int itemId) {
+      until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+         if (Hero->Item[itemId]) 
+            break;
+            
+         if (againstFFC(this->X, this->Y))
+            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+         Waitframe();
+      }
+      
+      if (Hero->Item[itemId]) 
+         return true;
+   }
+}
+@Author("Deathrider365")
+ffc script GetItemOnScreenD {
    //start Instructions
    //D0: itemIdToReceive      - Item you will receive
    //D1: stringPreSecret      - String that plays before secrets are triggered
@@ -368,18 +490,18 @@ ffc script GetItemOnScreenD { //TODO implement, then delete GetItemOld
    //D3: stringGottenItem     - String for when you are receiving the item
    //D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
    //end
-   void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
+   void run(int itemIdToReceive, int stringPreScreenDSet, int stringGettingItem, int stringGottenItem, int screenDFromExternal, int screenDForThis) {
       while(true) {
-         if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
+         if (getScreenD(screenDFromExternal) && Hero->Item[itemIdToReceive]) {
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else {
-            until (Screen->State[ST_SECRET]) {
+            until (getScreenD(screenDFromExternal)) {
                until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-                  if (Screen->State[ST_SECRET])
+                  if (getScreenD(screenDFromExternal))
                      break;
                   
                   if (againstFFC(this->X, this->Y))
@@ -388,11 +510,11 @@ ffc script GetItemOnScreenD { //TODO implement, then delete GetItemOld
                   Waitframe();
                }
                
-               if (Screen->State[ST_SECRET])
+               if (getScreenD(screenDFromExternal))
                   break;
                
                Input->Button[CB_SIGNPOST] = false;
-               Screen->Message(stringPreSecret);
+               Screen->Message(stringPreScreenDSet);
                Waitframe();
             }
             
@@ -404,7 +526,7 @@ ffc script GetItemOnScreenD { //TODO implement, then delete GetItemOld
             
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
-            setScreenD(screenD, true);
+            setScreenD(screenDForThis, true);
             
             Waitframe();
          }
