@@ -598,8 +598,9 @@ ffc script GetItemOnItem {
    //D3: gettingItemString    - String for when you are getting the item
    //D4: gottenItemString     - String for when you are receiving the item
    //D5: layer                - Layer to handle solidity combo drawing for the FFC
+   //D5: screenD              - ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])
    //end
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer) {
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD) {
       mapdata template = Game->LoadTempScreen(layer);
       
       int prevData = this->Data;
@@ -624,8 +625,9 @@ ffc script GetItemOnItem {
          template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
          
          waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
 
-         if (Hero->Item[itemIdToReceive]) {
+         if (Hero->Item[itemIdToReceive] || getScreenD(screenD)) {
             Screen->Message(gottenItemString);
                
             Waitframe();
@@ -635,6 +637,7 @@ ffc script GetItemOnItem {
             
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
+            setScreenD(screenD, true);
          }
          
          Waitframe();
