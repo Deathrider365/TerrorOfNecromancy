@@ -30,9 +30,9 @@ attack one of them or step on a grave or some trigger, play OOT Ganon's tower th
 
 Dungeon similar to prismatic gate where there is a normal, fire, ice, and some fourth theme (maybe poison)
 
-               A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into
-               traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens.
-               so you leave the triforce room only to find him in the room, he transforms into the boss)
+A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into
+traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens.
+so you leave the triforce room only to find him in the room, he transforms into the boss)
 
 A secondsary idea to the previous one about the npc deceptively helping you through the dungeon, perhaps it can be like LTTP where
 they arent necessarily bad and they get corrupted and their dialogue gets messed up as you go through and he ends up the boss
@@ -76,3 +76,13 @@ portion has a lot of verticality where there are paths to various floors
 ice slows yuou down
 
 Have a sideview dungeon, you swap gravity and, or the dungeon
+
+similar to falling sand in Super Metroid, have that in some sideview
+
+lava is the bottom floor, and you need to release water sources in a higher floor to make it so you can walk on the base floor
+
+a dungeon that is two towers and perhaps that is where you get the hook/longshot. falling could be a good hazard
+
+death glighted keep
+
+dungeon that plays lower norfair's theme called Riafron

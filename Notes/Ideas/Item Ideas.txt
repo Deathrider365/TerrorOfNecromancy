@@ -42,3 +42,5 @@ multiple levels of spin attack that do more damage or more spins
 
 An item that has 2 states
 
+have a hookshot and longshot
+
