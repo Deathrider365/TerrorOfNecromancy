@@ -907,13 +907,14 @@ ffc script CapturesSequenceRightHand {
          Waitframe();
       }
       
-      
       Screen->Message(254);
       Waitframe();
       
       this->Data = COMBO_RIGHT_HAND_RIGHT;
       
       for (int i = 0; i < 192; ++i) {
+         disableLink();
+         
          unless (gameframe % 120)
             Audio->PlaySound(SFX_WATER_DRIPPING);
             

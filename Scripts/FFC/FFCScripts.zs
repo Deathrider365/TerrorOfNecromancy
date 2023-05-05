@@ -273,6 +273,9 @@ ffc script BattleArena {
          case 0:
             Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0);
             break;
+         case 1:
+            Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0);
+            break;
       }
    }
 	

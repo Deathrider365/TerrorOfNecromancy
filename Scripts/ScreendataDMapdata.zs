@@ -162,7 +162,10 @@ dmapdata script DarkRegion {
 dmapdata script HeatedRoom {
    void run(int armorLevel, int damage) {
       while (true) {
-         if (GetHighestLevelItemOwned(IC_RING) < armorLevel) {
+         itemdata itemData = Game->LoadItemData(GetHighestLevelItemOwned(IC_RING));
+         int lvl = itemData->Level;
+         
+         if (lvl < armorLevel) {
             if (gameframe % 60 == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
                Hero->HP -= damage;
                Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));

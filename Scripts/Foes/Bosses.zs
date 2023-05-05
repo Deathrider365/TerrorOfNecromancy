@@ -2134,9 +2134,8 @@ npc script Egentem {
       int maxHp = this->HP;
       this->CollDetection = false;
       
-      unless (getScreenD(31, 0x43, 0)) {
+      unless (getScreenD(31, 0x43, 0))
          Quit();
-      }
       
       unless (getScreenD(0)) {
          introCutscene(this);
