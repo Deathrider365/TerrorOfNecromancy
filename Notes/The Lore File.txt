@@ -137,7 +137,7 @@ highly flammable.
 the ancient beast upon defeating it. Link claims a shard of his Triforce of Courage within the grotto. Word gets around through the Necromancer's soldiers that as expected, Link and 
 Zelda have arrived on the island, and Link has claimed one of the Triforce shards.
 
-<Battle Arena 1: Racoon Hollow>
+<Battle Arena 1: Raccoon Hollow>
 ~Gargantuan Bandit of the Forest ---Overgrown Racoon---~ 
 
    Link ventures around more of the island and finds himself in the company of highly intelligent racoons. It is said in few obfuscated texts that with the grace of some ancient magic, 
@@ -214,9 +214,11 @@ the triforce, but remembers the experience as having a near death experience whe
 throughout the cult that he is undead, and the only reason he could be living is through the power of the ancient evil. He is the only one in the cult to have any power, which is a 
 very weak ability to revive only small creatures.
    Upon leaving the Shrine, a guard is standing outside of the shrine and speaks to Link urgently saying he found out where zelda is, and she was captured by the Necromancer's forces, 
-held in a secret dungeon in the guardtower outside Viridi. Link asks to see his signet of allegiance but the guard insists the situation is too dire for such trinkets. Upon getting to 
-the tower and into the secret dungeon, Link is ambushed by a bunch of the Necromancer's forces, including the soldier that led him there. Their intention was not to kill Link, but rather 
-knock him out, and just before blacking out the Necromancer can be seen entering. 
+held in the in the guardtower outside Viridi's dungeon. Link asks to see his signet of allegiance but the guard insists the situation is too dire for such trinkets. Upon getting to 
+the tower and into the dungeon, Link is ambushed by a bunch of the Necromancer's forces, including the soldier that led him there. Their intention was not to kill Link, but rather keep
+him detained until the necromancer could arrive. At this point Link has 2 options; Wait in the cell for the necromancer to arrive or attempt a jail break, either scenario ends in him
+captured, but the jail break one give some additional dialogue with the necromancer where he gives link an "option" of joining him willingly, in which case if Link says yes the
+necromancer basically ignores Link knowing he would not go willingly. 
    Link wakes up before the Necromancer in his castle. The Necromancer knows link, given they had seen eachother in Hyrule. With this familiarity, the Necromancer offers link the chance 
 to join his ranks being how strong he is, he could place really high. The Necromancer almost certainly knows Link will turn down the offer, but thought perhaps he could suade Link. 
 Unsurprisingly Link turns down the offer, the Necromancer chuckles, knowing full well Link would be ignorant enough to deny him. The Necromancer describes how the power potential he has 
@@ -224,11 +226,52 @@ outweighs Ganon's tenfold, and that there is no way Link could stop him and how 
 Link in his dungeon. Unfortunately for the Necromancer his plans happened out of order. His plan was to capture Zelda and use her to convinse Link to join his cause, but his forces have 
 still yet to find Zelda. The Necromancer would like to still leverage the might of Link, but worries that if he doesnt kill him then there is a good change he could escape.
    Eventually, while Link is still locked up in the dungeons, the Necromancer's Right Hand visits and speaks to Link. He explains who he is and his concerns for the Scholar, he wants to 
-help Link escape but cannot be seen helping. He throws Link the key to his cell and advises Link take the sewers to escape. The sewers are not typically traveled but Right Hand has used 
-it a lot to leave the Castle unnoticed, since he leaves occassionally to help various Hylian soldiers by giving them insight to the Necromancer's plans. He does warn Link that there are 
-a lot of undead under the castle and it would not be easy for him to escape unnoticed, especially for a larger monster that the Necromancer has revived to guard the sewers. Right Hand 
-never struggled to pass given his high rank, but Link would stand out. He recommends Link get to a nearby village of <VILLAGE NAME> since there is an underground resistance where strong 
-Hylian soldiers are brewing a large army of able villagers. There he will find Zelda.
+help Link escape but cannot be seen helping. He quickly opens Link's cell and tells him to escape through a weak wall that he uses to leave discretely. Unbenownst to anyone, he leaves
+the castle occassionally to help various Hylian soldiers by giving them insight to the Necromancer's plans. He recommends Link get to a nearby village of Celo since there is an underground 
+resistance where Zelda and strong Hylian soldiers are brewing a large army of able villagers.
+
+<Battle Arena 2: Reformed Pirate Cave>
+~???~ 
+   Link finds that the cave that is connected to the Necromancer's dungeon leads to the home of many undead pirates that do not appear to be hostile, but rather extremely passive. Upon
+speaking to them Link learns that they were once a part of a crew of an ancient pirate lord that heard tell of a Jewel on Vita that would allow them to rule the seas by controlling the waves.
+Speaking with the pirates Link learns that they were defeated by Aemulor, and were never able to recover the Jewel. One of the pirates mentions that they thought it was once in the marsh
+lands on the eastern coast of Vita, but were never able to traverse it as it was not worth attempting to enter given the curse that lied upon it, as well as just being generally dangerous.
+As Link exits the cave he finds himself at the village of Celo, as Right Hand recommended. He finds that the villagers are experiencing issue with nightly raids from undead pirates, part of
+the same crew as Link met just moments ago. The villagers do not know why the pirates raid, but the reason is they suspect the Jewel is in the direction of the village, as they have the magic
+from Lenses of Truth at their disposal, and when peering in their lenses they can see a fogginess in the direction of Celo. These pirates are not typical pirates, they are knowledgeable of
+magic and have special Lenses that do more than simply show the hidden, they can peer through them with desire and the lense will be foggy in the direction of what they desire. Unbeknownst
+to them the Jewel is not in Celo, but rather in the Jungle to the north of Celo, but nothing can be done about this at this point.
+   More pressingly, Link meets a mysterious man that turn out to be a part of this underground resistance, but he will not allow Link inside as he was directed by HER to only allow one with
+"true courage" to meet with her. He then tasks Link with dealing with the pirate raids their village is experiencing, and points Link to their base which is in one of the Necromancer's prisons
+they conquered from the Necromancer's forces. The Necromancer cares not for them, as they do not trouble him and they are wreaking havoc which is always appreciated by him.
+   As Link sets off into SWI he comes across various biomes within SWI, many fairly extreme. First there is the volcanic region to the southwest, with the massive MT. Caldum which is so massive
+it can be seen by Celo clearly. Mt. Caldum is an active volcano with constant lava flow all around it. The area surrounding the volcano are the lava fields that are extremely hot and riddled
+with pools of lava. If Link even sets foot in there without mail with heat protection he will begin to die of the heat. Then there are the plains which are rife with much stronger foes that will
+make Link wish he had better armor and weapons. He may find himself to the southeast to MT. Frig which is not a volcano but rather a snow capped mountain complete with a frosty landscape around
+it. Similarly until Link find himself with armor that can protect himself from the elements he will freeze to death. Luckily he cannot go far into the snow fields as an avalanche had occurred
+at the base of the mount, and he meets some people hoping to clear the mess to get home to their village at the base of the mountain.
+   Eventually Link will find himself on the southern coast of the island where he is welcomed by Ferrar, village of the ironworkers. Given that their based just south of MT. Caldum with it's
+constant lava flow they were able to establish an island wide reputation for crafting the best weapons, armor, and event everyday metal objects. Speaking with the villagers there Link learns
+that they have a long history of making high quality metal goods in their Facility that is constantly fed by a massive lava fall, and is directly next to the coast so it is prime for forging.
+Upon reaching the village elder Link inquires for a better sword. The elder is willing to grant him his request, but not for free. The elder asks Link if he could go into a sub of their
+facility, as the depths are closed to outsiders, and assist them with an issue they have been encountering. This sub area is the main floor of the facility where they store their forged objects,
+as well as direct the lava and water flow making sure they go into the right areas of the undercroft, which is where the actual forging and combining of lava and water happens. 
+The issue they are encountering is that some of the Necromancer's forces have barged in and have started stealing weapons and armor as well as tampering with the flow of water and lava, causing
+damage down under. The elder asks Link to wipe out those troublesome soldiers, and in return he can take one sword that is held in their storage. He does recommend Link to have upgraded armor
+before entering as these soldiers are not on the weaker side, as well as some other more curious threats. It would seem that with the necromancer's ability to raise the undead, somehow some of
+their mechanical entities used in the facility have been compromised and are obeying his will. It is just assumed they are malfunctioning due to the chaos, but what they dont know is that where
+the necromancer's main power is in raising the undead, he can also force his will on the living, which can be clearly seen with how he has full control over the scholar.
+And so Link enters the Molten Flooded Forge to end the chaos and acqure a new sword.
+
+<Mini Dungeon 3: Molten Flooded Forge>
+~ ------~
+
+
+
+
+
+
+
 
 <Mini Dungeon 3: Domumbris Sewers (home of darkness - domum tenebris (Domumbris))>
 ~Undead Guard Dog ---IDK---~

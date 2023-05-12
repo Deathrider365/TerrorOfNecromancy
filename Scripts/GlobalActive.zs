@@ -203,6 +203,12 @@ global script GlobalScripts {
                   return 011000b;
             }
             break;
+         case 36:
+            switch(screen) {
+               case 0x76:
+                  return 001000b;
+            }
+            break;
       }
       return 0;
    }
