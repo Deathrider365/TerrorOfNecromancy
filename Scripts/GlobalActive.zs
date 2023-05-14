@@ -209,6 +209,12 @@ global script GlobalScripts {
                   return 001000b;
             }
             break;
+         case 43:
+            switch(screen) {
+               case 0x0F:
+                  return 001000b;
+            }
+            break;
       }
       return 0;
    }

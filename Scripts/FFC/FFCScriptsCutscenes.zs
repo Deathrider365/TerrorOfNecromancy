@@ -973,7 +973,26 @@ ffc script CapturesSequenceRightHand {
    }
 }
 
-
+ffc script FallingStalagtites {
+   void run(int xSpeed, int ySpeed, int duration) {
+      if (Screen->State[ST_SECRET])
+         Quit();
+         
+      until (Screen->State[ST_SECRET])
+         Waitframe();
+         
+      for (int i = 0; i < duration; ++i) {
+         if (xSpeed)
+            this->X += (i *= xSpeed);
+         if (ySpeed)
+            this->Y += (i *= ySpeed);
+         
+         Waitframe();
+      }
+      
+      Quit();
+   }
+}
 
 
 
