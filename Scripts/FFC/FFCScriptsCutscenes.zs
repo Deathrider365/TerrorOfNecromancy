@@ -975,8 +975,10 @@ ffc script CapturesSequenceRightHand {
 
 ffc script FallingStalagtites {
    void run(int xSpeed, int ySpeed, int duration) {
-      if (Screen->State[ST_SECRET])
+      if (Screen->State[ST_SECRET]) {
+         this->Data = 0;
          Quit();
+      }
          
       until (Screen->State[ST_SECRET])
          Waitframe();

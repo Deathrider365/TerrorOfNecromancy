@@ -324,6 +324,151 @@ ffc script PoisonWater {
    }
 } //end
 
+@Author("Deathrider365")
+ffc script Thrower {
+   void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
+      const int COOLDOWN = !coolDown ? 120 : coolDown;
+      
+      int lowVariance = Floor(variance);
+      int highVariance = -(variance % 1) / 1L;
+      
+      int projectileId = Floor(projectile);
+      int projectileType = (projectile % 1) / 1L;
+      
+      while (true) {
+         if (wasTriggered(trigger))
+            Quit();
+         
+         unless (coolDown) {
+            if (throwsItem) {
+               if (int scr = CheckItemSpriteScript("ArcingItemSprite")) {
+                  itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {
+                     Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 
+                     5, -1, 0
+                  });
+                  
+                  it->Pickup |= IP_TIMEOUT;
+               }
+            } else {
+               if (!projectileType)
+                  projectileType = AE_DEBUG;
+
+               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+
+               if (hasArc) {
+                  if (int scr = CheckEWeaponScript("ArcingWeapon")) {
+                     if (sfx)
+                        Game->PlaySound(sfx);
+                     runEWeaponScript(projectile, scr, {-1, 0, projectileType});
+                  }
+               }
+            }
+
+            coolDown = COOLDOWN + Rand(lowVariance, highVariance);
+         }
+
+         coolDown--;
+         Waitframe();
+      }
+   }
+}
+
+@Author("EmilyV99")
+ffc script WarpCustomReturn {
+   void run(int dmapScreen1, int x1, int y1, int dmapScreen2, int x2, int y2, int sideFacing, int warp) {
+      int dmap1 = Floor(dmapScreen1);
+      int screen1 = (dmapScreen1 % 1) / 1L;
+      int dmap2 = Floor(dmapScreen2);
+      int screen2 = (dmapScreen2 % 1) / 1L;
+      int warpType = Floor(warp);
+      int warpEffect = (warp % 1) / 1L;
+      int side = Floor(sideFacing);
+      int dir = (sideFacing % 1) / 1L;
+      
+      switch(side) {
+         case DIR_UP:
+            while(true) {
+               if(Hero->Y <= 1.5 && Hero->InputUp) {
+                  if(dmap2 && Hero->X >= this->X)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_DOWN: 
+            while(true) {
+               if(Hero->Y >= 158.5 && Hero->InputDown) {
+                  if(dmap2 && Hero->X >= this->X)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_LEFT:
+            while(true) {
+               if(Hero->X <= 1.5 && Hero->InputLeft) {
+                  if(dmap2 && Hero->Y >= this->Y)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         case DIR_RIGHT:
+            while(true) {
+               if(Hero->X >= 238.5 && Hero->InputRight) {
+                  if(dmap2 && Hero->Y >= this->Y)
+                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
+                  else 
+                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               }
+               Waitframe();
+            }
+         default:
+            while(true) {
+               if (Abs(Hero->X - this->X) <= 14 && Abs(Hero->Y - this->Y) <= 14)
+                  Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
+               Waitframe();
+            }
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script PlayEnhancedMusic {
+   void run(int musicChoice) {
+      switch(musicChoice) {
+         case 1:
+            Audio->PlayEnhancedMusic("Tales of Destiny - Ruins.ogg", 0);
+            break;
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script AdjustVolume {
+   void run(int startPercent, int endPercent, int revertToNormal) {
+      // if (revertToNormal) {
+         // Audio->AdjustMusicVolume(100);
+         // return;
+      // }
+         
+      // if (startPercent < endPercent) {
+         // for (int i = startPercent; i < endPercent; ++i) {
+            // Audio->AdjustMusicVolume(i);
+            // Waitframe();
+         // }
+      // }
+      // else {
+         // for (int i = startPercent; i > endPercent; --i)
+            // Audio->AdjustMusicVolume(i);
+            // Waitframe();
+      // }
+   }
+}
+
 @Author("Moosh")
 ffc script BurningOilandBushes {
 	//start constants
@@ -659,150 +804,8 @@ ffc script BurningOilandBushes {
    }
 }
 
-@Author("Deathrider365")
-ffc script Thrower {
-   void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
-      const int COOLDOWN = !coolDown ? 120 : coolDown;
-      
-      int lowVariance = Floor(variance);
-      int highVariance = -(variance % 1) / 1L;
-      
-      int projectileId = Floor(projectile);
-      int projectileType = (projectile % 1) / 1L;
-      
-      while (true) {
-         if (wasTriggered(trigger))
-            Quit();
-         
-         unless (coolDown) {
-            if (throwsItem) {
-               if (int scr = CheckItemSpriteScript("ArcingItemSprite")) {
-                  itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {
-                     Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 
-                     5, -1, 0
-                  });
-                  
-                  it->Pickup |= IP_TIMEOUT;
-               }
-            } else {
-               if (!projectileType)
-                  projectileType = AE_DEBUG;
-
-               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-
-               if (hasArc) {
-                  if (int scr = CheckEWeaponScript("ArcingWeapon")) {
-                     if (sfx)
-                        Game->PlaySound(sfx);
-                     runEWeaponScript(projectile, scr, {-1, 0, projectileType});
-                  }
-               }
-            }
-
-            coolDown = COOLDOWN + Rand(lowVariance, highVariance);
-         }
-
-         coolDown--;
-         Waitframe();
-      }
+ffc script FaceDownLinkFromTopOfScreen {
+   void run() {
+      Hero->Dir = DIR_DOWN;
    }
 }
-
-@Author("EmilyV99")
-ffc script WarpCustomReturn {
-   void run(int dmapScreen1, int x1, int y1, int dmapScreen2, int x2, int y2, int sideFacing, int warp) {
-      int dmap1 = Floor(dmapScreen1);
-      int screen1 = (dmapScreen1 % 1) / 1L;
-      int dmap2 = Floor(dmapScreen2);
-      int screen2 = (dmapScreen2 % 1) / 1L;
-      int warpType = Floor(warp);
-      int warpEffect = (warp % 1) / 1L;
-      int side = Floor(sideFacing);
-      int dir = (sideFacing % 1) / 1L;
-      
-      switch(side) {
-         case DIR_UP:
-            while(true) {
-               if(Hero->Y <= 1.5 && Hero->InputUp) {
-                  if(dmap2 && Hero->X >= this->X)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else 
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         case DIR_DOWN: 
-            while(true) {
-               if(Hero->Y >= 158.5 && Hero->InputDown) {
-                  if(dmap2 && Hero->X >= this->X)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else 
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         case DIR_LEFT:
-            while(true) {
-               if(Hero->X <= 1.5 && Hero->InputLeft) {
-                  if(dmap2 && Hero->Y >= this->Y)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else 
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         case DIR_RIGHT:
-            while(true) {
-               if(Hero->X >= 238.5 && Hero->InputRight) {
-                  if(dmap2 && Hero->Y >= this->Y)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else 
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         default:
-            while(true) {
-               if (Abs(Hero->X - this->X) <= 14 && Abs(Hero->Y - this->Y) <= 14)
-                  Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               Waitframe();
-            }
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script PlayEnhancedMusic {
-   void run(int musicChoice) {
-      switch(musicChoice) {
-         case 1:
-            Audio->PlayEnhancedMusic("Tales of Destiny - Ruins.ogg", 0);
-            break;
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script AdjustVolume {
-   void run(int startPercent, int endPercent, int revertToNormal) {
-      // if (revertToNormal) {
-         // Audio->AdjustMusicVolume(100);
-         // return;
-      // }
-         
-      // if (startPercent < endPercent) {
-         // for (int i = startPercent; i < endPercent; ++i) {
-            // Audio->AdjustMusicVolume(i);
-            // Waitframe();
-         // }
-      // }
-      // else {
-         // for (int i = startPercent; i > endPercent; --i)
-            // Audio->AdjustMusicVolume(i);
-            // Waitframe();
-      // }
-   }
-}
-
-
-
