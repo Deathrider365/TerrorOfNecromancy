@@ -274,7 +274,7 @@ ffc script BattleArena {
             Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0);
             break;
          case 1:
-            Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0);
+            Audio->PlayEnhancedMusic("Tales of Graces - Sword Drawing.ogg", 0);
             break;
       }
    }

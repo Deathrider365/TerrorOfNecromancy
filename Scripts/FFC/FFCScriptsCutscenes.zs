@@ -809,25 +809,31 @@ ffc script CapturedSequenceNecromancer {
          Waitframe();
       }
       
-      Hero->WarpEx({WT_IWARP, 37, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+      Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
    }
 }
 
 @Author("Deathrider365")
 ffc script CapturesSequenceRightHand {
+   CONFIG COMBO_UPPER_GATE = 7284;
+   CONFIG COMBO_LOWER_GATE = 7288;
+   CONFIG COMBO_RIGHT_HAND_UP = 6800;
+   CONFIG COMBO_RIGHT_HAND_DOWN = 6801;
+   CONFIG COMBO_RIGHT_HAND_LEFT = 6802;
+   CONFIG COMBO_RIGHT_HAND_RIGHT = 6803;
+   
    void run() {
       if (getScreenD(0)) {
          this->Data = COMBO_INVIS;
-         Quit();
+         
+         while(true) {
+            unless (gameframe % 120)
+               Audio->PlaySound(SFX_WATER_DRIPPING);
+               
+            Waitframe();            
+         }
       }
-      
-      CONFIG COMBO_UPPER_GATE = 7284;
-      CONFIG COMBO_LOWER_GATE = 7288;
-      CONFIG COMBO_RIGHT_HAND_UP = 6800;
-      CONFIG COMBO_RIGHT_HAND_DOWN = 6801;
-      CONFIG COMBO_RIGHT_HAND_LEFT = 6802;
-      CONFIG COMBO_RIGHT_HAND_RIGHT = 6803;
-      
+            
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer2 = Game->LoadTempScreen(3);
       Audio->PlayEnhancedMusic(NULL, 0);
@@ -970,6 +976,17 @@ ffc script CapturesSequenceRightHand {
       
       this->Data = COMBO_INVIS;
       setScreenD(0, true);
+      
+      if (getScreenD(0)) {
+         this->Data = COMBO_INVIS;
+         
+         while(true) {
+            unless (gameframe % 120)
+               Audio->PlaySound(SFX_WATER_DRIPPING);
+               
+            Waitframe();            
+         }
+      }
    }
 }
 
