@@ -1000,3 +1000,13 @@ ffc script IceTrigger {
 		}
 	}
 } 
+
+ffc script TriggerScreenDOnEntryForOtherScreen {
+   void run(int screenDForthis, int screenDToTrigger, int map, int screen) {
+      if (getScreenD(screenDForthis))
+         Quit();
+         
+      setScreenD(screenDForthis, true);
+      setScreenD(map, screen, screenDToTrigger, true);
+   }
+}

@@ -1990,7 +1990,7 @@ npc script ServusMalus {
 }
 
 @Author("Moosh")
-npc script SeizedGuardGeneral {
+npc script TurnedHylianGeneral {
    using namespace NPCAnim;
    using namespace NPCAnim::Legacy;
 
@@ -2032,7 +2032,7 @@ npc script SeizedGuardGeneral {
 
                for (int i = 0; i < 15; ++i) {
                   FaceLink(this);
-                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 10);
+                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, this->WeaponDamage + this->WeaponDamage * .33);
                   CustomWaitframe(this);
                }
                
@@ -2060,8 +2060,10 @@ npc script SeizedGuardGeneral {
             this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
             FaceLink(this);
             
+            traceToScreen(0, 0, this->WeaponDamage);
+            
             if (i > dashFrames / 2)
-               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, 6);
+               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, this->WeaponDamage* .4);
                
             CustomWaitframe(this);
          }
@@ -2072,7 +2074,7 @@ npc script SeizedGuardGeneral {
          for (int i = 0; i <= 12 && !swordCollided; ++i) {
             this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
             FaceLink(this);
-            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, 6);
+            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, this->WeaponDamage);
             CustomWaitframe(this);
          }
          

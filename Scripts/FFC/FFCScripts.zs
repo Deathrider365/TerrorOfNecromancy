@@ -809,3 +809,16 @@ ffc script FaceDownLinkFromTopOfScreen {
       Hero->Dir = DIR_DOWN;
    }
 }
+
+ffc script UnlockMoltenFloodedForgeBoss {
+   void run() {
+      mapdata mapData1 = Game->LoadMapData(61, 0x33);
+      mapdata mapData2 = Game->LoadMapData(61, 0x53);
+      
+      if (mapData1->State[ST_SECRET] && mapData2->State[ST_SECRET]) {      
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+         Audio->PlaySound(SFX_SECRET);
+      }
+   }
+}

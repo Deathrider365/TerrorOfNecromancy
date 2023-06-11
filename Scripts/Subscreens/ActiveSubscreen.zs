@@ -170,13 +170,17 @@ dmapdata script SubscreenActive {
       if(Hero->Item[202])
          Screen->FastTile(4, 110, y + 24, TILE_GUARD_TOWER_KEY, CSET_GUARD_TOWER_KEY, OP_OPAQUE);
       
-      //Allegiance Signet
+      // Allegiance Signet
       if(Hero->Item[206])
          Screen->FastTile(4, 130, y + 6, TILE_ALLEGIANCE_SIGNET, CSET_ALLEGIANCE_SIGNET, OP_OPAQUE);
       
       //Mysterious Key
       if(Hero->Item[207])
          Screen->FastTile(4, 110, y + 24, TILE_MYSTERIOUS_KEY, CSET_MYSTERIOUS_KEY, OP_OPAQUE);
+         
+      //Mysterious Box
+      // if(Hero->Item[255])
+         Screen->FastTile(4, 110, y + 24, TILE_MYSTERIOUS_BOX, CSET_MYSTERIOUS_BOX, OP_OPAQUE);
       
       // Main Trading Sequence items
       int itemId = GetHighestLevelItemOwned(IC_TRADING_SEQ);
