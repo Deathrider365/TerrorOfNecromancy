@@ -669,3 +669,22 @@ void waitForTalking(ffc this) {
       Waitframe();
    }
 }
+
+void gridLockFFC(ffc this) {
+   int remainderX = this->X % 16;
+   int remainderY = this->Y % 16;
+   
+   if (remainderX) {
+      if (remainderX < 8)
+         this->X -= remainderX;
+      else 
+         this->X += remainderX;
+   }
+   
+   if (remainderY) {
+      if (remainderY < 8)
+         this->Y -= remainderY;
+      else 
+         this->Y += remainderY;
+   }
+}

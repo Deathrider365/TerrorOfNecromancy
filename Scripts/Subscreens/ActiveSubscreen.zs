@@ -178,9 +178,17 @@ dmapdata script SubscreenActive {
       if(Hero->Item[207])
          Screen->FastTile(4, 110, y + 24, TILE_MYSTERIOUS_KEY, CSET_MYSTERIOUS_KEY, OP_OPAQUE);
          
-      //Mysterious Box
-      // if(Hero->Item[255])
-         Screen->FastTile(4, 110, y + 24, TILE_MYSTERIOUS_BOX, CSET_MYSTERIOUS_BOX, OP_OPAQUE);
+      //Mysterious Coffer
+      if(Hero->Item[155])
+         Screen->FastTile(4, 130, y + 24, TILE_MYSTERIOUS_COFFER, CSET_MYSTERIOUS_COFFER, OP_OPAQUE);
+         
+      //Really Small Key
+      if(Hero->Item[156])
+         Screen->FastTile(4, 88, y + 140, TILE_REALLY_SMALL_KEY, CSET_REALLY_SMALL_KEY, OP_OPAQUE);
+         
+      //Engagement Ring
+      if(Hero->Item[157])
+         Screen->FastTile(4, 88, y + 140, TILE_ENGAGEMENT_RING, CSET_ENGAGEMENT_RING, OP_OPAQUE);
       
       // Main Trading Sequence items
       int itemId = GetHighestLevelItemOwned(IC_TRADING_SEQ);

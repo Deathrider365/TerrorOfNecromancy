@@ -1013,7 +1013,91 @@ ffc script FallingStalagtites {
    }
 }
 
-
+ffc script GraveKeeperSequence {
+   void run(int messageImWarningYou, int messageMad, int messageDontKillMe, int messageLeavePls, int messageSad, int messageThankful) {
+      int originalCombo = this->Data;
+      mapdata map = Game->LoadMapData(20, 0x37);
+      
+      while (Hero->Item[17]) {
+         waitForTalking(this);        
+         
+         Input->Button[CB_SIGNPOST] = false;
+         Game->Suspend[susptSCREENDRAW] = true;
+         Screen->Message(messageThankful);
+         Game->Suspend[susptSCREENDRAW] = false;
+         Waitframe();
+      }
+      
+      until(map->State[ST_SECRET]) {
+         waitForTalking(this);        
+         
+         Input->Button[CB_SIGNPOST] = false;
+         Game->Suspend[susptSCREENDRAW] = true;
+         Screen->Message(messageImWarningYou);
+         Game->Suspend[susptSCREENDRAW] = false;
+         Waitframe();
+      } 
+      else {
+         unless (Hero->Item[155]) {
+            Screen->Message(messageMad);
+            Waitframe();
+            
+            this->Data = COMBO_INVIS;
+            mapdata template = Game->LoadTempScreen(1);
+            template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+            
+            npc enemy = Screen->CreateNPC(ENEMY_GRAVE_KEEPER_GONE_APE);
+            enemy->X = this->X;
+            enemy->Y = this->Y;
+            
+            this->X = 0;
+            this->Y = 0;
+            int lastX, lastY;
+            
+            while (Screen->NumNPCs()) {
+               lastX = enemy->X;
+               lastY = enemy->Y;
+               Waitframe();
+            }
+               
+            this->X = lastX;
+            this->Y = lastY;
+            
+            this->Data = originalCombo;
+            Screen->Message(messageDontKillMe);
+            Waitframe();
+            
+            while(true) {
+               waitForTalking(this);        
+               
+               Input->Button[CB_SIGNPOST] = false;
+               Game->Suspend[susptSCREENDRAW] = true;
+               Screen->Message(messageLeavePls);
+               Game->Suspend[susptSCREENDRAW] = false;
+               Waitframe();
+            }
+         } 
+         else {
+            Screen->Message(messageSad);
+            Waitframe();
+            Hero->Item[155] = false;
+            
+            itemsprite it = CreateItemAt(17, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            
+            while(true) {
+               waitForTalking(this);        
+               
+               Input->Button[CB_SIGNPOST] = false;
+               Game->Suspend[susptSCREENDRAW] = true;
+               Screen->Message(messageThankful);
+               Game->Suspend[susptSCREENDRAW] = false;
+               Waitframe();
+            }
+         }
+      }
+   }
+}
 
 
 

@@ -25,11 +25,13 @@ ffc script Signpost {
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue, layerToClearOnVanish);
          }
          
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Waitframe();
-         }         
+         waitForTalking(this);
+         
+         // until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            // if (againstFFC(this->X, this->Y))
+               // Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            // Waitframe();
+         // }         
          
          Input->Button[CB_SIGNPOST] = false;
          Game->Suspend[susptSCREENDRAW] = true;

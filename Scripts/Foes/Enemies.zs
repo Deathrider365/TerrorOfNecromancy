@@ -390,3 +390,21 @@ npc script HammerBoi {
       xy->Y = y;
    }
 }
+
+npc script GraveDudeGoneApe {
+   using namespace EnemyNamespace;
+     
+   void run() {      
+      gridLockNPC(this);
+      this->ASpeed = 15;
+
+      while(true) {
+         if (this->HP <= this->HP * .2)
+            this->Remove();
+            
+         this->Slide();
+         doWalk(this, this->Random, this->Homing, this->Step);
+         Waitframe();
+      }
+   }
+}
