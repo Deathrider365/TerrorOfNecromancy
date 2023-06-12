@@ -154,6 +154,9 @@ dmapdata script SubscreenActive {
       }
 
       //start Misc draws
+      // Green Mail
+      if (!Hero->Item[155] && GetHighestLevelItemOwned(IC_RING) < 17)
+         Screen->FastTile(4, 22, y + 4, 29266, 6, OP_OPAQUE);
       // Legionnaire Ring
       Screen->FastTile(4, 122, y + 84, TILE_LEGIONNAIRE_RING, CSET_LEGIONNAIRE_RING, OP_OPAQUE);
       counter(RT_SCREEN, 4, 141, y + 88, CR_LEGIONNAIRE_RING, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
@@ -178,13 +181,13 @@ dmapdata script SubscreenActive {
       if(Hero->Item[207])
          Screen->FastTile(4, 110, y + 24, TILE_MYSTERIOUS_KEY, CSET_MYSTERIOUS_KEY, OP_OPAQUE);
          
-      //Mysterious Coffer
+      //Strange Coffer
       if(Hero->Item[155])
-         Screen->FastTile(4, 130, y + 24, TILE_MYSTERIOUS_COFFER, CSET_MYSTERIOUS_COFFER, OP_OPAQUE);
+         Screen->FastTile(4, 22, y + 4, TILE_STRANGE_COFFER, CSET_MYSTERIOUS_COFFER, OP_OPAQUE);
          
       //Really Small Key
       if(Hero->Item[156])
-         Screen->FastTile(4, 88, y + 140, TILE_REALLY_SMALL_KEY, CSET_REALLY_SMALL_KEY, OP_OPAQUE);
+         Screen->FastTile(4, 88, y + 144, TILE_REALLY_SMALL_KEY, CSET_REALLY_SMALL_KEY, OP_OPAQUE);
          
       //Engagement Ring
       if(Hero->Item[157])
@@ -204,7 +207,7 @@ dmapdata script SubscreenActive {
       itemdata idata = Game->LoadItemData(selectedId);
       
       if (idata)
-         idata->GetName(buf2);
+         idata->GetDisplayName(buf2);
             
       Emily::DrawStrings(4, 206, y + 7, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, buf2, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 80);
 

@@ -464,148 +464,334 @@ ffc script CapturedSequenceImprisioned {
          this->Data = COMBO_INVIS;
          Quit();
       }
-   
-      until (Hero->X < 48 && Hero->Y < 48)
-         Waitframe();
-         
+      
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer3 = Game->LoadTempScreen(3);
-      
-      Audio->PlayEnhancedMusic(NULL, 0);
-      disableLink();
-      Audio->PlaySound(SFX_SHUTTER_CLOSE);
-      mapDataLayer1->ComboD[98] = 7288;
-      mapDataLayer3->ComboD[82] = 7284;
-      
-      for(int i = 0; i < 15; ++i) {
-         disableLink();
-         Waitframe();
-      }
-      
-      for(int i = 0; i < 30; ++i) {
-         disableLink();
-         Waitframe();
-      }
-      
-      Screen->Message(241);
-      
-      for(int i = 0; i < 30; ++i) {
-         disableLink();
-         Waitframe();
-      }
-      
-      this->Data = 7013;
-      
-      for (int i = 0; i < 45; ++i) {
-         disableLink();
-         Waitframe();
-      }
-      
-      //Make this vary if link is directly below him
-      for (int i = 0; i < 120; ++i) {
-         disableLink();
-         
-         if (i < 48) {
-            Hero->Dir = DIR_LEFT;
-            this->Y += 1;
-         }
-         else if (i < 64) {
-            Hero->Dir = DIR_DOWN;
-            this->Data = 7015;
-            this->X += 1;
-         }
-         else if (i < 80) {
-            this->Data = 7013;
-            this->Y += 1;
-         }
-         
-         Waitframe();
-      }
-         
-      for (int i = 0; i < 4; ++i) {
-         disableLink();
-         Waitframe();
-      }
-      
-      Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer1->ComboD[98] = 0;
-      mapDataLayer3->ComboD[82] = 0;
-      Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0); 
-      
-      for (int i = 0; i < 32; ++i) {
-         disableLink();
-         
-         if (i < 20)
-            Hero->InputDown = true;
-         
-         this->Y += 1;
-         Waitframe();
-      }
-        
-      this->Data = 7012;
-      
-      for (int j = 0; j < 4; ++j) {
-         disableLink();
-         Waitframe();
-      }
-      
-      mapDataLayer1->ComboD[98] = 7288;
-      mapDataLayer3->ComboD[82] = 7284;
-      Audio->PlaySound(SFX_SHUTTER_CLOSE);
-      
-      Screen->Message(242);
-      Waitframe();
-      
+      dmapdata dmapData = Game->LoadDMapData(Game->GetCurDMap());
       int soldierCombo1X = 224;
-      int soldierCombo2X = 224;;
-      
-      for (int i = 0; i < 48; ++i) {
-         Screen->FastCombo(1, soldierCombo1X -= 1, 112, 7014, 7, OP_OPAQUE);
+      int soldierCombo2X = 224;
+   
+      if (getScreenD(1)) {
+         dmapData->SetMusic("Castlevania 64 - Setting.ogg");
          
-         if (i > 16)
-            Screen->FastCombo(1, soldierCombo2X -= 1, 112, 7014, 7, OP_OPAQUE);
+         soldierCombo1X = 176;
+         soldierCombo2X = 192;
          
+         mapDataLayer1->ComboD[98] = 7288;
+         mapDataLayer3->ComboD[82] = 7284;
+         mapDataLayer1->ComboD[125] = 7011;
+         this->Data = 7015;
+         this->X = 144;
+         this->Y = 112;
+      }
+      else {
+         until (Hero->X < 48 && Hero->Y < 48)
+            Waitframe();
+            
+         Audio->PlayEnhancedMusic(NULL, 0);
+         disableLink();
+         Audio->PlaySound(SFX_SHUTTER_CLOSE);
+         mapDataLayer1->ComboD[98] = 7288;
+         mapDataLayer3->ComboD[82] = 7284;
+         
+         for(int i = 0; i < 45; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         Screen->Message(241);
+         
+         for(int i = 0; i < 30; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         this->Data = 7013;
+         
+         for (int i = 0; i < 45; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         for (int i = 0; i < 120; ++i) {
+            disableLink();
+            
+            if (i < 48) {
+               Hero->Dir = DIR_LEFT;
+               this->Y += 1;
+               
+               if (Hero->X <= 32)
+                  Hero->X += 1;
+            }
+            else if (i < 64) {
+               Hero->Dir = DIR_DOWN;
+               this->Data = 7015;
+               this->X += 1;
+            }
+            else if (i < 80) {
+               this->Data = 7013;
+               this->Y += 1;
+            }
+            
+            Waitframe();
+         }
+            
+         for (int i = 0; i < 4; ++i) {
+            disableLink();
+            Waitframe();
+         }
+         
+         Audio->PlaySound(SFX_SHUTTER_OPEN);
+         mapDataLayer1->ComboD[98] = 0;
+         mapDataLayer3->ComboD[82] = 0;
+         Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0); 
+         
+         for (int i = 0; i < 32; ++i) {
+            disableLink();
+            
+            if (i < 24)
+               Hero->InputDown = true;
+            
+            this->Y += 1;
+            Waitframe();
+         }
+           
+         this->Data = 7012;
+         
+         for (int j = 0; j < 4; ++j) {
+            disableLink();
+            Waitframe();
+         }
+         
+         mapDataLayer1->ComboD[98] = 7288;
+         mapDataLayer3->ComboD[82] = 7284;
+         Audio->PlaySound(SFX_SHUTTER_CLOSE);
+         
+         Screen->Message(242);
          Waitframe();
+         
+         this->Data = 7015;
+         
+         for (int i = 0; i < 112; ++i) {
+            this->X += 1;
+            
+            if (i < 48) {
+               Screen->FastCombo(1, soldierCombo1X -= 1, 112, 7014, 7, OP_OPAQUE);
+               
+               if (i > 16)
+                  Screen->FastCombo(1, soldierCombo2X -= 1, 112, 7014, 7, OP_OPAQUE);
+            }
+            else {
+               Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, 112, 7014, 7, OP_OPAQUE);
+            }
+            Waitframe();
+         }
+         
+         mapDataLayer1->ComboD[125] = 7011;
+         
+         Screen->FastCombo(1, 208, 112, 5067, 3, OP_OPAQUE);
       }
       
-      mapDataLayer1->ComboD[125] = 7011;
+      int counter = 300;
       
-      Screen->FastCombo(1, 208, 112, 5067, 3, OP_OPAQUE);
-      
-      until (Hero->Y > 100) {
+      while (Hero->Y < 100) {
+         setScreenD(1, true);
          Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
          Screen->FastCombo(1, soldierCombo2X, 112, 7014, 7, OP_OPAQUE);
-      
+         
+         if (!counter && !Screen->State[ST_SECRET])
+            break;
+            
+         --counter;
          Waitframe();
       }
       
-      this->Data = 7015;
-      Audio->PlayEnhancedMusic(NULL, 0);  
-      
-      Screen->Message(243);
-      Waitframe();
-      
-      dmapdata dmapData = Game->LoadDMapData(Game->GetCurDMap());
-      dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
-      Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
-      
-      this->Data = COMBO_INVIS;
-      npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
-      soldier1->X = 176;
-      soldier1->Y = 112;
-      npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
-      soldier2->X = 192;
-      soldier2->Y = 112;
-      npc soldier3 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
-      soldier3->X = 48;
-      soldier3->Y = 112;
-      
-      while (Screen->NumNPCs()) 
+      if (Screen->State[ST_SECRET]) {
+         this->Data = 7014;
+         Audio->PlayEnhancedMusic(NULL, 0);  
+         
+         Screen->Message(243);
+         Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
+         Screen->FastCombo(1, soldierCombo2X, 112, 7014, 7, OP_OPAQUE);
          Waitframe();
-      
-      Audio->PlaySound(SFX_OOT_SECRET);
-      mapDataLayer1->ComboD[125] = 7007;
-      setScreenD(0, true);
+         
+         dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
+         
+         this->Data = COMBO_INVIS;
+         npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
+         soldier1->X = 176;
+         soldier1->Y = 112;
+         npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
+         soldier2->X = 192;
+         soldier2->Y = 112;
+         npc soldier3 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
+         soldier3->X = this->X;
+         soldier3->Y = this->Y;
+         // soldier3->X = 48;
+         // soldier3->Y = 112;
+         
+         while (Screen->NumNPCs()) 
+            Waitframe();
+         
+         Audio->PlaySound(SFX_OOT_SECRET);
+         mapDataLayer1->ComboD[125] = 7007;
+         setScreenD(0, true);
+      }
+      else {
+         mapDataLayer1->ComboD[125] = 7007;
+         Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.mp3", 0);
+         this->Data = 7015;
+         
+         for (int i = 0; i < 60; ++i) {
+            Screen->FastCombo(1, soldierCombo1X, 112, 7015, 7, OP_OPAQUE);
+            Screen->FastCombo(1, soldierCombo2X, 112, 7015, 7, OP_OPAQUE);
+            Waitframe();
+         }
+         
+         Audio->PlaySound(SFX_SHUTTER_OPEN);
+         mapDataLayer1->ComboD[102] = COMBO_INVIS;
+         mapDataLayer1->ComboD[105] = COMBO_INVIS;
+         mapDataLayer1->ComboD[109] = COMBO_INVIS;
+         mapDataLayer3->ComboD[86] = COMBO_INVIS;
+         mapDataLayer3->ComboD[93] = COMBO_INVIS;
+         
+         this->Data = 7014;
+         int solderCombo1Y = 112;
+         int solderCombo2Y = 112;
+         
+         CONFIG COMBO_NECROMANCER_LEFT = 6799;
+         CONFIG COMBO_NECROMANCER_UP = 6744;
+         CONFIG COMBO_RIGHT_HAND_LEFT = 6802;
+         int necromancerStartX = 224;
+         int rightHandStartX = 224;
+         
+         for (int i = 0; i < 432; ++i) {
+            if (i < 16) {
+               this->X -= 1;
+               Screen->FastCombo(1, soldierCombo1X -= 1, solderCombo1Y, 7014, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X += 1, solderCombo2Y, 7015, 7, OP_OPAQUE);
+            }
+            else if (i < 32) {
+               this->X -= 1;
+               Screen->FastCombo(1, soldierCombo1X -= 1, solderCombo1Y, 7014, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y -=1, 7013, 7, OP_OPAQUE);
+               
+            }
+            else if (i < 48) {
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y -= 1, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               this->X -= 1;
+            }
+            else if (i < 64) {
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               this->Y -= 1;
+               this->Data = 7013;
+               
+               Screen->FastCombo(1, necromancerStartX -= .5, 112, COMBO_NECROMANCER_LEFT, 7, OP_OPAQUE);
+            }
+            else if (i < 112) {
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, necromancerStartX -= .5, 112, COMBO_NECROMANCER_LEFT, 7, OP_OPAQUE);
+               
+            }
+            else if (i < 143) {
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, necromancerStartX -= .5, 112, COMBO_NECROMANCER_LEFT, 7, OP_OPAQUE);
+               Screen->FastCombo(1, rightHandStartX -= .5, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+               
+            }
+            else if (i < 224){
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, necromancerStartX -= .5, 112, COMBO_NECROMANCER_LEFT, 7, OP_OPAQUE);
+               Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+            }
+            else {
+               Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+               Screen->FastCombo(1, necromancerStartX -= .5, 112, COMBO_NECROMANCER_LEFT, 7, OP_OPAQUE);
+               Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+            }
+            Waitframe();
+         }
+         
+         Hero->Dir = DIR_DOWN;
+         
+         for (int i = 0; i < 180; ++i) {
+            disableLink();
+            Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+            Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+            Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
+            Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+            Waitframe();
+         }
+         
+         Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+         Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+         Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
+         Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+         Screen->Message(244);
+         Waitframe();
+         
+         bool chose = false;
+         bool cursorOnYes = true;
+         int message = 251;
+         
+         until (chose) {
+            notDuringCutsceneLink();
+            
+            Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
+            
+            if (Input->Press[CB_LEFT] || Input->Press[CB_RIGHT]) {
+               message = cursorOnYes ? 251 : 252;
+               Audio->PlaySound(CURSOR_MOVEMENT_SFX);
+               cursorOnYes = !cursorOnYes;
+            }
+               
+            if (Input->Press[CB_A]) {
+               Audio->PlaySound(cursorOnYes ? 139 : 140);
+
+               for (int i = 0; i < 30; ++i) {
+                  Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
+                  Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
+                  Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
+                  
+                  Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+                  Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+                  Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
+                  Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+                  
+                  Waitframe();
+               }
+               chose = true;
+            }
+
+            Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
+            Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
+            Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
+            
+            Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+            Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+            Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
+            Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+            
+            Waitframe();
+         }
+         
+         Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
+         Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
+         Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
+         Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
+         
+         Screen->Message(message);
+         Waitframe();
+         
+         Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+      }
    }
 }
 
@@ -618,8 +804,8 @@ ffc script CapturedSequenceEscape {
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       int comboPos;
       
-      npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
-      npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2);
+      npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
+      npc soldier2 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
       
       switch(screenNumber) {
          case 1:

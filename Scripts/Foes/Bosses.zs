@@ -2060,8 +2060,6 @@ npc script TurnedHylianGeneral {
             this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
             FaceLink(this);
             
-            traceToScreen(0, 0, this->WeaponDamage);
-            
             if (i > dashFrames / 2)
                sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, this->WeaponDamage* .4);
                
@@ -2138,11 +2136,16 @@ npc script Egentem {
       
       unless (getScreenD(31, 0x43, 0))
          Quit();
-      
-      unless (getScreenD(0)) {
+         
+      if (getScreenD(31, 0x23, 0)) {
+         this->X = 120;
+         this->Y = 128;
+      }
+      else unless (getScreenD(0)) {
          introCutscene(this);
          setScreenD(0, true);
-      } else {
+      } 
+      else {
          this->X = 120;
          this->Y = 128;
          this->Dir = DIR_UP;

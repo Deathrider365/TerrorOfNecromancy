@@ -1523,7 +1523,9 @@ namespace EgentemNamespace {
       md->ComboD[7] = 0;
       md->ComboD[8] = 0;
       md->ComboD[167] = 0;
-      md->ComboD[167] = 0;
+      md->ComboD[168] = 0;
+      
+      setScreenD(1, true);
    }
    
    void introCutscene(npc this) {
@@ -1802,9 +1804,13 @@ namespace EgentemNamespace {
 
    ffc script EgentumGotcha {
       void run() {
+         if (getScreenD(31, 0x33, 1)) {
+            mapdata mapData = Game->LoadTempScreen(0);
+            mapData->ComboD[39] = 0;
+            mapData->ComboD[40] = 0;
+         }
+      
          while(true) {
-            //Will need to check if the screend of the boss room was set (egentum will set it upon death)
-            //and based on that change the switch combos in the triforce room 
             if (Screen->SecretsTriggered()) {
                // Audio->PlaySound(/*some laughing thing*/);
                Audio->PlayEnhancedMusic(NULL, 0);
@@ -1813,6 +1819,13 @@ namespace EgentemNamespace {
             
             Waitframe();
          }
+      }
+   }
+   
+   ffc script EgentemSomeoneLeftOops {
+      void run() {
+         if (getScreenD(31, 0x43, 0))
+            setScreenD(0, true);
       }
    }
 }
