@@ -444,6 +444,11 @@ namespace LeviathanNamespace {
 }
 
 namespace ShamblesNamespace {
+   CONFIG ATTACK_INITIAL_RUSH = -1;
+   CONFIG ATTACK_LINK_CHARGE = 0;
+   CONFIG ATTACK_BOMB_LOB = 1;
+   CONFIG ATTACK_SPAWN_ZAMBIES = 2;
+   
    bool firstRun = true;
 
    int moveMe() {
@@ -501,36 +506,20 @@ namespace ShamblesNamespace {
       ghost->DrawYOffset = -1000;
    }
 
-   int chooseAttack() {
-      int numEnemies = Screen->NumNPCs();
+   int chooseAttack(int attack) {
+      if (Screen->NumNPCs() >= 4) {
+         if (attack == ATTACK_INITIAL_RUSH)
+            attack = ATTACK_LINK_CHARGE;
+         else if (attack == ATTACK_LINK_CHARGE) 
+            attack = ATTACK_BOMB_LOB;
+         else if (attack == ATTACK_BOMB_LOB) {
+            attack = ATTACK_LINK_CHARGE;
+         }
+      } 
+      else
+         attack = ATTACK_INITIAL_RUSH;
       
-      if (numEnemies > 5)
-         return Rand(0, 1);
-      
-      return Rand(0, 2);	
-   }
-
-   void spawnZambos(ffc this, npc ghost) {
-      for (int i = 0; i < 3; ++i) {
-         Audio->PlaySound(SFX_SUMMON_MINE);
-         int zamboChoice = Rand(0, 2);
-         npc zambo;
-         
-         if (zamboChoice == 0)
-            zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1_POPUP);
-         else if (zamboChoice == 1)
-            zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
-         else
-            zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1_SPRINTING);
-            
-         int pos = moveMe();
-         
-         zambo->X = ComboX(pos);
-         zambo->Y = ComboY(pos);
-         
-         ShamblesWaitframe(this, ghost, 30);
-      
-      }	
+      return attack;
    }
 
    void ShamblesWaitframe(ffc this, npc ghost, int frames) {
