@@ -1,4 +1,4 @@
-NPCAnim.zh ver 1.1.0
+NPCAnim.zh ver 1.2.0
 
 +---------------+
 | What and Why? |
@@ -15,21 +15,30 @@ stick with.
 | How to use |
 +------------+
 
-All scripts using this sytem should start by declaring an array for storing
-animation data and calling the InitAnims function. Individual animations can then
-be defined with the AddAnim function. In order to update animations, there's a
-special Waitframe function that takes the npc pointer as an argument. If you have a
-custom waitframe function for your enemy, you can call UpdateAnims(this) in that
-instead. From there you can start an animation with the PlayAnim function.
-
+All scripts using this sytem should start by declaring an AnimHandler object 
+for storing animation data. Individual animations can then be defined with 
+the AddAnim function. In order to update animations, there's a special Waitframe
+function that takes the npc pointer as an argument. If you have a custom waitframe 
+function for your enemy, you can call NPCAnim::Waitframe() at the end of that 
+function in place of Waitframe(). From there you can start an animation with 
+the AnimHandler's PlayAnim() function. Here's a basic example:
 
 npc script Example{
 	using namespace NPCAnim;
-	void run(){
-		int aptr[ANIM_BUFFER_LENGTH];
-		InitAnims(this, aptr);
 
-		AddAnim(aptr, WALKING, 0, 4, 8, 0);
+	// Stick your animations in an enum of unique IDs
+	enum Animations{
+		WALKING,
+		ATTACKING
+	};
+	void run(){
+		// Declare the AnimHandler pointer
+		AnimHandler aptr = new AnimHandler(this);
+
+		// Add animations with the IDs from the enum
+		aptr->AddAnim(WALKING, 0, 4, 8, ADF_4WAY);
+		// Play an animation
+		aptr->PlayAnim(WALKING);
 
 		while(true){
 			Waitframe(this)
@@ -37,33 +46,42 @@ npc script Example{
 	}
 }
 
++-----------+
+| Functions |
++-----------+
+Several of the following functions run off the AnimHandler pointer, indicated by
+aptr-> in front. If you need to access this pointer outside of the run function, 
+for example in a custom waitframe, you can fetch it easily off the enemy:
+
+AnimHandler GetAnimHandler(npc n)
+ * Gets a pointer to the animhandler object from one of the NPC's Misc[] indices.
+ * Which index it's stored in is configurable with NPCM_ANIMPOINTER.
+
 +----------------+
 | Init Functions |
 +----------------+
 
-void InitAnims(npc n, int aptr)
- * This will set the animation pointer in the npc's NPCM_ANIMPOINTER misc index and  
- * set up some other things at the start of the script.
-
-void SetAnimSpriteHitbox(npc n, int w, int h, int top, int bottom, int left, 
-                         int right)
+void aptr->SetHitbox(int w, int h, int hitOffsets[], bool center=false)
  * Use this to quickly resize and adjust an enemy's damage hitbox.
  * w and h are the enemy's width and height in tiles.
- * top, bottom, left, and right are pixels to shave off each respective side of 
- * its hitbox, starting from the width and height of its tiles
-
-void SetAnimMovementHitbox(npc n, int top, int bottom, int left, int right)
- * Use this to adjust the enemy's hitbox for movement. 
- * Top, bottom, left, and right are pixels to shave off each respective side of
+ * hitOffsets[] is an an arry of pixels to shave off each respective side of 
  * its hitbox, starting from the width and height of its tiles.
+ * These go in the order of up, down, left, right.
+ * If center is true, the enemy will be repositioned after being resized.
+
+void aptr->SetMovementHitbox(int collOffsets[], bool center=false)
+ * Use this to adjust the enemy's hitbox for movement. 
+ * collOffsets[] is an array of pixels to shave off each respective side of
+ * its hitbox, starting from the width and height of its tiles.
+ * These go in the order of up, down, left, right.
  * Until this function is called, the movement and damage hitboxes are 
  * considered to be the same.
 
-int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, 
+int aptr->AddAnim(int animID, int tile, int numFrames, int aSpeed, 
             int loopFrame, int nextAnim, int flags)
-int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, 
+int aptr->AddAnim(int animID, int tile, int numFrames, int aSpeed, 
             int loopFrame, int flags)
-int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int flags)
+int aptr->AddAnim(int animID, int tile, int numFrames, int aSpeed, int flags)
  * Defines an animation. If animID is -1, will pick a new ID and return that, 
  * else pass it a unique animation ID constant. loopFrame is the frame to loop back
  * to when an animation ends. nextAnim is an animation to immediately play when 
@@ -80,7 +98,7 @@ int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int flags
  * ADF_NOLOOP
  *     The animation repeats its last frame when it finishes.
  * ADF_NORELATIVE
- *     The tile given for teh animation is absolute rather than relative to the 
+ *     The tile given for the animation is absolute rather than relative to the 
  *     original tile in the editor.
  * ADF_NORESET
  *     The animation doesn't reset when switched to another. May look odd if frame 
@@ -88,8 +106,24 @@ int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int flags
  * ADF_REVERSE
  *     The animation plays in reverse. loopFrame is then counted backwards from 
  *     the last frame.
+ * ADF_VERTICAL
+ *     When used alongside ADF_4WAY and ADF_8WAY, the directional animations are arranged
+ *     vertically instead of horizontally.
 
-void SetFakeShadow(npc n, int spr, int w, int h, int offset)
+void aptr->ExtendAnim(int animID, int tileW, int tileH, int hitOffsets[], int collOffsets[], int drawOffsets[], int posOffsets[])
+ * Extends an animation, so it can have a different width and height than the
+ * enemy's default size. Takes four array literals as arguments. Entering 0 for any
+ * of them will exclude them.
+ *
+ * hitOffsets[4] - A set of 4 hit offsets (top, bottom, left, right) base on the
+ *                 animation's tile width and height.
+ * collOffsets[4] - Same as above, but for collision with terrain. If these
+ *                  are unset but hitOffsets is, will be set to the same.
+ * drawOffsets[2] - An x,y offset for just the enemy's sprite. Can be used to
+ *                  place it up and left from its position.
+ * posOffsets[2] - These will offset the enemy's actual position when transformed.
+
+void aptr->SetFakeShadow(int spr, int w=1, int h=1, int offset=0)
  * Sets up a fake shadow sprite to draw under the enemy. w and h let you 
  * expand the size of the shadow and offset moves it down or up on the Y axis.
 
@@ -97,37 +131,38 @@ void SetFakeShadow(npc n, int spr, int w, int h, int offset)
 | Animation Functions |
 +---------------------+
 
-void PlayAnim(npc n, int animID, bool noReset)
-void PlayAnim(npc n, int animID)
- * This will play one of teh NPC's animations. animID is a constant or variable
+void aptr->PlayAnim(int animID, bool noReset=false)
+ * This will play one of the NPC's animations. animID is a constant or variable
  * defined by the user. If noReset is true, the animation will not reset the frame
  * and animation clock on the new animation.
  * If animID is -1, this will instead render the enemy invisible and invulnerable.
 
-void PlayDeathAnim(npc n, int spr, int w, int h, int sfx, bool noFreeze)
-void PlayDeathAnim(npc n, bool noFreeze)
-void PlayDeathAnim(npc n)
+void aptr->PlayDeathAnim(int spr, int w=1, int h=1, int sfx=0, bool freeze=false)
+void aptr->PlayDeathAnim(bool freeze=false)
  * Plays a simple explosion animation for bosses. If spr is > 0, will use a
  * sprite animation with size w and h and play an explosion sound specified by sfx.
- * If noFreeze is true, the enemy will keep animating while exploding.
+ * If freeze is false, the enemy will keep animating while exploding.
  * Note: This function requires npc->Immortal be set for it to work.
 
-void FaceLink(npc n, bool eightDirectional)
-void FaceLink(npc n)
+void FaceLink(npc n, bool eightDirectional=false)
  * Turns the enemy to face Link.
 
-bool AnimFinished(npc n)
+void FacePoint(npc n, bool eightDirectional=false)
+ * Turns the enemy to a point. 
+ * It's assumed that the object it's facing is the same size as the enemy.
+
+bool aptr->AnimFinished()
  * Returns true if the current playing animation is finished playing. 
  * This will return on a looped animation but not on one that has switched 
  * to a new animation with the nextAnim property.
 
-int GetCurAnim(npc n)
+int aptr->GetCurAnim()
  * This will return the enemy's current playing animation.
 
-int GetCurAnimFrame(npc n)
+int aptr->GetCurAnimFrame()
  * This will return the current animation frame of the currently playing animation.
 
-int SetAnimSpeed(npc n, int speed)
+void aptr->SetAnimSpeedMultiplier(int mult)
  * This will set a speed multiplier for all of the enemy's animations. 
  * 1 is the base speed and higher or lower will make it animate
  * faster or slower respectively.
@@ -136,14 +171,9 @@ int SetAnimSpeed(npc n, int speed)
 | Update Functions |
 +------------------+
 
-void UpdateAnims(npc n)
- * This will run the enemy's animation for the frame. As such it should only be 
- * called once per frame. All the replacement Waitframe functions call this by 
- * default.
-
 void Waitframe(npc n)
 void Waitframe(npc n, int frames)
- * A replacement waitframe that calls UpdateAnims as well.
+ * A replacement waitframe that updates animations for the frame.
 
 void Waitanim(npc n)
  * Waits until the enemy's current animation has ended. 
@@ -153,6 +183,9 @@ void Waitanim(npc n)
 void Waitanim(npc n, int animID)
  * Waits until the enemy's current animation is not animID.
 
+void Waitspawn(npc n)
+ * Waits until the enemy's spawn animation has finished
+
 +--------------------+
 | Movement Functions |
 +--------------------+
@@ -161,6 +194,8 @@ The following functions all have a moveStyle argument. This is one of several
 presets for making certain types of enemy movement. A hackish substitute for ghost's
 movement flags. You can also write your own with the CanMovePixelCustom function.
 
+ * AM_ZQ
+ *    Tries to replicate movement based on the enemy editor's Move Flags tab settings.
  * AM_NONE
  *    Typical walking behavior. Can't walk on solids, no enemy, liquids, pits, 
  *    warps, or offscreen
@@ -177,27 +212,36 @@ movement flags. You can also write your own with the CanMovePixelCustom function
  * AM_IGNOREALLOFFSCREEN
  *    Can move anywhere.
 
-bool CanMovePixel(int x, int y, int moveStyle)
+bool CanMovePixel(int x, int y, int moveStyle=AM_ZQ)
  * Returns true if a pixel position is walkable for the given moveStyle.
 
-bool CanMove(npc n, int dir, int moveStyle)
+bool CanMove(npc n, int dir, int moveStyle=AM_ZQ)
  * Returns true if the enemy can walk one pixel forward in the given direction.
 
-bool CanPlace(npc n, int x, int y, int moveStyle)
+bool CanMove8(npc n, int dir, int moveStyle=AM_ZQ, bool reqBoth=false)
+ * Same as the above  but accepts diagonal directions. 
+ * If reqBoth is true, it will return false if half of a diagonal is blocked.
+
+bool CanPlace(npc n, int x, int y, int moveStyle=AM_ZQ)
  * Returns true if the enemy can be placed at the given position.
 
-void MoveXY(npc n, int vx, int vy, int moveStyle)
+void MoveXY(npc n, int vx, int vy, int moveStyle=AM_ZQ)
  * Moves the enemy on the X and Y axis in the given moveStyle. 
  * Works similar to LinkMovement.zh.
 
-void MoveAtAngle(npc n, int angle, int step, int moveStyle)
+void MoveAtAngle(npc n, int angle, int step, int moveStyle=AM_ZQ)
  * Moves the enemy at an angle by a pixel step.
 
-void MoveTowardLink(npc n, int step, int moveStyle)
+void MoveTowardLink(npc n, int step, int moveStyle=AM_ZQ)
  * Moves the enemy toward Link by a pixel step.
 
-MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle)
+bool MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle=AM_ZQ)
  * Moves the enemy toward a point by a pixel step.
+ * It's assumed that the object it's moving toward is the same size as the enemy.
+ * Returns true if it has more to move, returning false when it hits the point.
+
+TryUnstickHitbox(npc n, int moveStyle=AM_ZQ)
+ * Tries to get the enemy unstuck if it has partially clipped into a wall.
 
 +-------------------+
 | Custom Movestyles |
@@ -216,11 +260,11 @@ These two functions are for reading and writing from the aptr array.
 They're mostly just for readability but if you need to access something 
 I didn't write another function for, be my guest:
 
-int GetAnimProperty(int aptr, int animID, int prop)
+int aptr->GetAnimProperty(int animID, int prop)
 * Gets property prop from animation animID in aptr. 
 * See the AnimDefIndex enum for the property constants.
 
-void SetAnimProperty(int aptr, int animID, int prop)
+void aptr->SetAnimProperty(int animID, int prop)
 * Sets property prop for animation animID in aptr to value. 
 * See the AnimDefIndex enum for the property constants.
 

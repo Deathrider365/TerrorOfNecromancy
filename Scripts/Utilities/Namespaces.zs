@@ -1442,6 +1442,18 @@ namespace EgentemNamespace {
    using namespace NPCAnim;
 
    CONFIG ANIM_SPEED = 16;
+   
+   // Hammer
+   CONFIG CMB_HAMMER = 7005;
+   CONFIG CSET_HAMMER = 8;
+   CONFIG SPIN_SPEED = 40;
+   CONFIG TURN_SPEED = 2.5;
+   
+   // Pillars
+   CONFIG D_LAUNCHED = 2;
+   CONFIG D_NO_DIE = 3;
+   CONFIG SPR_RISE = 136;
+   CONFIG SPR_CRACK = 137;
 
    enum Animations {
       WALKING,
@@ -1454,11 +1466,13 @@ namespace EgentemNamespace {
       int moveAngle;
       int moveTime;
       int cooldown;
+      int shieldHp;
       npc owner;
       
       Egentem(npc n) {
          owner = n;
          cooldown = 60;
+         shieldHp = 20;
       }
       
       void MoveMe(int startStepFrames = 48, int startCooldown = 60) {
@@ -1483,12 +1497,64 @@ namespace EgentemNamespace {
    }
    
    void CustomWaitframe(npc this, Egentem egentem, int frames = 1) {
-      if (this->HP <= 0) {
-         openShutters();
-      }
       for (int i = 0; i < frames; ++i) {
+         if (this->HP <= 0)
+            openShutters();
+            
+         handleShieldDamage(this, egentem);
          Waitframe(this);
       }
+   }
+   
+   void handleShieldDamage(npc this, Egentem egentem) {
+      if (egentem->shieldHp <= 0)
+         return;
+         
+      int weaponId = this->HitBy[HIT_BY_LWEAPON];
+      
+      if (Hero->Dir == OppositeDir(this->Dir) && weaponId) {
+         lweapon weapon = Screen->LoadLWeapon(weaponId);
+         
+         if (weapon->ID == LW_HAMMER) {
+            egentem->shieldHp -= weapon->Damage * 2; //(* 2)makes this compatible with jank
+            
+            if (egentem->shieldHp <= 0) {
+               this->BreakShield();
+               Audio->PlaySound(SFX_BOMB_BLAST);
+               AnimHandler aptr = GetAnimHandler(this);
+               
+               switch(aptr->GetCurAnim()) {
+                  case WALKING:
+                  case WALKING_SH:
+                     playAnim(aptr, egentem, WALKING);
+                     break;
+                  case STANDING:
+                  case STANDING_SH:
+                     playAnim(aptr, egentem, STANDING);
+                     break;
+               }
+               
+            } else {
+               Audio->PlaySound(SFX_SWORD_ROCK3);
+            }
+         }
+      }
+      
+   }
+   
+   void playAnim(AnimHandler aptr, Egentem egentem, int anim) {
+      if (egentem->shieldHp > 0) {
+         switch(anim) {
+            case WALKING:
+               anim = WALKING_SH;
+               break;
+            case STANDING:
+               anim = STANDING_SH;
+               break;
+         }
+      }
+      
+      aptr->PlayAnim(anim);
    }
    
    void closeShutters(npc this) {
@@ -1677,19 +1743,14 @@ namespace EgentemNamespace {
       xy->Y = y;
    }
    
-   void attackHammerSpin(npc this, Egentem egentem, bool shieldBroken) {
-      CONFIG CMB_HAMMER = 7005;
-      CONFIG CSET_HAMMER = 8;
-      CONFIG SPIN_SPEED = 40;
-      CONFIG TURN_SPEED = 2.5;
-      
+   void attackHammerSpin(npc this, Egentem egentem) {
       AnimHandler aptr = GetAnimHandler(this);
       int spinDir = Choose(-1, 1);
       int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y) + 30 * spinDir;
       int facingAngle = moveAngle;
       
       this->Dir = AngleDir4(facingAngle);
-      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      playAnim(aptr, egentem, STANDING);
       eweapon hitbox;
       
       // Holding hammer to some side
@@ -1735,10 +1796,10 @@ namespace EgentemNamespace {
          }
       }
       
-      aptr->PlayAnim(shieldBroken ? WALKING : WALKING_SH);
+      playAnim(aptr, egentem, WALKING);
    }
    
-   void attackHammerEruption(npc this, Egentem egentem, bool shieldBroken) {
+   void attackHammerEruption(npc this, Egentem egentem) {
       CONFIG D_ERUPT = 7;
       AnimHandler aptr = GetAnimHandler(this);
       Coordinates xy = new Coordinates();
@@ -1746,7 +1807,7 @@ namespace EgentemNamespace {
       int shockwaveSlot = Game->GetEWeaponScript("ShockWave");
       FaceLink(this);
       
-      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      playAnim(aptr, egentem, STANDING);
       
       hammerAnimHoldUp(this, xy, 30);
       hammerAnimSwing(this, xy);
@@ -1764,7 +1825,7 @@ namespace EgentemNamespace {
       
       int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
       
-      aptr->PlayAnim(shieldBroken ? WALKING : WALKING_SH);
+      playAnim(aptr, egentem, WALKING);
       
       for (int i = 0; i < 30; ++i) {
          this->MoveAtAngle(angle, 2, SPW_NONE);
@@ -1773,7 +1834,7 @@ namespace EgentemNamespace {
       }
       
       FaceLink(this);
-      aptr->PlayAnim(shieldBroken ? STANDING : STANDING_SH);
+      playAnim(aptr, egentem, STANDING);
       
       hammerAnimHoldUp(this, xy, 8);
       hammerAnimSwing(this, xy);
@@ -1789,6 +1850,227 @@ namespace EgentemNamespace {
       
       delete xy;
       // delete swt;
+   }
+
+   void attackThrowHammers(npc this, Egentem egentem) {
+      int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
+      FaceLink(this);
+      
+      for (int i = 0; i < 30; ++i) {
+         sword1x1(this->X, this->Y, angle, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
+         CustomWaitframe(this, egentem);
+      }
+      
+      for (int i = 0; i < 5; ++i) {
+         Audio->PlaySound(SFX_SWORD);
+         
+         for (int j = 0; j < 9; ++j) {
+            sword1x1(this->X, this->Y, angle + j * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);            
+            CustomWaitframe(this, egentem);
+         }
+         
+         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, this->WeaponDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_EGENTEM_HAMMER});
+      }
+   }
+   
+   void attackJumpToPillar(npc this, Egentem egentem) {
+      AnimHandler aptr = GetAnimHandler(this);
+      eweapon closestPillar = findPillar(this);
+      
+      unless (closestPillar->isValid())
+         return;
+         
+      closestPillar->InitD[D_NO_DIE] = true;
+      int tx = closestPillar->X + VectorX(16, Angle(Hero->X, Hero->Y, closestPillar->X, closestPillar->Y));
+      int ty = closestPillar->Y + VectorY(16, Angle(Hero->X, Hero->Y, closestPillar->X, closestPillar->Y));
+      
+      int oldX = this->X;
+      int oldY = this->Y;
+      
+      this->MoveXY(tx - this->X, ty - this->Y, SPW_NONE);
+      tx = this->X;
+      ty = this->Y;
+      
+      this->X = oldX;
+      this->Y = oldY;
+      
+      FaceLink(this);
+      
+      if (Distance(this->X, this->Y, tx, ty) < 32) {
+         playAnim(aptr, egentem, WALKING);
+         
+         for (int i = 0; i < 12 && Distance(this->X, this->Y, tx, ty) > 4; ++i) {
+            this->MoveAtAngle(Angle(this->X, this->Y, tx, ty), 4, SPW_NONE);
+            FaceLink(this);
+            CustomWaitframe(this, egentem);
+         }
+      }
+      else {
+         playAnim(aptr, egentem, WALKING);
+         int distance = Distance(this->X, this->Y, tx, ty);
+         this->Jump = 1.8;
+         
+         for (int i = 0; i < 24; ++i) {
+            this->MoveAtAngle(Angle(this->X, this->Y, tx, ty), distance / 24, SPW_NONE);
+            FaceLink(this);
+            CustomWaitframe(this, egentem);
+         }
+      }
+      
+      if (Distance(this->X, this->Y, tx, ty) < 8) {
+         int anglePillar = Angle(this->X, this->Y, closestPillar->X, closestPillar->Y);
+         Audio->PlaySound(SFX_SWORD);
+         
+         for (int i = 0; i < 9; ++i) {
+            sword1x1(this->X, this->Y, anglePillar - 90 + i * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
+            
+            if (i == 5)
+               closestPillar->InitD[D_LAUNCHED] = true;
+            
+            CustomWaitframe(this, egentem);
+         }
+
+         
+      }
+      
+      closestPillar->InitD[D_NO_DIE] = false;
+   }
+   
+   int numPillars() {
+      int slot = Game->GetEWeaponScript("EgentemPillar");
+      int count;
+      
+      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+         eweapon e = Screen->LoadEWeapon(i);
+         
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection)
+            ++count;
+      }
+      
+      return count;
+   }
+   
+   eweapon findPillar(npc this) {
+      int slot = Game->GetEWeaponScript("EgentemPillar");
+      eweapon closest;
+      int closestDistance = 1000;
+      
+      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+         eweapon e = Screen->LoadEWeapon(i);
+         
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection) {
+            int distEnemy = Distance(e->X, e->Y, this->X, this->Y);
+            int distLink = Distance(e->X, e->Y, Hero->X, Hero->Y);
+            
+            if (distEnemy + distLink < closestDistance) {
+               closestDistance = distEnemy + distLink;
+               closest = e;
+            }
+         }
+      }
+      
+      return closest;
+   }
+   
+   eweapon script EgentemPillar {
+      CONFIG TILE_ROTATING = 50104;
+      
+      void run(int delay, int upTime, bool launched, bool noDie) {
+         if (Screen->isSolid(this->X + 8, this->Y + 8))
+            this->Remove();
+         
+         this->Behind = true;
+         this->CollDetection = false;
+         this->UseSprite(SPR_CRACK);
+         
+         Waitframes(delay);
+            
+         this->Behind = false;
+         this->Extend = EXT_NORMAL;
+         this->TileHeight = 2;
+         this->DrawYOffset = -16;
+         this->HitYOffset = -16;
+         this->HitHeight = 32;
+         this->CollDetection = true;
+         this->UseSprite(SPR_RISE);
+         Audio->PlaySound(SFX_BOMB_BLAST);
+         
+         for (int i = 0; i < this->NumFrames * this->ASpeed - 1; ++i) {
+            this->DeadState = WDS_ALIVE;
+            Waitframe();
+         }
+         
+         this->Tile = this->OriginalTile;
+         this->NumFrames = 1;
+         this->ASpeed = 0;
+         
+         while(upTime > 0 || this->InitD[D_NO_DIE]) {
+            if (this->InitD[D_LAUNCHED])
+               break;
+            
+            this->DeadState = WDS_ALIVE;
+            Waitframe();
+         }
+         
+         if (this->InitD[D_LAUNCHED]) {
+            this->Y -= 8;
+            this->DrawXOffset = -8;
+            this->DrawYOffset = -8;
+            this->TileWidth = 2;
+            this->TileHeight = 2;
+            this->CollDetection = false;
+            this->UseSprite(57); //TODO set to constant
+            this->Angular = true;
+            
+            int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+            
+            for (int i = 0; i < 18; ++i) {
+               this->Rotation = WrapDegrees(angle + i * 20);
+               this->DeadState = WDS_ALIVE;
+               
+               Waitframe();
+            }
+
+            this->DegAngle = angle;
+            this->Step = 450;
+            
+            while (true) {
+               if (wallCollision(this)) {
+                  eweapon explosion = CreateEWeaponAt(EW_SBOMBBLAST, this->X, this->Y);
+                  explosion->Damage = this->Damage;
+               }
+               
+               this->Rotation = this->DegAngle; 
+               rotatingHitbox(this);
+               Waitframe();
+            }
+         }
+         
+         this->Remove();
+      }
+      
+      void rotatingHitbox(eweapon this) {
+         eweapon hitbox = CreateEWeaponAt(EW_SCRIPT10, this->X + VectorX(8, this->Rotation), this->Y + VectorY(8, this->Rotation));
+         hitbox->Damage = this->Damage;
+         hitbox->Unblockable = UNBLOCK_ALL;
+         hitbox->Timeout = 1;
+         hitbox->DrawYOffset = -1000;
+         
+         hitbox = CreateEWeaponAt(EW_SCRIPT10, this->X + VectorX(-8, this->Rotation), this->Y + VectorY(-8, this->Rotation));
+         hitbox->Damage = this->Damage;
+         hitbox->Unblockable = UNBLOCK_ALL;
+         hitbox->Timeout = 1;
+         hitbox->DrawYOffset = -1000;
+      }
+      
+      bool wallCollision(eweapon this) {
+         if (Screen->isSolid(this->X + 8, this->Y + 8))
+            return true;
+            
+         if (this->X < 0 || this->X > 240 || this->Y < 0 || this->Y > 160)
+            return true;
+      }
    }
 
    ffc script EgentumGotcha {

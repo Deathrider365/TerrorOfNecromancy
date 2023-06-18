@@ -145,6 +145,12 @@ eweapon script ArcingWeapon {
             case AE_RACCOON_PROJECTILE:
                npc n = CreateNPCAt(236, this->X, this->Y);
                break;
+            case AE_EGENTEM_HAMMER:
+               if (int escr = CheckEWeaponScript("EgentemPillar")) {
+                  eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0});
+                  pillar->Damage = 2;
+               }
+               break;
             case AE_DEBUG:
                this->Step = 0;
                
@@ -351,7 +357,6 @@ eweapon script ShockWave {
       this->Remove();
    }
 }
-
 
 
 

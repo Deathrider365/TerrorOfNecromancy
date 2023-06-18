@@ -554,6 +554,9 @@ enum ArcingWeaponEffects {
 	AE_ROCK_PROJECTILE,
 	AE_BOULDER_PROJECTILE,
 	AE_RACCOON_PROJECTILE,
+   
+   // Egentem
+   AE_EGENTEM_HAMMER,
 	
 	//Misc
 	AE_ARROW,

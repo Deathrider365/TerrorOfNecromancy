@@ -2213,23 +2213,23 @@ npc script Egentem {
       int maxHp = this->HP;
       this->CollDetection = false;
       
-      unless (getScreenD(31, 0x43, 0))
-         Quit();
+      // unless (getScreenD(31, 0x43, 0))
+         // Quit();
          
-      if (getScreenD(31, 0x23, 0)) {
-         this->X = 120;
-         this->Y = 128;
-      }
-      else unless (getScreenD(0)) {
-         introCutscene(this);
-         setScreenD(0, true);
-      } 
-      else {
+      // if (getScreenD(31, 0x23, 0)) {
+         // this->X = 120;
+         // this->Y = 128;
+      // }
+      // else unless (getScreenD(0)) {
+         // introCutscene(this);
+         // setScreenD(0, true);
+      // } 
+      // else {
          this->X = 120;
          this->Y = 128;
          this->Dir = DIR_UP;
-         aptr->PlayAnim(WALKING_SH);
-      }
+         playAnim(aptr, egentem, WALKING);
+      // }
       
       closeShutters(this);
       
@@ -2237,14 +2237,22 @@ npc script Egentem {
       
       while(true) {
          egentem->MoveMe();
+         attackThrowHammers(this, egentem);
          
-         int chosenAttack = Choose(-1, 1);
+         while (numPillars() > 0) {
+            attackJumpToPillar(this, egentem);
+            CustomWaitframe(this, egentem);
+         }
          
-         if (chosenAttack == -1)
-            attackHammerEruption(this, egentem, false);
-         else 
-            attackHammerSpin(this, egentem, false);
+         int chosenAttack = Rand(2);
          
+         if (chosenAttack == 0)
+            attackHammerEruption(this, egentem);
+         else if (chosenAttack == 1)
+            attackHammerSpin(this, egentem);
+         else
+            attackJumpToPillar(this, egentem);
+            
          CustomWaitframe(this, egentem, 1);
       }
    } 
