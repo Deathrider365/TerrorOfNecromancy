@@ -63,8 +63,8 @@ eweapon script ArcingWeapon {
       this->DrawYOffset = -1000;
       this->CollDetection = false;
       
-      if(effect) {
-         switch(effect) {
+      if (effect) {
+         switch (effect) {
             case AE_SMALLPOISONPOOL: 
                this->Step = 0;
                Audio->PlaySound(SFX_BOMB);
@@ -148,7 +148,8 @@ eweapon script ArcingWeapon {
             case AE_EGENTEM_HAMMER:
                if (int escr = CheckEWeaponScript("EgentemPillar")) {
                   eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0});
-                  pillar->Damage = 2;
+                  pillar->Damage = 4;
+                  pillar->Unblockable = UNBLOCK_ALL;
                }
                break;
             case AE_DEBUG:
@@ -333,6 +334,7 @@ eweapon script ShockWave {
          });
          
          child->Damage = this->Damage;
+         child->Unblockable = UNBLOCK_ALL;
       }
       
       

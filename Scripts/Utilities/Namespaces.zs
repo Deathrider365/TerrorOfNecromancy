@@ -55,7 +55,7 @@ namespace EnemyNamespace {
 				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
-            // Audio->EndSound(SFX_BOMB);
+            Audio->EndSound(SFX_BOMB);
 				Audio->PlaySound(SFX_POWDER_KEG_BLAST);
          }
          Waitframes(5);
@@ -65,7 +65,7 @@ namespace EnemyNamespace {
       Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
       
-      for(int i = Screen->NumNPCs(); i >= 1; i--) {
+      for (int i = Screen->NumNPCs(); i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          n->Remove();
       }
@@ -1455,6 +1455,13 @@ namespace EgentemNamespace {
    CONFIG SPR_RISE = 136;
    CONFIG SPR_CRACK = 137;
 
+   enum ATTACKS {
+      ATTACK_HAMMER_SPIN,
+      ATTACK_HAMMER_ERUPTION,
+      ATTACK_THROW_HAMMERS,
+      ATTACK_JUMP_TO_PILLAR
+   };
+
    enum Animations {
       WALKING,
       STANDING,
@@ -1472,7 +1479,7 @@ namespace EgentemNamespace {
       Egentem(npc n) {
          owner = n;
          cooldown = 60;
-         shieldHp = 20;
+         shieldHp = 30;
       }
       
       void MoveMe(int startStepFrames = 48, int startCooldown = 60) {
@@ -1496,14 +1503,56 @@ namespace EgentemNamespace {
       }
    }
    
-   void CustomWaitframe(npc this, Egentem egentem, int frames = 1) {
+   void EgentemWaitframe(npc this, Egentem egentem, int frames = 1) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
-            openShutters();
+            egentemDeathAnimation(this, SFX_OOT_STALFOS_DIE);
             
          handleShieldDamage(this, egentem);
          Waitframe(this);
       }
+   }
+   
+   void egentemDeathAnimation(npc n, int deathSound) { // TODO can still hear the normal bomb sfx behind explosions
+      n->Immortal = true;
+      n->CollDetection = false;
+      n->Stun = 9999;
+
+      int baseX = n->X + n->DrawXOffset;
+      int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
+      
+      Audio->PlaySound(deathSound);
+      
+      for(int i = 0; i < 45; i++) {
+         unless (i % 3) {
+				lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+				explosion->CollDetection = false;
+            Audio->EndSound(SFX_BOMB);
+				Audio->PlaySound(SFX_POWDER_KEG_BLAST);
+         }
+         Waitframes(5);
+      }
+      
+      openShutters();
+      
+      char32 areaMusic[256];
+      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Audio->PlayEnhancedMusic(areaMusic, 0);
+      
+      for (int i = Screen->NumEWeapons(); i >= 1; i--) {
+         eweapon e = Screen->LoadEWeapon(i);
+         e->Remove();
+      }
+      
+      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+         npc n = Screen->LoadNPC(i);
+         n->Remove();
+      }
+      
+      n->Immortal = false;
+      n->HP = 0;
    }
    
    void handleShieldDamage(npc this, Egentem egentem) {
@@ -1565,6 +1614,7 @@ namespace EgentemNamespace {
       }
    
       mapdata md = Game->LoadTempScreen(1);
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
       
       md->ComboD[7] = 6974;
       md->ComboD[8] = 6974;
@@ -1574,6 +1624,7 @@ namespace EgentemNamespace {
    
    void openShutters() {
       mapdata md = Game->LoadTempScreen(1);
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
       
       md->ComboD[7] = 0;
       md->ComboD[8] = 0;
@@ -1584,9 +1635,9 @@ namespace EgentemNamespace {
    }
    
    void introCutscene(npc this) {
-      // Audio->PlayEnhancedMusic(NULL, 0); //play something kool
+      Audio->PlayEnhancedMusic(NULL, 0);
       
-      while(Hero->Y > 128)
+      while (Hero->Y > 128 || Hero->Y < 112)
          Waitframe();
       
       this->X = 120;
@@ -1595,10 +1646,11 @@ namespace EgentemNamespace {
       
       AnimHandler aptr = GetAnimHandler(this);
       aptr->PlayAnim(WALKING);
+      Hero->Dir = DIR_UP;
       
-      for (int i = 0; i < 48; ++i) {
+      for (int i = 0; i < 90; ++i) {
          disableLink();
-         ++this->Y;
+         this->Y += .5;
          Waitframe(this);
       }
       
@@ -1609,17 +1661,27 @@ namespace EgentemNamespace {
          Waitframe(this);
       }
       
-      // do whatever such as dialogue
+      Screen->Message(334);
+      Waitframe();
       
-      aptr->PlayAnim(STANDING_SH);
-      //play shield sound
+      aptr->PlayAnim(STANDING_SH);      
+      Coordinates xy = new Coordinates();
       
       for (int i = 0; i < 32; ++i) {
          disableLink();
+         hammerFrame(this, 0, 0, xy);
          Waitframe(this);
       }
       
-      aptr->PlayAnim(WALKING_SH);
+      Screen->Message(337);
+      hammerFrame(this, 0, 0, xy);
+      Screen->Message(807);
+      Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
+      Waitframe();
+      
+      setScreenD(31, 0x23, 0, true);
+      
+      aptr->PlayAnim(STANDING_SH);
    }
    
    void hammerAnimHoldUp(npc this, Coordinates xy, int frames = 20) {
@@ -1755,8 +1817,8 @@ namespace EgentemNamespace {
       
       // Holding hammer to some side
       for (int i = 0; i < 45; ++i) {
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage /*TODO CHANGE*/);
-         CustomWaitframe(this, egentem);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
+         EgentemWaitframe(this, egentem);
       }
       
       bool linkGotHit;
@@ -1770,7 +1832,7 @@ namespace EgentemNamespace {
          if (i % (360 / SPIN_SPEED) == 0)
             Audio->PlaySound(SFX_SPINATTACK);
             
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage /*TODO CHANGE*/);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
          
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
          
@@ -1784,15 +1846,15 @@ namespace EgentemNamespace {
             }
          }
          
-         CustomWaitframe(this, egentem);
+         EgentemWaitframe(this, egentem);
       }
       
       if (linkGotHit) {
          yeetHero(Angle(this->X, this->Y, Hero->X, Hero->Y), 4, 200, true, true);
          
          for (int i = 0; i < 45; ++i) {
-            hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
-            CustomWaitframe(this, egentem);
+            hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
+            EgentemWaitframe(this, egentem);
          }
       }
       
@@ -1803,7 +1865,6 @@ namespace EgentemNamespace {
       CONFIG D_ERUPT = 7;
       AnimHandler aptr = GetAnimHandler(this);
       Coordinates xy = new Coordinates();
-      // ShockwaveType swt = new ShockwaveType(137, SFX_WALL_SMASH, 24, SFX_ARIN_SPLAT, 136);
       int shockwaveSlot = Game->GetEWeaponScript("ShockWave");
       FaceLink(this);
       
@@ -1819,6 +1880,7 @@ namespace EgentemNamespace {
             {137, SFX_WALL_SMASH, 8, SFX_ARIN_SPLAT, 136, 8, offset + i * 45, false}
          );
          wave->Damage = this->WeaponDamage;
+         wave->Unblockable = UNBLOCK_ALL;
       }
       
       hammerAnimSmash(this, xy, 45);
@@ -1830,7 +1892,7 @@ namespace EgentemNamespace {
       for (int i = 0; i < 30; ++i) {
          this->MoveAtAngle(angle, 2, SPW_NONE);
          
-         CustomWaitframe(this, egentem);
+         EgentemWaitframe(this, egentem);
       }
       
       FaceLink(this);
@@ -1849,28 +1911,30 @@ namespace EgentemNamespace {
       hammerAnimSmash(this, xy);
       
       delete xy;
-      // delete swt;
    }
 
-   void attackThrowHammers(npc this, Egentem egentem) {
+   void attackThrowHammers(npc this, Egentem egentem, int hammerCount, int hammerThrowDelay) {
       int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
       FaceLink(this);
       
       for (int i = 0; i < 30; ++i) {
-         sword1x1(this->X, this->Y, angle, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
-         CustomWaitframe(this, egentem);
+         sword1x1(this->X, this->Y, angle, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.25);
+         EgentemWaitframe(this, egentem);
       }
       
-      for (int i = 0; i < 5; ++i) {
+      for (int i = 0; i < hammerCount; ++i) {
          Audio->PlaySound(SFX_SWORD);
+         FaceLink(this);
          
          for (int j = 0; j < 9; ++j) {
-            sword1x1(this->X, this->Y, angle + j * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);            
-            CustomWaitframe(this, egentem);
+            sword1x1(this->X, this->Y, angle + j * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.25);            
+            EgentemWaitframe(this, egentem);
          }
          
-         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, this->WeaponDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, this->WeaponDamage * 1.25, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_EGENTEM_HAMMER});
+         
+         Waitframes(hammerThrowDelay);
       }
    }
    
@@ -1903,7 +1967,7 @@ namespace EgentemNamespace {
          for (int i = 0; i < 12 && Distance(this->X, this->Y, tx, ty) > 4; ++i) {
             this->MoveAtAngle(Angle(this->X, this->Y, tx, ty), 4, SPW_NONE);
             FaceLink(this);
-            CustomWaitframe(this, egentem);
+            EgentemWaitframe(this, egentem);
          }
       }
       else {
@@ -1914,7 +1978,7 @@ namespace EgentemNamespace {
          for (int i = 0; i < 24; ++i) {
             this->MoveAtAngle(Angle(this->X, this->Y, tx, ty), distance / 24, SPW_NONE);
             FaceLink(this);
-            CustomWaitframe(this, egentem);
+            EgentemWaitframe(this, egentem);
          }
       }
       
@@ -1923,15 +1987,13 @@ namespace EgentemNamespace {
          Audio->PlaySound(SFX_SWORD);
          
          for (int i = 0; i < 9; ++i) {
-            sword1x1(this->X, this->Y, anglePillar - 90 + i * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage);
+            sword1x1(this->X, this->Y, anglePillar - 90 + i * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.5);
             
             if (i == 5)
                closestPillar->InitD[D_LAUNCHED] = true;
             
-            CustomWaitframe(this, egentem);
+            EgentemWaitframe(this, egentem);
          }
-
-         
       }
       
       closestPillar->InitD[D_NO_DIE] = false;
@@ -2022,6 +2084,7 @@ namespace EgentemNamespace {
             this->CollDetection = false;
             this->UseSprite(57); //TODO set to constant
             this->Angular = true;
+            this->Damage = 6;
             
             int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
             
@@ -2037,7 +2100,7 @@ namespace EgentemNamespace {
             
             while (true) {
                if (wallCollision(this)) {
-                  eweapon explosion = CreateEWeaponAt(EW_SBOMBBLAST, this->X, this->Y);
+                  eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
                   explosion->Damage = this->Damage;
                }
                
@@ -2081,22 +2144,12 @@ namespace EgentemNamespace {
             mapData->ComboD[40] = 0;
          }
       
-         while(true) {
-            if (Screen->SecretsTriggered()) {
-               // Audio->PlaySound(/*some laughing thing*/);
-               Audio->PlayEnhancedMusic(NULL, 0);
-               setScreenD(0, true);
-            }
-            
+         until (Screen->SecretsTriggered())
             Waitframe();
-         }
-      }
-   }
-   
-   ffc script EgentemSomeoneLeftOops {
-      void run() {
-         if (getScreenD(31, 0x43, 0))
-            setScreenD(0, true);
+
+         // Audio->PlaySound(/*some laughing thing*/);
+         Audio->PlayEnhancedMusic(NULL, 0);
+         setScreenD(0, true);
       }
    }
 }

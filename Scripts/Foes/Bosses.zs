@@ -2213,52 +2213,144 @@ npc script Egentem {
       int maxHp = this->HP;
       this->CollDetection = false;
       
-      // unless (getScreenD(31, 0x43, 0))
-         // Quit();
-         
-      // if (getScreenD(31, 0x23, 0)) {
-         // this->X = 120;
-         // this->Y = 128;
-      // }
-      // else unless (getScreenD(0)) {
-         // introCutscene(this);
-         // setScreenD(0, true);
-      // } 
-      // else {
+      // Not yet activated Egentem yet
+      until (getScreenD(31, 0x43, 0)) {
+         this->X = -32;
+         this->Y = -32;
+         Waitframe();
+      }
+      
+      // You already triggered his trap and failed to defeat him once
+      if (getScreenD(31, 0x23, 0) && getScreenD(31, 0x43, 0)) {
+         Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
          this->X = 120;
          this->Y = 128;
          this->Dir = DIR_UP;
-         playAnim(aptr, egentem, WALKING);
-      // }
+         aptr->PlayAnim(STANDING_SH);
+      }
+      
+      // You activated his triforce trap, do intro
+      else if (!getScreenD(0)) {
+         introCutscene(this);
+         setScreenD(0, true);
+      }
       
       closeShutters(this);
-      
       this->CollDetection = true;
       
+      int heroDistances[10];
+      int heroActiveAItems[10];
+      int heroActiveBItems[10];
+      
+      attackThrowHammers(this, egentem, 10, 15);
+      
       while(true) {
-         egentem->MoveMe();
-         attackThrowHammers(this, egentem);
          
-         while (numPillars() > 0) {
-            attackJumpToPillar(this, egentem);
-            CustomWaitframe(this, egentem);
+         int trackerCount;
+         aptr->PlayAnim(egentem->shieldHp <= 0 ? WALKING : WALKING_SH);
+         
+         for (int i = 0; i < 180; ++i) {
+            egentem->MoveMe();
+         
+            unless (i % 18) {
+               heroDistances[trackerCount] = Distance(Hero->X, Hero->Y, this->X, this->Y);
+               heroActiveAItems[trackerCount] = Hero->ItemA;
+               heroActiveBItems[trackerCount] = Hero->ItemB;
+               trackerCount++;
+            }
+         
+            EgentemWaitframe(this, egentem);
          }
          
-         int chosenAttack = Rand(2);
+         EgentemWaitframe(this, egentem, 60);
          
-         if (chosenAttack == 0)
+         trackerCount = 0;
+         int avgDistances;
+         int totalDistances;
+         int meleeCount;
+         int aggressiveCount;
+         int candleCount;
+         
+         for (int i = 0; i < 10; ++i)
+            totalDistances += heroDistances[i];
+         
+         avgDistances = totalDistances / 10;
+         
+         for (int i = 0; i < 10; ++i) {
+            if (heroActiveAItems[i] == 10 || heroActiveBItems[i] == 10)
+               candleCount++;
+               
+            if (heroActiveAItems[i] == 3 || heroActiveAItems[i] == 5 || heroActiveAItems[i] == 10 || heroActiveAItems[i] == 147)
+               meleeCount++;
+            else if (heroActiveBItems[i] == 3 || heroActiveBItems[i] == 5 || heroActiveBItems[i] == 10 || heroActiveBItems[i] == 147)
+               meleeCount++;
+         }
+         
+         for (int i = 0; i < 10; ++i) {
+            if (heroActiveAItems[i] == 3 || heroActiveAItems[i] == 5 || heroActiveAItems[i] == 10 || heroActiveAItems[i] == 147)
+               aggressiveCount++;
+            else if (heroActiveBItems[i] == 3 || heroActiveBItems[i] == 5 || heroActiveBItems[i] == 10 || heroActiveBItems[i] == 147)
+               aggressiveCount++;
+         }
+         
+         if (candleCount == 10) {
+            aptr->PlayAnim(egentem->shieldHp <= 0 ? STANDING : STANDING_SH);
             attackHammerEruption(this, egentem);
-         else if (chosenAttack == 1)
-            attackHammerSpin(this, egentem);
-         else
-            attackJumpToPillar(this, egentem);
+            attackThrowHammers(this, egentem, 5, 1);
+         }
+         
+         if (numPillars() > 15) {
+            aptr->PlayAnim(egentem->shieldHp ? WALKING : WALKING_SH);
             
-         CustomWaitframe(this, egentem, 1);
+            for (int i = 0; i < (numPillars() * .9); ++i)
+               attackJumpToPillar(this, egentem);
+         }
+            
+         if (egentem->shieldHp > 0) {
+            if (avgDistances > 48) {
+               attackHammerSpin(this, egentem);
+               attackThrowHammers(this, egentem, 5, 10);
+               
+               for (int i = 0; i < numPillars() / 2; ++i)
+                  attackJumpToPillar(this, egentem);
+            }
+            else if (meleeCount > 7) {
+               attackHammerSpin(this, egentem);
+               attackHammerEruption(this, egentem);
+            }
+            else {
+               attackThrowHammers(this, egentem, 15, 10);
+               
+               for (int i = 0; i < numPillars() / 2; ++i)
+                  attackJumpToPillar(this, egentem);
+            }
+         }
+         else {
+            if (avgDistances > 48) {
+               attackHammerSpin(this, egentem);
+               attackThrowHammers(this, egentem, 5, 10);
+               
+               for (int i = 0; i < numPillars() / 2; ++i)
+                  attackJumpToPillar(this, egentem);
+            }
+            else if (meleeCount > 7) {
+               attackHammerEruption(this, egentem);
+               attackHammerSpin(this, egentem);
+               attackHammerEruption(this, egentem);
+               attackThrowHammers(this, egentem, 5, 10);
+            }
+            else {
+               attackThrowHammers(this, egentem, 15, 10);
+               
+               for (int i = 0; i < numPillars() / 2; ++i)
+                  attackJumpToPillar(this, egentem);
+            }
+         }
+         
+         EgentemWaitframe(this, egentem, 1);
       }
    } 
 }
-
-
 
 
 @Author("Deathrider365")
