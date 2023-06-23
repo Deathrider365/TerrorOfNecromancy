@@ -303,6 +303,7 @@ global script GlobalScripts {
    }
 }
 
+@Author("EmilyV99, Deathrider365")
 global script OnLaunch {
    void run() {
       lastPal = -1;
@@ -321,13 +322,19 @@ global script OnLaunch {
    }
 }
 
+@Author("Deathrider365")
 global script onF6Menu {
    void run() {
       onContHP = Hero->HP;
       onContMP = Hero->MP;
+      
+      if (SizeOfArray(stolenLinkItems))
+         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+            Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
+@Author("Deathrider365")
 global script onContGame {
    void run() {
       subscreenYOffset = -224;
@@ -339,6 +346,32 @@ global script onContGame {
          Hero->HP = Hero->MaxHP;
          Hero->MP = Hero->MaxMP;		
       }
+      
+      if (SizeOfArray(stolenLinkItems))
+         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+            Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
+@Author("Deathrider365")
+global script onSave {
+   void run() {
+      if (SizeOfArray(stolenLinkItems))
+         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+            Hero->Item[stolenLinkItems[i]] = true;
+   }
+}
+
+@Author("Deathrider365")
+global script onSaveLoad {
+   void run() {
+
+   }
+}
+
+@Author("Deathrider365")
+global script onExit {
+   void run() {
+
+   }
+}

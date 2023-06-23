@@ -306,3 +306,52 @@ itemsprite script ArcingItemSprite {
       this->Pickup |= IP_TIMEOUT;
    }
 }
+
+itemsprite script ArcingItemSprite2 {
+   void run(int angle, int step, int initJump, int gravity) {
+      int x = this->X;
+      int y = this->Y;
+      int jump = initJump;
+      bool timeout = this->Pickup & IP_TIMEOUT;
+      int linkDistance = Distance(Hero->X + Rand(-16, 16), Hero->Y + Rand(-16, 16), this->X, this->Y);
+
+      this->Gravity = false;
+      this->Pickup ~= IP_TIMEOUT;
+      this->Pickup |= IP_DUMMY;
+
+      if (initJump == -1 && gravity == 0)
+         jump = getJumpLength(linkDistance / (step), true);
+
+      unless (gravity)
+         gravity = Game->Gravity[GR_STRENGTH];
+
+      lweapon l = Screen->CreateLWeapon(LW_SCRIPT1);
+      l->Flags[WFLAG_BREAKS_ON_SOLID] = true;
+      l->CollDetection = false;
+      l->DrawXOffset = 9999;
+
+      while(jump > 0 || this->Z > 0) {
+         x += VectorX(step, angle);
+         y += VectorY(step, angle);
+         l->X = x + VectorX(step, angle) * 3;
+         l->Y = y + VectorY(step, angle) * 3;
+         this->X = x;
+         this->Y = y;
+         this->Z += jump;
+         jump -= gravity;
+         Waitframe();
+         
+         unless (l->isValid())
+            break;
+      }
+      
+      this->Pickup ~= IP_DUMMY;
+      this->Gravity = true;
+      
+      if (l->isValid())
+         l->Remove();
+      
+      if (timeout)
+         this->Pickup |= IP_TIMEOUT;
+   }
+}

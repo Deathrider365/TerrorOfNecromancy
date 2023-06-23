@@ -22,6 +22,8 @@ bitmap darknessBitmap;
 bitmap overheadBitmaps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
+int stolenLinkItems[255];
+
 //end
 
 //~~~~~Typedefs~~~~~//

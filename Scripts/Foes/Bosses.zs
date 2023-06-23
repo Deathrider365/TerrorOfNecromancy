@@ -2352,6 +2352,101 @@ npc script Egentem {
    } 
 }
 
+@Author("EmilyV99, Deathrider365")
+npc script BanditBoss {
+   using namespace EnemyNamespace;
+   using namespace NPCAnim;
+   
+   void run() {
+      disableLink();
+      
+      until (this->Z == 0)
+         Waitframe();
+      
+      // Screen->Quake = 20;
+      // Audio->PlaySound(SFX_BOMB_BLAST);
+      
+      // Waitframes(30);
+      
+      // disableLink();
+      
+      // unless (getScreenD(255)) {
+         // Screen->Message(805);
+         // setScreenD(255, true);
+      // }
+      
+      int heroHp = Hero->HP;
+      int attackCooldown = 120;
+      
+      while(true) {
+         if (this->HP <= 0)
+            deathAnimation(this, 136);
+         
+         this->Slide();
+         doWalk(this, this->Random, this->Homing, this->Step);
+         
+         unless (attackCooldown) {
+            Waitframes(30);
+            
+            bool stolen = false;
+            
+            until (stolen) {
+               FaceLink(this);
+               int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+               this->MoveAtAngle(angle, 4, SPW_NONE);
+               
+               if (Collision(this)) {
+                  int numExistingStolenItems = 0;
+                  
+                  for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+                     if (stolenLinkItems[i])
+                        ++numExistingStolenItems;
+                  
+                  if (Hero->ItemA)
+                     stolenLinkItems[numExistingStolenItems] = Hero->ItemA;
+                  if (Hero->ItemB)
+                     stolenLinkItems[numExistingStolenItems + 1] = Hero->ItemB;
+                  
+                  if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
+                     if (Hero->ItemA) {
+                        itemsprite item1 = RunItemSpriteScriptAt(Hero->ItemA, scr, this->X, this->Y, {
+                           Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y), 
+                           5, 2, 0
+                        });
+                        item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+                     }
+                     
+                     if (Hero->ItemB) {
+                        itemsprite item2 = RunItemSpriteScriptAt(Hero->ItemB, scr, this->X, this->Y, {
+                           Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y), 
+                           5, 2, 0
+                        });
+                     
+                        item2->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+                     }
+                  }
+                  
+                  Hero->Item[Hero->ItemA] = false;
+                  Hero->Item[Hero->ItemB] = false;
+                  
+                  stolen = true;
+               }
+               
+               Waitframe();
+            }
+            
+            attackCooldown = 120;
+         }
+         
+         --attackCooldown;
+         
+         Waitframe();
+      }
+   }
+   
+   // void stealItems(bool both)
+}
+
 
 @Author("Deathrider365")
 npc script Demonwall {
