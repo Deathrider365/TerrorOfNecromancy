@@ -2355,13 +2355,20 @@ npc script Egentem {
 @Author("EmilyV99, Deathrider365")
 npc script BanditBoss {
    using namespace EnemyNamespace;
+   using namespace BanditBossNamespace;
    using namespace NPCAnim;
    
    void run() {
       disableLink();
+      AnimHandler aptr = new AnimHandler(this);
+      BanditBoss bandit = new BanditBoss(this);
+      CONFIG WALKING = 0;
+      CONFIG ANIM_SPEED = 4;
+      
+      aptr->AddAnim(WALKING, 0, 4, ANIM_SPEED, ADF_4WAY);
       
       until (this->Z == 0)
-         Waitframe();
+         Waitframe(this);
       
       // Screen->Quake = 20;
       // Audio->PlaySound(SFX_BOMB_BLAST);
@@ -2386,65 +2393,22 @@ npc script BanditBoss {
          doWalk(this, this->Random, this->Homing, this->Step);
          
          unless (attackCooldown) {
-            Waitframes(30);
+            charge(this, bandit);
             
-            bool stolen = false;
+            if (Screen->NumItems() && bandit->numItems < 5)
+               seekItem(this, bandit);
             
-            until (stolen) {
-               FaceLink(this);
-               int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
-               this->MoveAtAngle(angle, 4, SPW_NONE);
-               
-               if (Collision(this)) {
-                  int numExistingStolenItems = 0;
-                  
-                  for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-                     if (stolenLinkItems[i])
-                        ++numExistingStolenItems;
-                  
-                  if (Hero->ItemA)
-                     stolenLinkItems[numExistingStolenItems] = Hero->ItemA;
-                  if (Hero->ItemB)
-                     stolenLinkItems[numExistingStolenItems + 1] = Hero->ItemB;
-                  
-                  if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
-                     if (Hero->ItemA) {
-                        itemsprite item1 = RunItemSpriteScriptAt(Hero->ItemA, scr, this->X, this->Y, {
-                           Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y), 
-                           5, 2, 0
-                        });
-                        item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
-                     }
-                     
-                     if (Hero->ItemB) {
-                        itemsprite item2 = RunItemSpriteScriptAt(Hero->ItemB, scr, this->X, this->Y, {
-                           Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y), 
-                           5, 2, 0
-                        });
-                     
-                        item2->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
-                     }
-                  }
-                  
-                  Hero->Item[Hero->ItemA] = false;
-                  Hero->Item[Hero->ItemB] = false;
-                  
-                  stolen = true;
-               }
-               
-               Waitframe();
-            }
+            if (bandit->numItems)
+               attackWithItem(this, bandit, bandit->stolenItems[0]);
             
             attackCooldown = 120;
+            BanditWaitframe(this, bandit, 30);
          }
          
          --attackCooldown;
-         
-         Waitframe();
+         BanditWaitframe(this, bandit);
       }
    }
-   
-   // void stealItems(bool both)
 }
 
 

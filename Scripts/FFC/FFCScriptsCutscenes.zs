@@ -739,55 +739,13 @@ ffc script CapturedSequenceImprisioned {
          
          bool chose = false;
          bool cursorOnYes = true;
-         int message = 251;
-         
-         until (chose) {
-            notDuringCutsceneLink();
-            
-            Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
-            
-            if (Input->Press[CB_LEFT] || Input->Press[CB_RIGHT]) {
-               message = cursorOnYes ? 251 : 252;
-               Audio->PlaySound(CURSOR_MOVEMENT_SFX);
-               cursorOnYes = !cursorOnYes;
-            }
-               
-            if (Input->Press[CB_A]) {
-               Audio->PlaySound(cursorOnYes ? 139 : 140);
-
-               for (int i = 0; i < 30; ++i) {
-                  Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
-                  Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
-                  Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
-                  
-                  Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
-                  Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
-                  Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
-                  Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
-                  
-                  Waitframe();
-               }
-               chose = true;
-            }
-
-            Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
-            Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
-            Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
-            
-            Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
-            Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
-            Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
-            Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
-            
-            Waitframe();
-         }
          
          Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
          Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
          Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
          Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
          
-         Screen->Message(message);
+         Screen->Message(252);
          Waitframe();
          
          Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
@@ -1019,7 +977,7 @@ ffc script CapturesSequenceRightHand {
             Waitframe();            
          }
       }
-            
+      
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer2 = Game->LoadTempScreen(3);
       Audio->PlayEnhancedMusic(NULL, 0);

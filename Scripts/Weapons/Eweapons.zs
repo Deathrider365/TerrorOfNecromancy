@@ -238,6 +238,15 @@ eweapon sword1x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) 
    return makeHitbox(x, y, 16, 16, dmg);
 }
 
+eweapon sword1x1Tile(int x, int y, int angle, int dist, int tile, int cset, int dmg) {
+   x += VectorX(dist, angle);
+   y += VectorY(dist, angle);
+
+   Screen->DrawTile(2, x, y, tile, 1, 1, cset, -1, -1, x, y, angle, 0, true, OP_OPAQUE);
+
+   return makeHitbox(x, y, 16, 16, dmg);
+}
+
 eweapon sword1x1Persistent(eweapon hitbox, int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
    x += VectorX(dist, angle);
    y += VectorY(dist, angle);
@@ -360,6 +369,116 @@ eweapon script ShockWave {
    }
 }
 
+@Author("Moosh")
+eweapon script Boomerang {
+   void run(int travelTime, int slowTime, int stun, npc parent) {
+      int step = this->Step;
+      int brangSfxTiming = 15;
+      this->Unblockable = UNBLOCK_ALL;
+      bool bounced;
+
+      for (int i = 0; i < travelTime; ++i) {
+         this->DeadState = WDS_ALIVE;
+         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         
+         unless (this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
+            bounced = true;
+            break;
+         }
+         
+         unless(gameframe % brangSfxTiming)
+            Audio->PlaySound(SFX_BRANG);
+         
+         if (hitId) {
+            eweapon e = Screen->LoadEWeapon(hitId);
+            
+            if (e == this) {
+               Hero->Stun = Max(Hero->Stun, stun);
+               break;
+            }
+         }
+         
+         Waitframe();
+      }
+      
+      for (int i = 0; i < slowTime && !bounced; ++i) {
+         this->Step = Lerp(step, 0, i / slowTime);
+         this->DeadState = WDS_ALIVE;
+         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         
+         unless (this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
+            bounced = true;
+            break;
+         }
+         
+         unless(gameframe % brangSfxTiming)
+            Audio->PlaySound(SFX_BRANG);
+         
+         if (hitId) {
+            eweapon e = Screen->LoadEWeapon(hitId);
+            
+            if (e == this) {
+               Hero->Stun = Max(Hero->Stun, stun);
+               break;
+            }
+         }
+         
+         Waitframe();
+      }
+      
+      this->DegAngle += 180;
+      
+      for (int i = 0; i < slowTime; ++i) {
+         if (parent->isValid())
+            this->DegAngle = Angle(this->X, this->Y, CenterX(parent) - 8, CenterY(parent) - 8);
+         
+         this->Step = Lerp(0, step, i / slowTime);
+         this->DeadState = WDS_ALIVE;
+         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         
+         unless(gameframe % brangSfxTiming)
+            Audio->PlaySound(SFX_BRANG);
+            
+         if (hitId) {
+            eweapon e = Screen->LoadEWeapon(hitId);
+            
+            if (e == this)
+               Hero->Stun = Max(Hero->Stun, stun);
+         }
+         
+         Waitframe();
+      }
+      
+      this->Step = step;
+      
+      while (true) {
+         if (parent->isValid()) {
+            this->DegAngle = Angle(this->X, this->Y, CenterX(parent) - 8, CenterY(parent) - 8);
+            
+            if (Distance(this->X, this->Y, CenterX(parent) - 8, CenterY(parent) - 8) < step / 100)
+               this->Remove();
+         }
+         
+         if (this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
+            this->DeadState = WDS_ALIVE;
+         }
+         
+         unless(gameframe % brangSfxTiming)
+            Audio->PlaySound(SFX_BRANG);
+         
+         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         
+         if (hitId) {
+            eweapon e = Screen->LoadEWeapon(hitId);
+            
+            if (e == this)
+               Hero->Stun = Max(Hero->Stun, stun);
+         }
+         
+         Waitframe();
+      }
+   }
+}
 
 
 

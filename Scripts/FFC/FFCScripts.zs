@@ -245,7 +245,7 @@ ffc script BattleArena {
                   break;
                case 5:
                   playBossTheme(arenaListNum);
-                  setEnemies({ ENEMY_OVERGROWN_RACCOON });
+                  setEnemies({ ENEMY_THIEF_BOSS });
                   shouldReturn = true;
                   break;
             }

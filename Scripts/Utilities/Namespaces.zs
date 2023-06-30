@@ -2154,6 +2154,239 @@ namespace EgentemNamespace {
    }
 }
 
+namespace BanditBossNamespace {
+   using namespace EnemyNamespace;
+   using namespace NPCAnim;
+   
+   class BanditBoss {
+      npc owner;
+      int numItems;
+      int stolenItems[5];
+      int hitCounter;
+      int attackCooldown;
+      bool canDropItem;
+      
+      BanditBoss(npc bandit) {
+         owner = bandit;
+         hitCounter = 2;
+         attackCooldown = 120;
+      }
+      
+      void update() {
+         if (numItems > 0) {
+            int weaponId = owner->HitBy[HIT_BY_LWEAPON];
+            
+            if (weaponId) {
+               --hitCounter;
+               
+               if (hitCounter <= 0) {
+                  if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
+                     itemsprite item1 = RunItemSpriteScriptAt(stolenItems[0], scr, owner->X, owner->Y, {
+                        Angle(Hero->X + 8, Hero->Y + 8, owner->X, owner->Y), 
+                        2, 4, 0
+                     });
+                     item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+                     dropItem();
+                     hitCounter = 2;
+                  }
+               }
+            }
+         }
+      }
+      
+      void stealItem(int itemId) {
+         stolenItems[numItems] = stolenItems[0];
+         stolenItems[0] = itemId;
+         ++numItems;
+      }
+      
+      void dropItem() {
+         stolenItems[0] = stolenItems[numItems - 1];
+         --numItems;
+      }
+   }
+
+   void BanditWaitframe(npc this, BanditBoss banditBoss, int frames = 1) {
+      for (int i = 0; i < frames; ++i) {
+         banditBoss->update();
+         Waitframe(this);
+      }
+   }
+      
+   void charge(npc this, BanditBoss bandit) {
+      bool stolen;
+      
+      until (stolen) {
+         FaceLink(this);
+         int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+         this->MoveAtAngle(angle, 4, SPW_NONE);
+         
+         if (Collision(this)) {
+            int numExistingStolenItems = 0;
+            
+            for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+               if (stolenLinkItems[i])
+                  ++numExistingStolenItems;
+            
+            if (Hero->ItemA)
+               stolenLinkItems[numExistingStolenItems] = Hero->ItemA;
+            if (Hero->ItemB)
+               stolenLinkItems[numExistingStolenItems + 1] = Hero->ItemB;
+            
+            if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
+               if (Hero->ItemA) {
+                  itemsprite item1 = RunItemSpriteScriptAt(Hero->ItemA, scr, this->X, this->Y, {
+                     Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y) - 10 - Rand(30), 
+                     2, 3, 0
+                  });
+                  item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+               }
+               
+               if (Hero->ItemB) {
+                  itemsprite item2 = RunItemSpriteScriptAt(Hero->ItemB, scr, this->X, this->Y, {
+                     Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y) + 10 + Rand(30), 
+                     2, 3, 0
+                  });
+               
+                  item2->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+               }
+            }
+            
+            Hero->Item[Hero->ItemA] = false;
+            Hero->Item[Hero->ItemB] = false;
+            
+            stolen = true;
+         }
+         
+         BanditWaitframe(this, bandit);
+      }
+   }
+
+   void seekItem(npc this, BanditBoss bandit) {
+      while (Screen->NumItems() && !itemsUpForGrabs())
+         BanditWaitframe(this, bandit, 16);
+   
+      while (itemsUpForGrabs() && bandit->numItems < 5) {
+         itemsprite itm = getClosestItem(this);
+         this->Dir = AngleDir4(Angle(this->X, this->Y, itm->X, itm->Y));
+         
+         while(itm->isValid() && Distance(itm->X, itm->Y, this->X, this->Y) > 8) {
+            this->MoveAtAngle(Angle(this->X, this->Y, itm->X, itm->Y), this->Step / 50, SPW_NONE);
+            BanditWaitframe(this, bandit);
+         }
+         
+         if (itm->isValid() && Collision(this, itm)) {
+            Audio->PlaySound(SFX_PICKUP);
+            bandit->stealItem(itm->ID);
+            itm->Remove();
+         }
+         
+         BanditWaitframe(this, bandit, 16);
+      }
+   }
+   
+   int itemsUpForGrabs() {
+      int count;
+      
+      for (int i = Screen->NumItems(); i > 0; --i) {
+         itemsprite itm = Screen->LoadItem(i);
+         
+         if (itm ->Z == 0)
+            ++count;
+      }
+      
+      return count;
+   }
+   
+   itemsprite getClosestItem(npc this) {
+      itemsprite closestItem;
+      int closestDist = 1000;
+      
+      for (int i = Screen->NumItems(); i > 0; --i) {
+         itemsprite itm = Screen->LoadItem(i);
+         int dist = Distance(itm->X, itm->Y, this->X, this->Y) + Rand(8);
+         
+         if (dist < closestDist) {
+            closestDist = dist;
+            closestItem = itm;
+         }
+      }
+      
+      return closestItem;
+   }
+
+   void attackWithItem(npc this, BanditBoss bandit, int itemId) {
+      itemdata id = Game->LoadItemData(itemId);
+      spritedata spr = Game->LoadSpriteData(id->Sprites[0]);
+      
+      switch(itemId) {
+         case I_SWORD1:
+         case I_SWORD2:
+         case I_SWORD3:
+            swordSlash(this, bandit, spr->Tile + 1, spr->CSet);
+            break;
+         case I_BRANG1:
+         case I_BRANG2:
+         case I_BRANG3:
+            FaceLink(this);
+            eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {
+               48,
+               10,
+               0,
+               this
+            });
+            
+            while(boomer->isValid())
+               BanditWaitframe(this, bandit);
+               
+            break;
+         case I_BOMB:
+         
+            break;
+         case I_ARROW1:
+         case I_ARROW2:
+         
+            break;
+         case I_CANDLE1:
+         case I_CANDLE2:
+         
+            break;
+         case I_WHISTLE:
+            //wind
+            break;
+         case I_POTION1:
+         case I_POTION2:
+            //either self heal or disrespect
+            break;
+      }
+   }
+   
+   void swordSlash(npc this, BanditBoss bandit, int tile, int cset) {
+      int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+      int dashFrames = 12;
+      int damage = 6;
+      
+      for (int i = 0; i < dashFrames; ++i) {
+         FaceLink(this);
+         this->MoveAtAngle(moveAngle, 3, 0);
+         
+         if (i > dashFrames / 2)
+            sword1x1Tile(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, tile, cset, damage);
+            
+         BanditWaitframe(this, bandit);
+      }
+      
+      Audio->PlaySound(SFX_SWORD);
+      
+      for (int i = 0; i <= 12; ++i) {
+         FaceLink(this);
+         this->MoveAtAngle(moveAngle, 3, 0);
+         sword1x1Tile(this->X, this->Y, moveAngle - 90 + 15 * i, 16, tile, cset, damage);
+         BanditWaitframe(this, bandit);
+      }
+   }
+}
+
 namespace WaterPathsNamespace {
    typedef const int DEFINE;
    typedef const int CONFIG;
