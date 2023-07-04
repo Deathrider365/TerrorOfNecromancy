@@ -218,6 +218,13 @@ ffc script BattleArena {
                   break;
                case 2:
                   setEnemies({
+                     ENEMY_BAT,
+                     ENEMY_BAT,
+                     ENEMY_BAT
+                  });
+                  break;
+               case 3:
+                  setEnemies({
                      ENEMY_ARMOS_LV1,
                      ENEMY_ARMOS_LV1,
                      ENEMY_ARMOS_LV1,
@@ -225,12 +232,6 @@ ffc script BattleArena {
                      ENEMY_ARMOS_LV2,
                      ENEMY_ARMOS_LV2,
                      ENEMY_ARMOS_LV2
-                  });
-                  break;
-               case 3:
-                  setEnemies({
-                     ENEMY_CANDLEHEAD_CHUNGO,
-                     ENEMY_CANDLEHEAD_CHUNGO
                   });
                   break;
                case 4:
@@ -282,6 +283,9 @@ ffc script BattleArena {
    void playBossTheme(int arenaListNum) {
       switch(arenaListNum) {
          case 0:
+            Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0);
+            break;
+         case 1:
             Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0);
             break;
       }
@@ -350,7 +354,7 @@ ffc script Thrower {
                   it->Pickup |= IP_TIMEOUT;
                }
             } else {
-               if (!projectileType)
+               if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
                eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);

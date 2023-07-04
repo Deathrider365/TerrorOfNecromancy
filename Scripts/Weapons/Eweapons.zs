@@ -65,7 +65,10 @@ eweapon script ArcingWeapon {
       
       if (effect) {
          switch (effect) {
-            case AE_SMALLPOISONPOOL: 
+            case AE_NONE: {
+               break;
+            }
+            case AE_SMALLPOISONPOOL: {
                this->Step = 0;
                Audio->PlaySound(SFX_BOMB);
                
@@ -81,7 +84,8 @@ eweapon script ArcingWeapon {
                   CustomWaitframe(this, 4);
                }
                break;
-            case AE_LARGEPOISONPOOL:
+            }
+            case AE_LARGEPOISONPOOL: {
                this->Step = 0;
                Audio->PlaySound(SFX_BOMB);
                
@@ -97,8 +101,9 @@ eweapon script ArcingWeapon {
                   
                   CustomWaitframe(this, 4);
                }
-               break;					
-            case AE_PROJECTILEWITHMOMENTUM:
+               break;
+            }
+            case AE_PROJECTILEWITHMOMENTUM: {
                for (int i = 0; i < 12; ++i) {
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
@@ -112,7 +117,8 @@ eweapon script ArcingWeapon {
                   CustomWaitframe(this, 4);
                }
                break;
-            case AE_OIL_BLOB:
+            }
+            case AE_OIL_BLOB: {
                const int oilCombo = 6349;
                Audio->PlaySound(SFX_BOMB);
                int pos = ComboAt(this->X + 8, this->Y + 8);
@@ -121,20 +127,23 @@ eweapon script ArcingWeapon {
                   Screen->ComboD[pos] = oilCombo;
                
                break;
-            case AE_OIL_DEATH_BLOB:
+            }
+            case AE_OIL_DEATH_BLOB: {
                for (int i = 0; i < 4; ++i) {
                   eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
                }
                break;
-            case AE_ROCK_PROJECTILE:
+            }
+            case AE_ROCK_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
                   eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 2, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});	
                }
                Audio->PlaySound(SFX_BOMB);
                break;
-            case AE_BOULDER_PROJECTILE:
+            }
+            case AE_BOULDER_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
                   eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});	
@@ -142,17 +151,27 @@ eweapon script ArcingWeapon {
             
                Audio->PlaySound(SFX_BOMB);
                break;
-            case AE_RACCOON_PROJECTILE:
+            }
+            case AE_RACCOON_PROJECTILE: {
                npc n = CreateNPCAt(236, this->X, this->Y);
                break;
-            case AE_EGENTEM_HAMMER:
+            }
+            case AE_EGENTEM_HAMMER: {
                if (int escr = CheckEWeaponScript("EgentemPillar")) {
                   eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0});
                   pillar->Damage = 4;
                   pillar->Unblockable = UNBLOCK_ALL;
                }
                break;
-            case AE_DEBUG:
+            }
+            case AE_BOMB_EXPLOSION: {
+               eweapon explosion = Screen->CreateEWeapon(EW_BOMBBLAST);
+               explosion->X = this->X;
+               explosion->Y = this->Y;
+               explosion->Damage = 4;
+               break;
+            }
+            case AE_DEBUG: {
                this->Step = 0;
                
                for(int i = 0; i < 90; ++i) {
@@ -160,6 +179,9 @@ eweapon script ArcingWeapon {
                   this->DeadState = WDS_ALIVE;
                   CustomWaitframe(this, 1);
                }
+               break;
+            }
+            default:
                break;
          }
       }
@@ -371,10 +393,11 @@ eweapon script ShockWave {
 
 @Author("Moosh")
 eweapon script Boomerang {
-   void run(int travelTime, int slowTime, int stun, npc parent) {
+   void run(int travelTime, int slowTime, int stun, npc parent, int damage) {
       int step = this->Step;
       int brangSfxTiming = 15;
       this->Unblockable = UNBLOCK_ALL;
+      this->Damage = damage;
       bool bounced;
 
       for (int i = 0; i < travelTime; ++i) {

@@ -81,10 +81,10 @@ DEFINE IC_TRADING_SEQ = 91;
 
 //~~~~~FFC~~~~~//
 //start
-CONFIG COMPASS_BEEP = 69; 			//Set this to the SFX id you want to hear when you have the compass
-CONFIG COMPASS_SFX = 20; 			//Set this to the SFX id you want to hear when you have the compass
+CONFIG COMPASS_BEEP = 69;
+CONFIG COMPASS_SFX = 20;
 
-CONFIG CB_SIGNPOST = CB_A;			//Button to press to read a sign
+CONFIG CB_SIGNPOST = CB_A;
 
 CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
@@ -131,6 +131,7 @@ CONFIG ITEM_QUIVER1_SMALL = 74;
 CONFIG SFX_SWITCH_RELEASE = 0; 		//SFX when a switch is released
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
+
 CONFIG SFX_BOMB_BLAST = 3;
 CONFIG SFX_SWORD_ROCK3 = 6;
 CONFIG SFX_OOT_SECRET = 7;
@@ -171,6 +172,8 @@ CONFIG SFX_WATER_DRIPPING = 165;
 CONFIG SFX_STALFOS_GROAN = 166;
 CONFIG SFX_STALFOS_GROAN_FAST = 167;
 CONFIG SFX_STALFOS_GROAN_SLOW = 168;
+CONFIG SFX_IMPACT_EXPLOSION = 169;
+CONFIG SFX_STALCHILD_ATTACK = 170;
 
 CONFIG SFX_WALL_SMASH = SFX_ARIN_SPLAT;
 
@@ -490,6 +493,8 @@ CONFIG ENEMY_ARMOS_LV2 = 179;
 CONFIG ENEMY_LEEVER_LV1_INSIDE = 190;
 CONFIG ENEMY_LEEVER_LV2_INSIDE = 27;
 
+CONFIG ENEMY_BAT = 198;
+
 CONFIG ENEMY_THIEF_LV1 = 213;
 CONFIG ENEMY_THIEF_LV2 = 214;
 
@@ -545,25 +550,27 @@ enum ScreenType {
 };
 
 enum ArcingWeaponEffects {
+   AE_NONE,
 	// Shambles
 	AE_BOMB,
 	AE_SMALLPOISONPOOL,
 	AE_LARGEPOISONPOOL,
 	AE_PROJECTILEWITHMOMENTUM,
 	
-	//Hazarond
+	// Hazarond
 	AE_OIL_BLOB,
 	AE_OIL_DEATH_BLOB,
 	
-	//Overgrown Raccoon
+	// Overgrown Raccoon
 	AE_ROCK_PROJECTILE,
 	AE_BOULDER_PROJECTILE,
 	AE_RACCOON_PROJECTILE,
    
    // Egentem
    AE_EGENTEM_HAMMER,
-	
-	//Misc
+   
+	// Misc
+   AE_BOMB_EXPLOSION,
 	AE_ARROW,
 	
 	AE_DEBUG

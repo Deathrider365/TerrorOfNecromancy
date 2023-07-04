@@ -673,7 +673,7 @@ ffc script Legionnaire {
          }
          
          Screen->Quake = 10;
-         Audio->PlaySound(SFX_BOMB_BLAST);
+         Audio->PlaySound(SFX_IMPACT_EXPLOSION);
          
          for (int i = 0; i < 32; ++i) {
             disableLink();
@@ -1278,7 +1278,7 @@ npc script OvergrownRaccoon {
          Waitframe();
       
       Screen->Quake = 60;
-      Audio->PlaySound(SFX_BOMB_BLAST);
+      Audio->PlaySound(SFX_IMPACT_EXPLOSION);
       
       Waitframes(30);
       
@@ -1312,12 +1312,13 @@ npc script OvergrownRaccoon {
          }
          
          switch(state) {
-            case STATE_NORMAL:
+            case STATE_NORMAL: {
                previousState = state;
                this->ScriptTile = -1;
                doWalk(this, 5, 10, this->Step);
                break;
-            case STATE_LARGE_ROCK_THROW:
+            }
+            case STATE_LARGE_ROCK_THROW: {
                previousState = state;
                
                Waitframes(60);
@@ -1327,7 +1328,8 @@ npc script OvergrownRaccoon {
                runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
                state = STATE_NORMAL;
                break;
-            case STATE_SMALL_ROCKS_THROW:
+            }
+            case STATE_SMALL_ROCKS_THROW: {
                previousState = state;
                
                Waitframes(30);
@@ -1348,8 +1350,9 @@ npc script OvergrownRaccoon {
                }
                
                state = STATE_NORMAL;
-               break;						
-            case STATE_RACCOON_THROW:
+               break;
+            }
+            case STATE_RACCOON_THROW: {
                previousState = state;
                
                Waitframes(60);
@@ -1367,7 +1370,8 @@ npc script OvergrownRaccoon {
                
                state = STATE_NORMAL;
                break;
-            case STATE_CHARGE:
+            }
+            case STATE_CHARGE: {
                previousState = state;
                
                int angle = RadtoDeg(TurnTowards(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY(), 0, 1));
@@ -1383,12 +1387,13 @@ npc script OvergrownRaccoon {
                
                this->Jump = 2;
                Screen->Quake = 30;
-               Audio->PlaySound(SFX_BOMB_BLAST);
+               Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                
                do Waitframe(); while(this->Z);
                
                state = STATE_NORMAL;
                break;
+            }
          }
          
          Waitframe();
@@ -2353,60 +2358,83 @@ npc script Egentem {
 }
 
 @Author("EmilyV99, Deathrider365")
-npc script BanditBoss {
+npc script Latros {
    using namespace EnemyNamespace;
-   using namespace BanditBossNamespace;
+   using namespace LatrosNamespace;
    using namespace NPCAnim;
    
    void run() {
       disableLink();
       AnimHandler aptr = new AnimHandler(this);
-      BanditBoss bandit = new BanditBoss(this);
+      Latros latros = new Latros(this);
       CONFIG WALKING = 0;
       CONFIG ANIM_SPEED = 4;
+      CONFIG UNCHANGED_HP_COUNTER_VALUE = 300;
       
-      aptr->AddAnim(WALKING, 0, 4, ANIM_SPEED, ADF_4WAY);
+      FaceLink(this);
       
       until (this->Z == 0)
          Waitframe(this);
       
-      // Screen->Quake = 20;
-      // Audio->PlaySound(SFX_BOMB_BLAST);
+      Screen->Quake = 20;
+      Audio->PlaySound(SFX_IMPACT_EXPLOSION);
+      FaceLink(this);
       
-      // Waitframes(30);
+      Waitframes(30);
       
-      // disableLink();
+      disableLink();
       
-      // unless (getScreenD(255)) {
-         // Screen->Message(805);
-         // setScreenD(255, true);
-      // }
+      unless (getScreenD(255)) {
+         Screen->Message(809);
+         setScreenD(255, true);
+      }
       
+      aptr->AddAnim(WALKING, 0, 4, ANIM_SPEED, ADF_4WAY);
       int heroHp = Hero->HP;
+      int latrosHealth = this->HP;
+      int hpUnchangedCounter = UNCHANGED_HP_COUNTER_VALUE;
       int attackCooldown = 120;
       
       while(true) {
          if (this->HP <= 0)
-            deathAnimation(this, 136);
+            deathAnimation(this, 170);
          
          this->Slide();
          doWalk(this, this->Random, this->Homing, this->Step);
          
-         unless (attackCooldown) {
-            charge(this, bandit);
+         unless (hpUnchangedCounter) {
+            latros->dropItem();
             
-            if (Screen->NumItems() && bandit->numItems < 5)
-               seekItem(this, bandit);
-            
-            if (bandit->numItems)
-               attackWithItem(this, bandit, bandit->stolenItems[0]);
-            
-            attackCooldown = 120;
-            BanditWaitframe(this, bandit, 30);
+            latrosHealth = this->HP;
+            hpUnchangedCounter = UNCHANGED_HP_COUNTER_VALUE;
          }
          
+         unless (attackCooldown) {
+            if (latros->numItems >= 5)
+               attackWithItem(this, latros, latros->stolenItems[Rand(0, latros->numItems - 1)]);
+            else {
+               charge(this, latros);
+               
+               if (Screen->NumItems())
+                  seekItem(this, latros);
+                  
+               // attackWithItem(this, latros, latros->stolenItems[0]);
+               attackWithItem(this, latros, I_HAMMER);
+            }
+            
+            attackCooldown = 120;
+            LatrosWaitframe(this, latros, 30);
+         }
+         
+         if (this->HP == latrosHealth)
+            --hpUnchangedCounter;
+         else {
+            latrosHealth = this->HP;
+            hpUnchangedCounter = UNCHANGED_HP_COUNTER_VALUE;
+         }
+            
          --attackCooldown;
-         BanditWaitframe(this, bandit);
+         LatrosWaitframe(this, latros);
       }
    }
 }

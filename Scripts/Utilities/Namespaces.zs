@@ -39,7 +39,7 @@ namespace EnemyNamespace {
          n->HitHeight = 16;
    }
 
-   void deathAnimation(npc n, int deathSound) { // TODO can still hear the normal bomb sfx behind explosions
+   void deathAnimation(npc n, int deathSound) {
       n->Immortal = true;
       n->CollDetection = false;
       n->Stun = 9999;
@@ -56,7 +56,6 @@ namespace EnemyNamespace {
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
             Audio->EndSound(SFX_BOMB);
-				Audio->PlaySound(SFX_POWDER_KEG_BLAST);
          }
          Waitframes(5);
       }
@@ -1513,7 +1512,7 @@ namespace EgentemNamespace {
       }
    }
    
-   void egentemDeathAnimation(npc n, int deathSound) { // TODO can still hear the normal bomb sfx behind explosions
+   void egentemDeathAnimation(npc n, int deathSound) {
       n->Immortal = true;
       n->CollDetection = false;
       n->Stun = 9999;
@@ -1530,7 +1529,6 @@ namespace EgentemNamespace {
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
             Audio->EndSound(SFX_BOMB);
-				Audio->PlaySound(SFX_POWDER_KEG_BLAST);
          }
          Waitframes(5);
       }
@@ -1569,7 +1567,7 @@ namespace EgentemNamespace {
             
             if (egentem->shieldHp <= 0) {
                this->BreakShield();
-               Audio->PlaySound(SFX_BOMB_BLAST);
+               Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                AnimHandler aptr = GetAnimHandler(this);
                
                switch(aptr->GetCurAnim()) {
@@ -1841,7 +1839,7 @@ namespace EgentemNamespace {
             
             if (hitLink->isValid() && hitbox == hitLink) {
                linkGotHit = true;
-               Audio->PlaySound(SFX_BOMB_BLAST);
+               Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                break;
             }
          }
@@ -2056,7 +2054,7 @@ namespace EgentemNamespace {
          this->HitHeight = 32;
          this->CollDetection = true;
          this->UseSprite(SPR_RISE);
-         Audio->PlaySound(SFX_BOMB_BLAST);
+         Audio->PlaySound(SFX_IMPACT_EXPLOSION);
          
          for (int i = 0; i < this->NumFrames * this->ASpeed - 1; ++i) {
             this->DeadState = WDS_ALIVE;
@@ -2154,11 +2152,11 @@ namespace EgentemNamespace {
    }
 }
 
-namespace BanditBossNamespace {
+namespace LatrosNamespace {
    using namespace EnemyNamespace;
    using namespace NPCAnim;
    
-   class BanditBoss {
+   class Latros {
       npc owner;
       int numItems;
       int stolenItems[5];
@@ -2166,9 +2164,9 @@ namespace BanditBossNamespace {
       int attackCooldown;
       bool canDropItem;
       
-      BanditBoss(npc bandit) {
-         owner = bandit;
-         hitCounter = 2;
+      Latros(npc latros) {
+         owner = latros;
+         hitCounter = 1;
          attackCooldown = 120;
       }
       
@@ -2179,17 +2177,8 @@ namespace BanditBossNamespace {
             if (weaponId) {
                --hitCounter;
                
-               if (hitCounter <= 0) {
-                  if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
-                     itemsprite item1 = RunItemSpriteScriptAt(stolenItems[0], scr, owner->X, owner->Y, {
-                        Angle(Hero->X + 8, Hero->Y + 8, owner->X, owner->Y), 
-                        2, 4, 0
-                     });
-                     item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
-                     dropItem();
-                     hitCounter = 2;
-                  }
-               }
+               if (hitCounter <= 0)
+                  dropItem();
             }
          }
       }
@@ -2201,27 +2190,47 @@ namespace BanditBossNamespace {
       }
       
       void dropItem() {
-         stolenItems[0] = stolenItems[numItems - 1];
-         --numItems;
+         if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
+            itemsprite item1 = RunItemSpriteScriptAt(stolenItems[0], scr, owner->X, owner->Y, {
+               Angle(Hero->X + 8, Hero->Y + 8, owner->X, owner->Y), 
+               2, 4, 0
+            });
+            item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+            stolenItems[0] = stolenItems[numItems - 1];
+            --numItems;            
+            hitCounter = 1;
+         }
       }
    }
 
-   void BanditWaitframe(npc this, BanditBoss banditBoss, int frames = 1) {
+   void LatrosWaitframe(npc this, Latros latros, int frames = 1) {
       for (int i = 0; i < frames; ++i) {
-         banditBoss->update();
+         if (this->HP <= 0)
+            deathAnimation(this, 170);
+            
+         latros->update();
          Waitframe(this);
       }
    }
-      
-   void charge(npc this, BanditBoss bandit) {
+   
+   void charge(npc this, Latros latros) {
       bool stolen;
+      int chargingCounter = 60;
       
       until (stolen) {
+         unless (chargingCounter)
+            break;
+            
          FaceLink(this);
          int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
          this->MoveAtAngle(angle, 4, SPW_NONE);
          
          if (Collision(this)) {
+            Hero->Stun = 60;
+            Audio->PlaySound(SFX_STALCHILD_ATTACK);
+            LatrosWaitframe(this, latros, 30);
+            Audio->PlaySound(SFX_OUCH);
+            
             int numExistingStolenItems = 0;
             
             for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
@@ -2258,30 +2267,31 @@ namespace BanditBossNamespace {
             stolen = true;
          }
          
-         BanditWaitframe(this, bandit);
+         --chargingCounter;
+         LatrosWaitframe(this, latros);
       }
    }
 
-   void seekItem(npc this, BanditBoss bandit) {
+   void seekItem(npc this, Latros latros) {
       while (Screen->NumItems() && !itemsUpForGrabs())
-         BanditWaitframe(this, bandit, 16);
+         LatrosWaitframe(this, latros, 16);
    
-      while (itemsUpForGrabs() && bandit->numItems < 5) {
+      while (itemsUpForGrabs() && latros->numItems < 5) {
          itemsprite itm = getClosestItem(this);
          this->Dir = AngleDir4(Angle(this->X, this->Y, itm->X, itm->Y));
          
          while(itm->isValid() && Distance(itm->X, itm->Y, this->X, this->Y) > 8) {
             this->MoveAtAngle(Angle(this->X, this->Y, itm->X, itm->Y), this->Step / 50, SPW_NONE);
-            BanditWaitframe(this, bandit);
+            LatrosWaitframe(this, latros);
          }
          
          if (itm->isValid() && Collision(this, itm)) {
             Audio->PlaySound(SFX_PICKUP);
-            bandit->stealItem(itm->ID);
+            latros->stealItem(itm->ID);
             itm->Remove();
          }
          
-         BanditWaitframe(this, bandit, 16);
+         LatrosWaitframe(this, latros, 16);
       }
    }
    
@@ -2315,53 +2325,95 @@ namespace BanditBossNamespace {
       return closestItem;
    }
 
-   void attackWithItem(npc this, BanditBoss bandit, int itemId) {
+   void attackWithItem(npc this, Latros latros, int itemId) {
       itemdata id = Game->LoadItemData(itemId);
       spritedata spr = Game->LoadSpriteData(id->Sprites[0]);
       
       switch(itemId) {
          case I_SWORD1:
          case I_SWORD2:
-         case I_SWORD3:
-            swordSlash(this, bandit, spr->Tile + 1, spr->CSet);
+         case I_SWORD3: {
+            swordSlash(this, latros, spr->Tile + 1, spr->CSet);
             break;
+         }
          case I_BRANG1:
          case I_BRANG2:
-         case I_BRANG3:
+         case I_BRANG3: {
             FaceLink(this);
             eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {
                48,
                10,
                0,
-               this
+               this,
+               6
             });
             
             while(boomer->isValid())
-               BanditWaitframe(this, bandit);
+               LatrosWaitframe(this, latros);
                
             break;
-         case I_BOMB:
-         
+         }
+         case I_BOMB: {
+            Audio->PlaySound(OOT_BIG_DEKU_BABA_LUNGE);
+            Waitframes(30);
+            
+            for (int i = 0; i < Rand(3, 5); ++i) {
+               LatrosWaitframe(this, latros, 12);
+               eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, 4, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               Audio->PlaySound(SFX_LAUNCH_BOMBS);
+               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
+               Waitframes(6);
+            }
             break;
+         }
          case I_ARROW1:
-         case I_ARROW2:
-         
+         case I_ARROW2: {
+            for (int i = 0; i < Rand(3, 5); ++i) {
+               LatrosWaitframe(this, latros, 16);
+               eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, 2, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               Audio->PlaySound(SFX_ARROW);
+               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, 0});
+            }
             break;
+         }
          case I_CANDLE1:
-         case I_CANDLE2:
+         case I_CANDLE2: {
+            flameChase(this, latros);
+            break;
+         }
+         case I_HAMMER: {
+            for (int i = 0; i < Rand(3, 5); ++i) {
+               int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
+               FaceLink(this);
+               eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, this->WeaponDamage * 1.25, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+               LatrosWaitframe(this, latros, 16);
+            }
          
             break;
-         case I_WHISTLE:
-            //wind
+         }         
+         case I_WHISTLE: {
+            for (int i = 0; i < 180; ++i) {
+               unless (i)
+                  Audio->PlaySound(SFX_WHISTLE);
+               
+               this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
+               Screen->FastCombo(3, this->X + (Hero->X < this->X ? -4 : 6), this->Y + 6, Hero->X < this->X ? 6876 : 6877, 0, OP_OPAQUE);
+               LatrosWaitframe(this, latros);
+            }
+            Audio->PlaySound(SFX_STALCHILD_ATTACK);
             break;
+         }
          case I_POTION1:
          case I_POTION2:
-            //either self heal or disrespect
+         case 123: {
+            
             break;
+         }
       }
    }
    
-   void swordSlash(npc this, BanditBoss bandit, int tile, int cset) {
+   void swordSlash(npc this, Latros latros, int tile, int cset) {
       int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
       int dashFrames = 12;
       int damage = 6;
@@ -2373,7 +2425,7 @@ namespace BanditBossNamespace {
          if (i > dashFrames / 2)
             sword1x1Tile(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, tile, cset, damage);
             
-         BanditWaitframe(this, bandit);
+         LatrosWaitframe(this, latros);
       }
       
       Audio->PlaySound(SFX_SWORD);
@@ -2382,9 +2434,40 @@ namespace BanditBossNamespace {
          FaceLink(this);
          this->MoveAtAngle(moveAngle, 3, 0);
          sword1x1Tile(this->X, this->Y, moveAngle - 90 + 15 * i, 16, tile, cset, damage);
-         BanditWaitframe(this, bandit);
+         LatrosWaitframe(this, latros);
       }
    }
+
+   void flameChase(npc this, Latros latros) {
+      int vectorX, vectorY;
+      
+      for (int i = 0; i < 120; ++i) {
+         FaceLink(this);
+         vectorX = lazyChase(vectorX, this->X + 8, Hero->X - 8, .05, Hero->Step / 75);
+         vectorY = lazyChase(vectorY, this->Y + 8, Hero->Y - 8, .05, Hero->Step / 75);
+         this->MoveXY(vectorX, vectorY, SPW_NONE);
+         
+         unless (i % 10) {
+            eweapon flame = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
+            flame->Dir = AngleDir8(Angle(this->X, this->Y, Hero->X, Hero->Y));
+            flame->Step = 225;
+            flame->Angular = true;
+            flame->Angle = DirRad(flame->Dir);
+            flame->Script = Game->GetEWeaponScript("StopperKiller");
+            flame->InitD[0] = 30;
+            flame->InitD[1] = 200;
+            flame->Gravity = true;
+            flame->Damage = 4;
+            flame->UseSprite(SPR_FLAME_OIL);
+            
+            Audio->PlaySound(SFX_FIRE);
+         }
+         
+         LatrosWaitframe(this, latros);
+      }
+   
+   }
+   
 }
 
 namespace WaterPathsNamespace {
