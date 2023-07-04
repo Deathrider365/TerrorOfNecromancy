@@ -2396,30 +2396,41 @@ npc script Latros {
       int attackCooldown = 120;
       
       while(true) {
-         if (this->HP <= 0)
-            deathAnimation(this, 170);
-         
-         this->Slide();
          doWalk(this, this->Random, this->Homing, this->Step);
          
          unless (hpUnchangedCounter) {
-            latros->dropItem();
+            if (latros->numItems)
+               latros->dropItem();
             
             latrosHealth = this->HP;
             hpUnchangedCounter = UNCHANGED_HP_COUNTER_VALUE;
          }
          
          unless (attackCooldown) {
-            if (latros->numItems >= 5)
-               attackWithItem(this, latros, latros->stolenItems[Rand(0, latros->numItems - 1)]);
+            if (latros->numItems > 4) {
+               int possessingItems[5];
+               int possessingItemsIndex;
+               
+               for (int i = 0; i < latros->numItems - 1; ++i)
+                  if (latros->stolenItems[i])
+                     possessingItems[possessingItemsIndex++] = latros->stolenItems[i];
+                     
+               attackWithItem(this, latros, possessingItems[Rand(0, latros->numItems - 1)]);
+            }
             else {
                charge(this, latros);
                
                if (Screen->NumItems())
                   seekItem(this, latros);
                   
-               // attackWithItem(this, latros, latros->stolenItems[0]);
-               attackWithItem(this, latros, I_HAMMER);
+               int possessingItems[5];
+               int possessingItemsIndex;
+               
+               for (int i = 0; i < latros->numItems - 1; ++i)
+                  if (latros->stolenItems[i])
+                     possessingItems[possessingItemsIndex++] = latros->stolenItems[i];
+                     
+               attackWithItem(this, latros, possessingItems[Rand(0, latros->numItems - 1)]);
             }
             
             attackCooldown = 120;

@@ -2184,21 +2184,47 @@ namespace LatrosNamespace {
       }
       
       void stealItem(int itemId) {
-         stolenItems[numItems] = stolenItems[0];
-         stolenItems[0] = itemId;
+         stolenItems[numItems] = itemId;
          ++numItems;
       }
       
-      void dropItem() {
+      void dropItem(int itemId = 0) {
          if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
-            itemsprite item1 = RunItemSpriteScriptAt(stolenItems[0], scr, owner->X, owner->Y, {
-               Angle(Hero->X + 8, Hero->Y + 8, owner->X, owner->Y), 
-               2, 4, 0
-            });
-            item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
-            stolenItems[0] = stolenItems[numItems - 1];
-            --numItems;            
-            hitCounter = 1;
+            int indexOfDroppedItem = 0;
+            int itemToDrop = itemId;
+            
+            if (itemId) {
+               for (int i = 0; i < SizeOfArray(stolenItems); ++i)
+                  if (stolenItems[i] == itemId)
+                     indexOfDroppedItem = i;
+            } 
+            else {
+               indexOfDroppedItem = Rand(0, numItems - 1);
+               itemToDrop = stolenItems[indexOfDroppedItem];
+            }
+            
+            if (itemToDrop) {
+               itemsprite item1 = RunItemSpriteScriptAt(itemToDrop, scr, owner->X, owner->Y, {
+                  Rand(-180, 180), 
+                  2, 4, 0
+               });
+               
+               item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
+               
+               stolenItems[indexOfDroppedItem] = 0;
+               int tempItems[5];
+               int tempItemsIndex;
+               
+               for (int i = 0; i < SizeOfArray(stolenItems); ++i)
+                  if (stolenItems[i] > 0)
+                     tempItems[tempItemsIndex++] = stolenItems[i];
+               
+               for (int i = 0; i < SizeOfArray(tempItems); ++i)
+                  stolenItems[i] = tempItems[i];
+                  
+               --numItems;            
+               hitCounter = 1;
+            }
          }
       }
    }
@@ -2206,7 +2232,7 @@ namespace LatrosNamespace {
    void LatrosWaitframe(npc this, Latros latros, int frames = 1) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
-            deathAnimation(this, 170);
+            latrosDeathAnimation(this, 170, latros);
             
          latros->update();
          Waitframe(this);
@@ -2229,7 +2255,7 @@ namespace LatrosNamespace {
             Hero->Stun = 60;
             Audio->PlaySound(SFX_STALCHILD_ATTACK);
             LatrosWaitframe(this, latros, 30);
-            Audio->PlaySound(SFX_OUCH);
+            Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
             
             int numExistingStolenItems = 0;
             
@@ -2243,7 +2269,7 @@ namespace LatrosNamespace {
                stolenLinkItems[numExistingStolenItems + 1] = Hero->ItemB;
             
             if (int scr = CheckItemSpriteScript("ArcingItemSprite2")) {
-               if (Hero->ItemA) {
+               if (Hero->ItemA) {                  
                   itemsprite item1 = RunItemSpriteScriptAt(Hero->ItemA, scr, this->X, this->Y, {
                      Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y) - 10 - Rand(30), 
                      2, 3, 0
@@ -2251,7 +2277,7 @@ namespace LatrosNamespace {
                   item1->Pickup |= IP_ALWAYSGRAB | IP_DUMMY;
                }
                
-               if (Hero->ItemB) {
+               if (Hero->ItemB) {                  
                   itemsprite item2 = RunItemSpriteScriptAt(Hero->ItemB, scr, this->X, this->Y, {
                      Angle(Hero->X + 8, Hero->Y + 8, this->X, this->Y) + 10 + Rand(30), 
                      2, 3, 0
@@ -2261,6 +2287,7 @@ namespace LatrosNamespace {
                }
             }
             
+            checkPotion();
             Hero->Item[Hero->ItemA] = false;
             Hero->Item[Hero->ItemB] = false;
             
@@ -2270,6 +2297,21 @@ namespace LatrosNamespace {
          --chargingCounter;
          LatrosWaitframe(this, latros);
       }
+   }
+   
+   void checkPotion() {
+      itemdata itemDataA = Game->LoadItemData(Hero->ItemA);
+      itemdata itemDataB = Game->LoadItemData(Hero->ItemB);
+      
+      if (itemDataA->Type == IC_POTION)
+         if (itemDataA->Level > 1)
+            for (int i = 0; i < itemDataA->Level; ++i)
+               Hero->Item[itemDataA->ID] = false;
+            
+      if (itemDataB->Type == IC_POTION)
+         if (itemDataB->Level > 1)
+            for (int i = 0; i < itemDataB->Level; ++i)
+               Hero->Item[itemDataB->ID] = false;
    }
 
    void seekItem(npc this, Latros latros) {
@@ -2333,7 +2375,18 @@ namespace LatrosNamespace {
          case I_SWORD1:
          case I_SWORD2:
          case I_SWORD3: {
-            swordSlash(this, latros, spr->Tile + 1, spr->CSet);
+            for (int i = 0; i < 3; ++i) {
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_HAMMER);
+                     break;
+                  }
+               }
+               
+               swordSlash(this, latros, spr->Tile + 1, spr->CSet);
+               LatrosWaitframe(this, latros, 15);
+            }
             break;
          }
          case I_BRANG1:
@@ -2348,8 +2401,18 @@ namespace LatrosNamespace {
                6
             });
             
-            while(boomer->isValid())
+            while(boomer->isValid()) {
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_BRANG2);
+                     boomer->Remove();
+                     break;
+                  }
+               }
+
                LatrosWaitframe(this, latros);
+            }
                
             break;
          }
@@ -2357,18 +2420,35 @@ namespace LatrosNamespace {
             Audio->PlaySound(OOT_BIG_DEKU_BABA_LUNGE);
             Waitframes(30);
             
-            for (int i = 0; i < Rand(3, 5); ++i) {
+            for (int i = 0; i < 5; ++i) {
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_BOMB);
+                     break;
+                  }
+               }
+               
                LatrosWaitframe(this, latros, 12);
                eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, 4, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_LAUNCH_BOMBS);
                runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
-               Waitframes(6);
+               LatrosWaitframe(this, latros, 6);
             }
+            
             break;
          }
          case I_ARROW1:
          case I_ARROW2: {
-            for (int i = 0; i < Rand(3, 5); ++i) {
+            for (int i = 0; i < 5; ++i) {
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_ARROW1);
+                     break;
+                  }
+               }
+                  
                LatrosWaitframe(this, latros, 16);
                eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, 2, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_ARROW);
@@ -2382,7 +2462,15 @@ namespace LatrosNamespace {
             break;
          }
          case I_HAMMER: {
-            for (int i = 0; i < Rand(3, 5); ++i) {
+            for (int i = 0; i < 5; ++i) {
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_HAMMER);
+                     break;
+                  }
+               }
+         
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
                eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, this->WeaponDamage * 1.25, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
@@ -2393,21 +2481,40 @@ namespace LatrosNamespace {
             break;
          }         
          case I_WHISTLE: {
+            bool droppedOcarina = false;
+            
             for (int i = 0; i < 180; ++i) {
                unless (i)
                   Audio->PlaySound(SFX_WHISTLE);
+                  
+               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+                  if (latros->numItems && weaponId) {
+                     --latros->hitCounter;
+                     latros->dropItem(I_WHISTLE);
+                     Audio->EndSound(SFX_WHISTLE);
+                     droppedOcarina = true;
+                     break;
+                  }
+               }
                
                this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
                Screen->FastCombo(3, this->X + (Hero->X < this->X ? -4 : 6), this->Y + 6, Hero->X < this->X ? 6876 : 6877, 0, OP_OPAQUE);
                LatrosWaitframe(this, latros);
             }
-            Audio->PlaySound(SFX_STALCHILD_ATTACK);
+            unless (droppedOcarina) {
+               Audio->PlaySound(SFX_STALCHILD_ATTACK);
+               latros->dropItem(I_WHISTLE);
+            }
             break;
          }
          case I_POTION1:
          case I_POTION2:
          case 123: {
             
+            break;
+         }
+         case I_LETTER: {
+            latros->dropItem(I_LETTER);
             break;
          }
       }
@@ -2419,6 +2526,14 @@ namespace LatrosNamespace {
       int damage = 6;
       
       for (int i = 0; i < dashFrames; ++i) {
+         if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            if (latros->numItems && weaponId) {
+               --latros->hitCounter;
+               latros->dropItem(I_SWORD1);
+               break;
+            }
+         }
+      
          FaceLink(this);
          this->MoveAtAngle(moveAngle, 3, 0);
          
@@ -2431,6 +2546,14 @@ namespace LatrosNamespace {
       Audio->PlaySound(SFX_SWORD);
       
       for (int i = 0; i <= 12; ++i) {
+         if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            if (latros->numItems && weaponId) {
+               --latros->hitCounter;
+               latros->dropItem(I_SWORD1);
+               break;
+            }
+         }
+         
          FaceLink(this);
          this->MoveAtAngle(moveAngle, 3, 0);
          sword1x1Tile(this->X, this->Y, moveAngle - 90 + 15 * i, 16, tile, cset, damage);
@@ -2442,6 +2565,14 @@ namespace LatrosNamespace {
       int vectorX, vectorY;
       
       for (int i = 0; i < 120; ++i) {
+         if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            if (latros->numItems && weaponId) {
+               --latros->hitCounter;
+               latros->dropItem(I_CANDLE1);
+               break;
+            }
+         }
+         
          FaceLink(this);
          vectorX = lazyChase(vectorX, this->X + 8, Hero->X - 8, .05, Hero->Step / 75);
          vectorY = lazyChase(vectorY, this->Y + 8, Hero->Y - 8, .05, Hero->Step / 75);
@@ -2468,6 +2599,44 @@ namespace LatrosNamespace {
    
    }
    
+   void latrosDeathAnimation(npc n, int deathSound, Latros latros) {
+      n->Immortal = true;
+      n->CollDetection = false;
+      n->Stun = 9999;
+
+      int baseX = n->X + n->DrawXOffset;
+      int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
+      
+      Audio->PlaySound(deathSound);
+      int dropCount = 0;
+      
+      for (int i = 0; i < 45; i++) {
+         unless (i % 3) {
+				lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+				explosion->CollDetection = false;
+            Audio->EndSound(SFX_BOMB);
+         }
+         
+         unless (i % 9)
+            latros->dropItem(latros->stolenItems[dropCount++]);
+            
+         Waitframes(5);
+      }
+      
+      char32 areaMusic[256];
+      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Audio->PlayEnhancedMusic(areaMusic, 0);
+      
+      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+         npc n = Screen->LoadNPC(i);
+         n->Remove();
+      }
+      
+      n->Immortal = false;
+      n->HP = 0;
+   }
 }
 
 namespace WaterPathsNamespace {

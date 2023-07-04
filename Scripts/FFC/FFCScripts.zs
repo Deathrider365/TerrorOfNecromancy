@@ -318,7 +318,7 @@ ffc script PoisonWater {
             if(damageTimer <= 0) 
                if(Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER || Link->Action == LA_SWIMMING) {
                   Link->HP -= 8;
-                  Game->PlaySound(SFX_OUCH);
+                  Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
                   damageTimer = maxDamageTimer;
                }
 
