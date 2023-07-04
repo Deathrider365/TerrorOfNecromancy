@@ -2287,9 +2287,16 @@ namespace LatrosNamespace {
                }
             }
             
-            checkPotion();
+            int itemA = Hero->ItemA;
+            int itemB = Hero->ItemB;
+            
             Hero->Item[Hero->ItemA] = false;
             Hero->Item[Hero->ItemB] = false;
+            
+            if (Game->LoadItemData(itemA)->Type == IC_POTION)
+               clearPotions(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_POTION)
+               clearPotions(itemB);
             
             stolen = true;
          }
@@ -2299,19 +2306,14 @@ namespace LatrosNamespace {
       }
    }
    
-   void checkPotion() {
-      itemdata itemDataA = Game->LoadItemData(Hero->ItemA);
-      itemdata itemDataB = Game->LoadItemData(Hero->ItemB);
-      
-      if (itemDataA->Type == IC_POTION)
-         if (itemDataA->Level > 1)
-            for (int i = 0; i < itemDataA->Level; ++i)
-               Hero->Item[itemDataA->ID] = false;
-            
-      if (itemDataB->Type == IC_POTION)
-         if (itemDataB->Level > 1)
-            for (int i = 0; i < itemDataB->Level; ++i)
-               Hero->Item[itemDataB->ID] = false;
+   void clearPotions(int itemId) {
+      switch(itemId) {
+         case 123:
+            Hero->Item[30] = false;
+            Hero->Item[29] = false;
+         case 30:
+            Hero->Item[29] = false;
+      }
    }
 
    void seekItem(npc this, Latros latros) {
