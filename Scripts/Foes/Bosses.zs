@@ -2373,16 +2373,20 @@ npc script Latros {
       
       FaceLink(this);
       
-      until (this->Z == 0)
+      until (this->Z == 0) {
+         disableLink();
+         FaceLink(this);
          Waitframe(this);
+      }
       
       Screen->Quake = 20;
       Audio->PlaySound(SFX_IMPACT_EXPLOSION);
       FaceLink(this);
       
-      Waitframes(30);
-      
-      disableLink();
+      for (int i = 0; i < 30; ++i) {
+         disableLink();
+         LatrosWaitframe(this, latros);
+      }
       
       unless (getScreenD(255)) {
          Screen->Message(809);
@@ -2394,6 +2398,7 @@ npc script Latros {
       int latrosHealth = this->HP;
       int hpUnchangedCounter = UNCHANGED_HP_COUNTER_VALUE;
       int attackCooldown = 120;
+      int attackAttemptCounter = 10;
       
       while(true) {
          doWalk(this, this->Random, this->Homing, this->Step);
@@ -2407,15 +2412,24 @@ npc script Latros {
          }
          
          unless (attackCooldown) {
+            int validItem = 0;
+
             if (latros->numItems > 4) {
                int possessingItems[5];
                int possessingItemsIndex;
                
-               for (int i = 0; i < latros->numItems - 1; ++i)
+               for (int i = 0; i < SizeOfArray(latros->stolenItems); ++i)
                   if (latros->stolenItems[i])
                      possessingItems[possessingItemsIndex++] = latros->stolenItems[i];
                      
-               attackWithItem(this, latros, possessingItems[Rand(0, latros->numItems - 1)]);
+               
+               while (!validItem && attackAttemptCounter) {
+                  validItem = possessingItems[Rand(0, latros->numItems - 1)];
+                  --attackAttemptCounter;
+               }
+               
+               attackAttemptCounter = 10;
+               attackWithItem(this, latros, validItem);
             }
             else {
                charge(this, latros);
@@ -2426,11 +2440,17 @@ npc script Latros {
                int possessingItems[5];
                int possessingItemsIndex;
                
-               for (int i = 0; i < latros->numItems - 1; ++i)
-                  if (latros->stolenItems[i])
+               for (int i = 0; i < SizeOfArray(latros->stolenItems); ++i)
+                  if (latros->stolenItems[i]) 
                      possessingItems[possessingItemsIndex++] = latros->stolenItems[i];
-                     
-               attackWithItem(this, latros, possessingItems[Rand(0, latros->numItems - 1)]);
+               
+               while (!validItem && attackAttemptCounter) {
+                  validItem = possessingItems[Rand(0, latros->numItems - 1)];
+                  --attackAttemptCounter;
+               }
+               
+               attackAttemptCounter = 10;
+               attackWithItem(this, latros, validItem);
             }
             
             attackCooldown = 120;

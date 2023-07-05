@@ -2155,6 +2155,10 @@ namespace EgentemNamespace {
 namespace LatrosNamespace {
    using namespace EnemyNamespace;
    using namespace NPCAnim;
+
+   CONFIG CMB_BLUE_POTION = 6952;
+   CONFIG CMB_RED_POTION = 6956;
+   CONFIG CMB_PURPLE_POTION = 6960;
    
    class Latros {
       npc owner;
@@ -2166,7 +2170,7 @@ namespace LatrosNamespace {
       
       Latros(npc latros) {
          owner = latros;
-         hitCounter = 1;
+         hitCounter = 2;
          attackCooldown = 120;
       }
       
@@ -2223,7 +2227,7 @@ namespace LatrosNamespace {
                   stolenItems[i] = tempItems[i];
                   
                --numItems;            
-               hitCounter = 1;
+               hitCounter = 2;
             }
          }
       }
@@ -2244,6 +2248,8 @@ namespace LatrosNamespace {
       int chargingCounter = 60;
       
       until (stolen) {
+         this->CollDetection = false;
+         
          unless (chargingCounter)
             break;
             
@@ -2293,6 +2299,11 @@ namespace LatrosNamespace {
             Hero->Item[Hero->ItemA] = false;
             Hero->Item[Hero->ItemB] = false;
             
+            if (Game->LoadItemData(itemA)->Type == IC_SWORD)
+               clearSwords(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_SWORD)
+               clearSwords(itemB);
+            
             if (Game->LoadItemData(itemA)->Type == IC_POTION)
                clearPotions(itemA);
             if (Game->LoadItemData(itemB)->Type == IC_POTION)
@@ -2304,15 +2315,25 @@ namespace LatrosNamespace {
          --chargingCounter;
          LatrosWaitframe(this, latros);
       }
+      
+      this->CollDetection = true;
+   }
+   
+   void clearSwords(int itemId) {
+      switch(itemId) {
+         case ITEM_SWORD3:
+            Hero->Item[ITEM_SWORD2] = false;
+         case ITEM_SWORD2:
+            Hero->Item[ITEM_SWORD1] = false;
+      }
    }
    
    void clearPotions(int itemId) {
       switch(itemId) {
-         case 123:
-            Hero->Item[30] = false;
-            Hero->Item[29] = false;
-         case 30:
-            Hero->Item[29] = false;
+         case ITEM_POTION3:
+            Hero->Item[ITEM_POTION2] = false;
+         case I_POTION2:
+            Hero->Item[ITEM_POTION1] = false;
       }
    }
 
@@ -2345,7 +2366,7 @@ namespace LatrosNamespace {
       for (int i = Screen->NumItems(); i > 0; --i) {
          itemsprite itm = Screen->LoadItem(i);
          
-         if (itm ->Z == 0)
+         if (itm->Z == 0)
             ++count;
       }
       
@@ -2370,30 +2391,36 @@ namespace LatrosNamespace {
    }
 
    void attackWithItem(npc this, Latros latros, int itemId) {
+      int potionCombo;
+      
       itemdata id = Game->LoadItemData(itemId);
       spritedata spr = Game->LoadSpriteData(id->Sprites[0]);
       
       switch(itemId) {
-         case I_SWORD1:
-         case I_SWORD2:
-         case I_SWORD3: {
+         case ITEM_SWORD1: {
             for (int i = 0; i < 3; ++i) {
-               if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-                  if (latros->numItems && weaponId) {
-                     --latros->hitCounter;
-                     latros->dropItem(I_HAMMER);
-                     break;
-                  }
-               }
-               
-               swordSlash(this, latros, spr->Tile + 1, spr->CSet);
-               LatrosWaitframe(this, latros, 15);
+               if(swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD1))
+                  break;
             }
             break;
          }
-         case I_BRANG1:
-         case I_BRANG2:
-         case I_BRANG3: {
+         case ITEM_SWORD2: {
+            for (int i = 0; i < 3; ++i) {
+               if(swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD2))
+                  break;
+            }
+            break;
+         }
+         case ITEM_SWORD3: {
+            for (int i = 0; i < 3; ++i) {
+               if(swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD3))
+                  break;
+            }
+            break;
+         }
+         case ITEM_BRANG1:
+         case ITEM_BRANG2:
+         case ITEM_BRANG3: {
             FaceLink(this);
             eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {
                48,
@@ -2418,7 +2445,7 @@ namespace LatrosNamespace {
                
             break;
          }
-         case I_BOMB: {
+         case ITEM_BOMB1: {
             Audio->PlaySound(OOT_BIG_DEKU_BABA_LUNGE);
             Waitframes(30);
             
@@ -2440,8 +2467,8 @@ namespace LatrosNamespace {
             
             break;
          }
-         case I_ARROW1:
-         case I_ARROW2: {
+         case ITEM_ARROW1:
+         case ITEM_ARROW2: {
             for (int i = 0; i < 5; ++i) {
                if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
                   if (latros->numItems && weaponId) {
@@ -2458,12 +2485,12 @@ namespace LatrosNamespace {
             }
             break;
          }
-         case I_CANDLE1:
-         case I_CANDLE2: {
+         case ITEM_CANDLE1:
+         case ITEM_CANDLE2: {
             flameChase(this, latros);
             break;
          }
-         case I_HAMMER: {
+         case ITEM_HAMMER1: {
             for (int i = 0; i < 5; ++i) {
                if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
                   if (latros->numItems && weaponId) {
@@ -2482,7 +2509,7 @@ namespace LatrosNamespace {
          
             break;
          }         
-         case I_WHISTLE: {
+         case ITEM_OCARINA1: {
             bool droppedOcarina = false;
             
             for (int i = 0; i < 180; ++i) {
@@ -2500,7 +2527,7 @@ namespace LatrosNamespace {
                }
                
                this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
-               Screen->FastCombo(3, this->X + (Hero->X < this->X ? -4 : 6), this->Y + 6, Hero->X < this->X ? 6876 : 6877, 0, OP_OPAQUE);
+               Screen->FastCombo(3, this->X + (this->Dir == DIR_LEFT ? -4 : 6), this->Y + 6, this->Dir == DIR_LEFT ? 6876 : 6877, 0, OP_OPAQUE);
                LatrosWaitframe(this, latros);
             }
             unless (droppedOcarina) {
@@ -2509,30 +2536,120 @@ namespace LatrosNamespace {
             }
             break;
          }
-         case I_POTION1:
-         case I_POTION2:
-         case 123: {
-            
+         case ITEM_POTION3: {
+            potionChug(this, latros, CMB_PURPLE_POTION);
             break;
          }
-         case I_LETTER: {
+         case ITEM_POTION2: {
+            potionChug(this, latros, CMB_RED_POTION);
+            break;
+         }
+         case ITEM_POTION1: {
+            potionChug(this, latros, CMB_BLUE_POTION);
+            break;
+         }
+         case ITEM_MEDICINAL_HERB: {
             latros->dropItem(I_LETTER);
             break;
          }
       }
    }
    
-   void swordSlash(npc this, Latros latros, int tile, int cset) {
+   void potionChug(npc this, Latros latros, int potionCombo) {
+      LatrosWaitframe(this, latros, 30);
+      bool droppedPotion = false;
+      bool drankPotion = false;
+         
+      int potionToDrop;
+      int postDrinkPotion;
+      
+      if (potionCombo == CMB_BLUE_POTION) {
+         postDrinkPotion = 0;
+         potionToDrop = I_POTION1;
+      }
+      else if (potionCombo == CMB_RED_POTION) {
+         postDrinkPotion = I_POTION1;
+         potionToDrop = I_POTION2;
+      }
+      else {
+         postDrinkPotion = I_POTION2;
+         potionToDrop = ITEM_POTION3;
+      }
+      
+      for (int i = 0; i < 60 && !droppedPotion; ++i) {
+         this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
+         int drawX = this->Dir == DIR_LEFT ? this->X - 8 : this->X + 10;
+         Screen->FastCombo(4, drawX, this->Y + 6, potionCombo, 1, OP_OPAQUE);
+         
+         if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            if (latros->numItems && weaponId) {
+               --latros->hitCounter;        
+               latros->dropItem(potionToDrop);
+               Audio->EndSound(SFX_REFILL);
+               droppedPotion = true;
+               break;
+            }
+         }
+         
+         LatrosWaitframe(this, latros);
+      }
+      
+      unless (droppedPotion) {
+         for (int i = 0; i < 60 && !droppedPotion; ++i) {
+            Audio->PlaySound(SFX_REFILL);
+            
+            this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
+            int drawX = this->Dir == DIR_LEFT ? this->X - 8 : this->X + 10;
+            Screen->FastCombo(4, drawX, this->Y - 6, potionCombo + (this->Dir == DIR_LEFT ? 1 : 2), 1, OP_OPAQUE);
+            
+            if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+               if (latros->numItems && weaponId) {
+                  --latros->hitCounter;
+                  latros->dropItem(potionToDrop);
+                  Audio->EndSound(SFX_REFILL);
+                  droppedPotion = true;
+                  break;
+               }
+            }
+            LatrosWaitframe(this, latros);
+         }
+         
+         drankPotion = true;
+      }
+      
+      if (drankPotion) {
+         for (int i = 0; i < SizeOfArray(latros->stolenItems); ++i)
+            if (latros->stolenItems[i] == potionToDrop) {
+               latros->stolenItems[i] = postDrinkPotion;
+            }
+      }
+   }
+   
+   bool swordSlash(npc this, Latros latros, int tile, int cset, int sword) {
       int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
       int dashFrames = 12;
       int damage = 6;
+      
+      for (int i = 0; i < 15; ++i) {
+         if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            if (latros->numItems && weaponId) {
+               --latros->hitCounter;
+               latros->dropItem(sword);
+               clearSwords(sword);
+               return true;
+            }
+         }
+         
+         LatrosWaitframe(this, latros);
+      }
       
       for (int i = 0; i < dashFrames; ++i) {
          if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
             if (latros->numItems && weaponId) {
                --latros->hitCounter;
-               latros->dropItem(I_SWORD1);
-               break;
+               latros->dropItem(sword);
+               clearSwords(sword);
+               return true;
             }
          }
       
@@ -2551,8 +2668,9 @@ namespace LatrosNamespace {
          if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
             if (latros->numItems && weaponId) {
                --latros->hitCounter;
-               latros->dropItem(I_SWORD1);
-               break;
+               latros->dropItem(sword);
+               clearSwords(sword);
+               return true;
             }
          }
          
@@ -2561,6 +2679,8 @@ namespace LatrosNamespace {
          sword1x1Tile(this->X, this->Y, moveAngle - 90 + 15 * i, 16, tile, cset, damage);
          LatrosWaitframe(this, latros);
       }
+      
+      return false;
    }
 
    void flameChase(npc this, Latros latros) {
