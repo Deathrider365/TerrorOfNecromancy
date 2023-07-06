@@ -220,6 +220,8 @@ ffc script BattleArena {
                   setEnemies({
                      ENEMY_BAT,
                      ENEMY_BAT,
+                     ENEMY_BAT,
+                     ENEMY_BAT,
                      ENEMY_BAT
                   });
                   break;
@@ -238,6 +240,7 @@ ffc script BattleArena {
                   setEnemies({
                      ENEMY_BUBBLE_TEMP_LV1,
                      ENEMY_BUBBLE_TEMP_LV1,
+                     ENEMY_THIEF_LV1,
                      ENEMY_THIEF_LV1,
                      ENEMY_THIEF_LV1,
                      ENEMY_THIEF_LV1,
@@ -286,7 +289,7 @@ ffc script BattleArena {
             Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0);
             break;
          case 1:
-            Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0);
+            Audio->PlayEnhancedMusic("Otosan - Lord Rat Laureate Boss Battle.ogg", 0);
             break;
       }
    }

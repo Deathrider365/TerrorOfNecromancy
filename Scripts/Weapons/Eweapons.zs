@@ -293,7 +293,7 @@ eweapon script HammerImpact {
          Waitframe();
       }
       
-      Audio->PlaySound(SFX_WALL_SMASH);
+      Audio->PlaySound(SFX_IMPACT_EXPLOSION);
       
       int angle = DirAngle(OppositeDir(this->Dir));
       
@@ -301,9 +301,6 @@ eweapon script HammerImpact {
          eweapon e = FireEWeapon(EW_SCRIPT10, this->X, this->Y, DegtoRad(angle + Rand(-30, 30)), Rand(100, 250), this->Damage * .5, SPR_SUPER_SMALL_ROCK, 0, EWF_UNBLOCKABLE);
          e->Timeout = 32;
       }
-      
-      eweapon e = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
-      e->Damage = this->Damage * .75;
       
       this->Step = 0;
       this->CollDetection = false;

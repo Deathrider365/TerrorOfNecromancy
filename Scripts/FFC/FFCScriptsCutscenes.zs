@@ -639,11 +639,13 @@ ffc script CapturedSequenceImprisioned {
          setScreenD(0, true);
       }
       else {
+         disableLink();
          mapDataLayer1->ComboD[125] = 7007;
          Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.mp3", 0);
          this->Data = 7015;
          
          for (int i = 0; i < 60; ++i) {
+            disableLink();
             Screen->FastCombo(1, soldierCombo1X, 112, 7015, 7, OP_OPAQUE);
             Screen->FastCombo(1, soldierCombo2X, 112, 7015, 7, OP_OPAQUE);
             Waitframe();
@@ -667,6 +669,7 @@ ffc script CapturedSequenceImprisioned {
          int rightHandStartX = 224;
          
          for (int i = 0; i < 432; ++i) {
+            disableLink();
             if (i < 16) {
                this->X -= 1;
                Screen->FastCombo(1, soldierCombo1X -= 1, solderCombo1Y, 7014, 7, OP_OPAQUE);
@@ -745,7 +748,7 @@ ffc script CapturedSequenceImprisioned {
          Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
          Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
          
-         Screen->Message(252);
+         Screen->Message(251); //TODO check dialog for this sequence as there needs to be different dialog for this branch
          Waitframe();
          
          Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
@@ -814,7 +817,12 @@ ffc script CapturedSequenceNecromancer {
          
       until (Hero->X > 96 && Hero->X < 160 && Hero->Y >= 128) 
          Waitframe();
-         
+      
+      if (Hero->X > 96 && Hero->X < 160 && Hero->Y > 144) {
+         Hero->X = 120;
+         Hero->Y = 128;
+      }
+      
       Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.mp3", 0);
          
       for (int i = 0; i < 120; ++i) {
@@ -876,7 +884,7 @@ ffc script CapturedSequenceNecromancer {
       bool cursorOnYes = true;
 		int message = 251;
       
-      until (chose) {
+      until (chose) { //TODO make this do something
          notDuringCutsceneLink();
          
          Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
@@ -953,6 +961,7 @@ ffc script CapturedSequenceNecromancer {
          Waitframe();
       }
       
+      Hero->Stun = 0;
       Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
    }
 }
@@ -969,7 +978,11 @@ ffc script CapturesSequenceRightHand {
    void run() {
       if (getScreenD(0)) {
          this->Data = COMBO_INVIS;
-         
+         mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+         mapdata mapDataLayer2 = Game->LoadTempScreen(3);
+         mapDataLayer2->ComboD[50] = COMBO_INVIS;
+         mapDataLayer1->ComboD[66] = COMBO_INVIS;
+            
          while(true) {
             unless (gameframe % 120)
                Audio->PlaySound(SFX_WATER_DRIPPING);

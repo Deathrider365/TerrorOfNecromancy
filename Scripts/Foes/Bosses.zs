@@ -972,7 +972,7 @@ ffc script Shambles {
    }
    
    void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier) {
-      Audio->PlaySound(OOT_BIG_DEKU_BABA_LUNGE);
+      Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
       Waitframes(30);
       
       for (int i = 0; i < bombsToLob; ++i) {
@@ -2250,7 +2250,6 @@ npc script Egentem {
       attackThrowHammers(this, egentem, 10, 15);
       
       while(true) {
-         
          int trackerCount;
          aptr->PlayAnim(egentem->shieldHp <= 0 ? WALKING : WALKING_SH);
          
@@ -2310,7 +2309,7 @@ npc script Egentem {
             for (int i = 0; i < (numPillars() * .9); ++i)
                attackJumpToPillar(this, egentem);
          }
-            
+         
          if (egentem->shieldHp > 0) {
             if (avgDistances > 48) {
                attackHammerSpin(this, egentem);
