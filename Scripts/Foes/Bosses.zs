@@ -210,7 +210,7 @@ npc script Leviathan {
                      waterBall->Dir = AngleDir4(angle);
                      waterBall->Step = 300;
                      waterBall->Script = Game->GetEWeaponScript("LeviathanSignWave");
-                     waterBall->InitD[0] = wSizes[j]         * (0.5 + 0.5 * (i / 32));
+                     waterBall->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
                      waterBall->InitD[1] = wSpeeds[j];
                      waterBall->InitD[2] = true;
                   }
@@ -820,7 +820,7 @@ ffc script Legionnaire {
       }
       
       Ghost_Data = combo;
-      Audio->PlaySound(3);	
+      Audio->PlaySound(SFX_IMPACT_EXPLOSION);	
       
       for (int i = 0; i < 24; ++i) {
          makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, weaponDamage);

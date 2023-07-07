@@ -500,6 +500,13 @@ eweapon script Boomerang {
    }
 }
 
-
-
+eweapon script ShootingProjectile {
+   void run(int damage, int sprite, int step) {
+      this->Damage = damage;
+      this->Step = step;
+      this->Unblockable = UNBLOCK_ALL;
+      this->AutoRotate = true;
+      this->UseSprite(sprite);
+   }
+}
 

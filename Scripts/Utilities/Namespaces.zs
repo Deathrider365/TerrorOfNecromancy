@@ -152,7 +152,7 @@ namespace EnemyNamespace {
       return false;
    }
    
-   void doWalk(npc n, int rand, int homing, int step, bool flying = false) { 
+   void doWalk(npc n, int rand, int homing, int step, bool flying = false, bool fourDir = true) { 
 		const int ONE_IN_N = 1000;
 		
 		if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
@@ -162,8 +162,12 @@ namespace EnemyNamespace {
 				n->Dir = RandGen->Rand(3);
 			} until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
 		}
-		else if (homing >= RandGen->Rand(ONE_IN_N - 1))
-			n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+		else if (homing >= RandGen->Rand(ONE_IN_N - 1)) {
+         if (fourDir)
+            n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+         else 
+            n->Dir = RadianAngleDir8(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+      }
 		
 		unless (n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE)) {
 			int attemptCounter  = 0;
@@ -1260,7 +1264,7 @@ namespace ServusMalusNamespace {
 
    eweapon script BoomerangThrow {
       void run(npc parent, int tX, int tY, int step, int skew, int clockWise) {
-         for(int i = 0; i < 360;) {
+         for (int i = 0; i < 360;) {
             int cX = (parent->X + tX) / 2;
             int cY = (parent->Y + tY) / 2;
             int r = Distance(cX, cY, parent->X, parent->Y);
@@ -1635,20 +1639,40 @@ namespace EgentemNamespace {
    void introCutscene(npc this) {
       Audio->PlayEnhancedMusic(NULL, 0);
       
-      while (Hero->Y > 128 || Hero->Y < 112)
-         Waitframe();
+      if (Hero->Y < 32) {
+         while (Hero->Y < 32)
+            Waitframe();
+      }
+      else {
+         while (Hero->Y > 128 || Hero->Y < 112)
+            Waitframe();
+      }
       
-      this->X = 120;
-      this->Y = -16;
-      this->Dir = DIR_DOWN;
+      if (Hero->Y <= 48) {
+         this->X = 120;
+         this->Y = 176;
+         this->Dir = DIR_UP;
+         Hero->Dir = DIR_DOWN;
+      }
+      else {
+         this->X = 120;
+         this->Y = -16;
+         this->Dir = DIR_DOWN;
+         Hero->Dir = DIR_UP;
+      }
       
       AnimHandler aptr = GetAnimHandler(this);
       aptr->PlayAnim(WALKING);
-      Hero->Dir = DIR_UP;
       
       for (int i = 0; i < 90; ++i) {
          disableLink();
-         this->Y += .5;
+         
+         if (Hero->Y <= 48) {
+            this->Y -= .5;
+         }
+         else 
+            this->Y += .5;
+         
          Waitframe(this);
       }
       
@@ -2143,7 +2167,6 @@ namespace EgentemNamespace {
          until (Screen->SecretsTriggered())
             Waitframe();
 
-         // Audio->PlaySound(/*some laughing thing*/);
          Audio->PlayEnhancedMusic(NULL, 0);
          setScreenD(0, true);
       }
@@ -2427,7 +2450,8 @@ namespace LatrosNamespace {
          case ITEM_BRANG2:
          case ITEM_BRANG3: {
             FaceLink(this);
-            eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {
+            eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, 
+               Game->GetEWeaponScript("Boomerang"), {
                48,
                10,
                0,
@@ -2517,9 +2541,12 @@ namespace LatrosNamespace {
          case ITEM_OCARINA1: {
             bool droppedOcarina = false;
             
-            for (int i = 0; i < 180; ++i) {
+            for (int i = 0; i < 180 && !droppedOcarina; ++i) {
                unless (i)
                   Audio->PlaySound(SFX_WHISTLE);
+                  
+               unless (latros->hasItem(ITEM_OCARINA1))
+                  droppedOcarina = true;
                   
                // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
                   // if (latros->numItems && weaponId) {
@@ -2557,7 +2584,14 @@ namespace LatrosNamespace {
             latros->dropItem(I_LETTER);
             break;
          }
-      }
+         case ITEM_SINGLE_HEART: {
+            Audio->PlaySound(SFX_STALCHILD_ATTACK);
+            Audio->PlaySound(SFX_REFILL);
+            latros->dropItem(ITEM_SINGLE_HEART);
+            this->HP += 4;
+            break;
+         }
+      } //TODO perhaps add more cases for rupees and such (handle that heart situation)
    }
    
    void potionChug(npc this, Latros latros, int potionCombo) {
@@ -2620,6 +2654,8 @@ namespace LatrosNamespace {
          }
          
          drankPotion = true;
+         npcdata npcData = Game->LoadNPCData(this->ID);
+         this->HP = npcData->HP;
       }
       
       if (drankPotion) {

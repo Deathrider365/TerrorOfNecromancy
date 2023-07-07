@@ -740,15 +740,12 @@ ffc script CapturedSequenceImprisioned {
          Screen->Message(244);
          Waitframe();
          
-         bool chose = false;
-         bool cursorOnYes = true;
-         
          Screen->FastCombo(1, soldierCombo1X, solderCombo1Y, 7013, 7, OP_OPAQUE);
          Screen->FastCombo(1, soldierCombo2X, solderCombo2Y, 7013, 7, OP_OPAQUE);
          Screen->FastCombo(1, necromancerStartX, 112, COMBO_NECROMANCER_UP, 7, OP_OPAQUE);
          Screen->FastCombo(1, rightHandStartX, 112, COMBO_RIGHT_HAND_LEFT, 7, OP_OPAQUE);
          
-         Screen->Message(251); //TODO check dialog for this sequence as there needs to be different dialog for this branch
+         Screen->Message(250);
          Waitframe();
          
          Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
@@ -761,6 +758,17 @@ ffc script CapturedSequenceEscape {
    void run(int screenNumber) {      
       if (!getScreenD(33, 0x23, 0) || getScreenD(screenNumber))
          Quit();
+      
+      dmapdata dmapData = Game->LoadDMapData(Game->GetCurDMap());
+      
+      char32 curDmapMusic[256];
+      dmapData->GetMusic(curDmapMusic);
+      char32 desiredMusic[256] = "Castlevania Lament of Innocence-Elemental Tactician.ogg";
+      
+      if (strcmp(curDmapMusic, desiredMusic) != 0) {
+         dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
+      }
       
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       int comboPos;
@@ -880,6 +888,17 @@ ffc script CapturedSequenceNecromancer {
       Screen->Message(244);
       Waitframe();
       
+      Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
+      Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
+      
+      for (int i = 0; i < 9; ++i) {
+         Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
+         Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
+      }
+      
+      Screen->Message(257);
+      Waitframe();
+      
       bool chose = false;
       bool cursorOnYes = true;
 		int message = 251;
@@ -890,13 +909,13 @@ ffc script CapturedSequenceNecromancer {
          Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
          
          if (Input->Press[CB_LEFT] || Input->Press[CB_RIGHT]) {
-            message = cursorOnYes ? 251 : 252;
             Audio->PlaySound(CURSOR_MOVEMENT_SFX);
             cursorOnYes = !cursorOnYes;
          }
             
 			if (Input->Press[CB_A]) {
             Audio->PlaySound(cursorOnYes ? 139 : 140);
+            message = cursorOnYes ? 252 : 251;
 
             for (int i = 0; i < 30; ++i) {
                Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);

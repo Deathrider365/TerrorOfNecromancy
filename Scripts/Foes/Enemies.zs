@@ -24,6 +24,9 @@ npc script Candlehead {
          this->SlideSpeed = knockbackDist;
       
       while(true) {
+         if (this->HP <= 0)
+            this->Step = 0;
+         
          this->Slide();
          
          if (hitByLWeapon(this, LW_FIRE) || hitByEWeapon(this, EW_FIRE) || hitByEWeapon(this, EW_SCRIPT1))
@@ -57,8 +60,10 @@ npc script Candlehead {
          int x = chungo ? n->X + 8 : n->X;
          int y = chungo ? n->Y + 8 : n->Y;
 
-         if (n->HP < 10)
+         if (n->HP < 10) {
             n->HP = 0;
+            n->Step = 0;
+         }
          else
             n->HP -= 1; 
          
@@ -92,7 +97,6 @@ npc script Candlehead {
             Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
          }
          
-         // doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
          doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
          
          Waitframe();
@@ -234,6 +238,9 @@ npc script HammerBoi {
       int timer;
       
       while(true) {
+         if (this->HP <= 0)
+            this->Step = 0;
+         
          counter = ConstWalk4(this, counter);
          
          this->Slide();
@@ -408,3 +415,47 @@ npc script GraveDudeGoneApe {
       }
    }
 }
+
+npc script Bomber {
+   using namespace EnemyNamespace;
+   
+   void run() {
+      int attackCooldown = 150 + Rand(-30, 30);
+
+      while (true) {
+         if (this->HP <= 0)
+            this->Step = 0;
+         
+         this->Z = 1;
+         this->FakeZ = 10;
+         this->FakeJump = 10;
+         doWalk(this, 3, 1, 30, true, false);
+         
+         unless (attackCooldown) {
+            Waitframes(15);
+            eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, this->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
+            attackCooldown = 150 + Rand(-30, 30);;
+         }
+         
+         --attackCooldown;
+         Waitframe();
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

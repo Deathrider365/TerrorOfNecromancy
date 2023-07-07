@@ -332,7 +332,7 @@ void minimap(untyped bit, int layer, int originalX, int originalY, ScreenType dm
          int x = originalX + (8 * (q % 0x010));
          int y = originalY + (4 * Div(q, 0x010));
          
-         if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass)
+         if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass) //TODO how to hide the compass when "Dont display compass in minimap is checked"
             compassMarkerColor = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
          else if (q == currentScreen)
             compassMarkerColor = C_MINIMAP_LINK;
