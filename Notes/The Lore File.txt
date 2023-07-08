@@ -169,11 +169,10 @@ attack the village. He, not sypathetic to the Necromancer, gives  Link a key int
 village would give the Necromancer a significant advantage, as he knows any Hyrulian aid would come from the east.
 
 <Mini Dungeon 2: Seized Guardtower>
-~Major of the Tower ---Asseclan---~
-   
+~Lieutenant of Darkness ---Legatus---~
    Along the way up the tower, Link encounters a soldier locked up in the barracks. He tells Link that he does not sypathise with the Necromancer. Link, unlocking the door, set him 
-free where he flees to Viridi village to rest and hide (he ends up in the main barracks building where you got the Cumpura Key. Eventually, Link reaches the summit where the leader of the 
-tower resides. Asseclan is a Major of the Necromancer, a soldier that was given additional privilege by the Necromancer, learning combat from a Legionnaire. Upon defeating the elite guard, 
+free where he flees to Viridi village to rest and hide (he ends up in the main barracks building where Link got the Cumpura Key. Eventually, Link reaches the summit where the leader of the 
+tower resides. Legatus is a Lieutenant of the Necromancer, a soldier that was given additional privilege by the Necromancer, learning combat from a Legionnaire. Upon defeating the elite guard, 
 Link finds a signet with the Hylian symbol on it, which belonged to the soldier locked up in the tower. The elite guard's intention was to use the signet to infiltrate the non corrupt 
 soldiers' hideouts with surprise attacks. It is a symbol of opposition to the Necromancer, proving allegiance to Hyrule and not the Necromancer. Through adventuring Link finds a hidden 
 tunnel near the center of the northeastern plains that takes him to a ruined house in the desert storm plagued village of Auri. The tunnel was dug by a cultist to give easier access to the 
@@ -198,20 +197,22 @@ Necromancer. He gives Link little information about himself, extatic that he is 
 needed to enter the Shrine of Egentem, and he does not need to ocarina to enter given he is undead. Those who are living can only enter the shrine using the tune. On Link's way to the 
 Shrine of Egentem, he finds the small village of Silva guarded by non corrupt hylian soldiers which allows him into the village, given he has the signet of allegiance. Link learns that 
 the village is near the front lines of where the Necromancer's forces come from down south, and express concern for the village. The guards there express their direness towards the 
-Necromancer forces coming very close to the village, and ask Link to end the Necromancer. Link finds himself at the Shrine of Egentem, where he meets a cultist frantically 
-wanting to get into the shrine and does not have anyway to play the tune. Link plays the tune and enters the shrine with the cultist.
+Necromancer forces coming very close to the village, and ask Link to end the Necromancer. Link finds himself at the Shrine of Egentem, where he meets a very extravagantly dressed cultist 
+frantically wanting to get into the shrine and does not have anyway to play the tune. Link plays the tune and enters the shrine with the cultist, who vanishes almost instantly.
 
 <<Level 3: Shrine of Egentem>>
 ~Cult Patriarch ---Egentem---~
 
-   Upon reaching the main chamber of the shrine the cultist outside the entrance reveals himself to be the cult leader Egentem. He knew Link would would arrive at his shrine, as word 
-traveled fast of Link's arrival and journey thus far, and would want the triforce shard he possesses. During the battle it can be clearly seen that this "mage" does not do anything with
-magic. As it turns out, despite Egentem's claims of being reborn in darkness, he possesses no necromancy. They battle and Link is victorious.
-   Egentem is a man convinsed that he is the ancient evil from the Legend of the Calamity of Vita reborn, and the Necromancer is a deciever. He is seen as a normal man in full body robes, 
-but underneath he is actually undead, and the reason for his robes is that he cannot be in sunlight. He is the product of some of the Necromancer's early experimentation with the triforce. 
-He was a normal man captured, killed, and brought back with the triforce, but remembers the experience as having a near death experience where an ancient evil saved him from eternal torment 
-and believes he is the chosen one. He is known throughout the cult that he is undead, and the only reason he could be living is through the power of the ancient evil. His only power is his
-abilities with physical combat, wielding a shield and a hammer.
+   Throughout Link's time in the shrine he can see that cultist from the entrance watching him from atop the walls. Upon reaching the main chamber of the shrine the cultist outside the 
+entrance reveals himself to be the cult leader Egentem. He knew Link would would arrive at his shrine, as word traveled fast of Link's arrival and journey thus far, and would want the triforce 
+shard he possesses. During the battle it can be clearly seen that this "mage" does not do anything with magic. As it turns out, despite Egentem's claims of being reborn in darkness, he possesses 
+no necromancy, but rather is completely delusional. They battle and Link is victorious.
+   Egentem is a man convinsed that he is the ancient evil from the Legend of the Calamity of Vita reborn, and knows nothing of the scholar. He is seen as a normal man in extravagant full body 
+robes, but underneath he is actually undeadlike most cultists, and the reason for their robes is that he cannot be in sunlight. He is the product of some of the Necromancer's early experimentation 
+with the triforce. He was a normal man from the village of Conflatos, captured, killed, and brought back with the triforce, but remembers the experience as having a near death experience where an 
+ancient evil saved him from eternal torment and believes he is the chosen one. He is known throughout the cult that he is undead, and the only reason he could be living is through the power of the 
+ancient evil. His only power is his abilities with physical combat, wielding a shield and a hammer which stems from his past of being one of the famed smiths of Conflatos. His biggest accomplishment
+is the forging of the Blade of Conflatos, which is treasured among arms men.
    Upon leaving the Shrine, a guard is standing outside of the shrine and speaks to Link urgently saying he found out where zelda is, and she was captured by the Necromancer's forces, 
 held in the in the guardtower's dungeon outside Viridi. Link asks to see his signet of allegiance but the guard insists the situation is too dire for such trinkets. Upon getting to 
 the tower and into the dungeon, Link is ambushed by a bunch of the Necromancer's forces, including the soldier that led him there. Their intention was not to kill Link, but rather keep
@@ -235,31 +236,57 @@ the same crew as Link met just moments ago. The villagers do not know why the pi
 from Lenses of Truth at their disposal, and when peering in their lenses they can see a fogginess in the direction of Celo. These pirates are not typical pirates, they are knowledgeable of
 magic and have special Lenses that do more than simply show the hidden, they can peer through them with desire and the lense will be foggy in the direction of what they desire. Unbeknownst
 to them the Jewel is not in Celo, but rather in the Jungle to the north of Celo, but nothing can be done about this at this point.
-   More pressingly, Link meets a mysterious man that turn out to be a part of this underground resistance, but he will not allow Link inside as he was directed by HER to only allow one with
+   
+   More pressingly, Link meets Celo's elder which turns out to be a part of this underground resistance, but he will not allow Link inside as he was directed by HER to only allow one with
 "true courage" to meet with her. He then tasks Link with dealing with the pirate raids their village is experiencing, and points Link to their base which is in one of the Necromancer's prisons
 they conquered from the Necromancer's forces. The Necromancer cares not for them, as they do not trouble him and they are wreaking havoc which is always appreciated by him.
+   
    As Link sets off into SWI he comes across various biomes within SWI, many fairly extreme. First there is the volcanic region to the southwest, with the massive Mt. Caldum which is so massive
 it can be seen by Celo clearly. Mt. Caldum is an active volcano with constant lava flow all around it. The area surrounding the volcano are the lava fields that are extremely hot and riddled
 with pools of lava. If Link even sets foot in there without mail with heat protection he will begin to die of the heat. Then there are the plains which are rife with much stronger foes that will
 make Link wish he had better armor and weapons. He may find himself to the southeast to Mt. Duratu which is not a volcano but rather a snow capped mountain complete with a frosty landscape around
 it. Similarly until Link find himself with armor that can protect himself from the elements he will freeze to death. Luckily he cannot go far into the snow fields as an avalanche had occurred
-at the base of the mount, and he meets some people hoping to clear the mess to get home to their village at the base of the mountain.
+at the base of the mount, and he meets some people hoping to clear the mess to get home to their village at the base of the mountain. He can meet the husband of a woman in Celo that is there
+helping the cause. If Link helps them clear the snow (Powder Keg) he will return to Celo and his wife rewards you with a heart piece.
+   
+   During Link's adventuring he will come across a secluded dwelling in a tree just south of Castle Interitus as well as a small graveyard. Upon entering Link find an old man, very aggressively
+warning him not to tamper with any of the headstones. If Link tampers with the headstones then goes back into the tree, he will be attacked by the old gravetender. He is a very easy win and just
+tells Link to leave. However, if Links enters the center grave and kill the Redead within Link will obtain a Strange Coffer. Entering the tree with the coffer forces the old man to reel back and lament
+on it. The old man was once an avid adventurer, reaching from the highest peaks to the deepest depths on Interitus. During that time, his mother made him a very durable cold resistant suit
+that allowed him to take his adventuring to the max. As time passed she died, and his whole family started to pass and in his time caring for their tombs he became known as a hermit gravekeeper.
+Given his advanced age and the passing of his mother he buried the armor with her. With the Necromancer's necromancy he noticed his mother as well as the rest of his family were returning
+undead. He then warns anyone coming by to not open the tombs as he has them well contained, and opening the tombs would release them. Bringing the coffer to him shows him that Link did open the 
+tomb, but Link was also capable of putting his mother down for good. He thanks Link for giving her a final rest and rewards him with the Adventurer's Mail.
+   
    Eventually Link will find himself on the southern coast of the island where he is welcomed by Confaltos, village of the ironworkers. Given that their based just south of MT. Caldum with it's
 constant lava flow they were able to establish an island wide reputation for crafting the best weapons, armor, and event everyday metal objects. Speaking with the villagers there Link learns
 that they have a long history of making high quality metal goods in their Facility that is constantly fed by a massive lava fall, and is directly next to the coast so it is prime for forging.
-Upon reaching the village elder Link inquires for a better sword. The elder is willing to grant him his request, but not for free. The elder asks Link if he could go into a subset of their
-facility, as the depths are closed to outsiders, and assist them with an issue they have been encountering. 
-   This sub area is the main floor of the facility where they store their forged objects, as well as direct the lava and water flow making sure they go into the right areas of the undercroft, 
-which is where the actual forging and combining of lava and water happens. The issue they are encountering is that some of the Necromancer's forces have barged in and have started stealing 
-weapons and armor as well as tampering with the flow of water and lava, causing damage down under. The elder asks Link to wipe out those troublesome soldiers, and in return he can take their
-prized sword Blade of Conflator, the best sword every forged. He does recommend Link to have upgraded armor before entering as these soldiers are not on the weaker side, as well as some other 
-more curious threats. And so Link enters the Molten Flooded Forge to end the chaos and acqure a new sword.
+Upon reaching the village elder Link inquires for a better sword. If Link has not found the Adventurer's Mail the elder turns down his request, stating it would be too dangerous. If Links has
+the Adventurer's Mail, the elder is willing to grant him his request, but not for free. The elder asks Link if he could go into the top layer of their facility, as the depths are closed to 
+outsiders, and assist them with an issue they have been encountering. 
+   In the elder's house Link can read a missive from the Necromancer's captain, Duxo, saying that the elder's refusal to continue to meet the demands of the Necromancer
+will not be tolerated and that he will come and take everything by force. As can be seen upon arrival they were in the process of that when the elder locked them in the forge with the
+security system they have. So Duxo and his forces are now trapped within the forge, tampering and sabotaging the upper layers, as the lower layers are locked given how dangerous they are.
+And so Link enters the Molten Flooded Forge to end the chaos and acqure a new sword.
 
 <Mini Dungeon 3: Molten Flooded Forge>
-~ --- ---~
+~Captain of Darkness ---Duxo---~
+   Upon entering the top level of the forge which is where the flow of lava and water are controlled for the lower levels to help in the forging process down under. This layer is much more
+habitable in terms of temperature given it mainly diverts the flows and is storage for all of the forged equipment. Link can see break rooms and storage rooms throughout along with stronger
+soldiers utilizing some of those stronger weaponry. These soldiers are in general stronger since this is a point of interest and on the southern portion of the island so closer to the
+Necromancer's castle which he wants well fortified. Going through the forge Link will find himself in some of the underground tunnels the miners have dug granting access to other areas in
+the forge. None of these tunnels interact with the lower levels but are reminiscent of them. Eventually, by killing the enemy soldiers and turning on the forge's devices, Link restores the
+water and lava flows to gain access to the primary mixing and storage room where he finds Duxo locked in. Duxo was after the prized Blade of Conflator, but found it locked as well as being 
+sealed within the chamber. When his soldiers started screwing with the forge's flows and such that put the inner chamber on lockdown, locking him in there. Link, having found the master
+key of the forge (boss key), was able to open the chest, and can even use this masterly crafted blade against Duxo.
 
+Having defeated Duxo and purging the Forge of the enemy, the elder thanks Link and informs him that the forging of equipment will recommence, but only for those agaist the Necromancer.
+   
+   With Link's new sword as well as the Adventurer's Mail he found from the old advenurer, he is now ready to fufil Celo's elder's request to deal with the pirate threat coming from the overthrown
+prison.
 
-
+<<Level 4: Prison of Brigands>>
+~Cult Patriarch ---Egentem---~
 
 
 
@@ -268,5 +295,4 @@ more curious threats. And so Link enters the Molten Flooded Forge to end the cha
 <Mini Dungeon 3: Domumbris Sewers (home of darkness - domum tenebris (Domumbris))>
 ~Undead Guard Dog ---IDK---~
 
-   Link encounters a lot of undead animals in the sewers and eventually comes across <IDK>. IDK is considered the Necromancer's Pet as it was the first living thing that he practiced his 
-powers on. Link escapes the sewers and makes his way to <VILLAGE NAME> where he finds the underground resistance and finds Zelda.
+Other military ranks (in order): Lieutenant (Legatus), Captain (duxo), Major, Brigadier, General

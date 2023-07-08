@@ -1574,6 +1574,16 @@ namespace EgentemNamespace {
                Audio->PlaySound(SFX_IRON_KNUCKLE_STEP);
                AnimHandler aptr = GetAnimHandler(this);
                
+               
+               for (int i = 0; i < 20; ++i)
+                  this->Defense[i] = NPCDT_NONE;
+               
+               this->Defense[NPCD_BRANG] = NPCDT_BLOCK;
+               this->Defense[NPCD_BOMB] = NPCDT_HALFDAMAGE;
+               this->Defense[NPCD_SBOMB] = NPCDT_HALFDAMAGE;
+               this->Defense[NPCD_FIRE] = NPCDT_2XDAMAGE;
+               this->Defense[NPCD_HAMMER] = NPCDT_HALFDAMAGE;
+               
                switch(aptr->GetCurAnim()) {
                   case WALKING:
                   case WALKING_SH:
@@ -1696,6 +1706,7 @@ namespace EgentemNamespace {
       }
       
       Screen->Message(337);
+      Waitframe();
       hammerFrame(this, 0, 0, xy);
       Screen->Message(807);
       Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);

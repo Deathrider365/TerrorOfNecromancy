@@ -702,7 +702,7 @@ ffc script Shop {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
             if(Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_RUPEES] >= price) {
+               if (Game->Counter[CR_RUPEES] >= price) { //TODO is bugged like classic ZC
                   Game->DCounter[CR_RUPEES] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
 

@@ -24,6 +24,8 @@ StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
 
+int curLinkFunds = 0;
+
 //end
 
 //~~~~~Typedefs~~~~~//

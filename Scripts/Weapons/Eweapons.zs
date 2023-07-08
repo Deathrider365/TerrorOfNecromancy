@@ -282,6 +282,7 @@ eweapon script HammerImpact {
    void run() {
       const int TILE_HAMMER_IMPACT = 49916;
       this->Step = 250;
+      this->Unblockable = UNBLOCK_ALL;
       
       while(true) {
          int x = this->X + 8 + DirX(this->Dir) * 4;
@@ -319,6 +320,7 @@ eweapon script HammerImpactEffect {
    void run(int tile) {
       this->CollDetection = false;
       this->ScriptTile = TILE_INVIS;
+      this->Unblockable = UNBLOCK_ALL;
       
       for (int i = 0; i < 5; ++i) {
          int tempTile = tile + (i > 0 ? 2 : 0);

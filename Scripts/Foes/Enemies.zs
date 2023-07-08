@@ -435,7 +435,7 @@ npc script Bomber {
             Waitframes(15);
             eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, this->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
             runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
-            attackCooldown = 150 + Rand(-30, 30);;
+            attackCooldown = 150 + Rand(-30, 30);
          }
          
          --attackCooldown;

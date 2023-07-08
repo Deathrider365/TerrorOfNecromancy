@@ -278,7 +278,6 @@ dmapdata script SubscreenActive {
             for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
                Screen->DrawTile(0, 14, 80 + y, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
             break;
-               
       }
    }
 

@@ -34,7 +34,7 @@ global script GlobalScripts {
       
       while(true) {
          gameframe = (gameframe + 1) % 3600;
-      
+         
          checkDungeon();
          
          LinkMovement_Update1();

@@ -2074,7 +2074,7 @@ npc script ServusMalus {
 }
 
 @Author("Moosh")
-npc script TurnedHylianGeneral {
+npc script TurnedHylianElite {
    using namespace NPCAnim;
    using namespace NPCAnim::Legacy;
 
@@ -2083,7 +2083,7 @@ npc script TurnedHylianGeneral {
       ATTACK
    };
 
-   void run() {
+   void run(int introMessage) {
       AnimHandler aptr = new AnimHandler(this);
       
       AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
@@ -2091,6 +2091,11 @@ npc script TurnedHylianGeneral {
       
       int maxHp = this->HP;
       Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
+      
+      unless (getScreenD(0)) {
+         Screen->Message(introMessage);
+         setScreenD(0, true);
+      }
       
       while(true) {
          int movementDirection = Choose(90, -90);
@@ -2243,6 +2248,12 @@ npc script Egentem {
       closeShutters(this);
       this->CollDetection = true;
       
+      for (int i = 0; i < 20; ++i)
+         this->Defense[i] = NPCDT_QUARTERDAMAGE;
+      
+      this->Defense[NPCD_BRANG] = NPCDT_BLOCK;
+      this->Defense[NPCD_WHISTLE] = NPCDT_IGNORE;
+
       int heroDistances[10];
       int heroActiveAItems[10];
       int heroActiveBItems[10];

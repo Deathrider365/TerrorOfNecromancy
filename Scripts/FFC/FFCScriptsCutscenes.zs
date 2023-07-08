@@ -449,6 +449,7 @@ ffc script DifficultyChoice {
             }
 
             Waitframes(30);
+            Hero->Stun = 0;
             Hero->WarpEx({WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
 			}
 
