@@ -3,13 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 @Author("Deathrider365")
-ffc script ShipCabin {
-   void run() {
-      Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
-   }
-}
-
-@Author("Deathrider365")
 ffc script IntroAwaitingLeviathan {	
    void run(int message, int dmap, int scr, int timeUntilWarp) {
       Audio->PlayEnhancedMusic("WW - The Great Sea.ogg", 0);
@@ -474,6 +467,7 @@ ffc script CapturedSequenceImprisioned {
    
       if (getScreenD(1)) {
          dmapData->SetMusic("Castlevania 64 - Setting.ogg");
+         Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0);
          
          soldierCombo1X = 176;
          soldierCombo2X = 192;

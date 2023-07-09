@@ -355,15 +355,14 @@ ffc script GetItemOLD {
 
 @Author("Deathrider365")
 ffc script SignpostTriggerFromItem {
-   //start Instructions
    //D0: itemIdToCheckFor     - Item to set off the script
    //D1: stringNoItem         - string that plays when you do not have the item
    //D2: stringHasItem        - string that plays when you have the item and are setting off the script
    //D3: stringGottenItem     - string that plays when you already set off the script
    //D4: triggerToSetOff      - indicates the trigger this ffc will do (0 = secrets, 1 = screend, 2 = item(trader))
    //D4: triggerValue         - Used for ScreenD and items, secrets dont need a value to use when triggered
-   //end
-   void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue) {
+   //D5: selfKill             - Used for does this script kill itself once triggered
+   void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue, int selfKill) {
       CONFIG TRIGGER_SECRET = 0;
       CONFIG TRIGGER_SCREEND = 1;
       CONFIG TRIGGER_ITEM = 2;
@@ -374,18 +373,33 @@ ffc script SignpostTriggerFromItem {
       
       while(true) {
          if (triggerToSetOff == TRIGGER_SECRET && Screen->State[ST_SECRET]) {
+            if (selfKill) {
+               this->Data = COMBO_INVIS;
+               Quit();
+            }
+            
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else if (triggerToSetOff == TRIGGER_SCREEND && getScreenD(triggerValue)) {
+            if (selfKill) {
+               this->Data = COMBO_INVIS;
+               Quit();
+            }
+            
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else if (triggerToSetOff == TRIGGER_ITEM && Hero->Item[itemReceiving] && getScreenD(screenDToCheck)) {
+            if (selfKill) {
+               this->Data = COMBO_INVIS;
+               Quit();
+            }
+            
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
@@ -476,6 +490,7 @@ ffc script SignpostTriggerFromItem {
             
          if (againstFFC(this->X, this->Y))
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+         
          Waitframe();
       }
       
@@ -483,6 +498,7 @@ ffc script SignpostTriggerFromItem {
          return true;
    }
 }
+
 @Author("Deathrider365")
 ffc script GetItemOnScreenD {
    //start Instructions
@@ -593,24 +609,23 @@ ffc script GetItemOnSecret {
 
 @Author("Deathrider365")
 ffc script GetItemOnItem {
-   //start Instructions
    //D0: itemIdToReceive      - Item you will receive
    //D1: itemIdRequired       - A required item that can either kill the script or make the script wait until you have it
-   //D2: requiredItemKills    - Whether the required item kills the script or makes it wait
+   //D2: requiredItemKills    - Whether the required item kills the script or makes it wait //TODO no it doesnt
    //D3: gettingItemString    - String for when you are getting the item
    //D4: gottenItemString     - String for when you are receiving the item
    //D5: layer                - Layer to handle solidity combo drawing for the FFC
-   //D5: screenD              - ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])
-   //end
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD) {
+   //D6: screenD              - ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])
+   //D7: doesntHaveItemString - String for when you do not have the required item
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD, int doesntHaveItemString) { //TODO refactor
       mapdata template = Game->LoadTempScreen(layer);
       
       int prevData = this->Data;
       int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
       
       while(true) {
-         this->Data = 0;
-         template->ComboD[ComboAt(this->X, this->Y)] = 0;
+         this->Data = COMBO_INVIS;
+         template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
          
          if (itemIdRequired) {       
             if (requiredItemKills) {
@@ -618,8 +633,25 @@ ffc script GetItemOnItem {
                   Quit();
             }
             else {
-               while (!Hero->Item[itemIdRequired])
+               this->Data = prevData;
+               template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+               int doesntHaveItemStringString = Floor(doesntHaveItemString);
+               int hideMe = (doesntHaveItemString % 1) / 1L;
+               
+               while (!Hero->Item[itemIdRequired]) {
+                  if (hideMe) {
+                     this->Data = COMBO_INVIS;
+                     template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+                     Quit();
+                  }
+                  else {
+                     waitForTalking(this);
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(doesntHaveItemStringString);
+                  }
+                  
                   Waitframe();
+               }
             }
          }
          
@@ -631,7 +663,6 @@ ffc script GetItemOnItem {
 
          if (Hero->Item[itemIdToReceive] || getScreenD(screenD)) {
             Screen->Message(gottenItemString);
-               
             Waitframe();
          } else {
             Screen->Message(gettingItemString);
@@ -815,10 +846,12 @@ ffc script BuyItem {
             switch(itemId) {
                case ITEM_EXPANSION_BOMB:
                   Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
+                  Hero->Item[ITEM_EXPANSION_BOMB] = false;
                   Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_EXPANSION_QUIVER:
                   Game->Counter[CR_QUIVER_EXPANSIONS]++;
+                  Hero->Item[ITEM_EXPANSION_QUIVER] = false;
                   Screen->State[ST_ITEM] = true;
                   break;
                case ITEM_BATTLE_ARENA_TICKET:

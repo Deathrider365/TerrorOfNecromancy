@@ -447,8 +447,11 @@ ffc script WarpCustomReturn {
 ffc script PlayEnhancedMusic {
    void run(int musicChoice) {
       switch(musicChoice) {
+         case 0:
+            Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0);
+            break;
          case 1:
-            Audio->PlayEnhancedMusic("Tales of Destiny - Ruins.ogg", 0);
+            Audio->PlayEnhancedMusic("OoT - Potion Shop.ogg", 0);
             break;
       }
    }

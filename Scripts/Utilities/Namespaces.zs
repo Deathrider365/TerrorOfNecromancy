@@ -55,7 +55,6 @@ namespace EnemyNamespace {
 				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
-            Audio->EndSound(SFX_BOMB);
          }
          Waitframes(5);
       }
@@ -1532,7 +1531,6 @@ namespace EgentemNamespace {
 				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
-            Audio->EndSound(SFX_BOMB);
          }
          Waitframes(5);
       }
@@ -2113,7 +2111,7 @@ namespace EgentemNamespace {
             this->TileWidth = 2;
             this->TileHeight = 2;
             this->CollDetection = false;
-            this->UseSprite(57); //TODO set to constant
+            this->UseSprite(SPR_ROTATING_PILLAR);
             this->Angular = true;
             this->Damage = 6;
             
@@ -2338,6 +2336,16 @@ namespace LatrosNamespace {
             Hero->Item[Hero->ItemA] = false;
             Hero->Item[Hero->ItemB] = false;
             
+            if (Game->LoadItemData(itemA)->Type == IC_BRANG)
+               clearBoomerangs(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_BRANG)
+               clearBoomerangs(itemB);
+            
+            if (Game->LoadItemData(itemA)->Type == IC_CANDLE)
+               clearCandles(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_CANDLE)
+               clearCandles(itemB);
+            
             if (Game->LoadItemData(itemA)->Type == IC_SWORD)
                clearSwords(itemA);
             if (Game->LoadItemData(itemB)->Type == IC_SWORD)
@@ -2358,12 +2366,26 @@ namespace LatrosNamespace {
       this->CollDetection = true;
    }
    
+   void clearBoomerangs(int itemId) {
+      switch(itemId) {
+         case ITEM_BRANG2:
+            Hero->Item[ITEM_BRANG1] = false;
+      }
+   }
+   
    void clearSwords(int itemId) {
       switch(itemId) {
          case ITEM_SWORD3:
             Hero->Item[ITEM_SWORD2] = false;
          case ITEM_SWORD2:
             Hero->Item[ITEM_SWORD1] = false;
+      }
+   }
+   
+   void clearCandles(int itemId) {
+      switch(itemId) {
+         case ITEM_CANDLE2:
+            Hero->Item[ITEM_CANDLE1] = false;
       }
    }
    
@@ -2460,29 +2482,7 @@ namespace LatrosNamespace {
          case ITEM_BRANG1:
          case ITEM_BRANG2:
          case ITEM_BRANG3: {
-            FaceLink(this);
-            eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, 
-               Game->GetEWeaponScript("Boomerang"), {
-               48,
-               10,
-               0,
-               this,
-               6
-            });
-            
-            while(boomer->isValid()) {
-               // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-                  // if (latros->numItems && weaponId) {
-                     // --latros->hitCounter;
-                     // latros->dropItem(I_BRANG2);
-                     // boomer->Remove();
-                     // break;
-                  // }
-               // }
-
-               LatrosWaitframe(this, latros);
-            }
-               
+            throwBoomerang(this, latros, id); 
             break;
          }
          case ITEM_BOMB1: {
@@ -2525,9 +2525,12 @@ namespace LatrosNamespace {
             }
             break;
          }
-         case ITEM_CANDLE1:
          case ITEM_CANDLE2: {
-            flameChase(this, latros);
+            flameChase(this, latros, ITEM_CANDLE2);
+            break;
+         }
+         case ITEM_CANDLE1:{
+            flameChase(this, latros, ITEM_CANDLE1);
             break;
          }
          case ITEM_HAMMER1: {
@@ -2603,6 +2606,31 @@ namespace LatrosNamespace {
             break;
          }
       } //TODO perhaps add more cases for rupees and such (handle that heart situation)
+   }
+   
+   void throwBoomerang(npc this, Latros latros, itemdata id) {
+      FaceLink(this);
+      eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, 
+         Game->GetEWeaponScript("Boomerang"), {
+         48,
+         10,
+         0,
+         this,
+         6
+      });
+      
+      while(boomer->isValid()) {
+         // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
+            // if (latros->numItems && weaponId) {
+               // --latros->hitCounter;
+               // latros->dropItem(I_BRANG2);
+               // boomer->Remove();
+               // break;
+            // }
+         // }
+
+         LatrosWaitframe(this, latros);
+      }
    }
    
    void potionChug(npc this, Latros latros, int potionCombo) {
@@ -2741,7 +2769,7 @@ namespace LatrosNamespace {
       return false;
    }
 
-   void flameChase(npc this, Latros latros) {
+   void flameChase(npc this, Latros latros, int itemId) {
       int vectorX, vectorY;
       
       for (int i = 0; i < 120; ++i) {
@@ -2758,6 +2786,20 @@ namespace LatrosNamespace {
          vectorY = lazyChase(vectorY, this->Y + 8, Hero->Y - 8, .05, Hero->Step / 75);
          this->MoveXY(vectorX, vectorY, SPW_NONE);
          
+         int fireSprite;
+         int damage;
+         
+         switch(itemId) {
+            case ITEM_CANDLE1:
+               fireSprite = SPR_FLAME_WAX;
+               damage = 4;
+               break;
+            case ITEM_CANDLE2:
+               fireSprite = SPR_FLAME_OIL;
+               damage = 6;
+               break;
+         }
+         
          unless (i % 10) {
             eweapon flame = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
             flame->Dir = AngleDir8(Angle(this->X, this->Y, Hero->X, Hero->Y));
@@ -2769,7 +2811,7 @@ namespace LatrosNamespace {
             flame->InitD[1] = 200;
             flame->Gravity = true;
             flame->Damage = 4;
-            flame->UseSprite(SPR_FLAME_OIL);
+            flame->UseSprite(fireSprite);
             
             Audio->PlaySound(SFX_FIRE);
          }
@@ -2796,7 +2838,6 @@ namespace LatrosNamespace {
 				explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
 				explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
 				explosion->CollDetection = false;
-            Audio->EndSound(SFX_BOMB);
          }
          
          unless (i % 9)
@@ -3514,7 +3555,6 @@ namespace WaterPathsNamespace {
 }
 
 namespace EmilyMap {
-//start because notepad++ is stupid
    CONFIG COLOR_NULL = 0x0F;
    CONFIG COLOR_FRAME = 0x01;
    CONFIG COLOR_CUR_ROOM = 0x66;
@@ -3757,8 +3797,8 @@ namespace EmilyMap {
          
          Input->Press[CB_MAP] = false;
          Input->Button[CB_MAP] = false;
-         Input->Press[CB_START] = false;
-         Input->Button[CB_START] = false;
+         Link->InputStart = false;
+         Link->InputStart = false;
          
          bmp->Free();
       }
@@ -4029,4 +4069,4 @@ namespace EmilyMap {
 			}
 		}
    }
-} //end
+}

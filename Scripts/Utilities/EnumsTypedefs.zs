@@ -24,8 +24,6 @@ StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
 
-int curLinkFunds = 0;
-
 //end
 
 //~~~~~Typedefs~~~~~//
@@ -201,9 +199,6 @@ CONFIG SFX_STALFOS_GROAN_SLOW = 168;
 CONFIG SFX_IMPACT_EXPLOSION = 169;
 CONFIG SFX_STALCHILD_ATTACK = 170;
 
-
-
-
 //end
 
 //~~~~~Sprite~~~~~//
@@ -216,6 +211,8 @@ CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for Z
 CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
 
 CONFIG SPR_FLAME_TRAIL = 123;
+
+CONFIG SPR_ROTATING_PILLAR = 57;
 
 CONFIG SPR_FLAME_WAX = 12;
 CONFIG SPR_FLAME_OIL = 126;

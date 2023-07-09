@@ -64,7 +64,4 @@ void yeetHero(int angle, int step, int duration, bool noAction, bool stopAtSolid
    gd->Data[YEET_NOACTION] = noAction;
    gd->Data[YEET_NEW_YEET] = true;
    gd->Data[YEET_STOP_AT_SOLID] = stopAtSolid;
-   
-   Trace(duration);
-   Trace(gd->Data[YEET_DURATION]);
 }
