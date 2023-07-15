@@ -1,42 +1,19 @@
-//NPCAnim.zh ver 1.1.0
-
-CONFIG NPCM_ANIMPOINTER = 15; //Index for storing the animation pointer in NPC->Misc[]
-CONFIG ANIM_BUFFER_LENGTH = 1024; //Arbitrary size for NPC animation array
-
-CONFIGB NEW_NPC_DEATHANIM = false; //If true, the death animation flickers the enemy before it disappears. This is mostly toggleable because ghost doesn't do this.
+//NPCAnim.zh ver 1.2.0
 
 namespace NPCAnim{
+	CONFIG NPCM_ANIMPOINTER = 15; //Index for storing the animation pointer in NPC->Misc[]
+	CONFIG ANIM_BUFFER_LENGTH = 1024; //Arbitrary size for NPC animation array
+	CONFIG ANIM_WALKABILITY_MAXLAYER = 2; //Max layer to check for combo types
+		
+	CONFIGB NEW_NPC_DEATHANIM = false; //If true, the death animation flickers the enemy before it disappears. This is mostly toggleable because ghost doesn't do this.
+	CONFIGB RESIZE_ON_DEATH = true; //If true, the enemy scales down to 1x1 and centers on death
+	CONFIGB QUIT_ON_DEATH = true; //If true, the script quits on the frame the enemy dies
+	CONFIGB DEBUG_COLLISION_HITBOX = false; //If true, the enemy's collision hitbox will be drawn to the screen
+
 	//User defined function for custom pixel collisions, accessed when moveStyle is negative
-	bool CanMovePixelCustom(int x, int y, int moveStyle){
+	bool CanMovePixelCustom(npc n, int x, int y, int moveStyle){
 		//Define your own behavior here
 	}
-	
-	//Constants for indices at the start of the animation array
-	enum AnimIndex{ 
-		AI_CURANIM,
-		AI_NUMANIMS,
-		AI_CURFRAME,
-		AI_CLOCK,
-		AI_DIR,
-		AI_ORIGINALTILE,
-		AI_ANIMFINISHED,
-		AI_SPEEDMOD,
-		AI_SUBPIXELX,
-		AI_SUBPIXELY,
-		AI_SHADOW_TILE,
-		AI_SHADOW_CSET,
-		AI_SHADOW_W,
-		AI_SHADOW_H,
-		AI_SHADOW_NUMFRAMES,
-		AI_SHADOW_ASPEED,
-		AI_SHADOW_YOFF,
-		AI_SHADOW_CLOCK,
-		AI_COLL_XOFF,
-		AI_COLL_YOFF,
-		AI_COLL_WIDTH,
-		AI_COLL_HEIGHT,
-		AI_END
-	};
 	
 	//Constants for indices within individual animations
 	enum AnimDefIndex{
@@ -47,6 +24,21 @@ namespace NPCAnim{
 		ADI_NEXT,
 		ADI_LOOPFRAME,
 		ADI_FLAGS,
+		ADI_TILEW,
+		ADI_TILEH,
+		ADI_HITXOFF,
+		ADI_HITYOFF,
+		ADI_HITWIDTH,
+		ADI_HITHEIGHT,
+		ADI_COLL_HITXOFF,
+		ADI_COLL_HITYOFF,
+		ADI_COLL_HITWIDTH,
+		ADI_COLL_HITHEIGHT,
+		ADI_DRAWXOFF,
+		ADI_DRAWYOFF,
+		ADI_POSXOFF,
+		ADI_POSYOFF,
+		ADI_EXFLAGS,
 		ADI_END
 	};
 	
@@ -58,463 +50,766 @@ namespace NPCAnim{
 		AM_DEEPWATERONLY,
 		AM_PITONLY,
 		AM_IGNOREALL,
-		AM_IGNOREALLOFFSCREEN
+		AM_IGNOREALLOFFSCREEN,
+		AM_ZQ //Tries to replicate ZQuest editor move flags
 	};
 	
-	const int ADF_4WAY = 0x01; //Animation is 4-directional
-	const int ADF_8WAY = 0x02; //Animation is 8-directional
-	const int ADF_FLIPRIGHT = 0x04; //Left facing animations are flipped when facing right
-	const int ADF_NOLOOP = 0x08; //The animation doesn't loop when it ends
-	const int ADF_NORELATIVE = 0x10; //Animation frames are absolute tile values rather than relative to the enemy's original tile
-	const int ADF_NORESET = 0x20; //Animation frame doesn't reset on changing animations
-	const int ADF_REVERSE = 0x40; //Animation plays in reverse
+	enum AnimFlags{
+		ADF_4WAY 			= 0x01, //Animation is 4-directional
+		ADF_8WAY 			= 0x02, //Animation is 8-directional
+		ADF_FLIPRIGHT 		= 0x04, //Left facing animations are flipped when facing right
+		ADF_NOLOOP 			= 0x08, //The animation doesn't loop when it ends
+		ADF_NORELATIVE 		= 0x10, //Animation frames are absolute tile values rather than relative to the enemy's original tile
+		ADF_NORESET 		= 0x20, //Animation frame doesn't reset on changing animations
+		ADF_REVERSE 		= 0x40, //Animation plays in reverse
+		ADF_VERTICAL 		= 0x80 //Vertical 4-directional and 8-directional animations
+	};
 	
-	//Call at the start of the script after initializing the animation buffer
-	void InitAnims(npc n, int aptr){
-		n->Misc[NPCM_ANIMPOINTER] = aptr;
-		
-		int arraySize = SizeOfArray(aptr);
-		if(arraySize!=ANIM_BUFFER_LENGTH){
-			ResizeArray(aptr, ANIM_BUFFER_LENGTH);
-			printf("NPCANIM.ZH WARNING: Animation buffer array isn't the expected length. Attempting to resize it to the correct length. Please use the ANIM_BUFFER_LENGTH constant.\n");
-		}
-		
-		aptr[AI_ORIGINALTILE] = n->OriginalTile;
-		aptr[AI_SPEEDMOD] = 1;
-	}
+	enum AnimExtendFlags{
+		ADFX_HITOFF			= 0x01, // Animation uses hit offsets
+		ADFX_COLLOFF		= 0x02, // Animation uses collision offsets
+		ADFX_DRAWOFF		= 0x04, // Animation uses draw offsets
+		ADFX_POSOFF			= 0x08 // Animation uses position offsets
+	};
 	
-	//Sets an enemy's tile width and height and shaves pixels off the edges of its hitbox
-	void SetAnimSpriteHitbox(npc n, int w, int h, int top, int bottom, int left, int right){
-		n->Extend = 3;
-		n->HitXOffset = 0;
-		n->HitYOffset = 0;
-		n->TileWidth = w;
-		n->TileHeight = h;
-		n->HitWidth = w*16;
-		n->HitHeight = h*16;
-		n->HitXOffset += left;
-		n->HitWidth -= left;
-		n->HitWidth -= right;
-		n->HitYOffset += top;
-		n->HitHeight -= top;
-		n->HitHeight -= bottom;
-	}
-	//Sets the enemy's movement hitbox, based on its tile width and height
-	void SetAnimMovementHitbox(npc n, int top, int bottom, int left, int right){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		
-		aptr[AI_COLL_XOFF] = 0;
-		aptr[AI_COLL_YOFF] = 0;
-		aptr[AI_COLL_WIDTH] = n->TileWidth*16;
-		aptr[AI_COLL_HEIGHT] = n->TileHeight*16;
-		aptr[AI_COLL_XOFF] += left;
-		aptr[AI_COLL_WIDTH] -= left;
-		aptr[AI_COLL_WIDTH] -= right;
-		aptr[AI_COLL_YOFF] += top;
-		aptr[AI_COLL_HEIGHT] -= top;
-		aptr[AI_COLL_HEIGHT] -= bottom;
-	}
-	
-	//Update an NPC's animation for the frame
-	void UpdateAnims(npc n){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		
-		int curAnim = aptr[AI_CURANIM];
-		int curFrame = aptr[AI_CURFRAME];
-		
-		//Skip updates if the enemy is invisible
-		if(curAnim==-1)
-			return;
-	
-		int aTile = GetAnimProperty(aptr, curAnim, ADI_TILE);
-		int maxFrame = GetAnimProperty(aptr, curAnim, ADI_NUMFRAMES);
-		int maxClock = GetAnimProperty(aptr, curAnim, ADI_ASPEED);
-		int nextAnim = GetAnimProperty(aptr, curAnim, ADI_NEXT);
-		int loopFrame = GetAnimProperty(aptr, curAnim, ADI_LOOPFRAME);
-		int flags = GetAnimProperty(aptr, curAnim, ADI_FLAGS);
-		if(aptr[AI_SPEEDMOD]){
-			maxClock = Ceiling(maxClock/aptr[AI_SPEEDMOD]);
-		}
-		
-		//If using a 4 or 8 directional animation, only update direction when it's valid
-		if(flags&ADF_8WAY){
-			if(n->Dir>=0&&n->Dir<8)
-				aptr[AI_DIR] = n->Dir;
+	class AnimHandler{
+		AnimHandler(npc n){
+			Owner = n;
+			n->Misc[NPCM_ANIMPOINTER] = this;
 			
-			//Update the frame based on direction
-			curFrame += aptr[AI_DIR]*maxFrame;
-			//Rearrange the animation order to remove right facing frames when the flip flag is on
-			//This is kinda messy... :/
-			if(flags&ADF_FLIPRIGHT){
-				switch(aptr[AI_DIR]){
-					case DIR_RIGHT: 
-					case DIR_LEFTUP:
-						curFrame -= maxFrame; 
-						break;
-					case DIR_LEFTDOWN:
-					case DIR_RIGHTUP:
-						curFrame -= maxFrame*2;
-						break;
-					case DIR_RIGHTDOWN:
-						curFrame -= maxFrame*3;
-						break;
-				}
-			}
+			OriginalTile = n->OriginalTile;
+			AnimSpeedMultiplier = 1;
+			
+			CollXOff = 0;
+			CollYOff = 0;
+			CollWidth = 16;
+			CollHeight = 16;
+			
+			Base_HitXOff = 0;
+			Base_HitYOff = 0;
+			Base_HitWidth = 16;
+			Base_HitHeight = 16;
+			
+			Base_CollXOff = 0;
+			Base_CollYOff = 0;
+			Base_CollWidth = 16;
+			Base_CollHeight = 16;
 		}
-		else if(flags&ADF_4WAY){
-			if(n->Dir>=0&&n->Dir<4)
-				aptr[AI_DIR] = n->Dir;
-			//Update the frame based on direction
-			curFrame += aptr[AI_DIR]*maxFrame;
-			if(flags&ADF_FLIPRIGHT){
-				if(aptr[AI_DIR]==DIR_RIGHT)
-					curFrame -= maxFrame;
-			}
-		}
-		else{
-			aptr[AI_DIR] = n->Dir;
-		}
-		int dir = aptr[AI_DIR];
 		
-		//Relative animations will use an offset from the enemy's original tile instead of absolute tile numbers
-		if(!(flags&ADF_NORELATIVE))
-			aTile += aptr[AI_ORIGINALTILE];
+		// Update an NPC's animation for the frame
+		void Update(){
+			//Skip updates if the enemy is invisible
+			if(CurAnim==-1)
+				return;
 		
-		//Apply a tile flip when facing right if the flag is set
-		if(flags&ADF_FLIPRIGHT){
-			n->ScriptFlip = 0;
+			int aTile = GetAnimProperty(CurAnim, ADI_TILE);
+			int maxFrame = GetAnimProperty(CurAnim, ADI_NUMFRAMES);
+			int maxClock = GetAnimProperty(CurAnim, ADI_ASPEED);
+			int nextAnim = GetAnimProperty(CurAnim, ADI_NEXT);
+			int loopFrame = GetAnimProperty(CurAnim, ADI_LOOPFRAME);
+			int flags = GetAnimProperty(CurAnim, ADI_FLAGS);
+			int curFrame = CurFrame;
+			if(AnimSpeedMultiplier){
+				maxClock = Ceiling(maxClock/AnimSpeedMultiplier);
+			}
+			
+			//If using a 4 or 8 directional animation, only update direction when it's valid
 			if(flags&ADF_8WAY){
-				if(dir==DIR_RIGHT||dir==DIR_RIGHTUP||dir==DIR_RIGHTDOWN)
-					n->ScriptFlip = 1;
+				if(Owner->Dir>=0&&Owner->Dir<8)
+					Dir = Owner->Dir;
+				
+				//Update the frame based on direction
+				curFrame += Dir*maxFrame;
+				//Rearrange the animation order to remove right facing frames when the flip flag is on
+				//This is kinda messy... :/
+				if(flags&ADF_FLIPRIGHT){
+					switch(Dir){
+						case DIR_RIGHT: 
+						case DIR_LEFTUP:
+							curFrame -= maxFrame; 
+							break;
+						case DIR_LEFTDOWN:
+						case DIR_RIGHTUP:
+							curFrame -= maxFrame*2;
+							break;
+						case DIR_RIGHTDOWN:
+							curFrame -= maxFrame*3;
+							break;
+					}
+				}
 			}
 			else if(flags&ADF_4WAY){
-				if(dir==DIR_RIGHT)
-					n->ScriptFlip = 1;
-			}
-			else
-				n->ScriptFlip  = 1;
-		}
-		
-		//Set the enemy's tile based on the current frame of its animation
-		int til = aTile + curFrame*n->TileWidth + Floor((curFrame*n->TileWidth)/20)*20*(n->TileHeight-1);
-		n->OriginalTile = til;
-		n->Tile = til;
-		
-		//Update the tile animation
-		if(aptr[AI_SPEEDMOD]>0) //If animation isn't suspended
-			++aptr[AI_CLOCK];
-		if(aptr[AI_CLOCK]>=maxClock){
-			if(flags&ADF_REVERSE)
-				--aptr[AI_CURFRAME];
-			else
-				++aptr[AI_CURFRAME];
-			bool loop;
-			if(flags&ADF_REVERSE){
-				if(aptr[AI_CURFRAME]<0)
-					loop = true;
+				if(Owner->Dir>=0&&Owner->Dir<4)
+					Dir = Owner->Dir;
+				//Update the frame based on direction
+				curFrame += Dir*maxFrame;
+				if(flags&ADF_FLIPRIGHT){
+					if(Dir==DIR_RIGHT)
+						curFrame -= maxFrame;
+				}
 			}
 			else{
-				if(aptr[AI_CURFRAME]>=maxFrame)
-					loop = true;
+				Dir = Owner->Dir;
 			}
-			if(loop){
-				aptr[AI_ANIMFINISHED] = 1;
-				//If not a looping animation, repeat the last frame on loop
-				if(flags&ADF_NOLOOP){
-					if(flags&ADF_REVERSE)
-						aptr[AI_CURFRAME] = 0;
-					else
-						aptr[AI_CURFRAME] = maxFrame-1;
+			
+			//Relative animations will use an offset from the enemy's original tile instead of absolute tile numbers
+			if(!(flags&ADF_NORELATIVE))
+				aTile += OriginalTile;
+			
+			//Apply a tile flip when facing right if the flag is set
+			if(flags&ADF_FLIPRIGHT){
+				Owner->ScriptFlip = 0;
+				if(flags&ADF_8WAY){
+					if(Dir==DIR_RIGHT||Dir==DIR_RIGHTUP||Dir==DIR_RIGHTDOWN)
+						Owner->ScriptFlip = 1;
 				}
-				//If it links into a new animation, play that
-				else if(nextAnim>-1){
-					aptr[AI_CURFRAME] = (flags&ADF_REVERSE)?maxFrame-1:0;
-					aptr[AI_CURANIM] = nextAnim;
-					aptr[AI_ANIMFINISHED] = 0;
+				else if(flags&ADF_4WAY){
+					if(Dir==DIR_RIGHT)
+						Owner->ScriptFlip = 1;
 				}
 				else
-					aptr[AI_CURFRAME] = (flags&ADF_REVERSE)?maxFrame-1-loopFrame:loopFrame;
+					Owner->ScriptFlip  = 1;
 			}
-			aptr[AI_CLOCK] = 0;
-		}
-		
-		//Update shadows
-		if(aptr[AI_SHADOW_TILE]){
-			if(n->Z>0||n->FakeZ>0){
-				int layer = 2;
-				if(ScreenFlag(1, 4)) //Layer -2
-					layer = 1;
-				
-				int w = aptr[AI_SHADOW_W];
-				int h = aptr[AI_SHADOW_H];
-				int x = CenterX(n)-w*8;
-				int y = n->Y+n->TileWidth*16-h*16+aptr[AI_SHADOW_YOFF];
-				int frame = Floor(aptr[AI_SHADOW_CLOCK]/aptr[AI_SHADOW_ASPEED]);
-				int til = aptr[AI_SHADOW_TILE] + frame*w + Floor((frame*w)/20)*20*(h-1);
-				Screen->DrawTile(layer, x, y, til, w, h, aptr[AI_SHADOW_CSET], -1, -1, 0, 0, 0, 0, true, Game->FFRules[qr_TRANSSHADOWS]?OP_TRANS:OP_OPAQUE);
-				
-				++aptr[AI_SHADOW_CLOCK];
-				if(aptr[AI_SHADOW_CLOCK]>=aptr[AI_SHADOW_NUMFRAMES]*aptr[AI_SHADOW_ASPEED])
-					aptr[AI_SHADOW_CLOCK] = 0;
-			}
-		}
-	}
-
-	//Adds a new animation to the aptr array
-	//int aptr - The array pointer
-	//int animID - The ID to assign the animation to, if -1 will fetch a new ID and return the value
-	//int tile - The tile for the animation, relative to the enemy's original tile by default
-	//int numFrames - How many frames of animation to use
-	//int aSpeed - How many clock ticks (60ths of a second) each animation frame takes
-	//int loopFrame - Which frame to loop to when the animation ends
-	//int nextAnim - Which animation to switch to when the animation ends (-1 for none)
-	//int flags - The sum of all ADF_ flags to use
-	int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int loopFrame, int nextAnim, int flags){
-		int tmp_animID = animID;
-		if(animID==-1)
-			tmp_animID = aptr[AI_NUMANIMS];
-		
-		int arraySize = SizeOfArray(aptr);
-		if(AI_END+(tmp_animID+1)*ADI_END>arraySize){
-			printf("NPCANIM.ZH ERROR: Not enough room in animation buffer for animation.\nAnimation ID: %d\nBuffer size: %d\n", tmp_animID, arraySize);
-		}
-		
-		SetAnimProperty(aptr, tmp_animID, ADI_VALID, 1);
-		SetAnimProperty(aptr, tmp_animID, ADI_TILE, tile);
-		SetAnimProperty(aptr, tmp_animID, ADI_NUMFRAMES, numFrames);
-		SetAnimProperty(aptr, tmp_animID, ADI_ASPEED, aSpeed);
-		SetAnimProperty(aptr, tmp_animID, ADI_LOOPFRAME, loopFrame);
-		SetAnimProperty(aptr, tmp_animID, ADI_NEXT, nextAnim);
-		SetAnimProperty(aptr, tmp_animID, ADI_FLAGS, flags);
-		
-		if(animID==-1)
-			++aptr[AI_NUMANIMS];
-		else
-			aptr[AI_NUMANIMS] = Max(aptr[AI_NUMANIMS], animID+1);
-		return tmp_animID;
-	}
-	int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int loopFrame, int flags){
-		AddAnim(aptr, animID, tile, numFrames, aSpeed, loopFrame, -1, flags);
-	}
-	int AddAnim(int aptr, int animID, int tile, int numFrames, int aSpeed, int flags){
-		if(flags&ADF_REVERSE)
-			AddAnim(aptr, animID, tile, numFrames, aSpeed, numFrames-1, -1, flags);
-		else
-			AddAnim(aptr, animID, tile, numFrames, aSpeed, 0, -1, flags);
-	}
-	
-	//Sets the enemy to draw a fake shadow
-	//int spr - The sprite in Sprite Data to use for the shadow, 0 to remove it
-	//int w,h - The width and height in tiles
-	//offset - An extra Y offset for adjusting the shadow's position
-	void SetFakeShadow(npc n, int spr, int w, int h, int offset){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		if(spr<=0){
-			aptr[AI_SHADOW_TILE] = 0;
-			return;
-		}
-		
-		//Let's make sure a second shadow doesn't get drawn over the fake one
-		if(n->Extend==3)
-			n->Extend = 4;
-		
-		w = Max(w, 1);
-		h = Max(h, 1);
-		
-		spritedata sd = Game->LoadSpriteData(spr);
-		
-		aptr[AI_SHADOW_TILE] = sd->Tile;
-		aptr[AI_SHADOW_CSET] = sd->CSet;
-		aptr[AI_SHADOW_W] = w;
-		aptr[AI_SHADOW_H] = h;
-		aptr[AI_SHADOW_NUMFRAMES] = sd->Frames;
-		aptr[AI_SHADOW_ASPEED] = sd->Speed;
-		aptr[AI_SHADOW_YOFF] = offset;
-		aptr[AI_SHADOW_CLOCK] = 0;
-	}
-	void SetFakeShadow(npc n, int spr, int w, int h){
-		SetFakeShadow(n, spr, w, h, 0);
-	}
-	void SetFakeShadow(npc n, int spr){
-		SetFakeShadow(n, spr, 1, 1, 0);
-	}
-	
-	//Play a new animation
-	//int animID - Which animation to play. -1 will make the enemy invisible
-	//bool noReset - If true, the current frame of animation won't reset even if the ADF_NORESET flag isn't set on the previous animation
-	void PlayAnim(npc n, int animID, bool noReset){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		
-		//If set to ID -1, make invisible and quit
-		if(animID==-1){
-			n->DrawXOffset = -1000;
-			n->CollDetection = false;
-			aptr[AI_CURANIM] = -1;
-			return;
-		}
-		
-		int arraySize = SizeOfArray(aptr);
-		if(animID>=aptr[AI_NUMANIMS]||AI_END+(animID+1)*ADI_END>arraySize){
-			printf("NPCANIM.ZH ERROR: Attempted to play an animation outside of the animation buffer. (%d)\n", animID);
-			return;
-		}
-		if(!GetAnimProperty(aptr, animID, ADI_VALID)){
-			printf("NPCANIM.ZH ERROR: Attempted to play an undefined animation. (%d)\n", animID);
-			return;
-		}
-		
-		int aTile = GetAnimProperty(aptr, animID, ADI_TILE);
-		int maxFrame = GetAnimProperty(aptr, animID, ADI_NUMFRAMES);
-		int maxClock = GetAnimProperty(aptr, animID, ADI_ASPEED);
-		int nextAnim = GetAnimProperty(aptr, animID, ADI_NEXT);
-		int loopFrame = GetAnimProperty(aptr, animID, ADI_LOOPFRAME);
-		int flags = GetAnimProperty(aptr, animID, ADI_FLAGS);
-		
-		int old_flags;
-		//If it was invisible, turn visibility and collision back on
-		if(aptr[AI_CURANIM]==-1){
-			n->DrawXOffset = 0;
-			n->CollDetection = true;
-		}
-		else
-			old_flags = GetAnimProperty(aptr, aptr[AI_CURANIM], ADI_FLAGS);
 			
-		aptr[AI_CURANIM] = animID;
-		if(old_flags&ADF_NORESET||noReset){
-			//If the animation doesn't reset, keep the values clamped to the new animation length
-			if(flags&ADF_REVERSE){
-				int maxFrame2 = maxFrame-loopFrame;
-				aptr[AI_CURFRAME] = Clamp(loopFrame-aptr[AI_CURFRAME], maxFrame2, maxFrame-1);
+			//Apply an extra offset to vertical animations
+			int vertYOff;
+			if(flags&ADF_VERTICAL){
+				vertYOff = Owner->TileHeight * Floor(curFrame / maxFrame) * 20;
+				curFrame %= maxFrame;
 			}
-			else{
-				int maxFrame2 = maxFrame-loopFrame;
-				aptr[AI_CURFRAME] = Clamp(loopFrame+aptr[AI_CURFRAME], 0, maxFrame2);
+			
+			//Set the enemy's tile based on the current frame of its animation
+			int til = aTile + curFrame*Owner->TileWidth + Floor((curFrame*Owner->TileWidth)/20)*20*(Owner->TileHeight-1) + vertYOff;
+			Owner->OriginalTile = til;
+			Owner->Tile = til;
+			
+			//Update the tile animation
+			if(AnimSpeedMultiplier>0) //If animation isn't suspended
+				++AnimClock;
+			if(AnimClock>=maxClock){
+				if(flags&ADF_REVERSE)
+					--CurFrame;
+				else
+					++CurFrame;
+				bool loop;
+				if(flags&ADF_REVERSE){
+					if(CurFrame<0)
+						loop = true;
+				}
+				else{
+					if(CurFrame>=maxFrame)
+						loop = true;
+				}
+				if(loop){
+					AnimFinished = true;
+					//If not a looping animation, repeat the last frame on loop
+					if(flags&ADF_NOLOOP){
+						if(flags&ADF_REVERSE)
+							CurFrame = 0;
+						else
+							CurFrame = maxFrame-1;
+					}
+					//If it links into a new animation, play that
+					else if(nextAnim>-1){
+						CurFrame = (flags&ADF_REVERSE)?maxFrame-1:0;
+						CurAnim = nextAnim;
+						AnimFinished = false;
+					}
+					else
+						CurFrame = (flags&ADF_REVERSE)?maxFrame-1-loopFrame:loopFrame;
+				}
+				AnimClock = 0;
 			}
-			aptr[AI_CLOCK] = Clamp(aptr[AI_CLOCK], 0, maxClock);
+			
+			//Update shadows
+			if(ShadowTile){
+				if(Owner->Z>0||Owner->FakeZ>0){
+					int layer = 2;
+					if(ScreenFlag(1, 4)) //Layer -2
+						layer = 1;
+					
+					int w = ShadowW;
+					int h = ShadowH;
+					int x = CenterX(Owner)-w*8;
+					int y = Owner->Y+Owner->TileWidth*16-h*16+ShadowYOff;
+					int frame = Floor(ShadowClock/ShadowASpeed);
+					int til = ShadowTile + frame*w + Floor((frame*w)/20)*20*(h-1);
+					if(Link->HP>0)
+						Screen->DrawTile(layer, x, y, til, w, h, ShadowCSet, -1, -1, 0, 0, 0, 0, true, Game->FFRules[qr_TRANSSHADOWS]?OP_TRANS:OP_OPAQUE);
+					
+					++ShadowClock;
+					if(ShadowClock>=ShadowNumFrames*ShadowASpeed)
+						ShadowClock = 0;
+				}
+			}
 		}
-		else{
-			aptr[AI_CURFRAME] = (flags&ADF_REVERSE)?maxFrame-1:0;
-			aptr[AI_CLOCK] = 0;
+
+		// Get/setting animation properties in the array
+		int GetAnimProperty(int animID, int prop){
+			return __Anims[ADI_END*animID+prop];
 		}
-		aptr[AI_ANIMFINISHED] = 0;
-	}
-	void PlayAnim(npc n, int animID){
-		PlayAnim(n, animID, false);
-	}
-	//Plays an exploding death animation
-	void PlayDeathAnim(npc n, int spr, int w, int h, int sfx, bool noFreeze){
-		n->Immortal = true;
-		n->CollDetection = false;
-		npcdata nd = Game->LoadNPCData(n->ID);
-		Game->PlaySound(nd->DeathSFX);
-		if(noFreeze)
-			SetAnimSpeed(n, 0);
-		int redrawXOffset = n->DrawXOffset;
-		int redrawYOffset = n->DrawYOffset;
-		n->DrawXOffset = -1000;
-		n->DrawYOffset = -1000;
-		int redrawLayer = 2;
-		if(ScreenFlag(1, 4)) //Layer -2
-			redrawLayer = 1;
+		int SetAnimProperty(int animID, int prop, int value){
+			__Anims[ADI_END*animID+prop] = value;
+		}
+
+		//Draws the enemy's collision hitbox to the screen
+		void __DrawCollisionDebugHitbox(){
+			if(!DEBUG_COLLISION_HITBOX)
+				return;
+			
+			int x = Owner->X+CollXOff;
+			int y = Owner->Y+CollYOff;
+			int x2 = x+CollWidth-1;
+			int y2 = y+CollHeight-1;
+			Screen->Rectangle(6, x, y, x2, y2, Owner->CSet*16+1, 1, 0, 0, 0, false, 128);
+		}
+	
+		// Sets an enemy's tile width and height and shaves pixels off the edges of its hitbox
+		// int w,h - The width and height of the enemy in tiles
+		// int hitOffsets[] - An array of four hit offsets
+		void SetHitbox(int w, int h, int hitOffsets=0, bool center=false){
+			if(Owner->Extend!=EXT_NOSHADOW)
+				Owner->Extend = EXT_NORMAL;
+			Owner->HitXOffset = 0;
+			Owner->HitYOffset = 0;
+			Owner->TileWidth = w;
+			Owner->TileHeight = h;
+			Owner->HitWidth = w*16;
+			Owner->HitHeight = h*16;
+			if(hitOffsets>0){
+				if(SizeOfArray(hitOffsets)!=4)
+					printf("[NPCANIM ERROR] SetHitbox() array hitOffsets[] should be size 4");
+				else{
+					Owner->HitXOffset += hitOffsets[2];
+					Owner->HitWidth -= hitOffsets[2];
+					Owner->HitWidth -= hitOffsets[3];
+					Owner->HitYOffset += hitOffsets[0];
+					Owner->HitHeight -= hitOffsets[0];
+					Owner->HitHeight -= hitOffsets[1];
+				}
+			}
+			
+			CollXOff = Owner->HitXOffset;
+			CollYOff = Owner->HitYOffset;
+			CollWidth = Owner->HitWidth;
+			CollHeight = Owner->HitHeight;
+			
+			Base_TileW = w;
+			Base_TileH = h;
+			
+			Base_HitXOff = Owner->HitXOffset;
+			Base_HitYOff = Owner->HitYOffset;
+			Base_HitWidth = Owner->HitWidth;
+			Base_HitHeight = Owner->HitHeight;
+			
+			Base_CollXOff = Owner->HitXOffset;
+			Base_CollYOff = Owner->HitYOffset;
+			Base_CollWidth = Owner->HitHeight;
+			Base_CollHeight = Owner->HitWidth;
+			
+			if(center)
+				CenterHitbox();
+		}
 		
-		for(int i=0; i<15; ++i){
-			int x = n->X+Rand(-8, 16*n->TileWidth-8)+redrawXOffset;
-			int y = n->Y+Rand(-8, 16*n->TileHeight-8)+redrawYOffset-n->Z-n->FakeZ;
-			if(spr){
-				w = Max(w, 1);
-				h = Max(h, 1);
-				if(sfx)
-					Game->PlaySound(sfx);
-				lweapon l = CreateLWeaponAt(LW_SPARKLE, x, y);
-				l->UseSprite(spr);
-				l->Extend = 3;
-				l->TileWidth = w;
-				l->TileHeight = h;
-				l->DrawXOffset -= (w-1)*8;
-				l->DrawYOffset -= (h-1)*8;
-				l->DrawStyle = DS_LINK;
-			}
+		// Sets the enemy's movement collision hitbox, based on its tile width and height
+		void SetMovementHitbox(int collOffsets, bool center=false){
+			CollXOff = 0;
+			CollYOff = 0;
+			CollWidth = Owner->TileWidth*16;
+			CollHeight = Owner->TileHeight*16;
+			if(SizeOfArray(collOffsets)!=4)
+				printf("[NPCANIM ERROR] SetMovementHitbox() array collOffsets[] should be size 4");
 			else{
-				lweapon l = CreateLWeaponAt(LW_BOMBBLAST, x, y);
-				l->CollDetection = false;
-				l->DrawStyle = DS_LINK;
+				CollXOff += collOffsets[2];
+				CollWidth -= collOffsets[2];
+				CollWidth -= collOffsets[3];
+				CollYOff += collOffsets[0];
+				CollHeight -= collOffsets[0];
+				CollHeight -= collOffsets[1];
 			}
-			for(int j=0; j<16; ++j){
-				int tile = (n->ScriptTile>-1)?n->ScriptTile:n->Tile;
-				int flip = (n->ScriptFlip>-1)?n->ScriptFlip:0;
-				if(j%4<2||i<12||!NEW_NPC_DEATHANIM)
-					Screen->DrawTile(redrawLayer, n->X+redrawXOffset, n->Y+redrawYOffset-n->Z-n->FakeZ, tile, n->TileWidth, n->TileHeight, n->CSet, -1, -1, 0, 0, 0, flip, true, OP_OPAQUE);
-				Waitframe(n);
+			
+			Base_CollXOff = CollXOff;
+			Base_CollYOff = CollYOff;
+			Base_CollWidth = CollWidth;
+			Base_CollHeight = CollHeight;
+			
+			if(center)
+				CenterHitbox();
+		}
+		
+		// Centers the enemy's hitbox on the tile after spawning
+		void CenterHitbox(){
+			int cx = CollXOff + CollWidth/2;
+			int cy = CollYOff + CollHeight/2;
+			
+			Owner->X -= cx-8;
+			Owner->Y -= cy-8;
+		}
+		
+		// Adds a new animation to the Anims array
+		// int animID - The ID to assign the animation to, if -1 will fetch a new ID and return the value
+		// int tile - The tile for the animation, relative to the enemy's original tile by default
+		// int numFrames - How many frames of animation to use
+		// int aSpeed - How many clock ticks (60ths of a second) each animation frame takes
+		// int loopFrame - Which frame to loop to when the animation ends
+		// int nextAnim - Which animation to switch to when the animation ends (-1 for none)
+		// int flags - The sum of all ADF_ flags to use
+		int AddAnim(int animID, int tile, int numFrames, int aSpeed, int loopFrame, int nextAnim, int flags){
+			int tmp_animID = animID;
+			if(animID==-1)
+				tmp_animID = NumAnims;
+			
+			int arraySize = SizeOfArray(__Anims);
+			if((tmp_animID+1)*ADI_END>arraySize){
+				printf("[NPCANIM ERROR] Not enough room in animation buffer for animation.\nAnimation ID: %d\nBuffer size: %d\n", tmp_animID, arraySize);
+				return -1;
+			}
+			
+			SetAnimProperty(tmp_animID, ADI_VALID, 1);
+			SetAnimProperty(tmp_animID, ADI_TILE, tile);
+			SetAnimProperty(tmp_animID, ADI_NUMFRAMES, numFrames);
+			SetAnimProperty(tmp_animID, ADI_ASPEED, aSpeed);
+			SetAnimProperty(tmp_animID, ADI_LOOPFRAME, loopFrame);
+			SetAnimProperty(tmp_animID, ADI_NEXT, nextAnim);
+			SetAnimProperty(tmp_animID, ADI_FLAGS, flags);
+			
+			if(animID==-1)
+				++NumAnims;
+			else
+				NumAnims = Max(NumAnims, animID+1);
+			return tmp_animID;
+		}
+		int AddAnim(int animID, int tile, int numFrames, int aSpeed, int loopFrame, int flags){
+			return AddAnim(animID, tile, numFrames, aSpeed, loopFrame, -1, flags);
+		}
+		int AddAnim(int animID, int tile, int numFrames, int aSpeed, int flags){
+			if(flags&ADF_REVERSE)
+				return AddAnim(animID, tile, numFrames, aSpeed, numFrames-1, -1, flags);
+			else
+				return AddAnim(animID, tile, numFrames, aSpeed, 0, -1, flags);
+		}
+		
+		// Adds extended information to an animation in the Anims array
+		// int animID - The animation to add information to (this is assuming the animation has already been declared)
+		// int tileW,tileH - The width and height of the animation in tiles
+		// int hitOffsets[] - An array of four hit offsets {top, bottom, left, right}. 0 for none
+		// int collOffsets[] - An array of four collision offsets (for terrain). Same as above, 0 for none
+		// int drawOffsets[] - An array of two draw offsets {x, y}. 0 for none
+		// int posOffsets[] - An array of two position offsets {x, y}. 0 for none
+		void ExtendAnim(int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets){
+			if(animID>-1){
+				int exflags = 0;
+				SetAnimProperty(animID, ADI_TILEW, tileW);
+				SetAnimProperty(animID, ADI_TILEH, tileH);
+				if(hitOffsets>0){
+					if(SizeOfArray(hitOffsets)!=4)
+						printf("[NPCANIM ERROR] ExtendAnim() array hitOffsets[] should be size 4");
+					else{
+						int hitW = tileW*16;
+						int hitH = tileH*16;
+						int xOff; int yOff;
+						xOff += hitOffsets[2];
+						hitW -= hitOffsets[2];
+						hitW -= hitOffsets[3];
+						yOff += hitOffsets[0];
+						hitH -= hitOffsets[0];
+						hitH -= hitOffsets[1];
+						SetAnimProperty(animID, ADI_HITXOFF, xOff);
+						SetAnimProperty(animID, ADI_HITYOFF, yOff);
+						SetAnimProperty(animID, ADI_HITWIDTH, hitW);
+						SetAnimProperty(animID, ADI_HITHEIGHT, hitH);
+						exflags |= ADFX_HITOFF;
+					}
+				}
+				if(collOffsets>0){
+					if(SizeOfArray(collOffsets)!=4)
+						printf("[NPCANIM ERROR] ExtendAnim() array collOffsets[] should be size 4");
+					else{
+						int hitW = tileW*16;
+						int hitH = tileH*16;
+						int xOff; int yOff;
+						xOff += collOffsets[2];
+						hitW -= collOffsets[2];
+						hitW -= collOffsets[3];
+						yOff += collOffsets[0];
+						hitH -= collOffsets[0];
+						hitH -= collOffsets[1];
+						SetAnimProperty(animID, ADI_COLL_HITXOFF, xOff);
+						SetAnimProperty(animID, ADI_COLL_HITYOFF, yOff);
+						SetAnimProperty(animID, ADI_COLL_HITWIDTH, hitW);
+						SetAnimProperty(animID, ADI_COLL_HITHEIGHT, hitH);
+						exflags |= ADFX_COLLOFF;
+					}
+				}
+				//If hit offsets are set, also update terrain collision offsets to be safe
+				else if(hitOffsets!=0){ 
+					SetAnimProperty(animID, ADI_COLL_HITXOFF, GetAnimProperty(animID, ADI_HITXOFF));
+					SetAnimProperty(animID, ADI_COLL_HITYOFF, GetAnimProperty(animID, ADI_HITYOFF));
+					SetAnimProperty(animID, ADI_COLL_HITWIDTH, GetAnimProperty(animID, ADI_HITWIDTH));
+					SetAnimProperty(animID, ADI_COLL_HITHEIGHT, GetAnimProperty(animID, ADI_HITHEIGHT));
+					exflags |= ADFX_COLLOFF;
+				}
+				if(drawOffsets>0){
+					if(SizeOfArray(drawOffsets)!=2)
+						printf("[NPCANIM ERROR] ExtendAnim() array drawOffsets[] should be size 2");
+					else{
+						SetAnimProperty(animID, ADI_DRAWXOFF, drawOffsets[0]);
+						SetAnimProperty(animID, ADI_DRAWYOFF, drawOffsets[1]);
+						exflags |= ADFX_DRAWOFF;
+					}
+				}
+				if(posOffsets>0){
+					if(SizeOfArray(posOffsets)!=2)
+						printf("[NPCANIM ERROR] ExtendAnim() array posOffsets[] should be size 2");
+					else{
+						SetAnimProperty(animID, ADI_POSXOFF, posOffsets[0]);
+						SetAnimProperty(animID, ADI_POSYOFF, posOffsets[1]);
+						exflags |= ADFX_POSOFF;
+					}
+				}
+				SetAnimProperty(animID, ADI_EXFLAGS, exflags);
 			}
 		}
-		n->Immortal = false;
-		n->HP = HP_SILENT;
-		n->X+=(n->TileWidth-1)*8;
-        n->Y+=(n->TileHeight-1)*8;
-		Quit();
+	
+		// Sets the enemy to draw a fake shadow
+		// int spr - The sprite in Sprite Data to use for the shadow, 0 to remove it
+		// int w,h - The width and height in tiles
+		// offset - An extra Y offset for adjusting the shadow's position
+		void SetFakeShadow(int spr, int w=1, int h=1, int offset=0){
+			if(spr<=0){
+				ShadowTile = 0;
+				return;
+			}
+			
+			// Let's make sure a second shadow doesn't get drawn over the fake one
+			Owner->Extend = EXT_NOSHADOW;
+			
+			w = Max(w, 1);
+			h = Max(h, 1);
+			
+			spritedata sd = Game->LoadSpriteData(spr);
+			
+			ShadowTile = sd->Tile;
+			ShadowCSet = sd->CSet;
+			ShadowW = w;
+			ShadowH = h;
+			ShadowNumFrames = sd->Frames;
+			ShadowASpeed = sd->Speed;
+			ShadowYOff = offset;
+			ShadowClock = 0;
+		}
+	
+		// Play a new animation
+		// int animID - Which animation to play. -1 will make the enemy invisible
+		// bool noReset - If true, the current frame of animation won't reset even if the ADF_NORESET flag isn't set on the previous animation
+		void PlayAnim(int animID, bool noReset=false){
+			// If set to ID -1, make invisible and quit
+			if(animID==-1){
+				Owner->DrawXOffset = -1000;
+				Owner->CollDetection = false;
+				CurAnim = -1;
+				return;
+			}
+			
+			int arraySize = SizeOfArray(__Anims);
+			if(animID>=NumAnims||(animID+1)*ADI_END>arraySize){
+				printf("[NPCANIM ERROR] Attempted to play an animation outside of the animation buffer. (%d)", animID);
+				return;
+			}
+			if(!GetAnimProperty(animID, ADI_VALID)){
+				printf("[NPCANIM ERROR] Attempted to play an undefined animation. (%d)", animID);
+				return;
+			}
+			int aTile = GetAnimProperty(animID, ADI_TILE);
+			int maxFrame = GetAnimProperty(animID, ADI_NUMFRAMES);
+			int maxClock = GetAnimProperty(animID, ADI_ASPEED);
+			int nextAnim = GetAnimProperty(animID, ADI_NEXT);
+			int loopFrame = GetAnimProperty(animID, ADI_LOOPFRAME);
+			int flags = GetAnimProperty(animID, ADI_FLAGS);
+			
+			int old_flags;
+			// If it was invisible, turn visibility and collision back on
+			if(CurAnim==-1){
+				Owner->DrawXOffset = 0;
+				Owner->CollDetection = true;
+			}
+			else
+				old_flags = GetAnimProperty(CurAnim, ADI_FLAGS);
+				
+			int oldAnim = CurAnim;
+			// If the old animation had advanced properties, undo them
+			if(GetAnimProperty(oldAnim, ADI_TILEW)){
+				int exflags = GetAnimProperty(oldAnim, ADI_EXFLAGS);
+				
+				Owner->TileWidth = Base_TileW;
+				Owner->TileHeight = Base_TileH;
+				
+				if(exflags&ADFX_POSOFF){
+					Owner->X -= GetAnimProperty(oldAnim, ADI_POSXOFF);
+					Owner->Y -= GetAnimProperty(oldAnim, ADI_POSYOFF);
+				}
+				
+				if(exflags&ADFX_DRAWOFF){
+					Owner->DrawXOffset -= GetAnimProperty(oldAnim, ADI_DRAWXOFF);
+					Owner->DrawYOffset -= GetAnimProperty(oldAnim, ADI_DRAWYOFF);
+				}
+				
+				if(exflags&ADFX_HITOFF){
+					Owner->HitXOffset = Base_HitXOff;
+					Owner->HitYOffset = Base_HitYOff;
+					Owner->HitWidth = Base_HitWidth;
+					Owner->HitWidth = Base_HitHeight;
+				}
+				
+				if(exflags&ADFX_COLLOFF){
+					CollXOff = Base_CollXOff;
+					CollYOff = Base_CollYOff;
+					CollWidth = Base_CollWidth;
+					CollHeight = Base_CollHeight;
+				}
+			}
+			// If the new animation has advanced properties, set them
+			if(GetAnimProperty(animID, ADI_TILEW)){
+				int exflags = GetAnimProperty(animID, ADI_EXFLAGS);
+				
+				Owner->TileWidth = GetAnimProperty(animID, ADI_TILEW);
+				Owner->TileHeight = GetAnimProperty(animID, ADI_TILEH);
+				
+				if(exflags&ADFX_POSOFF){
+					Owner->X += GetAnimProperty(animID, ADI_POSXOFF);
+					Owner->Y += GetAnimProperty(animID, ADI_POSYOFF);
+				}
+				
+				if(exflags&ADFX_DRAWOFF){
+					Owner->DrawXOffset += GetAnimProperty(animID, ADI_DRAWXOFF);
+					Owner->DrawYOffset += GetAnimProperty(animID, ADI_DRAWYOFF);
+				}
+				
+				if(exflags&ADFX_HITOFF){
+					Owner->HitXOffset = GetAnimProperty(animID, ADI_HITXOFF);
+					Owner->HitYOffset = GetAnimProperty(animID, ADI_HITYOFF);
+					Owner->HitWidth = GetAnimProperty(animID, ADI_HITWIDTH);
+					Owner->HitHeight = GetAnimProperty(animID, ADI_HITHEIGHT);
+				}
+				
+				if(exflags&ADFX_COLLOFF){
+					CollXOff = GetAnimProperty(animID, ADI_COLL_HITXOFF);
+					CollYOff = GetAnimProperty(animID, ADI_COLL_HITYOFF);
+					CollWidth = GetAnimProperty(animID, ADI_COLL_HITWIDTH);
+					CollHeight = GetAnimProperty(animID, ADI_COLL_HITHEIGHT);
+				}
+			}
+				
+			Owner->ScriptFlip = -1;
+			
+			CurAnim = animID;
+			if(old_flags&ADF_NORESET||noReset){
+				//If the animation doesn't reset, keep the values clamped to the new animation length
+				if(flags&ADF_REVERSE){
+					int maxFrame2 = maxFrame-loopFrame;
+					CurFrame = Clamp(loopFrame-CurFrame, maxFrame2, maxFrame-1);
+				}
+				else{
+					int maxFrame2 = maxFrame-loopFrame;
+					CurFrame = Clamp(loopFrame+CurFrame, 0, maxFrame2);
+				}
+				AnimClock = Clamp(AnimClock, 0, maxClock);
+			}
+			else{
+				CurFrame = (flags&ADF_REVERSE)?maxFrame-1:0;
+				AnimClock = 0;
+			}
+			AnimFinished = false;
+		}
+		
+		//Plays an exploding death animation
+		void PlayDeathAnim(int spr, int w=1, int h=1, int sfx=0, bool freeze=false){
+			Owner->Immortal = true;
+			Owner->CollDetection = false;
+			npcdata nd = Game->LoadNPCData(Owner->ID);
+			Game->PlaySound(nd->DeathSFX);
+			if(freeze)
+				AnimSpeedMultiplier = 0;
+			int redrawXOffset = Owner->DrawXOffset;
+			int redrawYOffset = Owner->DrawYOffset;
+			Owner->DrawXOffset = -1000;
+			Owner->DrawYOffset = -1000;
+			int redrawLayer = 2;
+			if(ScreenFlag(1, 4)) //Layer -2
+				redrawLayer = 1;
+			
+			for(int i=0; i<15; ++i){
+				int x = Owner->X+Rand(-8, 16*Owner->TileWidth-8)+redrawXOffset;
+				int y = Owner->Y+Rand(-8, 16*Owner->TileHeight-8)+redrawYOffset-Owner->Z-Owner->FakeZ;
+				if(spr){
+					w = Max(w, 1);
+					h = Max(h, 1);
+					if(sfx)
+						Game->PlaySound(sfx);
+					lweapon l = CreateLWeaponAt(LW_SPARKLE, x, y);
+					l->UseSprite(spr);
+					l->Extend = EXT_NORMAL;
+					l->TileWidth = w;
+					l->TileHeight = h;
+					l->DrawXOffset -= (w-1)*8;
+					l->DrawYOffset -= (h-1)*8;
+					l->DrawStyle = DS_LINK;
+				}
+				else{
+					lweapon l = CreateLWeaponAt(LW_BOMBBLAST, x, y);
+					l->CollDetection = false;
+					l->DrawStyle = DS_LINK;
+				}
+				for(int j=0; j<16; ++j){
+					int tile = (Owner->ScriptTile>-1)?Owner->ScriptTile:Owner->Tile;
+					int flip = (Owner->ScriptFlip>-1)?Owner->ScriptFlip:0;
+					if(j%4<2||i<12||!NEW_NPC_DEATHANIM)
+						Screen->DrawTile(redrawLayer, Owner->X+redrawXOffset, Owner->Y+redrawYOffset-Owner->Z-Owner->FakeZ, tile, Owner->TileWidth, Owner->TileHeight, Owner->CSet, -1, -1, 0, 0, 0, flip, true, OP_OPAQUE);
+					Waitframe(Owner);
+				}
+			}
+			Owner->Immortal = false;
+			Owner->HP = HP_SILENT;
+			Owner->X+=(Owner->TileWidth-1)*8;
+			Owner->Y+=(Owner->TileHeight-1)*8;
+			Quit();
+		}
+		void PlayDeathAnim(bool freeze=false){
+			PlayDeathAnim(0, 0, 0, 0, freeze);
+		}
+		
+		//Returns true if the playing animation has finished
+		bool AnimFinished(){
+			return AnimFinished;
+		}
+		//Returns the currently playing animation
+		int GetCurAnim(){
+			return CurAnim;
+		}
+		//Returns the current frame for the currently playing animation
+		int GetCurAnimFrame(){
+			return CurFrame;
+		}
+		//Sets the current animation speed multiplier
+		void SetAnimSpeedMultiplier(int mult){
+			AnimSpeedMultiplier = mult;
+		}
+		
+		npc Owner;
+		int __Anims[ANIM_BUFFER_LENGTH];
+		
+		int CurAnim;
+		int NumAnims;
+		
+		int CurFrame;
+		int AnimClock;
+		int Dir;
+		int OriginalTile;
+		bool AnimFinished;
+		int AnimSpeedMultiplier;
+		float __SubpixelX;
+		float __SubpixelY;
+		
+		// Shadows
+		int ShadowTile;
+		int ShadowCSet;
+		int ShadowW;
+		int ShadowH;
+		int ShadowNumFrames;
+		int ShadowASpeed;
+		int ShadowYOff;
+		int ShadowClock;
+		
+		// Offsets for collision with terrain
+		int CollXOff;
+		int CollYOff;
+		int CollWidth;
+		int CollHeight;
+		
+		// Base offsets for the enemy before animations get involved
+		int Base_TileW;
+		int Base_TileH;
+		int Base_HitXOff;
+		int Base_HitYOff;
+		int Base_HitWidth;
+		int Base_HitHeight;
+		int Base_CollXOff;
+		int Base_CollYOff;
+		int Base_CollWidth;
+		int Base_CollHeight;
 	}
-	void PlayDeathAnim(npc n, bool noFreeze){
-		PlayDeathAnim(n, 0, 0, 0, 0, noFreeze);
+	
+	// Get the AnimHandler pointer off an enemy
+	AnimHandler GetAnimHandler(npc n){
+		return n->Misc[NPCM_ANIMPOINTER];
 	}
-	void PlayDeathAnim(npc n){
-		PlayDeathAnim(n, 0, 0, 0, 0, false);
-	}
-	//Turns the enemy to face Link
-	void FaceLink(npc n, bool eightDirectional){
+	
+	// Turns the enemy to face Link
+	void FaceLink(npc n, bool eightDirectional=false){
 		if(eightDirectional)
 			n->Dir = AngleDir8(Angle(CenterX(n)-8, CenterY(n)-8, Link->X, Link->Y));
 		else
 			n->Dir = AngleDir4(Angle(CenterX(n)-8, CenterY(n)-8, Link->X, Link->Y));
 	}
-	void FaceLink(npc n){
-		FaceLink(n, false);
-	}
-	//Returns true if the enemy's current animation has finished
-	bool AnimFinished(npc n){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		return aptr[AI_ANIMFINISHED];
-	}
-	//Returns the enemy's current animation
-	int GetCurAnim(npc n){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		return aptr[AI_CURANIM];
-	}
-	//Returns the enemy's current animation frame
-	int GetCurAnimFrame(npc n){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		return aptr[AI_CURFRAME];
-	}
-	//Sets the animation speed modifier
-	int SetAnimSpeed(npc n, int speed){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		aptr[AI_SPEEDMOD] = speed;
+	// Turns the enemy to face a point
+	void FacePoint(npc n, int x, int y, bool eightDirectional=false){
+		if(eightDirectional)
+			n->Dir = AngleDir8(Angle(n->X, n->Y, x, y));
+		else
+			n->Dir = AngleDir4(Angle(n->X, n->Y, x, y));
 	}
 	
-	//Simple waitframe function that also calls the animation update
+	// Waits for the enemy's engine spawn animation to play
+	void Waitspawn(npc n){
+		if(Game->FFRules[qr_HARDCODED_ENEMY_ANIMS]){
+			while(n->Frame<0){
+				Waitframe();
+			}
+		}
+		else{
+			spritedata sd = Game->LoadSpriteData(n->SpawnSprite);
+			Waitframes(sd->Frames*sd->Speed-1);
+		}
+	}
+	
+	// Simple waitframe function that also calls the animation update
 	void Waitframe(npc n){
-		UpdateAnims(n);
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		ah->__DrawCollisionDebugHitbox();
+		ah->Update();
+		if(RESIZE_ON_DEATH&&n->HP<=0&&!n->Immortal){
+			n->X = CenterX(n)-8;
+			n->Y = CenterY(n)-8;
+			n->TileWidth = 1;
+			n->TileHeight = 1;
+			if(QUIT_ON_DEATH)
+				Quit();
+		}
 		Waitframe();
 	}
 	void Waitframe(npc n, int frames){
 		for(int i=0; i<frames; ++i)
 			Waitframe(n);
 	}
-	//Wait for the current animation to finish
+	// Wait for the current animation to finish
 	void Waitanim(npc n){
-		while(!AnimFinished(n))
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		while(!ah->AnimFinished)
 			Waitframe(n);
 	}
 	void Waitanim(npc n, int animID){
-		while(GetCurAnim(n)==animID)
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		while(ah->CurAnim==animID)
 			Waitframe(n);
 	}
 
-	const int ANIM_WALKABILITY_MAXLAYER = 2; //Max layer to check for combo types
-	
-	//Returns true if an enemy can walk onto a pixel
-	bool CanMovePixel(int x, int y, int moveStyle){
+	// Returns true if an enemy can walk onto a pixel
+	bool CanMovePixel(npc n, int x, int y, int moveStyle=AM_ZQ){
 		if(moveStyle<0)
-			return CanMovePixelCustom(x, y, moveStyle);
+			return CanMovePixelCustom(n, x, y, moveStyle);
 		
 		int pos = ComboAt(x, y);
 		
@@ -574,6 +869,62 @@ namespace NPCAnim{
 		}
 		
 		switch(moveStyle){
+			case AM_ZQ:
+				{
+					// Pits
+					if(n->MoveFlags[NPCMV_ONLY_PIT_WALK]){
+						if(!pitfall)
+							return false;
+					}
+					else unless(n->MoveFlags[NPCMV_CAN_PIT_WALK]){
+						if(pitfall)
+							return false;
+					}
+						
+					// Water
+					if(n->MoveFlags[NPCMV_ONLY_SHALLOW_WATER_WALK]&&n->MoveFlags[NPCMV_ONLY_WATER_WALK]){
+						unless(water||shallowwater)
+							return false;
+					}
+					else if(n->MoveFlags[NPCMV_ONLY_SHALLOW_WATER_WALK]){
+						unless(shallowwater)
+							return false;
+					}
+					else if(n->MoveFlags[NPCMV_ONLY_WATER_WALK]){
+						unless(water)
+							return false;
+					}
+					else unless(n->MoveFlags[NPCMV_CAN_WATER_WALK]){
+						if(water)
+							return false;
+					}
+					
+					// Solidity
+					unless(n->MoveFlags[NPCMV_IGNORE_SOLIDITY]){
+						if(solid)
+							return false;
+					}
+						
+					// No Enemy
+					unless(n->MoveFlags[NPCMV_IGNORE_BLOCKFLAGS]){
+						if(noenemy)
+							return false;
+							
+						if(n->Type==NPCT_OTHERFLOAT){
+							if(nofly)
+								return false;
+						}
+						else if(warp||noground)
+							return false;
+					}
+					
+					// Offscreen
+					unless(n->MoveFlags[NPCMV_IGNORE_SCREENEDGE]){
+						if(offscreen)
+							return false;
+					}
+				}
+				return true;
 			case AM_NONE:
 				return !(solid||offscreen||water||pitfall||warp||noenemy||noground);
 			case AM_FLIER:
@@ -590,18 +941,19 @@ namespace NPCAnim{
 				return true;
 		}
 	}
-	//Returns true if an enemy can move one pixel in the given direction
-	bool CanMove(npc n, int dir, int moveStyle){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
+	// Returns true if an enemy can move one pixel in the given direction
+	bool CanMove(npc n, int dir, int moveStyle=AM_ZQ){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
 		int xOff = n->HitXOffset;
 		int yOff = n->HitYOffset;
 		int collWidth = n->HitWidth;
 		int collHeight = n->HitHeight;
-		if(aptr[AI_COLL_WIDTH]>0&&aptr[AI_COLL_HEIGHT]>0){
-			xOff = aptr[AI_COLL_XOFF];
-			yOff = aptr[AI_COLL_YOFF];
-			collWidth = aptr[AI_COLL_WIDTH];
-			collHeight = aptr[AI_COLL_HEIGHT];
+		if(ah->CollWidth>0&&ah->CollHeight>0){
+			xOff = ah->CollXOff;
+			yOff = ah->CollYOff;
+			collWidth = ah->CollWidth;
+			collHeight = ah->CollHeight;
 		}
 		int x = n->X+xOff;
 		int y = n->Y+yOff;
@@ -610,7 +962,7 @@ namespace NPCAnim{
 		switch(dir){
 			case DIR_UP:
 				for(int i=0; i<=w; i=Min(i+8, w)){
-					if(!CanMovePixel(x+i, y-1, moveStyle))
+					if(!CanMovePixel(n, x+i, y-1, moveStyle))
 						return false;
 					if(i==w)
 						break;
@@ -618,7 +970,7 @@ namespace NPCAnim{
 				break;
 			case DIR_DOWN:
 				for(int i=0; i<=w; i=Min(i+8, w)){
-					if(!CanMovePixel(x+i, y+h+1, moveStyle))
+					if(!CanMovePixel(n, x+i, y+h+1, moveStyle))
 						return false;
 					if(i==w)
 						break;
@@ -626,7 +978,7 @@ namespace NPCAnim{
 				break;
 			case DIR_LEFT:
 				for(int i=0; i<=h; i=Min(i+8, h)){
-					if(!CanMovePixel(x-1, y+i, moveStyle))
+					if(!CanMovePixel(n, x-1, y+i, moveStyle))
 						return false;
 					if(i==h)
 						break;
@@ -634,7 +986,7 @@ namespace NPCAnim{
 				break;
 			case DIR_RIGHT:
 				for(int i=0; i<=h; i=Min(i+8, h)){
-					if(!CanMovePixel(x+w+1, y+i, moveStyle))
+					if(!CanMovePixel(n, x+w+1, y+i, moveStyle))
 						return false;
 					if(i==h)
 						break;
@@ -643,26 +995,56 @@ namespace NPCAnim{
 		}
 		return true;
 	}
-	//Returns true if an enemy can be placed at the target position
-	bool CanPlace(npc n, int x, int y, int moveStyle){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
+	// Returns true if an enemy can move one pixel in the given direction (8-way)
+	bool CanMove8(npc n, int dir, int moveStyle=AM_ZQ, bool reqBoth=false){
+		bool cond1;
+		bool cond2;
+		switch(dir){
+			case DIR_LEFTUP:
+				cond1 = !CanMove(n, DIR_LEFT, moveStyle);
+				cond2 = !CanMove(n, DIR_UP, moveStyle);
+				break;
+			case DIR_RIGHTUP:
+				cond1 = !CanMove(n, DIR_RIGHT, moveStyle);
+				cond2 = !CanMove(n, DIR_UP, moveStyle);
+				break;
+			case DIR_LEFTDOWN:
+				cond1 = !CanMove(n, DIR_LEFT, moveStyle);
+				cond2 = !CanMove(n, DIR_DOWN, moveStyle);
+				break;
+			case DIR_RIGHTDOWN:
+				cond1 = !CanMove(n, DIR_RIGHT, moveStyle);
+				cond2 = !CanMove(n, DIR_DOWN, moveStyle);
+				break;
+			default:
+				cond1 = !CanMove(n, dir, moveStyle);
+				cond2 = cond1;
+		}
+		if(reqBoth)
+			return !(cond1&&cond2);
+		return !(cond1||cond2);
+	}
+	// Returns true if an enemy can be placed at the target position
+	bool CanPlace(npc n, int x, int y, int moveStyle=AM_ZQ){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
 		int xOff = n->HitXOffset;
 		int yOff = n->HitYOffset;
 		int collWidth = n->HitWidth;
 		int collHeight = n->HitHeight;
-		if(aptr[AI_COLL_WIDTH]>0&&aptr[AI_COLL_HEIGHT]>0){
-			xOff = aptr[AI_COLL_XOFF];
-			yOff = aptr[AI_COLL_YOFF];
-			collWidth = aptr[AI_COLL_WIDTH];
-			collHeight = aptr[AI_COLL_HEIGHT];
+		if(ah->CollWidth>0&&ah->CollHeight>0){
+			xOff = ah->CollXOff;
+			yOff = ah->CollYOff;
+			collWidth = ah->CollWidth;
+			collHeight = ah->CollHeight;
 		}
 		int xx = x+xOff;
 		int yy = y+yOff;
 		int w = collWidth-1;
 		int h = collHeight-1;
-		for(int xi=0; xi<w; xi=Min(xi+8, w)){
-			for(int yi=0; yi<h; yi=Min(yi+8, h)){
-				if(!CanMovePixel(xx+xi, yy+yi, moveStyle))
+		for(int xi=0; xi<=w; xi=Min(xi+8, w)){
+			for(int yi=0; yi<=h; yi=Min(yi+8, h)){
+				if(!CanMovePixel(n, xx+xi, yy+yi, moveStyle))
 					return false;
 				if(yi==h)
 					break;
@@ -672,71 +1054,256 @@ namespace NPCAnim{
 		}
 		return true;
 	}
-	//Moves the enemy on the X and Y axis
-	void MoveXY(npc n, int vx, int vy, int moveStyle){
-		int aptr = n->Misc[NPCM_ANIMPOINTER];
-		aptr[AI_SUBPIXELX] += vx;
-		aptr[AI_SUBPIXELY] += vy;
-		int maxStep = Max(Floor(Abs(aptr[AI_SUBPIXELX])), Floor(Abs(aptr[AI_SUBPIXELY])));
+	// Same as above but lets you define the hitbox size
+	bool CanPlace(npc n, int x, int y, int w, int h, int moveStyle=AM_ZQ){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		int xx = x;
+		int yy = y;
+		w -= 1;
+		h -= 1;
+		for(int xi=0; xi<=w; xi=Min(xi+8, w)){
+			for(int yi=0; yi<=h; yi=Min(yi+8, h)){
+				if(!CanMovePixel(n, xx+xi, yy+yi, moveStyle))
+					return false;
+				if(yi==h)
+					break;
+			}
+			if(xi==w)
+				break;
+		}
+		return true;
+	}
+	// Moves the enemy on the X and Y axis
+	void MoveXY(npc n, int vx, int vy, int moveStyle=AM_ZQ){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		ah->__SubpixelX += vx;
+		ah->__SubpixelY += vy;
+		int maxStep = Max(Floor(Abs(ah->__SubpixelX)), Floor(Abs(ah->__SubpixelY)));
 		for(int i=0; i<maxStep; ++i){
-			if(aptr[AI_SUBPIXELX]<=-1){
+			if(ah->__SubpixelX<=-1){
 				if(CanMove(n, DIR_LEFT, moveStyle)){
 					--n->X;
-					++aptr[AI_SUBPIXELX];
+					++ah->__SubpixelX;
 				}
 				else{
-					aptr[AI_SUBPIXELX] = 0;
+					ah->__SubpixelX = 0;
 				}
 			}
-			else if(aptr[AI_SUBPIXELX]>=1){
+			else if(ah->__SubpixelX>=1){
 				if(CanMove(n, DIR_RIGHT, moveStyle)){
 					++n->X;
-					--aptr[AI_SUBPIXELX];
+					--ah->__SubpixelX;
 				}
 				else{
-					aptr[AI_SUBPIXELX] = 0;
+					ah->__SubpixelX = 0;
 				}
 			}
-			if(aptr[AI_SUBPIXELY]<=-1){
+			if(ah->__SubpixelY<=-1){
 				if(CanMove(n, DIR_UP, moveStyle)){
 					--n->Y;
-					++aptr[AI_SUBPIXELY];
+					++ah->__SubpixelY;
 				}
 				else{
-					aptr[AI_SUBPIXELY] = 0;
+					ah->__SubpixelY = 0;
 				}
 			}
-			else if(aptr[AI_SUBPIXELY]>=1){
+			else if(ah->__SubpixelY>=1){
 				if(CanMove(n, DIR_DOWN, moveStyle)){
 					++n->Y;
-					--aptr[AI_SUBPIXELY];
+					--ah->__SubpixelY;
 				}
 				else{
-					aptr[AI_SUBPIXELY] = 0;
+					ah->__SubpixelY = 0;
 				}
 			}
 		}
 	}
-	//Moves the enemy at an angle
-	void MoveAtAngle(npc n, int angle, int step, int moveStyle){
+	// Moves the enemy at an angle
+	void MoveAtAngle(npc n, int angle, int step, int moveStyle=AM_ZQ){
 		MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
 	}
-	//Moves the enemy toward Link
-	void MoveTowardLink(npc n, int step, int moveStyle){
+	// Moves the enemy toward Link
+	void MoveTowardLink(npc n, int step, int moveStyle=AM_ZQ){
 		int angle = Angle(CenterX(n)-8, CenterY(n)-8, Link->X, Link->Y);
 		MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
 	}
-	//Moves the enemy toward a point
-	void MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle){
+	// Moves the enemy toward a point, returns true if it still has more to move
+	bool MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle=AM_ZQ){
 		int angle = Angle(n->X, n->Y, tx, ty);
-		MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
+		if(Distance(n->X, n->Y, tx, ty)<step){
+			n->X = tx;
+			n->Y = ty;
+			return false;
+		}
+		else
+			MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
+		return true;
 	}
 	
-	//Get/setting animation properties in the array
-	int GetAnimProperty(int aptr, int animID, int prop){
-		return aptr[AI_END+ADI_END*animID+prop];
+	// Tries to get the hitbox unstuck when in a solid
+	void TryUnstickHitbox(npc n, int moveStyle=AM_ZQ){
+		//First check if it's actually stuck
+		if(!CanPlace(n, n->X, n->Y, moveStyle)){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			//Get a max step value based on 1/2 the widest hitbox side in multiples of 8
+			int side = Max(ah->CollWidth, ah->CollHeight);
+			int maxStep = Max(8, Floor(side/16)*8); 
+			
+			int cx = Floor(n->X+ah->CollXOff+ah->CollWidth/2)%16;
+			int cy = Floor(n->Y+ah->CollYOff+ah->CollHeight/2)%16;
+			
+			int topdist = Abs(cy-0);
+			int bottomdist = Abs(cy-15);
+			int leftdist = Abs(cx-0);
+			int rightdist = Abs(cx-15);
+			
+			//Start closer to the center and extend outward
+			for(int i=0; i<=maxStep; i+=8){
+				//Check adjacent positions in all 8 directions
+				for(int dir=DIR_UP; dir<=DIR_RIGHTDOWN; ++dir){
+					int vX;
+					int vY;
+					switch(dir){
+						case DIR_UP:
+							vY = -i-topdist;
+							break;
+						case DIR_DOWN:
+							vY = i+bottomdist+1;
+							break;
+						case DIR_LEFT:
+							vX = -i-leftdist;
+							break;
+						case DIR_RIGHT:
+							vX = i+rightdist+1;
+							break;
+						case DIR_LEFTUP:
+							vX = -i-leftdist;
+							vY = -i-topdist;
+							break;
+						case DIR_RIGHTUP:
+							vX = i+rightdist+1;
+							vY = -i-topdist;
+							break;
+						case DIR_LEFTDOWN:
+							vX = -i-leftdist;
+							vY = i+bottomdist+1;
+							break;
+						case DIR_RIGHTDOWN:
+							vX = i+rightdist+1;
+							vY = i+bottomdist+1;
+							break;
+					}
+					if(CanPlace(n, n->X+vX, n->Y+vY, moveStyle)){
+						n->X += vX;
+						n->Y += vY;
+						return;
+					}
+				}
+			}
+		}
 	}
-	int SetAnimProperty(int aptr, int animID, int prop, int value){
-		aptr[AI_END+ADI_END*animID+prop] = value;
+
+	// Returns true if the enemy's current animation has finished
+	bool AnimFinished(npc n){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		return ah->AnimFinished;
+	}
+	
+	// Returns the enemy's current animation
+	int GetCurAnim(npc n){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		return ah->CurAnim;
+	}
+	
+	// Returns the enemy's current animation frame
+	int GetCurAnimFrame(npc n){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		return ah->CurFrame;
+	}
+	
+	// Sets the animation speed multiplier
+	int SetAnimSpeedMultiplier(npc n, int speed){
+		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+		
+		ah->AnimSpeedMultiplier = speed;
+	}
+
+	//		Legacy Functions
+	//
+	// These are here because older versions of the header used them and it makes 
+	// converting scripts easier. 
+	
+	namespace Legacy{
+		// old name
+		int SetAnimSpeed(npc n, int speed){
+			SetAnimSpeedMultiplier(n, speed);
+		}
+		
+		void UpdateAnims(npc n){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->Update();
+		}
+		
+		void SetAnimSpriteHitbox(npc n, int w, int h, int top, int bottom, int left, int right, bool center=false){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->SetHitbox(w, h, {top, bottom, left, right}, center);
+		}
+		
+		void SetAnimMovementHitbox(npc n, int top, int bottom, int left, int right, bool center=false){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->SetMovementHitbox({top, bottom, left, right}, center);
+		}
+		
+		void CenterHitbox(npc n){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->CenterHitbox();
+		}
+		
+		int AddAnim(AnimHandler ah, int animID, int tile, int numFrames, int aSpeed, int loopFrame, int nextAnim, int flags){
+			return ah->AddAnim(animID, tile, numFrames, aSpeed, loopFrame, nextAnim, flags);
+		}
+		int AddAnim(AnimHandler ah, int animID, int tile, int numFrames, int aSpeed, int loopFrame, int flags){
+			return ah->AddAnim(animID, tile, numFrames, aSpeed, loopFrame, -1, flags);
+		}
+		int AddAnim(AnimHandler ah, int animID, int tile, int numFrames, int aSpeed, int flags){
+			return ah->AddAnim(animID, tile, numFrames, aSpeed, 0, -1, flags);
+		}
+		
+		void ExtendAnim(AnimHandler ah, int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets){
+			ah->ExtendAnim(animID, tileW, tileH, hitOffsets, collOffsets, drawOffsets, posOffsets);
+		}
+		
+		void SetFakeShadow(npc n, int spr, int w=1, int h=1, int offset=0){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->SetFakeShadow(spr, w, h, offset);
+		}
+		
+		void PlayAnim(npc n, int animID, bool noReset=false){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->PlayAnim(animID, noReset);
+		}
+		
+		void PlayDeathAnim(npc n, int spr, int w, int h, int sfx, bool noFreeze){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->PlayDeathAnim(spr, w, h, sfx, noFreeze);
+		}
+		void PlayDeathAnim(npc n, bool noFreeze=false){
+			AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
+			
+			ah->PlayDeathAnim(noFreeze);
+		}
 	}
 }

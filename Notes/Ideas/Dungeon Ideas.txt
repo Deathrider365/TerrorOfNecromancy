@@ -51,8 +51,6 @@ Desert structure will be a dungeon called Level #: Mortuary of Corruption
 Level #: The Deep of Dwarrodelf will be an ancient lava filled goron city in a mountain where there is a
 notorious dragon inside
 
-Dawn to Twilight Plus Deep Darkness theme
-
 Can lose dungeon map, and would need to reobtain it
 
 a dungeon that you have to drain it layer by layer and at the end of it you dive (optional) for something idk
@@ -69,12 +67,7 @@ mystic manor glory squad
 
 Think the dungeon from DQVIII where you cannot see until you get an item (this can be the final bonus dungeon)
 
-where the dungeon was in my mini quest can be a legionnaire outpost 
-
 much like the bonus dungeons from FF1 have a dungeon where each floor is styled off of each of the dungeons 
-
-Have an intro area to a lava dungeon using this: https://www.youtube.com/watch?v=MG17fe1iNAU&list=PLvNp0Boas7205R5ySBYZTfH_ePHdDFFkZ&index=14
-Dungeon being this: https://www.youtube.com/watch?v=qxGK8Gussjg&list=PLvNp0Boas7205R5ySBYZTfH_ePHdDFFkZ&index=15 (Maybe use the SM variant)
 
 a dungeon similar to the tower of winds and sunken basin where the side view 
 portion has a lot of verticality where there are paths to various floors
@@ -82,4 +75,14 @@ portion has a lot of verticality where there are paths to various floors
 2 sister towers, one fire and the other ice. each will have wizzrobes but there will also be elemental specific ones. Perhaps fire does DoT and
 ice slows yuou down
 
-Have a sideview dungeon, you swap gravity and,or the dungeon
+Have a sideview dungeon, you swap gravity and, or the dungeon
+
+similar to falling sand in Super Metroid, have that in some sideview
+
+lava is the bottom floor, and you need to release water sources in a higher floor to make it so you can walk on the base floor
+
+a dungeon that is two towers and perhaps that is where you get the hook/longshot. falling could be a good hazard
+
+death glighted keep
+
+dungeon that plays lower norfair's theme called Riafron
