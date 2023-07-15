@@ -4,8 +4,7 @@
 
 CONFIGB DEBUG = true; // TODO disable for final release
 
-//~~~~~Global Variables~~~~~//
-//start
+/*/~~~~~Global Variables~~~~~/*/
 bool disableTrans;
 
 bool levelEntries[512];
@@ -23,19 +22,14 @@ bitmap overheadBitmaps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
-
-//end
-
-//~~~~~Typedefs~~~~~//
-//start
+   
+/*/~~~~~Typedefs~~~~~/*/
 typedef const int DEFINE;
 typedef const int CONFIG;
 typedef const bool CONFIGB;
 typedef const Color COLOR;
-//end
 
-//~~~~~Magnitude~~~~~//
-//start
+/*/~~~~~Magnitude~~~~~/*/
 CONFIG INTRO_SCENE_TRANSITION_MULT = 8;
 CONFIG INTRO_SCENE_TRANSITION_FRAMES = 32;
 
@@ -43,23 +37,16 @@ CONFIG MAX_USED_DMAP = 511;
 
 CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
 
-CONFIG WIDTH_EZB_DEATHEXPLOSION = 2; //Tile width for death explosions
-CONFIG HEIGHT_EZB_DEATHEXPLOSION = 2; //Tile height for death explosions
+CONFIG WIDTH_EZB_DEATHEXPLOSION = 2;  // Tile width for death explosions
+CONFIG HEIGHT_EZB_DEATHEXPLOSION = 2; // Tile height for death explosions
 
-DEFINE STATUS_HEIGHT = 8;
 DEFINE STATUS_WIDTH = 12;
+DEFINE STATUS_HEIGHT = 8;
 
-//end
-
-//~~~~~Color~~~~~//
-//start
+/*/~~~~~Color~~~~~/*/
 COLOR STATUS_TEXT_COLOR = C_WHITE;
 
-
-//end
-
-//~~~~~CSet~~~~~//
-//start
+/*/~~~~~CSet~~~~~/*/
 CONFIG CSET_TOXIC_FOREST_KEY = 8;
 CONFIG CSET_GUARD_TOWER_KEY = 8;
 CONFIG CSET_BATTLE_ARENA_TICKET = 0;
@@ -69,30 +56,20 @@ CONFIG CSET_MYSTERIOUS_COFFER = 5;
 CONFIG CSET_REALLY_SMALL_KEY = 0;
 CONFIG CSET_ENGAGEMENT_RING = 0;
 
-
-//end
-
-//~~~~~Item Classes~~~~~//
-//start
+/*/~~~~~Item Classes~~~~~/*/
 DEFINE IC_GALEBRANG = 256;
 DEFINE IC_TRADING_SEQ = 91;
 
-//end
-
-//~~~~~FFC~~~~~//
-//start
+/*/~~~~~FFC~~~~~/*/
 CONFIG COMPASS_BEEP = 69;
 CONFIG COMPASS_SFX = 20;
 
 CONFIG CB_SIGNPOST = CB_A;
 
-CONFIG ICE_BLOCK_SCRIPT = 1; 		// Slot number that the ice_block script is assigned to
-CONFIG ICE_BLOCK_SENSITIVITY = 8; 	// Number of frames the blocks need to be pushed against to begin moving
+CONFIG ICE_BLOCK_SCRIPT = 1;		 // Slot number that the ice_block script is assigned to
+CONFIG ICE_BLOCK_SENSITIVITY = 8; // Number of frames the blocks need to be pushed against to begin moving
 
-//end
-
-//~~~~~TriggerTypes~~~~~//
-//start
+/*/~~~~~TriggerTypes~~~~~/*/
 CONFIG TT_NO_TRIGGER_SET = 1;
 CONFIG TT_SCREEND_SET = 2;
 CONFIG TT_SCREEND_NOT_SET = 3;
@@ -100,20 +77,14 @@ CONFIG TT_SECRETS_TRIGGERED = 4;
 CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
 CONFIG TT_ITEM_ACQUIRED = 6;
 CONFIG TT_ITEM_NOT_ACQUIRED = 7;
-   
-//end
 
-//~~~~~Itemdata~~~~~//
-//start
+/*/~~~~~Itemdata~~~~~/*/
 CONFIG SUB_B_X = 94;
 CONFIG SUB_B_Y = -10;
 CONFIG SUB_A_X = 118;
 CONFIG SUB_A_Y = -10;
 
-//end
-
-//~~~~~Item~~~~~//
-//start
+/*/~~~~~Item~~~~~/*/
 CONFIG ITEM_SINGLE_HEART = 2;
 CONFIG ITEM_SWORD1 = 5;
 CONFIG ITEM_SWORD2 = 6;
@@ -142,16 +113,9 @@ CONFIG ITEM_EXPANSION_QUIVER = 205;
 CONFIG ITEM_BATTLE_ARENA_TICKET = 191;
 
 CONFIG ITEM_QUIVER1_SMALL = 74;
-//end
 
-//~~~~~LWeapon~~~~~//
-//start
-
-//end
-
-//~~~~~SFX~~~~~//
-//start
-CONFIG SFX_SWITCH_RELEASE = 0; 		//SFX when a switch is released
+/*/~~~~~SFX~~~~~/*/
+CONFIG SFX_SWITCH_RELEASE = 0; // SFX when a switch is released
 CONFIG SFX_SUPER_JUMP = 0;
 CONFIG SFX_SLAM = 0;
 
@@ -160,10 +124,10 @@ CONFIG SFX_SWORD_ROCK3 = 6;
 CONFIG SFX_OOT_SECRET = 7;
 CONFIG SFX_ROCKINGSHIP = 9;
 CONFIG SFX_FLAMMING_ARROW = 13;
-CONFIG SFX_SWITCH_PRESS = 17; 		//SFX when a switch is pressed
+CONFIG SFX_SWITCH_PRESS = 17; // SFX when a switch is pressed
 CONFIG SFX_MIRROR_SHIELD_ABSORB_LOOP = 60;
 CONFIG SFX_POWDER_KEG_BLAST = 61;
-CONFIG SFX_SWITCH_ERROR = 62; 		//SFX when the wrong switch is pressed
+CONFIG SFX_SWITCH_ERROR = 62; // SFX when the wrong switch is pressed
 CONFIG SFX_SUMMON_MINE = 64;
 CONFIG SFX_ONOX_TORNADO = 63;
 CONFIG SFX_OOT_ARMOS_DIE = 73;
@@ -199,16 +163,13 @@ CONFIG SFX_STALFOS_GROAN_SLOW = 168;
 CONFIG SFX_IMPACT_EXPLOSION = 169;
 CONFIG SFX_STALCHILD_ATTACK = 170;
 
-//end
-
-//~~~~~Sprite~~~~~//
-//start
+/*/~~~~~Sprite~~~~~/*/
 CONFIG SPR_LEGIONNAIRESWORD = 110;
 CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SPR_FOOTSTEP = 113;
 
-CONFIG SPR_EZB_DEATHEXPLOSION = 0; //Sprite to use for death explosions (0 for ZC default)
-CONFIG EZB_DEATH_FLASH = 1; //Set to 1 to make the enemy flash during death animations
+CONFIG SPR_EZB_DEATHEXPLOSION = 0; // Sprite to use for death explosions (0 for ZC default)
+CONFIG EZB_DEATH_FLASH = 1;		  // Set to 1 to make the enemy flash during death animations
 
 CONFIG SPR_FLAME_TRAIL = 123;
 
@@ -226,10 +187,8 @@ CONFIG SPR_FLAME_HELLS2X2 = 132;
 
 CONFIG SPR_SMALL_ROCK = 118;
 CONFIG SPR_SUPER_SMALL_ROCK = 18;
-//end
 
-//~~~~~Combo~~~~~//
-//start
+/*/~~~~~Combo~~~~~/*/
 CONFIG COMBO_INVIS = 1;
 CONFIG COMBO_SOLID = 39;
 
@@ -237,15 +196,11 @@ CONFIG COMBO_L = 7744;
 CONFIG COMBO_R = 7745;
 CONFIG COMBO_LEFT_ARROW = 7746;
 CONFIG COMBO_RIGHT_ARROW = 7747;
-//end
 
-//~~~~~Combo Types~~~~~//
-//start
+/*/~~~~~Combo Types~~~~~/*/
 CONFIG CT_SCRIPT_TORCH = CT_SCRIPT19;
-//end
 
-//~~~~~Tile~~~~~//
-//start
+/*/~~~~~Tile~~~~~/*/
 CONFIG TILE_INVIS = 196;
 
 CONFIG TILE_IMPACT_MID = 955;
@@ -271,85 +226,46 @@ CONFIG TILE_BOMB_BAG_UPGRADE = 30060;
 CONFIG TILE_QUIVER_UPGRADE = 30264;
 CONFIG TILE_MAGIC_CONTAINER_UPGRADE = 29565;
 
-//end
-
-//~~~~~Midi~~~~~//
-//start
+/*/~~~~~Midi~~~~~/*/
 CONFIG MIDI_GAMEOVER = 8;
 
-//end
-
-//~~~~~Counters~~~~~//
-//start
-CONFIG CR_TRIFORCE_OF_COURAGE = CR_CUSTOM1;  //7
-CONFIG CR_TRIFORCE_OF_POWER = CR_CUSTOM2;    //8
-CONFIG CR_TRIFORCE_OF_WISDOM = CR_CUSTOM3;   //9
-CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;    //10
+/*/~~~~~Counters~~~~~/*/
+CONFIG CR_TRIFORCE_OF_COURAGE = CR_CUSTOM1; // 7
+CONFIG CR_TRIFORCE_OF_POWER = CR_CUSTOM2;	  // 8
+CONFIG CR_TRIFORCE_OF_WISDOM = CR_CUSTOM3;  // 9
+CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;	  // 10
 CONFIG CR_LEGIONNAIRE_RING = CR_CUSTOM5;
 CONFIG CR_HEARTPIECES = CR_CUSTOM6;
 CONFIG CR_MAGIC_EXPANSIONS = CR_CUSTOM7;
 CONFIG CR_BOMB_BAG_EXPANSIONS = CR_CUSTOM8;
 CONFIG CR_QUIVER_EXPANSIONS = CR_CUSTOM9;
 
-//end
-
-//~~~~~Footprints~~~~~//
-//start
+/*/~~~~~Footprints~~~~~/*/
 CONFIG CT_FOOTPRINT = CT_SCRIPT20;
 
-//end
-
-//~~~~~Fonts~~~~~//
-//start
+/*/~~~~~Fonts~~~~~/*/
 CONFIG STATUS_FONT = FONT_Z3SMALL;
 
-//end
-
-//~~~~~Gale Boomerang~~~~~//
-//start
-CONFIG CF_BRANG_BOUNCE = CF_SCRIPT20;
-
-CONFIG DEFAULT_SPRITE = 5;
-CONFIG DEFAULT_WIND_SPRITE = 13;
-
-CONFIG DEFAULT_SFX = 63;
-
-CONFIG SFX_DELAY = 5;
-
-DEFINE ROTATION_RATE = 40; //degrees
-
-CONFIGB FORCE_QRS_TO_NEEDED_STATE = true;
-CONFIGB BOUNCE_OFF_FLAGS_ON_LAYERS_1_AND_2 = true;
-CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
-
-//end
-
-//~~~~~ActiveSubscreen~~~~~//
-//start
-
-// Globals start
+/*/~~~~~ActiveSubscreen~~~~~/*/
 int subscreenYOffset = -224;
 
-// int numBombUpgrades = 7;
-// int numQuiverUpgrades = 7;
 char32 numBombUpgradesBuf[6];
 char32 numQuiverUpgradesBuf[6];
 char32 numMagicUpgradesBuf[6];
 
 int scrollingOffset;
-//end
 
-//start Active Items
+// Active Items
 int activeItemIDs[] = {
-	IC_SWORD, 		IC_BRANG, 			IC_BOMB, 		IC_ARROW, 
-	IC_CANDLE, 		IC_WHISTLE, 		IC_POTION, 		IC_BAIT,
-	IC_SBOMB, 		IC_HOOKSHOT, 		IC_HAMMER, 		IC_WAND,
-	IC_LENS, 		IC_WPN_SCRIPT_02, IC_CBYRNA, 		-1,
-	IC_DINSFIRE, 	IC_FARORESWIND, 	IC_NAYRUSLOVE, IC_CUSTOM4,
-	IC_CUSTOM1, 	IC_CUSTOM3, 		IC_CUSTOM5, 	IC_CUSTOM6
+	IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW,
+	IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT,
+	IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND,
+	IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, -1,
+	IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4,
+	IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6
 };
 
-int activeItemLocsX[] = {	
+int activeItemLocsX[] = {
 	166, 188, 210, 232,
 	166, 188, 210, 232,
 	166, 188, 210, 232,
@@ -358,20 +274,19 @@ int activeItemLocsX[] = {
 	166, 188, 210, 232
 };
 
-int activeItemLocsY[] =	{
-	32,  32,  32,  32,
-	54,  54,  54,  54,
-	76,  76,  76,  76,
-	98,  98,  98,  98,
+int activeItemLocsY[] = {
+	32, 32, 32, 32,
+	54, 54, 54, 54,
+	76, 76, 76, 76,
+	98, 98, 98, 98,
 	120, 120, 120, 120,
 	142, 142, 142, 142
 };
-//end
 
-//start Inactive Items
+// Inactive Items
 int inactiveItemIDs[] = {
-	IC_SHIELD, 		IC_RING,		IC_RAFT,		IC_LADDER, 
-	IC_BRACELET, 	IC_FLIPPERS, 	IC_BOMBBAG,		IC_QUIVER,
+	IC_SHIELD, IC_RING, IC_RAFT, IC_LADDER,
+	IC_BRACELET, IC_FLIPPERS, IC_BOMBBAG, IC_QUIVER,
 	IC_LANTERN
 };
 
@@ -382,10 +297,11 @@ int inactiveItemLocsX[] = {
 };
 
 int inactiveItemLocsY[] = {
-	4,  4,  4,  4,
+	4, 4, 4, 4,
 	22, 22, 22, 22,
 	40
 };
+
 
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};
@@ -404,9 +320,8 @@ int currTriforceIndex = 0;
 int numHeartPieces = 0;
 
 bool subscreenOpen = false;
-//end
-
-//start Constants
+	
+// Constants
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
 DEFINE NUM_SUBSCR_INAC_ITEMS = 9;
 DEFINE NUM_SUBSCR_DUNGEON_ITEMS = 3;
@@ -476,22 +391,18 @@ CONFIG DEATH_SHARD1 = 654;
 CONFIG DEATH_SHARD2 = 534;
 CONFIG DEATH_SHARD3 = 714;
 CONFIG DEATH_SHARD4 = 594;
-//end
 
-//end
 
-//~~~~~PassiveSubscreen~~~~~//
-//start
+/*/~~~~~PassiveSubscreen~~~~~/*/
 CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
 CONFIG TILE_DIFF_NORMAL = 32081;
 CONFIG TILE_DIFF_HARD = 32141;
 CONFIG TILE_DIFF_PALADIN = 32142;
 
-//end
 
-//~~~~~Enemies~~~~~//
-//start
+/*/~~~~~Enemies~~~~~/*/
+// start
 CONFIG ENEMY_OCTOROCK_LV1_SLOW = 20;
 CONFIG ENEMY_OCTOROCK_LV1_FAST = 22;
 CONFIG ENEMY_OCTOROCK_LV2_SLOW = 21;
@@ -539,13 +450,12 @@ CONFIG ENEMY_BUBBLE_TEMP_LV2 = 251;
 
 CONFIG ENEMY_GRAVE_KEEPER_GONE_APE = 259;
 
-
 CONFIG ENEMY_OVERGROWN_RACCOON = 235;
 CONFIG ENEMY_THIEF_BOSS = 263;
-//end
 
-//~~~~~Enums~~~~~//
-//start
+
+/*/~~~~~Enums~~~~~/*/
+
 enum Color {
 	C_TRANSBG = -1,
 	C_TRANS = 0x00,
@@ -565,36 +475,36 @@ enum Color {
 };
 
 enum ScreenType {
-   DM_DUNGEON,
-   DM_OVERWORLD,
-   DM_INTERIOR,
-   DM_BSOVERWORLD
+	DM_DUNGEON,
+	DM_OVERWORLD,
+	DM_INTERIOR,
+	DM_BSOVERWORLD
 };
 
 enum ArcingWeaponEffects {
-   AE_NONE,
+	AE_NONE,
 	// Shambles
 	AE_BOMB,
 	AE_SMALLPOISONPOOL,
 	AE_LARGEPOISONPOOL,
 	AE_PROJECTILEWITHMOMENTUM,
-	
+
 	// Hazarond
 	AE_OIL_BLOB,
 	AE_OIL_DEATH_BLOB,
-	
+
 	// Overgrown Raccoon
 	AE_ROCK_PROJECTILE,
 	AE_BOULDER_PROJECTILE,
 	AE_RACCOON_PROJECTILE,
-   
-   // Egentem
-   AE_EGENTEM_HAMMER,
-   
+
+	// Egentem
+	AE_EGENTEM_HAMMER,
+
 	// Misc
-   AE_BOMB_EXPLOSION,
+	AE_BOMB_EXPLOSION,
 	AE_ARROW,
-	
+
 	AE_DEBUG
 };
 
@@ -604,13 +514,12 @@ enum StatusPos {
 };
 
 enum Status {
-	ATTACK_BOOST, 
-	DEFENSE_BOOST, 
+	ATTACK_BOOST,
+	DEFENSE_BOOST,
 	NUM_STATUSES
 };
-   
+
 enum TriggerAction {
-   TA_KILL_SCRIPT,
-   TA_START_SCRIPT
+	TA_KILL_SCRIPT,
+	TA_START_SCRIPT
 };
-//end
