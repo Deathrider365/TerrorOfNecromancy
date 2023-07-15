@@ -1,6 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-///////////////////////////////////////////////////////////////////////////////
 
 @Author("Deathrider365")
 ffc script Debug {
@@ -814,12 +812,14 @@ ffc script BurningOilandBushes {
    }
 }
 
+@Author("Deathrider365")
 ffc script FaceDownLinkFromTopOfScreen {
    void run() {
       Hero->Dir = DIR_DOWN;
    }
 }
 
+@Author("Deathrider365")
 ffc script UnlockMoltenFloodedForgeBoss {
    void run() {
       mapdata mapData1 = Game->LoadMapData(61, 0x33);

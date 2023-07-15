@@ -1,6 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Cutscenes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-///////////////////////////////////////////////////////////////////////////////
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Cutscene FFCs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 @Author("Deathrider365")
 ffc script IntroAwaitingLeviathan {	
@@ -1161,6 +1159,7 @@ ffc script CapturesSequenceRightHand {
    }
 }
 
+@Author("Deathrider365")
 ffc script FallingStalagtites {
    void run(int xSpeed, int ySpeed, int duration) {
       if (Screen->State[ST_SECRET]) {
@@ -1184,6 +1183,7 @@ ffc script FallingStalagtites {
    }
 }
 
+@Author("Deathrider365")
 ffc script GraveKeeperSequence {
    void run(int messageImWarningYou, int messageMad, int messageDontKillMe, int messageLeavePls, int messageSad, int messageThankful) {
       int originalCombo = this->Data;

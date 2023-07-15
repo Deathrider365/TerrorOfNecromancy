@@ -1,6 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Enemies ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-///////////////////////////////////////////////////////////////////////////////
 
 @Author("Deathrider365")
 npc script Candlehead {
@@ -398,6 +396,7 @@ npc script HammerBoi {
    }
 }
 
+@Author("Deathrider365")
 npc script GraveDudeGoneApe {
    using namespace EnemyNamespace;
      
@@ -416,6 +415,7 @@ npc script GraveDudeGoneApe {
    }
 }
 
+@Author("Deathrider365")
 npc script Bomber {
    using namespace EnemyNamespace;
    

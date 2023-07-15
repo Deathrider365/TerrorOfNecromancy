@@ -30,8 +30,7 @@
 #include "../ToN Main Quest/Scripts/Foes/Enemies.zs"
 #include "../ToN Main Quest/Scripts/Foes/Bosses.zs"
 
-#include "../ToN Main Quest/Scripts/Subscreens/ActiveSubscreen.zs"
-#include "../ToN Main Quest/Scripts/Subscreens/PassiveSubscreen.zs"
+#include "../ToN Main Quest/Scripts/Subscreen.zs"
 
 #include "../ToN Main Quest/Scripts/Utilities/EnumsTypedefs.zs"
 #include "../ToN Main Quest/Scripts/Utilities/Difficulty.zs"
