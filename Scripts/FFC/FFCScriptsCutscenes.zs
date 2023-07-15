@@ -95,7 +95,7 @@ ffc script IntroLeviathanEnding {
          waterfallBitmap->Free();
          
       waterfallBitmap = Game->CreateBitmap(32, 176);
-      Leviathan.UpdateWaterfallBitmap();
+      UpdateWaterfallBitmap();
       
       Hero->Dir = DIR_UP;
       disableLink();
@@ -212,7 +212,7 @@ ffc script IntroPreInteritusLeviathanScene {
          
       waterfallBitmap = Game->CreateBitmap(32, 176);
       
-      Leviathan.UpdateWaterfallBitmap();
+      UpdateWaterfallBitmap();
       
       Hero->Dir = DIR_UP;
       
