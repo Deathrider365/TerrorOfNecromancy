@@ -52,3 +52,5 @@ The cemetary wher ethe undead legion is will have no music but rather just have 
 
 have something like from GS where there is that room with 3 torches that an npc mentiones or something which perhaps can refer to a shrine of takagon and use the takagon glory squad statues
 
+game generic value to pule the dither of dark rooms and change them in global script
+

@@ -102,3 +102,7 @@ a stagger animation. The lower his heath gets the easier he staggers
 similar to a torizo you get an item from the boss which at first appeared to be a shadow
 
 boss that spins around the room fast on the rim and you can only access it with ranged
+
+Hazarond goes into a rage after being shot with an arrow, jumps on link then shoots a large beam of oil towards link
+hard mode hazarond - when he jumps back into the center, splash some oil around
+hazarond jumps cause a crater that reveals oil
