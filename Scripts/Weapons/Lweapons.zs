@@ -1,7 +1,10 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LWeapons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+// clang-format off
 @Author("EmilyV99")
 lweapon script GaleBoomerang {
+   // clang-format on
+
    // REQUIRES: `ZScript>>Quest Script Settings>>Objects` - `Weapons Live One Extra Frame With WDS_DEAD` must be checked.
    // InitD[]:
    // D0: turn rate (degrees per frame)
@@ -85,8 +88,7 @@ lweapon script GaleBoomerang {
 
             unless(it->Pickup & IP_TIMEOUT) continue;
 
-            if (Collision(it, this))
-            {
+            if (Collision(it, this)) {
                dragging = it;
                collided = STOPS_WHEN_GRABBING_ITEMS;
             }
@@ -101,11 +103,9 @@ lweapon script GaleBoomerang {
          windClock = (windClock + 1) % wind_drop_rate;
          sfxClock = (sfxClock + 1) % SFX_DELAY;
 
-         unless(windClock)
-             drop_sparkle(this->X, this->Y, wind_sprite);
+         unless(windClock) drop_sparkle(this->X, this->Y, wind_sprite);
 
-         unless(sfxClock)
-             Audio->PlaySound(sfx);
+         unless(sfxClock) Audio->PlaySound(sfx);
 
          this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
          Waitframe();
@@ -138,11 +138,9 @@ lweapon script GaleBoomerang {
          windClock = (windClock + 1) % wind_drop_rate;
          sfxClock = (sfxClock + 1) % SFX_DELAY;
 
-         unless(windClock)
-             drop_sparkle(this->X, this->Y, wind_sprite);
+         unless(windClock) drop_sparkle(this->X, this->Y, wind_sprite);
 
-         unless(sfxClock)
-             Audio->PlaySound(sfx);
+         unless(sfxClock) Audio->PlaySound(sfx);
 
          this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
          Waitframe();
@@ -157,20 +155,29 @@ lweapon script GaleBoomerang {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 lweapon script PortalSphere {
+   // clang-format on
+
    void run() {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 lweapon script ScholarCandelabra {
+   // clang-format on
+
    void run() {
    }
 }
 
+// clang-format off
 @Author("KoolAidWannaBe")
 lweapon script SineWave {
+   // clang-format on
+
    void run(int amplitude, int frequency) {
       this->Angle = DirRad(this->Dir);
       this->Angular = true;
@@ -195,8 +202,11 @@ lweapon script SineWave {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 lweapon script DeathsTouch {
+   // clang-format on
+
    void run() {
       // an aura n pixel circle around link that does x dps to all enemies in the radius and has a lasting damage effect even after they leave. works on all except undead until
       //  the triforce of death is cleansed, then it hurts only undead but for a lot more than before it was cleansed (extremely useful for the legionnaire crypt)
@@ -226,11 +236,13 @@ lweapon script DeathsTouch {
    }
 }
 
+// clang-format off
 @Author("EmilyV99")
 lweapon script CustomSparkle {
+   // clang-format on
+
    void run(int sprId, int fadeMult) {
-      unless(fadeMult)
-          fadeMult = 1;
+      unless(fadeMult) fadeMult = 1;
 
       spritedata spr = Game->LoadSpriteData(sprId);
       this->CSet = spr->CSet;
@@ -261,8 +273,11 @@ lweapon script CustomSparkle {
    }
 }
 
+// clang-format off
 @Author("Moosh")
 lweapon script TimedEffect {
+   // clang-format on
+
    void run(int timer) {
       while (timer--)
          Waitframe();
@@ -271,11 +286,13 @@ lweapon script TimedEffect {
    }
 }
 
+// clang-format off
 @Author("Moosh")
 lweapon script FlamingArrow {
+   // clang-format on
+
    void run() {
-      unless(this->ID == LW_ARROW)
-          Quit();
+      unless(this->ID == LW_ARROW) Quit();
 
       bool collided;
 
@@ -285,26 +302,26 @@ lweapon script FlamingArrow {
                lweapon weapon = Screen->LoadLWeapon(i);
 
                switch (weapon->ID) {
-               case LW_FIRE:
-                  if (weapon->CollDetection && Collision(this, weapon)) {
-                     collided = true;
-                     Audio->PlaySound(SFX_FLAMMING_ARROW);
-                  }
-                  break;
+                  case LW_FIRE:
+                     if (weapon->CollDetection && Collision(this, weapon)) {
+                        collided = true;
+                        Audio->PlaySound(SFX_FLAMMING_ARROW);
+                     }
+                     break;
                }
             }
             for (int i = Screen->NumEWeapons(); i > 0; --i) {
                eweapon weapon = Screen->LoadEWeapon(i);
 
                switch (weapon->ID) {
-               case EW_FIRE:
-               case EW_FIRE2:
-               case EW_FIRETRAIL:
-                  if (weapon->CollDetection && Collision(this, weapon)) {
-                     collided = true;
-                     Audio->PlaySound(SFX_FLAMMING_ARROW);
-                  }
-                  break;
+                  case EW_FIRE:
+                  case EW_FIRE2:
+                  case EW_FIRETRAIL:
+                     if (weapon->CollDetection && Collision(this, weapon)) {
+                        collided = true;
+                        Audio->PlaySound(SFX_FLAMMING_ARROW);
+                     }
+                     break;
                }
             }
 
@@ -366,8 +383,11 @@ lweapon script FlamingArrow {
    }
 }
 
+// clang-format off
 @Author("Moosh")
 lweapon script DieTimeOut {
+   // clang-format on
+
    void run(int frames) {
       Waitframes(frames);
       this->DeadState = WDS_DEAD;

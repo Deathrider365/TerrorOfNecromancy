@@ -1,0 +1,21 @@
+# Docs:
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+IndentWidth: 3
+NamespaceIndentation: All
+IndentCaseLabels: true
+AlignAfterOpenBracket: false
+UseTab: false
+ColumnLimit: 999
+AllowShortEnumsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: false
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  BeforeElse: true
+
+
+
+
+

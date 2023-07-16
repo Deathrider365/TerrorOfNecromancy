@@ -1,7 +1,10 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Items ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+// clang-format off
 @Author("Deathrider365")
 item script LegionRings {
+   //clang-format on
+   
    void run() {
       if(Game->Counter[CR_LEGIONNAIRE_RING] == 19) {
          Screen->TriggerSecrets();
@@ -11,8 +14,11 @@ item script LegionRings {
    }
 }
 
+// clang-format off
 @Author("Moosh")
 item script HaerenGrace {
+   //clang-format on
+   
    void run(int errsfx) {
       int hpPercent = PercentOfWhole(Hero->HP, Hero->MaxHP);
       int currentMP;
@@ -95,8 +101,11 @@ item script HaerenGrace {
    }
 }
 
+// clang-format off
 @Author ("Deathrider365")
 item script HeartPieces {
+   //clang-format on
+   
 	void run() {
 		switch(Game->Generic[GEN_HEARTPIECES] + 1) {
 			case 1:
@@ -115,15 +124,21 @@ item script HeartPieces {
 	}
 }
 
+// clang-format off
 @Author ("Deathrider365")
 item script MagicContainerExpansions {
+   //clang-format on
+   
    void run() {
       Game->Counter[CR_MAGIC_EXPANSIONS]++;
    }
 }
 
+// clang-format off
 @Author("EmilyV99")
 itemdata script GanonRage {
+   //clang-format on
+   
    //start
    // D0: Duration of ability
    // D1: Duration of cooldown
@@ -183,8 +198,11 @@ itemdata script GanonRage {
    }
 }
 
+// clang-format off
 @Author("EmilyV99")
 itemdata script ScholarsMind {
+   //clang-format on
+   
    //start Instructions
    // D0: Duration of ability
    // D1: Duration of cooldown
@@ -241,8 +259,11 @@ itemdata script ScholarsMind {
 	}
 }
 
+// clang-format off
 @Author("EmilyV99")
 itemdata script LifeRing {
+   //clang-format on
+   
    //start Instructions
    //D0: HP to heal while enemies on screen
    //D1: How often to heal while enemies on screen

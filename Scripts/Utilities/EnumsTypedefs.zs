@@ -20,7 +20,7 @@ bitmap overheadBitmaps[7];
 StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
-   
+
 /*/~~~~~Typedefs~~~~~/*/
 typedef const int DEFINE;
 typedef const int CONFIG;
@@ -64,7 +64,7 @@ CONFIG COMPASS_SFX = 20;
 
 CONFIG CB_SIGNPOST = CB_A;
 
-CONFIG ICE_BLOCK_SCRIPT = 1;		 // Slot number that the ice_block script is assigned to
+CONFIG ICE_BLOCK_SCRIPT = 1;      // Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; // Number of frames the blocks need to be pushed against to begin moving
 
 /*/~~~~~TriggerTypes~~~~~/*/
@@ -167,7 +167,7 @@ CONFIG SPR_POISON_CLOUD = 111;
 CONFIG SPR_FOOTSTEP = 113;
 
 CONFIG SPR_EZB_DEATHEXPLOSION = 0; // Sprite to use for death explosions (0 for ZC default)
-CONFIG EZB_DEATH_FLASH = 1;		  // Set to 1 to make the enemy flash during death animations
+CONFIG EZB_DEATH_FLASH = 1;        // Set to 1 to make the enemy flash during death animations
 
 CONFIG SPR_FLAME_TRAIL = 123;
 
@@ -229,9 +229,9 @@ CONFIG MIDI_GAMEOVER = 8;
 
 /*/~~~~~Counters~~~~~/*/
 CONFIG CR_TRIFORCE_OF_COURAGE = CR_CUSTOM1; // 7
-CONFIG CR_TRIFORCE_OF_POWER = CR_CUSTOM2;	  // 8
+CONFIG CR_TRIFORCE_OF_POWER = CR_CUSTOM2;   // 8
 CONFIG CR_TRIFORCE_OF_WISDOM = CR_CUSTOM3;  // 9
-CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;	  // 10
+CONFIG CR_TRIFORCE_OF_DEATH = CR_CUSTOM4;   // 10
 CONFIG CR_LEGIONNAIRE_RING = CR_CUSTOM5;
 CONFIG CR_HEARTPIECES = CR_CUSTOM6;
 CONFIG CR_MAGIC_EXPANSIONS = CR_CUSTOM7;
@@ -254,52 +254,18 @@ char32 numMagicUpgradesBuf[6];
 int scrollingOffset;
 
 // Active Items
-int activeItemIDs[] = {
-	IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW,
-	IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT,
-	IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND,
-	IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, -1,
-	IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4,
-	IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6
-};
+int activeItemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT, IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, -1, IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6};
 
-int activeItemLocsX[] = {
-	166, 188, 210, 232,
-	166, 188, 210, 232,
-	166, 188, 210, 232,
-	166, 188, 210, 232,
-	166, 188, 210, 232,
-	166, 188, 210, 232
-};
+int activeItemLocsX[] = {166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232};
 
-int activeItemLocsY[] = {
-	32, 32, 32, 32,
-	54, 54, 54, 54,
-	76, 76, 76, 76,
-	98, 98, 98, 98,
-	120, 120, 120, 120,
-	142, 142, 142, 142
-};
+int activeItemLocsY[] = {32, 32, 32, 32, 54, 54, 54, 54, 76, 76, 76, 76, 98, 98, 98, 98, 120, 120, 120, 120, 142, 142, 142, 142};
 
 // Inactive Items
-int inactiveItemIDs[] = {
-	IC_SHIELD, IC_RING, IC_RAFT, IC_LADDER,
-	IC_BRACELET, IC_FLIPPERS, IC_BOMBBAG, IC_QUIVER,
-	IC_LANTERN
-};
+int inactiveItemIDs[] = {IC_SHIELD, IC_RING, IC_RAFT, IC_LADDER, IC_BRACELET, IC_FLIPPERS, IC_BOMBBAG, IC_QUIVER, IC_LANTERN};
 
-int inactiveItemLocsX[] = {
-	4, 22, 40, 58,
-	4, 22, 40, 58,
-	4
-};
+int inactiveItemLocsX[] = {4, 22, 40, 58, 4, 22, 40, 58, 4};
 
-int inactiveItemLocsY[] = {
-	4, 4, 4, 4,
-	22, 22, 22, 22,
-	40
-};
-
+int inactiveItemLocsY[] = {4, 4, 4, 4, 22, 22, 22, 22, 40};
 
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};
@@ -318,7 +284,7 @@ int currTriforceIndex = 0;
 int numHeartPieces = 0;
 
 bool subscreenOpen = false;
-	
+
 // Constants
 DEFINE NUM_SUBSCR_SEL_ITEMS = 24;
 DEFINE NUM_SUBSCR_INAC_ITEMS = 9;
@@ -390,14 +356,12 @@ CONFIG DEATH_SHARD2 = 534;
 CONFIG DEATH_SHARD3 = 714;
 CONFIG DEATH_SHARD4 = 594;
 
-
 /*/~~~~~PassiveSubscreen~~~~~/*/
 CONFIG BG_MAP1 = 6;
 CONFIG BG_SCREEN1 = 0x0F;
 CONFIG TILE_DIFF_NORMAL = 32081;
 CONFIG TILE_DIFF_HARD = 32141;
 CONFIG TILE_DIFF_PALADIN = 32142;
-
 
 /*/~~~~~Enemies~~~~~/*/
 // start
@@ -451,73 +415,72 @@ CONFIG ENEMY_GRAVE_KEEPER_GONE_APE = 259;
 CONFIG ENEMY_OVERGROWN_RACCOON = 235;
 CONFIG ENEMY_THIEF_BOSS = 263;
 
-
 /*/~~~~~Enums~~~~~/*/
 
 enum Color {
-	C_TRANSBG = -1,
-	C_TRANS = 0x00,
-	C_GREEN = 0x06,
-	C_DARKGREEN = 0x07,
-	C_BLACK = 0x08,
-	C_RED = 0x04,
-	C_WHITE = 0x0C,
-	C_BLUE = 0x1F,
-	C_GRAY = 0x29,
-	C_LGRAY = 0x59,
-	C_DGRAY = 0x5A,
-	C_TAN = 0x75,
-	C_SEABLUE = 0x76,
-	C_DARKBLUE = 0x77,
-	C_DEEPBLUE = 0x1F
+   C_TRANSBG = -1,
+   C_TRANS = 0x00,
+   C_GREEN = 0x06,
+   C_DARKGREEN = 0x07,
+   C_BLACK = 0x08,
+   C_RED = 0x04,
+   C_WHITE = 0x0C,
+   C_BLUE = 0x1F,
+   C_GRAY = 0x29,
+   C_LGRAY = 0x59,
+   C_DGRAY = 0x5A,
+   C_TAN = 0x75,
+   C_SEABLUE = 0x76,
+   C_DARKBLUE = 0x77,
+   C_DEEPBLUE = 0x1F
 };
 
 enum ScreenType {
-	DM_DUNGEON,
-	DM_OVERWORLD,
-	DM_INTERIOR,
-	DM_BSOVERWORLD
+   DM_DUNGEON,
+   DM_OVERWORLD,
+   DM_INTERIOR,
+   DM_BSOVERWORLD
 };
 
 enum ArcingWeaponEffects {
-	AE_NONE,
-	// Shambles
-	AE_BOMB,
-	AE_SMALLPOISONPOOL,
-	AE_LARGEPOISONPOOL,
-	AE_PROJECTILEWITHMOMENTUM,
+   AE_NONE,
+   // Shambles
+   AE_BOMB,
+   AE_SMALLPOISONPOOL,
+   AE_LARGEPOISONPOOL,
+   AE_PROJECTILEWITHMOMENTUM,
 
-	// Hazarond
-	AE_OIL_BLOB,
-	AE_OIL_DEATH_BLOB,
+   // Hazarond
+   AE_OIL_BLOB,
+   AE_OIL_DEATH_BLOB,
 
-	// Overgrown Raccoon
-	AE_ROCK_PROJECTILE,
-	AE_BOULDER_PROJECTILE,
-	AE_RACCOON_PROJECTILE,
+   // Overgrown Raccoon
+   AE_ROCK_PROJECTILE,
+   AE_BOULDER_PROJECTILE,
+   AE_RACCOON_PROJECTILE,
 
-	// Egentem
-	AE_EGENTEM_HAMMER,
+   // Egentem
+   AE_EGENTEM_HAMMER,
 
-	// Misc
-	AE_BOMB_EXPLOSION,
-	AE_ARROW,
+   // Misc
+   AE_BOMB_EXPLOSION,
+   AE_ARROW,
 
-	AE_DEBUG
+   AE_DEBUG
 };
 
 enum StatusPos {
-	SP_ABOVE_HEAD,
-	SP_TOP_RIGHT
+   SP_ABOVE_HEAD,
+   SP_TOP_RIGHT
 };
 
 enum Status {
-	ATTACK_BOOST,
-	DEFENSE_BOOST,
-	NUM_STATUSES
+   ATTACK_BOOST,
+   DEFENSE_BOOST,
+   NUM_STATUSES
 };
 
 enum TriggerAction {
-	TA_KILL_SCRIPT,
-	TA_START_SCRIPT
+   TA_KILL_SCRIPT,
+   TA_START_SCRIPT
 };

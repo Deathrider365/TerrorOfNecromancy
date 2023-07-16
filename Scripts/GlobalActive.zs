@@ -1,14 +1,20 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Global Active ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+// clang-format off
 @Author("Deathrider365")
 global script Init {
+   // clang-format off
+   
 	void run() {
    
 	}
 }
 
+// clang-format off
 @Author("EmilyV99, Moosh, Deathrider365")
 global script GlobalScripts {
+   // clang-format off
+   
 	void run() {		
       if (DEBUG)
          debug();
@@ -307,8 +313,11 @@ global script GlobalScripts {
    }
 }
 
+// clang-format off
 @Author("EmilyV99, Deathrider365")
 global script OnLaunch {
+   // clang-format off
+   
    void run() {
       lastPal = -1;
       subscreenYOffset = -224;
@@ -326,8 +335,11 @@ global script OnLaunch {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 global script onF6Menu {
+   // clang-format off
+   
    void run() {
       onContHP = Hero->HP;
       onContMP = Hero->MP;
@@ -338,8 +350,11 @@ global script onF6Menu {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 global script onContGame {
+   // clang-format off
+   
    void run() {
       subscreenYOffset = -224;
       
@@ -357,8 +372,11 @@ global script onContGame {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 global script onSave {
+   // clang-format off
+   
    void run() {
       if (SizeOfArray(stolenLinkItems))
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
@@ -366,15 +384,21 @@ global script onSave {
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 global script onSaveLoad {
+   // clang-format off
+   
    void run() {
 
    }
 }
 
+// clang-format off
 @Author("Deathrider365")
 global script onExit {
+   // clang-format off
+   
    void run() {
 
    }

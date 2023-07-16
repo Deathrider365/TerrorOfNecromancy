@@ -12,7 +12,6 @@ DifficultyChoice	-	- 	-  -  -  -  -  - 6:0D
 DifficultySelectionScreen  -  -  -  -  - 16:3E
 DisableRadialTransparency 	-  -  -  -  - 9:07, 9:0A
 EnemiesChest	-	-	- 	-  -  -  -  -  - 7:62
-GetItem  -  -	-	-	-	-  -  -  -  -  - 9:07, 9:15, 9:26, 9:49, 9:4C, 9:5A, 9:5C, 16:05, 16:3A, 16:4B, 16:64, 16:71, 28:09, 28:65, 37:57, 37:77, 40:5C, 40:5E, 40:5C, 44:14
 GetItemFromSecret -  -  -  -  -     -  - 7:02
 GettingGoddessJewels	- 	-  -  -  -  -  - 7:02
 InfoShop -  -  -  -  -  -  -  -  -  -  - 16:3C
