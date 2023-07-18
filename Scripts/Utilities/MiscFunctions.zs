@@ -154,10 +154,10 @@ int getJumpLength(int jumpInput, bool inputFrames) {
       int closest = 0;
       // Cycle through the table to find the closest duration to the desired one
       for (int i = 1; i < 100; ++i) {
-         if (Abs(jumpTBL[i * 2 + 1] - jumpInput) < Abs(closest - jumpInput)) {
-            closestIndex = i;
-            closest = jumpTBL[i * 2 + 1];
-         }
+	 if (Abs(jumpTBL[i * 2 + 1] - jumpInput) < Abs(closest - jumpInput)) {
+	    closestIndex = i;
+	    closest = jumpTBL[i * 2 + 1];
+	 }
       }
 
       return jumpTBL[closestIndex * 2 + 0];
@@ -173,9 +173,9 @@ int convertBit(int b18) {
 ScreenType getScreenType(bool dmapOnly) {
    unless(dmapOnly) {
       if (IsDungeonFlag())
-         return DM_DUNGEON;
+	 return DM_DUNGEON;
       if (IsInteriorFlag())
-         return DM_INTERIOR;
+	 return DM_INTERIOR;
    }
 
    dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
@@ -335,14 +335,14 @@ void runEWeaponScript(eweapon e, int scr, int args) {
 bool Ghost_CanPlace(int X, int Y, int w, int h) {
    for (int x = 0; x <= w - 1; x = Min(x + 8, w - 1)) {
       for (int y = 0; y <= h - 1; y = Min(y + 8, h - 1)) {
-         if (!Ghost_CanMovePixel(X + x, Y + y))
-            return false;
-         if (y == h - 1)
-            break;
+	 if (!Ghost_CanMovePixel(X + x, Y + y))
+	    return false;
+	 if (y == h - 1)
+	    break;
       }
 
       if (x == w - 1)
-         break;
+	 break;
    }
    return true;
 }
@@ -396,7 +396,7 @@ int switchPressed(int x, int y, bool noLink) {
 
    if (Screen->MovingBlockX > -1)
       if (Abs(Screen->MovingBlockX - x) <= 8 && Abs(Screen->MovingBlockY - y) <= 8)
-         return 1;
+	 return 1;
 
    if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) || Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12)) {
       return 2;
@@ -409,16 +409,16 @@ int switchPressed(int x, int y, bool noLink) {
 bool againstCombo(int loc) {
    if (Hero->Z == 0) {
       if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8) {
-         if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8 && Hero->Dir == DIR_UP)
-            return true;
-         else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
+	 if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8 && Hero->Dir == DIR_UP)
+	    return true;
+	 else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+	    return true;
       }
       else if (Abs((Hero->Y + 8) - (ComboY(loc) + 8)) <= 8) {
-         if (Hero->X > ComboX(loc) && Hero->X - ComboX(loc) <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ComboX(loc) && ComboX(loc) - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
+	 if (Hero->X > ComboX(loc) && Hero->X - ComboX(loc) <= 16 && Hero->Dir == DIR_LEFT)
+	    return true;
+	 else if (Hero->X < ComboX(loc) && ComboX(loc) - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
+	    return true;
       }
    }
    return false;
@@ -428,16 +428,16 @@ bool againstCombo(int loc) {
 bool againstFFC(int ffcX, int ffcY) {
    if (Hero->Z == 0) {
       if (Abs((Hero->X) - (ffcX)) <= 8) {
-         if (Hero->Y > ffcY && Hero->Y - ffcY <= 8 && Hero->Dir == DIR_UP)
-            return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
+	 if (Hero->Y > ffcY && Hero->Y - ffcY <= 8 && Hero->Dir == DIR_UP)
+	    return true;
+	 else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+	    return true;
       }
       else if (Abs((Hero->Y) - (ffcY)) <= 8) {
-         if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
+	 if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
+	    return true;
+	 else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
+	    return true;
       }
    }
    return false;
@@ -449,7 +449,7 @@ void leavingTransition(int dmap, int screen, int usingPresents) {
       disableLink();
 
       if (usingPresents)
-         Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+	 Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
 
       Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
       Waitframe();
@@ -489,9 +489,9 @@ void takeMapScreenshot() {
       CONFIG DELAY = 3;
 
       if (PressControl())
-         Emily::doAllMapScreenshots(DELAY);
+	 Emily::doAllMapScreenshots(DELAY);
       else
-         Emily::doMapScreenshot(Game->GetCurMap(), DELAY);
+	 Emily::doMapScreenshot(Game->GetCurMap(), DELAY);
    }
 }
 
@@ -543,7 +543,7 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
 void waitForTalking(ffc this) {
    until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
       if (againstFFC(this->X, this->Y))
-         Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+	 Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
       Waitframe();
    }
@@ -555,15 +555,15 @@ void gridLockFFC(ffc this) {
 
    if (remainderX) {
       if (remainderX < 8)
-         this->X -= remainderX;
+	 this->X -= remainderX;
       else
-         this->X += remainderX;
+	 this->X += remainderX;
    }
 
    if (remainderY) {
       if (remainderY < 8)
-         this->Y -= remainderY;
+	 this->Y -= remainderY;
       else
-         this->Y += remainderY;
+	 this->Y += remainderY;
    }
 }

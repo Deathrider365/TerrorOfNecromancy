@@ -4,6 +4,7 @@
 @Author("Joe123, Deathrider365")
 ffc script Signpost {
    // clang-format on
+
    CONFIG SMT_SCREEND = 1;
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
@@ -473,6 +474,7 @@ ffc script GetItemFromSecretAtLocation {
 @Author("Tabletpillow, EmilyV99, Deathrider365")
 ffc script Shop {
    // clang-format on
+
    void run(int itemId, int price, bool boughtOnce, int noMoneyString) {
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
          Quit();
@@ -505,14 +507,23 @@ ffc script Shop {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_RUPEES] >= price) { // TODO is bugged like classic ZC
+               if (Game->DCounter[CR_RUPEES] >= price) { // TODO is bugged like classic ZC
                   Game->DCounter[CR_RUPEES] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
 
                   switch (itemId) {
-                     case ITEM_EXPANSION_BOMB: Game->Counter[CR_BOMB_BAG_EXPANSIONS]++; break;
-                     case ITEM_EXPANSION_QUIVER: Game->Counter[CR_QUIVER_EXPANSIONS]++; break;
-                     case ITEM_BATTLE_ARENA_TICKET: Screen->TriggerSecrets(); break;
+                     case ITEM_EXPANSION_BOMB: {
+                        Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
+                        break;
+                     }
+                     case ITEM_EXPANSION_QUIVER: {
+                        Game->Counter[CR_QUIVER_EXPANSIONS]++;
+                        break;
+                     }
+                     case ITEM_BATTLE_ARENA_TICKET: {
+                        Screen->TriggerSecrets();
+                        break;
+                     }
                   }
 
                   itemToBuy->Pickup = IP_HOLDUP;

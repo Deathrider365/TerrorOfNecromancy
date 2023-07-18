@@ -4934,6 +4934,9 @@ namespace LatrosNamespace {
       n->CollDetection = false;
       n->Stun = 9999;
 
+		Screen->Message(349);
+		Waitframe();
+
       int baseX = n->X + n->DrawXOffset;
       int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
 

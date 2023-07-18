@@ -1,8 +1,8 @@
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("Deathrider365")
- ffc script Debug {
+@Author("Deathrider365") 
+ffc script Debug {
    // clang-format on
 
    void run() {
@@ -14,7 +14,7 @@
 
 // clang-format off
 @Author("EmilyV99")
- ffc script ContinuePoint {
+  ffc script ContinuePoint {
    // clang-format on
 
    void run(int dmap, int scrn) {
@@ -387,7 +387,8 @@
    const int OILBUSH_OIL_DURATION = 180; // Duration oil burns for in frames
    const int OILBUSH_BUSH_DURATION = 60; // Duration bushes/grass burn for in frames
 
-   const int OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn duration)
+   const int OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn
+                                            // duration)
    const int OILBUSH_BUSH_SPREAD_FREQ = 10; // How frequently burning bushes/grass spread
 
    const int CS_OIL_BURNING = 7;               // was 8 CSet for burning oil
@@ -395,7 +396,8 @@
    const int OILBUSH_ENDDURATION_OILBURN = 16; // Duration of the burning out animation
 
    const int CMB_BUSH_BURNING = 6344;           // First combo for burning oil
-   const int CS_BUSH_BURNING = 0;               // CSet for burning oil (I set this to 0 since the combos are 8 bit anyway)
+   const int CS_BUSH_BURNING = 0;               // CSet for burning oil (I set this to 0 since
+                                                // the combos are 8 bit anyway)
    const int OILBUSH_ENDFRAMES_BUSHBURN = 4;    // Number of combos for bushes/grass burning out
    const int OILBUSH_ENDDURATION_BUSHBURN = 16; // Duration of the burning out animation
 
@@ -481,7 +483,9 @@
                         burnTypes[c] = 1;    // Mark as a bush burn
                         Screen->ComboD[c]++; // Advance to the next combo
 
-                        if (OILBUSH_BUSHESSTILLDROPITEMS) { // If item drops are allowed, create and kill a dummy enemy
+                        if (OILBUSH_BUSHESSTILLDROPITEMS) { // If item drops are
+                                                            // allowed, create and kill
+                                                            // a dummy enemy
                            npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
                            n->HP = -1000;
                            n->DrawYOffset = -1000;
@@ -509,11 +513,13 @@
                   burnEndDuration = OILBUSH_ENDDURATION_BUSHBURN;
                }
 
-               // start If it has been spreadFreq frames since the burning started, spread to adjacent combos
+               // start If it has been spreadFreq frames since the burning started,
+               // spread to adjacent combos
                if (burnTimers[i] == burnDuration - spreadFreq) {
                   // Check all four adjacent combos
                   for (j = 0; j < 4; j++) {
-                     c = i; // Target combo is set to i and moved based on direction or j
+                     c = i; // Target combo is set to i and moved based on direction or
+                            // j
 
                      if (j == DIR_UP) {
                         c -= 16;
@@ -551,12 +557,15 @@
                               burnTimers[c] = OILBUSH_OIL_DURATION;
                               burnTypes[c] = 0;
                            }
-                           // If there's an adjacent fire trigger and the script is allowed to trigger them
+                           // If there's an adjacent fire trigger and the script is
+                           // allowed to trigger them
                            else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
-                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c), ComboY(c)); // Make a weapon on top of the combo to trigger it
-                              l->CollDetection = 0;                                       // Turn off its collision
-                              l->Step = 0;                                                // Make it stationary
-                              l->DrawYOffset = -1000;                                     // Make it invisible
+                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
+                                  ComboY(c));         // Make a weapon on top of
+                                                      // the combo to trigger it
+                              l->CollDetection = 0;   // Turn off its collision
+                              l->Step = 0;            // Make it stationary
+                              l->DrawYOffset = -1000; // Make it invisible
                            }
                         }
 
@@ -579,12 +588,15 @@
                               }
                            }
 
-                           // If there's an adjacent fire trigger and the script is allowed to trigger them
+                           // If there's an adjacent fire trigger and the script is
+                           // allowed to trigger them
                            else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
-                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c), ComboY(c)); // Make a weapon on top of the combo to trigger it
-                              l->CollDetection = 0;                                       // Turn off its collision
-                              l->Step = 0;                                                // Make it stationary
-                              l->DrawYOffset = -1000;                                     // Make it invisible
+                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
+                                  ComboY(c));         // Make a weapon on top of
+                                                      // the combo to trigger it
+                              l->CollDetection = 0;   // Turn off its collision
+                              l->Step = 0;            // Make it stationary
+                              l->DrawYOffset = -1000; // Make it invisible
                            }
                         }
                      }
@@ -629,13 +641,19 @@
                // if(burnTypes[i] == 0)
                // {
                // Set animation for oil burning out
-               // cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN / OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
-               // Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn, burnCSet ? burnCSet : CS_OIL_BURNING, 128);
+               // cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 -
+               // Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN /
+               // OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
+               // Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn,
+               // burnCSet ? burnCSet : CS_OIL_BURNING, 128);
                // }
                // else
                // {
                // Set animation for bush burning out
-               // cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 - Floor(burnTimers[i] / (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0, OILBUSH_ENDFRAMES_BUSHBURN - 1);
+               // cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 -
+               // Floor(burnTimers[i] /
+               // (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0,
+               // OILBUSH_ENDFRAMES_BUSHBURN - 1);
                Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), getBurningCombo(), CS_BUSH_BURNING, 128);
                // }
             }
