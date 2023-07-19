@@ -15,7 +15,7 @@ global script Init {
 global script GlobalScripts {
    // clang-format off
    
-	void run() {		
+	void run() {
       if (DEBUG)
          debug();
          
@@ -325,7 +325,7 @@ global script OnLaunch {
 
       setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
 
-      if(onContHP != 0) {
+      if (onContHP != 0) {
          Hero->HP = onContHP;
          Hero->MP = onContMP;	
       } else {
