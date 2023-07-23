@@ -714,3 +714,35 @@ ffc script Debug {
       }
    }
 }
+
+// clang-format off
+@Author("Deathrider365") 
+ffc script OpenTheGates {
+   // clang-format on
+
+   void run(int screenWithTrigger) {
+      if (getScreenD(0))
+         Quit();
+
+      mapdata map = Game->LoadMapData(70, screenWithTrigger);
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      mapdata mapDataLayer3 = Game->LoadTempScreen(3);
+      mapDataLayer1->ComboD[77] = COMBO_INVIS;
+
+      while (true) {
+         if (map->State[ST_SECRET]) {
+            for (int i = 0; i < 176; i++) {
+               if (mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291)
+                  mapDataLayer1->ComboD[i] = COMBO_INVIS;
+               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279)
+                  mapDataLayer3->ComboD[i] = COMBO_INVIS;
+            }
+
+            setScreenD(0, true);
+            break;
+         }
+
+         Waitframe();
+      }
+   }
+}
