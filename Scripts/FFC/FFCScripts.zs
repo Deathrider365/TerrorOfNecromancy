@@ -721,28 +721,112 @@ ffc script OpenTheGates {
    // clang-format on
 
    void run(int screenWithTrigger) {
-      if (getScreenD(0))
-         Quit();
-
       mapdata map = Game->LoadMapData(70, screenWithTrigger);
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer3 = Game->LoadTempScreen(3);
-      mapDataLayer1->ComboD[77] = COMBO_INVIS;
 
       while (true) {
          if (map->State[ST_SECRET]) {
             for (int i = 0; i < 176; i++) {
-               if (mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291)
+               if (mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 ||
+                   mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7233 || mapDataLayer1->ComboD[i] == 7234 || mapDataLayer1->ComboD[i] == 7235 || mapDataLayer1->ComboD[i] == 7261 || mapDataLayer1->ComboD[i] == 7265 || mapDataLayer1->ComboD[i] == 7269 ||
+                   mapDataLayer1->ComboD[i] == 7284)
                   mapDataLayer1->ComboD[i] = COMBO_INVIS;
-               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279)
+               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279 || mapDataLayer3->ComboD[i] == 72319 || mapDataLayer3->ComboD[i] == 7264)
                   mapDataLayer3->ComboD[i] = COMBO_INVIS;
             }
 
-            setScreenD(0, true);
             break;
          }
 
          Waitframe();
       }
+   }
+}
+
+// clang-format off
+ffc script LensTorches {
+   // clang-format on
+
+   void run() {
+      int layerMap;
+      int layerScreen;
+
+      // Get the revealed lens layer
+      mapdata md = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+      int layer = Clamp(md->LensLayer - 15, 1, 6); // 15 = Hide Layer 6? Weird undocumented behavior thank you Zoria
+      layerMap = Screen->LayerMap(layer);
+      layerScreen = Screen->LayerScreen(layer);
+
+      int comboSlot = Game->GetComboScript("TorchMarker");
+
+      bitmap lenslayer = Game->CreateBitmap(256, 176);
+      lenslayer->Own();
+      bitmap lensmask = Game->CreateBitmap(256, 176);
+      lensmask->Own();
+
+      while (true) {
+         lenslayer->Clear(0);
+         // lensmask gets cleared to a color because circles are erased from it rather than added
+         lensmask->ClearToColor(0, C_LENSBITMAPMARKER);
+
+         lenslayer->DrawScreen(0, layerMap, layerScreen, 0, 0, 0);
+         // Draw circles for combos on layers 0-2
+         for (int i = 0; i <= 2; ++i) {
+            mapdata md = Game->LoadTempScreen(i);
+            for (int j = 0; j < 176; ++j) {
+               combodata cd = Game->LoadComboData(md->ComboD[j]);
+               if (cd->Script == comboSlot) {
+                  DrawLensCircle(lensmask, ComboX(j) + 8, ComboY(j) + 8, cd->InitD[0]);
+               }
+            }
+         }
+
+         // Draw circles for FFCs
+         for (int i = 1; i <= MAX_FFC; ++i) {
+            ffc f = Screen->LoadFFC(i);
+            if (f->Data) {
+               combodata cd = Game->LoadComboData(f->Data);
+               if (cd->Script == comboSlot) {
+                  DrawLensCircle(lensmask, f->X + 8, f->Y + 8, cd->InitD[0]);
+               }
+            }
+         }
+
+         // Draw the mask over the layer
+         lensmask->Blit(0, lenslayer, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+         // Replace colors from the mask
+         lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
+
+         int drawLayer;
+         // Because the screen flag hides the layer, we need to find the next closest to draw to
+         switch (layer) {
+            case 1: drawLayer = 2; break;
+            case 2: drawLayer = 1; break;
+            case 3: drawLayer = 4; break;
+            case 4: drawLayer = 3; break;
+            case 5: drawLayer = 6; break;
+            case 6: drawLayer = 5; break;
+         }
+         lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+
+         Waitframe();
+      }
+   }
+   // This draws a circle to the bitmap imitating the lens of truth
+   void DrawLensCircle(bitmap b, int x, int y, int rad) {
+      b->Circle(0, x, y, rad, 0x00, 1, 0, 0, 0, true, OP_OPAQUE);
+      b->Circle(0, x, y, rad + 2, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
+      b->Circle(0, x, y, rad + 5, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
+   }
+}
+
+// clang-format off
+@InitD0("Radius"),
+@InitDHelp0("Radius around the torch to reveal")
+combodata script TorchMarker {
+   // clang-format on
+   void run(int radius) {
+      // This script just exists to mark combos for the FFC
    }
 }

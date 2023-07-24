@@ -67,6 +67,8 @@ CONFIG CB_SIGNPOST = CB_A;
 CONFIG ICE_BLOCK_SCRIPT = 1;      // Slot number that the ice_block script is assigned to
 CONFIG ICE_BLOCK_SENSITIVITY = 8; // Number of frames the blocks need to be pushed against to begin moving
 
+CONFIG C_LENSBITMAPMARKER = 0xFE;
+
 /*/~~~~~TriggerTypes~~~~~/*/
 CONFIG TT_NO_TRIGGER_SET = 1;
 CONFIG TT_SCREEND_SET = 2;

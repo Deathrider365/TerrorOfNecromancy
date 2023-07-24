@@ -6,7 +6,7 @@ NamespaceIndentation: All
 IndentCaseLabels: true
 AlignAfterOpenBracket: false
 UseTab: false
-ColumnLimit: 999
+ColumnLimit: 300
 AllowShortEnumsOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: false
