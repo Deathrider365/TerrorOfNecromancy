@@ -149,6 +149,7 @@ global script GlobalScripts {
       }
    }
 	
+   // 654321
    int getTransLayers(int dmap, int screen) {
       switch(dmap) {
          case 4:
@@ -227,6 +228,8 @@ global script GlobalScripts {
             break;
          case 45:
             switch(screen) {
+               case 0x33:
+                  return 000100b;
                case 0x43:
                   return 001000b;
             }

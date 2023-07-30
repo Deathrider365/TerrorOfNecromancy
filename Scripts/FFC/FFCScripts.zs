@@ -771,8 +771,8 @@ ffc script LensTorches {
          lensmask->ClearToColor(0, C_LENSBITMAPMARKER);
 
          lenslayer->DrawScreen(0, layerMap, layerScreen, 0, 0, 0);
-         // Draw circles for combos on layers 0-2
-         for (int i = 0; i <= 2; ++i) {
+         // Draw circles for combos on layers 0-4
+         for (int i = 0; i <= 4; ++i) {
             mapdata md = Game->LoadTempScreen(i);
             for (int j = 0; j < 176; ++j) {
                combodata cd = Game->LoadComboData(md->ComboD[j]);
