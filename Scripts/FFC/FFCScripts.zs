@@ -749,14 +749,20 @@ ffc script LensTorches {
    // clang-format on
 
    void run() {
-      int layerMap;
-      int layerScreen;
-
       // Get the revealed lens layer
-      mapdata md = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+      mapdata md = Game->LoadTempScreen(0);
       int layer = Clamp(md->LensLayer - 15, 1, 6); // 15 = Hide Layer 6? Weird undocumented behavior thank you Zoria
-      layerMap = Screen->LayerMap(layer);
-      layerScreen = Screen->LayerScreen(layer);
+
+      int drawLayer;
+      // Because the screen flag hides the layer, we need to find the next closest to draw to
+      switch (layer) {
+         case 1: drawLayer = 2; break;
+         case 2: drawLayer = 1; break;
+         case 3: drawLayer = 4; break;
+         case 4: drawLayer = 3; break;
+         case 5: drawLayer = 6; break;
+         case 6: drawLayer = 5; break;
+      }
 
       int comboSlot = Game->GetComboScript("TorchMarker");
 
@@ -770,10 +776,20 @@ ffc script LensTorches {
          // lensmask gets cleared to a color because circles are erased from it rather than added
          lensmask->ClearToColor(0, C_LENSBITMAPMARKER);
 
-         lenslayer->DrawScreen(0, layerMap, layerScreen, 0, 0, 0);
+         for (int i = 1; i <= 6; ++i) {
+            if (i != layer && i != drawLayer)
+               continue;
+
+            mapdata md = Game->LoadTempScreen(i);
+
+            for (int j = 0; j < 176; ++j)
+               lenslayer->FastCombo(0, ComboX(j), ComboY(j), md->ComboD[j], md->ComboC[j]);
+         }
+
          // Draw circles for combos on layers 0-4
          for (int i = 0; i <= 4; ++i) {
             mapdata md = Game->LoadTempScreen(i);
+
             for (int j = 0; j < 176; ++j) {
                combodata cd = Game->LoadComboData(md->ComboD[j]);
                if (cd->Script == comboSlot) {
@@ -798,16 +814,6 @@ ffc script LensTorches {
          // Replace colors from the mask
          lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
 
-         int drawLayer;
-         // Because the screen flag hides the layer, we need to find the next closest to draw to
-         switch (layer) {
-            case 1: drawLayer = 2; break;
-            case 2: drawLayer = 1; break;
-            case 3: drawLayer = 4; break;
-            case 4: drawLayer = 3; break;
-            case 5: drawLayer = 6; break;
-            case 6: drawLayer = 5; break;
-         }
          lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
