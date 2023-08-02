@@ -722,7 +722,9 @@ ffc script OpenTheGates {
 
    void run(int screenWithTrigger) {
       mapdata map = Game->LoadMapData(70, screenWithTrigger);
+      mapdata mapDataLayer0 = Game->LoadTempScreen(0);
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      mapdata mapDataLayer2 = Game->LoadTempScreen(2);
       mapdata mapDataLayer3 = Game->LoadTempScreen(3);
 
       while (true) {
@@ -732,7 +734,12 @@ ffc script OpenTheGates {
                    mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7233 || mapDataLayer1->ComboD[i] == 7234 || mapDataLayer1->ComboD[i] == 7235 || mapDataLayer1->ComboD[i] == 7261 || mapDataLayer1->ComboD[i] == 7265 || mapDataLayer1->ComboD[i] == 7269 ||
                    mapDataLayer1->ComboD[i] == 7284)
                   mapDataLayer1->ComboD[i] = COMBO_INVIS;
-               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279 || mapDataLayer3->ComboD[i] == 72319 || mapDataLayer3->ComboD[i] == 7264)
+
+               if (mapDataLayer2->ComboD[i] == 4362) {
+                  mapDataLayer0->ComboD[i] = 4807;
+               }
+
+               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279 || mapDataLayer3->ComboD[i] == 7231 || mapDataLayer3->ComboD[i] == 7264)
                   mapDataLayer3->ComboD[i] = COMBO_INVIS;
             }
 
