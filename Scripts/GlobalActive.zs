@@ -230,15 +230,11 @@ global script GlobalScripts {
             switch(screen) {
                case 0x33:
                   return 000100b;
-               case 0x43:
-                  return 001000b;
             }
             break;
          case 47:
             switch(screen) {
                case 0x35:
-               case 0x44:
-               case 0x45:
                   return 001000b;
             }
             break;
