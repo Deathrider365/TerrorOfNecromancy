@@ -4970,6 +4970,18 @@ namespace LatrosNamespace {
    }
 } // namespace LatrosNamespace
 
+namespace Quickknife {
+   using namespace EnemyNamespace;
+
+   npc script Quickknife {
+      void run() {
+         
+      }
+
+   }
+
+}
+
 // clang-format off
 @Author("Deathrider365") 
 npc script Demonwall {

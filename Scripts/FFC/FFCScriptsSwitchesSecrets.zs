@@ -36,7 +36,7 @@ ffc script EnemiesChest {
 ffc script Shutter {
    // clang-format on
    // start Instructions
-   //  type: 1 for enemy, otherwise secrets
+   //  type: 1 for enemy, 0 for secrets, -1 for never open
    // end
    void run(int type, int perm, bool playSound) {
       int thisData = this->Data;
@@ -195,10 +195,10 @@ ffc script Shutter {
             Waitframes(8);
          }
 
-         if (type == 0 && Screen->SecretsTriggered())
+         if (!type == -1 && type == 0 && Screen->SecretsTriggered())
             break;
 
-         if (type == 1)
+         if (type == -1 && type == 1)
             unless(GB_Shutter_CheckEnemies()) break;
 
          Waitframe();
