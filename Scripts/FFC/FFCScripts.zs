@@ -720,27 +720,38 @@ ffc script Debug {
 ffc script OpenTheGates {
    // clang-format on
 
+   CONFIG R_GATE_LEFT = 7283;
+   CONFIG R_GATE_CENTER = 7287;
+   CONFIG R_GATE_RIGHT = 7291;
+   CONFIG R_GATE_TOP = 7279;
+
+   CONFIG T_GATE_LEFT = 7289;
+   CONFIG T_GATE_CENTER = 7288;
+   CONFIG T_GATE_RIGHT = 7290;
+   CONFIG T_GATE_TOP = 7284;
+
+   CONFIG D_GATE_LEFT = 7233;
+   CONFIG D_GATE_CENTER = 7234;
+   CONFIG D_GATE_RIGHT = 7235;
+   CONFIG D_GATE_TOP = 7231;
+
    void run(int screenWithTrigger) {
       mapdata map = Game->LoadMapData(70, screenWithTrigger);
       mapdata mapDataLayer0 = Game->LoadTempScreen(0);
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer2 = Game->LoadTempScreen(2);
-      mapdata mapDataLayer3 = Game->LoadTempScreen(3);
 
       while (true) {
          if (map->State[ST_SECRET]) {
             for (int i = 0; i < 176; i++) {
-               if (mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7290 || mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 ||
-                   mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7233 || mapDataLayer1->ComboD[i] == 7234 || mapDataLayer1->ComboD[i] == 7235 || mapDataLayer1->ComboD[i] == 7261 || mapDataLayer1->ComboD[i] == 7265 || mapDataLayer1->ComboD[i] == 7269 ||
+               if (mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7279 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7290 ||
+                   mapDataLayer1->ComboD[i] == 7285 || mapDataLayer1->ComboD[i] == 7233 || mapDataLayer1->ComboD[i] == 7234 || mapDataLayer1->ComboD[i] == 7235 || mapDataLayer1->ComboD[i] == 7231 || mapDataLayer1->ComboD[i] == 7265 || mapDataLayer1->ComboD[i] == 7269 ||
                    mapDataLayer1->ComboD[i] == 7284)
                   mapDataLayer1->ComboD[i] = COMBO_INVIS;
 
                if (mapDataLayer2->ComboD[i] == 4362) {
                   mapDataLayer0->ComboD[i] = 4807;
                }
-
-               if (mapDataLayer3->ComboD[i] == 7284 || mapDataLayer3->ComboD[i] == 7279 || mapDataLayer3->ComboD[i] == 7231 || mapDataLayer3->ComboD[i] == 7264)
-                  mapDataLayer3->ComboD[i] = COMBO_INVIS;
             }
 
             break;
