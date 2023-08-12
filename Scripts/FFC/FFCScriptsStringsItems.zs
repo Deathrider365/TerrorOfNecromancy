@@ -507,8 +507,8 @@ ffc script Shop {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
-               if (Game->DCounter[CR_RUPEES] >= price) { // TODO is bugged like classic ZC
-                  Game->DCounter[CR_RUPEES] -= price;
+               if (Game->DCounter[CR_MONEY] >= price) { // TODO is bugged like classic ZC
+                  Game->DCounter[CR_MONEY] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
 
                   switch (itemId) {
@@ -617,8 +617,8 @@ ffc script BuyItem {
       while (!alreadyBought) {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
-         if (onTop(this->X, this->Y) && Game->Counter[CR_RUPEES] >= price) {
-            Game->DCounter[CR_RUPEES] -= price;
+         if (onTop(this->X, this->Y) && Game->Counter[CR_MONEY] >= price) {
+            Game->DCounter[CR_MONEY] -= price;
 
             item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
             itemToBuy->Pickup = IP_HOLDUP;
@@ -663,8 +663,8 @@ ffc script InfoShop {
                Hero->Action = LA_NONE;
                Hero->Stun = 15;
 
-               if (Game->Counter[CR_RUPEES] >= price) {
-                  Game->DCounter[CR_RUPEES] -= price;
+               if (Game->Counter[CR_MONEY] >= price) {
+                  Game->DCounter[CR_MONEY] -= price;
                   Input->Button[CB_SIGNPOST] = false;
 
                   for (int i = 0; i < price * 2; ++i) {

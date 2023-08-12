@@ -436,7 +436,7 @@ namespace SubscreenPassive {
 
       // Counters
       minitile(RT_SCREEN, 7, 134, y + 4, 32780, 0, 0);
-      counter(RT_SCREEN, 7, 134 + 10, y + 4, CR_RUPEES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
+      counter(RT_SCREEN, 7, 134 + 10, y + 4, CR_MONEY, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 3, CNTR_USES_0);
       minitile(RT_SCREEN, 7, 134, y + 14, 32780, 0, 1);
       counter(RT_SCREEN, 7, 134 + 10, y + 14, CR_BOMBS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
       minitile(RT_SCREEN, 7, 134, y + 24, 32780, 0, 3);
@@ -589,6 +589,8 @@ namespace SubscreenPassive {
          bool hasCompass = Game->LItems[Game->GetCurLevel()] & LI_COMPASS;
          bool killedBoss = Game->LItems[Game->GetCurLevel()] & LI_BOSS;
          dmapdata currentDmap = Game->LoadDMapData(Game->GetCurDMap());
+
+         hasCompass = currentDmap->Compass ? hasCompass : false;
 
          originalX += 8;
          originalY += 8;
