@@ -1,7 +1,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bosses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 namespace LeviathanNamespace {
-   const int CMB_WATERFALL = 6828;
+   const int CMB_WATERFALL = 9984;
    const int CS_WATERFALL = 0;
 
    const int VARS_HEADNPC = 0;
@@ -667,7 +667,7 @@ namespace LeviathanNamespace {
 
    eweapon script Waterfall {
       void run(int width, int peakHeight) {
-         this->UseSprite(94);
+         this->UseSprite(SPR_WATERBALL); // TODO what? sprite 94?
 
          unless(waterfallBitmap->isAllocated()) {
             this->DeadState = 0;
