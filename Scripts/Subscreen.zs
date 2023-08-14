@@ -458,36 +458,7 @@ namespace SubscreenPassive {
       Screen->FastTile(7, 109, y + 26, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
 
       // start Life Meter
-      heart(RT_SCREEN, 7, 171, y + 36, 0, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 177, y + 36, 1, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 183, y + 36, 2, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 189, y + 36, 3, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 195, y + 36, 4, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 201, y + 36, 5, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 207, y + 36, 6, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 213, y + 36, 7, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 219, y + 36, 8, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 225, y + 36, 9, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 174, y + 29, 10, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 180, y + 29, 11, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 186, y + 29, 12, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 192, y + 29, 13, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 198, y + 29, 14, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 204, y + 29, 15, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 210, y + 29, 16, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 216, y + 29, 17, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 222, y + 29, 18, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 228, y + 29, 19, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 177, y + 22, 20, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 183, y + 22, 21, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 189, y + 22, 22, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 195, y + 22, 23, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 201, y + 22, 24, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 207, y + 22, 25, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 213, y + 22, 26, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 219, y + 22, 27, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 225, y + 22, 28, TILE_HEARTS);
-      heart(RT_SCREEN, 7, 231, y + 22, 29, TILE_HEARTS);
+      drawHearts(y);
       // end
 
       // Magic Meter TODO IMPROVE THIS
@@ -504,6 +475,7 @@ namespace SubscreenPassive {
 
       if (y > -55)
          Screen->DrawString(7, 224, y + 3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+      // end
 
       // start Minimap
       ScreenType ow = getScreenType(true);
@@ -550,6 +522,24 @@ namespace SubscreenPassive {
 
       Emily::DrawStrings(7, 41, y + 2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
       // end
+   }
+
+   void drawHearts(int y) {
+      const int INITIAL_X = 166;
+      int x = INITIAL_X;
+      int yModifier = 43;
+      int rowCount = 1;
+
+      for (int i = 0; i < 30; i++) {
+         unless(i % 10) {
+            ++rowCount;
+            x = INITIAL_X + (3 * rowCount);
+            yModifier -= 7;
+         }
+         else x += 6;
+
+         heart(RT_SCREEN, 7, x, y + yModifier, i, TILE_HEARTS);
+      }
    }
 
    void heart(untyped bit, int layer, int x, int y, int num, int baseTile) {
