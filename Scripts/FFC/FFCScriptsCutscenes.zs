@@ -464,7 +464,7 @@ ffc script DifficultyChoice {
          }
 
          if (Input->Press[CB_A]) {
-            Hero->Item[!cursor ? I_DIFF_NORMAL : I_DIFF_VERYHARD] = true;
+            Hero->Item[!cursor ? ITEM_DIFF_NORMAL : ITEM_DIFF_VERYHARD] = true;
             Audio->PlaySound(!cursor ? 139 : 140);
 
             for (int i = 0; i < 45; ++i) {

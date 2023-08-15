@@ -458,15 +458,50 @@ namespace SubscreenPassive {
       Screen->FastTile(7, 109, y + 26, loadItemTile(Hero->ItemA), loadItemCSet(Hero->ItemA), OP_OPAQUE);
 
       // start Life Meter
-      drawHearts(y);
+      setupHearts(y);
       // end
 
-      // Magic Meter TODO IMPROVE THIS
-      int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
-      Screen->DrawTile(7, 162, y + 44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), MAGIC_METER_TILE_WIDTH, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+      // Magic Meter
+      int numMagicExpansions = Game->Counter[CR_MAGIC_EXPANSIONS];
+      int magicSegmentX = 162;
 
-      if (MAGIC_METER_PIX_WIDTH * perc >= 0.5)
-         Screen->Rectangle(7, 162 + MAGIC_METER_FILL_XOFF, y + 44 + MAGIC_METER_FILL_YOFF, 162 + MAGIC_METER_FILL_XOFF + Round(MAGIC_METER_PIX_WIDTH * perc), y + 44 + MAGIC_METER_FILL_YOFF + MAGIC_METER_PIX_HEIGHT, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
+      // initial segment
+      Screen->DrawTile(7, magicSegmentX, y + 44, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), 1, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+      magicSegmentX += 8;
+
+      for (int segmentNumber = 1; segmentNumber <= numMagicExpansions; segmentNumber++) {
+         int segmentTileMod;
+         int segmentCorner;
+
+         // left segment
+         if (segmentNumber % 2) {
+            segmentTileMod = 3;
+            segmentCorner = 0;
+            magicSegmentX += 8;
+            minitile(RT_SCREEN, 7, magicSegmentX, y + 44, TILE_MAGIC_METER + 3, 0, 0);
+         }
+         else {
+            segmentTileMod = 4;
+            segmentCorner = 1;
+            magicSegmentX += 8;
+            minitile(RT_SCREEN, 7, magicSegmentX, y + 44, TILE_MAGIC_METER + 4, 0, 1);
+         }
+      }
+
+      // final segment
+      minitile(RT_SCREEN, 7, magicSegmentX + 8, y + 44, TILE_MAGIC_METER + 2, 0, 0);
+
+      int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
+      int widthToFill = 10 + (8 * numMagicExpansions);
+      int startFillX = 173;
+      int startFillY = y + 47;
+      int endFillX = 172 + Round(widthToFill * perc);
+      int endFillY = y + 48;
+
+      if (widthToFill * perc >= 0.5)
+         Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
+
+      // end
 
       drawDifficultyItem(y);
 
@@ -524,7 +559,7 @@ namespace SubscreenPassive {
       // end
    }
 
-   void drawHearts(int y) {
+   void setupHearts(int y) {
       const int INITIAL_X = 166;
       int x = INITIAL_X;
       int yModifier = 43;
@@ -543,18 +578,20 @@ namespace SubscreenPassive {
    }
 
    void heart(untyped bit, int layer, int x, int y, int num, int baseTile) {
-      if (Game->MCounter[CR_LIFE] < (num * 16 + 1))
+      const int HEART_SEGMENTS = 8;
+
+      if (Game->MCounter[CR_LIFE] < (num * HEART_VALUE + 1))
          return;
 
       int shift;
 
-      if (Game->Counter[CR_LIFE] >= (num + 1) * 16)
-         shift = 4;
+      if (Game->Counter[CR_LIFE] >= (num + 1) * HEART_VALUE)
+         shift = HEART_SEGMENTS;
       else {
-         if (Game->Counter[CR_LIFE] < (num * 16))
+         if (Game->Counter[CR_LIFE] < (num * HEART_VALUE))
             shift = 0;
          else
-            shift = Div(Game->Counter[CR_LIFE] % HP_PER_HEART, HP_PER_HEART / 4);
+            shift = Div(Game->Counter[CR_LIFE] % HEART_VALUE, HEART_VALUE / HEART_SEGMENTS);
       }
 
       if (bit == RT_SCREEN)
@@ -656,15 +693,15 @@ namespace SubscreenPassive {
    }
 
    void drawDifficultyItem(int y) {
-      if (Link->Item[I_DIFF_VERYEASY])
+      if (Link->Item[ITEM_DIFF_VERYEASY])
          Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 0, OP_OPAQUE);
-      if (Link->Item[I_DIFF_EASY])
+      if (Link->Item[ITEM_DIFF_EASY])
          Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 7, OP_OPAQUE);
-      if (Link->Item[I_DIFF_NORMAL])
+      if (Link->Item[ITEM_DIFF_NORMAL])
          Screen->FastTile(7, 240, y, TILE_DIFF_NORMAL, 8, OP_OPAQUE);
-      if (Link->Item[I_DIFF_HARD])
+      if (Link->Item[ITEM_DIFF_HARD])
          Screen->FastTile(7, 240, y, TILE_DIFF_HARD, 1, OP_OPAQUE);
-      if (Link->Item[I_DIFF_VERYHARD])
+      if (Link->Item[ITEM_DIFF_VERYHARD])
          Screen->FastTile(7, 240, y, TILE_DIFF_PALADIN, 1, OP_OPAQUE);
    }
 } // namespace SubscreenPassive

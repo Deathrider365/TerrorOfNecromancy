@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
    
 	void run() {
-   
+      giveStartingCrap();
 	}
 }
 
@@ -19,7 +19,6 @@ global script GlobalScripts {
       if (DEBUG)
          debug();
          
-      giveStartingCrap();
       
       int map = -1, dmap = -1, screen = -1;
       
@@ -226,12 +225,6 @@ global script GlobalScripts {
                   return 001000b;
             }
             break;
-         // case 45:
-         //    switch(screen) {
-         //       case 0x33:
-         //          return 000100b;
-         //    }
-         //    break;
          case 47:
             switch(screen) {
                case 0x35:

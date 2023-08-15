@@ -2,11 +2,13 @@
 
 void giveStartingCrap() {
    // Have what the player would have at the beginning
+   // TODO do for demo 5
+   // removeAllItems();
 }
 
 void removeAllItems() {
    for (int i = 0; i < MAX_ITEMDATA; ++i)
-      unless(i == 3 || i == I_DIFF_NORMAL || i == 183 || i == 208) Hero->Item[i] = false;
+      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;
 
    Game->Counter[CR_SBOMBS] = 0;
    Game->Counter[CR_BOMBS] = 0;

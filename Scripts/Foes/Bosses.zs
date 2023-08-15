@@ -4722,10 +4722,10 @@ namespace LatrosNamespace {
             latros->dropItem(I_LETTER);
             break;
          }
-         case ITEM_SINGLE_HEART: {
+         case ITEM_HEART_1: {
             Audio->PlaySound(SFX_STALCHILD_ATTACK);
             Audio->PlaySound(SFX_REFILL);
-            latros->dropItem(ITEM_SINGLE_HEART);
+            latros->dropItem(ITEM_HEART_1);
             this->HP += 4;
             break;
          }
