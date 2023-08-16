@@ -38,9 +38,10 @@ namespace LeviathanNamespace {
    COLOR C_CHARGE3 = C_TAN;
 
    // TODO Make not a global
-   int LEVIATHAN_WATERCANNON_DMG = 60;
-   int LEVIATHAN_BURSTCANNON_DMG = 30;
-   int LEVIATHAN_WATERFALL_DMG = 50;
+   int LEVIATHAN_WATERCANNON_DMG = 70;
+   int LEVIATHAN_BURSTCANNON_DMG = 40;
+   int LEVIATHAN_WATERFALL_DMG = 60;
+   int LEVIATHAN_SIDESWIPE_DMG = 80;
 
    CONFIG MSG_BEATEN = 23;
    CONFIG MSG_LEVIATHAN_SCALE = 1052;
@@ -120,15 +121,22 @@ namespace LeviathanNamespace {
 
             if (changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2) {
                riseAnim = 60;
-               LEVIATHAN_WATERCANNON_DMG = 70;
-               LEVIATHAN_BURSTCANNON_DMG = 40;
-               LEVIATHAN_WATERFALL_DMG = 60;
+
+               if (LEVIATHAN_WATERCANNON_DMG < 60) {
+                  LEVIATHAN_WATERCANNON_DMG *= .2;
+                  LEVIATHAN_BURSTCANNON_DMG *= .2;
+                  LEVIATHAN_WATERFALL_DMG *= .2;
+                  LEVIATHAN_SIDESWIPE_DMG *= .2;
+               }
             }
             else if (changeInDifficulty(this, vars) == DIFFICULTY_STAGE_3) {
                riseAnim = 30;
-               LEVIATHAN_WATERCANNON_DMG = 80;
-               LEVIATHAN_BURSTCANNON_DMG = 50;
-               LEVIATHAN_WATERFALL_DMG = 70;
+
+               if (LEVIATHAN_WATERCANNON_DMG < 80) {
+                  LEVIATHAN_WATERCANNON_DMG *= .2;
+                  LEVIATHAN_BURSTCANNON_DMG *= .2;
+                  LEVIATHAN_WATERFALL_DMG *= .2;
+               }
             }
 
             switch (attack) {
@@ -371,7 +379,7 @@ namespace LeviathanNamespace {
                      this->Y += 0.5;
 
                      eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, this->X + 80, 112);
-                     waterfall->Damage = LEVIATHAN_WATERFALL_DMG + 20;
+                     waterfall->Damage = LEVIATHAN_SIDESWIPE_DMG;
                      waterfall->Script = Game->GetEWeaponScript("Waterfall");
                      waterfall->DrawYOffset = -1000;
                      waterfall->InitD[0] = 1;
@@ -810,6 +818,10 @@ ffc script Legionnaire {
    void run(int enemyid) {
       npc ghost = Ghost_InitAutoGhost(this, enemyid);
 
+      CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
+      CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
+      CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
+
       if (Screen->State[ST_SECRET]) {
          ghost->Remove();
          Quit();
@@ -916,22 +928,22 @@ ffc script Legionnaire {
 
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32);
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection);
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection);
+                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32, DMG_JUMPS_ON_YOU);
+                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_FIRE_SWORDS);
+                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_SPRINT_SLASH);
                   attack = ATTACK_FIRE_SWORDS;
                   break;
                }
                case ATTACK_FIRE_SWORDS: {
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection);
+                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_FIRE_SWORDS);
                   break;
                }
                case ATTACK_JUMPS_ON_YOU: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32);
+                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32, DMG_JUMPS_ON_YOU);
                   break;
                }
                case ATTACK_SPRINT_SLASH: {
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection);
+                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_SPRINT_SLASH);
                   break;
                }
             }
@@ -969,14 +981,13 @@ ffc script Legionnaire {
       return attack;
    }
 
-   void attackFireSwords(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection) {
+   void attackFireSwords(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int damage) {
       Audio->PlaySound(SFX_STALFOS_GROAN_SLOW);
       enemyShake(this, ghost, 48, 1);
       Ghost_Data = combo;
-      int weaponDamage = ghost->WeaponDamage + ghost->WeaponDamage * .2;
 
       for (int i = 0; i < 5; ++i) {
-         eweapon projectile = FireAimedEWeapon(EW_BEAM, Ghost_X, Ghost_Y, 0, 300, weaponDamage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
+         eweapon projectile = FireAimedEWeapon(EW_BEAM, Ghost_X, Ghost_Y, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
          Ghost_Waitframes(this, ghost, 16);
       }
 
@@ -984,12 +995,11 @@ ffc script Legionnaire {
       movementDirection = Choose(90, -90);
    }
 
-   void jumpsOnYou(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int shakeDuration) {
+   void jumpsOnYou(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int shakeDuration, int damage) {
       Audio->PlaySound(SFX_STALFOS_GROAN);
       Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
       enemyShake(this, ghost, shakeDuration, 2);
       Ghost_Data = combo + 8;
-      int weaponDamage = ghost->WeaponDamage + ghost->WeaponDamage * .3;
 
       int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
       int jumpAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
@@ -1006,7 +1016,7 @@ ffc script Legionnaire {
       Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
       for (int i = 0; i < 24; ++i) {
-         makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, weaponDamage);
+         makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, damage);
          Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, (i > 7 && i <= 15) ? TILE_IMPACT_BIG : TILE_IMPACT_MID, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
          Ghost_Waitframe(this, ghost);
       }
@@ -1014,11 +1024,10 @@ ffc script Legionnaire {
       movementDirection = Choose(90, -90);
    }
 
-   void attackSprintSlash(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection) {
+   void attackSprintSlash(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int damage) {
       Audio->PlaySound(SFX_STALFOS_GROAN_FAST);
       enemyShake(this, ghost, 16, 2);
       Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
-      int weaponDamage = ghost->WeaponDamage + ghost->WeaponDamage * .5;
 
       int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
       int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
@@ -1028,7 +1037,7 @@ ffc script Legionnaire {
          Ghost_MoveAtAngle(moveAngle, 3, 0);
 
          if (i > dashFrames / 2)
-            sword1x1(Ghost_X, Ghost_Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, combo + 12, 10, weaponDamage);
+            sword1x1(Ghost_X, Ghost_Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, combo + 12, 10, damage);
 
          Ghost_Waitframe(this, ghost);
       }
@@ -1037,7 +1046,7 @@ ffc script Legionnaire {
 
       for (int i = 0; i <= 12; ++i) {
          Ghost_MoveAtAngle(moveAngle, 3, 0);
-         sword1x1(Ghost_X, Ghost_Y, moveAngle - 90 + 15 * i, 16, combo + 12, 10, weaponDamage);
+         sword1x1(Ghost_X, Ghost_Y, moveAngle - 90 + 15 * i, 16, combo + 12, 10, damage);
          Ghost_Waitframe(this, ghost);
       }
 
@@ -1067,6 +1076,10 @@ namespace ShamblesNamespace {
          int difficultyMultiplier = 0.5;
          int attack = -1;
 
+         CONFIG DMG_CLOUD = 1;
+         CONFIG DMG_BOMB = ghost->WeaponDamage;
+         CONFIG DMG_BOMB_POISON = ghost->WeaponDamage / 2;
+
          Ghost_X = 128;
          Ghost_Y = -32;
          Ghost_Dir = DIR_DOWN;
@@ -1095,12 +1108,10 @@ namespace ShamblesNamespace {
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
                   spawnZambos(this, ghost, 2);
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier);
+                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
                   break;
                }
                case ATTACK_LINK_CHARGE: {
-                  int cloudDamage = 1;
-
                   for (int i = 0; i < 3; ++i) {
                      Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
                      Waitframes(15);
@@ -1110,7 +1121,7 @@ namespace ShamblesNamespace {
 
                      for (int j = 0; j < 30; ++j) {
                         if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0) {
-                           eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, cloudDamage, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+                           eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, DMG_CLOUD, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
                            SetEWeaponLifespan(poisonTrail, EWL_TIMER, 60);
                            SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
                         }
@@ -1125,7 +1136,7 @@ namespace ShamblesNamespace {
                   break;
                }
                case ATTACK_BOMB_LOB: {
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier);
+                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
                   break;
                }
                case ATTACK_SPAWN_ZAMBIES: {
@@ -1173,15 +1184,15 @@ namespace ShamblesNamespace {
       submerge(this, ghost, 8);
    }
 
-   void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier) {
+   void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
       Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
       Waitframes(30);
 
       for (int i = 0; i < bombsToLob; ++i) {
          ShamblesWaitframe(this, ghost, 16);
-         eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, ghost->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, poisonDamage});
          Waitframes(15);
       }
    }
@@ -1309,6 +1320,9 @@ namespace HazarondNamespace {
          if (firstRun)
             disableLink();
 
+         CONFIG DMG_DROPPED_FLAME = this->WeaponDamage;
+         CONFIG DMG_OIL_BLOB = this->WeaponDamage / 3;
+
          setupNPC(this);
 
          untyped data[SZ_DATA];
@@ -1394,7 +1408,7 @@ namespace HazarondNamespace {
                   if (heads[headOpenIndex])
                      heads[headOpenIndex]->OriginalTile += 1;
 
-                  oilSpray(data, this, heads, isDifficultyChange(this, maxHp));
+                  oilSpray(data, this, heads, isDifficultyChange(this, maxHp), DMG_OIL_BLOB);
 
                   headOpen = 21;
                   justSprayed = true;
@@ -1423,7 +1437,7 @@ namespace HazarondNamespace {
 
                if (headOpen == 10)
                   if (heads[headOpenIndex] && heads[headOpenIndex]->isValid())
-                     dropFlame(heads, headOpenIndex, eweaponStopper);
+                     dropFlame(heads, headOpenIndex, eweaponStopper, DMG_DROPPED_FLAME);
 
                ++timeSinceLastAttack;
                --headOpen;
@@ -1832,7 +1846,7 @@ namespace HazarondNamespace {
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
    }
 
-   void dropFlame(npc heads, int headOpenIndex, int eweaponStopper) {
+   void dropFlame(npc heads, int headOpenIndex, int eweaponStopper, int damage) {
       eweapon flame = CreateEWeaponAt(EW_SCRIPT1, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
       flame->Dir = heads[headOpenIndex]->Dir;
       flame->Step = RandGen->Rand(125, 175);
@@ -1843,11 +1857,11 @@ namespace HazarondNamespace {
       flame->InitD[0] = RandGen->Rand(8, 15);
       flame->InitD[1] = RandGen->Rand(60, 180);
       flame->Gravity = true;
-      flame->Damage = 2;
+      flame->Damage = damage;
       flame->UseSprite(SPR_FLAME_OIL);
    }
 
-   void oilSpray(int data, npc this, npc heads, bool isDifficultyChange) {
+   void oilSpray(int data, npc this, npc heads, bool isDifficultyChange, int damage) {
       int attackingCounter = 30;
       bool modTile = false;
 
@@ -1866,9 +1880,9 @@ namespace HazarondNamespace {
          else
             this->ScriptTile = this->OriginalTile;
 
-         eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
-         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB});
+         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB, damage});
          EnemyWaitframe(this, data, 5);
       }
 
@@ -2002,6 +2016,11 @@ namespace OvergrownRaccoonNamespace {
 
       void run() {
          disableLink();
+
+         CONFIG DMG_BOULDER = this->WeaponDamage;
+         CONFIG DMG_ROCK = this->WeaponDamage / 2;
+         CONFIG DMG_PEBBLE = this->WeaponDamage / 4;
+
          State state = STATE_NORMAL;
          State previousState = state;
          const int maxHp = this->HP;
@@ -2033,21 +2052,30 @@ namespace OvergrownRaccoonNamespace {
                timer = 0;
                int attackChoice = 0;
 
-               if (Screen->NumNPCs() > 5 && Screen->NumNPCs() < 10)
-                  attackChoice = STATE_RACCOON_THROW;
-               else if (previousState == STATE_SMALL_ROCKS_THROW)
-                  attackChoice = RandGen->Rand(1, 4);
-               else if (previousState == STATE_CHARGE)
-                  attackChoice = RandGen->Rand(2, 4);
-               else
-                  attackChoice = RandGen->Rand(4);
+               if (Screen->NumNPCs() > 5) {
+                  if (previousState == STATE_RACCOON_THROW)
+                     attackChoice = STATE_CHARGE;
+                  else
+                     attackChoice = Rand(1, 2);
+               }
+               else {
+                  if (previousState == STATE_NORMAL)
+                     attackChoice = STATE_CHARGE;
+                  else if (previousState == STATE_RACCOON_THROW)
+                     attackChoice = Rand(0, 60) > 15 ? 4 : 3;
+                  else if (previousState == STATE_CHARGE)
+                     attackChoice = Rand(0, 60) > 20 ? STATE_CHARGE : STATE_SMALL_ROCKS_THROW;
+                  else if (previousState == STATE_SMALL_ROCKS_THROW)
+                     attackChoice = STATE_LARGE_ROCK_THROW;
+                  else
+                     attackChoice = Rand(1, 4);
+               }
 
                state = parseAttackChoice(attackChoice);
             }
 
             switch (state) {
                case STATE_NORMAL: {
-                  previousState = state;
                   this->ScriptTile = -1;
                   doWalk(this, 5, 10, this->Step);
                   break;
@@ -2057,9 +2085,9 @@ namespace OvergrownRaccoonNamespace {
 
                   Waitframes(60);
 
-                  eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 6, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+                  eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE, DMG_ROCK});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2075,9 +2103,9 @@ namespace OvergrownRaccoonNamespace {
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
                      unless(i % 20) {
-                        eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                        eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, DMG_PEBBLE});
                      }
 
                      Waitframe();
@@ -2164,6 +2192,10 @@ namespace ServusMalusNamespace {
          CONFIG originalTile = this->OriginalTile;
          CONFIG attackingTile = 49660;
          CONFIG unarmedTile = 49740;
+
+         CONFIG DMG_SCYTHE_SLASH = this->WeaponDamage + this->WeaponDamage * .5;
+         CONFIG DMG_SCYTHE_THROW = this->WeaponDamage + this->WeaponDamage * .75;
+         CONFIG DMG_WIND = this->WeaponDamage + this->WeaponDamage * .2;
 
          bool gettingDesperate = false;
          bool torchesLit = false;
@@ -2274,7 +2306,7 @@ namespace ServusMalusNamespace {
                         eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, ComboX(chosenTorch), ComboY(chosenTorch), {0, 60});
                         ewind->Unblockable = UNBLOCK_ALL;
                         ewind->UseSprite(128);
-                        ewind->Damage = 2;
+                        ewind->Damage = DMG_WIND;
                      }
 
                      Audio->PlaySound(SFX_ONOX_TORNADO);
@@ -2334,7 +2366,7 @@ namespace ServusMalusNamespace {
                   this->Z -= 1;
 
                unless(attackCooldown) {
-                  chooseAttack(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+                  chooseAttack(this, originalTile, attackingTile, unarmedTile, gettingDesperate, DMG_SCYTHE_SLASH, DMG_SCYTHE_THROW);
                   attackCooldown = gettingDesperate ? 60 : 90;
                }
 
@@ -2408,8 +2440,7 @@ namespace ServusMalusNamespace {
                Waitframe();
             }
 
-            int unlitTorchCount = 0;
-
+            int unlitTorchCount = 1;
             int multipler = 1;
 
             while (unlitTorchCount) {
@@ -2891,15 +2922,15 @@ namespace ServusMalusNamespace {
          Waitframe();
    }
 
-   void chooseAttack(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate) {
+   void chooseAttack(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate, int slashDamage, int throwDamage) {
       if (Distance(this->X, this->Y, Hero->X, Hero->Y) <= (gettingDesperate ? 49 : 48))
-         scytheSlash(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+         scytheSlash(this, originalTile, attackingTile, unarmedTile, gettingDesperate, slashDamage);
 
       if (Distance(this->X, this->Y, Hero->X, Hero->Y) > (gettingDesperate ? 48 : 49))
-         scytheThrow(this, originalTile, attackingTile, unarmedTile, gettingDesperate);
+         scytheThrow(this, originalTile, attackingTile, unarmedTile, gettingDesperate, throwDamage);
    }
 
-   void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate) {
+   void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate, int damage) {
       for (int attackCount = 1; attackCount < (gettingDesperate ? 4 : 2); attackCount++) {
          if (this->HP <= 0)
             deathAnimation(this, SFX_GOMESS_DIE);
@@ -2924,7 +2955,7 @@ namespace ServusMalusNamespace {
             this->MoveXY(vectorX, vectorY, SPW_FLOATER);
             this->Dir = faceLink(this);
 
-            sword2x1(this->X + 8, this->Y + 8, angle + Lerp((attackCount % 2 ? -90 : 90), (attackCount % 2 ? 90 : -90), i / 14), 16, 6944, 3, 5);
+            sword2x1(this->X + 8, this->Y + 8, angle + Lerp((attackCount % 2 ? -90 : 90), (attackCount % 2 ? 90 : -90), i / 14), 16, 6944, 3, damage);
 
             Waitframe();
          }
@@ -2938,7 +2969,7 @@ namespace ServusMalusNamespace {
       }
    }
 
-   void scytheThrow(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate) {
+   void scytheThrow(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate, int damage) {
       Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
 
       for (int i = 0; i < 30; ++i) {
@@ -2964,7 +2995,7 @@ namespace ServusMalusNamespace {
             Audio->PlaySound(SFX_AXE2);
 
             scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
-            scythe->Damage = 7;
+            scythe->Damage = damage;
             scythe->UseSprite(125);
             scythe->Extend = 3;
             scythe->TileWidth = 2;
@@ -2977,7 +3008,7 @@ namespace ServusMalusNamespace {
 
             if (gettingDesperate) {
                scythe2 = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 1});
-               scythe2->Damage = 8;
+               scythe2->Damage = damage;
                scythe2->UseSprite(125);
                scythe2->Extend = 3;
                scythe2->TileWidth = 2;

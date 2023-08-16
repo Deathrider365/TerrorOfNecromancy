@@ -1,5 +1,5 @@
-HP per heart = (default was 16)
-MP per magic container = (default was 32)
+HP per heart = 8 (default was 16)
+MP per magic container = 10 (default was 32)
 Player Damage Multiplier (not all attacks) = 1 (default was 2)
 Enemy Damage Multiplier (not all attacks) = 1 (default was 4)
 

@@ -5,8 +5,11 @@
 eweapon script ArcingWeapon {
    // clang-format on
 
-   void run(int initJump, int gravity, int effect) {
+   void run(int initJump, int gravity, int effect, int damage = -1, int secondaryDamage = 0) {
       this->Gravity = false;
+
+      int damageToUse = damage == -1 ? this->Damage : damage;
+      bool hasSecondaryDamage = secondaryDamage ? true : false;
 
       int jump = initJump;
       int linkDistance = Distance(Hero->X, Hero->Y, this->X, this->Y);
@@ -40,7 +43,7 @@ eweapon script ArcingWeapon {
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
 
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
 
                   SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
                   SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
@@ -57,7 +60,7 @@ eweapon script ArcingWeapon {
                   int distance = 40 * i / 18;
                   int angle = Rand(360);
 
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
 
                   SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
                   SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
@@ -66,12 +69,12 @@ eweapon script ArcingWeapon {
                }
                break;
             }
-            case AE_PROJECTILEWITHMOMENTUM: {
+            case AE_PROJECTILE_WITH_MOMENTUM: {
                for (int i = 0; i < 12; ++i) {
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
 
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, this->Damage, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
 
                   SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
                   SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
@@ -92,14 +95,14 @@ eweapon script ArcingWeapon {
             }
             case AE_OIL_DEATH_BLOB: {
                for (int i = 0; i < 4; ++i) {
-                  eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});
+                  eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, hasSecondaryDamage ? secondaryDamage : 0});
                }
                break;
             }
             case AE_ROCK_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
-                  eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 2, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});
                }
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -107,8 +110,8 @@ eweapon script ArcingWeapon {
             }
             case AE_BOULDER_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
-                  eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, 4, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE});
+                  eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, hasSecondaryDamage ? secondaryDamage : 0});
                }
 
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -121,7 +124,7 @@ eweapon script ArcingWeapon {
             case AE_EGENTEM_HAMMER: {
                if (int escr = CheckEWeaponScript("EgentemPillar")) {
                   eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0});
-                  pillar->Damage = 4;
+                  pillar->Damage = damageToUse;
                   pillar->Unblockable = UNBLOCK_ALL;
                }
                break;
@@ -130,7 +133,7 @@ eweapon script ArcingWeapon {
                eweapon explosion = Screen->CreateEWeapon(EW_BOMBBLAST);
                explosion->X = this->X;
                explosion->Y = this->Y;
-               explosion->Damage = 4;
+               explosion->Damage = damageToUse;
                break;
             }
             case AE_DEBUG: {
