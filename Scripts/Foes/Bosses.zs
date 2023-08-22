@@ -806,7 +806,7 @@ namespace LeviathanNamespace {
 } // namespace LeviathanNamespace
 
 // clang-format off
-@Author("Moosh, modified by Deathrider365") 
+@Author("Moosh, modified by Deathrider365")
 ffc script Legionnaire {
    // clang-format on
 
@@ -1063,7 +1063,7 @@ namespace ShamblesNamespace {
    bool firstRun = true;
 
    // clang-format off
-   @Author("Moosh, modified by Deathrider365") 
+   @Author("Moosh, modified by Deathrider365")
    ffc script Shambles {
       // clang-format on
 
@@ -1192,7 +1192,7 @@ namespace ShamblesNamespace {
          ShamblesWaitframe(this, ghost, 16);
          eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, poisonDamage});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, this, poisonDamage});
          Waitframes(15);
       }
    }
@@ -1303,7 +1303,7 @@ namespace HazarondNamespace {
    bool firstRun = true;
 
    // clang-format off
-   @Author("EmilyV99, Deathrider365") 
+   @Author("EmilyV99, Deathrider365")
    npc script Hazarond {
       // clang-format on
 
@@ -1882,7 +1882,7 @@ namespace HazarondNamespace {
 
          eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
-         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB, damage});
+         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB, this, damage});
          EnemyWaitframe(this, data, 5);
       }
 
@@ -2008,7 +2008,7 @@ namespace OvergrownRaccoonNamespace {
    };
 
    // clang-format off
-   @Author("EmilyV99, Deathrider365") 
+   @Author("EmilyV99, Deathrider365")
    npc script OvergrownRaccoon {
       // clang-format on
 
@@ -2087,7 +2087,7 @@ namespace OvergrownRaccoonNamespace {
 
                   eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE, DMG_ROCK});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2105,7 +2105,7 @@ namespace OvergrownRaccoonNamespace {
                      unless(i % 20) {
                         eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, DMG_PEBBLE});
+                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE});
                      }
 
                      Waitframe();
@@ -2127,7 +2127,7 @@ namespace OvergrownRaccoonNamespace {
 
                      eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE});
+                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE, this});
                   }
 
                   state = STATE_NORMAL;
@@ -2182,7 +2182,7 @@ namespace ServusMalusNamespace {
    using namespace EnemyNamespace;
 
    // clang-format off
-   @Author("EmilyV99, Moosh, Deathrider365") 
+   @Author("EmilyV99, Moosh, Deathrider365")
    npc script ServusMalus {
       // clang-format on
 
@@ -3228,7 +3228,7 @@ namespace ServusMalusNamespace {
 } // namespace ServusMalusNamespace
 
 // clang-format off
-@Author("Moosh") 
+@Author("Moosh")
 npc script TurnedHylianElite {
    // clang-format on
 
@@ -3245,6 +3245,10 @@ npc script TurnedHylianElite {
 
       AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
       AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+
+      CONFIG DMG_STANDING_SLASH = this->WeaponDamage *= 1.50;
+      CONFIG DMG_SPRINTING_SLASH_CHARGING = this->WeaponDamage *= 75;
+      CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage *= 33;
 
       int maxHp = this->HP;
       Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
@@ -3278,7 +3282,7 @@ npc script TurnedHylianElite {
 
                for (int i = 0; i < 15; ++i) {
                   FaceLink(this);
-                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, this->WeaponDamage + this->WeaponDamage * .33);
+                  sword1x1(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, DMG_STANDING_SLASH);
                   CustomWaitframe(this);
                }
 
@@ -3307,7 +3311,7 @@ npc script TurnedHylianElite {
             FaceLink(this);
 
             if (i > dashFrames / 2)
-               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, this->WeaponDamage * .4);
+               sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, 10252, 10, DMG_SPRINTING_SLASH_CHARGING);
 
             CustomWaitframe(this);
          }
@@ -3318,7 +3322,7 @@ npc script TurnedHylianElite {
          for (int i = 0; i <= 12 && !swordCollided; ++i) {
             this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
             FaceLink(this);
-            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, this->WeaponDamage);
+            swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, DMG_SPRINTING_SLASH);
             CustomWaitframe(this);
          }
 
@@ -3366,8 +3370,8 @@ namespace EgentemNamespace {
    // Hammer
    CONFIG CMB_HAMMER = 7005;
    CONFIG CSET_HAMMER = 8;
-   CONFIG SPIN_SPEED = 40;
-   CONFIG TURN_SPEED = 2.5;
+   CONFIG SPIN_SPEED = 50;
+   CONFIG TURN_SPEED = 2;
 
    // Pillars
    CONFIG D_LAUNCHED = 2;
@@ -3424,7 +3428,7 @@ namespace EgentemNamespace {
    }
 
    // clang-format off
-   @Author("Moosh, Deathrider365") 
+   @Author("Moosh, Deathrider365")
    npc script EgentemBoss {
       // clang-format on
 
@@ -3440,6 +3444,16 @@ namespace EgentemNamespace {
          aptr->AddAnim(STANDING_SH, 40, 1, ANIM_SPEED, ADF_4WAY);
 
          Egentem egentem = new Egentem(this);
+
+         CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage *= .5;
+         CONFIG DMG_SWING_HAMMER = this->WeaponDamage *= 1.3;
+         CONFIG DMG_SMASH_HAMMER = this->WeaponDamage *= 1.5;
+         CONFIG DMG_SHOCKWAVE_HAMMER = this->WeaponDamage;
+         CONFIG DMG_SPIN_HAMMER = this->WeaponDamage *= 2;
+         CONFIG DMG_THROWN_HAMMER = this->WeaponDamage *= .75;
+         CONFIG DMG_LAUNCHED_PILLAR = this->WeaponDamage *= 1.75;
+         CONFIG DMG_STATIONARY_PILLAR = this->WeaponDamage *= .4;
+         CONFIG DMG_EXPLOSION_PILLAR = this->WeaponDamage *= 2.2;
 
          this->X = -32;
          this->Y = -32;
@@ -3481,7 +3495,7 @@ namespace EgentemNamespace {
          int heroActiveAItems[10];
          int heroActiveBItems[10];
 
-         attackThrowHammers(this, egentem, 10, 15);
+         attackThrowHammers(this, egentem, 10, 15, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
          while (true) {
             int trackerCount;
@@ -3533,55 +3547,55 @@ namespace EgentemNamespace {
 
             if (candleCount == 10) {
                aptr->PlayAnim(egentem->shieldHp <= 0 ? STANDING : STANDING_SH);
-               attackHammerEruption(this, egentem);
-               attackThrowHammers(this, egentem, 5, 1);
+               attackHammerEruption(this, egentem, DMG_SHOCKWAVE_HAMMER, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
+               attackThrowHammers(this, egentem, 5, 1, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
             }
 
             if (numPillars() > 15) {
                aptr->PlayAnim(egentem->shieldHp ? WALKING : WALKING_SH);
 
                for (int i = 0; i < (numPillars() * .9); ++i)
-                  attackJumpToPillar(this, egentem);
+                  attackJumpToPillar(this, egentem, DMG_LAUNCHED_PILLAR);
             }
 
             if (egentem->shieldHp > 0) {
                if (avgDistances > 48) {
-                  attackHammerSpin(this, egentem);
-                  attackThrowHammers(this, egentem, 5, 10);
+                  attackHammerSpin(this, egentem, DMG_HOLD_UP_HAMMER, DMG_SPIN_HAMMER);
+                  attackThrowHammers(this, egentem, 5, 10, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
                   for (int i = 0; i < numPillars() / 2; ++i)
-                     attackJumpToPillar(this, egentem);
+                     attackJumpToPillar(this, egentem, DMG_LAUNCHED_PILLAR);
                }
                else if (meleeCount > 7) {
-                  attackHammerSpin(this, egentem);
-                  attackHammerEruption(this, egentem);
+                  attackHammerSpin(this, egentem, DMG_HOLD_UP_HAMMER, DMG_SPIN_HAMMER);
+                  attackHammerEruption(this, egentem, DMG_SHOCKWAVE_HAMMER, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
                }
                else {
-                  attackThrowHammers(this, egentem, 15, 10);
+                  attackThrowHammers(this, egentem, 15, 10, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
                   for (int i = 0; i < numPillars() / 2; ++i)
-                     attackJumpToPillar(this, egentem);
+                     attackJumpToPillar(this, egentem, DMG_LAUNCHED_PILLAR);
                }
             }
             else {
                if (avgDistances > 48) {
-                  attackHammerSpin(this, egentem);
-                  attackThrowHammers(this, egentem, 5, 10);
+                  attackHammerSpin(this, egentem, DMG_HOLD_UP_HAMMER, DMG_SPIN_HAMMER);
+                  attackThrowHammers(this, egentem, 5, 10, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
                   for (int i = 0; i < numPillars() / 2; ++i)
-                     attackJumpToPillar(this, egentem);
+                     attackJumpToPillar(this, egentem, DMG_LAUNCHED_PILLAR);
                }
                else if (meleeCount > 7) {
-                  attackHammerEruption(this, egentem);
-                  attackHammerSpin(this, egentem);
-                  attackHammerEruption(this, egentem);
-                  attackThrowHammers(this, egentem, 5, 10);
+                  attackHammerEruption(this, egentem, DMG_SHOCKWAVE_HAMMER, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
+                  attackHammerSpin(this, egentem, DMG_HOLD_UP_HAMMER, DMG_SPIN_HAMMER);
+                  attackHammerEruption(this, egentem, DMG_SHOCKWAVE_HAMMER, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
+                  attackThrowHammers(this, egentem, 5, 10, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
                }
                else {
-                  attackThrowHammers(this, egentem, 15, 10);
+                  attackThrowHammers(this, egentem, 15, 10, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
                   for (int i = 0; i < numPillars() / 2; ++i)
-                     attackJumpToPillar(this, egentem);
+                     attackJumpToPillar(this, egentem, DMG_LAUNCHED_PILLAR);
                }
             }
 
@@ -3650,7 +3664,7 @@ namespace EgentemNamespace {
          lweapon weapon = Screen->LoadLWeapon(weaponId);
 
          if (weapon->ID == LW_HAMMER) {
-            egentem->shieldHp -= weapon->Damage * 2; //(* 2)makes this compatible with jank
+            egentem->shieldHp -= weapon->Damage;
 
             if (egentem->shieldHp <= 0) {
                this->BreakShield();
@@ -3796,37 +3810,37 @@ namespace EgentemNamespace {
       aptr->PlayAnim(STANDING_SH);
    }
 
-   void hammerAnimHoldUp(npc this, Coordinates xy, int frames = 20) {
+   void hammerAnimHoldUp(npc this, Coordinates xy, int holdUpDamage, int frames = 20) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 0, this->WeaponDamage, xy);
+         hammerFrame(this, 0, holdUpDamage, xy);
          Waitframe(this);
       }
    }
 
-   void hammerAnimSwing(npc this, Coordinates xy) {
+   void hammerAnimSwing(npc this, Coordinates xy, int holdUpDamage, int swingDamage) {
       for (int i = 0; i < 4; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 1, this->WeaponDamage, xy);
+         hammerFrame(this, 1, holdUpDamage, xy);
          Waitframe(this);
       }
 
-      hammerFrame(this, 2, this->WeaponDamage, xy, true);
+      hammerFrame(this, 2, swingDamage, xy, true);
 
       if (this->HP > 0)
          Audio->PlaySound(SFX_HAMMER);
    }
 
-   void hammerAnimSmash(npc this, Coordinates xy, int frames = 30) {
+   void hammerAnimSmash(npc this, Coordinates xy, int hammerSmashDamage, int frames = 30) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 2, this->WeaponDamage, xy);
+         hammerFrame(this, 2, hammerSmashDamage, xy);
 
          if (i == 0) {
             if (int escr = CheckEWeaponScript("HammerImpactEffect")) {
@@ -3900,7 +3914,7 @@ namespace EgentemNamespace {
       xy->Y = y;
    }
 
-   void attackHammerSpin(npc this, Egentem egentem) {
+   void attackHammerSpin(npc this, Egentem egentem, int holdingDamage, int spinnyDamage) {
       AnimHandler aptr = GetAnimHandler(this);
       int spinDir = Choose(-1, 1);
       int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y) + 30 * spinDir;
@@ -3912,7 +3926,7 @@ namespace EgentemNamespace {
 
       // Holding hammer to some side
       for (int i = 0; i < 45; ++i) {
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, holdingDamage);
          EgentemWaitframe(this, egentem);
       }
 
@@ -3927,7 +3941,7 @@ namespace EgentemNamespace {
          if (i % (360 / SPIN_SPEED) == 0)
             Audio->PlaySound(SFX_SPINATTACK);
 
-         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
+         hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 16, CMB_HAMMER, CSET_HAMMER, spinnyDamage);
 
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
@@ -3946,9 +3960,10 @@ namespace EgentemNamespace {
 
       if (linkGotHit) {
          yeetHero(Angle(this->X, this->Y, Hero->X, Hero->Y), 4, 200, true, true);
+         Trace(spinnyDamage);
 
          for (int i = 0; i < 45; ++i) {
-            hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 2);
+            hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, spinnyDamage);
             EgentemWaitframe(this, egentem);
          }
       }
@@ -3956,7 +3971,7 @@ namespace EgentemNamespace {
       playAnim(aptr, egentem, WALKING);
    }
 
-   void attackHammerEruption(npc this, Egentem egentem) {
+   void attackHammerEruption(npc this, Egentem egentem, int shockwaveDamage, int holdUpDamage, int swingDamage, int hammerSmashDamage) {
       CONFIG D_ERUPT = 7;
       AnimHandler aptr = GetAnimHandler(this);
       Coordinates xy = new Coordinates();
@@ -3965,18 +3980,18 @@ namespace EgentemNamespace {
 
       playAnim(aptr, egentem, STANDING);
 
-      hammerAnimHoldUp(this, xy, 15);
-      hammerAnimSwing(this, xy);
+      hammerAnimHoldUp(this, xy, holdUpDamage);
+      hammerAnimSwing(this, xy, holdUpDamage, swingDamage);
 
       int offset = Rand(360);
 
       for (int i = 0; i < 8; ++i) {
          eweapon wave = RunEWeaponScriptAt(EW_SCRIPT10, shockwaveSlot, xy->X, xy->Y, {137, SFX_IMPACT_EXPLOSION, 8, SFX_POWDER_KEG_BLAST, 136, 12, offset + i * 45, false});
-         wave->Damage = this->WeaponDamage;
+         wave->Damage = shockwaveDamage;
          wave->Unblockable = UNBLOCK_ALL;
       }
 
-      hammerAnimSmash(this, xy, 30);
+      hammerAnimSmash(this, xy, hammerSmashDamage, 30);
 
       int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
 
@@ -3990,8 +4005,8 @@ namespace EgentemNamespace {
       FaceLink(this);
       playAnim(aptr, egentem, STANDING);
 
-      hammerAnimHoldUp(this, xy, 8);
-      hammerAnimSwing(this, xy);
+      hammerAnimHoldUp(this, xy, holdUpDamage, 8);
+      hammerAnimSwing(this, xy, holdUpDamage, swingDamage);
 
       for (int i = Screen->NumEWeapons(); i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
@@ -4000,17 +4015,17 @@ namespace EgentemNamespace {
             e->InitD[D_ERUPT] = true;
       }
 
-      hammerAnimSmash(this, xy);
+      hammerAnimSmash(this, xy, hammerSmashDamage);
 
       delete xy;
    }
 
-   void attackThrowHammers(npc this, Egentem egentem, int hammerCount, int hammerThrowDelay) {
+   void attackThrowHammers(npc this, Egentem egentem, int hammerCount, int hammerThrowDelay, int holdUpDamage, int thrownHammerDamage, int pillarDamage, int pillarExplosionDamage) {
       int angle = Angle(Hero->X, Hero->Y, this->X, this->Y);
       FaceLink(this);
 
       for (int i = 0; i < 30; ++i) {
-         sword1x1(this->X, this->Y, angle, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.25);
+         sword1x1(this->X, this->Y, angle, 16, CMB_HAMMER, CSET_HAMMER, holdUpDamage);
          EgentemWaitframe(this, egentem);
       }
 
@@ -4019,18 +4034,18 @@ namespace EgentemNamespace {
          FaceLink(this);
 
          for (int j = 0; j < 9; ++j) {
-            sword1x1(this->X, this->Y, angle + j * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.25);
+            sword1x1(this->X, this->Y, angle + j * 20, 16, CMB_HAMMER, CSET_HAMMER, holdUpDamage);
             EgentemWaitframe(this, egentem);
          }
 
-         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, this->WeaponDamage * 1.25, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_EGENTEM_HAMMER});
+         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, thrownHammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage});
 
          Waitframes(hammerThrowDelay);
       }
    }
 
-   void attackJumpToPillar(npc this, Egentem egentem) {
+   void attackJumpToPillar(npc this, Egentem egentem, int damage) {
       AnimHandler aptr = GetAnimHandler(this);
       eweapon closestPillar = findPillar(this);
 
@@ -4078,7 +4093,7 @@ namespace EgentemNamespace {
          Audio->PlaySound(SFX_SWORD);
 
          for (int i = 0; i < 9; ++i) {
-            sword1x1(this->X, this->Y, anglePillar - 90 + i * 20, 16, CMB_HAMMER, CSET_HAMMER, this->WeaponDamage * 1.5);
+            sword1x1(this->X, this->Y, anglePillar - 90 + i * 20, 16, CMB_HAMMER, CSET_HAMMER, damage);
 
             if (i == 5)
                closestPillar->InitD[D_LAUNCHED] = true;
@@ -4129,7 +4144,7 @@ namespace EgentemNamespace {
    eweapon script EgentemPillar {
       CONFIG TILE_ROTATING = 50104;
 
-      void run(int delay, int upTime, bool launched, bool noDie) {
+      void run(int delay, int upTime, bool launched, bool noDie, int pillarDamage, int pillarExplosionDamage) {
          if (Screen->isSolid(this->X + 8, this->Y + 8))
             this->Remove();
 
@@ -4175,7 +4190,7 @@ namespace EgentemNamespace {
             this->CollDetection = false;
             this->UseSprite(SPR_ROTATING_PILLAR);
             this->Angular = true;
-            this->Damage = 6;
+            this->Damage = pillarDamage;
 
             int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
 
@@ -4192,7 +4207,7 @@ namespace EgentemNamespace {
             while (true) {
                if (wallCollision(this)) {
                   eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
-                  explosion->Damage = this->Damage;
+                  explosion->Damage = pillarExplosionDamage;
                }
 
                this->Rotation = this->DegAngle;
@@ -4329,7 +4344,7 @@ namespace LatrosNamespace {
    }
 
    // clang-format off
-   @Author("Moosh, Deathrider365") 
+   @Author("Moosh, Deathrider365")
    npc script LatrosBoss {
       // clang format on
       using namespace EnemyNamespace;
@@ -4341,6 +4356,17 @@ namespace LatrosNamespace {
          CONFIG WALKING = 0;
          CONFIG ANIM_SPEED = 4;
          CONFIG UNCHANGED_HP_COUNTER_VALUE = 300;
+
+         CONFIG DMG_SWORD_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_SWORD))->Power;
+         CONFIG DMG_BOOMERANG_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Power;
+         CONFIG DMG_BOMB_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_BOMB))->Power;
+         CONFIG DMG_BOMB_EXPLOSION = DMG_BOMB_DAMAGE * 2;
+         CONFIG DMG_ARROW_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_ARROW))->Power;
+         CONFIG DMG_FLAME_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_CANDLE))->Power;
+         CONFIG DMG_HAMMER_DAMAGE = Game->LoadItemData(GetHighestLevelItemOwned(IC_HAMMER))->Power;
+         CONFIG DMG_RUBBLE_DAMAGE = this->WeaponDamage;
+
+         const int boomerangLevel = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Level;
 
          FaceLink(this);
 
@@ -4399,7 +4425,7 @@ namespace LatrosNamespace {
                   }
 
                   attackAttemptCounter = 10;
-                  attackWithItem(this, latros, validItem);
+                  attackWithItem(this, latros, validItem, DMG_SWORD_DAMAGE, DMG_BOOMERANG_DAMAGE, DMG_BOMB_DAMAGE, DMG_ARROW_DAMAGE, DMG_FLAME_DAMAGE, DMG_HAMMER_DAMAGE, DMG_RUBBLE_DAMAGE, boomerangLevel, DMG_BOMB_EXPLOSION);
                }
                else {
                   charge(this, latros);
@@ -4420,7 +4446,7 @@ namespace LatrosNamespace {
                   }
 
                   attackAttemptCounter = 10;
-                  attackWithItem(this, latros, validItem);
+                  attackWithItem(this, latros, validItem, DMG_SWORD_DAMAGE, DMG_BOOMERANG_DAMAGE, DMG_BOMB_DAMAGE, DMG_ARROW_DAMAGE, DMG_FLAME_DAMAGE, DMG_HAMMER_DAMAGE, DMG_RUBBLE_DAMAGE, boomerangLevel, DMG_BOMB_EXPLOSION);
                }
 
                attackCooldown = 120;
@@ -4514,6 +4540,11 @@ namespace LatrosNamespace {
             if (Game->LoadItemData(itemB)->Type == IC_SWORD)
                clearSwords(itemB);
 
+            if (Game->LoadItemData(itemA)->Type == IC_ARROW)
+               clearArrows(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_ARROW)
+               clearArrows(itemB);
+
             if (Game->LoadItemData(itemA)->Type == IC_POTION)
                clearPotions(itemA);
             if (Game->LoadItemData(itemB)->Type == IC_POTION)
@@ -4539,6 +4570,14 @@ namespace LatrosNamespace {
       switch (itemId) {
          case ITEM_SWORD3: Hero->Item[ITEM_SWORD2] = false;
          case ITEM_SWORD2: Hero->Item[ITEM_SWORD1] = false;
+      }
+   }
+
+   void clearArrows(int itemId) {
+      switch (itemId) {
+         case ITEM_ARROW4: Hero->Item[ITEM_ARROW3] = false;
+         case ITEM_ARROW3: Hero->Item[ITEM_ARROW2] = false;
+         case ITEM_ARROW2: Hero->Item[ITEM_ARROW1] = false;
       }
    }
 
@@ -4608,7 +4647,7 @@ namespace LatrosNamespace {
       return closestItem;
    }
 
-   void attackWithItem(npc this, Latros latros, int itemId) {
+   void attackWithItem(npc this, Latros latros, int itemId, int swordDamage, int boomerangDamage, int bombDamage, int arrowDamage, int flameDamage, int hammerDamage, int rubbleDamage, int boomerangLevel, int bombExplosionDamage) {
       int potionCombo;
 
       itemdata id = Game->LoadItemData(itemId);
@@ -4617,21 +4656,21 @@ namespace LatrosNamespace {
       switch (itemId) {
          case ITEM_SWORD1: {
             for (int i = 0; i < 3; ++i) {
-               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD1))
+               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD1, swordDamage))
                   break;
             }
             break;
          }
          case ITEM_SWORD2: {
             for (int i = 0; i < 3; ++i) {
-               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD2))
+               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD2, swordDamage))
                   break;
             }
             break;
          }
          case ITEM_SWORD3: {
             for (int i = 0; i < 3; ++i) {
-               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD3))
+               if (swordSlash(this, latros, spr->Tile + 1, spr->CSet, ITEM_SWORD3, swordDamage))
                   break;
             }
             break;
@@ -4639,7 +4678,7 @@ namespace LatrosNamespace {
          case ITEM_BRANG1:
          case ITEM_BRANG2:
          case ITEM_BRANG3: {
-            throwBoomerang(this, latros, id);
+            throwBoomerang(this, latros, id, boomerangDamage, boomerangLevel);
             break;
          }
          case ITEM_BOMB1: {
@@ -4647,63 +4686,40 @@ namespace LatrosNamespace {
             Waitframes(30);
 
             for (int i = 0; i < 5; ++i) {
-               // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-               // if (latros->numItems && weaponId) {
-               // --latros->hitCounter;
-               // latros->dropItem(I_BOMB);
-               // break;
-               // }
-               // }
-
                LatrosWaitframe(this, latros, 12);
-               eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, 4, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_LAUNCH_BOMBS);
-               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
+               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage});
                LatrosWaitframe(this, latros, 6);
             }
 
             break;
          }
          case ITEM_ARROW1:
-         case ITEM_ARROW2: {
+         case ITEM_ARROW2:
+         case ITEM_ARROW3: {
             for (int i = 0; i < 5; ++i) {
-               // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-               // if (latros->numItems && weaponId) {
-               // --latros->hitCounter;
-               // latros->dropItem(I_ARROW1);
-               // break;
-               // }
-               // }
-
                LatrosWaitframe(this, latros, 16);
-               eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, 2, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, arrowDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_ARROW);
-               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, 0});
+               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, 0, this, arrowDamage});
             }
             break;
          }
          case ITEM_CANDLE2: {
-            flameChase(this, latros, ITEM_CANDLE2);
+            flameChase(this, latros, ITEM_CANDLE2, flameDamage);
             break;
          }
          case ITEM_CANDLE1: {
-            flameChase(this, latros, ITEM_CANDLE1);
+            flameChase(this, latros, ITEM_CANDLE1, flameDamage);
             break;
          }
          case ITEM_HAMMER1: {
             for (int i = 0; i < 5; ++i) {
-               // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-               // if (latros->numItems && weaponId) {
-               // --latros->hitCounter;
-               // latros->dropItem(I_HAMMER);
-               // break;
-               // }
-               // }
-
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
-               eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, this->WeaponDamage * 1.25, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE});
+               eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, hammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage});
                LatrosWaitframe(this, latros, 16);
             }
 
@@ -4716,16 +4732,6 @@ namespace LatrosNamespace {
                unless(i) Audio->PlaySound(SFX_WHISTLE);
 
                unless(latros->hasItem(ITEM_OCARINA1)) droppedOcarina = true;
-
-               // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-               // if (latros->numItems && weaponId) {
-               // --latros->hitCounter;
-               // latros->dropItem(I_WHISTLE);
-               // Audio->EndSound(SFX_WHISTLE);
-               // droppedOcarina = true;
-               // break;
-               // }
-               // }
 
                this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
                Screen->FastCombo(3, this->X + (this->Dir == DIR_LEFT ? -4 : 6), this->Y + 6, this->Dir == DIR_LEFT ? 6876 : 6877, 0, OP_OPAQUE);
@@ -4764,19 +4770,26 @@ namespace LatrosNamespace {
         // situation)
    }
 
-   void throwBoomerang(npc this, Latros latros, itemdata id) {
+   void throwBoomerang(npc this, Latros latros, itemdata id, int damage, int boomerangLevel) {
       FaceLink(this);
-      eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, this->WeaponDamage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {48, 10, 0, this, 6});
+      eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, damage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {48, 10, 0, this, damage});
 
       while (boomer->isValid()) {
-         // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-         // if (latros->numItems && weaponId) {
-         // --latros->hitCounter;
-         // latros->dropItem(I_BRANG2);
-         // boomer->Remove();
-         // break;
-         // }
-         // }
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
+
+         if (hitId) {
+            eweapon hitLink = Screen->LoadEWeapon(hitId);
+
+            int stunDur = boomerangLevel * 50;
+
+            Trace(stunDur);
+
+            if (hitLink->isValid()) {
+               Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+               Hero->Stun = stunDur;
+               break;
+            }
+         }
 
          LatrosWaitframe(this, latros);
       }
@@ -4854,35 +4867,17 @@ namespace LatrosNamespace {
       }
    }
 
-   bool swordSlash(npc this, Latros latros, int tile, int cset, int sword) {
+   bool swordSlash(npc this, Latros latros, int tile, int cset, int sword, int damage) {
       int moveAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
       int dashFrames = 12;
-      int damage = 6;
 
       for (int i = 0; i < 15; ++i) {
          unless(latros->hasItem(sword)) return true;
-         // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-         // if (latros->numItems && weaponId) {
-         // --latros->hitCounter;
-         // latros->dropItem(sword);
-         // clearSwords(sword);
-         // return true;
-         // }
-         // }
-
          LatrosWaitframe(this, latros);
       }
 
       for (int i = 0; i < dashFrames; ++i) {
          unless(latros->hasItem(sword)) return true;
-         // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-         // if (latros->numItems && weaponId) {
-         // --latros->hitCounter;
-         // latros->dropItem(sword);
-         // clearSwords(sword);
-         // return true;
-         // }
-         // }
 
          FaceLink(this);
          this->MoveAtAngle(moveAngle, 3, 0);
@@ -4897,14 +4892,6 @@ namespace LatrosNamespace {
 
       for (int i = 0; i <= 12; ++i) {
          unless(latros->hasItem(sword)) return true;
-         // if (int weaponId = latros->owner->HitBy[HIT_BY_LWEAPON]) {
-         // if (latros->numItems && weaponId) {
-         // --latros->hitCounter;
-         // latros->dropItem(sword);
-         // clearSwords(sword);
-         // return true;
-         // }
-         // }
 
          FaceLink(this);
          this->MoveAtAngle(moveAngle, 3, 0);
@@ -4915,7 +4902,7 @@ namespace LatrosNamespace {
       return false;
    }
 
-   void flameChase(npc this, Latros latros, int itemId) {
+   void flameChase(npc this, Latros latros, int itemId, int damage) {
       int vectorX, vectorY;
 
       for (int i = 0; i < 120; ++i) {
@@ -4925,12 +4912,10 @@ namespace LatrosNamespace {
          this->MoveXY(vectorX, vectorY, SPW_NONE);
 
          int fireSprite;
-         int damage;
 
          switch (itemId) {
             case ITEM_CANDLE1: {
                fireSprite = SPR_FLAME_WAX;
-               damage = 4;
                break;
             }
             case ITEM_CANDLE2: {
@@ -4950,7 +4935,7 @@ namespace LatrosNamespace {
             flame->InitD[0] = 30;
             flame->InitD[1] = 200;
             flame->Gravity = true;
-            flame->Damage = 4;
+            flame->Damage = damage;
             flame->UseSprite(fireSprite);
 
             Audio->PlaySound(SFX_FIRE);
@@ -5006,15 +4991,135 @@ namespace Quickknife {
 
    npc script Quickknife {
       void run() {
-         
+         this->X = 128;
+         this->Y = 32;
+
+         while (true) {
+            doWallAttack(this);
+
+            QuickknifeWaitframe(this);
+         }
+
+         /*
+         magic focused, but also fast as you would expect from a pirate. utilized magic predominently, but also throws weapons (maybe knives?)
+
+         fades into the room, has some dialog, fight begins with him vanishing
+
+         wall phase:
+         - 4 symbols appear on each of the walls, similar to phantom ganon in OoT forest temple, he will come out of
+           one of the walls you can tell which one is real with arrows, hitting false ones make them vanish and play
+           some laugh sound
+           - failing to hit the right one in time results in a hard to avoid attack at link, continuing the fight in
+             the battle phase
+           - correctly hitting him knocks him out of the wall stunned for a second or 2 to let the player hit him
+
+         battle phase (varies whether you knocked him out of the wall or not):
+         -
+         */
       }
 
+   }
+
+   void doWallAttack(npc this) {
+      CONFIG UP_FACING_COMBO = 10292;
+      CONFIG DOWN_FACING_COMBO = 10293;
+      CONFIG LEFT_FACING_COMBO = 10294;
+      CONFIG RIGHT_FACING_COMBO = 10295;
+
+      int originalTile = this->OriginalTile;
+      // do some phasing out animation
+      this->OriginalTile = 0;
+
+      this->X = -16;
+      this->Y = -16;
+
+      QuickknifeWaitframe(this, 30);
+
+      for (int i = 0; i < 120; ++i) {
+         if (i < 60 && !(i % 3)) {
+            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
+         } else if (!(i % 6)) {
+            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
+         }
+
+         Waitframe();
+      }
+
+      int timeUntilStrike = 180;
+
+      while (timeUntilStrike) {
+         if (this->HitBy[HIT_BY_LWEAPON_UID])
+            break;
+
+         unless (timeUntilStrike % 6) {
+            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
+            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
+         }
+         --timeUntilStrike;
+
+         QuickknifeWaitframe(this);
+      }
+   }
+
+   void QuickknifeWaitframe(npc this, int frames = 1) {
+      for (int i = 0; i < frames; ++i) {
+         if (this->HP <= 0)
+            quickknifeDeathAnimation(this, 170);
+
+         Waitframe();
+      }
+   }
+
+   void quickknifeDeathAnimation(npc n, int deathSound) {
+      n->Immortal = true;
+      n->CollDetection = false;
+      n->Stun = 9999;
+
+		Screen->Message(359);
+		Waitframe();
+
+      int baseX = n->X + n->DrawXOffset;
+      int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
+
+      Audio->PlaySound(deathSound);
+      int dropCount = 0;
+
+      for (int i = 0; i < 45; i++) {
+         unless(i % 3) {
+            lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+            explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+            explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+            explosion->CollDetection = false;
+         }
+
+         Waitframes(5);
+      }
+
+      char32 areaMusic[256];
+      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Audio->PlayEnhancedMusic(areaMusic, 0);
+
+      // for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      //    npc n = Screen->LoadNPC(i);
+      //    n->Remove();
+      // }
+
+      n->Immortal = false;
+      n->HP = 0;
    }
 
 }
 
 // clang-format off
-@Author("Deathrider365") 
+@Author("Deathrider365")
 npc script Demonwall {
    // clang-format on
    void run() {

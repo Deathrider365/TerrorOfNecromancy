@@ -119,14 +119,16 @@ ffc script MessageOnce {
 @Author("Deathrider365")
 ffc script SignpostTriggerFromItem {
    // clang-format on
-   // D0: itemIdToCheckFor     - Item to set off the script
+   // D0: itemIdToCheckFor     - Item (or counter id) to set off the script
    // D1: stringNoItem         - string that plays when you do not have the item
    // D2: stringHasItem        - string that plays when you have the item and are setting off the script
    // D3: stringGottenItem     - string that plays when you already set off the script
    // D4: triggerToSetOff      - indicates the trigger this ffc will do (0 = secrets, 1 = screend, 2 = item(trader))
-   // D4: triggerValue         - Used for ScreenD and items, secrets dont need a value to use when triggered
-   // D5: selfKill             - Used for does this script kill itself once triggered
-   void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue, int selfKill) {
+   // D5: triggerValue         - Used for ScreenD and items, secrets dont need a value to use when triggered
+   // D6: selfKill             - Used for does this script kill itself once triggered
+   // D7: isItemCounter        - For items, if triggering on an item counter this is the counter value to trigger
+
+   void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue, int selfKill, int isItemCounter) {
       CONFIG TRIGGER_SECRET = 0;
       CONFIG TRIGGER_SCREEND = 1;
       CONFIG TRIGGER_ITEM = 2;
@@ -174,8 +176,8 @@ ffc script SignpostTriggerFromItem {
 
             switch (triggerToSetOff) {
                case TRIGGER_SECRET:
-                  until(Hero->Item[itemIdToCheckFor]) {
-                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                  until(isItemCounter ? Game->Counter[itemIdToCheckFor] == isItemCounter : Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor, isItemCounter);
 
                      if (justGotItem)
                         break;
@@ -197,8 +199,8 @@ ffc script SignpostTriggerFromItem {
                   }
                   break;
                case TRIGGER_SCREEND:
-                  until(Hero->Item[itemIdToCheckFor]) {
-                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                  until(isItemCounter ? Game->Counter[itemIdToCheckFor] == isItemCounter : Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor, isItemCounter);
 
                      if (justGotItem)
                         break;
@@ -219,8 +221,8 @@ ffc script SignpostTriggerFromItem {
                   }
                   break;
                case TRIGGER_ITEM:
-                  until(Hero->Item[itemIdToCheckFor]) {
-                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor);
+                  until(isItemCounter ? Game->Counter[itemIdToCheckFor] == isItemCounter : Hero->Item[itemIdToCheckFor]) {
+                     justGotItem = waitForTalkingJustGotItem(this, itemIdToCheckFor, isItemCounter);
 
                      if (justGotItem)
                         break;
@@ -248,9 +250,9 @@ ffc script SignpostTriggerFromItem {
       }
    }
 
-   bool waitForTalkingJustGotItem(ffc this, int itemId) {
+   bool waitForTalkingJustGotItem(ffc this, int itemId, int isItemCounter) {
       until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-         if (Hero->Item[itemId])
+         if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
             break;
 
          if (againstFFC(this->X, this->Y))
@@ -259,7 +261,7 @@ ffc script SignpostTriggerFromItem {
          Waitframe();
       }
 
-      if (Hero->Item[itemId])
+      if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
          return true;
    }
 }

@@ -323,9 +323,7 @@ lweapon script FlamingArrow {
                }
             }
 
-            // if (arrowPointCollision(this->X + 7, this->Y + 7)) {
-
-            if (collided || this->Flags[WFLAG_BURN_ANYFIRE]) {
+            if (collided || this->Flags[WFLAG_BURN_ANYFIRE] || arrowPointCollision(this->X + 7, this->Y + 7)) {
                collided = true;
                this->Flags[WFLAG_BURN_ANYFIRE] = true;
                Audio->PlaySound(SFX_FLAMMING_ARROW);
@@ -337,40 +335,40 @@ lweapon script FlamingArrow {
                flame->Script = 0;
             }
 
-            // lweapon flameHitbox = CreateLWeaponAt(LW_FIRE, this->X, this->Y);
-            // flameHitbox->DrawYOffset = -1000;
-            // flameHitbox->Damage = this->Damage;
-            // flameHitbox->Dir = this->Dir;
+            lweapon flameHitbox = CreateLWeaponAt(LW_FIRE, this->X, this->Y);
+            flameHitbox->DrawYOffset = -1000;
+            flameHitbox->Damage = this->Damage;
+            flameHitbox->Dir = this->Dir;
 
-            // flameHitbox->Script = Game->GetLWeaponScript("DieTimeOut");
-            // flameHitbox->InitD[0] = 1;
+            flameHitbox->Script = Game->GetLWeaponScript("DieTimeOut");
+            flameHitbox->InitD[0] = 1;
          }
 
          Waitframe();
       }
    }
 
-   // bool arrowPointCollision(int x, int y) {
-   //    int pos = ComboAt(x, y);
-   //    int comboType = Screen->ComboT[pos];
+   bool arrowPointCollision(int x, int y) {
+      int pos = ComboAt(x, y);
+      int comboType = Screen->ComboT[pos];
 
-   //    if (comboType == CT_LANTERN)
-   //       return true;
+      if (comboType == CT_LANTERN)
+         return true;
 
-   //    mapdata layer1 = Game->LoadTempScreen(1);
-   //    comboType = layer1->ComboT[pos];
+      mapdata layer1 = Game->LoadTempScreen(1);
+      comboType = layer1->ComboT[pos];
 
-   //    if (comboType == CT_LANTERN)
-   //       return true;
+      if (comboType == CT_LANTERN)
+         return true;
 
-   //    mapdata layer2 = Game->LoadTempScreen(2);
-   //    comboType = layer2->ComboT[pos];
+      mapdata layer2 = Game->LoadTempScreen(2);
+      comboType = layer2->ComboT[pos];
 
-   //    if (comboType == CT_LANTERN)
-   //       return true;
+      if (comboType == CT_LANTERN)
+         return true;
 
-   //    return false;
-   // }
+      return false;
+   }
 
    lweapon dropFlame(int x, int y, int sprite) {
       lweapon sparkle = Screen->CreateLWeapon(LW_FIRESPARKLE);

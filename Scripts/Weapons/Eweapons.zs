@@ -5,7 +5,7 @@
 eweapon script ArcingWeapon {
    // clang-format on
 
-   void run(int initJump, int gravity, int effect, int damage = -1, int secondaryDamage = 0) {
+   void run(int initJump, int gravity, int effect, npc shootingEnemy, int damage = -1, int secondaryDamage = 0) {
       this->Gravity = false;
 
       int damageToUse = damage == -1 ? this->Damage : damage;
@@ -20,6 +20,9 @@ eweapon script ArcingWeapon {
       unless(gravity) gravity = Game->Gravity[GR_STRENGTH];
 
       while (jump > 0 || this->Z > 0) {
+         if (shootingEnemy && shootingEnemy->HP <= 0)
+            break;
+
          this->Z += jump;
          jump -= gravity;
          this->DeadState = WDS_ALIVE;
@@ -40,6 +43,9 @@ eweapon script ArcingWeapon {
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
                for (int i = 0; i < 12; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
 
@@ -57,6 +63,9 @@ eweapon script ArcingWeapon {
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
                for (int i = 0; i < 18; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   int distance = 40 * i / 18;
                   int angle = Rand(360);
 
@@ -71,6 +80,9 @@ eweapon script ArcingWeapon {
             }
             case AE_PROJECTILE_WITH_MOMENTUM: {
                for (int i = 0; i < 12; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
 
@@ -95,23 +107,32 @@ eweapon script ArcingWeapon {
             }
             case AE_OIL_DEATH_BLOB: {
                for (int i = 0; i < 4; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, hasSecondaryDamage ? secondaryDamage : 0});
+                  runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0});
                }
                break;
             }
             case AE_ROCK_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1});
+                  runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, -1, shootingEnemy});
                }
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                break;
             }
             case AE_BOULDER_PROJECTILE: {
                for (int i = 0; i < 4; ++i) {
+                  if (shootingEnemy && shootingEnemy->HP <= 0)
+                     break;
+
                   eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, hasSecondaryDamage ? secondaryDamage : 0});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0});
                }
 
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -123,7 +144,7 @@ eweapon script ArcingWeapon {
             }
             case AE_EGENTEM_HAMMER: {
                if (int escr = CheckEWeaponScript("EgentemPillar")) {
-                  eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0});
+                  eweapon pillar = RunEWeaponScriptAt(EW_SCRIPT10, escr, this->X, this->Y, {30, 300, 0, 0, damageToUse, secondaryDamage});
                   pillar->Damage = damageToUse;
                   pillar->Unblockable = UNBLOCK_ALL;
                }
@@ -254,6 +275,7 @@ eweapon makeHitboxPersistent(eweapon hitbox, int x, int y, int w, int h, int dam
    hitbox->HitWidth = w;
    hitbox->HitHeight = h;
    hitbox->Timeout = 2;
+   hitbox->Damage = damage;
 
    return hitbox;
 }
@@ -276,13 +298,13 @@ eweapon sword1x1Tile(int x, int y, int angle, int dist, int tile, int cset, int 
    return makeHitbox(x, y, 16, 16, dmg);
 }
 
-eweapon sword1x1Persistent(eweapon hitbox, int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
+eweapon sword1x1Persistent(eweapon hitbox, int x, int y, int angle, int dist, int cmb, int cset, int damage) {
    x += VectorX(dist, angle);
    y += VectorY(dist, angle);
 
    Screen->DrawCombo(2, x, y, cmb, 1, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
 
-   return makeHitboxPersistent(hitbox, x, y, 16, 16, dmg);
+   return makeHitboxPersistent(hitbox, x, y, 16, 16, damage);
 }
 
 eweapon script HammerImpact {

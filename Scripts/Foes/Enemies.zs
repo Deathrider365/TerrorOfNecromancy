@@ -18,6 +18,10 @@ npc script Candlehead {
    void run(int chungo) {
       int knockbackDist = 4;
 
+      CONFIG DMG_FLAME = Game->LoadItemData(GetHighestLevelItemOwned(IC_CANDLE))->Damage * (chungo ? 2 : 1) * this->WeaponDamage;
+
+      Trace(DMG_FLAME);
+
       gridLockNPC(this);
 
       if (knockbackDist < 0)
@@ -32,14 +36,14 @@ npc script Candlehead {
          this->Slide();
 
          if (hitByLWeapon(this, LW_FIRE) || hitByEWeapon(this, EW_FIRE) || hitByEWeapon(this, EW_SCRIPT1))
-            burnToDeath(this, chungo);
+            burnToDeath(this, chungo, DMG_FLAME);
 
          unless(gameframe % RandGen->Rand(45, 60)) {
             for (int i = 0; i < (linkClose(this, 24) ? AGGRESSIVE_MOVE_DURATION : NORMAL_MOVE_DURATION); ++i) {
                this->Slide();
 
                if (hitByLWeapon(this, LW_FIRE) || hitByEWeapon(this, EW_FIRE) || hitByEWeapon(this, EW_SCRIPT1))
-                  burnToDeath(this, chungo);
+                  burnToDeath(this, chungo, DMG_FLAME);
 
                doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
                Waitframe();
@@ -49,7 +53,7 @@ npc script Candlehead {
       }
    }
 
-   void burnToDeath(npc n, int chungo) {
+   void burnToDeath(npc n, int chungo, int damage) {
       n->Step += n->Step / 3;
 
       int burningCombo = getBurningCombo(chungo);
@@ -78,7 +82,7 @@ npc script Candlehead {
             flame->Z = n->Z;
             flame->InitD[1] = 120;
             flame->Gravity = true;
-            flame->Damage = 2;
+            flame->Damage = damage;
             flame->UseSprite(sprite);
 
             if (chungo) {
@@ -115,7 +119,7 @@ npc script Candlehead {
          flame->InitD[0] = chungo ? 40 : 20;
          flame->InitD[1] = chungo ? 250 : 150;
          flame->Gravity = true;
-         flame->Damage = 2;
+         flame->Damage = damage;
          flame->UseSprite(sprite);
 
          if (chungo) {
@@ -236,6 +240,10 @@ npc script HammerBoi {
          if (this->HP <= 0)
             this->Step = 0;
 
+         CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage *= .5;
+         CONFIG DMG_SWING_HAMMER = this->WeaponDamage *= 1.3;
+         CONFIG DMG_SMASH_HAMMER = this->WeaponDamage *= 1.5;
+
          counter = ConstWalk4(this, counter);
 
          this->Slide();
@@ -244,7 +252,7 @@ npc script HammerBoi {
             if (Abs(this->X - Hero->X) < 32 && Abs(this->Y - Hero->Y) < 16) {
                int oldDir = this->Dir;
                this->Dir = faceLink(this);
-               hammerAnim(this);
+               hammerAnim(this, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
 
                this->Dir = oldDir;
 
@@ -257,50 +265,50 @@ npc script HammerBoi {
       }
    }
 
-   void hammerAnim(npc this) {
+   void hammerAnim(npc this, int holdUpDamage, int swingDamage, int smashDamage) {
       this->ScriptTile = this->OriginalTile + 4 * this->Dir;
 
       Coordinates xy = new Coordinates();
 
-      hammerAnimHoldUp(this, xy);
-      hammerAnimSwing(this, xy);
-      hammerAnimSmash(this, xy);
+      hammerAnimHoldUp(this, xy, holdUpDamage);
+      hammerAnimSwing(this, xy, swingDamage);
+      hammerAnimSmash(this, xy, smashDamage);
 
       this->ScriptTile = -1;
       delete xy;
    }
 
-   void hammerAnimHoldUp(npc this, Coordinates xy, int frames = 20) {
+   void hammerAnimHoldUp(npc this, Coordinates xy, int damage, int frames = 20) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 0, this->WeaponDamage, xy);
+         hammerFrame(this, 0, damage, xy);
          Waitframe();
       }
    }
 
-   void hammerAnimSwing(npc this, Coordinates xy) {
+   void hammerAnimSwing(npc this, Coordinates xy, int damage) {
       for (int i = 0; i < 4; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 1, this->WeaponDamage, xy);
+         hammerFrame(this, 1, damage, xy);
          Waitframe();
       }
 
-      hammerFrame(this, 2, this->WeaponDamage, xy, true);
+      hammerFrame(this, 2, damage, xy, true);
 
       if (this->HP > 0)
          Audio->PlaySound(SFX_HAMMER);
    }
 
-   void hammerAnimSmash(npc this, Coordinates xy, int frames = 30) {
+   void hammerAnimSmash(npc this, Coordinates xy, int damage, int frames = 30) {
       for (int i = 0; i < frames; ++i) {
          if (this->HP <= 0)
             break;
 
-         hammerFrame(this, 2, this->WeaponDamage, xy);
+         hammerFrame(this, 2, damage, xy);
 
          if (i == 0) {
             if (int escr = CheckEWeaponScript("HammerImpactEffect")) {
@@ -360,7 +368,6 @@ npc script HammerBoi {
          eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
          hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
          hammer->CSet = CSET_HAMMER;
-         // hammer->Behind = true;
          hammer->Timeout = 2;
 
          if (frame < 2)
@@ -402,6 +409,9 @@ npc script Bomber {
    using namespace EnemyNamespace;
 
    void run() {
+      CONFIG DMG_BOMB = this->WeaponDamage;
+      CONFIG DMG_BOMB_EXPLOSION = this->WeaponDamage * 2;
+
       int attackCooldown = 150 + Rand(-30, 30);
 
       while (true) {
@@ -415,8 +425,8 @@ npc script Bomber {
 
          unless(attackCooldown) {
             Waitframes(15);
-            eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, this->WeaponDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION});
+            eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, DMG_BOMB, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION});
             attackCooldown = 150 + Rand(-30, 30);
          }
 

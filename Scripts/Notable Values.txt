@@ -23,3 +23,14 @@ Hammer2 = 17
 Hammer3 = 27
 Wand1 = 18, 8
 Wand2 = 26, 14
+
+shortshot
+hookshot
+powder kegs
+Wand
+gale boomerang
+incendiary Candle
+flippers
+raft
+ocarina l2
+mirror shield

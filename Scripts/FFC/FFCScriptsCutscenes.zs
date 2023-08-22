@@ -1018,7 +1018,7 @@ ffc script CapturedSequenceNecromancer {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script CapturesSequenceRightHand {
+ffc script CapturedSequenceRightHand {
    // clang-format on
 
    CONFIG COMBO_UPPER_GATE = 7284;

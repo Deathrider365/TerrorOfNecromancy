@@ -251,6 +251,7 @@ ffc script OpenForItemId {
             if (perm)
                Screen->State[ST_SECRET] = true;
 
+            Audio->PlaySound(SFX_SECRET);
             return;
          }
          Waitframe();
@@ -263,8 +264,8 @@ ffc script OpenForItemId {
 ffc script OpenForCounterCount {
    // clang-format on
    void run(int counterId, int counterValue, bool perm) {
-
-      unless(Game->Counter[counterId] == counterValue) Quit();
+      if (Screen->State[ST_SECRET])
+         Quit();
 
       while (true) {
          if (Game->Counter[counterId] == counterValue) {
@@ -273,6 +274,7 @@ ffc script OpenForCounterCount {
             if (perm)
                Screen->State[ST_SECRET] = true;
 
+            Audio->PlaySound(SFX_SECRET);
             return;
          }
          Waitframe();
@@ -418,26 +420,25 @@ ffc script SwitchRemote {
 // clang-format off
 @Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap {
-	// clang-format on 
+   // clang-format on
    void run(int enemyid, int count, int fallSpeed, int perm) {
-      until(switchPressed(this->X, this->Y, false))
-         Waitframe();
-      
+      until(switchPressed(this->X, this->Y, false)) Waitframe();
+
       this->Data++;
       Game->PlaySound(SFX_SWITCH_PRESS);
       Game->PlaySound(SFX_SWITCH_ERROR);
-      
+
       Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
-      
+
       npc npcs[255];
-      
+
       for (int i = 0; i < count; i++) {
          int pos = getSpawnPos();
          npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
          npcs[i] = n;
          Game->PlaySound(SFX_FALL);
          n->Z = 176;
-         
+
          for (int j = 0; j < 20; j++) {
             for (int k = 0; k < count; k++) {
                if (npcs[k])
@@ -447,66 +448,62 @@ ffc script SwitchTrap {
          }
          Waitframe();
       }
-      
-      unless (fallSpeed)
-         fallSpeed = 5;
-      
+
+      unless(fallSpeed) fallSpeed = 5;
+
       for (int i = 0; i < 60; ++i) {
          for (int j = 0; j < count; j++)
             npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
          Waitframe();
       }
-      
-      while(Screen->NumNPCs())
+
+      while (Screen->NumNPCs())
          Waitframe();
-      
+
       char32 areaMusic[256];
       Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
    }
-	
+
    int getSpawnPos() {
       int pos;
       bool invalid = true;
       int failSafe = 0;
-      
+
       while (invalid && failSafe < 512) {
          pos = Rand(176);
-         
+
          if (validSpawn(pos))
             return pos;
       }
-      
+
       for (int i = 0; i < 176; i++) {
          pos = i;
-         
+
          if (validSpawn(pos))
             return pos;
       }
    }
-	
+
    bool validSpawn(int pos) {
       int x = ComboX(pos);
       int y = ComboY(pos);
-      
-      if (Screen->isSolid(x + 4, y + 4) 
-       || Screen->isSolid(x + 12, y + 4) 
-       || Screen->isSolid(x + 4, y + 12) 
-       || Screen->isSolid(x + 12, y + 12))
+
+      if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) || Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12))
          return false;
-         
+
       if (ComboFI(pos, CF_NOENEMY) || ComboFI(pos, CF_NOGROUNDENEMY))
          return false;
-         
+
       int ct = Screen->ComboT[pos];
-      
+
       if (ct == CT_NOENEMY || ct == CT_NOGROUNDENEMY || ct == CT_NOJUMPZONE)
          return false;
       if (ct == CT_WATER || ct == CT_LADDERONLY || ct == CT_HOOKSHOTONLY || ct == CT_LADDERHOOKSHOT)
          return false;
       if (ct == CT_PIT || ct == CT_PITB || ct == CT_PITC || ct == CT_PITD || ct == CT_PITR)
          return false;
-         
+
       return true;
    }
 }
