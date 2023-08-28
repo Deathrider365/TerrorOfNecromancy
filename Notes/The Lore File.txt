@@ -329,8 +329,36 @@ charged into the Pirate base just for the aid of the village. She expresses her 
 would like to help are blocked by something;
    - The Zora village in the Carulem archipeligo has a wall
    - The village on Duratu has a snow wall blocking the road, plus it is too cold.
-   - Palus village in Venenom Marsh woudl take them right past the necromancer's castle
    - The Goron village in Caldum as the lava wastes are too dangerous and hot
+
+   Zelda asks Link to venture to Palus village in Venenom to assist them with the issues they are having. Their people are becoming corrupted one by one and the corrupted enter the temple attempting to bring
+back their patricarchal God Gamoth. It would seem despite the Zoras of the region have adapted to the toxins of the swamp, something has began to control them as if by mind control to go to the temple.
+It turns out one of the Necromancer's power re-awakened the great beast Gamoth, who is using it's parasitic abilities to contol the monsters and people in the area to do as it says without resistance.
+   Link arrives in Palus and talks to some of the people, being told to be careful of the poison of the swamp. They do not need to as they have adapted to the toxins and thrive off of it. They also
+inform Link about Gamoth and how it was once an ancient beast that lived in the region and is the source of the toxins in the swamp. They worshipped the beast as it is believed it gave the Zoras the
+ability to live in the harsh area and somehow protects them from sickness, keeping them all very healthy and greatly extends their lifespan. Link eventually encounters the elder who gives Link a lot
+of this information and tells Link that he needs to defeat Gamoth, as something is not right and it is causing the villagers one by one to leave for the temple. He fears something bad is happening to the
+Zoras that go as they never return.
+   What the elder doesn't tell Link is that in order to access the temple Link needs a raft. But Link finds a small ruined village in the swamp in which he finds a raft. A Zora outside the entrance of the
+village tell Link that it is the original village of their ancestors and to be careful when venturing in. This is the village of Ebria, once a village of humans who lived in the poisonous swamp and
+were the original worshippers of Gamoth. The orignal legend of Gamoth giving the ancient Zoras the ability to thrive in the region is not exactly correct. What the Zoras of Palus don't remember is that
+the orignal inhabitants of the swamp were actually human, but by the power of a mysterious stone known as the Jewel of Marre, the very same jewel the pirates of Ignav seeked. This jewel granted the humans of
+Ebria the abilities to live in the swamp and slowly turned them into Zora-like people. Eventually, the beast Gamoth, who was a monster of unknown origin that came to Vita and took a liking to the unique
+area and made Venenom its' home. In reality, Gamoth is no good god for the inhabitants of Venenom, but rather a parasite. It uses parasitic abilities to influence the Zoras to make them worship it as a god.
+Link learns some of the truth within Ebria, and with the raft he finds within he enters the Zora Temple of Gamoth.
+
+<Mini Dungeon 4: Ancient Village of Ebria>
+~Followers of Gamoth ---just a bunch of cultists---~
+
+<<Level 5: Temple of Corruption>>
+~Ancient Beast  ---Gamoth---~
+
+
+
+
+
+
+
 Zelda asks Link to talk to a pirate and an engineer since they seem to have ideas on how to proceed. The engineer mentions his brother in Auri village is working on an explosive strong enough to blast
 through the wall and the snow on Duratu. The only issue is how to return to the northern side of the island. They cannot access the Auri Desert pass as they would need to get through checkpoints that are
 locked down by Necromancer forces, plus they would need to pass by the Necromancer's castle and would be spotted. The pirate mentions that if they had a grappling hook they could take a pass behind the
@@ -348,3 +376,11 @@ bombs. Talking to this pirate more Link learns where the cave is located. Going 
 ~Undead Guard Dog ---IDK---~
 
 Other military ranks (in order): Lieutenant (Legatus), Captain (duxo), Major, Brigadier, General
+
+
+Vita Legendarion:
+- Vol 1:
+- Vol 1:
+- Vol 1:
+- Vol 1:
+- Vol 1:

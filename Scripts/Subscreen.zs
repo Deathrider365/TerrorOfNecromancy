@@ -167,9 +167,9 @@ namespace SubscreenActive {
       if (Hero->Item[183])
          Screen->FastTile(4, 110, y + 6, TILE_LEVIATHAN_SCALE, CSET_LEVIATHAN_SCALE, OP_OPAQUE);
 
-      // Toxic Forest Key
+      // Cumpura Key
       if (Hero->Item[184])
-         Screen->FastTile(4, 110, y + 24, TILE_TOXIC_FOREST_KEY, CSET_TOXIC_FOREST_KEY, OP_OPAQUE);
+         Screen->FastTile(4, 110, y + 24, TILE_CUMPURA_KEY, CSET_CUMPURA_KEY, OP_OPAQUE);
 
       // Guard Tower Key
       if (Hero->Item[202])
@@ -194,6 +194,10 @@ namespace SubscreenActive {
       // Engagement Ring
       if (Hero->Item[157])
          Screen->FastTile(4, 88, y + 140, TILE_ENGAGEMENT_RING, CSET_ENGAGEMENT_RING, OP_OPAQUE);
+
+      // Ebria Key
+      if (Hero->Item[168])
+         Screen->FastTile(4, 110, y + 24, TILE_EBRIA_KEY, CSET_EBRIA_KEY, OP_OPAQUE);
 
       // Main Trading Sequence items
       int itemId = GetHighestLevelItemOwned(IC_TRADING_SEQ);

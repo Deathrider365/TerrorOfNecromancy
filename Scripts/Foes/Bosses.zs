@@ -33,9 +33,9 @@ namespace LeviathanNamespace {
    CONFIG SPR_SPLASH = 93;
    CONFIG SPR_WATERBALL = 94;
 
-   COLOR C_CHARGE1 = C_DARKBLUE;
-   COLOR C_CHARGE2 = C_SEABLUE;
-   COLOR C_CHARGE3 = C_TAN;
+   Color C_CHARGE1 = C_DARKBLUE;
+   Color C_CHARGE2 = C_SEABLUE;
+   Color C_CHARGE3 = C_TAN;
 
    // TODO Make not a global
    int LEVIATHAN_WATERCANNON_DMG = 70;
