@@ -505,16 +505,12 @@ namespace SubscreenPassive {
       if (widthToFill * perc >= 0.5)
          Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 
-      // end
-
       drawDifficultyItem(y);
 
+      // Game time
       char32 buf[16];
       sprintf(buf, "%d:%02d:%02d", Hours(), Minutes(), Seconds());
-
-      if (y > -55)
-         Screen->DrawString(7, 224, y + 3, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-      // end
+      Screen->DrawString(7, 226, y + 6, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_RIGHT, buf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
       // start Minimap
       ScreenType ow = getScreenType(true);
