@@ -1,7 +1,7 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("Deathrider365") 
+@Author("Deathrider365")
 ffc script Debug {
    // clang-format on
 
@@ -684,6 +684,7 @@ ffc script Debug {
          case 10: return 6345;
          case 11: return 6346;
          case 150: return 6347;
+         default: return 6344;
       }
    }
 }
@@ -716,7 +717,7 @@ ffc script Debug {
 }
 
 // clang-format off
-@Author("Deathrider365") 
+@Author("Deathrider365")
 ffc script OpenTheGates {
    // clang-format on
 

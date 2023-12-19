@@ -473,6 +473,7 @@ namespace LeviathanNamespace {
             return Choose(0, 1, 2);
             break;
          }
+         default: return 1;
       }
    }
 
@@ -1911,6 +1912,8 @@ namespace HazarondNamespace {
 
          return false;
       }
+
+      return false;
    }
 
    void stuckAction(npc this, untyped data, int fleeDuration) {
@@ -2174,6 +2177,7 @@ namespace OvergrownRaccoonNamespace {
          case 2: return STATE_LARGE_ROCK_THROW;
          case 3: return STATE_RACCOON_THROW;
          case 4: return STATE_CHARGE;
+         default: return STATE_CHARGE;
       }
    }
 } // namespace OvergrownRaccoonNamespace
@@ -4239,6 +4243,8 @@ namespace EgentemNamespace {
 
          if (this->X < 0 || this->X > 240 || this->Y < 0 || this->Y > 160)
             return true;
+
+         return false;
       }
    }
 

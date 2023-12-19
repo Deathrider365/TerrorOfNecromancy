@@ -30,7 +30,6 @@
 #include "../ToN Main Quest/Scripts/Utilities/Classes.zs"
 #include "../ToN Main Quest/Scripts/Utilities/Difficulty.zs"
 #include "../ToN Main Quest/Scripts/Utilities/EnumsTypedefs.zs"
-#include "../ToN Main Quest/Scripts/Utilities/HealthBars.zs"
 #include "../ToN Main Quest/Scripts/Utilities/Hero.zs"
 #include "../ToN Main Quest/Scripts/Utilities/MiscFunctions.zs"
 #include "../ToN Main Quest/Scripts/Utilities/Namespaces.zs"

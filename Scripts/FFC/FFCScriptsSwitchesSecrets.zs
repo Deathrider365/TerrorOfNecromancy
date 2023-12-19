@@ -483,6 +483,8 @@ ffc script SwitchTrap {
          if (validSpawn(pos))
             return pos;
       }
+
+      return 0;
    }
 
    bool validSpawn(int pos) {

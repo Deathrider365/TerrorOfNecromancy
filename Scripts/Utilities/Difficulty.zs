@@ -421,6 +421,8 @@ int Difficulty_GetDifficulty() {
    if (ITEM_DIFF_VERYEASY)
       if (Link->Item[ITEM_DIFF_VERYEASY])
          return DIFF_VERYEASY;
+
+   return 0;
 }
 
 // Returns one of 5 options based on the current difficulty, starting from easy and going to very hard

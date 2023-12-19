@@ -242,6 +242,7 @@ namespace EnemyNamespace {
          case DIR_DOWNRIGHT: return DIR_UPLEFT;
          case DIR_UPRIGHT: return DIR_DOWNLEFT;
          case DIR_DOWNLEFT: return DIR_UPRIGHT;
+         default: return DIR_UP;
       }
    }
 
@@ -252,6 +253,7 @@ namespace EnemyNamespace {
          else
             return false;
       }
+      return false;
    }
 
    bool hitByEWeapon(npc n, int weaponId) {
@@ -267,6 +269,8 @@ namespace EnemyNamespace {
             return true;
          return false;
       }
+
+      return false;
    }
 
    int faceLink(npc n) {
@@ -1033,7 +1037,8 @@ namespace EmilyMap {
                   if (mapData->FFCFlags[freeformCombo] & FFCBF_OVERLAY)
                      continue;
 
-                  tmp->DrawCombo(7, mapData->FFCX[freeformCombo], mapData->FFCY[freeformCombo], mapData->FFCData[freeformCombo], mapData->FFCTileWidth[freeformCombo], mapData->FFCTileHeight[freeformCombo], mapData->FFCCSet[freeformCombo], -1, -1, 0, 0, 0, 0, FLIP_NONE, true, (mapData->FFCFlags[freeformCombo] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
+                  tmp->DrawCombo(7, mapData->FFCX[freeformCombo], mapData->FFCY[freeformCombo], mapData->FFCData[freeformCombo], mapData->FFCTileWidth[freeformCombo], mapData->FFCTileHeight[freeformCombo], mapData->FFCCSet[freeformCombo], -1, -1, 0, 0, 0, 0, FLIP_NONE, true,
+                      (mapData->FFCFlags[freeformCombo] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
                }
 
                unless(bg2) {
@@ -1060,7 +1065,8 @@ namespace EmilyMap {
                   unless(mapData->FFCFlags[freeformCombo] & (1b << FFCF_OVERLAY)) // Only draw overlays
                       continue;
 
-                  tmp->DrawCombo(7, mapData->FFCX[freeformCombo], mapData->FFCY[freeformCombo], mapData->FFCData[freeformCombo], mapData->FFCTileWidth[freeformCombo], mapData->FFCTileHeight[freeformCombo], mapData->FFCCSet[freeformCombo], -1, -1, 0, 0, 0, 0, FLIP_NONE, true, (mapData->FFCFlags[freeformCombo] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
+                  tmp->DrawCombo(7, mapData->FFCX[freeformCombo], mapData->FFCY[freeformCombo], mapData->FFCData[freeformCombo], mapData->FFCTileWidth[freeformCombo], mapData->FFCTileHeight[freeformCombo], mapData->FFCCSet[freeformCombo], -1, -1, 0, 0, 0, 0, FLIP_NONE, true,
+                      (mapData->FFCFlags[freeformCombo] & FFCBF_TRANS) ? OP_TRANS : OP_OPAQUE);
                } // end
 
                tmp->DrawLayer(7, this->Map, screen, 6, 0, 0, 0, OP_OPAQUE);

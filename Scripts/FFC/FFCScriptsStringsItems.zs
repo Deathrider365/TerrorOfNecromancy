@@ -263,6 +263,7 @@ ffc script SignpostTriggerFromItem {
 
       if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
          return true;
+      return false;
    }
 }
 

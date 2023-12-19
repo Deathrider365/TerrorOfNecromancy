@@ -274,6 +274,7 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 
    if (sword->isValid())
       return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+   return false;
 }
 
 // sword1x1 but is 2 wide

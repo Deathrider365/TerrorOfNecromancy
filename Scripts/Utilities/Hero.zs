@@ -82,6 +82,7 @@ hero script HeroActive {
       switch (position) {
          case SP_ABOVE_HEAD: return Hero->X + 8 - (width / 2);
          case SP_TOP_RIGHT: return 256 - width;
+         default: return 0;
       }
    }
 
@@ -89,6 +90,7 @@ hero script HeroActive {
       switch (position) {
          case SP_ABOVE_HEAD: return Hero->Y - height - 4;
          case SP_TOP_RIGHT: return 0;
+         default: return 0;
       }
    }
 }

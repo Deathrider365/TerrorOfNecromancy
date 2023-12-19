@@ -142,6 +142,7 @@ npc script Candlehead {
          case 10: return chungo ? 7184 : 6345;
          case 11: return chungo ? 7188 : 6346;
          case 150: return chungo ? 7192 : 6347;
+         default: return 6344;
       }
    }
 
@@ -151,12 +152,13 @@ npc script Candlehead {
          case 10: return chungo ? SPR_FLAME_OIL2X2 : SPR_FLAME_OIL;
          case 11: return chungo ? SPR_FLAME_INCENDIARY2X2 : SPR_FLAME_INCENDIARY;
          case 150: return chungo ? SPR_FLAME_HELLS2X2 : SPR_FLAME_HELLS;
+         default: return SPR_FLAME_WAX;
       }
    }
 }
 
 // clang-format off
-@Author("EmilyV99") 
+@Author("EmilyV99")
 npc script Mimic {
    // clang-format on
    void run(int speedMult, int fireRate, int knockbackDist) {
@@ -224,7 +226,7 @@ npc script Mimic {
 }
 
 // clang-format off
-@Author("Moosh, Emily") 
+@Author("Moosh, Emily")
 npc script HammerBoi {
    // clang-format on
 
@@ -380,7 +382,7 @@ npc script HammerBoi {
 }
 
 // clang-format off
-@Author("Deathrider365") 
+@Author("Deathrider365")
 npc script GraveDudeGoneApe {
    // clang-format on
 
@@ -402,7 +404,7 @@ npc script GraveDudeGoneApe {
 }
 
 // clang-format off
-@Author("Deathrider365") 
+@Author("Deathrider365")
 npc script Bomber {
    // clang-format on
 
