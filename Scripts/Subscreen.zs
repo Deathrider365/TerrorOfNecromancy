@@ -637,10 +637,12 @@ namespace SubscreenPassive {
             int x = originalX + (8 * (q % 0x010));
             int y = originalY + (4 * Div(q, 0x010));
 
-            if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass) // TODO how to hide the compass when "Dont display compass in minimap is checked"
+            if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass)
                compassMarkerColor = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
             else if (q == currentScreen)
                compassMarkerColor = C_MINIMAP_LINK;
+            else
+               compassMarkerColor = C_TRANS; // remove when issue with var initializers is fixed
 
             unless(dmap == DM_BSOVERWORLD) {
                mapdata m = Game->LoadMapData(Game->GetCurMap(), q + dmapOffset);
@@ -649,6 +651,8 @@ namespace SubscreenPassive {
                   mapCellColor = C_MINIMAP_EXPLORED;
                else if (hasMap && dmapinfo::VisibleOnDungeonMap(q, true))
                   mapCellColor = C_MINIMAP_ROOM;
+               else
+                  mapCellColor = C_TRANS; // remove when issue with var initializers is fixed
             }
 
             if (mapCellColor) {
