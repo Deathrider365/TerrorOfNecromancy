@@ -587,7 +587,7 @@ ffc script DifficultySelectionScreen {
    void run(int defaultDifficulty, int dummy1, int dummy2, int msgVeryEasy, int msgEasy, int msgNormal, int msgHard, int msgVeryHard) {
       bool chosen = false;
 
-      while (!false) {
+      while (true) {
          if ((Hero->X >= 140 && Hero->X <= 156) && (Hero->Y >= 100 && Hero->Y <= 116)) {
             if (Hero->Item[164]) {
                Screen->Message(msgVeryHard);
