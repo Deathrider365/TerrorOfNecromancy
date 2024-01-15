@@ -198,7 +198,8 @@ ffc script Shutter {
          if (!type == -1 && type == 0 && Screen->SecretsTriggered())
             break;
 
-         if (type == -1 && type == 1)
+         if (type == 1)
+            // if (type == -1 && type == 1)
             unless(GB_Shutter_CheckEnemies()) break;
 
          Waitframe();

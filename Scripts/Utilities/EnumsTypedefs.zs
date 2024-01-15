@@ -25,7 +25,6 @@ int stolenLinkItems[255];
 typedef const int DEFINE;
 typedef const int CONFIG;
 typedef const bool CONFIGB;
-// typedef const Color COLOR;
 
 /*/~~~~~Magnitude~~~~~/*/
 CONFIG INTRO_SCENE_TRANSITION_MULT = 8;

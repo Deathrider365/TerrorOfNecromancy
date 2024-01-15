@@ -360,7 +360,8 @@ namespace SubscreenPassive {
                   int spos = pos;
                   int id;
 
-                  do {
+                  until(id && id != Hero->ItemA) {
+                     // do {
                      --pos;
 
                      if (pos < 0)
@@ -371,9 +372,9 @@ namespace SubscreenPassive {
                      if (pos == spos)
                         break;
                   }
-                  until(id && id != Hero->ItemA)
+                  // until(id && id != Hero->ItemA)
 
-                      if (Hero->ItemA != id && id) {
+                  if (Hero->ItemA != id && id) {
                      Hero->ItemB = id;
                      lastB = id;
                   }
@@ -393,7 +394,8 @@ namespace SubscreenPassive {
                   int prevPos = pos;
                   int id;
 
-                  do {
+                  until(id && id != Hero->ItemA) {
+                     // do {
                      ++pos;
 
                      if (pos >= NUM_SUBSCR_SEL_ITEMS)
@@ -404,9 +406,9 @@ namespace SubscreenPassive {
                      if (pos == prevPos)
                         break;
                   }
-                  until(id && id != Hero->ItemA)
+                  // until(id && id != Hero->ItemA)
 
-                      if (Hero->ItemA != id && id) {
+                  if (Hero->ItemA != id && id) {
                      Hero->ItemB = id;
                      lastB = id;
                   }
