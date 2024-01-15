@@ -195,11 +195,10 @@ ffc script Shutter {
             Waitframes(8);
          }
 
-         if (!type == -1 && type == 0 && Screen->SecretsTriggered())
+         if (type == 0 && Screen->SecretsTriggered())
             break;
 
          if (type == 1)
-            // if (type == -1 && type == 1)
             unless(GB_Shutter_CheckEnemies()) break;
 
          Waitframe();
