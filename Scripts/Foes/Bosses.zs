@@ -925,7 +925,7 @@ ffc script Legionnaire {
             --attackCoolDown;
          else {
             attackCoolDown = 90 + Rand(30);
-            attack = attackChoice(attack);
+            attack = attackChoice(attack, numEnemies);
 
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
@@ -957,7 +957,7 @@ ffc script Legionnaire {
       }
    }
 
-   int attackChoice(int attack) {
+   int attackChoice(int attack, int numEnemies) {
       int distanceBetween = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
 
       if (attack == ATTACK_FIRE_SWORDS) {
@@ -979,6 +979,11 @@ ffc script Legionnaire {
          else
             attack = ATTACK_JUMPS_ON_YOU;
       }
+      if (attack == 0 && numEnemies > 1)
+         attack = ATTACK_FIRE_SWORDS;
+      else
+         return attack;
+
       return attack;
    }
 
@@ -1599,7 +1604,12 @@ namespace HazarondNamespace {
    }
 
    void commenceIntroSequence(npc this, int data, npc heads) {
-      bitmap introSequenceBitmap = create(512, 168);
+      bitmap introSequenceBitmap;
+
+      if (introSequenceBitmap && introSequenceBitmap->isAllocated())
+         introSequenceBitmap->Free();
+
+      introSequenceBitmap = create(512, 168);
       int panPosition = 0;
       disableLink();
 

@@ -963,6 +963,11 @@ namespace EmilyMap {
    void generateMap(bitmap bmp, dmapdata this, bool lockPalette, bitmap currentScreen) {
       bool isOverworld = ((this->Type & 11b) == DMAP_OVERWORLD);
 
+      if (bmp && bmp->isAllocated())
+         bmp->Free();
+
+      bitmap bmp = create(512, 168);
+
       bmp->Clear(0);
       int mapWidth = isOverworld ? 16 : 8;
       int leftEdge = Max(this->Offset, 0);
@@ -1092,8 +1097,17 @@ namespace EmilyMap {
          DEFINE WIDTH = 256 * 16;
          DEFINE HEIGHT = 176 * 8;
 
-         bitmap bmp = create(WIDTH, HEIGHT);
-         bitmap currentScreen = create(256, 168);
+         bitmap bmp;
+         bitmap currentScreen;
+
+         if (bmp && bmp->isAllocated())
+            bmp->Free();
+         if (currentScreen && currentScreen->isAllocated())
+            currentScreen->Free();
+
+         bmp = create(WIDTH, HEIGHT);
+
+         currentScreen = create(256, 168);
          currentScreen->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
          generateMap(bmp, this, lockPalette, currentScreen);
 
