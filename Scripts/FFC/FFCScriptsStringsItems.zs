@@ -478,7 +478,18 @@ ffc script GetItemFromSecretAtLocation {
 ffc script Shop {
    // clang-format on
 
-   void run(int itemId, int price, bool boughtOnce, int noMoneyString) {
+   void run(int itemId, int price, bool boughtOnce, int noMoneyString, bool activateOnSecrets) {
+      int originalCombo = this->Data;
+
+      if (activateOnSecrets) {
+         until(Screen->State[ST_SECRET]) {
+            this->Data = COMBO_INVIS;
+            Waitframe();
+         }
+
+         this->Data = originalCombo;
+      }
+
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
          Quit();
 
