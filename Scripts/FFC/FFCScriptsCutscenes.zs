@@ -1301,3 +1301,98 @@ ffc script GraveKeeperSequence {
       }
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script GoddessFaithfulZeldaScenes {
+   CONFIG screenD0 = 0;
+   CONFIG screenD3 = 3;
+   CONFIG screenD4 = 4;
+
+   void run() {
+      mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
+
+      while (true) {
+         if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 1 && Game->Counter[CR_TRIFORCE_OF_POWER] < 2)
+            zeldaIntroDialogue(this);
+         else if (Game->Counter[CR_TRIFORCE_OF_POWER] == 2 && !mapDataBombRoom->State[ST_SECRET])
+            zeldaGetGiantBombsDialogue(this);
+         else if (mapDataBombRoom->State[ST_SECRET])
+            zeldaGivesMagicOcarina(this);
+
+         Waitframe();
+      }
+   }
+
+   void zeldaIntroDialogue(ffc this) {
+      const int zeldaIntroMessage = 395;
+      const int zeldaPostIntroMessage = 390;
+
+      waitForTalking(this);
+      Input->Button[CB_SIGNPOST] = false;
+
+      if (!Screen->State[ST_SECRET]) {
+         Game->Suspend[susptSCREENDRAW] = true;
+         Screen->Message(zeldaIntroMessage);
+         Game->Suspend[susptSCREENDRAW] = false;
+
+         Waitframe();
+
+         Screen->State[ST_SECRET] = true;
+         Screen->TriggerSecrets();
+         Audio->PlaySound(SFX_SECRET);
+      }
+      else
+         Screen->Message(zeldaPostIntroMessage);
+
+      Game->Suspend[susptSCREENDRAW] = false;
+   }
+
+   void zeldaGetGiantBombsDialogue(ffc this) {
+      const int zeldaIntroMessage = 404;
+      const int zeldaPostIntroMessage = 405;
+
+      waitForTalking(this);
+      Input->Button[CB_SIGNPOST] = false;
+
+      if (!getScreenD(screenD0)) {
+         setScreenD(screenD0, 1);
+
+         Game->Suspend[susptSCREENDRAW] = true;
+         Screen->Message(zeldaIntroMessage);
+         Game->Suspend[susptSCREENDRAW] = false;
+
+         Waitframe();
+      }
+      else
+         Screen->Message(zeldaPostIntroMessage);
+
+      Game->Suspend[susptSCREENDRAW] = false;
+   }
+
+   void zeldaGivesMagicOcarina(ffc this) {
+      const int zeldaIntroMessage = 441;
+      const int zeldaPostIntroMessage = 443;
+
+      waitForTalking(this);
+      Input->Button[CB_SIGNPOST] = false;
+
+      if (!getScreenD(screenD3)) {
+         setScreenD(screenD0, 1);
+
+         Game->Suspend[susptSCREENDRAW] = true;
+         Screen->Message(zeldaIntroMessage);
+         Game->Suspend[susptSCREENDRAW] = false;
+
+         Waitframe();
+
+         itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
+         it->Pickup = IP_HOLDUP;
+
+      }
+      else
+         Screen->Message(zeldaPostIntroMessage);
+
+      Game->Suspend[susptSCREENDRAW] = false;
+   }
+}

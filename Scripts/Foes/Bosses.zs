@@ -1603,6 +1603,14 @@ namespace HazarondNamespace {
       this->ScriptTile = this->OriginalTile;
    }
 
+   void test(bitmap b, int panPosition) {
+      until(Hero->PressA) {
+         b->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+
+         Waitframe();
+      }
+   }
+
    void commenceIntroSequence(npc this, int data, npc heads) {
       bitmap introSequenceBitmap;
 
@@ -1625,6 +1633,7 @@ namespace HazarondNamespace {
       // Pause
       for (int i = 0; i < 60; ++i) {
          disableLink();
+
          introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
          introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
          introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
@@ -1640,10 +1649,9 @@ namespace HazarondNamespace {
       }
 
       // Start Panning
-      until(panPosition == 40) {
+      until(panPosition >= 40) {
          disableLink();
          panPosition += 4;
-
          introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
          introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
          introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
@@ -1665,7 +1673,7 @@ namespace HazarondNamespace {
       }
 
       // Panning right
-      until(panPosition == 100) {
+      until(panPosition >= 100) {
          disableLink();
          panPosition += 6;
 
@@ -1693,7 +1701,7 @@ namespace HazarondNamespace {
       this->Y = 64;
 
       // Panning right
-      until(panPosition == 180) {
+      until(panPosition >= 180) {
          disableLink();
          panPosition += 8;
 
@@ -1721,7 +1729,7 @@ namespace HazarondNamespace {
       }
 
       // Panning right
-      until(panPosition == 230) {
+      until(panPosition >= 230) {
          disableLink();
          panPosition += 5;
          this->X -= 5;
@@ -1747,7 +1755,7 @@ namespace HazarondNamespace {
       }
 
       // Panning right
-      until(panPosition == 256) {
+      until(panPosition >= 256) {
          disableLink();
          panPosition += 1;
          this->X -= 1;
@@ -1790,7 +1798,7 @@ namespace HazarondNamespace {
       int yModifier = 0, xModifier = -1;
 
       // Panning back into boss room
-      until(panPosition == 0) {
+      until(panPosition <= 0) {
          disableLink();
          --panPosition;
          ++timer;

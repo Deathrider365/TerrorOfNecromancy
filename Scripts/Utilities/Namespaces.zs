@@ -860,7 +860,12 @@ namespace WaterPathsNamespace {
             for (int q = Screen->NumLWeapons(); q > 0; --q) {
                lweapon wep = Screen->LoadLWeapon(q);
 
-               unless(wep->Type == LW_FIRE && GetHighestLevelItemOwned(IC_CANDLE) != 158) continue;
+               unless(wep->Type == LW_FIRE) continue;
+
+               itemdata itemData = Game->LoadItemData(wep->Parent < 0 ? Game->CurrentItemID(IC_CANDLE, 0) : wep->Parent);
+
+               if (itemData->Level < 2)
+                  continue;
 
                int l1, l2;
 
@@ -876,20 +881,25 @@ namespace WaterPathsNamespace {
                }
 
                mapdata template = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
-               mapdata t1 = Emily::loadLayer(template, l1), t2 = Emily::loadLayer(template, l2);
+               mapdata t1 = Emily::loadLayer(template, l1);
+               mapdata t2 = Emily::loadLayer(template, l2);
+               mapdata layers[2] = {t1, t2};
+
                int cmb[4] = {ComboAt(wep->X, wep->Y), ComboAt(wep->X + 15, wep->Y), ComboAt(wep->X, wep->Y + 15), ComboAt(wep->X + 15, wep->Y + 15)};
 
-               for (int p = 0; p < 4; ++p) {
-                  combodata cd = Game->LoadComboData(t1->ComboD[cmb[p]]);
+               for (int lyr = 0; lyr < 2; lyr++) {
+                  for (int p = 0; p < 4; ++p) {
+                     combodata cd = Game->LoadComboData(layers[lyr]->ComboD[cmb[p]]);
 
-                  if (cd->Type == CT_FLUID) {
-                     int flag = cd->Attributes[ATTBU_FLUIDPATH];
+                     if (cd->Type == CT_FLUID) {
+                        int flag = cd->Attributes[ATTBU_FLUIDPATH];
 
-                     if (flag > 0) {
-                        Fluid f = getFluid(flag);
+                        if (flag > 0) {
+                           Fluid f = getFluid(flag);
 
-                        if (f == FL_PURPLE)
-                           connectRoots(flag, FL_PURPLE, 32);
+                           if (f == FL_PURPLE)
+                              connectRoots(flag, FL_PURPLE, 32);
+                        }
                      }
                   }
                }
