@@ -1164,6 +1164,7 @@ namespace ShamblesNamespace {
    }
 
    void introCutscene(ffc this, npc ghost, int combo) {
+      ShamblesWaitframe(this, ghost, 15);
       Hero->Stun = 270;
 
       Screen->Quake = 90;
@@ -1198,7 +1199,7 @@ namespace ShamblesNamespace {
          ShamblesWaitframe(this, ghost, 16);
          eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, this, poisonDamage});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage});
          Waitframes(15);
       }
    }
