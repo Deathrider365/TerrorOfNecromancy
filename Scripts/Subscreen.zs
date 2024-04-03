@@ -518,8 +518,8 @@ namespace SubscreenPassive {
       ScreenType ow = getScreenType(true);
       int minimapTile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
       int cs = 0;
-      dmapdata dmap = Game->LoadDMapData(Game->GetCurDMap());
-      bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
+      dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+      bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
 
       if (hasMap && dmap->MiniMapTile[1]) {
          minimapTile = dmap->MiniMapTile[1];
@@ -536,7 +536,8 @@ namespace SubscreenPassive {
 
       // start DMap Title
       char32 titlebuf[80];
-      Game->GetDMapTitle(dmap->ID, titlebuf);
+      dmap->GetTitle(titlebuf);
+
       int index;
       int lastLetter;
       bool wasSpace = true;
@@ -797,7 +798,6 @@ namespace Subscreen {
       sub->Clear(0);
       tile(sub, 0, 0, 0, tile, cset);
       sub->Blit(layer, bit, (corner & 01b) ? 8 : 0, (corner & 10b) ? 8 : 0, 8, 8, x, y, 8, 8, 0, 0, 0, 0, 0, true);
-      sub->Free();
    }
 
    void tile(untyped bit, int layer, int x, int y, int tile, int cset) {

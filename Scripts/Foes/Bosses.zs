@@ -56,9 +56,6 @@ namespace LeviathanNamespace {
       void run() {
          Hero->Dir = DIR_UP;
 
-         if (waterfallBitmap && waterfallBitmap->isAllocated())
-            waterfallBitmap->Free();
-
          waterfallBitmap = Game->CreateBitmap(32, 176);
 
          untyped vars[16];
@@ -1199,7 +1196,7 @@ namespace ShamblesNamespace {
          ShamblesWaitframe(this, ghost, 16);
          eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage});
          Waitframes(15);
       }
    }
@@ -1557,7 +1554,6 @@ namespace HazarondNamespace {
                heads[headIndex]->DrawXOffset = 0;
          }
 
-         effectBitmap->Free();
          this->CollDetection = false;
          deathAnimation(this, 142);
       }
@@ -1614,9 +1610,6 @@ namespace HazarondNamespace {
 
    void commenceIntroSequence(npc this, int data, npc heads) {
       bitmap introSequenceBitmap;
-
-      if (introSequenceBitmap && introSequenceBitmap->isAllocated())
-         introSequenceBitmap->Free();
 
       introSequenceBitmap = create(512, 168);
       int panPosition = 0;
@@ -1862,7 +1855,6 @@ namespace HazarondNamespace {
       Audio->PlaySound(142);
       Hero->Invisible = false;
 
-      introSequenceBitmap->Free();
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
    }
 
@@ -1902,7 +1894,7 @@ namespace HazarondNamespace {
 
          eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
-         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_OIL_BLOB, this, damage});
+         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage});
          EnemyWaitframe(this, data, 5);
       }
 
@@ -2109,7 +2101,7 @@ namespace OvergrownRaccoonNamespace {
 
                   eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2127,7 +2119,7 @@ namespace OvergrownRaccoonNamespace {
                      unless(i % 20) {
                         eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE});
+                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE});
                      }
 
                      Waitframe();
@@ -2149,7 +2141,7 @@ namespace OvergrownRaccoonNamespace {
 
                      eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_RACCOON_PROJECTILE, this});
+                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this});
                   }
 
                   state = STATE_NORMAL;
@@ -3017,7 +3009,7 @@ namespace ServusMalusNamespace {
 
             Audio->PlaySound(SFX_AXE2);
 
-            scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
+            scythe = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, <untyped[]>{this, Hero->X - 8, Hero->Y - 8, 7, 1, 0});
             scythe->Damage = damage;
             scythe->UseSprite(125);
             scythe->Extend = 3;
@@ -3030,7 +3022,7 @@ namespace ServusMalusNamespace {
             scythe->Unblockable = UNBLOCK_ALL;
 
             if (gettingDesperate) {
-               scythe2 = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, {this, Hero->X - 8, Hero->Y - 8, 7, 1, 1});
+               scythe2 = RunEWeaponScriptAt(EW_SCRIPT3, escr, this->X, this->Y, <untyped[]>{this, Hero->X - 8, Hero->Y - 8, 7, 1, 1});
                scythe2->Damage = damage;
                scythe2->UseSprite(125);
                scythe2->Extend = 3;
@@ -3660,7 +3652,7 @@ namespace EgentemNamespace {
       openShutters();
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       for (int i = Screen->NumEWeapons(); i >= 1; i--) {
@@ -4039,8 +4031,6 @@ namespace EgentemNamespace {
       }
 
       hammerAnimSmash(this, xy, hammerSmashDamage);
-
-      delete xy;
    }
 
    void attackThrowHammers(npc this, Egentem egentem, int hammerCount, int hammerThrowDelay, int holdUpDamage, int thrownHammerDamage, int pillarDamage, int pillarExplosionDamage) {
@@ -4062,7 +4052,7 @@ namespace EgentemNamespace {
          }
 
          eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, thrownHammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage});
+         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage});
 
          Waitframes(hammerThrowDelay);
       }
@@ -4714,7 +4704,7 @@ namespace LatrosNamespace {
                LatrosWaitframe(this, latros, 12);
                eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_LAUNCH_BOMBS);
-               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage});
+               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage});
                LatrosWaitframe(this, latros, 6);
             }
 
@@ -4727,7 +4717,7 @@ namespace LatrosNamespace {
                LatrosWaitframe(this, latros, 16);
                eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, arrowDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_ARROW);
-               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, 0, this, arrowDamage});
+               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage});
             }
             break;
          }
@@ -4744,7 +4734,7 @@ namespace LatrosNamespace {
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
                eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, hammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage});
+               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage});
                LatrosWaitframe(this, latros, 16);
             }
 
@@ -4797,7 +4787,10 @@ namespace LatrosNamespace {
 
    void throwBoomerang(npc this, Latros latros, itemdata id, int damage, int boomerangLevel) {
       FaceLink(this);
-      eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, damage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"), {48, 10, 0, this, damage});
+      eweapon boomer = FireEWeaponAngle(EW_SCRIPT10, this->X, this->Y,
+      DegtoRad(Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, damage, id->Sprites[0], 0,
+      Game->GetEWeaponScript("Boomerang"),
+      <untyped[]>{48, 10, 0, this, damage});
 
       while (boomer->isValid()) {
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
@@ -4998,7 +4991,7 @@ namespace LatrosNamespace {
       }
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       for (int i = Screen->NumNPCs(); i >= 1; i--) {
@@ -5129,7 +5122,7 @@ namespace Quickknife {
       }
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       // for (int i = Screen->NumNPCs(); i >= 1; i--) {

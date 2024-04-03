@@ -18,9 +18,9 @@ npc script Candlehead {
    void run(int chungo) {
       int knockbackDist = 4;
 
-      CONFIG DMG_FLAME = Game->LoadItemData(GetHighestLevelItemOwned(IC_CANDLE))->Damage * (chungo ? 2 : 1) * this->WeaponDamage;
+      int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
 
-      Trace(DMG_FLAME);
+      CONFIG DMG_FLAME = Game->LoadItemData(highestLevelCandle)->Damage * (chungo ? 2 : 1) * this->WeaponDamage;
 
       gridLockNPC(this);
 
@@ -277,7 +277,6 @@ npc script HammerBoi {
       hammerAnimSmash(this, xy, smashDamage);
 
       this->ScriptTile = -1;
-      delete xy;
    }
 
    void hammerAnimHoldUp(npc this, Coordinates xy, int damage, int frames = 20) {
@@ -428,7 +427,7 @@ npc script Bomber {
          unless(attackCooldown) {
             Waitframes(15);
             eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, DMG_BOMB, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), {-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION});
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION});
             attackCooldown = 150 + Rand(-30, 30);
          }
 

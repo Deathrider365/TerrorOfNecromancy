@@ -101,9 +101,6 @@ ffc script IntroLeviathanEnding {
    void run(int dmap, int scrn) {
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
-      if (waterfallBitmap && waterfallBitmap->isAllocated())
-         waterfallBitmap->Free();
-
       waterfallBitmap = Game->CreateBitmap(32, 176);
       UpdateWaterfallBitmap();
 
@@ -224,9 +221,6 @@ ffc script IntroPreInteritusLeviathanScene {
       }
 
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
-
-      if (waterfallBitmap && waterfallBitmap->isAllocated())
-         waterfallBitmap->Free();
 
       waterfallBitmap = Game->CreateBitmap(32, 176);
 

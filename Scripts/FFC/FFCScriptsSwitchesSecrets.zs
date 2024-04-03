@@ -461,7 +461,7 @@ ffc script SwitchTrap {
          Waitframe();
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
    }
 

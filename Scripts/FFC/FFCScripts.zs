@@ -66,7 +66,7 @@ ffc script Debug {
          Waitframe();
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       Quit();
@@ -114,7 +114,7 @@ ffc script Debug {
       }
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
    }
 
@@ -770,17 +770,25 @@ ffc script LensTorches {
    void run() {
       // Get the revealed lens layer
       mapdata md = Game->LoadTempScreen(0);
-      int layer = Clamp(md->LensLayer - 15, 1, 6); // 15 = Hide Layer 6? Weird undocumented behavior thank you Zoria
+      // int layer = Clamp(md->LensLayer - 15, 1, 6); // 15 = Hide Layer 6? Weird undocumented behavior thank you Zoria
 
       int drawLayer;
       // Because the screen flag hides the layer, we need to find the next closest to draw to
-      switch (layer) {
-         case 1: drawLayer = 2; break;
-         case 2: drawLayer = 1; break;
-         case 3: drawLayer = 4; break;
-         case 4: drawLayer = 3; break;
-         case 5: drawLayer = 6; break;
-         case 6: drawLayer = 5; break;
+      // switch (layer) {
+      //    case 1: drawLayer = 2; break;
+      //    case 2: drawLayer = 1; break;
+      //    case 3: drawLayer = 4; break;
+      //    case 4: drawLayer = 3; break;
+      //    case 5: drawLayer = 6; break;
+      //    case 6: drawLayer = 5; break;
+      // }
+
+      for (int layer = 6; layer >= 0; --layer) {
+         if (md->LensShows[layer] || md->LensHides[layer])
+            continue;
+
+         drawLayer = layer;
+         break;
       }
 
       int comboSlot = Game->GetComboScript("TorchMarker");
@@ -796,7 +804,7 @@ ffc script LensTorches {
          lensmask->ClearToColor(0, C_LENSBITMAPMARKER);
 
          for (int i = 1; i <= 6; ++i) {
-            if (i != layer && i != drawLayer)
+            if (!md->LensHides[i] && i != drawLayer)
                continue;
 
             mapdata md = Game->LoadTempScreen(i);

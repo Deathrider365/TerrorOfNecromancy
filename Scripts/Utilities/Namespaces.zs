@@ -54,7 +54,7 @@ namespace EnemyNamespace {
       }
 
       char32 areaMusic[256];
-      Game->GetDMapMusicFilename(Game->GetCurDMap(), areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       for (int i = Screen->NumNPCs(); i >= 1; i--) {
@@ -973,9 +973,6 @@ namespace EmilyMap {
    void generateMap(bitmap bmp, dmapdata this, bool lockPalette, bitmap currentScreen) {
       bool isOverworld = ((this->Type & 11b) == DMAP_OVERWORLD);
 
-      if (bmp && bmp->isAllocated())
-         bmp->Free();
-
       bitmap bmp = create(512, 168);
 
       bmp->Clear(0);
@@ -1098,26 +1095,18 @@ namespace EmilyMap {
             tmp->Blit(7, bmp, 0, 0, 256, 176, xdraw * 256, ydraw * 176, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, false);
          }
       }
-
-      tmp->Free();
    }
 
    @Author("EmilyV99") dmapdata script Map {
       void run(bool lockPalette) {
+         Trace(999);
+
          DEFINE WIDTH = 256 * 16;
          DEFINE HEIGHT = 176 * 8;
 
-         bitmap bmp;
-         bitmap currentScreen;
+         bitmap bmp = create(WIDTH, HEIGHT);
+         bitmap currentScreen = create(256, 168);
 
-         if (bmp && bmp->isAllocated())
-            bmp->Free();
-         if (currentScreen && currentScreen->isAllocated())
-            currentScreen->Free();
-
-         bmp = create(WIDTH, HEIGHT);
-
-         currentScreen = create(256, 168);
          currentScreen->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
          generateMap(bmp, this, lockPalette, currentScreen);
 
@@ -1128,6 +1117,8 @@ namespace EmilyMap {
          int x = 0, y = 0;
          int zoom = minZoom;
          int inputClock, zoomInputClock;
+
+         Trace(555);
 
          do {
             inputClock = (inputClock + 1) % INPUT_REPEAT_TIME;
@@ -1199,8 +1190,6 @@ namespace EmilyMap {
          Input->Button[CB_MAP] = false;
          Link->InputStart = false;
          Link->InputStart = false;
-
-         bmp->Free();
       }
    }
 

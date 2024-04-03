@@ -143,7 +143,7 @@ global script GlobalScripts {
          lastPal = Screen->Palette;
 
          for (int i = 0; i <= MAX_USED_DMAP; ++i)
-            Game->DMapPalette[i] = Screen->Palette;
+            Game->LoadDMapData(i)->Palette = Screen->Palette;
       }
    }
 
@@ -381,6 +381,8 @@ global script onF6Menu {
       if (SizeOfArray(stolenLinkItems))
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
             Hero->Item[stolenLinkItems[i]] = true;
+
+      Trace(Hero->ItemA);
    }
 }
 

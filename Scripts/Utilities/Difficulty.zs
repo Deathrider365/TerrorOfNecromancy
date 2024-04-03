@@ -737,21 +737,13 @@ ffc script Difficulty_ReplaceScreen {
 
    void ChangeScreen_CopyScreen(int map, int scrn, int layer) {
       layer = Clamp(layer, 0, 6);
-      if (layer == 0)
-         for (int i = 0; i < 176; ++i) {
-            Screen->ComboD[i] = Game->GetComboData(map, scrn, i);
-            Screen->ComboC[i] = Game->GetComboCSet(map, scrn, i);
-            Screen->ComboF[i] = Game->GetComboFlag(map, scrn, i);
-         }
-      else {
-         int layerMap = Screen->LayerMap(layer);
-         int layerScreen = Screen->LayerScreen(layer);
-         if (layerMap > -1 && layerScreen > -1)
-            for (int i = 0; i < 176; ++i) {
-               Game->SetComboData(layerMap, layerScreen, i, Game->GetComboData(map, scrn, i));
-               Game->SetComboCSet(layerMap, layerScreen, i, Game->GetComboCSet(map, scrn, i));
-               Game->SetComboFlag(layerMap, layerScreen, i, Game->GetComboFlag(map, scrn, i));
-            }
+      mapdata remoteScreen = Game->LoadMapData(map, scrn);
+      mapdata layerScreen = Game->LoadTempScreen(layer);
+
+      for (int i = 0; i < 176; ++i) {
+         layerScreen->ComboD[i] = remoteScreen->ComboD[i];
+         layerScreen->ComboC[i] = remoteScreen->ComboC[i];
+         layerScreen->ComboF[i] = remoteScreen->ComboF[i];
       }
    }
 }
@@ -798,13 +790,13 @@ ffc script Difficulty_ChangeWarp {
 
       if (diff == warpDifficulty) {
          if (sideWarp == 0) {
-            warpType = Screen->GetTileWarpType(whichWarp);
+            warpType = Screen->TileWarpType[whichWarp];
             if (warpType == WT_CAVE)
                warpType = WT_IWARPBLACKOUT;
             Screen->SetTileWarp(whichWarp, scrn, dmap, warpType);
          }
          else {
-            warpType = Screen->GetSideWarpType(whichWarp);
+            warpType = Screen->SideWarpType[whichWarp];
             if (warpType == WT_CAVE)
                warpType = WT_IWARPBLACKOUT;
             Screen->SetSideWarp(whichWarp, scrn, dmap, warpType);
