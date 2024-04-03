@@ -2914,7 +2914,7 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 30; ++i)
          Waitframe();
 
-      Game->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
+      Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
 
       for (int i = 0; i <= 30; ++i) {
          unless(i % 5) i < 15 ? this->Z-- : this->Z++;
@@ -2927,7 +2927,7 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 45; ++i)
          Waitframe();
 
-      Game->PlaySound(SFX_SUMMON_MINE);
+      Audio->PlaySound(SFX_SUMMON_MINE);
 
       npc enemy = Screen->CreateNPC(ENEMY_GHINI_SERVUS_SUMMON);
       enemy->X = this->X + 12;

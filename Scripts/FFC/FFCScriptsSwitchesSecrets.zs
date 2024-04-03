@@ -93,7 +93,7 @@ ffc script Shutter {
             Waitframe();
          }
 
-         Game->PlaySound(SFX_SHUTTER_CLOSE);
+         Audio->PlaySound(SFX_SHUTTER_CLOSE);
          m->ComboD[cp] = underCombo;
          m->ComboC[cp] = underCSet;
          this->Data = thisData + 1;
@@ -159,7 +159,7 @@ ffc script Shutter {
                Waitframe();
             }
 
-            Game->PlaySound(SFX_SHUTTER_CLOSE);
+            Audio->PlaySound(SFX_SHUTTER_CLOSE);
             m->ComboD[cp] = underCombo;
             m->ComboC[cp] = underCSet;
             Game->LoadComboData(thisData + 1)->Frame = 0;
@@ -204,10 +204,10 @@ ffc script Shutter {
          Waitframe();
       }
 
-      Game->PlaySound(SFX_SHUTTER_OPEN);
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
 
       if (playSound)
-         Game->PlaySound(SFX_OOT_SECRET);
+         Audio->PlaySound(SFX_OOT_SECRET);
 
       m->ComboD[cp] = underCombo;
       m->ComboC[cp] = underCSet;
@@ -374,7 +374,7 @@ ffc script SwitchRemote {
 
             this->Data = data + 1;
 
-            Game->PlaySound(SFX_SWITCH_PRESS);
+            Audio->PlaySound(SFX_SWITCH_PRESS);
 
             for (i = 0; i < 176; i++)
                if (comboD[i] > 0)
@@ -385,7 +385,7 @@ ffc script SwitchRemote {
                Waitframe();
 
             this->Data = data;
-            Game->PlaySound(SFX_SWITCH_RELEASE);
+            Audio->PlaySound(SFX_SWITCH_RELEASE);
 
             for (i = 0; i < 176; i++)
                if (comboD[i] > 0)
@@ -397,15 +397,15 @@ ffc script SwitchRemote {
 
          this->Data = data + 1;
 
-         Game->PlaySound(SFX_SWITCH_PRESS);
+         Audio->PlaySound(SFX_SWITCH_PRESS);
 
          if (triggerScreenSecrets)
             Screen->TriggerSecrets();
 
          if (sfx > 0)
-            Game->PlaySound(sfx);
+            Audio->PlaySound(sfx);
          else if (sfx == -1)
-            Game->PlaySound(SFX_SECRET);
+            Audio->PlaySound(SFX_SECRET);
 
          for (i = 0; i < 176; i++)
             if (comboD[i] > 0)
@@ -425,8 +425,8 @@ ffc script SwitchTrap {
       until(switchPressed(this->X, this->Y, false)) Waitframe();
 
       this->Data++;
-      Game->PlaySound(SFX_SWITCH_PRESS);
-      Game->PlaySound(SFX_SWITCH_ERROR);
+      Audio->PlaySound(SFX_SWITCH_PRESS);
+      Audio->PlaySound(SFX_SWITCH_ERROR);
 
       Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
 
@@ -436,7 +436,7 @@ ffc script SwitchTrap {
          int pos = getSpawnPos();
          npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
          npcs[i] = n;
-         Game->PlaySound(SFX_FALL);
+         Audio->PlaySound(SFX_FALL);
          n->Z = 176;
 
          for (int j = 0; j < 20; j++) {
@@ -634,9 +634,9 @@ ffc script SwitchHitAll {
          }
          else {
             if (sfx > 0)
-               Game->PlaySound(sfx);
+               Audio->PlaySound(sfx);
             else if (sfx == -1)
-               Game->PlaySound(SFX_SECRET);
+               Audio->PlaySound(SFX_SECRET);
             Screen->TriggerSecrets();
          }
 
@@ -655,18 +655,18 @@ ffc script SwitchHitAll {
 
          if (id > 0) {
             if (sfx > 0)
-               Game->PlaySound(sfx);
+               Audio->PlaySound(sfx);
             else if (sfx == -1)
-               Game->PlaySound(SFX_SECRET);
+               Audio->PlaySound(SFX_SECRET);
             for (i = 0; i < 176; i++)
                if (comboD[i] > 0)
                   Screen->ComboD[i] = comboD[i] + 1;
          }
          else {
             if (sfx > 0)
-               Game->PlaySound(sfx);
+               Audio->PlaySound(sfx);
             else
-               Game->PlaySound(SFX_SECRET);
+               Audio->PlaySound(SFX_SECRET);
 
             Screen->TriggerSecrets();
          }
@@ -787,9 +787,9 @@ ffc script SwitchSequential {
       }
 
       if (sfx > 0)
-         Game->PlaySound(sfx);
+         Audio->PlaySound(sfx);
       else if (sfx == -1)
-         Game->PlaySound(SFX_SECRET);
+         Audio->PlaySound(SFX_SECRET);
       Screen->TriggerSecrets();
 
       if (perm)
@@ -851,12 +851,12 @@ ffc script SwitchSequential {
             if (p && canPress) {
                if (j == switchOrder[switches[1]]) {
                   switches[1]++;
-                  Game->PlaySound(SFX_SWITCH_PRESS);
+                  Audio->PlaySound(SFX_SWITCH_PRESS);
                   switchesPressed[j] = true;
                }
                else {
                   switches[1] = 0;
-                  Game->PlaySound(SFX_SWITCH_ERROR);
+                  Audio->PlaySound(SFX_SWITCH_ERROR);
                   reset = true;
                }
             }
@@ -866,7 +866,7 @@ ffc script SwitchSequential {
             unless(p == 2) Screen->ComboD[k] = switchCmb[j] + 1;
 
             if (p == 0 && canPress) {
-               Game->PlaySound(SFX_SWITCH_RELEASE);
+               Audio->PlaySound(SFX_SWITCH_RELEASE);
                switchesPressed[j] = false;
             }
          }

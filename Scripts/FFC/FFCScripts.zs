@@ -270,7 +270,7 @@ ffc script Debug {
                if (hasArc) {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
                      if (sfx)
-                        Game->PlaySound(sfx);
+                        Audio->PlaySound(sfx);
                      runEWeaponScript(projectile, scr, {-1, 0, projectileType});
                   }
                }
@@ -432,7 +432,7 @@ ffc script Debug {
                   // Check if oil is allowed and if the combo is a water combo
                   if (!noOil && OilBush_IsWater(c)) {
                      if (SFX_OIL_BURN > 0)
-                        Game->PlaySound(SFX_OIL_BURN);
+                        Audio->PlaySound(SFX_OIL_BURN);
 
                      burnTimers[c] = OILBUSH_OIL_DURATION;
                      burnTypes[c] = 0; // Mark as an oil burn
@@ -440,7 +440,7 @@ ffc script Debug {
                   // Else check if bushes are allowd and if the combo is a bush
                   else if (!noBushes && OilBush_IsBush(c)) {
                      if (SFX_BUSH_BURN > 0)
-                        Game->PlaySound(SFX_BUSH_BURN);
+                        Audio->PlaySound(SFX_BUSH_BURN);
 
                      burnTimers[c] = OILBUSH_BUSH_DURATION;
                      burnTypes[c] = 1;    // Mark as a bush burn
@@ -469,7 +469,7 @@ ffc script Debug {
                      // Check if oil is allowed and if the combo is a water combo
                      if (!noOil && OilBush_IsWater(c)) {
                         if (SFX_OIL_BURN > 0)
-                           Game->PlaySound(SFX_OIL_BURN);
+                           Audio->PlaySound(SFX_OIL_BURN);
 
                         burnTimers[c] = OILBUSH_OIL_DURATION;
                         burnTypes[c] = 0; // Mark as an oil burn
@@ -477,7 +477,7 @@ ffc script Debug {
                      // Else check if bushes are allowd and if the combo is a bush
                      else if (!noBushes && OilBush_IsBush(c)) {
                         if (SFX_BUSH_BURN > 0)
-                           Game->PlaySound(SFX_BUSH_BURN);
+                           Audio->PlaySound(SFX_BUSH_BURN);
 
                         burnTimers[c] = OILBUSH_BUSH_DURATION;
                         burnTypes[c] = 1;    // Mark as a bush burn
@@ -552,7 +552,7 @@ ffc script Debug {
                            // If the adjacent combo is water, light it on fire
                            if (OilBush_IsWater(c)) {
                               if (SFX_OIL_BURN > 0)
-                                 Game->PlaySound(SFX_OIL_BURN);
+                                 Audio->PlaySound(SFX_OIL_BURN);
 
                               burnTimers[c] = OILBUSH_OIL_DURATION;
                               burnTypes[c] = 0;
@@ -574,7 +574,7 @@ ffc script Debug {
                            // If the adjancent combo is a bush, light it on fire
                            if (OilBush_IsBush(c)) {
                               if (SFX_BUSH_BURN > 0)
-                                 Game->PlaySound(SFX_BUSH_BURN);
+                                 Audio->PlaySound(SFX_BUSH_BURN);
 
                               burnTimers[c] = OILBUSH_BUSH_DURATION;
                               burnTypes[c] = 1;    // Mark as a bush burn

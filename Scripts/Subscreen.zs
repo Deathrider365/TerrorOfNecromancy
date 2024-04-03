@@ -615,17 +615,17 @@ namespace SubscreenPassive {
             <bitmap>(bit)->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
       }
       else {
-         bool hasMap = Game->LItems[Game->GetCurLevel()] & LI_MAP;
-         bool hasCompass = Game->LItems[Game->GetCurLevel()] & LI_COMPASS;
-         bool killedBoss = Game->LItems[Game->GetCurLevel()] & LI_BOSS;
          dmapdata currentDmap = Game->LoadDMapData(Game->GetCurDMap());
+         bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
+         bool hasCompass = Game->LItems[Game->CurLevel] & LI_COMPASS;
+         bool killedBoss = Game->LItems[Game->CurLevel] & LI_BOSS;
 
          hasCompass = currentDmap->Compass ? hasCompass : false;
 
          originalX += 8;
          originalY += 8;
 
-         int dmapOffset = Game->DMapOffset[Game->GetCurDMap()];
+         int dmapOffset = currentDmap->Offset;
          int currentScreen = Game->GetCurDMapScreen();
 
          int dmapOffsetMax = 8 - Max(dmapOffset - 8, 0);
@@ -652,7 +652,7 @@ namespace SubscreenPassive {
 
                if (m->State[ST_VISITED])
                   mapCellColor = C_MINIMAP_EXPLORED;
-               else if (hasMap && dmapinfo::VisibleOnDungeonMap(q, true))
+               else if (hasMap && VisibleOnDungeonMap(q, true))
                   mapCellColor = C_MINIMAP_ROOM;
                else
                   mapCellColor = C_TRANS; // remove when issue with var initializers is fixed

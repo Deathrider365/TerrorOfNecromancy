@@ -7,7 +7,6 @@
 #include "Time.zh"
 #include "ffcscript.zh"
 #include "std.zh"
-#include "std_zh/dmapgrid.zh"
 #include "std_zh/ghostBasedMovement.zh"
 
 #include "../ToN Main Quest/Scripts/Headers/EmDebug.zs"

@@ -658,13 +658,13 @@ ffc script DifficultySelectionScreen {
                   DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
 
                   if (Link->PressUp) {
-                     Game->PlaySound(SFX_DIFFICULTY_SELECT);
+                     Audio->PlaySound(SFX_DIFFICULTY_SELECT);
                      --selection;
                      if (selection < 0)
                         selection = numOptions - 1;
                   }
                   else if (Link->PressDown) {
-                     Game->PlaySound(SFX_DIFFICULTY_SELECT);
+                     Audio->PlaySound(SFX_DIFFICULTY_SELECT);
                      ++selection;
                      if (selection > numOptions - 1)
                         selection = 0;

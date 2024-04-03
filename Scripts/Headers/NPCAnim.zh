@@ -624,7 +624,7 @@ namespace NPCAnim {
          Owner->Immortal = true;
          Owner->CollDetection = false;
          npcdata nd = Game->LoadNPCData(Owner->ID);
-         Game->PlaySound(nd->DeathSFX);
+         Audio->PlaySound(nd->DeathSFX);
          if (freeze)
             AnimSpeedMultiplier = 0;
          int redrawXOffset = Owner->DrawXOffset;
@@ -642,7 +642,7 @@ namespace NPCAnim {
                w = Max(w, 1);
                h = Max(h, 1);
                if (sfx)
-                  Game->PlaySound(sfx);
+                  Audio->PlaySound(sfx);
                lweapon l = CreateLWeaponAt(LW_SPARKLE, x, y);
                l->UseSprite(spr);
                l->Extend = EXT_NORMAL;
