@@ -1307,12 +1307,26 @@ ffc script GoddessFaithfulZeldaScenes {
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
 
       while (true) {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
          if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 1 && Game->Counter[CR_TRIFORCE_OF_POWER] < 2)
             zeldaIntroDialogue(this);
          else if (Game->Counter[CR_TRIFORCE_OF_POWER] == 2 && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue(this);
          else if (mapDataBombRoom->State[ST_SECRET])
             zeldaGivesMagicOcarina(this);
+         else {
+            const int zeldaIDontKnowYouMessage = 448;
+
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Game->Suspend[susptSCREENDRAW] = true;
+            Screen->Message(zeldaIDontKnowYouMessage);
+            Game->Suspend[susptSCREENDRAW] = false;
+
+            Waitframe();
+         }
 
          Waitframe();
       }
@@ -1321,9 +1335,6 @@ ffc script GoddessFaithfulZeldaScenes {
    void zeldaIntroDialogue(ffc this) {
       const int zeldaIntroMessage = 395;
       const int zeldaPostIntroMessage = 390;
-
-      waitForTalking(this);
-      Input->Button[CB_SIGNPOST] = false;
 
       if (!Screen->State[ST_SECRET]) {
          Game->Suspend[susptSCREENDRAW] = true;
@@ -1346,9 +1357,6 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 404;
       const int zeldaPostIntroMessage = 405;
 
-      waitForTalking(this);
-      Input->Button[CB_SIGNPOST] = false;
-
       if (!getScreenD(screenD0)) {
          setScreenD(screenD0, 1);
 
@@ -1367,9 +1375,6 @@ ffc script GoddessFaithfulZeldaScenes {
    void zeldaGivesMagicOcarina(ffc this) {
       const int zeldaIntroMessage = 441;
       const int zeldaPostIntroMessage = 443;
-
-      waitForTalking(this);
-      Input->Button[CB_SIGNPOST] = false;
 
       if (!getScreenD(screenD3)) {
          setScreenD(screenD0, 1);
