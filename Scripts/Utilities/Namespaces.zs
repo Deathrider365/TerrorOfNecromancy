@@ -1099,7 +1099,6 @@ namespace EmilyMap {
 
    @Author("EmilyV99") dmapdata script Map {
       void run(bool lockPalette) {
-         Trace(999);
 
          DEFINE WIDTH = 256 * 16;
          DEFINE HEIGHT = 176 * 8;
@@ -1117,8 +1116,6 @@ namespace EmilyMap {
          int x = 0, y = 0;
          int zoom = minZoom;
          int inputClock, zoomInputClock;
-
-         Trace(555);
 
          do {
             inputClock = (inputClock + 1) % INPUT_REPEAT_TIME;
