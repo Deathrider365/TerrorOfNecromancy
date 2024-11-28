@@ -356,7 +356,7 @@ pass as they would need to get through checkpoints that are locked down by Necro
 if they had a grappling hook they could take a pass behind the castle to reach Auri Desert but mentions that Link would need a grappling hook to reach it, which Link has.
    It is decided then, says Zelda. Link will venture to the base of Mt. Summus and take the passage through Auri Desert.
 Upon reaching the engineer's brother's bomb shop, he is greeted by the brother who is excited that he has cracked the code for making large explosives. Link can now buy Powder Kegs from him.
-   With Powder Kegs at Link's disposal, he can now access Mt. Duratu or Carulem Archipelago, as well as solve the plague of the unending storm of Auri Village.
+With Powder Kegs at Link's disposal, he can now access Mt. Duratu or Carulem Archipelago, as well as solve the plague of the unending storm of Auri Village.
 
    Should he choose to investigate the sealed building in Auri Village, he is presented with a worn sign out front that mentions the well has dried up and discourages entry. Upon using his new advanced
 explosives, Link blows through the rocks sealing the building. Entering inside he is presented is a very dirty room with rocks and rubble everywhere, centralized around the bone-dry well. Another sign
@@ -365,7 +365,8 @@ on the well which reveals a spiral staircase. What follows is a long darkening p
 
 <Minidungeon 4: Sealed Abyss (Optional)>
    Is is very dark and cramped inside the deep decrepit structure to make is hard for what is sealed to escape and for intruders to enter, for this was the tomb for a very powerful ancient being that
-Aemulon had in his ranks in the Calamity of Vita. Not even he knew where it came from or what it's potential was, but it seemed to bend to the will of the Triforce of Darkness and did Aemulon's bidding
+Aemulon had in his ranks in the Calamity of Vita. Upon its demise, its remains were stored here, deep and heavily secured as it's flesh was so imbued with darkness the Faithful didn't want to risk it
+being brough back to the world. Not even Aemulon knew where it came from or what it's potential was, but it seemed to bend to the will of the Triforce of Darkness and did Aemulon's bidding
 and was referred to as the Morsa, which in other languages means death. What he did not know is that this was a malevolent spirit that existed before the kingdom of Vita was established, but it seemed to
 always exist on the island for some reason. During the Calamity of Vita, Aemulon awakened with with the potency of his darkness and the unrest, death and fear seemed to bring it to life and make it
 active, joining the fray of the war. Eventually it joined Aemulon's ranks since it seemed to respect Aemulon. Once the war was lost the ancient Goddess Faithful constructed the tomb / prison for it, and

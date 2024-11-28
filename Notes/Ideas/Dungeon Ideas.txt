@@ -100,3 +100,5 @@ like network cathedral, instead of multiple floors but multiple maps
 similar to frozen enclave how you can navigate floors by wall stairs instead of always using normal stairs
 
 like nightmare from boab where you play as aemulon from the past (maybe not really a dungeon but a scripted sequence) and the boss is Haeren and the goddesses
+
+a dungeon where you have to use giant bombs to blow up pillars to bring down the top floor, revealing the boss
