@@ -1,18 +1,6 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ General FFC Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("Deathrider365")
-ffc script Debug {
-   // clang-format on
-
-   void run() {
-      while (true) {
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
 @Author("EmilyV99")
   ffc script ContinuePoint {
    // clang-format on

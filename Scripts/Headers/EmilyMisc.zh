@@ -1259,7 +1259,7 @@ namespace Emily {
                Game->Suspend[susptLINK] = false;
                int timeout = 60;
                do {
-                  Screen->Flags[SF_VIEW] ~ = SFV_NOSUBSCREEN;
+                  Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
                   colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
                   Waitframe();
                }
@@ -1383,7 +1383,7 @@ namespace Emily {
                   Game->Suspend[susptLINK] = false;
                   int timeout = 60;
                   do {
-                     Screen->Flags[SF_VIEW] ~ = SFV_NOSUBSCREEN;
+                     Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
                      colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
                      Waitframe();
                   }

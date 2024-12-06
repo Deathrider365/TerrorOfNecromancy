@@ -10,6 +10,7 @@
 #include "std_zh/ghostBasedMovement.zh"
 
 #include "../ToN Main Quest/Scripts/Headers/EmDebug.zs"
+#include "../ToN Main Quest/Scripts/Headers/EmilyMisc.zh"
 #include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
 #include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
 #include "../ToN Main Quest/Scripts/Headers/NPCAnim.zh"
