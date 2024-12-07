@@ -399,8 +399,10 @@ ffc script SwitchRemote {
 
          Audio->PlaySound(SFX_SWITCH_PRESS);
 
-         if (triggerScreenSecrets)
+         if (triggerScreenSecrets) {
+            Screen->State[ST_SECRET] = true;
             Screen->TriggerSecrets();
+         }
 
          if (sfx > 0)
             Audio->PlaySound(sfx);
