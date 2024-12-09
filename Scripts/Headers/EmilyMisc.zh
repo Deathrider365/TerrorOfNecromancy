@@ -27,7 +27,7 @@ namespace Emily {
    {
       // Invalid script
       if (scriptNum < 0 || scriptNum > 511)
-         return Debug->NULL();
+         return NULL;
 
       npc n = Screen->CreateNPC(ID);
       n->Script = scriptNum;
@@ -171,7 +171,7 @@ namespace Emily {
     */
    int SpinDir8(int dir) // start
    {
-      SpinDir8(dir, 1);
+      return SpinDir8(dir, 1);
    } // end
 
    /**
@@ -601,6 +601,7 @@ namespace Emily {
          case DIR_LEFT: return -dist;
          case DIR_RIGHT: return 15 + dist;
       }
+      return dir;
    } // end
 
    /**
@@ -614,6 +615,7 @@ namespace Emily {
          case DIR_LEFT:
          case DIR_RIGHT: return 8;
       }
+      return dir;
    } // end
 
    /**

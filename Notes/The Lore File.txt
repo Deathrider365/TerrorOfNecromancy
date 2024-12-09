@@ -371,9 +371,65 @@ and was referred to as the Morsa, which in other languages means death. What he 
 always exist on the island for some reason. During the Calamity of Vita, Aemulon awakened with with the potency of his darkness and the unrest, death and fear seemed to bring it to life and make it
 active, joining the fray of the war. Eventually it joined Aemulon's ranks since it seemed to respect Aemulon. Once the war was lost the ancient Goddess Faithful constructed the tomb / prison for it, and
 buried it under a heavy stone building within Auri Village. They placed a well in said building to make the entrance to the tomb hide in plain sight. Upon entering the tomb, the darkness within begins to
-stirr and Link will encounter many fell entities within. Among those fell entities is the dreaded Deadhand which Link will encounter just before encountering Morsa as it was a creation of Morsa from the
-flesh of those it claimed. Within the tomb Link finds the weapon used by Morsa; the Spectral Cane, but only by truly defeating Morsa. After killing Deadhand and facing Morsa, the demon is not truly
-defeated. Only by proceeding deeper into the tomb can Link truly finish the specter off. Upon victory of that confrontation will Link be awarded with the Demon's staff.
+stir and Link will encounter many fell entities within. Among those fell entities is the dreaded Deadhand which Link may encounter. It is a creation of Morsa from the flesh of those it claimed.
+Upon a first encounter with Morsa, Link will find that it flees deeper into the tomb. Upon its fleeing it drops its weapon; the Dispelled Cane. Dispelled because the true power of the cane was sealed in
+the depths of the tomb. Should Link find where that magic is sealed and rupture it with the cane, it will reabsorb that energy to become the dark infused Spectral Cane. With the Spectral Cane Link can
+venture into the deeped depths of the tomb and eventually encounter the dreaded Deadhand as well as the weakened Morsa, should he do so and vanquish both of them, they will be truly destroyed. Although,
+should Link weaken Morsa and let it stew in the depths without truly vanishing it, it will be released on the world as well as it's Deadhand. Should Link encounter the weakened Morsa without having already
+defeating Deadhand, then he will have to face them both simultaneously. Either way, so long as Link defeats Morsa once, just that alone will free Auri Village of the everstorm caused by Morsa.
+
+   Upon leaving the tomb Link will find a more lively Auri Village. With the everstorm done the residents are able to once again enjoy the light and calm of their village. As a result Link can enjoy the
+resident shop as well as the legendary Auri library, where he can read a lot of Vita's history. But right after leaving, he is encountered by the guard that stands at Auri Village's entrance. He informs
+Link that because he helped Auri Village regain it's livability, he figures that if there is anyone that can stop the Necromancer it is he, therefore he opens the gate at the entrance of Auri Village,
+allowing Link to both enter Auri Desert North, as well as revisit NEI. However, he cannot see much in Auri Desert North due to not having the flippers.
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TODO FINISH THIS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+   One thing that Link can do now that he has access to the northeastern side of Interitus is he can use his raft to sail back to the Isle of Haeren. The monsters here have gained in strength, and are
+even stronger on the eastern side of the island. Link may want to wait until level 7 before continuing forward but should he push on (it is possible) he will find an ancient outpost.
+
+<Minidungeon 5: (Optional)> RECOMMENDED AFTER LEVEL 7 BUT CAN BE COMPLETED NOW
+
+
+
+
+   Upon returning to Zelda, she wont have much to say to Link aside from thanking him for helping Auri Village, and that he should head to the Carulem Archipelago to the north west to help the zoras, or to
+Gelido Shoal to the southeast. Link can choose to do either or at this point, but ideally he would go towards Gelido Shoal first since he would need flippers to properly help the zoras of Carulem.
+
+   Link heads down south east towards Duratu, and is met by people trying to get to Duratu Village and are trying to clear away large snow drifts that block the path north and east. Luckily for them Link
+has a set of Powder Kegs that can clear the way with ease. He does and the people around thank him for his help and head on into the village up ahead. Along the way to Duratu Village Link ventures through
+the western range of Duratu complete with many monsters and caves as well as heat loving Gorons. Should he go into any of the caves he will be presented with an expansive cave system frought with magma
+running through in the deeper reaches. He may even find a path to the eastern range of Duratu. Much like how there are two "clans" so to speak of Zoras in Venenom and Carulem, there are also two groups
+of Goron in Caldum and Duratu, both enjoying the head within the earth.
+
+   Link eventually finds himself at Duratu Village, it has been awhile since Link has found village that has happy townsfolk as these people have been fairly untouched by the Necromancer given that there
+is practically no value to him in the snowcapped mountain and it's quiet inhabitants. That being said, that doesnt mean that there isnt trouble brewing in the area. From some of the townsfolk Link will here
+some minor concerns about the magma running under the mountain, some strange noises and malfunctioning of some of the geothermal machinery. Living on Mt. Duratu isnt easy with the year round subzero temps,
+the people that live on the mountain get by with a geothermal plant running under the mountain, harnessing the magma to heat up their homes and drinking water. It would seem the Necromancer, despite
+directly leaving Duratu alone, has had some indirect impact on them. The village elder asks Link, as word has gotten around the island that Link is a true her, to go into their plant and investigate the
+villager's concerns. The elder also mentions that there are a lot of worker Gorons inside and that he should checkup on them to make sure they are alright.
+
+   And so, Link heads east out of the village and finds the entrance to the plant on an isolated pillar of rock.
+
+<<Level 6: Geothermal Plant>>
+~  ---<>---~
+   Upon entering the plant Link immediately encounters a Goron worker who is completely shaken up. They talk about how there is a creature rounding up Gorons and locking them up in pits within the plant.
+They say that if Link were to save all of the Gorons that are trapped, they can open the way to the primary reinjection site where the creature emerged from and tends to hold up. So Link ventures into the
+plant saving every Goron he comes across. He can check how many are missing at the central dynamo where all of the gorons are collecting, and ask the foreman how many are still yet captured. Inside the plant,
+Link will find a Goron that has a special gauntlet that will allow Link to move heavier object known as the Goron Gauntlet. That is how the Gorons have been able to work so effectively in the plant. Eventually
+Link encounters the beast that was rounding up the gorons <ADD LORE ABOUT THE BEAST>
+   As Link leaves the plant he will find the elder standing outside the plant and will thank Link and give him a large rupee for getting their plant up and running. He also gives Link a tip to head east into
+Gelido Shoal. He seems to believe that there is an old strong magical weapon hiding amongst the shipwrecks.
+
+   Link will head east, however like before if he heads back to Zelda, she will once again congratulate Link for helping the people of Interitus, for a brief moment she thinks she remembers something about Link
+but wipes it off as nothing. Link then heads to Gelido Shoal.
+
+   Upon entering Southeast Interitus, he has to first traverse the eastern range of Duratu which is much more brutal than the western range given it is more wild and far less inhabited. Regardless in some of the
+warm caves Link will encounter some gorons that will support him with tips and maybe even some helpful upgrades. In addition to warm caves he does find freezing ones. Eventually Link will find himself at sea
+level and into the shallows of Gelido Shoal. He finds a lot of wrecks of ancient ships
+
+
+
+level 7 is in the shoal where he fight more pirates as well as Blackguard ignav and gets the wand
 
 
 <Mini Dungeon 3: Domumbris Sewers (home of darkness - domum tenebris (Domumbris))>

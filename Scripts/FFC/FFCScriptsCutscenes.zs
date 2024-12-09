@@ -1305,6 +1305,7 @@ ffc script GoddessFaithfulZeldaScenes {
 
    void run() {
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
+      mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
 
       while (true) {
          waitForTalking(this);
@@ -1316,6 +1317,8 @@ ffc script GoddessFaithfulZeldaScenes {
             zeldaGetGiantBombsDialogue(this);
          else if (mapDataBombRoom->State[ST_SECRET])
             zeldaGivesMagicOcarina(this);
+         else if (mapDataAuriVillageSaved->State[ST_SECRET])
+            zeldaInformsLinkAboutCarulemAndINSERTNAME(this);
          else {
             const int zeldaIDontKnowYouMessage = 448;
 
@@ -1393,5 +1396,16 @@ ffc script GoddessFaithfulZeldaScenes {
          Screen->Message(zeldaPostIntroMessage);
 
       Game->Suspend[susptSCREENDRAW] = false;
+   }
+   void zeldaInformsLinkAboutCarulemAndINSERTNAME(ffc this) {
+
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script AuriVillageGuardInformsLink {
+   void run() {
+      //the guard runs to link when link appears outside the well building and tells him that he has opened the gate at the entrance
    }
 }
