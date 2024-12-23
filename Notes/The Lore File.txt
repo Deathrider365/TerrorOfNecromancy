@@ -446,27 +446,27 @@ but waves it off as nothing. Link then heads to Gelido Shoal.
 
    Upon entering Southeast Interitus, he has to first traverse the eastern range of Duratu which is much more brutal than the western range given it is more wild and far less inhabited. Within the mountain, he will
 encounter a surprising amount of pirates and other magical foes. Regardless, in some of the warm caves Link will encounter some gorons that will support him with tips and maybe even some helpful upgrades. In
-addition to warm caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds a lot of wrecks of ancient ships from when the pirates of old
+addition to warm caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds some wrecks of ancient ships from when the pirates of old
 first arrived on Vita as a part of Ignav's fleet. Should Link venture into any of those shipwreaks he will encounter the revived fallen pirates. In addition to the pirates, he will find hordes of Wizzrobes.
 Wizzrobes, being known for their innate ability to sling magic blasts as well as control elements such as wind and fire, at some point joined with the pirates as they themselves learned new ways of magic.
-Eventually, Link will find a fairly unassuming structure in the shoal with a lot of pirate and hylian corpses strewn about. This structure is the home fort that Ignav created when he first invaded Vita. When he
-faced the substantial forces of Aemulon, he knew it wouldnt be easy, so he created the fort as his protective home base. Being on the southeastern coast of the island with the massive Mt. Duratu separating him
-from the rest of the island, made it easy to fend off attackers. Anyway, so Link arrives at the fort, which is not the most obvious or ostentatious building. From the surface it just appears to be little more
-than a small seaside shack. Not tiny by any means but not what you would expect to be used during a war. Ignav was smart, he knew that he a large obvious tower on a beach was not the safest idea, so he built
-something a bit more lower profile. In terms of modern day, the structure is all but abandonened. This portion of the island is more or less uninhabited, even before the uprising of the Necromancer since Duratu
-as an environment is extremely unforgiving, so none make it to the beautiful shoals.
+Link will find numerous structures amoung the shoals, a number of towers with one fairly large fort in the center of the moon shaped shoal. These structures were the stronghold and watch towers that Ignav erected
+when he first invaded Vita. When he faced the substantial forces of Aemulon, he knew it wouldnt be easy, so he created the fort as his protective home base. Being on the southeastern coast of the island with the
+massive Mt. Duratu separating him from the rest of the island, made it easy to fend off attackers. The watch towers are little more than spires to keep an eye on the surroundings, whereas the fort was meant to keep
+tresspassers out and is heavily fortified. Today though, the structure is all but waterlogged and abandonened. This portion of the island is more or less uninhabited, even before the uprising of the Necromancer
+since Duratu as an environment is extremely unforgiving, so not many make it to shoals aside from the courageous adventurers. To the north of the shoals are the southeastern coasts of Interitus. Unlike the
+northeastern side, this area of sea is treacherous.
 
-   So Link enters the small shack and enters the undercroft of the shack.
+   So Link enters the fort that once was the primary fortification of the most feared pirated around.
 
 <recommended to do Minidungeon 5: Ancient Outpost here>
 
 <<Level 7: Seaside Stronghold>>
 ~Dreaded Blackguard Conquerer ---Ignav---~
 
-   Entering the small stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold is
-unimpressive, but upon getting the Magic Wand the stronghold seems to awaken. Magical devices start turning on and defending the place, almost like a booby trap once Link took the wand. With the wand Link can
-venture downward into the stronghold where he will have to get past all of the traps that were put in place. It would appear that before his impending doom, Ignav must have rigged his fort with various traps
-to keep his treasure to himself, and it wasnt gold or valuables but rather his power.
+   Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
+vacant of activity, but upon getting the Magic Wand the stronghold seems to awaken. Magical devices start turning on and defending the place, almost like a booby trap once Link took the wand. With the wand
+Link can venture downward into the stronghold where he will have to get past all of the traps that were put in place. It would appear that before his impending doom, Ignav must have rigged his fort with
+various traps to keep his treasure to himself, and it wasnt gold or valuables but rather his power.
    Eventually Link finds himself at Ignav's chamber. Ignav is what appears to be a pirate but with robes not unlike a Wizzrobe. Initially, Ignav expresses his respect for Link, being able to even make it to
 his stronghold, let alone his chamber. Ignav is not arrogant, nor ignorant, he fully respects Link for his strength and determination and treats him nearly as an equal. He explains that he simply wants the
 Jewel of Marre, as well as to challenge the Necromancer which he referrs to as his Magmicus, his "Great Enemy". He explains the true value of the Jewel of Marre, that it would allow him to control the seas
