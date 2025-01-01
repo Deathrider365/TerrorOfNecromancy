@@ -1,13 +1,14 @@
 "It is said that those who underwent a terrible past and wish to be rid of their heinous 
 actions, always find themselves, in one way or another, at the Chapel of Rumination"
-		- Some priest looking NPC
+		- The old man who welcomes you to Interitus
 
 <Requirement to unlock the entire paladin set>
 
 The Chapel of Rumination is similar to Hall of Memories from IoR, but has a much deeper lore and
 impact on how the peoples of Vita deal with dark thoughts and actions
 
-You enter the chapel, and are faced with a priest, upon defeating Right Hand, as well as everyone
+You enter the chapel, and are faced with a priest (who is actually the old man that lives in the teepee), 
+upon defeating Right Hand, as well as everyone
 and everything throughout the game, you are filled with a sense of dread and despair. You hear
 of a chapel where you face your demons (quite literally) to overcome your doubt and guilt, to truly,
 unlock the path towards good and riteousness. 

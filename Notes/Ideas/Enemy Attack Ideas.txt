@@ -12,3 +12,5 @@ ice attacks that do extra damage if you dont have the blue tunic
 frost spitter turret, as a turret or enemy attack
 
 like midir, an attack that is a lazer around the arena, and explodes fire after a second or so
+
+make an attack that sucks link in (like the great poe of 4swords) and slowly drains your health until you get out of it

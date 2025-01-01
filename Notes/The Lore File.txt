@@ -387,7 +387,9 @@ allowing Link to both enter Auri Desert North, as well as revisit NEI. However, 
    One thing that Link can do now that he has access to the northeastern side of Interitus is he can use his raft to sail back to the Isle of Haeren. The monsters here have gained in strength, and are
 even stronger on the eastern side of the island. Link may want to wait until level 7 before continuing forward but should he push on (it is possible) he will find an ancient outpost.
 
-<Minidungeon 5: Ancient Outpost (Optional)> RECOMMENDED AFTER LEVEL 6 BUT CAN BE COMPLETED NOW
+
+//~~~~~ Scrap? ~~~~~//
+<Minidungeon 5: Ancient  (Optional)> RECOMMENDED AFTER LEVEL 6 BUT CAN BE COMPLETED NOW
 
    What Link has stumbled upon is a structure that is only slightly less decrepit as the Temple of Haeren. It would appear when the Scholar first arrived on the island, some of his soldiers went exploring
 around the accursed island, and found the structure. They found it surprisingly guarded with undead as the undead of the western side of the island found its way to the eastern side. Not much is known about
@@ -401,11 +403,7 @@ by the same force. Within the deepest chamber he finds a giant bat.
    Eventually Link encounters what can only be described as a giant bat in the deepest chamber, it immediately takes notice of Link and attacks him. This is Oblitem, the forgotton, nothing is known about this
 overgrown bat, but it is clear that it has consumed a lot of darkness and festered in it's dark secluded home. If Link has the Spectral Cane and chooses to use it on Oblitem, not only is he immune to the cane,
 given it's own darkness appears to be identical to that imbuing the cane, but it will send him into a fury, fueled by the influx of dark energy. Ideally Link would not use the cane. Upon defeat Link will receive
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TODO FINISH THIS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-a <TODO PLACEHOLDER (probably side quest related)>.
-
+//~~~~~ Scrap? ~~~~~//
 
 
    Upon returning to Zelda, she wont have much to say to Link aside from thanking him for helping Auri Village, and that he should head to the Carulem Archipelago to the north west to help the zoras, or to
@@ -460,7 +458,7 @@ northeastern side, this area of sea is treacherous.
 
 <recommended to do Minidungeon 5: Ancient Outpost here>
 
-<<Level 7: Seaside Stronghold>>
+<<Level 7: <<GET NAME>> Stronghold>>
 ~Dreaded Blackguard Conquerer ---Ignav---~
 
    Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
@@ -505,8 +503,6 @@ In time he learned its secrets, and started to lose himself to his new found abi
 their existance, being morphed and turned into undead thralls for some unknown threat. They went to Haeren only to find her temple empty, unable to communicate with the debilitated goddess. Eventually the village
 not only fell to ruin, but was the most potent in darkness. What was once considered paradise, was now a surging hell on earth.
 
-<Minidungeon 6: Village of Malice (Optional)> RECOMMENDED AFTER LEVEL 9 BUT CAN BE COMPLETED NOW
-~ --- ---~
 
    Link will find Paculux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
 to venture within. It is recommended Link wait until after level 9 before venturing within as he will encounter the strongest undead on the island of interitus, as Aemulon was very raw with his earlier usage of
@@ -526,8 +522,26 @@ said to have been completely relocated by the goddesses when her existance was w
 errant weary wandering adventurer.
 
 
+<Battle Arena 3: <>>
+~something of something ---something---~
 
 
+<<Level 8: <<WATER DUNGEON in the archipelago>>
+~Terror of the Seas ---Leviathan---~
+
+
+<Minidungeon 7: Seaside Outpost>
+~Major of Darkness --- ---~
+
+
+<<Level 9: Castle Interitus>
+~ ---The Necromancer---~
+
+
+
+
+<Minidungeon 6: Village of Malice (Optional)> RECOMMENDED AFTER LEVEL 9 BUT CAN BE COMPLETED NOW
+~ --- ---~
 
 <Mini Dungeon 3: Domumbris Sewers (home of darkness - domum tenebris (Domumbris))>
 ~Undead Guard Dog ---IDK---~
