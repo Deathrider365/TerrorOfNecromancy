@@ -355,26 +355,27 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) {
 
 // Modifies the game over menu text, background color, and midi
 void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
-   Game->GameOverScreen[GOS_BACKGROUND] = bg;
+   // TODO when fixed bring back
+   //  Game->GameOverScreen[GOS_BACKGROUND] = bg;
 
-   Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_RETRY_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_DONTSAVE_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_SAVEQUIT_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_SAVE2_COLOUR] = text;
-   Game->GameOverScreen[GOS_TEXT_QUIT_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_RETRY_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_DONTSAVE_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_SAVEQUIT_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_SAVE2_COLOUR] = text;
+   // Game->GameOverScreen[GOS_TEXT_QUIT_COLOUR] = text;
 
-   Game->GameOverScreen[GOS_TEXT_CONTINUE_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_SAVE_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_RETRY_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_DONTSAVE_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_SAVEQUIT_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_SAVE2_FLASH] = flash;
-   Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_CONTINUE_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_SAVE_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_RETRY_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_DONTSAVE_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_SAVEQUIT_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_SAVE2_FLASH] = flash;
+   // Game->GameOverScreen[GOS_TEXT_QUIT_FLASH] = flash;
 
-   Game->GameOverScreen[GOS_MIDI] = midi;
+   // Game->GameOverScreen[GOS_MIDI] = midi;
 }
 
 // Creates Bitmap again

@@ -431,7 +431,7 @@ villager's concerns. The elder also mentions that there are a lot of worker Goro
 They say that if Link were to save all of the Gorons that are trapped, they can open the way to the primary reinjection site where the creature emerged from and tends to hold up. So Link ventures into the
 plant saving every Goron he comes across. He can check how many are missing at the central dynamo where all of the gorons are collecting, and ask the foreman how many are still yet captured. Inside the plant,
 Link will find a Goron that has a special gauntlet that will allow Link to move heavier object known as the Goron Gauntlet. That is how the Gorons have been able to work so effectively in the plant. Eventually
-Link encounters the beast that was rounding up the gorons, familiarly it is what appears to be a massive Dodongo. But this isnt just any dodongo, for some reason it is huge compared to it's counterparts and
+Link encounters the beast that was rounding up the gorons, which is a Gleeok. But this isnt just any dodongo, for some reason it is huge compared to it's counterparts and
 can swim in the magma. The Gorons have a legend, that if they were to go too deep into a mountain that they call home, if they were to be motivated by greed and selfishness, they would awaken the Gorodenti, the
 Goron Devourer. Talking with the entraped Gorons Link finds that they all seem terrified and depressed, wondering what they did to incur Gorodenti's wrath, as they seem to think this beast is said beast.
 Where they are not exactly correct, the monster they found is one that has always lived in the Duratu mountain range. Naturally the chaos caused by the necromancer has stirred a lot of ancient creatures on
@@ -458,7 +458,7 @@ northeastern side, this area of sea is treacherous.
 
 <recommended to do Minidungeon 5: Ancient Outpost here>
 
-<<Level 7: <<GET NAME>> Stronghold>>
+<<Level 7: Marauder's Cove>>
 ~Dreaded Blackguard Conquerer ---Ignav---~
 
    Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
