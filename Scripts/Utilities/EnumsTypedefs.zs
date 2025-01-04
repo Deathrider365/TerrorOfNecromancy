@@ -1,9 +1,15 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~Consts / Typedefs / Enums~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+/*/~~~~~Typedefs~~~~~/*/
+typedef const int DEFINE;
+typedef const int CONFIG;
+typedef const bool CONFIGB;
+
 CONFIGB DEBUG = true; // TODO disable for final release
 
 /*/~~~~~Global Variables~~~~~/*/
 bool disableTrans;
+int STUN_DURATION = 60;
 
 bool levelEntries[512];
 
@@ -21,10 +27,12 @@ StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
 
-/*/~~~~~Typedefs~~~~~/*/
-typedef const int DEFINE;
-typedef const int CONFIG;
-typedef const bool CONFIGB;
+// Author - Justin
+int[] LinkVars = {0, 0}; // array so as to not use too many global variables
+CONFIG LV_SWORDJINX = 0;
+CONFIG LV_ITEMJINX = 1;
+CONFIG JINX_CARRYOVER = 1; // have temp jinxes carryover onto new screens:  0 = no, 1 = yes
+CONFIG JINX_COMBINE = 1;   // while temp jinxed getting hit by another jinx will add to duration: 0 = no, 1 = yes
 
 /*/~~~~~Magnitude~~~~~/*/
 CONFIG INTRO_SCENE_TRANSITION_MULT = 8;

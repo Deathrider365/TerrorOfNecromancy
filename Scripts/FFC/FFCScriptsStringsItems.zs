@@ -378,17 +378,26 @@ ffc script GetItemOnSecret {
 }
 
 // clang-format off
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("itemIdRequired"),
+@InitDHelp1("A required item that can either kill the script or make the script wait until you have it"),
+@InitD2("requiredItemKills"),
+@InitDHelp2("0 - required item does not kill. 1 - Kill once it detects you have the item. 2 - Kill after getting the item"),
+@InitD3("gettingItemString"),
+@InitDHelp3("String for when you are getting the item"),
+@InitD4("gottenItemString"),
+@InitDHelp4("String for when you are receiving the item"),
+@InitD5("layer"),
+@InitDHelp5("Layer to handle solidity combo drawing for the FFC"),
+@InitD6("screenD"),
+@InitDHelp6("ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])"),
+@InitD7("doesntHaveItemString"),
+@InitDHelp7("String for when you do not have the required item")
 ffc script GetItemOnItem {
    // clang-format on
-   // D0: itemIdToReceive      - Item you will receive
-   // D1: itemIdRequired       - A required item that can either kill the script or make the script wait until you have it
-   // D2: requiredItemKills    - Whether the required item kills the script or makes it wait //TODO no it doesnt
-   // D3: gettingItemString    - String for when you are getting the item
-   // D4: gottenItemString     - String for when you are receiving the item
-   // D5: layer                - Layer to handle solidity combo drawing for the FFC
-   // D6: screenD              - ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])
-   // D7: doesntHaveItemString - String for when you do not have the required item
+
    void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD, int doesntHaveItemString) { // TODO refactor
       mapdata template = Game->LoadTempScreen(layer);
 
@@ -400,9 +409,13 @@ ffc script GetItemOnItem {
          template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
 
          if (itemIdRequired) {
-            if (requiredItemKills) {
-               if (Hero->Item[itemIdRequired])
-                  Quit();
+            if (requiredItemKills > 0) {
+               if (requiredItemKills == 1 && Hero->Item[itemIdRequired] && getScreenD(screenD)) {
+                  hideSolidFFC(this, template);
+               }
+               if (requiredItemKills == 2 && getScreenD(screenD)) {
+                  hideSolidFFC(this, template);
+               }
             }
             else {
                this->Data = prevData;
@@ -414,6 +427,7 @@ ffc script GetItemOnItem {
                   if (hideMe) {
                      this->Data = COMBO_INVIS;
                      template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+                     this->Flags[FFCF_SOLID] = false;
                      Quit();
                   }
                   else {

@@ -13,9 +13,9 @@ global script Init {
 // clang-format off
 @Author("EmilyV99, Moosh, Deathrider365")
 global script GlobalScripts {
-   // clang-format off
+   // clang-format on
 
-	void run() {
+   void run() {
       if (DEBUG)
          debug();
 
@@ -34,7 +34,7 @@ global script GlobalScripts {
 
       Hero->HurtSound = 0;
 
-      while(true) {
+      while (true) {
          gameframe = (gameframe + 1) % 3600;
 
          checkDungeon();
@@ -44,6 +44,12 @@ global script GlobalScripts {
 
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
+
+         JinxStuff();
+         // JinxCounter();
+
+         Waitdraw();
+         Waitframe();
 
          setupTransparentLayers();
          Waitdraw();
@@ -65,16 +71,17 @@ global script GlobalScripts {
          LinkMovement_Update2();
          UpdateGhostZH2();
 
+         BoomerangNerf();
+
          Waitframe();
       }
-	}
+   }
 
    void setupTransparentLayers() {
       int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
-         unless(layers & (1b << (l - 1)))
-            continue;
+         unless(layers & (1b << (l - 1))) continue;
 
          Screen->LayerInvisible[l] = (HeroIsScrollingOrWarping() || disableTrans) ? false : true;
       }
@@ -85,16 +92,13 @@ global script GlobalScripts {
    void drawRadialTransparency(mapdata[] mapData) {
       CONFIG TRANS_RADIUS = 36;
 
-      unless(IsValidArray(mapData))
-         return;
+      unless(IsValidArray(mapData)) return;
 
       int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
-         unless(layers & (1b << (l - 1)))
-            continue;
-         unless (mapData[l])
-            continue;
+         unless(layers & (1b << (l - 1))) continue;
+         unless(mapData[l]) continue;
 
          overheadBitmaps[l]->Clear(0);
 
@@ -126,13 +130,11 @@ global script GlobalScripts {
       int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
-         unless(overheadBitmaps[l]->isValid())
-            overheadBitmaps[l] = create(256, 176);
+         unless(overheadBitmaps[l]->isValid()) overheadBitmaps[l] = create(256, 176);
 
          overheadBitmaps[l]->Clear(0);
 
-         unless(layers & (1b << (l - 1)))
-            continue;
+         unless(layers & (1b << (l - 1))) continue;
 
          Screen->LayerInvisible[l] = true;
 
@@ -149,116 +151,96 @@ global script GlobalScripts {
 
    // 654321
    int getTransLayers(int dmap, int screen) {
-      switch(dmap) {
+      switch (dmap) {
          case 4:
-            switch(screen) {
-               case 0x26:
-                  return 011000b;
+            switch (screen) {
+               case 0x26: return 011000b;
                case 0x38:
-               case 0x39:
-                  return 001000b;
+               case 0x39: return 001000b;
             }
             break;
          case 5:
-            switch(screen) {
+            switch (screen) {
                case 0x1c:
-               case 0x63:
-                  return 000100;
+               case 0x63: return 000100;
             }
             break;
          case 6:
-            switch(screen) {
+            switch (screen) {
                case 0x08:
-               case 0x17:
-                  return 000100;
+               case 0x17: return 000100;
             }
             break;
          case 15:
-            switch(screen) {
-               case 0x55:
-                  return 001100;
+            switch (screen) {
+               case 0x55: return 001100;
             }
             break;
          case 14:
-            switch(screen) {
-               case 0x0d:
-                  return 001000;
-               case 0x0b:
-                  return 011000;
-               case 0x0a:
-                  return 011000;
-               case 0x2b:
-                  return 011000;
+            switch (screen) {
+               case 0x0d: return 001000;
+               case 0x0b: return 011000;
+               case 0x0a: return 011000;
+               case 0x2b: return 011000;
             }
             break;
          case 21:
-            switch(screen) {
-               case 0x77:
-                  return 000100;
+            switch (screen) {
+               case 0x77: return 000100;
             }
             break;
          case 31:
-            switch(screen) {
+            switch (screen) {
                case 0x4a:
                case 0x59:
                case 0x5b:
                case 0x5d:
                case 0x7c:
-               case 0x5D:
-                  return 001000b;
+               case 0x5D: return 001000b;
             }
             break;
          case 32:
-            switch(screen) {
-               case 0x06:
-                  return 011000b;
-               case 0x07:
-                  return 001100b;
+            switch (screen) {
+               case 0x06: return 011000b;
+               case 0x07: return 001100b;
             }
             break;
             break;
          case 34:
-            switch(screen) {
+            switch (screen) {
                case 0x20:
-               case 0x21:
-                  return 011000b;
+               case 0x21: return 011000b;
             }
             break;
          case 35:
-            switch(screen) {
-               case 0x5B:
-                  return 000100;
+            switch (screen) {
+               case 0x5B: return 000100;
             }
             break;
          case 36:
-            switch(screen) {
-               case 0x76:
-                  return 001000b;
+            switch (screen) {
+               case 0x76: return 001000b;
             }
             break;
          case 43:
-            switch(screen) {
-               case 0x0F:
-                  return 001000b;
+            switch (screen) {
+               case 0x0F: return 001000b;
             }
             break;
          case 47:
-            switch(screen) {
-               case 0x35:
-                  return 000100b;
+            switch (screen) {
+               case 0x35: return 000100b;
             }
             break;
          case 49:
-            switch(screen) {
-               case 0x41:
-                  return 000100b;
+            switch (screen) {
+               case 0x41: return 000100b;
             }
          case 50:
-            switch(screen) {
-               case 0x02:
-                  return 000100b;
+            switch (screen) {
+               case 0x02: return 000100b;
             }
-         break;
+            break;
       }
       return 0;
    }
@@ -266,14 +248,13 @@ global script GlobalScripts {
    void checkFootprints(int[] footprints) {
       int fadeMult = getFadeMult();
 
-      unless(fadeMult)
-         fadeMult = 1;
+      unless(fadeMult) fadeMult = 1;
 
       if (!HeroIsScrolling() && Hero->Action == LA_WALKING && ((footprints[1] == Hero->X && footprints[2] == Hero->Y) ? false : true)) {
          footprints[1] = Hero->X;
          footprints[2] = Hero->Y;
 
-         unless (--footprints[0]) {
+         unless(--footprints[0]) {
             int pos = ComboAt(Link->X + 4, Link->Y + 4);
             int comboT = Screen->ComboT[pos];
 
@@ -294,27 +275,17 @@ global script GlobalScripts {
    }
 
    int getFadeMult() {
-      switch(Game->CurDMap) {
-         case 0:
-            return .5;
-         case 1:
-            return 1;
-         case 3:
-            return 2;
-         case 4:
-            return 1;
-         case 5...6:
-            return 2;
-         case 7:
-            return .2;
-         case 8:
-            return 1;
-         case 9:
-            return .2;
-         case 10...13:
-            return 1;
-         case 18...23:
-            return 2;
+      switch (Game->CurDMap) {
+         case 0: return .5;
+         case 1: return 1;
+         case 3: return 2;
+         case 4: return 1;
+         case 5...6: return 2;
+         case 7: return .2;
+         case 8: return 1;
+         case 9: return .2;
+         case 10...13: return 1;
+         case 18...23: return 2;
       }
 
       return 0;
@@ -331,16 +302,87 @@ global script GlobalScripts {
    }
 
    void onDMapChange() {
-
    }
 
    void checkDungeon() {
       int level = Game->CurLevel;
-      unless (Game->LItems[level] & LI_MAP) {
+      unless(Game->LItems[level] & LI_MAP) {
          Link->InputMap = false;
          Link->PressMap = false;
       }
    }
+
+   // Author - Jamien
+   void BoomerangNerf() {
+      for (int i = 1; i <= Screen->NumNPCs; ++i) {
+         npc enem = Screen->LoadNPC(i);
+
+         if (STUN_DURATION > 0 && enem->Stun > STUN_DURATION)
+            enem->Stun = STUN_DURATION;
+      }
+   }
+
+   // Author - Justin
+   void JinxStuff() {
+      if (Link->Action == LA_SCROLLING)
+         return;
+
+      if (LinkVars[LV_SWORDJINX] == 0) {
+         if (Link->SwordJinx > 0)
+            LinkVars[LV_SWORDJINX] = Link->SwordJinx;
+      }
+      else {
+         LinkVars[LV_SWORDJINX]--;
+         if (JINX_CARRYOVER == 1 && Link->SwordJinx == 0) {
+            if (LinkVars[LV_SWORDJINX] > 0)
+               Link->SwordJinx = LinkVars[LV_SWORDJINX];
+         }
+         else if (JINX_COMBINE == 1) {
+            if (Link->SwordJinx > LinkVars[LV_SWORDJINX]) {
+               Link->SwordJinx += LinkVars[LV_SWORDJINX];
+               LinkVars[LV_SWORDJINX] = Link->SwordJinx;
+            }
+         }
+      }
+
+      if (LinkVars[LV_ITEMJINX] == 0) {
+         if (Link->ItemJinx > 0)
+            LinkVars[LV_ITEMJINX] = Link->ItemJinx;
+      }
+      else {
+         LinkVars[LV_ITEMJINX]--;
+         if (JINX_CARRYOVER == 1 && Link->ItemJinx == 0) {
+            if (LinkVars[LV_ITEMJINX] > 0)
+               Link->ItemJinx = LinkVars[LV_ITEMJINX];
+         }
+         else if (JINX_COMBINE == 1) {
+            if (Link->ItemJinx > LinkVars[LV_ITEMJINX]) {
+               Link->ItemJinx += LinkVars[LV_ITEMJINX];
+               LinkVars[LV_ITEMJINX] = Link->ItemJinx;
+            }
+         }
+      }
+   }
+
+   // // Author - Justin
+   // void JinxCounter() {
+   //    const int JINXCOUNTER_SWORD_X = 0;  // the x pos you want the Temp Sword Jinx Counter to display
+   //    const int JINXCOUNTER_SWORD_Y = 0;  // the y pos
+   //    const int JINXCOUNTER_ITEM_X = 0;   // the x pos of the Temp Item Jinx Counter
+   //    const int JINXCOUNTER_ITEM_Y = 16;  // the y pos
+   //    const int JINXCOUNTER_FONT = 0;     // the font you wish to use, values in std_constants.zh as FONT_
+   //    const int JINXCOUNTER_COLOR = 0;    // the color, values are 0-15 in each CSET + CSET#x16
+   //    const int JINXCOUNTER_BGCOLOR = -1; // background color, -1 is transparent, or as above
+   //    if (Link->SwordJinx > 0) {
+   //       int js_count = Ceiling(Link->SwordJinx * 0.0167);
+   //       Screen->DrawInteger(7, JINXCOUNTER_SWORD_X, JINXCOUNTER_SWORD_Y, JINXCOUNTER_FONT, JINXCOUNTER_COLOR, JINXCOUNTER_BGCOLOR, 0, 0, js_count, 0, OP_OPAQUE);
+   //    }
+
+   //    if (Link->ItemJinx > 0) {
+   //       int ji_count = Ceiling(Link->ItemJinx * 0.0167);
+   //       Screen->DrawInteger(7, JINXCOUNTER_ITEM_X, JINXCOUNTER_ITEM_Y, JINXCOUNTER_FONT, JINXCOUNTER_COLOR, JINXCOUNTER_BGCOLOR, 0, 0, ji_count, 0, OP_OPAQUE);
+   //    }
+   // }
 
    void debug() {
       Game->Cheat = 4;

@@ -274,7 +274,21 @@
 }
 
 // clang-format off
-@Author("EmilyV99")
+@Author("EmilyV99"),
+@InitD0("dmapScreen1"),
+@InitDHelp0("dmap.screen, screen is not the hex screen"),
+@InitD1("x1"),
+@InitDHelp1("-1 if using A-D, otherwise an x return location"),
+@InitD2("y1"),
+@InitDHelp2("0-3 == A-D"),
+@InitD3("dmapScreen1"),
+@InitDHelp3("dmap.screen, screen is not the hex screen"),
+@InitD4("x2"),
+@InitDHelp4("-1 if using A-D, otherwise an x return location"),
+@InitD5("y2"),
+@InitDHelp5("0-3 == A-D"),
+@InitD6("y2"),
+@InitDHelp6("0-3 == A-D")
  ffc script WarpCustomReturn {
    // clang-format on
 

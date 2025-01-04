@@ -4,6 +4,8 @@
 #option BINARY_32BIT off
 #option HEADER_GUARD on
 
+#include "include/std.zh"
+
 #include "Time.zh"
 #include "ffcscript.zh"
 #include "std.zh"

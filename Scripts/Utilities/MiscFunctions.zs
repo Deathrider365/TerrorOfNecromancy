@@ -580,3 +580,10 @@ void hurtDatHero(int frequency, int damage) {
       Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
    }
 }
+
+void hideSolidFFC(ffc this, mapdata template) {
+   this->Data = COMBO_INVIS;
+   template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+   this->Flags[FFCF_SOLID] = false;
+   Quit();
+}
