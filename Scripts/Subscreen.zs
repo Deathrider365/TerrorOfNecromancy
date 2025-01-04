@@ -13,7 +13,7 @@ namespace SubscreenActive {
             return;
 
          subscreenOpen = true;
-         bitmap b = Game->CreateBitmap(256, 224);
+         bitmap b = new bitmap(256, 224);
          b->ClearToColor(0, BG_COLOR);
          b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0);
 
@@ -77,7 +77,7 @@ namespace SubscreenActive {
          else
             activeSubscreenPosition %= (4 * 6);
 
-         unless(Game->GetCurDMap() <= 2) {
+         unless(Game->CurDMap <= 2) {
             if (currTriforceIndex == -1)
                currTriforceIndex = 3;
             else if (currTriforceIndex == 4)
@@ -262,7 +262,7 @@ namespace SubscreenActive {
          Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
       if (currTriforceIndex == 2)
          Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
-      if (currTriforceIndex == 3 && Game->GetCurDMap() != 2)
+      if (currTriforceIndex == 3 && Game->CurDMap != 2)
          Emily::DrawStrings(4, 62, y + 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 
       Screen->DrawTile(0, 14, 80 + y, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
@@ -307,7 +307,7 @@ namespace SubscreenPassive {
       // clang-format on
 
       void run() {
-         bitmap bm = Game->CreateBitmap(256, 56);
+         bitmap bm = new bitmap(256, 56);
          bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0);
 
          int lastButton = -1;
@@ -450,7 +450,7 @@ namespace SubscreenPassive {
       minitile(RT_SCREEN, 7, 134, y + 34, 32780, 0, 2);
       counter(RT_SCREEN, 7, 134 + 10, y + 34, CR_ARROWS, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
       minitile(RT_SCREEN, 7, 134, y + 44, 32800, 0, 0);
-      counter(RT_SCREEN, 7, 134 + 10, y + 44, Game->GetCurLevel() ? -Game->GetCurLevel() : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+      counter(RT_SCREEN, 7, 134 + 10, y + 44, Game->CurLevel ? -Game->CurLevel : MAX_INT, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 
       // Buttons
       // Frames
@@ -605,7 +605,7 @@ namespace SubscreenPassive {
 
    void minimap(untyped bit, int layer, int originalX, int originalY, ScreenType dmap) {
       if (dmap == DM_OVERWORLD) {
-         int scr = Game->GetCurScreen();
+         int scr = Game->CurScreen;
          int x = originalX + 9 + (4 * (scr % 0x010));
          int y = originalY + 8 + (4 * Div(scr, 0x010));
 
@@ -615,7 +615,7 @@ namespace SubscreenPassive {
             <bitmap>(bit)->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
       }
       else {
-         dmapdata currentDmap = Game->LoadDMapData(Game->GetCurDMap());
+         dmapdata currentDmap = Game->LoadDMapData(Game->CurDMap);
          bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
          bool hasCompass = Game->LItems[Game->CurLevel] & LI_COMPASS;
          bool killedBoss = Game->LItems[Game->CurLevel] & LI_BOSS;
@@ -626,7 +626,7 @@ namespace SubscreenPassive {
          originalY += 8;
 
          int dmapOffset = currentDmap->Offset;
-         int currentScreen = Game->GetCurDMapScreen();
+         int currentScreen = Game->CurDMapScreen;
 
          int dmapOffsetMax = 8 - Max(dmapOffset - 8, 0);
          int dmapOffsetMin = -Min(dmapOffset, 0);
@@ -648,7 +648,7 @@ namespace SubscreenPassive {
                compassMarkerColor = C_TRANS; // remove when issue with var initializers is fixed
 
             unless(dmap == DM_BSOVERWORLD) {
-               mapdata m = Game->LoadMapData(Game->GetCurMap(), q + dmapOffset);
+               mapdata m = Game->LoadMapData(Game->CurMap, q + dmapOffset);
 
                if (m->State[ST_VISITED])
                   mapCellColor = C_MINIMAP_EXPLORED;
@@ -732,21 +732,21 @@ namespace Subscreen {
                if (isOverworld(true))
                   return 0;
 
-               if (Game->LItems[Game->GetCurLevel()] & LI_BOSSKEY)
+               if (Game->LItems[Game->CurLevel] & LI_BOSSKEY)
                   id = I_BOSSKEY;
                break;
             case IC_MAP:
                if (isOverworld(true))
                   return 0;
 
-               if (Game->LItems[Game->GetCurLevel()] & LI_MAP)
+               if (Game->LItems[Game->CurLevel] & LI_MAP)
                   id = I_MAP;
                break;
             case IC_COMPASS:
                if (isOverworld(true))
                   return 0;
 
-               if (Game->LItems[Game->GetCurLevel()] & LI_COMPASS)
+               if (Game->LItems[Game->CurLevel] & LI_COMPASS)
                   id = I_COMPASS;
                break;
             default:
@@ -794,7 +794,7 @@ namespace Subscreen {
    }
 
    void minitile(untyped bit, int layer, int x, int y, int tile, int cset, int corner) {
-      bitmap sub = Game->CreateBitmap(16, 16);
+      bitmap sub = new bitmap(16, 16);
       sub->Clear(0);
       tile(sub, 0, 0, 0, tile, cset);
       sub->Blit(layer, bit, (corner & 01b) ? 8 : 0, (corner & 10b) ? 8 : 0, 8, 8, x, y, 8, 8, 0, 0, 0, 0, 0, true);

@@ -13,11 +13,11 @@ namespace EnemyNamespace {
       SZ_DATA
    };
 
-   void setNPCToCombo(int data, npc n, int comboId) {
+   void setNPCToCombo(int[] data, npc n, int comboId) {
       setNPCToCombo(data, n, Game->LoadComboData(comboId));
    }
 
-   void setNPCToCombo(int data, npc n, combodata combo) {
+   void setNPCToCombo(int[] data, npc n, combodata combo) {
       data[DATA_AFRAMES] = combo->Frames;
       n->OriginalTile = combo->OriginalTile;
       n->ASpeed = combo->ASpeed;
@@ -57,7 +57,7 @@ namespace EnemyNamespace {
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
-      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          n->Remove();
       }
@@ -66,7 +66,7 @@ namespace EnemyNamespace {
       n->HP = 0;
    }
 
-   void EnemyWaitframe(npc n, int data) {
+   void EnemyWaitframe(npc n, int[] data) {
       if (n->HP <= 0)
          deathAnimation(n, 142);
 
@@ -93,7 +93,7 @@ namespace EnemyNamespace {
       n->ScriptTile = tempTile;
    }
 
-   void EnemyWaitframe(npc n, int data, bool deathAnim) {
+   void EnemyWaitframe(npc n, int[] data, bool deathAnim) {
       if (deathAnim && n->HP <= 0)
          deathAnimation(n, 142);
 
@@ -120,7 +120,7 @@ namespace EnemyNamespace {
       n->ScriptTile = tempTile;
    }
 
-   void EnemyWaitframe(npc n, int data, int frames) {
+   void EnemyWaitframe(npc n, int[] data, int frames) {
       while (frames--)
          EnemyWaitframe(n, data);
    }
@@ -408,21 +408,21 @@ namespace WaterPathsNamespace {
          while (true) {
             // if screen has a FL_FLAMING play sound 117 or 160
 
-            if (screen != Game->GetCurScreen() || pathStates[UPDATE_PATHS]) {
-               screen = Game->GetCurScreen();
+            if (screen != Game->CurScreen || pathStates[UPDATE_PATHS]) {
+               screen = Game->CurScreen;
                pathStates[UPDATE_PATHS] = false;
 
-               mapdata currentMapMapata = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+               mapdata currentMapMapata = Game->LoadMapData(Game->CurMap, Game->CurScreen);
 
                mapdata currentMapLayer1 = Emily::loadLayer(currentMapMapata, layer1);
                mapdata currentMapLayer2 = Emily::loadLayer(currentMapMapata, layer2);
                mapdata templateLeft, templateRight, templateUp, templateDown;
 
-               unless(Game->GetCurScreen() < 0x10) templateUp = Emily::loadLayer(Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen() - 0x10), layer1);
-               unless(Game->GetCurScreen() >= 0x70) templateDown = Emily::loadLayer(Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen() + 0x10), layer1);
-               if (Game->GetCurScreen() % 0x10)
-                  templateLeft = Emily::loadLayer(Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen() - 1), layer1);
-               unless(Game->GetCurScreen() % 0x10 == 0xF) templateRight = Emily::loadLayer(Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen() + 1), layer1);
+               unless(Game->CurScreen < 0x10) templateUp = Emily::loadLayer(Game->LoadMapData(Game->CurMap, Game->CurScreen - 0x10), layer1);
+               unless(Game->CurScreen >= 0x70) templateDown = Emily::loadLayer(Game->LoadMapData(Game->CurMap, Game->CurScreen + 0x10), layer1);
+               if (Game->CurScreen % 0x10)
+                  templateLeft = Emily::loadLayer(Game->LoadMapData(Game->CurMap, Game->CurScreen - 1), layer1);
+               unless(Game->CurScreen % 0x10 == 0xF) templateRight = Emily::loadLayer(Game->LoadMapData(Game->CurMap, Game->CurScreen + 1), layer1);
 
                mapdata layer1Template = Game->LoadTempScreen(layer1);
                mapdata layer2Template = Game->LoadTempScreen(layer2);
@@ -566,7 +566,7 @@ namespace WaterPathsNamespace {
 
                         // horizontal barrier
                         if (up > 0 && down > 0 && left < 1 && right < 1) {
-                           flowing = getConnection(Game->GetCurLevel(), up, down);
+                           flowing = getConnection(Game->CurLevel, up, down);
 
                            if (flowing)
                               flowpath = up;
@@ -609,7 +609,7 @@ namespace WaterPathsNamespace {
                         }
                         // vertical barrier
                         else if (left > 0 && right > 0 && up < 1 && down < 1) {
-                           flowing = getConnection(Game->GetCurLevel(), left, right);
+                           flowing = getConnection(Game->CurLevel, left, right);
 
                            if (flowing)
                               flowpath = left;
@@ -736,7 +736,7 @@ namespace WaterPathsNamespace {
       int index = 0;
 
       for (int path1 = 0; path1 < MAX_PATHS; ++path1) {
-         int connection = getConnection(Game->GetCurLevel(), path1 + 1);
+         int connection = getConnection(Game->CurLevel, path1 + 1);
 
          unless(connection) continue;
 
@@ -821,7 +821,7 @@ namespace WaterPathsNamespace {
          if (WP_DEBUG)
             printf("STWP: Secrets Triggered. Setting connection %d,%d\n", path1, pathActivated);
 
-         setConnection(Game->GetCurLevel(), path1, pathActivated, true);
+         setConnection(Game->CurLevel, path1, pathActivated, true);
 
          updateFluidFlow();
       }
@@ -857,7 +857,7 @@ namespace WaterPathsNamespace {
 
       void run(int layers) {
          while (true) {
-            for (int q = Screen->NumLWeapons(); q > 0; --q) {
+            for (int q = Screen->NumLWeapons; q > 0; --q) {
                lweapon wep = Screen->LoadLWeapon(q);
 
                unless(wep->Type == LW_FIRE) continue;
@@ -880,7 +880,7 @@ namespace WaterPathsNamespace {
                   }
                }
 
-               mapdata template = Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+               mapdata template = Game->LoadMapData(Game->CurMap, Game->CurScreen);
                mapdata t1 = Emily::loadLayer(template, l1);
                mapdata t2 = Emily::loadLayer(template, l2);
                mapdata layers[2] = {t1, t2};
@@ -917,7 +917,7 @@ namespace WaterPathsNamespace {
          int ind = 0;
 
          for (int q = 0; q < MAX_PATHS; ++q) {
-            int c = getConnection(Game->GetCurLevel(), q + 1);
+            int c = getConnection(Game->CurLevel, q + 1);
 
             unless(c) continue;
 
@@ -952,7 +952,7 @@ namespace WaterPathsNamespace {
          for (int q = 0; q < MAX_PATHS; ++q)
             if (isConnected[q])
                if (getSource(q + 1) == FL_PURPLE)
-                  setConnection(Game->GetCurLevel(), q + 1, connectTo, true);
+                  setConnection(Game->CurLevel, q + 1, connectTo, true);
 
          updateFluidFlow();
       }
@@ -1084,7 +1084,7 @@ namespace EmilyMap {
                tmp->DrawLayer(7, this->Map, screen, 6, 0, 0, 0, OP_OPAQUE);
                handlePaths(tmp, mapData, 6, layer1, layer2);
 
-               if (currentScreen && screen == Game->GetCurScreen()) {
+               if (currentScreen && screen == Game->CurScreen) {
                   currentScreen->Blit(7, tmp, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, false);
 
                   for (int q = 0; q < CUR_ROOM_BORDER_THICKNESS; ++q)
@@ -1360,7 +1360,7 @@ namespace EmilyMap {
 
                // horizontal barrier
                if (up > 0 && down > 0 && left < 1 && right < 1) {
-                  flowing = getConnection(Game->GetCurLevel(), up, down);
+                  flowing = getConnection(Game->CurLevel, up, down);
 
                   if (flowing)
                      flowpath = up;
@@ -1391,7 +1391,7 @@ namespace EmilyMap {
                }
                // vertical barrier
                else if (left > 0 && right > 0 && up < 1 && down < 1) {
-                  flowing = getConnection(Game->GetCurLevel(), left, right);
+                  flowing = getConnection(Game->CurLevel, left, right);
 
                   if (flowing)
                      flowpath = left;

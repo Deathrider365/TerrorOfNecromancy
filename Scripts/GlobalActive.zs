@@ -51,14 +51,14 @@ global script GlobalScripts {
 
          checkFootprints(footprintArray);
 
-         if (map != Game->GetCurMap() || screen != Game->GetCurScreen()) {
-            map = Game->GetCurMap();
-            screen = Game->GetCurScreen();
+         if (map != Game->CurMap || screen != Game->CurScreen) {
+            map = Game->CurMap;
+            screen = Game->CurScreen;
             onScreenChange(mapData);
          }
 
-         if (dmap != Game->GetCurDMap()) {
-            dmap = Game->GetCurDMap();
+         if (dmap != Game->CurDMap) {
+            dmap = Game->CurDMap;
             onDMapChange();
          }
 
@@ -70,7 +70,7 @@ global script GlobalScripts {
 	}
 
    void setupTransparentLayers() {
-      int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+      int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
          unless(layers & (1b << (l - 1)))
@@ -82,13 +82,13 @@ global script GlobalScripts {
       return;
    }
 
-   void drawRadialTransparency(mapdata mapData) {
+   void drawRadialTransparency(mapdata[] mapData) {
       CONFIG TRANS_RADIUS = 36;
 
       unless(IsValidArray(mapData))
          return;
 
-      int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+      int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
          unless(layers & (1b << (l - 1)))
@@ -121,9 +121,9 @@ global script GlobalScripts {
       }
    }
 
-   void onScreenChange(mapdata mapData) {
+   void onScreenChange(mapdata[] mapData) {
       disableTrans = false;
-      int layers = getTransLayers(Game->GetCurDMap(), Game->GetCurScreen());
+      int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
       for (int l = 1; l < 6; ++l) {
          unless(overheadBitmaps[l]->isValid())
@@ -263,7 +263,7 @@ global script GlobalScripts {
       return 0;
    }
 
-   void checkFootprints(int footprints) {
+   void checkFootprints(int[] footprints) {
       int fadeMult = getFadeMult();
 
       unless(fadeMult)
@@ -294,7 +294,7 @@ global script GlobalScripts {
    }
 
    int getFadeMult() {
-      switch(Game->GetCurDMap()) {
+      switch(Game->CurDMap) {
          case 0:
             return .5;
          case 1:
@@ -335,7 +335,7 @@ global script GlobalScripts {
    }
 
    void checkDungeon() {
-      int level = Game->GetCurLevel();
+      int level = Game->CurLevel;
       unless (Game->LItems[level] & LI_MAP) {
          Link->InputMap = false;
          Link->PressMap = false;

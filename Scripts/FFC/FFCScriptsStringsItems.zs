@@ -101,8 +101,8 @@ ffc script MessageOnce {
          Waitframe();
 
       if (dungeonString) {
-         unless(levelEntries[Game->GetCurLevel()]) {
-            levelEntries[Game->GetCurLevel()] = true;
+         unless(levelEntries[Game->CurLevel]) {
+            levelEntries[Game->CurLevel] = true;
             Waitframe();
             Screen->Message(message);
          }

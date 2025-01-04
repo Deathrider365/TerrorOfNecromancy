@@ -183,7 +183,7 @@ ScreenType getScreenType(bool dmapOnly) {
          return DM_INTERIOR;
    }
 
-   dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
+   dmapdata dm = Game->LoadDMapData(Game->CurDMap);
    return <ScreenType>(dm->Type & 11b);
 }
 
@@ -329,7 +329,7 @@ void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
 }
 
 //	Calls an EWeapon script
-void runEWeaponScript(eweapon e, int scr, int args) {
+void runEWeaponScript(eweapon e, int scr, int[] args) {
    e->Script = scr;
    int numArgs = SizeOfArray(args);
 
@@ -497,7 +497,7 @@ void takeMapScreenshot() {
       if (PressControl())
          Emily::doAllMapScreenshots(DELAY);
       else
-         Emily::doMapScreenshot(Game->GetCurMap(), DELAY);
+         Emily::doMapScreenshot(Game->CurMap, DELAY);
    }
 }
 
@@ -571,5 +571,12 @@ void gridLockFFC(ffc this) {
          this->Y -= remainderY;
       else
          this->Y += remainderY;
+   }
+}
+
+void hurtDatHero(int frequency, int damage) {
+   if (gameframe % frequency == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
+      Hero->HP -= damage;
+      Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
    }
 }

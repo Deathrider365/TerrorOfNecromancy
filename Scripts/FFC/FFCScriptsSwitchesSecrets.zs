@@ -195,7 +195,7 @@ ffc script Shutter {
             Waitframes(8);
          }
 
-         if (type == 0 && Screen->SecretsTriggered())
+         if (type == 0 && Screen->SecretsTriggered)
             break;
 
          if (type == 1)
@@ -226,7 +226,7 @@ ffc script Shutter {
    }
 
    bool GB_Shutter_CheckEnemies() {
-      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
             if (!(n->MiscFlags & (1 << 3)))
@@ -309,9 +309,9 @@ ffc script TriggerOnceEnemiesKilled {
             Screen->ComboF[i] = 0;
          }
 
-      until(Screen->NumNPCs()) Waitframe();
+      until(Screen->NumNPCs) Waitframe();
 
-      while (Screen->NumNPCs())
+      while (Screen->NumNPCs)
          Waitframe();
 
       for (int i = 0; i < 176; i++)
@@ -321,17 +321,21 @@ ffc script TriggerOnceEnemiesKilled {
 }
 
 // clang-format off
-@Author("Moosh")
+@Author("Moosh"),
+@InitD0("pressure"),
+@InitDHelp0("Set to 0 if no pressure. Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks."),
+@InitD1("id"),
+@InitDHelp1("Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered."),
+@InitD2("flag"),
+@InitDHelp2("Set to the flag that specifies the region for the remote secret."),
+@InitD3("sfx"),
+@InitDHelp3("If > 0, specifies a special secret sound. -1 for default, 0 for silent."),
+@InitD4("nextCombo"),
+@InitDHelp4("The combo this ffc will assume"),
+@InitD5("triggerScreenSecrets"),
+@InitDHelp5("1 to trigger screen secrets")
 ffc script SwitchRemote {
    // clang-format on
-   // start Instructions
-   //  D0: Set to 0 if no pressure. Set to 1 to make the switch a pressure switch (a block or Link must stay on it to keep it triggered). Set to 2 to make it a pressure switch that only reacts to push blocks.
-   //  D1: Set to the switch's ID. 0 if the secret is temporary or the switch is pressure triggered.
-   //  D2: Set to the flag that specifies the region for the remote secret.
-   //  D3: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-   //  D4 (2.55 version only): Specifies the layer for the remote secret.
-   //  D5: 1 to trigger screen secrets
-   // end
 
    void run(int pressure, int id, int flag, int sfx, int nextCombo, int triggerScreenSecrets) {
       bool noLink;
@@ -370,16 +374,25 @@ ffc script SwitchRemote {
 
       if (pressure) {
          while (true) {
-            unless(switchPressed(this->X, this->Y, noLink)) Waitframe();
+            until(switchPressed(this->X, this->Y, noLink)) Waitframe();
 
             this->Data = data + 1;
 
             Audio->PlaySound(SFX_SWITCH_PRESS);
 
+            if (triggerScreenSecrets) {
+               Screen->State[ST_SECRET] = true;
+               Screen->TriggerSecrets();
+            }
+
+            if (sfx > 0)
+               Audio->PlaySound(sfx);
+            else if (sfx == -1)
+               Audio->PlaySound(SFX_SECRET);
+
             for (i = 0; i < 176; i++)
                if (comboD[i] > 0)
                   Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
-            ;
 
             while (switchPressed(this->X, this->Y, noLink))
                Waitframe();
@@ -459,7 +472,7 @@ ffc script SwitchTrap {
          Waitframe();
       }
 
-      while (Screen->NumNPCs())
+      while (Screen->NumNPCs)
          Waitframe();
 
       char32 areaMusic[256];
@@ -513,7 +526,23 @@ ffc script SwitchTrap {
 }
 
 // clang-format off
-@Author("Moosh")
+@Author("Moosh"),
+@InitD0("switchCmb"),
+@InitDHelp0(""),
+@InitD1("pressure"),
+@InitDHelp1(""),
+@InitD2("perm"),
+@InitDHelp2(""),
+@InitD3("id"),
+@InitDHelp3(""),
+@InitD4("flag"),
+@InitDHelp4(""),
+@InitD5("sfx"),
+@InitDHelp5(""),
+@InitD6("switchID"),
+@InitDHelp6(""),
+@InitD7("layer"),
+@InitDHelp7("")
 ffc script SwitchHitAll {
    // clang-format on
    // start Instructions
@@ -529,7 +558,7 @@ ffc script SwitchHitAll {
    //  	next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly
    //  	test that this doesn't bleed into other switch ID's or Screen->D used by other scripts.
    //  	If you don't want to save the switches' states or the switches are pressure switches, this should be 0.
-   //  D7 (2.55 version only): Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.
+   //  D7 Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.
    // end
 
    void run(int switchCmb, int pressure, int perm, int id, int flag, int sfx, int switchID) {
@@ -686,7 +715,7 @@ ffc script SwitchHitAll {
       }
    }
 
-   void Switches_Update(int switches, int switchD, int switchDB, bool switchesPressed, int switchCmb, bool pressure, bool noLink) {
+   void Switches_Update(int[] switches, int[] switchD, int[] switchDB, bool[] switchesPressed, int switchCmb, bool pressure, bool noLink) {
       if (pressure)
          switches[1] = 0;
 
@@ -806,7 +835,7 @@ ffc script SwitchSequential {
       }
    }
 
-   void Switches_Organize(int switches, int switchOrder) {
+   void Switches_Organize(int[] switches, int[] switchOrder) {
       bool banned[34];
 
       for (int j = 0; j < switches[0]; j++) {
@@ -827,7 +856,7 @@ ffc script SwitchSequential {
       }
    }
 
-   bool Switches_LinkOn(int switches) {
+   bool Switches_LinkOn(int[] switches) {
       for (int i = 0; i < switches[0]; i++) {
          int j = i + 2;
          int k = switches[j];
@@ -839,7 +868,7 @@ ffc script SwitchSequential {
       return false;
    }
 
-   void Switches_Update(int switches, bool switchesPressed, int switchOrder, int switchCmb, int switchMisc, bool canPress) {
+   void Switches_Update(int[] switches, bool[] switchesPressed, int[] switchOrder, int[] switchCmb, int[] switchMisc, bool canPress) {
       bool reset;
 
       for (int i = 0; i < switches[0]; i++) {
@@ -887,140 +916,140 @@ ffc script SwitchSequential {
 }
 
 // clang-format off
-@Author("Colossal")
-ffc script IceBlock {
-   // clang-format on
-   void run() {
-      int undercombo;
-      int framecounter = 0;
+// @Author("Colossal")
+// ffc script IceBlock {
+//    // clang-format on
+//    void run() {
+//       int undercombo;
+//       int framecounter = 0;
 
-      Waitframe();
-      undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
-      Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
+//       Waitframe();
+//       undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
+//       Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
 
-      while (true) {
-         // Check if Link is pushing against the block
-         if ((Link->X == this->X - 16 && (Link->Y < this->Y + 1 && Link->Y > this->Y - 12) && Link->InputRight && Link->Dir == DIR_RIGHT) || // Right
-             (Link->X == this->X + 16 && (Link->Y < this->Y + 1 && Link->Y > this->Y - 12) && Link->InputLeft && Link->Dir == DIR_LEFT) ||   // Left
-             (Link->Y == this->Y - 16 && (Link->X < this->X + 4 && Link->X > this->X - 4) && Link->InputDown && Link->Dir == DIR_DOWN) ||    // Down
-             (Link->Y == this->Y + 8 && (Link->X < this->X + 4 && Link->X > this->X - 4) && Link->InputUp && Link->Dir == DIR_UP))           // Up
-            framecounter++;
-         else
-            framecounter = 0; // Reset the frame counter
+//       while (true) {
+//          // Check if Link is pushing against the block
+//          if ((Link->X == this->X - 16 && (Link->Y < this->Y + 1 && Link->Y > this->Y - 12) && Link->InputRight && Link->Dir == DIR_RIGHT) || // Right
+//              (Link->X == this->X + 16 && (Link->Y < this->Y + 1 && Link->Y > this->Y - 12) && Link->InputLeft && Link->Dir == DIR_LEFT) ||   // Left
+//              (Link->Y == this->Y - 16 && (Link->X < this->X + 4 && Link->X > this->X - 4) && Link->InputDown && Link->Dir == DIR_DOWN) ||    // Down
+//              (Link->Y == this->Y + 8 && (Link->X < this->X + 4 && Link->X > this->X - 4) && Link->InputUp && Link->Dir == DIR_UP))           // Up
+//             framecounter++;
+//          else
+//             framecounter = 0; // Reset the frame counter
 
-         // Once enough frames have passed, move the block
+//          // Once enough frames have passed, move the block
 
-         if (framecounter >= ICE_BLOCK_SENSITIVITY) {
-            // Check the direction
-            if (Link->Dir == DIR_RIGHT) { // Not at the edge of the screen, Not "No Push Block", // Is walkable
-               while (this->X < 240 && !ComboFI(this->X + 16, this->Y, CF_NOBLOCKS) && Screen->ComboS[this->Y + ((this->X + 16) >> 4)] == 0000b) {
-                  Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
-                  this->Vx = 2;
-                  WaitNoAction(8);
-                  undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
-               }
+//          if (framecounter >= ICE_BLOCK_SENSITIVITY) {
+//             // Check the direction
+//             if (Link->Dir == DIR_RIGHT) { // Not at the edge of the screen, Not "No Push Block", // Is walkable
+//                while (this->X < 240 && !ComboFI(this->X + 16, this->Y, CF_NOBLOCKS) && Screen->ComboS[this->Y + ((this->X + 16) >> 4)] == 0000b) {
+//                   Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
+//                   this->Vx = 2;
+//                   WaitNoAction(8);
+//                   undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
+//                }
 
-               this->Vx = 0;
-               Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
-            }
-            else if (Link->Dir == DIR_LEFT) {
-               while (this->X > 0 && !ComboFI(this->X - 1, this->Y, CF_NOBLOCKS) && Screen->ComboS[this->Y + ((this->X - 16) >> 4)] == 0000b) {
-                  Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
-                  this->Vx = -2;
-                  WaitNoAction(8);
-                  undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
-               }
+//                this->Vx = 0;
+//                Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
+//             }
+//             else if (Link->Dir == DIR_LEFT) {
+//                while (this->X > 0 && !ComboFI(this->X - 1, this->Y, CF_NOBLOCKS) && Screen->ComboS[this->Y + ((this->X - 16) >> 4)] == 0000b) {
+//                   Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
+//                   this->Vx = -2;
+//                   WaitNoAction(8);
+//                   undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
+//                }
 
-               this->Vx = 0;
-               Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
-            }
-            else if (Link->Dir == DIR_DOWN) {
-               while (this->Y < 160 && !ComboFI(this->X, this->Y + 16, CF_NOBLOCKS) && Screen->ComboS[(this->Y + 16) + (this->X >> 4)] == 0000b) {
-                  Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
-                  this->Vy = 2;
-                  WaitNoAction(8);
-                  undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
-               }
+//                this->Vx = 0;
+//                Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
+//             }
+//             else if (Link->Dir == DIR_DOWN) {
+//                while (this->Y < 160 && !ComboFI(this->X, this->Y + 16, CF_NOBLOCKS) && Screen->ComboS[(this->Y + 16) + (this->X >> 4)] == 0000b) {
+//                   Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
+//                   this->Vy = 2;
+//                   WaitNoAction(8);
+//                   undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
+//                }
 
-               this->Vy = 0;
-               Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
-            }
-            else if (Link->Dir == DIR_UP) {
-               while (this->Y > 0 && !ComboFI(this->X, this->Y - 1, CF_NOBLOCKS) && Screen->ComboS[(this->Y - 16) + (this->X >> 4)] == 0000b) {
-                  Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
-                  this->Vy = -2;
-                  WaitNoAction(8);
-                  undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
-               }
+//                this->Vy = 0;
+//                Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
+//             }
+//             else if (Link->Dir == DIR_UP) {
+//                while (this->Y > 0 && !ComboFI(this->X, this->Y - 1, CF_NOBLOCKS) && Screen->ComboS[(this->Y - 16) + (this->X >> 4)] == 0000b) {
+//                   Screen->ComboD[this->Y + (this->X >> 4)] = undercombo;
+//                   this->Vy = -2;
+//                   WaitNoAction(8);
+//                   undercombo = Screen->ComboD[this->Y + (this->X >> 4)];
+//                }
 
-               this->Vy = 0;
-               Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
-            }
+//                this->Vy = 0;
+//                Screen->ComboD[this->Y + (this->X >> 4)] = this->Data;
+//             }
 
-            framecounter = 0; // Reset the frame counter
-         }
-      }
+//             framecounter = 0; // Reset the frame counter
+//          }
+//       }
 
-      Waitframe();
-   }
-}
+//       Waitframe();
+//    }
+// }
 
 // clang-format off
-@Author("Colossal")
-ffc script IceTrigger {
-   // clang-format on
-   void run() {
-      ffc blocks[31];
-      int triggerx[31];
-      int triggery[31];
-      int num_ice_blocks = 0;
-      int num_triggers = 0;
-      int good_counter = 0;
+// @Author("Colossal")
+// ffc script IceTrigger {
+//    // clang-format on
+//    void run() {
+//       ffc blocks[31];
+//       int triggerx[31];
+//       int triggery[31];
+//       int num_ice_blocks = 0;
+//       int num_triggers = 0;
+//       int good_counter = 0;
 
-      for (int i = 0; i < 176 && num_triggers < 31; i++) {
-         if (Screen->ComboF[i] == CF_BLOCKTRIGGER || Screen->ComboI[i] == CF_BLOCKTRIGGER) {
-            triggerx[num_triggers] = (i % 16) * 16;
-            triggery[num_triggers] = Floor(i / 16) * 16;
-            num_triggers++;
-         }
-      }
+//       for (int i = 0; i < 176 && num_triggers < 31; i++) {
+//          if (Screen->ComboF[i] == CF_BLOCKTRIGGER || Screen->ComboI[i] == CF_BLOCKTRIGGER) {
+//             triggerx[num_triggers] = (i % 16) * 16;
+//             triggery[num_triggers] = Floor(i / 16) * 16;
+//             num_triggers++;
+//          }
+//       }
 
-      if (num_triggers == 0)
-         Quit();
+//       if (num_triggers == 0)
+//          Quit();
 
-      for (int i = 1; i <= 32; i++) {
-         ffc temp = Screen->LoadFFC(i);
+//       for (int i = 1; i <= 32; i++) {
+//          ffc temp = Screen->LoadFFC(i);
 
-         if (temp->Script == ICE_BLOCK_SCRIPT) {
-            blocks[num_ice_blocks] = temp;
-            num_ice_blocks++;
-         }
-      }
+//          if (temp->Script == ICE_BLOCK_SCRIPT) {
+//             blocks[num_ice_blocks] = temp;
+//             num_ice_blocks++;
+//          }
+//       }
 
-      if (num_ice_blocks == 0)
-         Quit();
+//       if (num_ice_blocks == 0)
+//          Quit();
 
-      while (true) {
-         for (int i = 0; i < num_ice_blocks; i++) {
-            // Check if blocks are on switches and not moving
-            for (int j = 0; j < num_triggers; j++) {
-               if (blocks[i]->X == triggerx[j] && blocks[i]->Y == triggery[j] && blocks[i]->Vx == 0 && blocks[i]->Vy == 0) {
-                  good_counter++;
-                  break;
-               }
-            }
-         }
+//       while (true) {
+//          for (int i = 0; i < num_ice_blocks; i++) {
+//             // Check if blocks are on switches and not moving
+//             for (int j = 0; j < num_triggers; j++) {
+//                if (blocks[i]->X == triggerx[j] && blocks[i]->Y == triggery[j] && blocks[i]->Vx == 0 && blocks[i]->Vy == 0) {
+//                   good_counter++;
+//                   break;
+//                }
+//             }
+//          }
 
-         if (good_counter == num_triggers) {
-            Audio->PlaySound(SFX_SECRET);
-            Screen->TriggerSecrets();
-            if ((Screen->Flags[SF_SECRETS] & 2) == 0)
-               Screen->State[ST_SECRET] = true;
-            Quit();
-         }
+//          if (good_counter == num_triggers) {
+//             Audio->PlaySound(SFX_SECRET);
+//             Screen->TriggerSecrets();
+//             if ((Screen->Flags[SF_SECRETS] & 2) == 0)
+//                Screen->State[ST_SECRET] = true;
+//             Quit();
+//          }
 
-         good_counter = 0;
-         Waitframe();
-      }
-   }
-}
+//          good_counter = 0;
+//          Waitframe();
+//       }
+//    }
+// }

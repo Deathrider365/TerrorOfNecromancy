@@ -161,23 +161,16 @@ dmapdata script HeatedRoom {
          int ringLevel = GetHighestLevelItemOwned(IC_RING);
 
          if (ringLevel < 0)
-            hurtDatHero(damage);
+            hurtDatHero(60, damage);
          else {
             itemdata itemData = Game->LoadItemData(ringLevel);
             int lvl = itemData->Level;
 
             if (lvl < armorLevel)
-               hurtDatHero(damage);
+               hurtDatHero(60, damage);
          }
 
          Waitframe();
-      }
-   }
-
-   void hurtDatHero(int damage) {
-      if (gameframe % 60 == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
-         Hero->HP -= damage;
-         Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
       }
    }
 }

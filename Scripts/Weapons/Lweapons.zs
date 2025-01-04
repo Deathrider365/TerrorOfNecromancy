@@ -83,7 +83,7 @@ lweapon script GaleBoomerang {
                collided = true;
          }
 
-         for (int q = Screen->NumItems(); q > 0; --q) {
+         for (int q = Screen->NumItems; q > 0; --q) {
             itemsprite it = Screen->LoadItem(q);
 
             unless(it->Pickup & IP_TIMEOUT) continue;
@@ -298,7 +298,7 @@ lweapon script FlamingArrow {
 
       while (true) {
          unless(collided) {
-            for (int i = Screen->NumLWeapons(); i > 0; --i) {
+            for (int i = Screen->NumLWeapons; i > 0; --i) {
                lweapon weapon = Screen->LoadLWeapon(i);
 
                switch (weapon->ID) {
@@ -309,7 +309,7 @@ lweapon script FlamingArrow {
                      break;
                }
             }
-            for (int i = Screen->NumEWeapons(); i > 0; --i) {
+            for (int i = Screen->NumEWeapons; i > 0; --i) {
                eweapon weapon = Screen->LoadEWeapon(i);
 
                switch (weapon->ID) {

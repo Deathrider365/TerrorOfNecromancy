@@ -262,7 +262,7 @@ namespace NPCAnim {
       // Sets an enemy's tile width and height and shaves pixels off the edges of its hitbox
       // int w,h - The width and height of the enemy in tiles
       // int hitOffsets[] - An array of four hit offsets
-      void SetHitbox(int w, int h, int hitOffsets = 0, bool center = false) {
+      void SetHitbox(int w, int h, int[] hitOffsets, bool center = false) {
          if (Owner->Extend != EXT_NOSHADOW)
             Owner->Extend = EXT_NORMAL;
          Owner->HitXOffset = 0;
@@ -271,7 +271,7 @@ namespace NPCAnim {
          Owner->TileHeight = h;
          Owner->HitWidth = w * 16;
          Owner->HitHeight = h * 16;
-         if (hitOffsets > 0) {
+         if (SizeOfArray(hitOffsets) > 0) {
             if (SizeOfArray(hitOffsets) != 4)
                printf("[NPCANIM ERROR] SetHitbox() array hitOffsets[] should be size 4");
             else {
@@ -307,7 +307,7 @@ namespace NPCAnim {
       }
 
       // Sets the enemy's movement collision hitbox, based on its tile width and height
-      void SetMovementHitbox(int collOffsets, bool center = false) {
+      void SetMovementHitbox(int[] collOffsets, bool center = false) {
          CollXOff = 0;
          CollYOff = 0;
          CollWidth = Owner->TileWidth * 16;
@@ -391,12 +391,13 @@ namespace NPCAnim {
       // int collOffsets[] - An array of four collision offsets (for terrain). Same as above, 0 for none
       // int drawOffsets[] - An array of two draw offsets {x, y}. 0 for none
       // int posOffsets[] - An array of two position offsets {x, y}. 0 for none
-      void ExtendAnim(int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
+      void ExtendAnim(int animID, int tileW, int tileH, int[] hitOffsets, int[] collOffsets, int[] drawOffsets, int[] posOffsets) {
          if (animID > -1) {
             int exflags = 0;
             SetAnimProperty(animID, ADI_TILEW, tileW);
             SetAnimProperty(animID, ADI_TILEH, tileH);
-            if (hitOffsets > 0) {
+
+            if (SizeOfArray(hitOffsets) > 0) {
                if (SizeOfArray(hitOffsets) != 4)
                   printf("[NPCANIM ERROR] ExtendAnim() array hitOffsets[] should be size 4");
                else {
@@ -417,7 +418,7 @@ namespace NPCAnim {
                   exflags |= ADFX_HITOFF;
                }
             }
-            if (collOffsets > 0) {
+            if (SizeOfArray(collOffsets) > 0) {
                if (SizeOfArray(collOffsets) != 4)
                   printf("[NPCANIM ERROR] ExtendAnim() array collOffsets[] should be size 4");
                else {
@@ -439,14 +440,14 @@ namespace NPCAnim {
                }
             }
             // If hit offsets are set, also update terrain collision offsets to be safe
-            else if (hitOffsets != 0) {
+            else if (SizeOfArray(hitOffsets) != 0) {
                SetAnimProperty(animID, ADI_COLL_HITXOFF, GetAnimProperty(animID, ADI_HITXOFF));
                SetAnimProperty(animID, ADI_COLL_HITYOFF, GetAnimProperty(animID, ADI_HITYOFF));
                SetAnimProperty(animID, ADI_COLL_HITWIDTH, GetAnimProperty(animID, ADI_HITWIDTH));
                SetAnimProperty(animID, ADI_COLL_HITHEIGHT, GetAnimProperty(animID, ADI_HITHEIGHT));
                exflags |= ADFX_COLLOFF;
             }
-            if (drawOffsets > 0) {
+            if (SizeOfArray(drawOffsets) > 0) {
                if (SizeOfArray(drawOffsets) != 2)
                   printf("[NPCANIM ERROR] ExtendAnim() array drawOffsets[] should be size 2");
                else {
@@ -455,7 +456,7 @@ namespace NPCAnim {
                   exflags |= ADFX_DRAWOFF;
                }
             }
-            if (posOffsets > 0) {
+            if (SizeOfArray(posOffsets) > 0) {
                if (SizeOfArray(posOffsets) != 2)
                   printf("[NPCANIM ERROR] ExtendAnim() array posOffsets[] should be size 2");
                else {
@@ -1242,7 +1243,7 @@ namespace NPCAnim {
          return ah->AddAnim(animID, tile, numFrames, aSpeed, 0, -1, flags);
       }
 
-      void ExtendAnim(AnimHandler ah, int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
+      void ExtendAnim(AnimHandler ah, int animID, int tileW, int tileH, int[] hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
          ah->ExtendAnim(animID, tileW, tileH, hitOffsets, collOffsets, drawOffsets, posOffsets);
       }
 

@@ -101,7 +101,7 @@ ffc script IntroLeviathanEnding {
    void run(int dmap, int scrn) {
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
-      waterfallBitmap = Game->CreateBitmap(32, 176);
+      waterfallBitmap = new bitmap(32, 176);
       UpdateWaterfallBitmap();
 
       Hero->Dir = DIR_UP;
@@ -222,7 +222,7 @@ ffc script IntroPreInteritusLeviathanScene {
 
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
-      waterfallBitmap = Game->CreateBitmap(32, 176);
+      waterfallBitmap = new bitmap(32, 176);
 
       UpdateWaterfallBitmap();
 
@@ -494,7 +494,7 @@ ffc script CapturedSequenceImprisioned {
 
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer3 = Game->LoadTempScreen(3);
-      dmapdata dmapData = Game->LoadDMapData(Game->GetCurDMap());
+      dmapdata dmapData = Game->LoadDMapData(Game->CurDMap);
       int soldierCombo1X = 224;
       int soldierCombo2X = 224;
 
@@ -658,7 +658,7 @@ ffc script CapturedSequenceImprisioned {
          // soldier3->X = 48;
          // soldier3->Y = 112;
 
-         while (Screen->NumNPCs())
+         while (Screen->NumNPCs)
             Waitframe();
 
          Audio->PlaySound(SFX_OOT_SECRET);
@@ -668,7 +668,7 @@ ffc script CapturedSequenceImprisioned {
       else {
          disableLink();
          mapDataLayer1->ComboD[125] = 7007;
-         Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.mp3", 0);
+         Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.ogg", 0);
          this->Data = 7015;
 
          for (int i = 0; i < 60; ++i) {
@@ -786,7 +786,7 @@ ffc script CapturedSequenceEscape {
       if (!getScreenD(33, 0x23, 0) || getScreenD(screenNumber))
          Quit();
 
-      dmapdata dmapData = Game->LoadDMapData(Game->GetCurDMap());
+      dmapdata dmapData = Game->LoadDMapData(Game->CurDMap);
 
       char32 curDmapMusic[256];
       dmapData->GetMusic(curDmapMusic);
@@ -828,7 +828,7 @@ ffc script CapturedSequenceEscape {
             break;
       }
 
-      while (Screen->NumNPCs()) {
+      while (Screen->NumNPCs) {
          mapDataLayer1->ComboD[comboPos] = 7011;
          Waitframe();
       }
@@ -858,7 +858,7 @@ ffc script CapturedSequenceNecromancer {
          Hero->Y = 128;
       }
 
-      Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.mp3", 0);
+      Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.ogg", 0);
 
       for (int i = 0; i < 120; ++i) {
          disableLink();
@@ -1251,7 +1251,7 @@ ffc script GraveKeeperSequence {
             this->Y = 0;
             int lastX, lastY;
 
-            while (Screen->NumNPCs()) {
+            while (Screen->NumNPCs) {
                lastX = enemy->X;
                lastY = enemy->Y;
                Waitframe();

@@ -361,7 +361,7 @@ namespace Emily {
     */
    mapdata CurMapdata() // start
    {
-      return Game->LoadMapData(Game->GetCurMap(), Game->GetCurScreen());
+      return Game->LoadMapData(Game->CurMap, Game->CurScreen);
    } // end
 
    /**
@@ -577,15 +577,15 @@ namespace Emily {
     */
    bool CanScrollInDir(int dir) // start
    {
-      if (Game->GetCurScreen() == 0x80)
+      if (Game->CurScreen == 0x80)
          return dir == DIR_DOWN;
       if (Screen->SideWarpID[dir] > -1)
          return true;
       switch (dir) {
-         case DIR_UP: return Game->GetCurScreen() > 0x0F;
-         case DIR_DOWN: return Game->GetCurScreen() < 0x70;
-         case DIR_LEFT: return Game->GetCurScreen() % 0x10;
-         case DIR_RIGHT: return (Game->GetCurScreen() % 0x10) != 0x0F;
+         case DIR_UP: return Game->CurScreen > 0x0F;
+         case DIR_DOWN: return Game->CurScreen < 0x70;
+         case DIR_LEFT: return Game->CurScreen % 0x10;
+         case DIR_RIGHT: return (Game->CurScreen % 0x10) != 0x0F;
       }
       return false;
    } // end
@@ -1188,9 +1188,9 @@ namespace Emily {
    bitmap create(int w, int h) // start
    {
       if (Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
-         return Game->CreateBitmap(h, w);
+         return new bitmap(h, w);
       else
-         return Game->CreateBitmap(w, h);
+         return new bitmap(w, h);
    }
    // end
 
@@ -1211,12 +1211,12 @@ namespace Emily {
       dmapdata dm = Game->LoadDMapData(SCRNSHOT_DMAP);
       int olddm[] = {dm->Map, dm->Level, dm->Offset, dm->Type, dm->Palette};
       dm->Map = map;
-      dm->Level = Game->GetCurLevel();
+      dm->Level = Game->CurLevel;
       dm->Offset = 0;
       dm->Type = (dm->Type & ~11b) | DMAP_OVERWORLD;
       //
-      int olddmap = Game->GetCurDMap();
-      int oldscr = Game->GetCurDMapScreen();
+      int olddmap = Game->CurDMap;
+      int oldscr = Game->CurDMapScreen;
       int oldx = Hero->X;
       int oldy = Hero->Y;
       bool msgfrz = Game->FFRules[qr_MSGFREEZE];
@@ -1261,12 +1261,13 @@ namespace Emily {
                Game->Suspend[susptLINK] = false;
                int timeout = 60;
                do {
+                  // clang-format off
                   Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
                   colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
                   Waitframe();
                }
-               until(Game->GetCurScreen() == scr || !--timeout);
-               if (Game->GetCurScreen() != scr) // Warp failed, for some reason?
+               until(Game->CurScreen == scr || !--timeout);
+               if (Game->CurScreen != scr) // Warp failed, for some reason?
                {
                   printf("Error warping to (%d,%02X), skipping screenshot\n", map, scr);
                   m->Pattern = pat;
@@ -1332,18 +1333,18 @@ namespace Emily {
       Hero->Invisible = true;
       dmapdata dm = Game->LoadDMapData(SCRNSHOT_DMAP);
       int olddm[] = {dm->Map, dm->Level, dm->Offset, dm->Type, dm->Palette};
-      dm->Level = Game->GetCurLevel();
+      dm->Level = Game->CurLevel;
       dm->Offset = 0;
       dm->Type = (dm->Type & ~11b) | DMAP_OVERWORLD;
-      int olddmap = Game->GetCurDMap();
-      int oldscr = Game->GetCurDMapScreen();
+      int olddmap = Game->CurDMap;
+      int oldscr = Game->CurDMapScreen;
       int oldx = Hero->X;
       int oldy = Hero->Y;
       bool msgfrz = Game->FFRules[qr_MSGFREEZE];
       Game->FFRules[qr_MSGFREEZE] = false;
       bitmap b = create(256 * 16, 176 * 8);
 
-      for (int map = 1; map <= Game->MapCount(); ++map) {
+      for (int map = 1; map <= Game->MapCount; ++map) {
          dm->Map = map;
          //
          //
@@ -1385,12 +1386,13 @@ namespace Emily {
                   Game->Suspend[susptLINK] = false;
                   int timeout = 60;
                   do {
+                     // clang-format off
                      Screen->Flags[SF_VIEW] ~= SFV_NOSUBSCREEN;
                      colorscr_txt(SYS_BLACK, SYS_WHITE, FONT_SATURN, waitmsg, MAPSCREENSHOT_HIDES_SUBSCR);
                      Waitframe();
                   }
-                  until(Game->GetCurScreen() == scr || !--timeout);
-                  if (Game->GetCurScreen() != scr) // Warp failed, for some reason?
+                  until(Game->CurScreen == scr || !--timeout);
+                  if (Game->CurScreen != scr) // Warp failed, for some reason?
                   {
                      printf("Error warping to (%d,%02X), skipping screenshot\n", map, scr);
                      m->Pattern = pat;

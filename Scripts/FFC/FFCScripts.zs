@@ -7,8 +7,8 @@
 
    void run(int dmap, int scrn) {
       unless(dmap || scrn) {
-         dmap = Game->GetCurDMap();
-         scrn = Game->GetCurScreen();
+         dmap = Game->CurDMap;
+         scrn = Game->CurScreen;
       }
 
       Game->LastEntranceDMap = dmap;
@@ -24,7 +24,7 @@
    // clang-format on
 
    void run() {
-      if (!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->GetCurLevel()] & LI_COMPASS))
+      if (!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->CurLevel] & LI_COMPASS))
          Audio->PlaySound(COMPASS_BEEP);
    }
 }
@@ -408,7 +408,7 @@
 
       while (true) {
          // start Loop through all EWeapons
-         for (i = Screen->NumEWeapons(); i >= 1; i--) {
+         for (i = Screen->NumEWeapons; i >= 1; i--) {
             eweapon e = Screen->LoadEWeapon(i);
 
             // Only fire weapons can burn oil/bushes
@@ -447,7 +447,7 @@
 
          if (GetHighestLevelItemOwned(IC_CANDLE) != 158) {
             // start Loop through all LWeapons
-            for (i = Screen->NumLWeapons(); i >= 1; i--) {
+            for (i = Screen->NumLWeapons; i >= 1; i--) {
                lweapon l = Screen->LoadLWeapon(i);
                // Only fire weapons can burn oil/bushes
                if (l->ID == LW_FIRE) {
@@ -781,9 +781,9 @@ ffc script LensTorches {
 
       int comboSlot = Game->GetComboScript("TorchMarker");
 
-      bitmap lenslayer = Game->CreateBitmap(256, 176);
+      bitmap lenslayer = new bitmap(256, 176);
       lenslayer->Own();
-      bitmap lensmask = Game->CreateBitmap(256, 176);
+      bitmap lensmask = new bitmap(256, 176);
       lensmask->Own();
 
       while (true) {
@@ -839,15 +839,5 @@ ffc script LensTorches {
       b->Circle(0, x, y, rad, 0x00, 1, 0, 0, 0, true, OP_OPAQUE);
       b->Circle(0, x, y, rad + 2, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
       b->Circle(0, x, y, rad + 5, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
-   }
-}
-
-// clang-format off
-@InitD0("Radius"),
-@InitDHelp0("Radius around the torch to reveal")
-combodata script TorchMarker {
-   // clang-format on
-   void run(int radius) {
-      // This script just exists to mark combos for the FFC
    }
 }

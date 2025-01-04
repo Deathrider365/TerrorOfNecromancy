@@ -56,7 +56,7 @@ namespace LeviathanNamespace {
       void run() {
          Hero->Dir = DIR_UP;
 
-         waterfallBitmap = Game->CreateBitmap(32, 176);
+         waterfallBitmap = new bitmap(32, 176);
 
          untyped vars[16];
 
@@ -397,7 +397,7 @@ namespace LeviathanNamespace {
       }
    }
 
-   int changeInDifficulty(npc n, int vars) {
+   int changeInDifficulty(npc n, int[] vars) {
       if (n->HP < vars[VARS_INITHP] * 0.50)
          return DIFFICULTY_STAGE_2;
       if (n->HP < vars[VARS_INITHP] * 0.25)
@@ -537,7 +537,7 @@ namespace LeviathanNamespace {
          LeviathanWaitframe(this, vars);
    }
 
-   void LeviathanWaitframe(npc this, untyped vars) {
+   void LeviathanWaitframe(npc this, untyped[] vars) {
       this->DrawYOffset = -1000;
       this->Stun = 10;
       this->Immortal = true;
@@ -552,7 +552,7 @@ namespace LeviathanNamespace {
       else
          this->CollDetection = false;
 
-      npc head = <npc> vars[VARS_HEADNPC];
+      npc head = vars[VARS_HEADNPC];
 
       if (head->isValid()) {
          if (head->Y + head->HitYOffset + head->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
@@ -839,7 +839,7 @@ ffc script Legionnaire {
       int movementDirection = Choose(90, -90);
 
       int timeToSpawnAnother, enemyCount;
-      int numEnemies = Screen->NumNPCs();
+      int numEnemies = Screen->NumNPCs;
 
       // Intro Animation
       unless(getScreenD(screenD)) {
@@ -883,7 +883,7 @@ ffc script Legionnaire {
          Ghost_Data = combo + 4;
          Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
          int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection;
-         numEnemies = Screen->NumNPCs();
+         numEnemies = Screen->NumNPCs;
 
          Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
 
@@ -1271,7 +1271,7 @@ namespace ShamblesNamespace {
    }
 
    int chooseAttack(int attack) {
-      if (Screen->NumNPCs() >= 3) {
+      if (Screen->NumNPCs >= 3) {
          if (attack == ATTACK_INITIAL_RUSH)
             attack = ATTACK_LINK_CHARGE;
          else if (attack == ATTACK_LINK_CHARGE)
@@ -1858,7 +1858,7 @@ namespace HazarondNamespace {
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
    }
 
-   void dropFlame(npc heads, int headOpenIndex, int eweaponStopper, int damage) {
+   void dropFlame(npc[] heads, int headOpenIndex, int eweaponStopper, int damage) {
       eweapon flame = CreateEWeaponAt(EW_SCRIPT1, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
       flame->Dir = heads[headOpenIndex]->Dir;
       flame->Step = RandGen->Rand(125, 175);
@@ -1901,7 +1901,7 @@ namespace HazarondNamespace {
       EnemyWaitframe(this, data, 60);
    }
 
-   bool isHeadsDead(npc heads) {
+   bool isHeadsDead(npc[] heads) {
       bool dead = true;
 
       for (int headIndex = 0; headIndex < 4; ++headIndex) {
@@ -2066,7 +2066,7 @@ namespace OvergrownRaccoonNamespace {
                timer = 0;
                int attackChoice = 0;
 
-               if (Screen->NumNPCs() > 5) {
+               if (Screen->NumNPCs > 5) {
                   if (previousState == STATE_RACCOON_THROW)
                      attackChoice = STATE_CHARGE;
                   else
@@ -2344,7 +2344,7 @@ namespace ServusMalusNamespace {
                if (litTorchCount == 4)
                   torchesLit = true;
 
-               if ((Screen->NumNPCs() - 1) < maxEnemies && chosenTorch == 0)
+               if ((Screen->NumNPCs - 1) < maxEnemies && chosenTorch == 0)
                   --spawnTimer;
 
                Waitframe();
@@ -3655,12 +3655,12 @@ namespace EgentemNamespace {
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
-      for (int i = Screen->NumEWeapons(); i >= 1; i--) {
+      for (int i = Screen->NumEWeapons; i >= 1; i--) {
          eweapon e = Screen->LoadEWeapon(i);
          e->Remove();
       }
 
-      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          n->Remove();
       }
@@ -4023,7 +4023,7 @@ namespace EgentemNamespace {
       hammerAnimHoldUp(this, xy, holdUpDamage, 8);
       hammerAnimSwing(this, xy, holdUpDamage, swingDamage);
 
-      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+      for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
          if (e->Script == shockwaveSlot)
@@ -4122,7 +4122,7 @@ namespace EgentemNamespace {
       int slot = Game->GetEWeaponScript("EgentemPillar");
       int count;
 
-      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+      for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
          if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection)
@@ -4137,7 +4137,7 @@ namespace EgentemNamespace {
       eweapon closest;
       int closestDistance = 1000;
 
-      for (int i = Screen->NumEWeapons(); i > 0; --i) {
+      for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
          if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection) {
@@ -4265,7 +4265,7 @@ namespace EgentemNamespace {
             mapData->ComboD[40] = 0;
          }
 
-         until(Screen->SecretsTriggered()) Waitframe();
+         until(Screen->SecretsTriggered) Waitframe();
 
          Audio->PlayEnhancedMusic(NULL, 0);
          setScreenD(0, true);
@@ -4445,7 +4445,7 @@ namespace LatrosNamespace {
                else {
                   charge(this, latros);
 
-                  if (Screen->NumItems())
+                  if (Screen->NumItems)
                      seekItem(this, latros);
 
                   int possessingItems[5];
@@ -4610,7 +4610,7 @@ namespace LatrosNamespace {
    }
 
    void seekItem(npc this, Latros latros) {
-      while (Screen->NumItems() && !itemsUpForGrabs())
+      while (Screen->NumItems && !itemsUpForGrabs())
          LatrosWaitframe(this, latros, 16);
 
       while (itemsUpForGrabs() && latros->numItems < 5) {
@@ -4635,7 +4635,7 @@ namespace LatrosNamespace {
    int itemsUpForGrabs() {
       int count;
 
-      for (int i = Screen->NumItems(); i > 0; --i) {
+      for (int i = Screen->NumItems; i > 0; --i) {
          itemsprite itm = Screen->LoadItem(i);
 
          if (itm->Z == 0)
@@ -4649,7 +4649,7 @@ namespace LatrosNamespace {
       itemsprite closestItem;
       int closestDist = 1000;
 
-      for (int i = Screen->NumItems(); i > 0; --i) {
+      for (int i = Screen->NumItems; i > 0; --i) {
          itemsprite itm = Screen->LoadItem(i);
          int dist = Distance(itm->X, itm->Y, this->X, this->Y) + Rand(8);
 
@@ -4994,7 +4994,7 @@ namespace LatrosNamespace {
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
-      for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          n->Remove();
       }
@@ -5125,7 +5125,7 @@ namespace Quickknife {
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
-      // for (int i = Screen->NumNPCs(); i >= 1; i--) {
+      // for (int i = Screen->NumNPCs; i >= 1; i--) {
       //    npc n = Screen->LoadNPC(i);
       //    n->Remove();
       // }

@@ -192,7 +192,7 @@ void DifficultyGlobal_Update() {
 // Enemy update loop for the difficulty script. Call once in global script after DifficultyGlobal_Update();
 void DifficultyGlobal_EnemyUpdate() {
    int i;
-   for (i = Screen->NumNPCs(); i >= 1; --i) {
+   for (i = Screen->NumNPCs; i >= 1; --i) {
       npc n = Screen->LoadNPC(i);
       __DifficultyGlobal_EnemyUpdate_Difficulty(n);
    }
@@ -607,47 +607,57 @@ ffc script DifficultySelectionScreen {
             int sHard[256];
             int sVeryHard[256];
 
-            int options[5];
+            int[] options[5];
             int optionValues[5];
             int selection;
             int numOptions;
 
             if (msgVeryEasy) {
                GetMessage(msgVeryEasy, sVeryEasy);
+
                if (defaultDifficulty == DIFF_VERYEASY)
                   selection = numOptions;
+
                options[numOptions] = sVeryEasy;
                optionValues[numOptions] = 0;
                ++numOptions;
             }
             if (msgEasy) {
                GetMessage(msgEasy, sEasy);
+
                if (defaultDifficulty == DIFF_EASY)
                   selection = numOptions;
+
                options[numOptions] = sEasy;
                optionValues[numOptions] = 1;
                ++numOptions;
             }
             if (msgNormal) {
                GetMessage(msgNormal, sNormal);
+
                if (defaultDifficulty == DIFF_NORMAL)
                   selection = numOptions;
+
                options[numOptions] = sNormal;
                optionValues[numOptions] = 2;
                ++numOptions;
             }
             if (msgHard) {
                GetMessage(msgHard, sHard);
+
                if (defaultDifficulty == DIFF_HARD)
                   selection = numOptions;
+
                options[numOptions] = sHard;
                optionValues[numOptions] = 3;
                ++numOptions;
             }
             if (msgVeryHard) {
                GetMessage(msgVeryHard, sVeryHard);
+
                if (defaultDifficulty == DIFF_VERYHARD)
                   selection = numOptions;
+
                options[numOptions] = sVeryHard;
                optionValues[numOptions] = 4;
                ++numOptions;

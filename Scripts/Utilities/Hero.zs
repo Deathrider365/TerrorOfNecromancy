@@ -21,7 +21,7 @@ hero script HeroActive {
       // DEFINE WIDTH = NUM_STATUSES * STATUS_WIDTH;
       // DEFINE FONT_HEIGHT = Text->FontHeight(STATUS_FONT);
       // DEFINE HEIGHT = STATUS_HEIGHT + FONT_HEIGHT;
-      // status_bmp = Game->CreateBitmap(WIDTH, HEIGHT);
+      // status_bmp = new bitmap(WIDTH, HEIGHT);
 
       // while (true) {
       //    status_bmp->Clear(0);

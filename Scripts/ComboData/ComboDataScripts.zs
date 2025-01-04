@@ -1,6 +1,7 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Combo Data Scripts~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
+@Author("Moosh"),
 @Attribyte0("X Sensitivity"),
 @AttribyteHelp0("Horizontal sensitivity in pixels (16 is full sensitivity)"),
 @Attribyte1("Y Sensitivity"),
@@ -30,6 +31,7 @@ combodata script SemiSensitiveSwitch {
 }
 
 // clang-format off
+@Author("Moosh"),
 @Attribyte0("Direction"),
 @AttribyteHelp0("0 = Up,\n 1 = Down,\n 2 = Left,\n 3 = Right")
 combodata script ICanSeeYou {
@@ -127,5 +129,38 @@ combodata script ICanSeeYou {
          Screen->Rectangle(6, x, y, x + width - 1, y + height - 1, C_WHITE, 1, 0, 0, 0, true, OP_TRANS);
 
       return RectCollision(Hero->X, Hero->Y + 8, Hero->X + 15, Hero->Y + 15, x, y, x + width - 1, y + height - 1);
+   }
+}
+
+// clang-format off
+@Author("Moosh"),
+@InitD0("Radius"),
+@InitDHelp0("Radius around the torch to reveal")
+combodata script TorchMarker {
+   // clang-format on
+   void run(int radius) {
+      // This script just exists to mark combos for the FFC
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("Min Level"),
+@InitDHelp0("Minimum level of ring to check when checking if to do damage"),
+@InitD1("Damage"),
+@InitDHelp1("Damage to Link (8 is 1 heart)")
+combodata script HotSteam {
+   // clang-format on
+   void run(int minLevel, int damage) {
+      while (true) {
+         itemdata ringData = Game->LoadItemData(GetHighestLevelItemOwned(IC_RING));
+
+         if (gameframe % 30 == 0 && (ringData->Level < minLevel && Collision(this))) {
+            Hero->HP -= damage;
+            Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+         }
+
+         Waitframe();
+      }
    }
 }
