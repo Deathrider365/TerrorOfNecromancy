@@ -141,12 +141,24 @@ global script GlobalScripts {
          mapData[l] = Game->LoadTempScreen(l);
       }
 
-      if (Screen->Palette != lastPal) {
-         lastPal = Screen->Palette;
+      // if (Screen->Palette != lastPal) {
+      //    lastPal = Screen->Palette;
 
-         for (int i = 0; i <= MAX_USED_DMAP; ++i)
-            Game->LoadDMapData(i)->Palette = Screen->Palette;
-      }
+      //    for (int i = 0; i <= MAX_USED_DMAP; ++i)
+      //       Game->LoadDMapData(i)->Palette = Screen->Palette;
+      // }
+      // this->EventListen[GENSCR_EVENT_CHANGE_SCREEN] = true;
+      // int palette = -1;
+      // while(true)
+      // {
+      // 	if(Screen->Palette != palette)
+      // 	{
+      // 		palette = Screen->Palette;
+      // 		for(int q = 0; q < MAX_DMAPS; ++q)
+      // 			Game->LoadDMapData(q)->Palette = palette;
+      // 	}
+      // 	WaitEvent();
+      // }
    }
 
    // 654321
