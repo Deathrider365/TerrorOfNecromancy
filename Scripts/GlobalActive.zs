@@ -48,9 +48,6 @@ global script GlobalScripts {
          JinxStuff();
          // JinxCounter();
 
-         Waitdraw();
-         Waitframe();
-
          setupTransparentLayers();
          Waitdraw();
          drawRadialTransparency(mapData);
@@ -251,6 +248,11 @@ global script GlobalScripts {
          case 50:
             switch (screen) {
                case 0x02: return 000100b;
+            }
+            break;
+         case 69:
+            switch (screen) {
+               case 0x22: return 000100b;
             }
             break;
       }

@@ -1193,6 +1193,9 @@ ffc script FallingStalagtites {
 
       until(Screen->State[ST_SECRET]) Waitframe();
 
+      Screen->Quake = 20;
+      Audio->PlaySound(SFX_ROCKINGSHIP);
+
       for (int i = 0; i < duration; ++i) {
          if (xSpeed)
             this->X += (i *= xSpeed);
