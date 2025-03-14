@@ -816,11 +816,13 @@ ffc script Legionnaire {
    void run(int enemyid) {
       npc ghost = Ghost_InitAutoGhost(this, enemyid);
 
+      int triggerOnSecret = ghost->Attributes[5];
+
       CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
       CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
       CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
 
-      if (Screen->State[ST_SECRET]) {
+      if (triggerOnSecret == 0 && Screen->State[ST_SECRET]) {
          ghost->Remove();
          Quit();
       }
@@ -840,6 +842,14 @@ ffc script Legionnaire {
 
       int timeToSpawnAnother, enemyCount;
       int numEnemies = Screen->NumNPCs;
+
+      if (triggerOnSecret) {
+         while (!Screen->State[ST_SECRET]) {
+            Ghost_Y = -32;
+            Ghost_X = 120;
+            Ghost_Waitframe(this, ghost);
+         }
+      }
 
       // Intro Animation
       unless(getScreenD(screenD)) {
