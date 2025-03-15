@@ -45,7 +45,17 @@ global script GlobalScripts {
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
 
-         JinxStuff();
+         const int BLUE_BUBBLE_JINX_COMBO = 6896;
+         const int RED_BUBBLE_JINX_COMBO = 6897;
+
+         if (Hero->SwordJinx > 0) {
+            Screen->DrawCombo(3, Hero->X, Hero->Y, BLUE_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+         }
+         if (Hero->SwordJinx < 0) {
+            Screen->DrawCombo(3, Hero->X, Hero->Y, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+         }
+
+         // JinxStuff();
          // JinxCounter();
 
          setupTransparentLayers();
@@ -256,6 +266,13 @@ global script GlobalScripts {
                case 0x24: return 001100b;
             }
             break;
+         case 70:
+            switch (screen) {
+               case 0x4D: return 000100b;
+               case 0x1E: return 001000b;
+               case 0x2E: return 001000b;
+            }
+            break;
       }
       return 0;
    }
@@ -338,46 +355,46 @@ global script GlobalScripts {
    }
 
    // Author - Justin
-   void JinxStuff() {
-      if (Link->Action == LA_SCROLLING)
-         return;
+   // void JinxStuff() {
+   //    if (Link->Action == LA_SCROLLING)
+   //       return;
 
-      if (LinkVars[LV_SWORDJINX] == 0) {
-         if (Link->SwordJinx > 0)
-            LinkVars[LV_SWORDJINX] = Link->SwordJinx;
-      }
-      else {
-         LinkVars[LV_SWORDJINX]--;
-         if (JINX_CARRYOVER == 1 && Link->SwordJinx == 0) {
-            if (LinkVars[LV_SWORDJINX] > 0)
-               Link->SwordJinx = LinkVars[LV_SWORDJINX];
-         }
-         else if (JINX_COMBINE == 1) {
-            if (Link->SwordJinx > LinkVars[LV_SWORDJINX]) {
-               Link->SwordJinx += LinkVars[LV_SWORDJINX];
-               LinkVars[LV_SWORDJINX] = Link->SwordJinx;
-            }
-         }
-      }
+   //    if (LinkVars[LV_SWORDJINX] == 0) {
+   //       if (Link->SwordJinx > 0)
+   //          LinkVars[LV_SWORDJINX] = Link->SwordJinx;
+   //    }
+   //    else {
+   //       LinkVars[LV_SWORDJINX]--;
+   //       if (JINX_CARRYOVER == 1 && Link->SwordJinx == 0) {
+   //          if (LinkVars[LV_SWORDJINX] > 0)
+   //             Link->SwordJinx = LinkVars[LV_SWORDJINX];
+   //       }
+   //       else if (JINX_COMBINE == 1) {
+   //          if (Link->SwordJinx > LinkVars[LV_SWORDJINX]) {
+   //             Link->SwordJinx += LinkVars[LV_SWORDJINX];
+   //             LinkVars[LV_SWORDJINX] = Link->SwordJinx;
+   //          }
+   //       }
+   //    }
 
-      if (LinkVars[LV_ITEMJINX] == 0) {
-         if (Link->ItemJinx > 0)
-            LinkVars[LV_ITEMJINX] = Link->ItemJinx;
-      }
-      else {
-         LinkVars[LV_ITEMJINX]--;
-         if (JINX_CARRYOVER == 1 && Link->ItemJinx == 0) {
-            if (LinkVars[LV_ITEMJINX] > 0)
-               Link->ItemJinx = LinkVars[LV_ITEMJINX];
-         }
-         else if (JINX_COMBINE == 1) {
-            if (Link->ItemJinx > LinkVars[LV_ITEMJINX]) {
-               Link->ItemJinx += LinkVars[LV_ITEMJINX];
-               LinkVars[LV_ITEMJINX] = Link->ItemJinx;
-            }
-         }
-      }
-   }
+   //    if (LinkVars[LV_ITEMJINX] == 0) {
+   //       if (Link->ItemJinx > 0)
+   //          LinkVars[LV_ITEMJINX] = Link->ItemJinx;
+   //    }
+   //    else {
+   //       LinkVars[LV_ITEMJINX]--;
+   //       if (JINX_CARRYOVER == 1 && Link->ItemJinx == 0) {
+   //          if (LinkVars[LV_ITEMJINX] > 0)
+   //             Link->ItemJinx = LinkVars[LV_ITEMJINX];
+   //       }
+   //       else if (JINX_COMBINE == 1) {
+   //          if (Link->ItemJinx > LinkVars[LV_ITEMJINX]) {
+   //             Link->ItemJinx += LinkVars[LV_ITEMJINX];
+   //             LinkVars[LV_ITEMJINX] = Link->ItemJinx;
+   //          }
+   //       }
+   //    }
+   // }
 
    // // Author - Justin
    // void JinxCounter() {

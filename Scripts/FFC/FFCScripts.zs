@@ -281,14 +281,16 @@
 @InitDHelp1("-1 if using A-D, otherwise an x return location"),
 @InitD2("y1"),
 @InitDHelp2("0-3 == A-D"),
-@InitD3("dmapScreen1"),
+@InitD3("dmapScreen2"),
 @InitDHelp3("dmap.screen, screen is not the hex screen"),
 @InitD4("x2"),
 @InitDHelp4("-1 if using A-D, otherwise an x return location"),
 @InitD5("y2"),
 @InitDHelp5("0-3 == A-D"),
-@InitD6("y2"),
-@InitDHelp6("0-3 == A-D")
+@InitD6("sideFacing"),
+@InitDHelp6("0 == up, 1 == right..."),
+@InitD7("warp"),
+@InitDHelp7("warpType.warpEffect")
  ffc script WarpCustomReturn {
    // clang-format on
 
