@@ -131,3 +131,11 @@ a boss who's life is linked to a timer and the only way to kill him is to avoid 
 a fast pased boss that does 3 fast warps around the room, and on the third appears right by link and swings at him (with build up) and he does this constantly
 
 the final boss will have a number of phases
+
+A gleeok that runs along the walls, and perhaps the fight goes back and forth between top-down and sideview for when it flies
+
+A boss who's stats increase by the amount of enemies on screen, say a wizzrobe that is stonger while it has more minions
+
+
+
+

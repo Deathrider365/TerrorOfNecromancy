@@ -902,7 +902,7 @@ ffc script Legionnaire {
             enemyShake(this, ghost, 32, 1);
             Audio->PlaySound(SFX_OOT_WHISTLE);
 
-            npc backupLegionnaire = Screen->CreateNPC(ENEMY_LEGIONNAIRE);
+            npc backupLegionnaire = Screen->CreateNPC(ghost->Attributes[4]);
             backupLegionnaire->ItemSet = 0;
             backupLegionnaire->HP *= .5;
             backupLegionnaire->Step *= .5;
