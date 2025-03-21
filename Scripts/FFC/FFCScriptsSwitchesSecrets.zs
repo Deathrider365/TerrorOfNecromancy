@@ -32,7 +32,13 @@ ffc script EnemiesChest {
 }
 
 // clang-format off
-@Author("Moosh")
+@Author("Moosh"),
+@InitD0("type"),
+@InitDHelp0("1 for enemy, 0 for secrets, -1 for never open"),
+@InitD1("perm"),
+@InitDHelp1("0 for temp, 1 for perm"),
+@InitD2("playSound"),
+@InitDHelp2("0 to not, 1 to play")
 ffc script Shutter {
    // clang-format on
    // start Instructions

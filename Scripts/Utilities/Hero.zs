@@ -6,7 +6,7 @@ hero script HeroInit {
    // clang-format on
 
    void run() {
-      subscreenYOffset = -224;
+      subscreenYOffset = -232;
    }
 }
 

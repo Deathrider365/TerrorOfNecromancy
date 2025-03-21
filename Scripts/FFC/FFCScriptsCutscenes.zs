@@ -174,7 +174,7 @@ ffc script IntroEndOfOpeningScene {
       disableLink();
       Screen->Message(msg);
       Waitframe();
-      Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPFX_BLACKOUT, 0, 0, DIR_DOWN});
+      Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WIPE_FADEBLACK, 0, 0, DIR_DOWN});
    }
 }
 

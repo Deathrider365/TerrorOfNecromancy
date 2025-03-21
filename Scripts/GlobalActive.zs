@@ -428,7 +428,7 @@ global script OnLaunch {
 
    void run() {
       lastPal = -1;
-      subscreenYOffset = -224;
+      subscreenYOffset = -232;
       subscreenOpen = false;
 
       setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
@@ -466,7 +466,7 @@ global script onContGame {
    // clang-format off
 
    void run() {
-      subscreenYOffset = -224;
+      subscreenYOffset = -232;
 
       if(onContHP != 0) {
          Hero->HP = onContHP;

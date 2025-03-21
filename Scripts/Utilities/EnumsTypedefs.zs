@@ -376,7 +376,7 @@ CONFIG CT_FOOTPRINT = CT_SCRIPT20;
 CONFIG STATUS_FONT = FONT_Z3SMALL;
 
 /*/~~~~~ActiveSubscreen~~~~~/*/
-int subscreenYOffset = -224;
+int subscreenYOffset = -232;
 
 char32 numBombUpgradesBuf[6];
 char32 numQuiverUpgradesBuf[6];

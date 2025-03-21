@@ -98,56 +98,56 @@ dmapdata script DarkRegion {
    // clang-format on
 
    void run(int radius, int itemClass, int layer, int torchPower) {
-      unless(darknessBitmap->isValid()) darknessBitmap = create(256 * 3, 176 * 4.5);
-      else recreate(darknessBitmap, 256 * 3, 176 * 4.5);
+      // unless(darknessBitmap->isValid()) darknessBitmap = create(256 * 3, 176 * 4.5);
+      // else recreate(darknessBitmap, 256 * 3, 176 * 4.5);
 
-      int animationCounter;
+      // int animationCounter;
 
-      while (true) {
-         Waitdraw();
+      // while (true) {
+      //    Waitdraw();
 
-         int itemId = GetHighestLevelItemOwned(itemClass);
-         itemdata itemData = itemId < 0 ? NULL : Game->LoadItemData(itemId);
-         int power = itemData ? itemData->Attributes[9] : 0;
-         int mode = 0;
+      //    int itemId = GetHighestLevelItemOwned(itemClass);
+      //    itemdata itemData = itemId < 0 ? NULL : Game->LoadItemData(itemId);
+      //    int power = itemData ? itemData->Attributes[9] : 0;
+      //    int mode = 0;
 
-         if (itemData)
-            mode = itemData->Flags[14] ? BITDX_TRANS : 0;
+      //    if (itemData)
+      //       mode = itemData->Flags[14] ? BITDX_TRANS : 0;
 
-         animationCounter += 2;
-         animationCounter %= 360;
+      //    animationCounter += 2;
+      //    animationCounter %= 360;
 
-         for (int i = layer; i >= 0; --i) {
-            darknessBitmap->ClearToColor(layer, C_BLACK);
+      //    for (int i = layer; i >= 0; --i) {
+      //       darknessBitmap->ClearToColor(layer, C_BLACK);
 
-            if (power)
-               darknessBitmap->Circle(layer, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
+      //       if (power)
+      //          darknessBitmap->Circle(layer, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
 
-            if (torchPower) {
-               for (int xPos = 0; xPos < 256; xPos += 16) {
-                  for (int yPos = 0; yPos < 176; yPos += 16) {
-                     int pos = ComboAt(xPos, yPos);
-                     int comboT = Screen->ComboT[pos];
+      //       if (torchPower) {
+      //          for (int xPos = 0; xPos < 256; xPos += 16) {
+      //             for (int yPos = 0; yPos < 176; yPos += 16) {
+      //                int pos = ComboAt(xPos, yPos);
+      //                int comboT = Screen->ComboT[pos];
 
-                     for (int lightLayer = 1; lightLayer < 3; ++lightLayer)
-                        if (Screen->LayerMap[lightLayer]) {
-                           mapdata mapData = Game->LoadTempScreen(lightLayer);
+      //                for (int lightLayer = 1; lightLayer < 3; ++lightLayer)
+      //                   if (Screen->LayerMap[lightLayer]) {
+      //                      mapdata mapData = Game->LoadTempScreen(lightLayer);
 
-                           if (mapData->ComboD[pos])
-                              comboT = mapData->ComboT[pos];
-                        }
+      //                      if (mapData->ComboD[pos])
+      //                         comboT = mapData->ComboT[pos];
+      //                   }
 
-                     if (comboT == CT_SCRIPT_TORCH)
-                        darknessBitmap->Circle(layer, xPos + 8 + 256, yPos + 8 + 176, (radius * torchPower) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
-                  }
-               }
-            }
+      //                if (comboT == CT_SCRIPT_TORCH)
+      //                   darknessBitmap->Circle(layer, xPos + 8 + 256, yPos + 8 + 176, (radius * torchPower) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
+      //             }
+      //          }
+      //       }
 
-            darknessBitmap->Blit(layer, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, 1, 0, true);
-         }
+      //       darknessBitmap->Blit(layer, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, 1, 0, true);
+      //    }
 
-         Waitframe();
-      }
+      //    Waitframe();
+      // }
    }
 }
 

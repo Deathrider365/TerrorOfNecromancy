@@ -12,12 +12,14 @@ namespace SubscreenActive {
          if (Game->Suspend[susptSUBSCREENSCRIPTS])
             return;
 
+         Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
+
          subscreenOpen = true;
-         bitmap b = new bitmap(256, 224);
+         bitmap b = new bitmap(256, 232);
          b->ClearToColor(0, BG_COLOR);
          b->DrawScreen(0, BG_MAP, BG_SCREEN, 0, 0, 0);
 
-         for (subscreenYOffset = -224; subscreenYOffset < -56; subscreenYOffset += SCROLL_SPEED) {
+         for (subscreenYOffset = -232; subscreenYOffset < -56; subscreenYOffset += SCROLL_SPEED) {
             doActiveMenuFrame(b, subscreenYOffset, false);
             Waitframe();
          }
@@ -30,18 +32,18 @@ namespace SubscreenActive {
          }
          until(Input->Press[CB_START]);
 
-         for (subscreenYOffset = -56; subscreenYOffset > -224; subscreenYOffset -= SCROLL_SPEED) {
+         for (subscreenYOffset = -56; subscreenYOffset > -232; subscreenYOffset -= SCROLL_SPEED) {
             doActiveMenuFrame(b, subscreenYOffset, false);
             Waitframe();
          }
-         subscreenYOffset = -224;
+         subscreenYOffset = -232;
          subscreenOpen = false;
       }
    }
 
    void doActiveMenuFrame(bitmap b, int y, bool isActive) {
       gameframe = (gameframe + 1) % 3600;
-      b->Blit(0, RT_SCREEN, 0, 0, 256, 168, 0, y, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+      b->Blit(0, RT_SCREEN, 0, 0, 256, 176, 0, y, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
       // Input reading when in menu
       if (isActive) {
@@ -196,7 +198,7 @@ namespace SubscreenActive {
          Screen->FastTile(4, 88, y + 140, TILE_ENGAGEMENT_RING, CSET_ENGAGEMENT_RING, OP_OPAQUE);
 
       // Ebria Key
-      if (Hero->Item[168])
+      if (Hero->Item[176])
          Screen->FastTile(4, 110, y + 24, TILE_EBRIA_KEY, CSET_EBRIA_KEY, OP_OPAQUE);
 
       // Main Trading Sequence items
@@ -307,6 +309,8 @@ namespace SubscreenPassive {
       // clang-format on
 
       void run() {
+         Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
+
          bitmap bm = new bitmap(256, 56);
          bm->DrawScreen(0, BG_MAP1, BG_SCREEN1, 0, 0, 0);
 
@@ -416,7 +420,7 @@ namespace SubscreenPassive {
             }
 
             Waitdraw();
-            doPassiveMenuFrame(bm, subscreenYOffset + 168);
+            doPassiveMenuFrame(bm, subscreenYOffset + 176);
 
             lastA = Hero->ItemA;
             lastB = Hero->ItemB;
@@ -605,7 +609,7 @@ namespace SubscreenPassive {
 
    void minimap(untyped bit, int layer, int originalX, int originalY, ScreenType dmap) {
       if (dmap == DM_OVERWORLD) {
-         int scr = Game->CurScreen;
+         int scr = Game->HeroScreen;
          int x = originalX + 9 + (4 * (scr % 0x010));
          int y = originalY + 8 + (4 * Div(scr, 0x010));
 
@@ -626,7 +630,7 @@ namespace SubscreenPassive {
          originalY += 8;
 
          int dmapOffset = currentDmap->Offset;
-         int currentScreen = Game->CurDMapScreen;
+         int currentScreen = Game->HeroScreen - dmapOffset;
 
          int dmapOffsetMax = 8 - Max(dmapOffset - 8, 0);
          int dmapOffsetMin = -Min(dmapOffset, 0);

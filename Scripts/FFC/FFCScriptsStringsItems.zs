@@ -62,7 +62,7 @@ ffc script Signpost {
          if (warp) {
             int dmap = Floor(warp);
             int screen = (warp % 1) / 1L;
-            Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPFX_NONE, 0, 0, DIR_DOWN});
+            Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, 0, 0, 0, DIR_DOWN}); // TODO what is the constant for WARPFX_NONE
          }
       }
    }
