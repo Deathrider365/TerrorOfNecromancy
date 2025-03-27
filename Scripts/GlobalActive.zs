@@ -271,6 +271,8 @@ global script GlobalScripts {
                case 0x4D: return 000100b;
                case 0x1E: return 001000b;
                case 0x2E: return 001000b;
+               case 0x58: return 001000b;
+               case 0x59: return 001000b;
             }
             break;
       }
