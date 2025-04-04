@@ -157,20 +157,6 @@ dmapdata script HeatedRoom {
    // clang-format on
 
    void run(int armorLevel, int damage) {
-      while (true) {
-         int ringLevel = GetHighestLevelItemOwned(IC_RING);
-
-         if (ringLevel < 0)
-            hurtDatHero(60, damage);
-         else {
-            itemdata itemData = Game->LoadItemData(ringLevel);
-            int lvl = itemData->Level;
-
-            if (lvl < armorLevel)
-               hurtDatHero(60, damage);
-         }
-
-         Waitframe();
-      }
+      handleHeatOrCold(armorLevel, damage);
    }
 }

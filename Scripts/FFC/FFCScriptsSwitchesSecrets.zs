@@ -345,6 +345,7 @@ ffc script SwitchRemote {
 
    void run(int pressure, int id, int flag, int sfx, int nextCombo, int triggerScreenSecrets) {
       bool noLink;
+      int secretCombo = 0;
 
       if (pressure == 2) {
          pressure = 1;
@@ -364,7 +365,11 @@ ffc script SwitchRemote {
       for (i = 0; i < 176; i++)
          if (Screen->ComboF[i] == flag) {
             comboD[i] = Screen->ComboD[i];
-            Screen->ComboF[i] = 0;
+            secretCombo = Screen->ComboD[i];
+
+            if (!pressure) {
+               Screen->ComboF[i] = 0;
+            }
          }
 
       if (id > 0)
@@ -398,7 +403,7 @@ ffc script SwitchRemote {
 
             for (i = 0; i < 176; i++)
                if (comboD[i] > 0)
-                  Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
+                  Screen->ComboD[i] = nextCombo >= 0 ? nextCombo : comboD[i] + 1;
 
             while (switchPressed(this->X, this->Y, noLink))
                Waitframe();
@@ -407,8 +412,12 @@ ffc script SwitchRemote {
             Audio->PlaySound(SFX_SWITCH_RELEASE);
 
             for (i = 0; i < 176; i++)
-               if (comboD[i] > 0)
-                  Screen->ComboD[i] = nextCombo > 0 ? nextCombo : comboD[i] + 1;
+               if (comboD[i] > 0) {
+                  if (pressure)
+                     Screen->ComboD[i] = secretCombo;
+                  else
+                     Screen->ComboD[i] = nextCombo >= 0 ? nextCombo : comboD[i] + 1;
+               }
          }
       }
       else {

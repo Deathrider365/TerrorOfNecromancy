@@ -587,3 +587,21 @@ void hideSolidFFC(ffc this, mapdata template) {
    this->Flags[FFCF_SOLID] = false;
    Quit();
 }
+
+void handleHeatOrCold(int armorLevel, int damage) {
+   while (true) {
+      int ringLevel = GetHighestLevelItemOwned(IC_RING);
+
+      if (ringLevel < 0)
+         hurtDatHero(60, damage);
+      else {
+         itemdata itemData = Game->LoadItemData(ringLevel);
+         int lvl = itemData->Level;
+
+         if (lvl < armorLevel)
+            hurtDatHero(60, damage);
+      }
+
+      Waitframe();
+   }
+}

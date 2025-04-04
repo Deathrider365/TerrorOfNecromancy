@@ -45,14 +45,14 @@ global script GlobalScripts {
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
 
-         const int BLUE_BUBBLE_JINX_COMBO = 6896;
+         const int GREY_BUBBLE_JINX_COMBO = 6896;
          const int RED_BUBBLE_JINX_COMBO = 6897;
 
-         if (Hero->SwordJinx > 0) {
-            Screen->DrawCombo(3, Hero->X, Hero->Y, BLUE_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
          if (Hero->SwordJinx < 0) {
             Screen->DrawCombo(3, Hero->X, Hero->Y, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+         }
+         else if (Hero->SwordJinx) {
+            Screen->DrawCombo(3, Hero->X, Hero->Y, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
          }
 
          // JinxStuff();
@@ -89,7 +89,6 @@ global script GlobalScripts {
 
       for (int l = 1; l < 6; ++l) {
          unless(layers & (1b << (l - 1))) continue;
-
          Screen->LayerInvisible[l] = (HeroIsScrollingOrWarping() || disableTrans) ? false : true;
       }
 
@@ -112,8 +111,11 @@ global script GlobalScripts {
          for (int q = 0; q < 176; ++q) {
             if (HeroIsScrollingOrWarping())
                overheadBitmaps[l]->FastCombo(l, ComboX(q) + Game->Scrolling[SCROLL_NX], ComboY(q) + Game->Scrolling[SCROLL_NY], mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_OPAQUE);
-            else
-               overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_OPAQUE);
+            else {
+               combodata cmb = Game->LoadComboData(mapData[l]->ComboD[q]);
+               if (!(cmb->AnimFlags & AF_TRANSPARENT))
+                  overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), cmb->ID, mapData[l]->ComboC[q], OP_OPAQUE);
+            }
          }
 
          if (HeroIsScrollingOrWarping())
@@ -180,7 +182,8 @@ global script GlobalScripts {
             break;
          case 5:
             switch (screen) {
-               case 0x1c:
+               case 0x1c: return 000100;
+               case 0x33: return 000100;
                case 0x63: return 000100;
             }
             break;

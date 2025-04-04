@@ -385,18 +385,74 @@ char32 numMagicUpgradesBuf[6];
 int scrollingOffset;
 
 // Active Items
-int activeItemIDs[] = {IC_SWORD, IC_BRANG, IC_BOMB, IC_ARROW, IC_CANDLE, IC_WHISTLE, IC_POTION, IC_BAIT, IC_SBOMB, IC_HOOKSHOT, IC_HAMMER, IC_WAND, IC_LENS, IC_WPN_SCRIPT_02, IC_CBYRNA, -1, IC_DINSFIRE, IC_FARORESWIND, IC_NAYRUSLOVE, IC_CUSTOM4, IC_CUSTOM1, IC_CUSTOM3, IC_CUSTOM5, IC_CUSTOM6};
+// clang-format off
+int activeItemIDs[] = {
+   IC_SWORD,      IC_BRANG,          IC_BOMB,         IC_ARROW,
+   IC_CANDLE,     IC_WHISTLE,        IC_POTION,       IC_BAIT,
+   IC_SBOMB,      IC_HOOKSHOT,       IC_HAMMER,       IC_WAND,
+   IC_LENS,       IC_WPN_SCRIPT_02,  IC_CBYRNA,       -1,
+   IC_DINSFIRE,   IC_FARORESWIND,    IC_NAYRUSLOVE,   IC_CUSTOM4,
+   IC_CUSTOM1,    IC_CUSTOM3,        IC_CUSTOM5,      IC_CUSTOM6
+};
 
-int activeItemLocsX[] = {166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232, 166, 188, 210, 232};
+int activeItemLocsX[] = {
+   166, 188, 210, 232,
+   166, 188, 210, 232,
+   166, 188, 210, 232,
+   166, 188, 210, 232,
+   166, 188, 210, 232,
+   166, 188, 210, 232
+};
 
-int activeItemLocsY[] = {32, 32, 32, 32, 54, 54, 54, 54, 76, 76, 76, 76, 98, 98, 98, 98, 120, 120, 120, 120, 142, 142, 142, 142};
+int activeItemLocsY[] = {
+   32, 32, 32, 32,
+   54, 54, 54, 54,
+   76, 76, 76, 76,
+   98, 98, 98, 98,
+   120, 120, 120, 120,
+   142, 142, 142, 142
+};
 
 // Inactive Items
-int inactiveItemIDs[] = {IC_SHIELD, IC_RING, IC_RAFT, IC_LADDER, IC_BRACELET, IC_FLIPPERS, IC_BOMBBAG, IC_QUIVER, IC_LANTERN};
+int inactiveItemIDs[] = {
+   IC_SHIELD,
+   IC_RING,
+   IC_RAFT,
+   IC_LADDER,
+   IC_BRACELET,
+   IC_FLIPPERS,
+   IC_BOMBBAG,
+   IC_QUIVER,
+   IC_LANTERN,
+   IC_BOW,
+};
 
-int inactiveItemLocsX[] = {4, 22, 40, 58, 4, 22, 40, 58, 4};
+int inactiveItemLocsX[] = {
+   4,
+   22,
+   40,
+   58,
+   4,
+   22,
+   40,
+   58,
+   4,
+   22
+};
 
-int inactiveItemLocsY[] = {4, 4, 4, 4, 22, 22, 22, 22, 40};
+int inactiveItemLocsY[] = {
+   4,
+   4,
+   4,
+   4,
+   22,
+   22,
+   22,
+   22,
+   40,
+   40
+};
+// clang-format on
 
 int dungeonItemIds[] = {IC_COMPASS, IC_MAP, IC_BOSSKEY};
 int dungeonItemX[] = {133, 132, 133};

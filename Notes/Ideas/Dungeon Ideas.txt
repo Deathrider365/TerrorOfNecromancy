@@ -1,6 +1,6 @@
 a dungeon where you raise and lower lava as opposed to water, and once lowered the lava could have
-eaten away at stuff that was weak before and now can be accessed. To deal with people being able 
-to do things they missed just make a trigger that they can only hit once they have everything 
+eaten away at stuff that was weak before and now can be accessed. To deal with people being able
+to do things they missed just make a trigger that they can only hit once they have everything
 creating a "point of safe no return"
 
 a dungeon where you dive through caverns and perhaps items that can be used during that like in OOT
@@ -59,6 +59,6 @@ DONE - crashed ship in the south east waters of NEI similar to that of islands o
 
 DONE - similar to frozen enclave how you can navigate floors by wall stairs instead of always using normal stairs
 
-like nightmare from boab where you play as aemulon from the past (maybe not really a dungeon but a scripted sequence) and the boss is Haeren and the goddesses
+like nightmare from boab where you play as aemulor from the past (maybe not really a dungeon but a scripted sequence) and the boss is Haeren and the goddesses
 
 a dungeon where you have to use giant bombs to blow up pillars to bring down the top floor, revealing the boss

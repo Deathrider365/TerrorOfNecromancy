@@ -857,3 +857,12 @@ ffc script LensTorches {
       b->Circle(0, x, y, rad + 5, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script HeatedRoomFFC {
+   // clang-format on
+   void run(int armorLevel, int damage) {
+      handleHeatOrCold(armorLevel, damage);
+   }
+}
