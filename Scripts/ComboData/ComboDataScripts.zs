@@ -148,19 +148,33 @@ combodata script TorchMarker {
 @InitD0("Min Level"),
 @InitDHelp0("Minimum level of ring to check when checking if to do damage"),
 @InitD1("Damage"),
-@InitDHelp1("Damage to Link (8 is 1 heart)")
+@InitDHelp1("Damage to Link (8 is 1 heart)"),
+@InitD2("Damage Frequency"),
+@InitDHelp2("How often (in frames) should link take damage")
 combodata script HotSteam {
    // clang-format on
-   void run(int minLevel, int damage) {
+   void run(int minLevel, int damage, int frequency) {
+      int count = 0;
+
       while (true) {
          itemdata ringData = Game->LoadItemData(GetHighestLevelItemOwned(IC_RING));
 
-         if (gameframe % 30 == 0 && (ringData->Level < minLevel && Collision(this))) {
+         // Add check to make it only damage link when walking? Link->Action == LA_WALKING
+
+         if (Collision(this) && canTakeDamage())
+            ++count;
+
+         if (count == frequency && (ringData->Level < minLevel)) {
             Hero->HP -= damage;
             Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+            count = 0;
          }
 
          Waitframe();
       }
+   }
+
+   bool canTakeDamage() {
+      return Hero->Action != LA_DROWNING && Hero->Action != LA_SWIMMING && Hero->Action != LA_GOTHURTWATER && Hero->Action != LA_DIVING && Hero->Action != LA_SIDEDROWN;
    }
 }

@@ -1185,7 +1185,7 @@ ffc script CapturedSequenceRightHand {
 ffc script FallingStalagtites {
    // clang-format on
 
-   void run(int xSpeed, int ySpeed, int duration) {
+   void run(int xSpeed, int ySpeed, int duration, int doesDamage) {
       if (Screen->State[ST_SECRET]) {
          this->Data = 0;
          Quit();
@@ -1193,17 +1193,53 @@ ffc script FallingStalagtites {
 
       until(Screen->State[ST_SECRET]) Waitframe();
 
+      eweapon eWeapon;
+      lweapon lWeapon;
+
+      if (doesDamage) {
+         eWeapon = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
+         eWeapon->Damage = doesDamage;
+         eWeapon->X = this->X;
+         eWeapon->Y = this->Y;
+         eWeapon->HitHeight = 32;
+         eWeapon->DrawYOffset = -1000;
+         eWeapon->Unblockable = UNBLOCK_ALL;
+
+         lWeapon = CreateLWeaponAt(EW_SCRIPT1, this->X, this->Y);
+         lWeapon->Damage = doesDamage;
+         lWeapon->X = this->X;
+         lWeapon->Y = this->Y;
+         lWeapon->HitHeight = 32;
+         lWeapon->DrawYOffset = -1000;
+         lWeapon->Unblockable = UNBLOCK_ALL;
+      }
+
       Screen->Quake = 20;
       Audio->PlaySound(SFX_ROCKINGSHIP);
 
       for (int i = 0; i < duration; ++i) {
-         if (xSpeed)
+         if (xSpeed) {
             this->X += (i *= xSpeed);
-         if (ySpeed)
+
+            if (eWeapon->isValid()) {
+               eWeapon->X = this->X;
+               lWeapon->X = this->X;
+            }
+         }
+         if (ySpeed) {
             this->Y += (i *= ySpeed);
+
+            if (lWeapon->isValid()) {
+               eWeapon->Y = this->Y;
+               lWeapon->Y = this->Y;
+            }
+         }
 
          Waitframe();
       }
+
+      // eWeapon->DeadState = WDS_DEAD;
+      lWeapon->DeadState = WDS_DEAD;
 
       Quit();
    }
