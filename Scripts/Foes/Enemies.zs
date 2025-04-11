@@ -8,12 +8,12 @@ npc script Candlehead {
 
    using namespace EnemyNamespace;
 
-   const int NORMAL_RAND = 5;
-   const int AGGRESSIVE_RAND = 50;
-   const int NORMAL_MOVE_DURATION = 30;
-   const int AGGRESSIVE_MOVE_DURATION = 60;
-   const int NORMAL_HOMING = 10;
-   const int AGGRESSIVE_HOMING = 20;
+   CONFIG NORMAL_RAND = 5;
+   CONFIG AGGRESSIVE_RAND = 50;
+   CONFIG NORMAL_MOVE_DURATION = 30;
+   CONFIG AGGRESSIVE_MOVE_DURATION = 60;
+   CONFIG NORMAL_HOMING = 10;
+   CONFIG AGGRESSIVE_HOMING = 20;
 
    void run(int chungo) {
       int knockbackDist = 4;
@@ -142,17 +142,17 @@ npc script Candlehead {
          case 10: return chungo ? 7184 : 6345;
          case 11: return chungo ? 7188 : 6346;
          case 150: return chungo ? 7192 : 6347;
-         default: return 6344;
+         default: return 0;
       }
    }
 
    int getBurningSprite(int chungo) {
       switch (GetHighestLevelItemOwned(IC_CANDLE)) {
-         case 158: return chungo ? SPR_FLAME_WAX2X2 : SPR_FLAME_WAX;
-         case 10: return chungo ? SPR_FLAME_OIL2X2 : SPR_FLAME_OIL;
-         case 11: return chungo ? SPR_FLAME_INCENDIARY2X2 : SPR_FLAME_INCENDIARY;
-         case 150: return chungo ? SPR_FLAME_HELLS2X2 : SPR_FLAME_HELLS;
-         default: return SPR_FLAME_WAX;
+         case 158: return chungo ? SPR_ENEMY_FLAME_WAX2X2 : SPR_ENEMY_FLAME_WAX;
+         case 10: return chungo ? SPR_ENEMY_FLAME_OIL2X2 : SPR_ENEMY_FLAME_OIL;
+         case 11: return chungo ? SPR_ENEMY_FLAME_INCENDIARY2X2 : SPR_ENEMY_FLAME_INCENDIARY;
+         case 150: return chungo ? SPR_ENEMY_FLAME_HELLS2X2 : SPR_ENEMY_FLAME_HELLS;
+         default: return 0;
       }
    }
 }
