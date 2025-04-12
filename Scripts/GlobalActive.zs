@@ -45,21 +45,26 @@ global script GlobalScripts {
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
 
-         const int GREY_BUBBLE_JINX_COMBO = 6896;
-         const int RED_BUBBLE_JINX_COMBO = 6897;
-
-         if (Hero->SwordJinx < 0) {
-            Screen->DrawCombo(3, Hero->X, Hero->Y, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
-         else if (Hero->SwordJinx) {
-            Screen->DrawCombo(3, Hero->X, Hero->Y, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
-
-         // JinxStuff();
-         // JinxCounter();
-
          setupTransparentLayers();
          Waitdraw();
+
+         Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
+         Screen->DrawOriginTarget = Hero;
+         // Put draws that I want at link's position here, the origin becomes his upper left pixel
+         // use Screen->Draw stuff. 0,0 should draw at the top-left of the player.
+
+         CONFIG GREY_BUBBLE_JINX_COMBO = 6896;
+         CONFIG RED_BUBBLE_JINX_COMBO = 6897;
+
+         if (Hero->SwordJinx < 0) {
+            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+         }
+         else if (Hero->SwordJinx) {
+            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+         }
+
+         Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT; // restore.
+
          drawRadialTransparency(mapData);
 
          checkFootprints(footprintArray);
@@ -266,7 +271,6 @@ global script GlobalScripts {
          case 69:
             switch (screen) {
                case 0x22: return 000100b;
-               case 0x24: return 001100b;
             }
             break;
          case 70:
@@ -358,68 +362,6 @@ global script GlobalScripts {
             enem->Stun = STUN_DURATION;
       }
    }
-
-   // Author - Justin
-   // void JinxStuff() {
-   //    if (Link->Action == LA_SCROLLING)
-   //       return;
-
-   //    if (LinkVars[LV_SWORDJINX] == 0) {
-   //       if (Link->SwordJinx > 0)
-   //          LinkVars[LV_SWORDJINX] = Link->SwordJinx;
-   //    }
-   //    else {
-   //       LinkVars[LV_SWORDJINX]--;
-   //       if (JINX_CARRYOVER == 1 && Link->SwordJinx == 0) {
-   //          if (LinkVars[LV_SWORDJINX] > 0)
-   //             Link->SwordJinx = LinkVars[LV_SWORDJINX];
-   //       }
-   //       else if (JINX_COMBINE == 1) {
-   //          if (Link->SwordJinx > LinkVars[LV_SWORDJINX]) {
-   //             Link->SwordJinx += LinkVars[LV_SWORDJINX];
-   //             LinkVars[LV_SWORDJINX] = Link->SwordJinx;
-   //          }
-   //       }
-   //    }
-
-   //    if (LinkVars[LV_ITEMJINX] == 0) {
-   //       if (Link->ItemJinx > 0)
-   //          LinkVars[LV_ITEMJINX] = Link->ItemJinx;
-   //    }
-   //    else {
-   //       LinkVars[LV_ITEMJINX]--;
-   //       if (JINX_CARRYOVER == 1 && Link->ItemJinx == 0) {
-   //          if (LinkVars[LV_ITEMJINX] > 0)
-   //             Link->ItemJinx = LinkVars[LV_ITEMJINX];
-   //       }
-   //       else if (JINX_COMBINE == 1) {
-   //          if (Link->ItemJinx > LinkVars[LV_ITEMJINX]) {
-   //             Link->ItemJinx += LinkVars[LV_ITEMJINX];
-   //             LinkVars[LV_ITEMJINX] = Link->ItemJinx;
-   //          }
-   //       }
-   //    }
-   // }
-
-   // // Author - Justin
-   // void JinxCounter() {
-   //    const int JINXCOUNTER_SWORD_X = 0;  // the x pos you want the Temp Sword Jinx Counter to display
-   //    const int JINXCOUNTER_SWORD_Y = 0;  // the y pos
-   //    const int JINXCOUNTER_ITEM_X = 0;   // the x pos of the Temp Item Jinx Counter
-   //    const int JINXCOUNTER_ITEM_Y = 16;  // the y pos
-   //    const int JINXCOUNTER_FONT = 0;     // the font you wish to use, values in std_constants.zh as FONT_
-   //    const int JINXCOUNTER_COLOR = 0;    // the color, values are 0-15 in each CSET + CSET#x16
-   //    const int JINXCOUNTER_BGCOLOR = -1; // background color, -1 is transparent, or as above
-   //    if (Link->SwordJinx > 0) {
-   //       int js_count = Ceiling(Link->SwordJinx * 0.0167);
-   //       Screen->DrawInteger(7, JINXCOUNTER_SWORD_X, JINXCOUNTER_SWORD_Y, JINXCOUNTER_FONT, JINXCOUNTER_COLOR, JINXCOUNTER_BGCOLOR, 0, 0, js_count, 0, OP_OPAQUE);
-   //    }
-
-   //    if (Link->ItemJinx > 0) {
-   //       int ji_count = Ceiling(Link->ItemJinx * 0.0167);
-   //       Screen->DrawInteger(7, JINXCOUNTER_ITEM_X, JINXCOUNTER_ITEM_Y, JINXCOUNTER_FONT, JINXCOUNTER_COLOR, JINXCOUNTER_BGCOLOR, 0, 0, ji_count, 0, OP_OPAQUE);
-   //    }
-   // }
 
    void debug() {
       Game->Cheat = 4;

@@ -161,8 +161,13 @@ combodata script HotSteam {
 
          // Add check to make it only damage link when walking? Link->Action == LA_WALKING
 
-         if (Collision(this) && canTakeDamage())
-            ++count;
+         if (Collision(this)) {
+            if (canTakeDamage())
+               ++count;
+         }
+         else {
+            count = 0;
+         }
 
          if (count == frequency && (ringData->Level < minLevel)) {
             Hero->HP -= damage;

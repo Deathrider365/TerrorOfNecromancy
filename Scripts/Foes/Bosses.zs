@@ -847,9 +847,12 @@ ffc script Legionnaire {
          while (!Screen->State[ST_SECRET]) {
             Ghost_Y = -32;
             Ghost_X = 120;
-            Ghost_Waitframe(this, ghost);
+            legionnaireWaitframe(this, ghost);
          }
       }
+
+      // TODO use when converting to NPC script
+      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 
       // Intro Animation
       unless(getScreenD(screenD)) {
@@ -858,7 +861,7 @@ ffc script Legionnaire {
 
          for (int i = 0; i < 32; ++i) {
             disableLink();
-            Ghost_Waitframe(this, ghost);
+            legionnaireWaitframe(this, ghost);
          }
 
          Ghost_Y = startY;
@@ -868,7 +871,7 @@ ffc script Legionnaire {
          while (Ghost_Z) {
             disableLink();
             Ghost_Z -= 4;
-            Ghost_Waitframe(this, ghost);
+            legionnaireWaitframe(this, ghost);
          }
 
          Screen->Quake = 10;
@@ -876,7 +879,7 @@ ffc script Legionnaire {
 
          for (int i = 0; i < 32; ++i) {
             disableLink();
-            Ghost_Waitframe(this, ghost);
+            legionnaireWaitframe(this, ghost);
          }
 
          Audio->PlaySound(SFX_STALFOS_GROAN);
@@ -960,7 +963,7 @@ ffc script Legionnaire {
          if (Ghost_HP <= startHP * .5)
             timeToSpawnAnother++;
 
-         Ghost_Waitframe(this, ghost);
+         legionnaireWaitframe(this, ghost);
       }
    }
 
@@ -1001,10 +1004,10 @@ ffc script Legionnaire {
 
       for (int i = 0; i < 5; ++i) {
          eweapon projectile = FireAimedEWeapon(EW_BEAM, Ghost_X, Ghost_Y, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
-         Ghost_Waitframes(this, ghost, 16);
+         legionnaireWaitframe(this, ghost, 16);
       }
 
-      Ghost_Waitframes(this, ghost, 16);
+      legionnaireWaitframe(this, ghost, 16);
       movementDirection = Choose(90, -90);
    }
 
@@ -1022,7 +1025,7 @@ ffc script Legionnaire {
 
       while (Ghost_Jump || Ghost_Z) {
          Ghost_MoveAtAngle(jumpAngle, 2, 0);
-         Ghost_Waitframe(this, ghost);
+         legionnaireWaitframe(this, ghost);
       }
 
       Ghost_Data = combo;
@@ -1031,7 +1034,7 @@ ffc script Legionnaire {
       for (int i = 0; i < 24; ++i) {
          makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, damage);
          Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, (i > 7 && i <= 15) ? TILE_IMPACT_BIG : TILE_IMPACT_MID, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
-         Ghost_Waitframe(this, ghost);
+         legionnaireWaitframe(this, ghost);
       }
 
       movementDirection = Choose(90, -90);
@@ -1052,7 +1055,7 @@ ffc script Legionnaire {
          if (i > dashFrames / 2)
             sword1x1(Ghost_X, Ghost_Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, combo + 12, 10, damage);
 
-         Ghost_Waitframe(this, ghost);
+         legionnaireWaitframe(this, ghost);
       }
 
       Audio->PlaySound(SFX_SWORD);
@@ -1060,10 +1063,21 @@ ffc script Legionnaire {
       for (int i = 0; i <= 12; ++i) {
          Ghost_MoveAtAngle(moveAngle, 3, 0);
          sword1x1(Ghost_X, Ghost_Y, moveAngle - 90 + 15 * i, 16, combo + 12, 10, damage);
-         Ghost_Waitframe(this, ghost);
+         legionnaireWaitframe(this, ghost);
       }
 
       movementDirection = Choose(90, -90);
+   }
+
+   void legionnaireWaitframe(ffc this, npc ghost, int frames = 1) {
+      loop(0..frames) {
+         if (!Ghost_Waitframe(this, ghost, true, false)) {
+            char32 areaMusic[256];
+            Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+            Audio->PlayEnhancedMusic(areaMusic, 0);
+            Quit();
+         }
+      }
    }
 }
 

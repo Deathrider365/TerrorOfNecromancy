@@ -458,7 +458,12 @@ northeastern side, this area of sea is treacherous.
 
 <recommended to do Minidungeon 5: Ancient Outpost here>
 
-<<Level 7: Marauder's Cove>>
+
+<<Level 7: <<WATER DUNGEON in the archipelago>>
+~Terror of the Seas ---Leviathan---~
+
+
+<<Level 8: Marauder's Cove>>
 ~Dreaded Blackguard Conquerer ---Ignav---~
 
    Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
@@ -524,10 +529,6 @@ errant weary wandering adventurer.
 
 <Battle Arena 3: <>>
 ~something of something ---something---~
-
-
-<<Level 8: <<WATER DUNGEON in the archipelago>>
-~Terror of the Seas ---Leviathan---~
 
 
 <Minidungeon 7: Seaside Outpost>
