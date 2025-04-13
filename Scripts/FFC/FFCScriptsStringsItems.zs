@@ -1,7 +1,19 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~ String and Item FFCs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("Joe123, Deathrider365")
+@Author("Joe123, Deathrider365"),
+@InitD0("message"),
+@InitDHelp0("String to play"),
+@InitD1("warp"),
+@InitDHelp1("dmap.screen"),
+@InitD2("hasSecondMessage"),
+@InitDHelp2("second message trigger (0: screend, 1: secrets, 2: has item).trigger value (screend register, n/a, itemId)"),
+@InitD3("secondMessage"),
+@InitDHelp3("String to play"),
+@InitD4("vanishesOnSecondString"),
+@InitDHelp4("After the second string plays quit the script"),
+@InitD5("layerToClearOnVanish"),
+@InitDHelp5("Layer to handle solidity combo drawing for the FFC")
 ffc script Signpost {
    // clang-format on
 
@@ -27,12 +39,6 @@ ffc script Signpost {
          }
 
          waitForTalking(this);
-
-         // until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-         // if (againstFFC(this->X, this->Y))
-         // Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-         // Waitframe();
-         // }
 
          Input->Button[CB_SIGNPOST] = false;
          Game->Suspend[susptSCREENDRAW] = true;
@@ -84,10 +90,14 @@ ffc script Signpost {
       }
    }
 
+   // TODO: remove this since combos can be solid now
    void quitFFC(ffc combo, int layerToClearOnVanish) {
-      combo->Data = COMBO_INVIS;
-      mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
-      template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+      if (layerToClearOnVanish > -1) {
+         combo->Data = COMBO_INVIS;
+         mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
+         template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
+         Quit();
+      }
       Quit();
    }
 }
@@ -116,18 +126,25 @@ ffc script MessageOnce {
 }
 
 // clang-format off
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("itemIdToCheckFor"),
+@InitDHelp0("Item (or counter id) to set off the script"),
+@InitD1("stringNoItem"),
+@InitDHelp1("string that plays when you do not have the item"),
+@InitD2("stringHasItem"),
+@InitDHelp2("string that plays when you have the item and are setting off the script"),
+@InitD3("stringGottenItem"),
+@InitDHelp3("string that plays when you already set off the script"),
+@InitD4("triggerToSetOff"),
+@InitDHelp4("indicates the trigger this ffc will do (0 = secrets, 1 = screend, 2 = item(trader)"),
+@InitD5("triggerValue"),
+@InitDHelp5("Used for ScreenD and items, secrets dont need a value to use when triggered"),
+@InitD6("selfKill"),
+@InitDHelp6("Used for does this script kill itself once triggered"),
+@InitD7("isItemCounter"),
+@InitDHelp7("For items, if triggering on an item counter this is the counter value to trigger")
 ffc script SignpostTriggerFromItem {
    // clang-format on
-   // D0: itemIdToCheckFor     - Item (or counter id) to set off the script
-   // D1: stringNoItem         - string that plays when you do not have the item
-   // D2: stringHasItem        - string that plays when you have the item and are setting off the script
-   // D3: stringGottenItem     - string that plays when you already set off the script
-   // D4: triggerToSetOff      - indicates the trigger this ffc will do (0 = secrets, 1 = screend, 2 = item(trader))
-   // D5: triggerValue         - Used for ScreenD and items, secrets dont need a value to use when triggered
-   // D6: selfKill             - Used for does this script kill itself once triggered
-   // D7: isItemCounter        - For items, if triggering on an item counter this is the counter value to trigger
-
    void run(int itemIdToCheckFor, int stringNoItem, int stringHasItem, int stringGottenItem, int triggerToSetOff, int triggerValue, int selfKill, int isItemCounter) {
       CONFIG TRIGGER_SECRET = 0;
       CONFIG TRIGGER_SCREEND = 1;
@@ -264,6 +281,41 @@ ffc script SignpostTriggerFromItem {
       if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
          return true;
       return false;
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("message"),
+@InitDHelp0("String to play once screenD set"),
+@InitD1("screenD"),
+@InitDHelp1("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)")
+ffc script SignpostTriggerFromScreenD {
+   // clang-format on
+   void run(int message, int screenD) {
+      int data = this->Data;
+      int x = this->X;
+      int y = this->Y;
+
+      while (true) {
+         if (getScreenD(screenD)) {
+            this->Data = data;
+            this->X = x;
+            this->Y = y;
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(message);
+            Waitframe();
+         }
+         else {
+            until(getScreenD(screenD)) {
+               this->X = -1000;
+               this->Y = -1000;
+               Waitframe();
+            }
+         }
+         Waitframe();
+      }
    }
 }
 
@@ -819,5 +871,39 @@ ffc script GettingGoddessJewels {
       it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
 
       setScreenD(254, true);
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("message"),
+@InitDHelp0("first message"),
+@InitD1("secondMessage"),
+@InitDHelp1("second message"),
+@InitD2("thirdMessage"),
+@InitDHelp2("third message")
+ffc script GoronForemanDialogLvl6 {
+   // clang-format on
+
+   void run(int message, int secondMessage, int thirdMessage) {
+      while (true) {
+         waitForTalking(this);
+
+         Input->Button[CB_SIGNPOST] = false;
+         Game->Suspend[susptSCREENDRAW] = true;
+
+         if (getScreenD(0))
+            Screen->Message(thirdMessage);
+         else if (getScreenD(1)) {
+            Screen->Message(secondMessage);
+         }
+         else {
+            Screen->Message(message);
+            setScreenD(1, true);
+         }
+
+         Game->Suspend[susptSCREENDRAW] = false;
+         Waitframe();
+      }
    }
 }

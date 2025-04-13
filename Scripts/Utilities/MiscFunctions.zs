@@ -432,19 +432,22 @@ bool againstCombo(int loc) {
 
 // Checks if link is against a ffc and looking at it
 bool againstFFC(int ffcX, int ffcY) {
-   if (Hero->Z == 0) {
-      if (Abs((Hero->X) - (ffcX)) <= 8) {
-         if (Hero->Y > ffcY && Hero->Y - ffcY <= 8 && Hero->Dir == DIR_UP)
+   if (Hero->Z > 0)
+      return false;
+
+   if (Abs((Hero->X) - (ffcX)) <= 16) {
+      if (Abs((Hero->Y) - (ffcY)) <= (Hero->Y < ffcY ? 16 : 8))
+         // clang-format off
+         if (
+            ((Hero->X - ffcX > 8) && Hero->Dir == DIR_RIGHT) ||
+            ((ffcX - Hero->X > 8) && Hero->Dir == DIR_LEFT) ||
+            ((Hero->Y - ffcY > 8) && Hero->Dir == DIR_DOWN) ||
+            ((ffcY - Hero->Y > 8) && Hero->Dir == DIR_UP)
+         )
+            // clang-format on
+            return false;
+         else
             return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
-      }
-      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
-         if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
-      }
    }
    return false;
 }

@@ -866,3 +866,72 @@ ffc script HeatedRoomFFC {
       handleHeatOrCold(armorLevel, damage);
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script TriggerSavedGoronsLvl6 {
+   // clang-format on
+   void run() {
+      if (Screen->State[ST_SECRET]) {
+         Quit();
+      }
+
+      int goronsSaved = 0;
+
+      while (true) {
+         if (getScreenD(67, 0x13, 0)) {
+            setScreenD(0, true);
+            ++goronsSaved;
+         }
+         if (getScreenD(67, 0x44, 1)) {
+            setScreenD(1, true);
+            ++goronsSaved;
+         }
+         if (getScreenD(68, 0x41, 2)) {
+            setScreenD(2, true);
+            ++goronsSaved;
+         }
+         if (getScreenD(68, 0x14, 3)) {
+            setScreenD(3, true);
+            ++goronsSaved;
+         }
+         if (getScreenD(69, 0x12, 4)) {
+            setScreenD(4, true);
+            ++goronsSaved;
+         }
+         if (getScreenD(69, 0x75, 5)) {
+            setScreenD(5, true);
+            ++goronsSaved;
+         }
+         if (goronsSaved == 6) {
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+            Audio->PlaySound(SFX_SECRET);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("map"),
+@InitDHelp0("map that has the screen with secrets"),
+@InitD1("screen"),
+@InitDHelp1("screen that has the secrets"),
+@InitD2("screenD"),
+@InitDHelp2("screenD to set on THIS screen")
+ffc script SetScreenDIfSecretsInOtherRoom {
+   // clang-format on
+   void run(int map, int screen, int screenD) {
+      mapdata mapData = Game->LoadMapData(map, screen);
+
+      until(getScreenD(screenD)) {
+         if (mapData->State[ST_SECRET]) {
+            setScreenD(screenD, true);
+         }
+         Waitframe();
+      }
+   }
+}
