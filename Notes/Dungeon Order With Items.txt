@@ -1,0 +1,54 @@
+~~~Prologue~~~
+Minidungeon 1: Temple of Haeren			         - Wooden Boomerang (1)
+~~~Main Game~~~
+Level 1: Pernicious Grotto				            - Oil Candle (2)
+Battle Arena 1: Raccoon Hollow			         - Oil Lantern (2)
+
+Level 2: Derelict Quarry				            - Ladder
+Minidungeon 2: Seized Guard Tower		         - Soldier's Boomerang (2)
+
+Level 3: Ancient Shrine				               - Cultist's Hammer (1)
+Battle Arena 2: Pirate Hideout			         - Soldier's Bow (2)
+Minidungeon 3: Molten Flooded Forge		         - Sword of Conflator
+
+Level 4: Pillaged Prison			               - Lens of Truth
+Minidungeon 4: Sweltering Iron Mine		         - Iron Arrows (2)
+
+Level 5: Temple of Gamoth			               - Hookshot (1)
+Minidungeon 5: The Summus Pass:			         - Thieves' Wallet (2)
+Optional Dungeon 1: Sealed Abyss	   	      	- Displelled Cane (1), Spectral Cane (2)
+
+Level 6: Geother1mal Plant			            	- Goron Gauntlet (2)
+
+Level 7: WATER DUNGEON IN TEH ARCHIPELAGO		   - Diver's 2 (1)
+Battle Arena 3: Exiled Zora's Dwelling		 	   - Incendiary Candle (3)                        -
+Minidungeon 6: Seaside Output (soma's dungeon)	- Red Mail (3)
+
+Level 8: Marauder's Cove				            - Mage's Wand (1)
+Minidungeon 7: Hylian Wreck			            - Master Sword (3)
+Optional Dungeon 3: Depths of The Flooded Forge	- Smith's Hammer (2)
+
+Level 9: Castle Interitus				            - No Item, unlocks the castle
+Minidungeon 8: Mt. Caldum				            - Giant's Bracer (3)
+Optional Dungeon 4: Forgotten Spire (ToH)		   - Mithril Arrow (3)
+Battle Arena 4: southern edge of SWI            -
+
+Level 10: Mt. Caldum					               - Gale Boomerang (3)
+Minidungeon 9: tower west of auri village		   - Marksman's Bow (3)
+
+Level 11: Mortuary of Darkness			         - Mirror Shield (3)
+Optional Dungeon 5: Origin of Death (paliux)    - Portal Sphere
+
+Level 12: Towers of Dichotomy				         - Longshot (2), Sorcerer's Wand (2)
+Optional Dungeon 6: Banished Sanctuary			   - Zora's Flippers (2)
+
+<Optional> Hero's Sword obtained from the Goddess Faithful by completing x sidequests
+
+Optional Dungeon 7: Chapel of Rumination:		     - Hero's Tunic (4)
+
+~~~Post Game~~~
+
+
+
+
+

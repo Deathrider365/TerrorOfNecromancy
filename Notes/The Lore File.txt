@@ -168,7 +168,7 @@ Servus, he would aid Link on his quest as needed once he recovers. The soldier a
 attack the village. He, not sypathetic to the Necromancer, gives  Link a key into the tower and tells him he should stop their plans before they wipe out the village. Wiping out the
 village would give the Necromancer a significant advantage, as he knows any Hyrulian aid would come from the east.
 
-<Mini Dungeon 2: Seized Guardtower>
+<Mini Dungeon 2: Seized Guard Tower>
 ~Lieutenant of Darkness ---Legatus---~
    Along the way up the tower, Link encounters a soldier locked up in the barracks. He tells Link that he does not sypathise with the Necromancer. Link, unlocking the door, set him
 free where he flees to Viridi village to rest and hide (he ends up in the main barracks building where Link got the Cumpura Key. Eventually, Link reaches the summit where the leader of the
@@ -226,7 +226,7 @@ help Link escape but cannot be seen helping. He quickly opens Link's cell and te
 the castle occassionally to help various Hylian soldiers by giving them insight to the Necromancer's plans.
 
 <Battle Arena 2: Pirate Hideout>
-~Pirate Theifmaster---Latros---~
+~Pirate Thiefmaster---Latros---~
    Link finds that the cave that is connected to the Necromancer's dungeon leads to the home of many undead pirates that do not appear to be hostile, but rather extremely passive. Upon
 speaking to them Link learns that they were once a part of a crew of an ancient pirate lord that heard tell of a Jewel on Vita that would allow them to rule the seas by controlling the waves.
 Speaking with the pirates Link learns that they were defeated by Aemulor, and were never able to recover the Jewel. One of the pirates mentions that they thought it was once in the marsh
@@ -328,8 +328,8 @@ she works with the head when planning how they will take down the Necromancer.
    As Link is venturing back to Zelda, he can use his newly acquired Lens of Truth to find his way across a small lake of lava on the southern part of the Caldum area. He would come across a small structure,
 with a peculier entrance.
 
-<Mini Dungeon 4: >
-~ Sweltering Iron Mine ---Big Bad Dodongo---~
+<Mini Dungeon 4: Sweltering Iron Mine>
+~ Some bad boss ---Big Bad Dodongo---~
    At first glance Link can tell this is some sort of mine, and given the fact he is in the volcanic Caldum region, home of the western gorons that is unsurprising. Eventually Link will encounter a Goron
 miner. The miner is in distress, because all of his coworkers have been claimed by a dreadful dodongo that has taken up residence inside the mine. He does however, mention his best friend who he thinks is
 hiding somewhere because he is "sneaker than a pirate", and if Link saves him then he will give Link some Iron Arrows he made. So Linkl will venture into the Iron Mine, evading lava flows and spending as
@@ -364,7 +364,7 @@ that came to Vita and took a liking to the unique area and made Venenom its' hom
 it as a god. Link learns some of the truth within Ebria, he then goes to the entrance to the temple and finds a Zora outside wanting in but they forgot their arrows. The Zora asks Link to help them get in.
 Upon opening it he enters the Zora Temple of Gamoth.
 
-<<Level 5: Temple to a False God>>
+<<Level 5: Temple of Gamoth>>
 ~Ancient Beast  ---Gamoth---~
 
    Upon defeating Gamoth, with the hookshot and raft Link returns to Zelda. Zelda tells him the he should talk to the engineer behind her as he has valuable information. The engineer mentions his brother
@@ -372,6 +372,11 @@ in Auri village is working on an explosive strong enough to blast through the wa
 pass as they would need to get through checkpoints that are locked down by Necromancer forces, plus they would need to pass by the Necromancer's castle and would be spotted. The pirate there mentions that
 if they had a grappling hook they could take a pass behind the castle to reach Auri Desert but mentions that Link would need a grappling hook to reach it, which Link has.
    It is decided then, says Zelda. Link will venture to the base of Mt. Summus and take the passage through Auri Desert.
+
+   Link arrives in Auri Desert south, and gazes upon the majesty that is Mt. Summus; a very tall narrow mountain range separating the northern and southern sides of the island spanning from one side to the other.
+With his hookshot in hand he is able to traverse the cave system as well as the desert outside. <Insert info about the boss>
+Now on the other side of the pass, he can access Auri Desert North on the trek to the explosives expert.
+
 Upon reaching the engineer's brother's bomb shop, he is greeted by the brother who is excited that he has cracked the code for making large explosives. Link can now buy Powder Kegs from him.
 With Powder Kegs at Link's disposal, he can now access Mt. Duratu or Carulem Archipelago, as well as solve the plague of the unending storm of Auri Village.
 
@@ -380,7 +385,8 @@ explosives, Link blows through the rocks sealing the building. Entering inside h
 near the well reads a foreboding message about leaving ancient things that were sealed up well alone from the Goddess Faithful. Link ignores all of these warning and proceeds to use another powder Keg
 on the well which reveals a spiral staircase. What follows is a long darkening passageway with more powder keg barriers and at the end, a very ancient structure which Link enters.
 
-<Minidungeon 5: Sealed Abyss (Optional)>
+<Optional Dungeon 1: Sealed Abyss>
+~Shadow of Aemulor ---The Morsa---~
    Is is very dark and cramped inside the deep decrepit structure to make is hard for what is sealed to escape and for intruders to enter, for this was the tomb for a very powerful ancient being that
 Aemulor had in his ranks in the Calamity of Vita. Upon its demise, its remains were stored here, deep and heavily secured as it's flesh was so imbued with darkness the Faithful didn't want to risk it
 being brough back to the world. Not even Aemulor knew where it came from or what it's potential was, but it seemed to bend to the will of the Triforce of Darkness and did Aemulor's bidding
@@ -438,14 +444,48 @@ Gelido Shoal. He seems to believe that there is an old strong magical weapon hid
 with the Zoras there.
 
    Link will head west, however like before if he heads back to Zelda, she will once again congratulate Link for helping the people of Interitus, for a moment it looks like she is about to say something to Link,
-but waves it off as nothing. Link then heads north into the Shrouded Forest.
+but waves it off as nothing. Link then heads north into the Shrouded Forest. Beyond the shrouded forest Link finds himself at the Carulem Archipelago.
 
-   Link finds himself in a forestry area with high mountainous walls and thick fog. This forest is shrouded in a dense fog from the high level of humidity of the archipelago to the north west. Amidst the forest
-link will find a
+   So Link heads into The North Western side of Interitus. He is met with a crossroads, one leading to Carulem Archipelago, the other through a wasteland and eventually to a village. Link is to head towards the
+archipelago and help the Zoras there with their plight, but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
+
+   Once known as the Village of Pacilux, the village of peaceful light. The village got it's name as it was where Haeren spent her time with the people of Vita, spreading life and happiness. The village was a
+paradise, and it was also the home village of the once bright and brilliant Aemulor. Aemulor was born on this island and was immersed in the grace of Haeren, he has a happy childhood and upbringing, and saw
+no strife. It wasn't until he became of age that he wanted top venture out and explore the island of Vita to see what there is. Eventually he found himself joining the guard of the lord of the kingdom, this is
+where he was introduced to the world, and its corruption. The island as a whole was always at risk of various evils, and the lord of the kingdom spent a lot of his time fighting against those evils as well as
+the normal running of a kingdom. Anyway, he worked his way up in the chain of command and eventually made his way to the second in command, the general of the kingdom of Vita. Throughout his adventures for the
+lord, he learned about many of the dark and dangerous beings on Vita, and swore to always keep the darkness at bay, to vanquish all of the demons he encounters. Unfortunalely, fate would not allow him to stop
+any of those evils, as a greed came over the lord of vita, a greed that would lead to Aemulor stealing the symbol of light in the world. Aemulor, tasked to steal her triforce, felt conflicted about the missions
+but he also felt he had to choice. So he went to Haeren's domain, within a temple in his old home of Pacilux where her triforce was on display. He took it, and fleed to a secluded structure on the outskirts of
+the village, not too far from where he stole the triforce. The lord, feeling powerful that he caused the fall of a goddess, felt great pride in his accomplishment and ordered Aemulor to hold the triforce until
+he personally could learn its secrets. Aemulor, in his time holding the triforce, despite being conflicted and remorseful for what he did to Haeren could not help but be curious himself of the triforce's secrets.
+In time he learned its secrets, and started to lose himself to his new found abilities. His village was the experimentation grounds of his abilities, the villagers started to fear this new unfamiliar threat to
+their existance, being morphed and turned into undead thralls for some unknown threat. They went to Haeren only to find her temple empty, unable to communicate with the debilitated goddess. Eventually the village
+not only fell to ruin, but was the most potent in darkness. What was once considered paradise, was now a surging hell on earth.
+
+   Link will find Paculux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
+to venture within. It is recommended Link wait until after level 9 before venturing within as he will encounter the strongest undead on the island of interitus, as Aemulor was very raw with his earlier usage of
+the triforce of haeren, so unrestrained and a complete lack of care of what he did that the depth of the darkness he unleashed was unparalleled.
+
+   Link, heading into the archipelago, will find the village of Zoras Zelda wanted him to aid. Upon talking to the inhabitants he discovers that their elder has not been acting right. He has been a lot more violent
+and angry towards those who want to go help the rest of the island against the necromancer. The necromancer's influence hasnt impacted the carulem archipelago much, so the zoras there have felt the obligation to
+help those less fortunate. It would appear it was the elder that ordered the construction of the wall between NWI and SWI to keep the carulem zoras from doing anything. Link comes across the son of the elder
+who pleads with Link to go into the palace, which is the home of the elder, and talk to him and make sure he is ok. The elder's son hasnt seen the elder for awhile after the wall was built, so he doesnt even know
+if the elder is ok. Link then heads to the north eastern side of the archipelago to the elder's palace.
+
+<<Level 7: Water Dungeon>
+~Frenzied Mutated Zora --- ---~
 
 
-<<Level 7: <<WATER DUNGEON in the archipelago>>
-~Terror of the Seas ---Leviathan---~
+//TODO continue from here
+
+   Should Link return to Zelda, he will find her acting oddly. She thanks him for helping the zoras of Carulem, but she is dismissive towards Link, almost annoyed that he is there. She then retires to her room
+and locks the door. Speaking with those present in the room Link learns that she has not been herself. She has been less concerned with helping the peoples of Interitus like she was before, and more on not doing
+anything. They are all very confused and wonder what is going on. What is unknown to everyone that was involved with her arrival on the island, is that before she was recovered by the Goddess Faithful, the
+Necromancer got to her first. The Necromancer, or rather Aemulor within, seeped some of his dark energy within her. Over time as the Necromancer has grown in strength and as a result Aemulor, she has been falling
+more under his control. At the point she is losing herself, she may have already forgotten much about she and Link's history, but now her fighting spirit for what is good is fading. Aemulor knew if he could control
+her, she could be a valable asset for getting to Link and controlling him. Also, her becoming the leader of the Goddess Faithful was a massive bonus, since he now has knowledge of what one of his biggest threats
+is doing.
 
 
    Upon entering Southeast Interitus, he has to first traverse the eastern range of Duratu which is much more brutal than the western range given it is more wild and far less inhabited. Within the mountain, he will
@@ -482,36 +522,6 @@ want to risk another of power attempting to overthrow him. He then declares that
 Aemulor is ruler is not a world at all, but rather a wasteland driven by an insatiable hunger for power, hatred of the goddesses, and even hatred for himself. With that Link acquires his triforce shard that
 was housed in the stronghold and makes his way north west.
 
-   Should Link return to Zelda, he will find her acting oddly. She thanks him for helping the people of Duratu, but she is dismissive towards Link, almost annoyed that he is there. She then retires to her room
-and locks the door. Speaking with those present in the room Link learns that she has not been herself. She has been less concerned with helping the peoples of Interitus like she was before, and more on not doing
-anything. They are all very confused and wonder what is going on. What is unknown to everyone that was involved with her arrival on the island, is that before she was recovered by the Goddess Faithful, the
-Necromancer got to her first. The Necromancer, or rather Aemulor within, seeped some of his dark energy within her. Over time as the Necromancer has grown in strength and as a result Aemulor, she has been falling
-more under his control. At the point she is losing herself, she may have already forgotten much about she and Link's history, but now her fighting spirit for what is good is fading. Aemulor knew if he could control
-her, she could be a valable asset for getting to Link and controlling him. Also, her becoming the leader of the Goddess Faithful was a massive bonus, since he now has knowledge of what one of his biggest threats
-is doing.
-
-   So Link heads into The North Western side of Interitus armed with his Magic Wand. He is met with a crossroads, one leading to Carulem Archipelago, another to a village. Link is to head towards the archipelago
-and help the Zoras there with their plight, but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
-
-   Once known as the Village of Pacilux, the village of peaceful light. The village got it's name as it was where Haeren spent her time with the people of Vita, spreading life and happiness. The village was a
-paradise, and it was also the home village of the once bright and brilliant Aemulor. Aemulor was born on this island and was immersed in the grace of Haeren, he has a happy childhood and upbringing, and saw
-no strife. It wasn't until he became of age that he wanted top venture out and explore the island of Vita to see what there is. Eventually he found himself joining the guard of the lord of the kingdom, this is
-where he was introduced to the world, and its corruption. The island as a whole was always at risk of various evils, and the lord of the kingdom spent a lot of his time fighting against those evils as well as
-the normal running of a kingdom. Anyway, he worked his way up in the chain of command and eventually made his way to the second in command, the general of the kingdom of Vita. Throughout his adventures for the
-lord, he learned about many of the dark and dangerous beings on Vita, and swore to always keep the darkness at bay, to vanquish all of the demons he encounters. Unfortunalely, fate would not allow him to stop
-any of those evils, as a greed came over the lord of vita, a greed that would lead to Aemulor stealing the symbol of light in the world. Aemulor, tasked to steal her triforce, felt conflicted about the missions
-but he also felt he had to choice. So he went to Haeren's domain, within a temple in his old home of Pacilux where her triforce was on display. He took it, and fleed to a secluded structure on the outskirts of
-the village, not too far from where he stole the triforce. The lord, feeling powerful that he caused the fall of a goddess, felt great pride in his accomplishment and ordered Aemulor to hold the triforce until
-he personally could learn its secrets. Aemulor, in his time holding the triforce, despite being conflicted and remorseful for what he did to Haeren could not help but be curious himself of the triforce's secrets.
-In time he learned its secrets, and started to lose himself to his new found abilities. His village was the experimentation grounds of his abilities, the villagers started to fear this new unfamiliar threat to
-their existance, being morphed and turned into undead thralls for some unknown threat. They went to Haeren only to find her temple empty, unable to communicate with the debilitated goddess. Eventually the village
-not only fell to ruin, but was the most potent in darkness. What was once considered paradise, was now a surging hell on earth.
-
-
-   Link will find Paculux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
-to venture within. It is recommended Link wait until after level 9 before venturing within as he will encounter the strongest undead on the island of interitus, as Aemulor was very raw with his earlier usage of
-the triforce of haeren, so unrestrained and a complete lack of care of what he did that the depth of the darkness he unleashed was unparalleled.
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TODO FINISH THIS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 
@@ -529,7 +539,7 @@ errant weary wandering adventurer.
 <Battle Arena 3: <>>
 ~something of something ---something---~
 
-<Minidungeon 6: Ancient  (Optional)> (CAN DO THIS AFTER THE LONGSHOT)
+<Minidungeon 6: Forgotten Spire> (CAN DO THIS AFTER THE LONGSHOT)
 
    What Link has stumbled upon is a structure that is only slightly less decrepit as the Temple of Haeren. It would appear when the Scholar first arrived on the island, some of his soldiers went exploring
 around the accursed island, and found the structure. They found it surprisingly guarded with undead as the undead of the western side of the island found its way to the eastern side. Not much is known about
