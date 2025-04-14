@@ -935,3 +935,39 @@ ffc script SetScreenDIfSecretsInOtherRoom {
       }
    }
 }
+
+// clang-format off
+@Author("kifstopher")
+ffc script BossCam {
+   // clang-format on
+
+   void run() {
+      int myDistance = 200; // how far until camera stops splitting
+      Viewport->Mode = VIEW_MODE_CENTER_AND_BOUND;
+      Viewport->Target = this;
+
+      while (Screen->NumNPCs == 0)
+         Waitframe();
+
+      npc boss = Screen->LoadNPC(1);
+
+      while (true) {
+         // check if boss is ded
+         if (!boss->isValid()) {
+            Viewport->Target = Hero;
+            Quit();
+         }
+         // check if boss is too far
+         if (Distance(Hero->X, Hero->Y, boss->X, boss->Y) > myDistance) {
+            this->X = Hero->X;
+            this->Y = Hero->Y;
+         }
+         else {
+            // otherwise update position
+            this->X = (Hero->X + boss->X) / 2;
+            this->Y = (Hero->Y + boss->Y) / 2;
+         }
+         Waitframe();
+      }
+   }
+}

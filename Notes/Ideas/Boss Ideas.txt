@@ -136,6 +136,7 @@ A gleeok that runs along the walls, and perhaps the fight goes back and forth be
 
 A boss who's stats increase by the amount of enemies on screen, say a wizzrobe that is stonger while it has more minions
 
+eternal banishment from forewarned style boss
 
 
 

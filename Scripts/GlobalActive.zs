@@ -402,8 +402,6 @@ global script onF6Menu {
       if (SizeOfArray(stolenLinkItems))
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
             Hero->Item[stolenLinkItems[i]] = true;
-
-      Trace(Hero->ItemA);
    }
 }
 
