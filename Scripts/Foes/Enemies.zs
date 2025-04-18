@@ -689,7 +689,7 @@ ffc script MaceEnemy {
 
 //       // Spawn in animation
 //       Game->PlayMIDI(0);
-//       Game->PlaySound(SFX_BS_GANON_FANFARE);
+//       Audio->PlaySound(SFX_BS_GANON_FANFARE);
 //       WaitNoAction(64);
 //       SetTile(dat, 1);
 //       WaitNoAction(5);
@@ -845,12 +845,12 @@ ffc script MaceEnemy {
 //                   this->CollDetection = false;
 //                   flashTiles->Clear(0);
 //                   flashTiles->DrawTile(0, 0, 0, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, 0, true, 128);
-//                   Game->PlaySound(SFX_BS_GANON_DEATH);
+//                   Audio->PlaySound(SFX_BS_GANON_DEATH);
 //                   int erasedPixels;
 //                   this->DrawXOffset = -1000;
 //                   for (int i = 0; i < 240; ++i) {
 //                      if (i % 32 == 0)
-//                         Game->PlaySound(SFX_BS_GANON_HIT);
+//                         Audio->PlaySound(SFX_BS_GANON_HIT);
 //                      if (i % 2 == 0) {
 //                         this->HitXOffset = Rand(-1, 1);
 //                         this->HitYOffset = Rand(-1, 1);
@@ -877,7 +877,7 @@ ffc script MaceEnemy {
 //                   item dust = CreateItemAt(I_DUST_PILE, this->X + 8, this->Y + 12);
 //                   dust->HitXOffset = -1000;
 //                   dust->Pickup = IP_DUMMY;
-//                   Game->PlaySound(SFX_BS_GANON_TRIFORCE);
+//                   Audio->PlaySound(SFX_BS_GANON_TRIFORCE);
 //                   for (int i = 0; i < 154; ++i) {
 //                      if (i < 240 * 0.75)
 //                         Screen->Rectangle(6, 0, 0, 255, 175, C_BS_GANON_FLASHWHITE, 1, 0, 0, 0, true, 64);
@@ -1016,7 +1016,7 @@ ffc script MaceEnemy {
 //             // Do the charge if able
 //             if (cancharge) {
 //                ChompWaitframe(this, vars, 10);
-//                Game->PlaySound(SFX_CHOMP);
+//                Audio->PlaySound(SFX_CHOMP);
 //                for (int i = 0; i < 60 && Distance(this->X, this->Y, homeX, homeY) < maxDist; i++) {
 //                   this->MoveAtAngle(chompAngle, this->Step / 100 * 2.6666, SPW_FLOATER);
 //                   this->Dir = AngleDir8(WrapDegrees(chompAngle));
@@ -1359,7 +1359,7 @@ ffc script MaceEnemy {
 //       Link->Item[I_STUNRING] = true;
 //       int stuntime = FROZEN_TIME;
 //       Link->HP -= wpn->Damage;
-//       Game->PlaySound(SFX_OUCH);
+//       Audio->PlaySound(SFX_OUCH);
 //       while (stuntime > 0) {
 //          stuntime--;
 //          WaitNoAction();
@@ -1430,7 +1430,7 @@ ffc script MaceEnemy {
 //                else {
 //                   Ghost_Data = baseCombo + 4;
 //                   dir = RadianAngleDir4(ArcTan(Link->X - Ghost_X, Link->Y - Ghost_Y));
-//                   Link->PitWarp(Game->GetCurDMap(), Game->GetCurDMapScreen());
+//                   Link->PitWarp(Game->CurDMap, Game->GetCurDMapScreen());
 //                }
 //             }
 //             else if (counter == halttime / 2) {
@@ -1496,6 +1496,6 @@ ffc script MaceEnemy {
 //             fist[i]->OriginalTile += 8;
 //       }
 
-//       Game->PlaySound(GOLEM_SFX_FIST);
+//       Audio->PlaySound(GOLEM_SFX_FIST);
 //    }
 // }

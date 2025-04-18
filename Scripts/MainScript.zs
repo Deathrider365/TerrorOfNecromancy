@@ -11,38 +11,41 @@
 #include "std.zh"
 #include "std_zh/ghostBasedMovement.zh"
 
-#include "../ToN Main Quest/Scripts/Headers/EmDebug.zs"
-#include "../ToN Main Quest/Scripts/Headers/EmilyMisc.zh"
-#include "../ToN Main Quest/Scripts/Headers/Ghost.zh"
-#include "../ToN Main Quest/Scripts/Headers/LinkMovement.zh"
-#include "../ToN Main Quest/Scripts/Headers/NPCAnim.zh"
+#includepath "../ToN Main Quest/Scripts/"
 
-#include "../ToN Main Quest/Scripts/FFC/FFCScripts.zs"
-#include "../ToN Main Quest/Scripts/FFC/FFCScriptsCutscenes.zs"
-#include "../ToN Main Quest/Scripts/FFC/FFCScriptsStringsItems.zs"
-#include "../ToN Main Quest/Scripts/FFC/FFCScriptsSwitchesSecrets.zs"
+#include "Headers/EmDebug.zs"
+#include "Headers/EmilyMisc.zh"
+#include "Headers/Ghost.zh"
+#include "Headers/LinkMovement.zh"
+#include "Headers/NPCAnim.zh"
+#include "Headers/TempLinkState3.0.zh"
 
-#include "../ToN Main Quest/Scripts/ComboData/ComboDataScripts.zs"
+#include "FFC/FFCScripts.zs"
+#include "FFC/FFCScriptsCutscenes.zs"
+#include "FFC/FFCScriptsStringsItems.zs"
+#include "FFC/FFCScriptsSwitchesSecrets.zs"
 
-#include "../ToN Main Quest/Scripts/Foes/Bosses.zs"
-#include "../ToN Main Quest/Scripts/Foes/Enemies.zs"
+#include "ComboData/ComboDataScripts.zs"
 
-#include "../ToN Main Quest/Scripts/Subscreen.zs"
+#include "Foes/Bosses.zs"
+#include "Foes/Enemies.zs"
 
-#include "../ToN Main Quest/Scripts/Utilities/Classes.zs"
-#include "../ToN Main Quest/Scripts/Utilities/Difficulty.zs"
-#include "../ToN Main Quest/Scripts/Utilities/EnumsTypedefs.zs"
-#include "../ToN Main Quest/Scripts/Utilities/Hero.zs"
-#include "../ToN Main Quest/Scripts/Utilities/MiscFunctions.zs"
-#include "../ToN Main Quest/Scripts/Utilities/Namespaces.zs"
+#include "Subscreen.zs"
 
-#include "../ToN Main Quest/Scripts/Weapons/Eweapons.zs"
-#include "../ToN Main Quest/Scripts/Weapons/ItemItemdata.zs"
-#include "../ToN Main Quest/Scripts/Weapons/Lweapons.zs"
+#include "Utilities/Classes.zs"
+#include "Utilities/Difficulty.zs"
+#include "Utilities/EnumsTypedefs.zs"
+#include "Utilities/Hero.zs"
+#include "Utilities/MiscFunctions.zs"
+#include "Utilities/Namespaces.zs"
 
-#include "../ToN Main Quest/Scripts/Generic/GenericScripts.zs"
+#include "Weapons/Eweapons.zs"
+#include "Weapons/ItemItemdata.zs"
+#include "Weapons/Lweapons.zs"
 
-#include "../ToN Main Quest/Scripts/GlobalActive.zs"
-#include "../ToN Main Quest/Scripts/ScreendataDMapdata.zs"
+#include "Generic/GenericScripts.zs"
+
+#include "GlobalActive.zs"
+#include "ScreendataDMapdata.zs"
 
 always using namespace Emily;

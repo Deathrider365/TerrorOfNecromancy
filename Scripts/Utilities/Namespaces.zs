@@ -1433,3 +1433,82 @@ namespace EmilyMap {
       }
    }
 } // namespace EmilyMap
+
+namespace MinecartNamespace {
+   CONFIGB MINECART_TURN_LINK_WITH_CART = true;         // If true, Link will turn with the cart when not moving
+   CONFIGB MINECART_USE_SPECIAL_RIDING_SPRITES = false; // If true, replace Link's riding sprites with the minecart's combo +12
+
+   CONFIG SFX_MINECART = 173;     // Looping sound of the minecart on the tracks
+   CONFIG MINECART_SFX_FREQ = 30; // How often the sound loops
+
+   CONFIG MINECART_LINKYOFFSET = 10; // Offset Link's sprite is drawn at compared to the minecart
+   CONFIG MINECART_HOLDFRAMES = 8;   // How many frames Link needs to hold to get in the minecart
+
+   CONFIG DAMAGE_MINECART_COLLISION = 8;         // How much damage the minecart does when it hits enemies
+   CONFIG LW_MINECART_DAMAGE = LW_SCRIPT10;      // Weapon type the minecart's hitbox uses
+   CONFIG LW_MINECART_DAMAGE_DEFENSE = LW_SWORD; // Defense type the minecart's hitbox uses
+
+   CONFIG MAX_MINECARTS = 1024;
+   untyped GBMinecarts[MCI_LAST + MAX_MINECARTS * MCII_LAST];
+
+   enum MinecartIndices {
+      MCI_FIRSTLOAD,
+      MCI_ACTIVEMINECARTS,
+      MCI_INMINECART,
+      MCI_CURRENTID,
+      MCI_CARTX,
+      MCI_CARTY,
+      MCI_CARTDIR,
+      MCI_CARTSPEED,
+      MCI_CARTTEMPSTEP,
+      MCI_CARTCOMBO,
+      MCI_CARTCSET,
+      MCI_SFXTIMER,
+      MCI_NOAIRSCROLL_QR,
+
+      MCI_LAST
+   };
+
+   enum MinecartInstanceIndices {
+      MCII_MAP,
+      MCII_SCREEN,
+      MCII_X,
+      MCII_Y,
+      MCII_NORESET,
+      MCII_COMBO,
+      MCII_CSET,
+      MCII_DIR,
+      MCII_SPEED,
+      MCII_ORIGINALSCREEN,
+      MCII_ORIGINALMAP,
+      MCII_ORIGINALX,
+      MCII_ORIGINALY,
+      MCII_ORIGINALFFC,
+
+      MCII_LAST
+   };
+
+   enum MinecartTrackTypes {
+      MTT_LANDINGPAD,
+      MTT_VERTICAL,
+      MTT_HORIZONTAL,
+      MTT_RIGHTDOWN,
+      MTT_LEFTDOWN,
+      MTT_RIGHTUP,
+      MTT_LEFTUP,
+      MTT_UPT,
+      MTT_DOWNT,
+      MTT_LEFTT,
+      MTT_RIGHTT,
+      MTT_4WAY
+   };
+
+   void SetMinecartVar(int id, int var, int value) {
+      GBMinecarts[MCII_LAST + id * MCII_LAST + var] = value;
+   }
+
+   int GetMinecartVar(int id, int var) {
+      return GBMinecarts[MCII_LAST + id * MCII_LAST + var];
+   }
+
+} // namespace MinecartNamespace

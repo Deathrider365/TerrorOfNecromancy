@@ -859,7 +859,11 @@ ffc script LensTorches {
 }
 
 // clang-format off
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("armorLevel"),
+@InitDHelp0("1 = green, 2 = blue, 3 = red..."),
+@InitD1("damage"),
+@InitDHelp1("8 = 1 heart")
 ffc script HeatedRoomFFC {
    // clang-format on
    void run(int armorLevel, int damage) {
@@ -938,8 +942,7 @@ ffc script SetScreenDIfSecretsInOtherRoom {
 
 // clang-format off
 @Author("kifstopher")
-ffc script BossCam {
-   // clang-format on
+ffc script BossCam { // clang-format on
 
    void run() {
       int myDistance = 200; // how far until camera stops splitting
@@ -966,6 +969,269 @@ ffc script BossCam {
             // otherwise update position
             this->X = (Hero->X + boss->X) / 2;
             this->Y = (Hero->Y + boss->Y) / 2;
+         }
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@InitD0("Speed"), @InitDHelp0("The speed the cart travels in pixels per frame"),
+@InitD1("No Reset"), @InitDHelp1("If 1, this minecart's position will never reset when the Reset_Minecarts FFC script runs"),
+@InitD2("Script Spawned"),
+@InitDHelp2("Used for communication with the Generic script, leave at 0."),
+@InitD3("Jump Out?"),
+@InitDHelp2("Used for communication with the Generic script, leave at 0.")
+ffc script GBMinecart {
+   // clang-format on
+
+   using namespace MinecartNamespace;
+
+   void run(int speed, int noReset, int scriptSpawned, int jumpOut) {
+      int id;
+      if (!scriptSpawned) {
+         id = GetMinecartID(this);
+         // If this is a new minecart, set it up
+         if (GetMinecartVar(id, MCII_MAP) == 0) {
+            SetMinecartVar(id, MCII_MAP, Game->CurMap);
+            SetMinecartVar(id, MCII_SCREEN, Game->CurScreen);
+            SetMinecartVar(id, MCII_X, this->X);
+            SetMinecartVar(id, MCII_Y, this->Y);
+            SetMinecartVar(id, MCII_DIR, this->Data % 4);
+            SetMinecartVar(id, MCII_NORESET, noReset);
+            SetMinecartVar(id, MCII_ORIGINALMAP, Game->CurMap);
+            SetMinecartVar(id, MCII_ORIGINALSCREEN, Game->CurScreen);
+            SetMinecartVar(id, MCII_ORIGINALX, this->X);
+            SetMinecartVar(id, MCII_ORIGINALY, this->Y);
+            SetMinecartVar(id, MCII_ORIGINALFFC, this->ID);
+            SetMinecartVar(id, MCII_COMBO, Floor(this->Data / 4) * 4);
+            SetMinecartVar(id, MCII_CSET, this->CSet);
+            SetMinecartVar(id, MCII_SPEED, speed);
+            ++GBMinecarts[MCI_ACTIVEMINECARTS];
+         }
+         else {
+            // If it's not parked on the current screen, quit out
+            if (GetMinecartVar(id, MCII_MAP) != Game->CurMap || GetMinecartVar(id, MCII_SCREEN) != Game->CurScreen || GetMinecartVar(id, MCII_X) != this->X || GetMinecartVar(id, MCII_Y) != this->Y) {
+               this->Data = 0;
+               Quit();
+            }
+            // Else make sure it faces the right way
+            else
+               SetMinecartVar(id, MCII_DIR, this->Data % 4);
+         }
+      }
+      else {
+         id = scriptSpawned - 1;
+         this->Data = GetMinecartVar(id, MCII_COMBO) + GetMinecartVar(id, MCII_DIR);
+         this->CSet = GetMinecartVar(id, MCII_CSET);
+      }
+
+      // The minecart origin FFC shouldn't spawn while riding it
+      if (GBMinecarts[MCI_INMINECART] && id == GBMinecarts[MCI_CURRENTID]) {
+         int oldcmb = this->Data;
+         // Failsafe to prevent a false positive while F6ing in a cart. Bleh.
+         this->Data = FFCS_INVISIBLE_COMBO;
+         Waitframe();
+         if (GBMinecarts[MCI_INMINECART] && id == GBMinecarts[MCI_CURRENTID]) {
+            this->Data = 0;
+            Quit();
+         }
+         this->Data = oldcmb;
+      }
+
+      int dir = this->Data % 4;
+      // Jump out animation if called via script
+      if (jumpOut) {
+         // Link is launched out in the opposite direction because
+         // the cart turns around on reaching the platform
+         Link->Dir = OppositeDir(dir);
+         Link->Jump = 2;
+         Audio->PlaySound(SFX_JUMP);
+         int tx = this->X + DirX(OppositeDir(dir)) * 16;
+         int ty = this->Y + DirY(OppositeDir(dir)) * 16;
+         int angle = Angle(this->X, this->Y, tx, ty);
+         int dist = Distance(this->X, this->Y, tx, ty);
+         int linkX = Link->X;
+         int linkY = Link->Y;
+         for (int i = 0; i < 26; i++) {
+            linkX += VectorX(dist / 26, angle);
+            linkY += VectorY(dist / 26, angle);
+            NoAction();
+            Waitdraw();
+            Link->X = linkX;
+            Link->Y = linkY;
+            Waitframe();
+         }
+         Link->X = tx;
+         Link->Y = ty;
+         this->Data = Floor(this->Data / 4) * 4 + dir;
+      }
+      this->Flags[FFCF_SOLID] = true;
+      int timer[1];
+
+      if (this->Flags[FFCF_PRELOAD])
+         Waitframe();
+
+      while (true) {
+         if (PressAgainstCart(this, timer)) {
+            this->Flags[FFCF_SOLID] = false;
+            Link->Dir = AngleDir4(Angle(Link->X, Link->Y, this->X, this->Y - MINECART_LINKYOFFSET));
+            Link->Jump = 2;
+            Audio->PlaySound(SFX_JUMP);
+            int tx = this->X;
+            int ty = this->Y - MINECART_LINKYOFFSET;
+            int angle = Angle(Link->X, Link->Y, tx, ty);
+            int dist = Distance(Link->X, Link->Y, tx, ty);
+            int linkX = Link->X;
+            int linkY = Link->Y;
+            for (int i = 0; i < 26; i++) {
+               linkX += VectorX(dist / 26, angle);
+               linkY += VectorY(dist / 26, angle);
+               NoAction();
+               Waitdraw();
+               Link->X = linkX;
+               Link->Y = linkY;
+               Waitframe();
+            }
+            Link->X = tx;
+            Link->Y = ty;
+
+            // Set global variables for carting based on the FFC
+            GBMinecarts[MCI_INMINECART] = true;
+            GBMinecarts[MCI_CURRENTID] = id;
+            GBMinecarts[MCI_CARTCOMBO] = GetMinecartVar(id, MCII_COMBO);
+            GBMinecarts[MCI_CARTCSET] = GetMinecartVar(id, MCII_CSET);
+            GBMinecarts[MCI_CARTDIR] = dir;
+            GBMinecarts[MCI_CARTSPEED] = GetMinecartVar(id, MCII_SPEED);
+            GBMinecarts[MCI_CARTX] = this->X;
+            GBMinecarts[MCI_CARTY] = this->Y;
+
+            this->Data = 0;
+            Quit();
+         }
+         Waitframe();
+      }
+   }
+   int GetMinecartID(ffc this) {
+      // Scan over all active minecarts
+      for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
+         int ogMap = GetMinecartVar(i, MCII_ORIGINALMAP);
+         int ogScreen = GetMinecartVar(i, MCII_ORIGINALSCREEN);
+         int ogFFC = GetMinecartVar(i, MCII_ORIGINALFFC);
+         // Find one that matches the screen and FFC
+         if (ogMap == Game->CurMap && ogScreen == Game->CurScreen && ogFFC == this->ID)
+            return i;
+      }
+      if (GBMinecarts[MCI_ACTIVEMINECARTS] + 1 > MAX_MINECARTS) {
+         printf("ERROR: Not enough free minecart slots, please increase MAX_MINECARTS");
+         return 0;
+      }
+      // Otherwise it's a new minecart
+      return GBMinecarts[MCI_ACTIVEMINECARTS];
+   }
+   bool PressAgainstCart(ffc this, int[] timer) {
+      if (Link->Z > 0 || Link->FakeZ > 0)
+         return false;
+      bool pressing;
+      if (Abs(Link->X - this->X) <= 8 && Link->Y > this->Y && Link->Y <= this->Y + 8 && Link->InputUp)
+         pressing = true;
+      if (Abs(Link->X - this->X) <= 8 && Link->Y >= this->Y - 16 && Link->Y < this->Y && Link->InputDown)
+         pressing = true;
+      if (Link->X <= this->X + 16 && Link->X > this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputLeft)
+         pressing = true;
+      if (Link->X >= this->X - 16 && Link->X < this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputRight)
+         pressing = true;
+      if (pressing) {
+         ++timer[0];
+         if (timer[0] > MINECART_HOLDFRAMES)
+            return true;
+      }
+      else
+         timer[0] = 0;
+      return false;
+   }
+}
+
+// clang-format off
+@InitD0("Only This Map"),
+@InitDHelp0("If 1, only resets minecarts on the current map")
+ffc script GBReset_Minecarts {
+   // clang-format on
+
+   using namespace MinecartNamespace;
+
+   void run(int onlyThisMap) {
+      if (Abs(Link->X - this->X) <= 8 && Abs(Link->Y - this->Y) <= 8) {
+         for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
+            if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
+               if (!GetMinecartVar(i, MCII_NORESET)) {
+                  SetMinecartVar(i, MCII_MAP, GetMinecartVar(i, MCII_ORIGINALMAP));
+                  SetMinecartVar(i, MCII_SCREEN, GetMinecartVar(i, MCII_ORIGINALSCREEN));
+                  SetMinecartVar(i, MCII_X, GetMinecartVar(i, MCII_ORIGINALX));
+                  SetMinecartVar(i, MCII_Y, GetMinecartVar(i, MCII_ORIGINALY));
+               }
+            }
+         }
+      }
+   }
+}
+
+// clang-format off
+@Author("Moosh")
+ffc script GBMinecart_Shutter {
+   // clang-format on
+
+   using namespace MinecartNamespace;
+
+   CONFIG CMB_SHUTTER_OPEN = 0;
+
+   void run() {
+      mapdata shutterLayer = Game->LoadTempScreen(IsBackgroundLayer(2) ? 1 : 2);
+      int combo = this->Data;
+      int pos = ComboAt(this->X + 8, this->Y + 8);
+      this->Data = FFCS_INVISIBLE_COMBO;
+      bool open;
+      int x = Link->X;
+      int y = Link->Y;
+      if (this->Flags[FFCF_PRELOAD]) {
+         if (x <= 0)
+            x = 240;
+         else if (x >= 240)
+            x = 0;
+         if (y <= 0)
+            y = 160;
+         else if (y >= 160)
+            y = 0;
+      }
+      int triggerDist = 16 + 4 * GBMinecarts[MCI_CARTSPEED];
+      if (GBMinecarts[MCI_INMINECART] && Abs(x - this->X) < triggerDist && Abs(y - this->Y) < triggerDist)
+         open = true;
+
+      shutterLayer->ComboD[pos] = open ? CMB_SHUTTER_OPEN : combo;
+      shutterLayer->ComboC[pos] = this->CSet;
+
+      if (this->Flags[FFCF_PRELOAD])
+         Waitframe();
+      while (true) {
+         x = Link->X;
+         y = Link->Y;
+         if (open) {
+            if (!(Abs(x - this->X) < triggerDist && Abs(y - this->Y) < triggerDist)) {
+               Audio->PlaySound(SFX_SHUTTER);
+               shutterLayer->ComboD[pos] = combo + 4;
+               Waitframes(4);
+               shutterLayer->ComboD[pos] = combo;
+               open = false;
+            }
+         }
+         else {
+            if (GBMinecarts[MCI_INMINECART] && Abs(x - this->X) < triggerDist && Abs(y - this->Y) < triggerDist) {
+               Audio->PlaySound(SFX_SHUTTER);
+               shutterLayer->ComboD[pos] = combo + 4;
+               Waitframes(4);
+               shutterLayer->ComboD[pos] = CMB_SHUTTER_OPEN;
+               open = true;
+            }
          }
          Waitframe();
       }

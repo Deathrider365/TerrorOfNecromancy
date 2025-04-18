@@ -183,3 +183,17 @@ combodata script HotSteam {
       return Hero->Action != LA_DROWNING && Hero->Action != LA_SWIMMING && Hero->Action != LA_GOTHURTWATER && Hero->Action != LA_DIVING && Hero->Action != LA_SIDEDROWN;
    }
 }
+
+// clang-format off
+@InitD0("Track Type"),
+@InitDHelp0("0 - Landing Pad\n1 - Vertical\n2 - Horizontal\n3 - Right-Down Corner\n4 - Left-Down Corner\n5 - Right-Up Corner\n6 - Left-Up Corner\n7 - Up T-Piece\n8 - Down T-Piece\n9 - Left T-Piece\n10 - Right T-Piece\n11 - 4-Way Junction"),
+@InitD1("Can Turn"),
+@InitDHelp1("If 1, Link can turn the minecart on this track"),
+@InitD2("Bias Direction"),
+@InitDHelp2("If >-1, the track with prioritize this direction over other possible turns")
+combodata script GBMinecart_Track {
+   // clang-format on
+   void run(int trackType, int canTurn, int biasDir) {
+      // Dummy script, used for its InitD[] values, see MinecartGeneric
+   }
+}
