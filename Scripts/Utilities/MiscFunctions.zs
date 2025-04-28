@@ -611,9 +611,7 @@ void handleHeatOrCold(int armorLevel, int damage) {
 
 // Use this function to disable some items while in a minecart
 bool CanUseItemInMinecart(int itemid) {
-   // Here's an example of how you can
-   // disable an item while in the minecart
-   // if(itemid==I_HAMMER)
-   // return false;
+   if (itemid == ITEM_HOOKSHOT1 || itemid == ITEM_HOOKSHOT2)
+      return false;
    return true;
 }

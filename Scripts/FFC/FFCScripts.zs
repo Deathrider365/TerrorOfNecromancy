@@ -976,8 +976,10 @@ ffc script BossCam { // clang-format on
 }
 
 // clang-format off
-@InitD0("Speed"), @InitDHelp0("The speed the cart travels in pixels per frame"),
-@InitD1("No Reset"), @InitDHelp1("If 1, this minecart's position will never reset when the Reset_Minecarts FFC script runs"),
+@InitD0("Speed"),
+@InitDHelp0("The speed the cart travels in pixels per frame"),
+@InitD1("No Reset"),
+@InitDHelp1("If 1, this minecart's position will never reset when the Reset_Minecarts FFC script runs"),
 @InitD2("Script Spawned"),
 @InitDHelp2("Used for communication with the Generic script, leave at 0."),
 @InitD3("Jump Out?"),
@@ -1193,6 +1195,7 @@ ffc script GBMinecart_Shutter {
       bool open;
       int x = Link->X;
       int y = Link->Y;
+
       if (this->Flags[FFCF_PRELOAD]) {
          if (x <= 0)
             x = 240;
