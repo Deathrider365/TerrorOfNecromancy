@@ -286,6 +286,7 @@ global script GlobalScripts {
             switch (screen) {
                case 0x45: return 000100b;
                case 0x35: return 000100b;
+               case 0x36: return 000100b;
             }
             break;
       }
