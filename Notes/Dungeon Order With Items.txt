@@ -11,6 +11,8 @@ Level 3: Ancient Shrine				               - Cultist's Hammer (1)
 Battle Arena 2: Pirate Hideout			         - Soldier's Bow (2)
 Minidungeon 3: Molten Flooded Forge		         - Sword of Conflator
 
+---Demo 4---
+
 Level 4: Pillaged Prison			               - Lens of Truth
 Minidungeon 4: Sweltering Iron Mine		         - Iron Arrows (2)
 
@@ -19,6 +21,8 @@ Minidungeon 5: The Summus Pass:			         - Thieves' Wallet (2)
 Optional Dungeon 1: Sealed Abyss	   	      	- Displelled Cane (1), Spectral Cane (2)
 
 Level 6: Geothermal Plant			            	- Goron Gauntlet (2)
+
+---Demo 5---
 
 Level 7: WATER DUNGEON IN TEH ARCHIPELAGO		   - Diver's Flippers (1)
 Battle Arena 3: Exiled Zora's Dwelling		 	   - Incendiary Candle (3)
@@ -33,6 +37,8 @@ Minidungeon 8: Mt. Caldum				            - Longshot (2)
 Optional Dungeon 4: Forgotten Spire (IoH)		   - Mithril Arrow (3)
 Battle Arena 4: southern edge of SWI            - Marksman's Bow (3)
 
+---Demo 6---
+
 Level 10: Mt. Caldum					               - Gale Boomerang (3)
 Minidungeon 9: tower west of auri village		   - Giant's Bracer (3)
 
@@ -44,10 +50,13 @@ Optional Dungeon 6: Banished Sanctuary			   - Zora's Flippers (2)
 
 Hero's Sword obtained from Zelda
 
+---Demo 7---
+
 ~~~Post Game~~~
 
 Optional Dungeon 7: Chapel of Rumination:       - Hero's Tunic (4)
 
+---Demo 8---
 
 
 

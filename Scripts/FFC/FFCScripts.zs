@@ -694,12 +694,14 @@
 }
 
 // clang-format off
-@Author("Deathrider365")
- ffc script FaceDownLinkFromTopOfScreen {
+@Author("Deathrider365"),
+@InitD0("dir"),
+@InitDHelp0("0 - up, 1 - down, 2 - left, 3 - right")
+ffc script FaceLinkOnEntrance {
    // clang-format on
 
-   void run() {
-      Hero->Dir = DIR_DOWN;
+   void run(int dir) {
+      Hero->Dir = dir;
    }
 }
 

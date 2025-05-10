@@ -1,5 +1,12 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Enemies ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+// TODO remove when fakez is toggleable in the enemy editor
+// npc script FakeZEnemy {
+//    void run() {
+//       this->MoveFlags[NPCMV_USE_FAKE_Z] = true;
+//    }
+// }
+
 // clang-format off
 @Author("Deathrider365")
 npc script Candlehead {

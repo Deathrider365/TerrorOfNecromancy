@@ -1193,9 +1193,9 @@ namespace EmilyMap {
    bool isBG(bool l3, mapdata m, dmapdata dm) {
       // clang-format off
       if (l3)
-         return (GetMapscreenFlag(m, MSF_LAYER3BG) ^^ dm->Flagset[DMFS_LAYER3ISBACKGROUND]);
+         return (m->Flag[SFL_LAYER3BG] ^^ dm->Flagset[DMFS_LAYER3ISBACKGROUND]);
       else
-         return (GetMapscreenFlag(m, MSF_LAYER2BG) ^^ dm->Flagset[DMFS_LAYER2ISBACKGROUND]);
+         return (m->Flag[SFL_LAYER2BG] ^^ dm->Flagset[DMFS_LAYER2ISBACKGROUND]);
       // clang-format on
    }
 

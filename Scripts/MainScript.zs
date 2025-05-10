@@ -6,6 +6,7 @@
 
 #include "include/std.zh"
 
+#include "EmilyMisc.zh"
 #include "Time.zh"
 #include "ffcscript.zh"
 #include "std.zh"
@@ -14,7 +15,6 @@
 #includepath "../ToN Main Quest/Scripts/"
 
 #include "Headers/EmDebug.zs"
-#include "Headers/EmilyMisc.zh"
 #include "Headers/Ghost.zh"
 #include "Headers/LinkMovement.zh"
 #include "Headers/NPCAnim.zh"
