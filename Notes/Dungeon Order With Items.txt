@@ -17,7 +17,7 @@ Level 4: Pillaged Prison			               - Lens of Truth
 Minidungeon 4: Sweltering Iron Mine		         - Iron Arrows (2)
 
 Level 5: Temple of Gamoth			               - Hookshot (1)
-Minidungeon 5: The Summus Pass:			         - Thieves' Wallet (2)
+Minidungeon 5: The Summus Pass:			         - Merchant's Wallet (1)
 Optional Dungeon 1: Sealed Abyss	   	      	- Displelled Cane (1), Spectral Cane (2)
 
 Level 6: Geothermal Plant			            	- Goron Gauntlet (2)
@@ -32,15 +32,15 @@ Level 8: Marauder's Cove				            - Mage's Wand (1)
 Minidungeon 7: Hylian Wreck			            - Master Sword (3)
 Optional Dungeon 3: Depths of The Flooded Forge	- Smith's Hammer (2)
 
-Level 9: Castle Interitus				            - No Item, unlocks the castle
-Minidungeon 8: Mt. Caldum				            - Longshot (2)
+Level 9: Castle Interitus				            - Longshot (2)
 Optional Dungeon 4: Forgotten Spire (IoH)		   - Mithril Arrow (3)
 Battle Arena 4: southern edge of SWI            - Marksman's Bow (3)
 
 ---Demo 6---
 
+Shop: Hell's Candle (4), Thief's Wallet (2)
 Level 10: Mt. Caldum					               - Gale Boomerang (3)
-Minidungeon 9: tower west of auri village		   - Giant's Bracer (3)
+Minidungeon 8: tower west of auri village		   - Giant's Bracer (3)
 
 Level 11: Mortuary of Darkness			         - Mirror Shield (3)
 Optional Dungeon 5: Origin of Death (paliux)    - Portal Sphere
