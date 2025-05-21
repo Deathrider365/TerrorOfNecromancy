@@ -7,6 +7,9 @@ void giveStartingCrap() {
 }
 
 void removeAllItems() {
+   Hero->ItemA = -1;
+   Hero->ItemB = -1;
+
    for (int i = 0; i < MAX_ITEMDATA; ++i)
       unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;
 
@@ -614,4 +617,8 @@ bool CanUseItemInMinecart(int itemid) {
    if (itemid == ITEM_HOOKSHOT1 || itemid == ITEM_HOOKSHOT2)
       return false;
    return true;
+}
+
+int getHeroHitSound() {
+   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3);
 }

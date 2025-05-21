@@ -830,3 +830,4 @@ namespace Subscreen {
       return Game->LoadItemData(itemId)->CSet;
    }
 } // namespace Subscreen
+

@@ -1,14 +1,14 @@
 //~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Generic~~~~~~~~~~~~~~~~~~~//
 
-generic script HeroHurtSound {
-   void run() {
-      while (true) {
-         WaitEvent();
+// generic script HeroHurtSound {
+   // void run() {
+   //    while (true) {
+   //       WaitEvent();
 
-         unless(Game->EventData[GENEV_HEROHIT_NULLIFY]) Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
-      }
-   }
-}
+   //       unless(Game->EventData[GENEV_HEROHIT_NULLIFY]) Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+   //    }
+   // }
+// }
 
 generic script HeroGotYeeted {
    void run() {
@@ -463,6 +463,85 @@ generic script MinecartGeneric {
          if (GetMinecartVar(i, MCII_MAP) == Game->CurMap && GetMinecartVar(i, MCII_SCREEN) == Game->CurScreen) {
             SpawnCart(cartScript, i, GetMinecartVar(i, MCII_X), GetMinecartVar(i, MCII_Y));
          }
+      }
+   }
+}
+
+subscreendata script CyclableTriforceFrames {
+   using namespace Subscreen;
+
+   void run() {
+      int leftArrowCombo = 7746;
+      int rightArrowCombo = 7747;
+      int LCombo = 7744;
+      int RCombo = 7745;
+
+      Trace("Running");
+
+      loop() {
+         if (Input->Press[CB_L]) {
+            Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+            --currTriforceIndex;
+         }
+         else if (Input->Press[CB_R]) {
+            Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+            ++currTriforceIndex;
+         }
+         unless(Game->CurDMap <= 2) {
+            if (currTriforceIndex == -1)
+               currTriforceIndex = 3;
+            else if (currTriforceIndex == 4)
+               currTriforceIndex = 0;
+         }
+         else {
+            if (currTriforceIndex == -1)
+               currTriforceIndex = 2;
+            else if (currTriforceIndex == 3)
+               currTriforceIndex = 0;
+         }
+
+         Screen->FastCombo(7, 4, 88, leftArrowCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 104, 88, rightArrowCombo, 0, OP_OPAQUE);
+
+         Screen->FastCombo(7, 4, 104, LCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 104, 104, RCombo, 0, OP_OPAQUE);
+
+         // Heart Pieces
+         Screen->FastTile(4, 122, 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
+         counter(RT_SCREEN, 4, 141, 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+
+         // Triforce Frame Cycling / Drawing
+         if (currTriforceIndex == 0)
+            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         if (currTriforceIndex == 1)
+            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         if (currTriforceIndex == 2)
+            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+         if (currTriforceIndex == 3 && Game->CurDMap != 2)
+            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+
+         Screen->DrawTile(0, 14, 80, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+
+         switch (currTriforceIndex) {
+            case 0:
+               for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_COURAGE]; ++i)
+                  Screen->DrawTile(0, 14, 80, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+               break;
+            case 1:
+               for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_POWER]; ++i)
+                  Screen->DrawTile(0, 14, 80, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+               break;
+            case 2:
+               for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_WISDOM]; ++i)
+                  Screen->DrawTile(0, 14, 80, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+               break;
+            case 3:
+               for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
+                  Screen->DrawTile(0, 14, 80, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+               break;
+         }
+
+         Waitframe();
       }
    }
 }
