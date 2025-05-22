@@ -475,10 +475,13 @@ subscreendata script CyclableTriforceFrames {
       int rightArrowCombo = 7747;
       int LCombo = 7744;
       int RCombo = 7745;
-
-      Trace("Running");
+      int drawY = 94;
 
       loop() {
+         magicBar(Game->ActiveSubscreenY + 228);
+
+         int yOff = Game->ActiveSubscreenY;
+
          if (Input->Press[CB_L]) {
             Audio->PlaySound(TRIFORCE_CYCLE_SFX);
             --currTriforceIndex;
@@ -500,48 +503,100 @@ subscreendata script CyclableTriforceFrames {
                currTriforceIndex = 0;
          }
 
-         Screen->FastCombo(7, 4, 88, leftArrowCombo, 0, OP_OPAQUE);
-         Screen->FastCombo(7, 104, 88, rightArrowCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 4, drawY + yOff, leftArrowCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 104, drawY + yOff, rightArrowCombo, 0, OP_OPAQUE);
 
-         Screen->FastCombo(7, 4, 104, LCombo, 0, OP_OPAQUE);
-         Screen->FastCombo(7, 104, 104, RCombo, 0, OP_OPAQUE);
-
-         // Heart Pieces
-         Screen->FastTile(4, 122, 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
-         counter(RT_SCREEN, 4, 141, 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+         Screen->FastCombo(7, 4, 16 + drawY + yOff, LCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 104, 16 + drawY + yOff, RCombo, 0, OP_OPAQUE);
 
          // Triforce Frame Cycling / Drawing
          if (currTriforceIndex == 0)
-            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 1)
-            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 2)
-            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 3 && Game->CurDMap != 2)
-            Emily::DrawStrings(4, 62, 75, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 
-         Screen->DrawTile(0, 14, 80, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+         Screen->DrawTile(0, 14, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 
          switch (currTriforceIndex) {
             case 0:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_COURAGE]; ++i)
-                  Screen->DrawTile(0, 14, 80, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 14, drawY + yOff - 8, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 1:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_POWER]; ++i)
-                  Screen->DrawTile(0, 14, 80, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 14, drawY + yOff - 8, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 2:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_WISDOM]; ++i)
-                  Screen->DrawTile(0, 14, 80, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 14, drawY + yOff - 8, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 3:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
-                  Screen->DrawTile(0, 14, 80, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 14, drawY + yOff - 8, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
          }
 
          Waitframe();
       }
    }
+}
+
+dmapdata script MagicBar {
+   using namespace Subscreen;
+
+   void run() {
+      loop() {
+         magicBar(0);
+         Waitframe();
+      }
+   }
+}
+
+void magicBar(int yOff) {
+   using namespace Subscreen;
+
+   int numMagicExpansions = Game->Counter[CR_MAGIC_EXPANSIONS];
+   int magicSegmentX = 162;
+
+   int y = -12 + yOff;
+
+   // initial segment
+   Screen->DrawTile(7, magicSegmentX, y, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), 1, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+   magicSegmentX += 8;
+
+   for (int segmentNumber = 1; segmentNumber <= numMagicExpansions; segmentNumber++) {
+      int segmentTileMod;
+      int segmentCorner;
+
+      // left segment
+      if (segmentNumber % 2) {
+         segmentTileMod = 3;
+         segmentCorner = 0;
+         magicSegmentX += 8;
+         minitile(RT_SCREEN, 7, magicSegmentX, y, TILE_MAGIC_METER + 3, 0, 0);
+      }
+      else {
+         segmentTileMod = 4;
+         segmentCorner = 1;
+         magicSegmentX += 8;
+         minitile(RT_SCREEN, 7, magicSegmentX, y, TILE_MAGIC_METER + 4, 0, 1);
+      }
+   }
+
+   // final segment
+   minitile(RT_SCREEN, 7, magicSegmentX + 8, y, TILE_MAGIC_METER + 2, 0, 0);
+
+   int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
+   int widthToFill = 10 + (8 * numMagicExpansions);
+   int startFillX = 173;
+   int startFillY = y + 3;
+   int endFillX = 172 + Round(widthToFill * perc);
+   int endFillY = y + 4;
+
+   if (widthToFill * perc >= 0.5)
+      Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
 }

@@ -242,6 +242,10 @@ namespace SubscreenActive {
          }
       }
 
+      // Heart Pieces
+      Screen->FastTile(4, 122, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
+      counter(RT_SCREEN, 4, 141, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
+
       int leftArrowCombo = 7746;
       int rightArrowCombo = 7747;
       int LCombo = 7744;
@@ -252,10 +256,6 @@ namespace SubscreenActive {
 
       Screen->FastCombo(7, 4, 104 + y, LCombo, 0, OP_OPAQUE);
       Screen->FastCombo(7, 104, 104 + y, RCombo, 0, OP_OPAQUE);
-
-      // Heart Pieces
-      Screen->FastTile(4, 122, y + 68, TILE_ZERO_PIECES + Game->Generic[GEN_HEARTPIECES], 8, OP_OPAQUE);
-      counter(RT_SCREEN, 4, 141, y + 72, CR_HEARTPIECES, SUBSCR_COUNTER_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_NORMAL, 2, CNTR_USES_0);
 
       // Triforce Frame Cycling / Drawing
       if (currTriforceIndex == 0)
@@ -546,7 +546,7 @@ namespace SubscreenPassive {
       int lastLetter;
       bool wasSpace = true;
 
-      for (int q = 0; q < 80; ++q) {
+      for (int q = 0; q < SizeOfArray(titlebuf); ++q) {
          if (titlebuf[q] == ' ') {
             unless(wasSpace) wasSpace = true;
             else continue;
@@ -559,7 +559,7 @@ namespace SubscreenPassive {
          titlebuf[index++] = titlebuf[q];
       }
 
-      for (int q = lastLetter + 1; q < 80; ++q)
+      for (int q = lastLetter + 1; q < SizeOfArray(titlebuf); ++q)
          titlebuf[q] = 0;
 
       Emily::DrawStrings(7, 41, y + 2, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
