@@ -64,22 +64,22 @@ void yeetHero(int angle, int step, int duration, bool noAction, bool stopAtSolid
 }
 
 // clang-format off
-@Author("EmilyV")
-generic script screenPalette {
-   // clang-format on
-   void run() {
-      this->EventListen[GENSCR_EVENT_CHANGE_SCREEN] = true;
-      int palette = -1;
-      while (true) {
-         if (Screen->Palette != palette) {
-            palette = Screen->Palette;
-            for (int q = 0; q < MAX_DMAPS; ++q)
-               Game->LoadDMapData(q)->Palette = palette;
-         }
-         WaitEvent();
-      }
-   }
-}
+// @Author("EmilyV")
+// generic script screenPalette {
+//    // clang-format on
+//    void run() {
+//       this->EventListen[GENSCR_EVENT_CHANGE_SCREEN] = true;
+//       int palette = -1;
+//       while (true) {
+//          if (Screen->Palette != palette) {
+//             palette = Screen->Palette;
+//             for (int q = 0; q < MAX_DMAPS; ++q)
+//                Game->LoadDMapData(q)->Palette = palette;
+//          }
+//          WaitEvent();
+//       }
+//    }
+// }
 
 // clang-format off
 @Author("Moosh")
@@ -467,7 +467,10 @@ generic script MinecartGeneric {
    }
 }
 
+// clang-format off
+@Author("Deathrider365")
 subscreendata script CyclableTriforceFrames {
+   // clang-format on
    using namespace Subscreen;
 
    void run() {
@@ -478,7 +481,7 @@ subscreendata script CyclableTriforceFrames {
       int drawY = 94;
 
       loop() {
-         magicBar(Game->ActiveSubscreenY + 228);
+         magicBar(Game->ActiveSubscreenY + 232);
 
          int yOff = Game->ActiveSubscreenY;
 
@@ -504,39 +507,41 @@ subscreendata script CyclableTriforceFrames {
          }
 
          Screen->FastCombo(7, 4, drawY + yOff, leftArrowCombo, 0, OP_OPAQUE);
-         Screen->FastCombo(7, 104, drawY + yOff, rightArrowCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 96, drawY + yOff, rightArrowCombo, 0, OP_OPAQUE);
 
          Screen->FastCombo(7, 4, 16 + drawY + yOff, LCombo, 0, OP_OPAQUE);
-         Screen->FastCombo(7, 104, 16 + drawY + yOff, RCombo, 0, OP_OPAQUE);
+         Screen->FastCombo(7, 96, 16 + drawY + yOff, RCombo, 0, OP_OPAQUE);
 
          // Triforce Frame Cycling / Drawing
+         int stringDrawX = 58;
+         int stringDrawY = drawY + yOff - 16;
          if (currTriforceIndex == 0)
-            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 1)
-            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 2)
-            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 3 && Game->CurDMap != 2)
-            Emily::DrawStrings(4, 62, drawY + yOff - 13, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 
-         Screen->DrawTile(0, 14, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+         Screen->DrawTile(0, 10, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 
          switch (currTriforceIndex) {
             case 0:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_COURAGE]; ++i)
-                  Screen->DrawTile(0, 14, drawY + yOff - 8, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 10, drawY + yOff - 8, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 1:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_POWER]; ++i)
-                  Screen->DrawTile(0, 14, drawY + yOff - 8, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 10, drawY + yOff - 8, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 2:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_WISDOM]; ++i)
-                  Screen->DrawTile(0, 14, drawY + yOff - 8, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 10, drawY + yOff - 8, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
             case 3:
                for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
-                  Screen->DrawTile(0, 14, drawY + yOff - 8, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  Screen->DrawTile(0, 10, drawY + yOff - 8, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
                break;
          }
 
@@ -559,10 +564,17 @@ dmapdata script MagicBar {
 void magicBar(int yOff) {
    using namespace Subscreen;
 
-   int numMagicExpansions = Game->Counter[CR_MAGIC_EXPANSIONS];
-   int magicSegmentX = 162;
-
    int y = -12 + yOff;
+
+   int numMagicExpansions = Game->Counter[CR_MAGIC_EXPANSIONS];
+   int magicSegmentX = 166;
+
+   int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
+   int widthToFill = 10 + (8 * numMagicExpansions);
+   int startFillX = 177;
+   int startFillY = y + 3;
+   int endFillX = 176 + Round(widthToFill * perc);
+   int endFillY = y + 4;
 
    // initial segment
    Screen->DrawTile(7, magicSegmentX, y, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), 1, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
@@ -589,13 +601,6 @@ void magicBar(int yOff) {
 
    // final segment
    minitile(RT_SCREEN, 7, magicSegmentX + 8, y, TILE_MAGIC_METER + 2, 0, 0);
-
-   int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
-   int widthToFill = 10 + (8 * numMagicExpansions);
-   int startFillX = 173;
-   int startFillY = y + 3;
-   int endFillX = 172 + Round(widthToFill * perc);
-   int endFillY = y + 4;
 
    if (widthToFill * perc >= 0.5)
       Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
