@@ -343,7 +343,7 @@ ffc script TriggerOnceEnemiesKilled {
 ffc script SwitchRemote {
    // clang-format on
 
-   void run(int pressure, int id, int flag, int sfx, int nextCombo, int triggerScreenSecrets) {
+   void run(int pressure, int id, int flag, int sfx, int nextCombo, int triggerScreenSecrets, int layer) {
       bool noLink;
       int secretCombo = 0;
 
@@ -361,6 +361,9 @@ ffc script SwitchRemote {
       }
 
       int comboD[176];
+
+      // TODO enhance to enable checking on all layers
+      // mapdata mapData = Game->CurScreen;
 
       for (i = 0; i < 176; i++)
          if (Screen->ComboF[i] == flag) {

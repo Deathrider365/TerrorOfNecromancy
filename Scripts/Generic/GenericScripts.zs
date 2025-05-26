@@ -482,6 +482,8 @@ subscreendata script CyclableTriforceFrames {
 
       loop() {
          magicBar(Game->ActiveSubscreenY + 232);
+         minimap(Game->ActiveSubscreenY + 232);
+         dmapTitle(Game->ActiveSubscreenY + 232);
 
          int yOff = Game->ActiveSubscreenY;
 
@@ -556,6 +558,8 @@ dmapdata script MagicBar {
    void run() {
       loop() {
          magicBar(0);
+         minimap(0);
+         dmapTitle(0);
          Waitframe();
       }
    }
@@ -604,4 +608,60 @@ void magicBar(int yOff) {
 
    if (widthToFill * perc >= 0.5)
       Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
+}
+
+void minimap(int yOff) {
+   using namespace Subscreen;
+
+   int drawX = 0 + 1;
+   int drawY = yOff - 48 - 1;
+
+   ScreenType ow = getScreenType(true);
+   int minimapTile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
+   int cs = 0;
+   dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+   bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
+
+   if (hasMap && dmap->MiniMapTile[1]) {
+      minimapTile = dmap->MiniMapTile[1];
+      cs = dmap->MiniMapCSet[1];
+   }
+   else if (dmap->MiniMapTile[0] && !hasMap) {
+      minimapTile = dmap->MiniMapTile[0];
+      cs = dmap->MiniMapCSet[0];
+   }
+
+   Screen->DrawTile(7, drawX, drawY, minimapTile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+   minimap(RT_SCREEN, 7, drawX, drawY, ow);
+}
+
+void dmapTitle(int yOff) {
+   int drawX = 41;
+   int drawY = -55;
+
+   dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+   char32 titlebuf[80];
+   dmap->GetTitle(titlebuf);
+
+   int index;
+   int lastLetter;
+   bool wasSpace = true;
+
+   for (int q = 0; q < SizeOfArray(titlebuf); ++q) {
+      if (titlebuf[q] == ' ') {
+         unless(wasSpace) wasSpace = true;
+         else continue;
+      }
+      else {
+         lastLetter = q;
+         wasSpace = false;
+      }
+
+      titlebuf[index++] = titlebuf[q];
+   }
+
+   for (int q = lastLetter + 1; q < SizeOfArray(titlebuf); ++q)
+      titlebuf[q] = 0;
+
+   Emily::DrawStrings(7, drawX, drawY + yOff, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
 }
