@@ -2,7 +2,7 @@
 
 // clang-format off
 @Author("EmilyV99")
-  ffc script ContinuePoint {
+ffc script ContinuePoint {
    // clang-format on
 
    void run(int dmap, int scrn) {
@@ -1240,5 +1240,15 @@ ffc script GBMinecart_Shutter {
          }
          Waitframe();
       }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script AssignAAndBForIntro {
+   // clang-format on
+   void run() {
+      Hero->ItemA = ITEM_SWORD3;
+      Hero->ItemB = ITEM_BRANG2;
    }
 }
