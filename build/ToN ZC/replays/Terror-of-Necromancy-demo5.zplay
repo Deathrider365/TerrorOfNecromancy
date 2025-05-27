@@ -1,0 +1,138 @@
+M frames 6224
+M length 125
+M name demo5
+M qst ../ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash 96E171B74136B51214ACBBD63AD85955
+M qst_title Terror of Necromancy
+M sync_rng true
+M time_created Mon Dec 23 12:47:54 2024
+M time_updated Mon Dec 23 12:48:37 2024
+M uuid 16bf7733-a903-474e-8ba2-cce928afa771
+M version 38
+M zc_version_created 3.0.0-prerelease.82+2024-12-21
+M zc_version_updated 3.0.0-prerelease.82+2024-12-21
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1734976074
+R 0 2 257 -1522076753
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 3 (Master)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Seared Steak
+C 0 getitem Ring 3 (Red)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Wand 1 (Normal)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Potion 2 (Red)
+C 0 getitem Ocarina (L1)
+C 0 getitem Shield 3 (Mirror)
+C 0 getitem Wallet 2 (999) (Theif's)
+C 0 getitem Bomb (Powder Keg)
+C 0 getitem Flippers 1
+C 0 getitem Lens of Truth
+C 0 getitem Bracelet 3 (Giant's Bracer)
+C 0 getitem Arrow 3 (Silver)
+C 0 getitem Din's Fire
+C 0 getitem Farore's Wind
+C 0 getitem Nayru's Love
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Quiver 3 (Large)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Bomb Bag 3 (Large)
+C 0 getitem Hookshot 2 (Long)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Cross Beams
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Scroll: Hurricane Spin
+C 0 getitem Scroll: Peril Beam
+C 0 getitem Hammer 2 (Smith's)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Lantern (Default)
+C 0 dmap=2 Opening Scene
+C 0 scr=0
+D 92 B
+D 93 k ~
+C 196 dmap=2 Opening Scene
+C 196 scr=1
+R 196 0 257 1734976076
+U 286 k ~
+U 289 B
+D 393 B
+C 394 dmap=2 Opening Scene
+C 394 scr=2
+R 394 0 257 1734976078
+U 403 B
+D 457 B
+C 458 dmap=2 Opening Scene
+C 458 scr=3
+R 458 0 257 1734976080
+U 467 B
+D 512 B
+U 519 B
+D 533 B
+U 538 B
+D 550 B
+U 555 B
+D 565 B
+C 566 dmap=2 Opening Scene
+C 566 scr=4
+R 566 0 257 1734976081
+U 571 B
+D 608 B
+D 609 k ~
+C 620 dmap=2 Opening Scene
+C 620 scr=5
+R 620 0 257 1734976082
+C 725 dmap=2 Opening Scene
+C 725 scr=6
+R 725 0 257 1734976082
+C 809 dmap=2 Opening Scene
+C 809 scr=7
+R 809 0 257 1734976083
+U 870 k ~
+U 876 B
+D 893 k ~
+D 1886 Left
+U 1901 Left
+D 1978 Down
+D 2047 Left
+D 2078 Right
+U 2079 Left
+U 2188 Right
+D 2198 Left
+U 2262 Left
+D 2269 Right
+U 2370 Right
+D 2381 Left
+U 2418 Left
+U 2496 Down
+D 2535 Right
+U 2550 Right
+D 2651 Down
+U 2741 Down
+D 2766 Left
+D 2830 Right
+U 2833 Left
+D 2875 Left
+U 2878 Right
+U 2916 Left
+D 2916 Right
+U 2949 Right
+D 2950 Left
+U 2983 Left
+D 2984 Right
+D 3014 Left
+U 3016 Right
+U 3044 Left
+D 3049 Right
+D 3073 Left
+U 3074 Right
+U 3099 Left
+U 3614 k ~
+Q 6224 3

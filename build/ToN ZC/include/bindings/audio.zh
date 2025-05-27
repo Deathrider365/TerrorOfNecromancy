@@ -1,0 +1,305 @@
+// Sound effect IDs. Used with [Audio->PlaySound].
+enum SoundEffect
+{
+	SFX_ARROW                      = 1,  // Arrow is fired.
+	SFX_BEAM                       = 2,  // Sword beam is fired.
+	SFX_BOMB                       = 3,  // Bomb explodes.
+	SFX_BRANG                      = 4,  // Boomerang spinning.
+	SFX_CHARGE1                    = 35, // Sword powering up.
+	SFX_CHARGE2                    = 36, // Sword powering up again (Hurricane Spin).
+	SFX_CURSOR                     = 5,  // Subscreen cursor.
+	SFX_CLINK                      = 6,  // Shield is hit.
+	SFX_CLEARED                    = 7,  // Chime when screen item appears.
+	SFX_DINSFIRE                   = 37, // Din's Fire blast.
+	SFX_DODONGO                    = 8,  // Dodongo's roar.
+	SFX_SHUTTER                    = 9,  // Shutter bang.
+	SFX_EDEAD                      = 10, // Enemy is killed.
+	SFX_EHIT                       = 11, // Enemy is hit.
+	SFX_LOWHP                      = 12, // Low hearts warning beep.
+	SFX_FALL                       = 38, // Enemy falls from ceiling (unused).
+	SFX_FARORESWIND                = 39, // Farore's Wind spell.
+	SFX_FIRE                       = 13, // Flame roar.
+	SFX_FIREBALL                   = 40, // Enemy fireball.
+	SFX_GANON                      = 14, // Music when Ganon appears/dies.
+	SFX_GASP                       = 15, // Boss is hit.
+	SFX_GRASSCUT                   = 41, // Grass or bush slashed.
+	SFX_HAMMER                     = 16, // Hammer pound.
+	SFX_HAMMERPOST                 = 42, // Pounded a post.
+	SFX_HOOKSHOT                   = 17, // Hookshot chain rattle.
+	SFX_HOVER                      = 43, // Hover boots.
+	SFX_ICE                        = 44, // Unused.
+	SFX_JUMP                       = 45, // Jumping.
+	SFX_LENSOFF                    = 46, // Lens of Truth off.
+	SFX_LENSON                     = 47, // Lens of Truth on.
+	SFX_MSG                        = 18, // Message typing.
+	SFX_NAYRUSLOVE1                = 48, // Nayru's Love shield hum.
+	SFX_NAYRUSLOVE2                = 49, // Nayru's Love shield running out.
+	SFX_OUCH                       = 19, // Link is hit.
+	SFX_PICKUP                     = 20, // Chime when item is held above head.
+	SFX_PLACE                      = 21, // Bomb is placed.
+	SFX_PLINK                      = 22, // Heart/Rupee is collected.
+	SFX_PUSHBLOCK                  = 50, // Pushed a block.
+	SFX_REFILL                     = 23, // Hearts being refilled.
+	SFX_ROAR                       = 24, // Aquamentus, Gleeok and Ganon's roar.
+	SFX_ROCK                       = 51, // Octorok rock is fired.
+	SFX_ROCKETDOWN                 = 52, // Spell rocket descends.
+	SFX_ROCKETUP                   = 53, // Spell rocket launched.
+	SFX_SCALE                      = 25, // Chime when fairy appears/is picked up.
+	SFX_SEA                        = 26, // "Ocean SFX" ambience.
+	SFX_SECRET                     = 27, // Chime when secret is discovered.
+	SFX_SPINATTACK                 = 54, // Sword spin.
+	SFX_SPIRAL                     = 28, // Link dies.
+	SFX_SPLASH                     = 55, // Splashing in shallow water.
+	SFX_STAIRS                     = 29, // Link marches down stairs.
+	SFX_SUMMON                     = 56, // Summoner magic.
+	SFX_SWORD                      = 30, // Sword swipe.
+	SFX_TAP1                       = 57, // Sword taps wall.
+	SFX_TAP2                       = 58, // Sword taps bombable wall.
+	SFX_PATRA                      = 31, // Patra and Manhandla's shriek.
+	SFX_WAND                       = 32, // Magic is fired by Wizzrobes or Link.
+	SFX_WHIRLWIND                  = 59, // Whistle whirlwind.
+	SFX_WHISTLE                    = 33, // Whistle is played.
+	SFX_ZELDA                      = 34, // Music when ending sequence begins.
+};
+
+// Used with [Audio->Volume].
+enum VolumeIndex
+{
+	VOL_MIDI                       = 0,
+	VOL_DIGI                       = 1,
+	VOL_MUSIC                      = 2,
+	VOL_SFX                        = 3,
+};
+
+// Used with [Audio->MusicRefresh].
+enum MusicRefreshMode
+{
+	MR_SCREEN, // Refresh on every screen transition.
+	MR_DMAP,   // Refresh when the dmap changes.
+	MR_LEVEL,  // Refresh when the level changes.
+	MR_NEVER   // Never refresh on a screen transition.
+};
+
+// Used with [Audio->MusicRefreshFlags].
+enum MusicRefreshFlag
+{
+	MRF_NOCUT,
+	MRF_REVERT
+};
+
+// Contains functions related to sfx and music.
+//
+// Access with `Audio->`.
+class Audio {
+	// @delete
+	internal Audio();
+
+	// The audio panning style.
+	//
+	// @value Undocumented - see https://github.com/ZQuestClassic/ZQuestClassic/blob/5b2e5ccb2ee020ed0a72a0cce69e3b3ed81811eb/src/zc/zc_sys.cpp#L8393C9-L8393C13
+	// @zasm_var AUDIOPAN
+	internal int PanStyle;
+
+	// @zasm_var GETMIDI
+	internal const int MIDI;
+
+	// @deprecated Use [AdjustMusicVolume] or [AdjustSFXVolume] instead.
+	// @zasm_var AUDIOVOLUME
+	internal int Volume[];
+
+	// Controls how often the engine refreshes the currently playing music while
+	// changing screens.
+	//
+	// @value [enum MusicRefreshMode]
+
+	// @zasm_var MUSICUPDATECOND
+	internal int MusicRefresh;
+
+	// Flags for handling extra effects on MusicRefresh.
+	//
+	// @index [enum MusicRefreshFlag]
+	// @zasm_var MUSICUPDATEFLAGS
+	internal bool MusicRefreshFlags[];
+
+	// Plays the quest SFX [sfx].
+	//
+	// @zasm
+	//   POP D2
+	//   PLAYSOUNDR D2
+	internal void PlaySound(int sfx);
+
+	// If [sfx] is playing, immediately stop it.
+	//
+	// @zasm
+	//   POP D2
+	//   ENDSOUNDR D2
+	internal void EndSound(int sfx);
+
+	// If [sfx] is playing, pause it (so that it may be resumed later).
+	//
+	// @zasm
+	//   POP D2
+	//   PAUSESOUNDR D2
+	internal void PauseSound(int sfx);
+
+	// Resume [sfx] from where it was paused.
+	//
+	// @zasm
+	//   POP D2
+	//   RESUMESOUNDR D2
+	internal void ResumeSound(int sfx);
+
+	// Resume [sfx] from where it was paused.
+	//
+	// @zasm
+	//   POP D2
+	//   CONTINUESFX D2
+	internal void ContinueSound(int sfx);
+
+	// Adjusts a multiplier for the volume of all MIDI, DIGI, and Enhanced
+	// Music.
+	//
+	// @zasm
+	//   POP D2
+	//   ADJUSTVOLUMER D2
+	internal void AdjustMusicVolume(int percent);
+
+	// Adjusts a multiplier for the volume of all Sound Effects (WAV).
+	//
+	// @zasm
+	//   POP D2
+	//   ADJUSTSFXVOLUMER D2
+	internal void AdjustSFXVolume(int percent);
+
+	// Pauses the currently playing MIDI so that it may be resumed later.
+	//
+	// @zasm
+	//   PAUSEMUSIC
+	internal void PauseCurMIDI();
+
+	// Resumes the previously paused MIDI.
+	//
+	// @zasm
+	//   RESUMEMUSIC
+	internal void ResumeCurMIDI();
+
+	// Plays the MIDI [midi]. Will revert upon changing screens.
+	//
+	// @zasm
+	//   POP D2
+	//   PLAYMIDIR D2
+	internal void PlayMIDI(int midi);
+
+	// Play the specified enhanced music if available. If the music cannot
+	// be played, the current music will continue. Reverts to
+	// normal upon leaving the screen.
+	//
+	// Returns true if the music file was loaded successfully.
+	//
+	// [filename] cannot be more than 255 characters.
+	//
+	// If the music format does not support multiple tracks, [track] is ignored.
+	//
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   PLAYENHMUSIC D3 D2
+	internal bool PlayEnhancedMusic(char32[] filename, int track = 0);
+
+	// Change properties on a currently playing sound.
+	//
+	// @zasm
+	//   ADJUSTSFX
+	//   POPARGS D5 0.0005
+	internal void AdjustSound(int id, int volume, int pan = 0, long freq = -1L,
+							  bool loop_sfx = false);
+
+	// @deprecated Use [PlayEnhancedMusic] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   PLAYENHMUSICEX D3 D2
+	internal bool PlayOgg(char32[] filename, int track = 0);
+
+	// Returns the current seek position of the currently playing enhanced music
+	// in seconds.
+	//
+	// CURRENTLY ONLY SUPPORTS MP3 / OGG / IT / XM / S3M / MOD
+	//
+	// @zasm
+	//   GETENHMUSICPOS D2
+	internal int GetMusicPos();
+
+	// Sets the position for the currently playing enhanced music, in seconds.
+	//
+	// CURRENTLY ONLY SUPPORTS MP3 / OGG / IT / XM / S3M / MOD
+	//
+	// @zasm
+	//   POP D2
+	//   SETENHMUSICPOS D2
+	internal void SetMusicPos(int pos);
+
+	// Sets the playback speed of the currently playing enhanced music.
+	//
+	// CURRENTLY ONLY SUPPORTS MP3 / OGG / IT / XM / S3M / MOD
+	//
+	// @zasm
+	//   POP D2
+	//   SETENHMUSICSPEED D2
+	internal void SetMusicSpeed(int speed);
+
+	// Returns the length of the current playing enhanced music in seconds.
+	//
+	// CURRENTLY ONLY SUPPORTS MP3 / OGG / IT / XM / S3M / MOD
+	//
+	// @zasm
+	//   GETENHMUSICLEN D2
+	internal int GetMusicLength();
+
+	// Loops the currently playing enhanced music between two timestamps in
+	// seconds.
+	//
+	// CURRENTLY ONLY SUPPORTS MP3 / OGG / IT / XM / S3M / MOD
+	//
+	// @zasm
+	//   POP D3
+	//   POP D2
+	//   SETENHMUSICLOOP D2 D3
+	internal void SetMusicLoop(int start, int end);
+
+	// Plays the quest SFX [sfx] but with different properties.
+	//
+	// @zasm
+	//   PLAYSOUNDEX
+	//   POPARGS D5 0.0005
+	internal void PlaySoundEx(int id, int volume, int pan = 0, long freq = -1L,
+							  bool loop_sfx = false);
+
+	// Returns a rough completion percentage (0-100) for how much of a sound has
+	// played.
+	//
+	// @zasm
+	//   POP D2
+	//   GETSFXCOMPLETION D2
+	internal int GetSoundCompletion(int sfx);
+
+	// Crossfade to the specified enhanced music if available. If the music
+	// cannot be played, the current music will continue.
+	//
+	// Reverts to normal upon leaving the screen.
+	//
+	// Returns true if loaded successfully.
+	//
+	// [filename] cannot be more than 255 characters.
+	//
+	// Currently only supports MP3 / OGG / IT / XM / S3M / MOD.
+	//
+	// @zasm
+	//   ENHCROSSFADE
+	//   POPARGS D5 0.0006
+	internal bool CrossfadeEnhancedMusic(char32[] filename, int track,
+										 int fadeoutframes, int fadeinframes,
+										 int delayframes = 0, int startpos = 0);
+}
+
+internal const Audio Audio;

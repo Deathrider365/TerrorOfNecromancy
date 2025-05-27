@@ -1,0 +1,38 @@
+[Theme]
+color_1 = ECF0F0
+color_2 = C46460
+color_3 = B04C4C
+color_4 = A03838
+color_5 = 8C0000
+color_6 = 7C1818
+color_7 = 3C1010
+color_8 = 140000
+ztheme_ver = 1
+
+
+
+
+
+
+
+
+jcbox = 4 		//Box BG
+jclight = 2 		//Box Outlines (Lightest to darkest)
+jcmedlt = 3 		//
+jcmeddark = 4 		//
+jcdark = 8 		//
+jcboxfg = 8 		//Box Text
+jctitlel = 7 		//Title Bar (Left End)
+jctitler = 7 		//Title Bar (Right End)
+jctitlefg = 1 		//Title Bar (Text)
+jctextbg = 6 		//Radio Button BG
+jctextfg = 1 		//Radio Button FG
+jcselbg = 4 		//Menu Selection BG
+jcselfg = 1 		//Menu Selection Text
+
+jccursormisc = 1	//Mouse Bottom Edge
+jccursoroutline = 1	//Mouse Left/Right Edges
+jccursorlight = 3	//Mouse Core, Light Half
+jccursordark = 4	//Mouse Core, Dark Half
+jc_disabled_fg = 4
+jc_disabled_bg = 6

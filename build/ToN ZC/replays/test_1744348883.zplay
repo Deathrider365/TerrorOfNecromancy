@@ -1,0 +1,2061 @@
+M debug true
+M frames 1355
+M length 2044
+M qst c:/Users/Evan/Desktop/Terror of Necromancy/ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash 42424CD1D69F0BFDB43B0D0322582608
+M qst_title Terror of Necromancy
+M starting_dmap 22
+M starting_retsqr 0
+M starting_scr 92
+M sync_rng true
+M test_mode true
+M time_created Fri Apr 11 01:21:24 2025
+M time_updated Fri Apr 11 01:21:48 2025
+M uuid a8553689-dd47-458a-ae6f-0f99c59738ae
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1744348884
+Y 0 482 0
+R 0 2 257 2042877037
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 dmap=22 Lv2-F2-DerelicQuarry
+C 0 scr=92
+C 0 h 80 50
+C 0 g DHz
+C 1 g D:j
+D 1 k LCONTROL
+C 2 g Giv
+C 3 g Cp{
+C 4 g C~A
+C 5 g BH_
+C 6 g 8q
+C 7 g BdW
+C 8 g EXK
+C 9 g Ers
+C 10 g B&_
+C 11 g EP,
+C 12 g Eh}
+C 13 g B:A
+C 14 g D8]
+C 15 g Bpx
+C 16 g Go$
+C 17 g E;Z
+C 18 g B3U
+C 19 g H:l
+C 20 g CVU
+C 21 g B3)
+C 22 g G~)
+C 23 g B:x
+C 24 g D1"
+C 25 g D98
+C 26 g Cb"
+C 27 g D:<
+C 28 g C7z
+C 29 g De&
+C 30 g BMX
+C 31 g G}h
+C 32 g HyW
+C 33 g H<V
+C 34 g Fm9
+X 35 Walls
+C 35 g XG
+D 35 k F11
+C 36 g EzK
+C 37 g DYz
+C 38 g D(x
+C 39 g Ew@
+C 40 g E>*
+C 41 g Gr|
+C 42 g GW0
+U 42 k F11
+C 43 g Hvn
+C 44 g C/5
+C 45 g C=:
+U 45 k LCONTROL
+C 46 g F$v
+C 47 g Bh9
+C 48 g E+Z
+C 49 g =z
+C 50 g FK6
+C 51 g ;:
+C 52 g F5u
+C 53 g C!c
+C 54 g BU_
+C 55 g Fj%
+C 56 g DiY
+C 57 g F*$
+C 58 g B&c
+C 59 g Ds9
+C 60 g Df<
+C 61 g EMN
+C 62 g F3x
+C 63 g Br9
+C 64 g F!A
+C 65 g G,q
+C 66 g F%@
+C 67 h 80 52
+C 67 g GT/
+D 67 Down
+C 68 h 80 53
+C 68 g Hrh
+C 69 h 80 55
+C 69 g Gy|
+C 70 h 80 56
+C 70 g Fk@
+C 71 h 80 58
+C 71 g C0Z
+C 72 h 7f 59
+C 72 g C"G
+D 72 Left
+C 73 h 7e 5a
+C 73 g CPL
+C 74 h 7d 5b
+C 74 g Dn:
+C 75 h 7c 5c
+C 75 g Cnh
+C 76 h 7b 5d
+C 76 g B!V
+C 77 h 7a 5e
+C 77 g D1B
+C 78 h 79 5f
+C 78 g H!|
+C 79 sfx Sword tapping
+C 79 h 78 60
+C 79 g HYR
+C 80 h 76 61
+C 80 g CA"
+C 81 h 75 62
+C 81 g xN
+C 82 h 74 63
+C 82 g HFV
+C 83 h 73 64
+C 83 g Fku
+C 84 h 72 65
+C 84 g E@I
+C 85 h 71 66
+C 85 g D3g
+C 86 h 70 67
+C 86 g CHD
+C 87 h 6f 68
+C 87 g SO
+C 88 h 6e 6a
+C 88 g BR?
+C 89 h 6d 6b
+C 89 g Em?
+C 90 h 6c 6c
+C 90 g GXb
+C 91 h 6b 6d
+C 91 g E2!
+D 91 R
+C 92 h 6a 6e
+C 92 g Gq_
+C 93 h 69 6f
+C 93 g G52
+C 94 h 68 70
+C 94 g Hz!
+C 95 sfx Sword tapping
+C 95 h 67 71
+C 95 g Ef~
+C 96 h 65 72
+C 96 g z9
+C 97 h 64 73
+C 97 g IC
+C 98 h 63 74
+C 98 g I&
+U 98 R
+C 99 h 62 75
+C 99 g GIi
+C 100 h 61 76
+C 100 g Dsr
+C 101 h 60 77
+C 101 g C#T
+C 102 h 5f 78
+C 102 g Gn5
+C 103 h 5e 79
+C 103 g C3
+C 104 h 5d 7a
+C 104 g CU"
+C 105 h 5c 7c
+C 105 g CL!
+C 106 h 5b 7d
+C 106 g ^4
+C 107 h 5a 7e
+C 107 g C*&
+D 107 R
+C 108 h 59 7f
+C 108 g F{)
+C 109 h 58 80
+C 109 g Cy+
+C 110 h 57 81
+C 110 g GZL
+C 111 sfx Sword tapping
+C 111 h 56 82
+C 111 g FT)
+C 112 h 55 83
+C 112 g C8#
+C 113 h 53 84
+C 113 g O9
+C 114 h 52 85
+C 114 g DE%
+C 115 h 51 86
+C 115 g FQv
+U 115 R
+C 116 h 50 87
+C 116 g C}?
+C 117 h 4f 88
+C 117 g B~H
+C 118 h 4e 89
+C 118 g CLY
+C 119 h 4d 8a
+C 119 g H+e
+C 120 h 4c 8b
+C 120 g Qf
+C 121 h 4b 8b
+C 121 g F(8
+U 121 Down
+C 122 g H9i
+U 122 Left
+C 123 g EV7
+C 124 g Fza
+C 125 g D/M
+C 126 g GjC
+C 127 sfx Sword tapping
+C 127 g El"
+C 128 g FQy
+C 129 g aZ
+C 130 g D%I
+C 131 g H+%
+C 132 g ,k
+C 133 g Crt
+C 134 g D4w
+C 135 g C,K
+D 135 k LCONTROL
+C 136 g CZ;
+C 137 g CMg
+C 138 g EC$
+C 139 g CKv
+C 140 g C){
+C 141 g D:`
+C 142 g EZ$
+C 143 sfx Sword tapping
+C 143 g FG>
+C 144 g H@M
+C 145 g H.I
+C 146 g Yj
+C 147 g G%a
+C 148 g G|(
+C 149 g Hcd
+X 150 Kill
+C 150 g C:N
+D 150 k K
+C 151 sfx Sword tapping
+C 151 g Em`
+C 152 g HpE
+C 153 g Ft4
+C 154 g Cx:
+U 154 k K
+C 155 g EM}
+C 156 g C5.
+U 156 k LCONTROL
+C 157 g D1(
+C 158 g }/
+C 159 sfx Sword tapping
+C 159 g F9a
+C 160 g Xl
+C 161 g EGy
+C 162 g CyH
+C 163 g D{~
+C 164 g Bua
+C 165 g aP
+C 166 g F`L
+C 167 g E5T
+C 168 g H$:
+C 169 g Fd0
+C 170 enemy died Bat (L1)
+C 170 enemy died Bat (L1)
+C 170 enemy died Keese (CSet 7)
+C 170 enemy died Keese (CSet 7)
+C 170 enemy died Keese (CSet 7)
+C 170 enemy died Keese (CSet 7)
+C 170 enemy died Keese (CSet 7)
+C 170 map 39 scr 92 flag Temporary No Return
+C 170 g Gmo
+C 171 g Ggl
+C 172 g Dcf
+C 173 g B!7
+C 174 g SL
+C 175 sfx Sword tapping
+C 175 g Hu>
+C 176 g FgQ
+C 177 g Fmv
+D 178 Start
+C 180 g H%J
+C 181 g F^,
+C 182 g H&:
+C 183 g GaS
+C 184 g Dac
+U 184 Start
+C 185 g E8N
+C 186 g H1A
+C 187 g BvA
+C 188 g Eo;
+C 189 g G]2
+C 190 g D|_
+C 191 g IC
+C 192 g C<N
+C 193 g BeD
+C 194 g FYf
+C 195 g D^%
+C 196 g EJ(
+C 197 g H5A
+C 198 g E{O
+C 199 g BEg
+C 200 g CeL
+C 201 g CGA
+C 202 g Hi9
+C 203 g DDM
+C 204 g Ba#
+C 205 g 7h
+C 206 g BjR
+C 207 g HSn
+C 208 g GJ}
+C 209 g Dyk
+C 210 g H)N
+C 211 g Exr
+C 212 g FCS
+C 213 g B^A
+C 214 g 9f
+C 215 g Eud
+C 216 g G0&
+C 217 g BgK
+C 218 g GO8
+C 219 g GGk
+C 220 g H@D
+C 221 g EX;
+C 222 g HDN
+C 224 g Dmy
+C 234 g HDN
+C 240 g HY7
+C 244 g E|U
+C 246 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 246 g Gb4
+D 246 Down
+C 251 g FBX
+C 254 g EUn
+U 254 Down
+C 258 sfx 66, TP_SaveMenu_SlotCursor
+C 258 g Htc
+D 258 A
+C 264 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 264 g I,
+D 264 Left
+U 264 A
+U 270 Left
+C 272 sfx 66, TP_SaveMenu_SlotCursor
+D 272 B
+C 274 g K[
+U 278 B
+D 280 Start
+C 281 g BT4
+C 282 g D]y
+C 283 g Fk5
+C 284 g BQF
+U 284 Start
+C 285 g C8`
+C 286 g Bz8
+C 287 g Ehd
+C 288 g GlL
+C 289 g G{%
+C 290 g EgR
+C 291 g B]6
+C 292 g F`)
+C 293 g B"k
+C 294 g Cd2
+C 295 g B~)
+C 296 g BV1
+C 297 g B;6
+C 298 g Ds.
+C 299 g GX!
+C 300 g C.0
+C 301 g a0
+C 302 g Etx
+C 303 g Gir
+C 304 g F_7
+D 304 Left
+C 305 g D:O
+C 306 g #w
+C 307 g Fp/
+C 308 g w=
+C 309 g Cq1
+C 310 g HwO
+C 311 g )K
+C 312 g H$(
+C 313 g G[t
+C 314 g D]o
+C 315 g Hj@
+C 316 g DP7
+C 317 g B`h
+C 318 g D{$
+D 318 Down
+C 319 g F"0
+C 320 g He*
+C 321 g G?1
+C 322 g G1e
+C 323 g GEM
+C 324 g CHi
+C 325 h 49 8b
+C 325 g C@E
+U 325 Down
+C 326 h 48 8b
+C 326 g B`.
+C 327 h 46 8b
+C 327 g COA
+C 328 h 45 8b
+C 328 g GH_
+C 329 h 43 8b
+C 329 g HMI
+C 330 h 42 8b
+C 330 g BW|
+C 331 h 40 8b
+C 331 g D:}
+C 332 h 3f 8b
+C 332 g BHr
+C 333 h 3d 8b
+C 333 g E8z
+C 334 h 3c 8b
+C 334 g B:t
+C 335 h 3a 8b
+C 335 g P1
+C 336 h 39 8d
+C 336 g m9
+D 336 Down
+C 337 sfx Sword tapping
+C 337 h 38 8e
+C 337 g BQf
+C 338 h 37 8f
+C 338 g Cg*
+C 339 h 36 90
+C 339 g CU6
+C 340 h 35 91
+C 340 g F9T
+C 341 h 34 92
+C 341 g HU<
+C 342 h 33 93
+C 342 g Ch"
+C 343 h 31 93
+C 343 g D(a
+U 343 Down
+C 344 h 30 93
+C 344 g E%Q
+C 345 h 2e 93
+C 345 g HWe
+C 346 h 2d 93
+C 346 g F$?
+C 347 h 2b 93
+C 347 g DV8
+C 348 h 2a 93
+C 348 g FD0
+C 349 h 28 93
+C 349 g Emc
+C 350 h 27 93
+C 350 g D"<
+C 351 h 25 93
+C 351 g CG=
+C 352 h 24 93
+C 352 g H#C
+C 353 sfx Sword tapping
+C 353 h 22 93
+C 353 g Hox
+C 354 h 21 93
+C 354 g Dhz
+C 355 h 1f 93
+C 355 g IT
+C 356 h 1e 93
+C 356 g BB)
+C 357 h 1c 93
+C 357 g E}S
+C 358 h 1b 93
+C 358 g Edi
+C 359 h 19 93
+C 359 g GBp
+C 360 h 18 93
+C 360 g Crr
+C 361 h 16 93
+C 361 g 1<
+C 362 h 15 93
+C 362 g &"
+C 363 h 13 93
+C 363 g w*
+C 364 h 12 93
+C 364 g Dwt
+C 365 h 11 92
+C 365 g G<S
+D 365 Up
+C 366 h f 91
+C 366 g B.t
+C 367 h e 90
+C 367 g C@_
+C 368 h e 8e
+C 368 g 5+
+U 368 Left
+C 369 sfx Sword tapping
+C 369 h e 8d
+C 369 g Ed3
+C 370 g HC/
+U 370 Up
+C 371 g C|(
+C 372 g E<I
+C 373 g F,E
+C 374 g Eb6
+C 375 g ,1
+C 376 g D[T
+C 377 sfx Sword tapping
+C 377 g L7
+C 378 g HQ]
+C 379 g FVD
+C 380 g CB}
+C 381 g BtV
+C 382 g HRZ
+C 383 sfx 13, Fire - TP_Lantern_Burn
+C 383 g Fu!
+D 383 A
+C 384 g C2N
+C 385 sfx Sword tapping
+C 385 g B(%
+C 386 g B`+
+C 387 g CrY
+C 388 g B#6
+U 388 A
+C 389 g BLW
+C 390 g }B
+C 391 g GA?
+C 392 g DBE
+C 393 g E+5
+C 394 g F.t
+C 395 g @
+C 396 g ;m
+C 397 g DF3
+D 397 B
+C 398 g Co7
+C 399 g Fw2
+C 400 g B;p
+C 401 sfx Sword tapping
+C 401 g e$
+C 402 g E9^
+U 402 B
+C 403 g F4J
+C 404 g E0u
+C 405 g GzZ
+C 406 g Bkh
+C 407 g CgF
+C 408 g GT`
+C 409 g D>9
+C 410 g E+Y
+C 411 g DC9
+C 412 g FQ}
+C 413 g EEH
+C 414 g GDM
+C 415 g Fb>
+C 416 g ZC
+C 417 sfx Sword tapping
+C 417 g E=S
+C 418 g Bb>
+C 419 g DX%
+C 420 g Bji
+C 421 g HhU
+C 422 g Dzr
+C 423 g Hw+
+C 424 g Gfj
+C 425 g Hq}
+C 426 g .;
+C 427 g HDE
+C 428 g Cvr
+C 429 g HfH
+C 430 g EoU
+C 431 g ESZ
+C 432 g FxD
+C 433 sfx Sword tapping
+C 433 g Fux
+C 434 sfx 1, Arrow - WW_Arrow_Shoot
+C 434 sfx 13, Fire - TP_Lantern_Burn
+C 434 g D=<
+D 434 B
+C 435 g FFk
+C 436 g CX;
+C 437 g FD!
+C 438 g C*o
+C 439 g Fv:
+U 439 B
+C 440 g BcV
+C 441 g Bi&
+C 442 g F2h
+C 443 g EQ/
+C 444 g ~I
+C 445 g B=g
+C 446 g D}[
+C 447 g DO%
+C 448 g d7
+C 449 sfx Sword tapping
+C 449 g Db4
+C 450 g HE%
+C 451 g C4~
+C 452 g D)%
+C 453 g EXd
+C 454 g "~
+C 455 g Bd(
+C 456 g G2j
+C 457 sfx Sword tapping
+C 457 g FDB
+C 458 g CqE
+C 459 g G:?
+C 460 g GpP
+C 461 g E76
+C 462 g |+
+C 463 g Baq
+C 464 g G]T
+C 465 sfx Sword tapping
+C 465 g F)9
+C 466 g [l
+C 467 g Hx}
+C 468 g Fq(
+C 469 g DZW
+C 470 g C!&
+C 471 g Ed0
+C 472 g H1I
+C 473 g zw
+C 474 g DCp
+C 475 g C{4
+C 476 g HMr
+C 477 g CjJ
+C 478 g hj
+C 479 g Efr
+C 480 g BT#
+C 481 sfx Sword tapping
+C 481 g Di,
+C 482 g B=L
+C 483 g B1
+C 484 g BmC
+C 485 g FYA
+C 486 g Hy5
+C 487 g Ft~
+C 488 g Hwe
+C 489 g b?
+C 490 g Gx6
+C 491 g G9V
+C 492 g H,X
+C 493 g _?
+C 494 g F>`
+C 495 g Dn5
+C 496 g EZC
+C 497 sfx Sword tapping
+C 497 g F!}
+C 498 g BQh
+C 499 g H<y
+C 500 g ChB
+C 501 g D7!
+C 502 g Et[
+C 503 g B=g
+C 504 g EY9
+C 505 g Brh
+C 506 g (F
+C 507 g CI0
+C 508 g Eva
+C 509 g BpP
+C 510 g D..
+C 511 g Ei"
+C 512 g F{|
+C 513 sfx Sword tapping
+C 513 g D+G
+C 514 g Jq
+C 515 g [g
+C 516 g 4W
+C 517 g Fky
+C 518 g Hyv
+C 519 g E}l
+C 520 g EWa
+C 521 g HA@
+C 522 g G:a
+C 523 g B[@
+C 524 g `Y
+C 525 g H?7
+C 526 g F!i
+C 527 g F=m
+C 528 g GPf
+C 529 sfx Sword tapping
+C 529 g DL=
+C 530 g Hgq
+C 531 g CtD
+C 532 g G[*
+C 533 g BrC
+C 534 g Dg7
+C 535 g C&x
+C 536 g E=M
+C 537 sfx Sword tapping
+C 537 g DO]
+C 538 g EeA
+C 539 g G+@
+C 540 g Mc
+C 541 g CtF
+C 542 g $2
+C 543 g e#
+C 544 g E7]
+C 545 sfx Sword tapping
+C 545 g DV2
+C 546 g B|t
+C 547 g q!
+C 548 g FJ%
+C 549 g BU,
+C 550 g DZ2
+C 551 g B4)
+C 552 g Gi6
+C 553 g GK&
+C 554 g Gx?
+C 555 g E^Z
+C 556 g Gcb
+C 557 g Eff
+C 558 g GdF
+C 559 g C>/
+C 560 g BMW
+C 561 sfx Sword tapping
+C 561 g GO_
+C 562 g BZX
+C 563 g p^
+C 564 g F#h
+C 565 g F72
+C 566 g E%e
+C 567 g F&(
+C 568 g Bl"
+C 569 g CjK
+C 570 g iI
+C 571 g ,[
+C 572 g ~(
+C 573 g D@Y
+C 574 g GXf
+C 575 g 0i
+C 576 g Gm@
+C 577 sfx Sword tapping
+C 577 g p1
+C 578 g HV&
+C 579 g co
+C 580 g GlL
+C 581 g D/4
+C 582 g G_
+C 583 g GN4
+C 584 g C6F
+C 585 g E{e
+C 586 g D]w
+C 587 g B%B
+C 588 g CIm
+C 589 g HF.
+C 590 g BBD
+C 591 g E7U
+C 592 g D~p
+C 593 sfx Sword tapping
+C 593 g D/5
+C 594 g Hpp
+C 595 g FOe
+C 596 g Fuy
+C 597 g D${
+C 598 g B,K
+C 599 g G<P
+C 600 g IV
+C 601 g ByD
+C 602 g Gdg
+C 603 g C|M
+C 604 g D%H
+C 605 g BIA
+C 606 g Gpk
+C 607 g T"
+C 608 g F#w
+C 609 sfx Sword tapping
+C 609 g FzY
+C 610 g BzQ
+C 611 g BQS
+C 612 g FTI
+C 613 g Ex<
+C 614 g G=s
+C 615 g Ft}
+C 616 g p%
+C 617 sfx Sword tapping
+C 617 g G4k
+C 618 g Hby
+C 619 g GkN
+C 620 g FW[
+C 621 g E~K
+C 622 g .h
+C 623 g CmU
+C 624 g F*?
+C 625 sfx Sword tapping
+C 625 g G%M
+C 626 g FFx
+C 627 g C/Q
+C 628 g G<L
+C 629 g HHs
+C 630 g F#F
+C 631 g BXd
+C 632 g C8<
+C 633 g DAF
+C 634 g H=a
+C 635 g lM
+C 636 g .<
+C 637 g B8V
+C 638 g CA6
+C 639 g ;[
+C 640 g H37
+C 641 sfx Sword tapping
+C 641 g HN.
+C 642 g DAd
+C 643 g EYY
+C 644 g E|#
+C 645 g C7$
+C 646 g D+I
+C 647 g rJ
+C 648 g C$<
+C 649 g GZ!
+C 650 g *|
+C 651 g C%A
+C 652 g yv
+C 653 g D,^
+C 654 g su
+C 655 g F*I
+C 656 g EJ#
+C 657 sfx Sword tapping
+C 657 g D!/
+C 658 g D1W
+C 659 g EPu
+C 660 g BvY
+C 661 g EkK
+C 662 g E8b
+C 663 g H30
+C 664 g EU$
+C 665 g D3N
+C 666 g Hrv
+C 667 g FON
+C 668 g HTT
+C 669 g GA#
+C 670 g F.8
+C 671 g F@
+C 672 g Fg^
+C 673 sfx Sword tapping
+C 673 g Fea
+C 674 g ~h
+C 675 g HV
+C 676 g EC2
+C 677 g e7
+C 678 g CL@
+C 679 g mU
+C 680 g HkJ
+C 681 g HgW
+C 682 g EgS
+C 683 g D:W
+C 684 g B^j
+C 685 g B%G
+C 686 g G2_
+C 687 g C`[
+C 688 g D{{
+C 689 sfx Sword tapping
+C 689 g uf
+C 690 g GPg
+C 691 g Ba$
+C 692 g F]F
+C 693 g GWK
+C 694 g D(x
+C 695 g Gr]
+C 696 g EKV
+C 697 sfx Sword tapping
+C 697 g DCZ
+C 698 g F:t
+C 699 g Fti
+C 700 g BZ^
+C 701 g H3C
+C 702 g B>5
+C 703 g DMy
+C 704 g G@e
+C 705 sfx Sword tapping
+C 705 g Cx:
+C 706 g D/Y
+C 707 g DWH
+C 708 g Fy8
+C 709 g FO<
+C 710 g Ca7
+C 711 g BAX
+C 712 g GT<
+C 713 g EpX
+C 714 g B5+
+C 715 g }G
+C 716 g D[g
+C 717 g Gg&
+C 718 g D4>
+C 719 g *A
+C 720 g Dk]
+C 721 sfx Sword tapping
+C 721 g H1|
+C 722 g _X
+C 723 g DZE
+C 724 g C:3
+C 725 g HN|
+C 726 g EO6
+C 727 g B,>
+C 728 g Eup
+C 729 g BG&
+C 730 g Crb
+C 731 g CqW
+C 732 g F$,
+C 733 g E)H
+C 734 h 10 8d
+C 734 g DL=
+D 734 Right
+C 735 h 11 8d
+C 735 g B5T
+C 736 h 13 8d
+C 736 g F6i
+C 737 sfx Sword tapping
+C 737 h 14 8d
+C 737 g FFI
+C 738 h 16 8d
+C 738 g Dv4
+C 739 h 17 8d
+C 739 g C|K
+C 740 h 19 8d
+C 740 g HA4
+C 741 h 1a 8d
+C 741 g Evy
+C 742 h 1c 8d
+C 742 g Gcg
+C 743 h 1d 8d
+C 743 g GrU
+C 744 h 1e 8c
+C 744 g He:
+D 744 Up
+C 745 h 20 8b
+C 745 g DGu
+C 746 h 21 8a
+C 746 g E,a
+C 747 h 22 88
+C 747 g C&&
+C 748 getitem Magic Jar 1 (Small)
+C 748 sfx 22, Item pickup - WW_Get_Item
+C 748 h 23 87
+C 748 g Hfr
+C 749 sfx 18, Message - WW_PauseMenu_Cursor
+C 749 h 24 86
+C 749 g E1;
+C 750 h 25 85
+C 750 g D/:
+C 751 sfx 18, Message - WW_PauseMenu_Cursor
+C 751 h 26 84
+C 751 g DK@
+C 752 h 27 83
+C 752 g FpD
+C 753 sfx Sword tapping
+C 753 sfx 18, Message - WW_PauseMenu_Cursor
+C 753 h 28 82
+C 753 g B!=
+C 754 h 29 81
+C 754 g DUT
+C 755 h 2a 80
+C 755 g F?#
+C 756 h 2b 7f
+C 756 g Hx@
+C 757 h 2c 7e
+C 757 g D+y
+C 758 h 2d 7d
+C 758 g G$L
+C 759 h 2e 7c
+C 759 g BmX
+C 760 h 2f 7b
+C 760 g Buk
+C 761 h 31 7a
+C 761 g E!A
+C 762 h 32 79
+C 762 g Gld
+C 763 h 33 77
+C 763 g E%q
+C 764 h 34 76
+C 764 g C9:
+C 765 h 35 75
+C 765 g F?=
+C 766 h 36 74
+C 766 g )a
+C 767 h 37 73
+C 767 g D`W
+C 768 h 38 72
+C 768 g HKI
+C 769 sfx Sword tapping
+C 769 h 39 71
+C 769 g Bln
+C 770 h 3a 70
+C 770 g +Z
+C 771 h 3b 6f
+C 771 g DnM
+C 772 h 3c 6e
+C 772 g D*%
+C 773 h 3d 6d
+C 773 g Ewx
+C 774 h 3e 6c
+C 774 g Hd.
+C 775 h 3f 6b
+C 775 g EMR
+C 776 h 40 6a
+C 776 g GW.
+C 777 sfx Sword tapping
+C 777 h 41 69
+C 777 g FLb
+C 778 h 43 68
+C 778 g E_C
+C 779 h 44 67
+C 779 g Ci]
+C 780 h 45 65
+C 780 g Z"
+C 781 h 46 64
+C 781 g DD8
+C 782 h 47 63
+C 782 g BzD
+C 783 h 48 62
+C 783 g D"r
+C 784 h 49 61
+C 784 g u%
+C 785 sfx Sword tapping
+C 785 h 4a 60
+C 785 g GNu
+C 786 h 4b 5f
+C 786 g CE7
+C 787 h 4c 5e
+C 787 g F0|
+C 788 h 4d 5d
+C 788 g CwZ
+C 789 h 4e 5c
+C 789 g D6z
+C 790 h 4f 5b
+C 790 g HpT
+C 791 h 50 5a
+C 791 g Cgo
+C 792 h 51 59
+C 792 g CEm
+C 793 h 52 58
+C 793 g GC_
+C 794 h 54 57
+C 794 g GIo
+C 795 h 55 56
+C 795 g Hg@
+C 796 h 56 55
+C 796 g e4
+C 797 h 57 53
+C 797 g B70
+C 798 h 58 52
+C 798 g EIV
+C 799 h 59 51
+C 799 g E?+
+C 800 h 5a 50
+C 800 g E["
+C 801 sfx Sword tapping
+C 801 h 5b 4f
+C 801 g S3
+C 802 h 5c 4e
+C 802 g w+
+C 803 h 5d 4d
+C 803 g ha
+C 804 h 5e 4c
+C 804 g Ga_
+C 805 h 5f 4b
+C 805 g F(e
+C 806 h 60 4a
+C 806 g 76
+C 807 h 61 49
+C 807 g HL5
+C 808 h 62 48
+C 808 g HL4
+C 809 h 63 47
+C 809 g EM|
+C 810 h 64 46
+C 810 g %c
+C 811 h 66 45
+C 811 g E2m
+C 812 h 67 44
+C 812 g 3@
+C 813 h 68 42
+C 813 g GB(
+C 814 h 69 41
+C 814 g CZv
+C 815 h 6a 40
+C 815 g GbQ
+C 816 h 6b 3f
+C 816 g HAt
+C 817 sfx Sword tapping
+C 817 h 6c 3e
+C 817 g }x
+C 818 h 6d 3d
+C 818 g B;p
+C 819 h 6e 3c
+C 819 g DHx
+C 820 h 6f 3b
+C 820 g Hat
+C 821 h 70 3a
+C 821 g Ed#
+C 822 h 71 39
+C 822 g 2X
+C 823 h 72 38
+C 823 g Cf*
+C 824 h 73 37
+C 824 g B6f
+C 825 h 74 36
+C 825 g C.d
+C 826 h 75 35
+C 826 g DsZ
+C 827 h 77 34
+C 827 g C^m
+C 828 h 78 33
+C 828 g H@q
+C 829 h 79 32
+C 829 g G)q
+C 830 h 7a 30
+C 830 g 2{
+C 831 h 7b 2f
+C 831 g BKF
+C 832 h 7c 2e
+C 832 g FAn
+C 833 sfx Sword tapping
+C 833 h 7d 2d
+C 833 g HN.
+C 834 h 7e 2c
+C 834 g c_
+C 835 h 7f 2b
+C 835 g G&q
+C 836 h 80 2a
+C 836 g FX<
+C 837 h 81 29
+C 837 g HId
+C 838 h 82 28
+C 838 g F*K
+C 839 h 83 27
+C 839 g Ee,
+C 840 h 84 26
+C 840 g G"[
+C 841 h 85 25
+C 841 g HfD
+C 842 h 86 24
+C 842 g C{F
+C 843 h 87 23
+C 843 g HH#
+C 844 h 89 22
+C 844 g 6v
+C 845 h 8a 21
+C 845 g Ct/
+C 846 h 8b 1f
+C 846 g Hys
+C 847 h 8c 1e
+C 847 g DqS
+C 848 h 8d 1d
+C 848 g G2.
+C 849 sfx Sword tapping
+C 849 h 8e 1d
+C 849 g GC|
+U 849 Up
+C 850 h 90 1d
+C 850 g EdV
+C 851 h 91 1d
+C 851 g D$T
+C 852 h 93 1d
+C 852 g Fc)
+C 853 h 94 1d
+C 853 g HH8
+C 854 h 96 1d
+C 854 g Dg}
+C 855 h 97 1d
+C 855 g Hrn
+C 856 h 99 1d
+C 856 g Bp_
+C 857 sfx Sword tapping
+C 857 h 9a 1d
+C 857 g ^5
+C 858 h 9c 1d
+C 858 g Hm8
+C 859 h 9d 1d
+C 859 g CQo
+C 860 h 9f 1d
+C 860 g D|+
+C 861 h a0 1d
+C 861 g DAC
+C 862 h a2 1d
+C 862 g H1P
+C 863 h a3 1d
+C 863 g FbM
+C 864 h a5 1d
+C 864 g FE#
+C 865 sfx Sword tapping
+C 865 h a6 1d
+C 865 g E9S
+C 866 h a8 1d
+C 866 g FPt
+C 867 h a9 1d
+C 867 g FSS
+C 868 h ab 1d
+C 868 g F4&
+C 869 h ac 1d
+C 869 g CIt
+C 870 h ae 1d
+C 870 g Hwr
+C 871 h af 1d
+C 871 g Cpb
+C 872 h b1 1d
+C 872 g FF(
+C 873 h b2 1d
+C 873 g C;e
+C 874 h b4 1d
+C 874 g 8n
+C 875 h b5 1d
+C 875 g F[@
+C 876 h b7 1d
+C 876 g GDF
+D 876 k LCONTROL
+C 877 h b8 1d
+C 877 g In
+C 878 g H>+
+U 878 Right
+C 879 g EgY
+C 880 g DMT
+C 881 sfx Sword tapping
+C 881 g !C
+C 882 g Gzv
+C 883 g HI1
+C 884 g FGS
+C 885 g E%0
+C 886 g DnP
+C 887 g 2n
+C 888 g E@|
+C 889 g GRZ
+C 890 g E|a
+C 891 g Ev_
+X 892 Walls
+C 892 g HJ"
+D 892 k F11
+C 893 g EN2
+C 894 g WT
+C 895 g G@;
+C 896 g Cl&
+C 897 sfx Sword tapping
+C 897 g D"_
+C 898 g Gi<
+U 898 k F11
+C 899 g E#8
+C 900 g E:.
+C 901 g H&&
+U 901 k LCONTROL
+C 902 g Da<
+C 903 g Ha6
+C 904 g EW8
+C 905 g C8v
+C 906 g FM*
+C 907 g dc
+C 908 g A
+C 909 g FL@
+C 910 g 2|
+C 911 h ba 1d
+C 911 g B(|
+D 911 Right
+C 912 h bb 1d
+C 912 g G$2
+C 913 sfx Sword tapping
+C 913 h bd 1d
+C 913 g D{y
+C 914 h be 1d
+C 914 g FKN
+C 915 h c0 1d
+C 915 g GT,
+C 916 h c1 1d
+C 916 g BL7
+C 917 h c3 1d
+C 917 g EIy
+C 918 h c4 1d
+C 918 g Eua
+C 919 h c6 1d
+C 919 g FEm
+C 920 h c7 1d
+C 920 g EFA
+C 921 h c9 1d
+C 921 g X=
+C 922 h ca 1d
+C 922 g D[Y
+C 923 map 39 scr 92 flag Secrets
+C 923 trigger secrets scr=92
+C 923 h cc 1d
+C 923 g BaU
+C 924 h cd 1d
+C 924 g D0n
+C 925 h cf 1d
+C 925 g B.x
+C 926 h d0 1d
+C 926 g `i
+C 927 g DD?
+C 928 g B2l
+C 929 sfx Sword tapping
+C 929 g EY
+C 930 g C&r
+C 931 g Ei[
+U 931 Right
+C 932 g EyU
+C 933 g GM)
+C 934 g DK+
+C 935 g HH=
+C 936 g C?4
+C 937 sfx Sword tapping
+C 937 g B2p
+C 938 g HJy
+C 939 g D%S
+C 940 g H@0
+C 941 g E2;
+C 942 g BIa
+C 943 g DIx
+C 944 g FS0
+C 945 sfx Sword tapping
+C 945 g G4p
+C 946 g HWx
+C 947 g G7u
+C 948 g Eu)
+C 949 g HG%
+C 950 g EIG
+C 951 g C;?
+C 952 g H;{
+C 953 h d0 1f
+C 953 g GKh
+D 953 Down
+C 954 h d0 20
+C 954 g HN5
+C 955 h d0 22
+C 955 g E&x
+C 956 h d0 23
+C 956 g B#M
+C 957 h d0 25
+C 957 g Dwv
+C 958 h d0 26
+C 958 g D0p
+C 959 h d0 28
+C 959 g ErZ
+C 960 h d0 29
+C 960 g Cpp
+C 961 sfx Sword tapping
+C 961 h d0 2b
+C 961 g E@6
+C 962 h d0 2c
+C 962 g Dc/
+C 963 h d0 2e
+C 963 g |1
+C 964 h d0 2f
+C 964 g Cpe
+C 965 h d0 31
+C 965 g H11
+C 966 h d0 32
+C 966 g EL}
+C 967 h d0 34
+C 967 g Ep9
+C 968 h d0 35
+C 968 g BZ]
+C 969 h d0 37
+C 969 g COF
+C 970 h d0 38
+C 970 g Gy7
+C 971 h d0 3a
+C 971 g >0
+C 972 h d0 3b
+C 972 g B#,
+C 973 h d0 3d
+C 973 g Fzc
+C 974 h d0 3e
+C 974 g CF"
+C 975 h d0 40
+C 975 g CR1
+C 976 h d0 41
+C 976 g BWx
+C 977 sfx Sword tapping
+C 977 h d0 43
+C 977 g BOg
+C 978 h d0 44
+C 978 g C)5
+C 979 h d0 46
+C 979 g BPl
+C 980 h d0 47
+C 980 g CHx
+C 981 h d0 49
+C 981 g Bl}
+C 982 h d0 4a
+C 982 g al
+C 983 h d0 4c
+C 983 g BF>
+C 984 h d0 4d
+C 984 g H*
+C 985 h d0 4f
+C 985 g F*s
+C 986 h d0 50
+C 986 g Gf!
+C 987 h d0 52
+C 987 g Fq|
+C 988 h d0 53
+C 988 g En8
+C 989 h d0 55
+C 989 g D5V
+C 990 h d0 56
+C 990 g B$9
+C 991 h d0 58
+C 991 g DF>
+C 992 h d0 59
+C 992 g GkM
+C 993 sfx Sword tapping
+C 993 h d0 5b
+C 993 g H;9
+C 994 h d0 5c
+C 994 g F"E
+C 995 h d0 5e
+C 995 g Cpy
+C 996 h d0 5f
+C 996 g D>?
+C 997 h d0 61
+C 997 g "`
+C 998 h d0 62
+C 998 g Cxq
+C 999 h d0 64
+C 999 g B={
+C 1000 h d0 65
+C 1000 g CIc
+C 1001 h d0 67
+C 1001 g HPz
+C 1002 h d0 68
+C 1002 g B9s
+C 1003 h d0 6a
+C 1003 g Gi*
+C 1004 h d0 6b
+C 1004 g Bi/
+C 1005 h d0 6d
+C 1005 g D{L
+C 1006 h d0 6e
+C 1006 g Hfp
+C 1007 h d0 70
+C 1007 g F6j
+C 1008 h d0 71
+C 1008 g B!$
+C 1009 sfx Sword tapping
+C 1009 h d0 72
+C 1009 g C6g
+D 1009 Left
+C 1010 h d0 73
+C 1010 g E5l
+C 1011 h d0 75
+C 1011 g EI/
+C 1012 h d0 76
+C 1012 g EqP
+C 1013 h d0 77
+C 1013 g Gb~
+C 1014 h d0 78
+C 1014 g ED"
+C 1015 h d0 79
+C 1015 g CF/
+C 1016 h cf 7a
+C 1016 g BVK
+C 1017 sfx Sword tapping
+C 1017 h ce 7b
+C 1017 g BFh
+C 1018 h cd 7c
+C 1018 g FI)
+C 1019 h cb 7c
+C 1019 g CV/
+U 1019 Down
+C 1020 h ca 7c
+C 1020 g G+t
+C 1021 h c8 7c
+C 1021 g Eo3
+C 1022 h c7 7c
+C 1022 g FP+
+C 1023 h c5 7c
+C 1023 g DtP
+C 1024 h c4 7c
+C 1024 g B"K
+C 1025 sfx Sword tapping
+C 1025 h c2 7c
+C 1025 g FPk
+C 1026 h c1 7c
+C 1026 g G$
+C 1027 h bf 7c
+C 1027 g F@.
+C 1028 h be 7c
+C 1028 g F.T
+C 1029 h bc 7c
+C 1029 g Ed|
+C 1030 h bb 7c
+C 1030 g D1J
+C 1031 h b9 7c
+C 1031 g CK1
+C 1032 h b8 7c
+C 1032 g Het
+C 1033 h b6 7c
+C 1033 g B)w
+C 1034 h b5 7c
+C 1034 g B?o
+C 1035 h b3 7c
+C 1035 g B8d
+C 1036 h b2 7d
+C 1036 g 6@
+D 1036 Down
+C 1037 h b1 7e
+C 1037 g DmV
+C 1038 h b0 7f
+C 1038 g B7!
+C 1039 h b0 80
+C 1039 g DX=
+C 1040 h b0 81
+C 1040 g G"n
+C 1041 sfx Sword tapping
+C 1041 h b0 83
+C 1041 g H7<
+U 1041 Left
+C 1042 h b0 84
+C 1042 g BV$
+C 1043 h b0 86
+C 1043 g H(&
+C 1044 h b0 87
+C 1044 g GF~
+C 1045 h b0 89
+C 1045 g EnZ
+C 1046 h b0 8a
+C 1046 g B6,
+C 1047 h b0 8c
+C 1047 g CvA
+C 1048 h b0 8d
+C 1048 g B!&
+C 1049 h b0 8f
+C 1049 g CIZ
+C 1050 h b0 90
+C 1050 g W6
+C 1051 g Fv4
+C 1052 h af 90
+C 1052 g D/O
+D 1052 Left
+C 1053 h ae 90
+C 1053 g Da:
+C 1054 h ad 90
+C 1054 g F8*
+C 1055 h ac 90
+C 1055 g cI
+C 1056 h ab 90
+C 1056 g ECG
+C 1057 sfx Sword tapping
+C 1057 h aa 90
+C 1057 g Ga[
+C 1058 h a9 90
+C 1058 g H3n
+C 1059 h a8 90
+C 1059 g Dtc
+C 1060 h a6 90
+C 1060 g Bb1
+U 1060 Down
+C 1061 h a5 90
+C 1061 g GdN
+C 1062 h a3 90
+C 1062 g G0c
+C 1063 h a2 90
+C 1063 g BJG
+C 1064 h a0 90
+C 1064 g C!5
+C 1065 h 9f 90
+C 1065 g Ce+
+C 1066 h 9d 90
+C 1066 g HFG
+C 1067 h 9c 90
+C 1067 g GI.
+C 1068 h 9a 90
+C 1068 g D{m
+C 1069 h 99 90
+C 1069 g HdW
+C 1070 h 97 90
+C 1070 g D[I
+C 1071 h 96 90
+C 1071 g BS>
+C 1072 h 94 90
+C 1072 g U0
+C 1073 sfx Sword tapping
+C 1073 h 93 90
+C 1073 g HT5
+C 1074 h 91 90
+C 1074 g Bs:
+C 1075 h 90 90
+C 1075 g D&2
+C 1076 h 8e 90
+C 1076 g CrS
+C 1077 h 8d 90
+C 1077 g Gn<
+C 1078 h 8b 90
+C 1078 g D8l
+C 1079 h 8a 90
+C 1079 g GR"
+C 1080 h 88 90
+C 1080 g CSA
+C 1081 h 87 90
+C 1081 g {s
+C 1082 h 85 90
+C 1082 g CWb
+C 1083 h 84 90
+C 1083 g &A
+C 1084 h 82 90
+C 1084 g Ep`
+C 1085 h 81 90
+C 1085 g Eyh
+C 1086 h 7f 90
+C 1086 g xu
+C 1087 h 7e 90
+C 1087 g D9=
+C 1088 h 7c 90
+C 1088 g Hf%
+C 1089 sfx Sword tapping
+C 1089 h 7b 90
+C 1089 g HuR
+C 1090 h 79 90
+C 1090 g DWe
+C 1091 h 78 90
+C 1091 g $)
+C 1092 h 76 90
+C 1092 g FU5
+C 1093 h 75 90
+C 1093 g Gpg
+C 1094 h 73 90
+C 1094 g Bw2
+C 1095 h 72 90
+C 1095 g G#5
+C 1096 h 70 90
+C 1096 g GkR
+C 1097 sfx Sword tapping
+C 1097 h 6f 90
+C 1097 g E,r
+C 1098 h 6d 90
+C 1098 g 1U
+C 1099 h 6c 90
+C 1099 g H)[
+C 1100 h 6a 90
+C 1100 g B:e
+C 1101 h 69 90
+C 1101 g H/]
+C 1102 h 67 90
+C 1102 g E!k
+C 1103 h 66 90
+C 1103 g CN]
+C 1104 h 64 90
+C 1104 g CMW
+C 1105 sfx Sword tapping
+C 1105 h 63 90
+C 1105 g BEv
+C 1106 h 61 90
+C 1106 g BW$
+C 1107 h 60 90
+C 1107 g _D
+C 1108 h 5e 90
+C 1108 g Fs4
+C 1109 h 5d 90
+C 1109 g GmT
+C 1110 h 5b 90
+C 1110 g DHX
+C 1111 h 5a 90
+C 1111 g BN~
+C 1112 h 58 90
+C 1112 g HN}
+C 1113 h 57 90
+C 1113 g HUx
+C 1114 h 55 90
+C 1114 g GMA
+C 1115 h 54 90
+C 1115 g E4"
+C 1116 h 52 90
+C 1116 g ETe
+C 1117 h 51 90
+C 1117 g Bj7
+C 1118 h 4f 90
+C 1118 g H)}
+C 1119 h 4e 90
+C 1119 g CmE
+C 1120 h 4c 90
+C 1120 g EG;
+C 1121 sfx Sword tapping
+C 1121 h 4b 90
+C 1121 g H>n
+C 1122 h 49 90
+C 1122 g E4$
+C 1123 h 48 90
+C 1123 g vm
+C 1124 h 46 90
+C 1124 g GV2
+C 1125 h 45 90
+C 1125 g E(L
+C 1126 h 43 90
+C 1126 g C;.
+C 1127 h 42 90
+C 1127 g EOT
+C 1128 h 40 90
+C 1128 g #[
+C 1129 h 3f 90
+C 1129 g U_
+C 1130 h 3d 90
+C 1130 g G1G
+C 1131 h 3c 90
+C 1131 g E[r
+C 1132 h 3a 90
+C 1132 g G,E
+C 1133 h 39 90
+C 1133 g B)n
+C 1134 h 37 90
+C 1134 g DfP
+C 1135 h 36 90
+C 1135 g CB7
+C 1136 h 34 90
+C 1136 g EA3
+C 1137 sfx Sword tapping
+C 1137 h 33 90
+C 1137 g Dn?
+C 1138 h 31 90
+C 1138 g E,v
+C 1139 h 30 90
+C 1139 g BQp
+C 1140 h 2e 90
+C 1140 g E|0
+C 1141 h 2d 90
+C 1141 g E^`
+C 1142 h 2b 90
+C 1142 g D:~
+C 1143 h 2a 90
+C 1143 g `{
+C 1144 h 28 90
+C 1144 g H7<
+C 1145 h 27 90
+C 1145 g Ee.
+C 1146 h 25 90
+C 1146 g SV
+C 1147 h 24 90
+C 1147 g HL*
+C 1148 h 22 90
+C 1148 g B=@
+C 1149 h 21 90
+C 1149 g E;9
+C 1150 h 1f 90
+C 1150 g E(&
+C 1151 h 1e 90
+C 1151 g F@f
+C 1152 h 1c 90
+C 1152 g F^v
+C 1153 sfx Sword tapping
+C 1153 h 1b 90
+C 1153 g Cpl
+C 1154 h 19 90
+C 1154 g C2/
+C 1155 h 18 90
+C 1155 g BRY
+C 1156 h 16 90
+C 1156 g G3"
+C 1157 h 15 90
+C 1157 g Bqz
+C 1158 h 13 90
+C 1158 g G7R
+C 1159 h 12 8f
+C 1159 g ,<
+D 1159 Up
+C 1160 h 11 8e
+C 1160 g FU~
+C 1161 h 11 8c
+C 1161 g Cjk
+U 1161 Left
+C 1162 h 11 8b
+C 1162 g 1}
+C 1163 h 11 89
+C 1163 g fg
+C 1164 g DE$
+U 1164 Up
+C 1165 g E`O
+C 1166 g Wv
+C 1167 g F,O
+C 1168 g EAk
+D 1168 R
+C 1169 sfx Sword tapping
+C 1169 g FK,
+C 1170 g F26
+C 1171 g H3<
+C 1172 g Hk{
+C 1173 g H]y
+C 1174 g Fg>
+U 1174 R
+C 1175 g EQ#
+C 1176 g Bod
+C 1177 sfx Sword tapping
+C 1177 g C??
+C 1178 g G:l
+C 1179 g Fr8
+C 1180 g GN*
+C 1181 g B&K
+C 1182 g F4y
+C 1183 g FWQ
+C 1184 g Gz]
+C 1185 sfx Sword tapping
+C 1185 g FM<
+C 1186 g Hx^
+C 1187 g Fwm
+C 1188 g Ce[
+C 1189 g EdO
+C 1190 g BWc
+C 1191 g Cul
+C 1192 g Dy2
+C 1193 g H3r
+C 1194 g Gqh
+C 1195 g H3q
+C 1196 g :&
+C 1197 g B#/
+C 1198 g D%G
+C 1199 g Ud
+C 1200 g EUY
+C 1201 sfx Sword tapping
+C 1201 g FUW
+C 1202 g HAu
+C 1203 g D~2
+C 1204 g D{]
+C 1205 g Dl9
+C 1206 g HI$
+C 1207 g G+G
+C 1208 g Ha}
+C 1209 g ErD
+C 1210 g COO
+C 1211 g Df9
+C 1212 g D7.
+C 1213 g EM^
+C 1214 g +k
+C 1215 g EpR
+C 1216 g Ha%
+C 1217 sfx Sword tapping
+C 1217 g FY9
+C 1218 g Eq(
+C 1219 g Bi4
+C 1220 g F6U
+C 1221 g HQZ
+C 1222 g BWx
+C 1223 g FxR
+C 1224 g BwS
+C 1225 g Dag
+C 1226 g H=!
+C 1227 g G"&
+C 1228 g G+"
+C 1229 g DXB
+C 1230 g */
+C 1231 g EYq
+C 1232 g DDv
+C 1233 sfx Sword tapping
+C 1233 g B}d
+C 1234 g F5"
+C 1235 g DOW
+C 1236 g D1{
+C 1237 g HTn
+C 1238 g D&u
+C 1239 g B,k
+C 1240 g EX"
+C 1241 g Ct?
+C 1242 g G`~
+C 1243 g BFT
+C 1244 g GVB
+C 1245 g B~!
+C 1246 g HW%
+C 1247 g C[I
+C 1248 g G%y
+C 1249 sfx Sword tapping
+C 1249 g EKN
+D 1249 L
+C 1250 g B/+
+C 1251 g Fv/
+C 1252 g Eo}
+C 1253 g H(n
+C 1254 g Fg!
+C 1255 g Gw/
+C 1256 g DIf
+C 1257 sfx Sword tapping
+C 1257 g DMx
+U 1257 L
+C 1258 g G5[
+C 1259 g HK7
+C 1260 g G}Y
+C 1261 g DX~
+C 1262 g D<[
+C 1263 g E6i
+C 1264 g /r
+C 1265 sfx Sword tapping
+C 1265 g Gp:
+C 1266 g FAS
+C 1267 g FL6
+C 1268 g Hah
+C 1269 g Fw~
+C 1270 g F^O
+C 1271 g Gh%
+C 1272 sfx 13, Fire - TP_Lantern_Burn
+C 1272 g F[<
+D 1272 A
+C 1273 g B2?
+C 1274 g z`
+C 1275 g D(q
+C 1276 g Hsh
+C 1277 g BsO
+C 1278 g F)/
+C 1279 g GCX
+U 1279 A
+C 1280 g C8|
+C 1281 sfx Sword tapping
+C 1281 g ,m
+C 1282 g ee
+C 1283 g Gwx
+C 1284 g ?d
+C 1285 g Fol
+C 1286 g BG#
+C 1287 g D}F
+C 1288 sfx 1, Arrow - WW_Arrow_Shoot
+C 1288 sfx 13, Fire - TP_Lantern_Burn
+C 1288 g D7(
+D 1288 B
+C 1289 g HVV
+C 1290 g E^G
+C 1291 g DFg
+C 1292 g EF&
+U 1292 B
+C 1293 g D~c
+C 1294 g EO)
+C 1295 g G5
+C 1296 g |O
+C 1297 sfx Sword tapping
+C 1297 g Cp[
+C 1298 g C((
+C 1299 g F2k
+C 1300 g =F
+C 1301 g D!P
+C 1302 g Cp<
+C 1303 g G?&
+C 1304 g Htf
+C 1305 g BA^
+C 1306 g GpV
+C 1307 g HG4
+C 1308 g B?M
+C 1309 g Hxk
+C 1310 g HI|
+C 1311 g CiL
+C 1312 g HZ&
+C 1313 sfx Sword tapping
+C 1313 g H+{
+C 1314 g GG0
+C 1315 g E">
+C 1316 g D#5
+C 1317 g B)h
+C 1318 trigger secrets scr=92
+C 1318 sfx 7, OOT_Secret
+C 1318 g CX"
+C 1319 g D>{
+C 1320 g CoO
+C 1321 g FUj
+C 1322 g Gi"
+C 1323 g G8~
+C 1324 g BO7
+C 1325 g E)C
+C 1326 g D19
+C 1327 g HDT
+C 1328 g Er2
+C 1329 g Fx
+C 1330 g D1K
+C 1331 g Gy^
+C 1332 g DY"
+C 1333 g F0&
+C 1334 g 1a
+C 1335 g FCG
+C 1336 g H@!
+C 1337 sfx Sword tapping
+C 1337 sfx Sword tapping
+C 1337 g F|K
+C 1338 g 0r
+C 1339 g DC@
+C 1340 g F{D
+C 1341 g H0]
+C 1342 g Dh:
+C 1343 g DuE
+C 1344 g G3D
+C 1345 g G+B
+C 1346 g DF@
+C 1347 g F3H
+C 1348 g CX/
+C 1349 g G!e
+C 1350 g CTe
+C 1351 g B4K
+C 1352 g DcS
+C 1353 g B=8
+C 1354 g G}>
+Q 1355 3

@@ -1,0 +1,585 @@
+M debug true
+M frames 1694
+M length 568
+M qst c:/Users/Evan/Desktop/Terror of Necromancy/ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash B7B5ADB235234E930B114A63C1D9E3AE
+M qst_title Terror of Necromancy
+M starting_dmap 26
+M starting_retsqr 0
+M starting_scr 28
+M sync_rng true
+M test_mode true
+M time_created Thu Apr 10 21:33:35 2025
+M time_updated Thu Apr 10 21:34:05 2025
+M uuid 6495af66-f0c9-453e-a0f0-8c704e9f5e5c
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1744335215
+Y 0 482 0
+R 0 2 257 2042863368
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 dmap=26 Seized Grd Twr F3
+C 0 scr=28
+C 0 h 0 80
+C 0 g DHz
+C 1 g FX3
+C 2 g Fo2
+C 3 g Eci
+C 4 g F#]
+C 5 g H8g
+C 6 g GP{
+C 7 g BL(
+C 8 g G{<
+C 9 g 3d
+C 10 g F2!
+C 11 g EG,
+C 12 g DL+
+C 13 g Gs+
+C 14 g GY$
+C 15 g FV2
+C 16 g E/<
+C 17 g Cj9
+C 18 g H>!
+C 19 g B4O
+C 20 g E.i
+C 21 g Fdf
+C 22 g Hh+
+C 23 g E>d
+C 24 g mQ
+C 25 g w1
+C 26 g H9;
+C 27 g Hwh
+C 28 g B}L
+C 29 g Eo*
+C 30 g HKV
+C 31 g EMa
+C 32 g C(x
+C 33 g D3g
+C 34 g E[s
+C 35 g G0k
+C 36 g l}
+C 37 g F}*
+C 38 g E}r
+C 39 g FTh
+C 40 g FgG
+C 41 g G6"
+C 42 g FlC
+C 43 g Et|
+C 44 g FX2
+C 45 g Go_
+C 46 g DjJ
+C 47 g HEc
+C 48 g F|"
+C 49 g $d
+C 50 g ExI
+C 51 g EP0
+C 56 g CZp
+C 57 g 0r
+C 58 g EXx
+C 59 g Dy$
+C 60 g BPW
+C 61 g G@[
+C 62 g CkV
+C 63 g D33
+C 64 g D/w
+C 65 g GE~
+C 66 g GEh
+C 67 g FfU
+C 74 g C=X
+C 102 g D+k
+C 106 g B]$
+C 114 g B3A
+C 117 g B3P
+C 118 g GvB
+C 119 g Fos
+C 120 g GK]
+C 121 g FY*
+C 122 g 1w
+C 123 g Bpk
+C 124 g HV1
+C 125 g EzQ
+C 126 g YS
+C 127 g HUa
+C 128 g D8_
+C 129 g F8A
+C 130 g B(C
+C 131 g Buw
+C 132 sfx 169, Impact Explosion - OOT_Bomb_Bl
+D 132 k LCONTROL
+C 133 g F0y
+C 134 g CD8
+C 135 g GJD
+C 136 g Fzh
+C 137 g FW+
+C 138 g Buw
+C 142 g FW+
+C 143 g Buw
+C 164 sfx 166 - OOT_Stalfos_Groan
+C 164 sfx 166 - OOT_Stalfos_Groan
+C 164 h 2 80
+C 164 g D?C
+C 165 h 3 80
+C 165 g F*#
+C 166 h 5 80
+C 166 g Cjr
+C 167 h 6 80
+C 167 g HYV
+C 168 h 8 80
+C 168 g GEQ
+C 169 h 9 80
+C 169 g C#0
+C 170 h b 80
+C 170 g G>+
+C 171 h c 80
+C 171 g H:E
+C 172 h e 80
+C 172 g DO#
+C 173 h f 80
+C 173 g Wi
+C 174 h 11 80
+C 174 g $A
+C 175 sfx 152 - OOT_Door_Stone_Close
+C 175 g H0O
+C 176 g H/*
+C 177 g DiT
+C 178 g E;"
+C 179 g H5^
+C 180 g B!:
+C 181 g E`n
+C 182 g Dne
+C 183 g DV^
+C 184 g G4)
+C 185 g zO
+C 186 g E`n
+C 187 g C~V
+C 188 g GW=
+C 189 g D#C
+C 190 g HG*
+X 192 Kill
+C 192 g BIZ
+D 192 k K
+C 197 g EfD
+U 198 k K
+U 201 k LCONTROL
+C 207 g DIt
+C 212 enemy died Legionnaire (L2)
+C 212 g D2n
+C 213 sfx 151 - OOT_Door_Stone_Open
+C 213 sfx 151 - OOT_Door_Stone_Open
+C 213 sfx 151 - OOT_Door_Stone_Open
+C 213 g JZ
+C 214 g Et1
+C 216 g JZ
+C 217 map 45 scr 28 flag Secrets
+C 217 g CJG
+C 218 g FHX
+C 220 g CJG
+C 222 g FHX
+C 224 g CJG
+C 226 g FHX
+C 228 g CJG
+C 230 g FHX
+C 232 g CJG
+C 234 g FHX
+C 236 g CJG
+C 238 g FHX
+C 239 h 12 80
+C 239 g Bu=
+D 239 Right
+C 240 h 14 80
+C 240 g HG@
+C 241 h 15 80
+C 241 g FFV
+C 242 h 17 80
+C 242 g e_
+C 243 h 18 80
+C 243 g Hwx
+C 244 h 1a 80
+C 244 g D#I
+C 245 h 1b 80
+C 245 g H6A
+C 246 h 1d 80
+C 246 g F)9
+C 247 h 1e 80
+C 247 g HiH
+C 248 h 20 80
+C 248 g F>:
+C 249 h 21 80
+C 249 g F0<
+C 250 h 23 80
+C 250 g C8>
+C 251 h 24 80
+C 251 g Eff
+C 252 h 26 80
+C 252 g HUA
+C 253 h 27 80
+C 253 g Fn>
+C 254 h 29 80
+C 254 g FnJ
+C 255 h 2a 80
+C 255 g FPt
+C 256 h 2c 80
+C 256 g E(v
+C 257 h 2d 80
+C 257 g F0(
+C 258 h 2f 80
+C 258 g H:`
+C 259 h 30 80
+C 259 g H=@
+C 260 h 32 80
+C 260 g Fr_
+C 261 h 33 80
+C 261 g F{;
+C 262 h 35 80
+C 262 g .o
+C 263 h 36 80
+C 263 g FRd
+C 264 h 38 80
+C 264 g GeT
+C 265 h 39 80
+C 265 g Fb`
+C 266 h 3b 80
+C 266 g G^Q
+C 267 h 3c 80
+C 267 g E0#
+C 268 h 3e 80
+C 268 g HD+
+C 269 h 3f 80
+C 269 g F]`
+C 270 h 41 80
+C 270 g CEc
+C 271 h 42 80
+C 271 g W>
+C 272 h 44 80
+C 272 g CGa
+C 273 h 45 80
+C 273 g FTe
+C 274 h 47 80
+C 274 g ;j
+C 275 h 48 80
+C 275 g G_M
+C 276 h 49 7f
+C 276 g FxI
+D 276 Up
+C 277 h 4a 7e
+C 277 g GUP
+C 278 h 4b 7d
+C 278 g Eor
+C 279 h 4c 7c
+C 279 g dA
+C 280 h 4d 7b
+C 280 g =x
+C 281 h 4e 7a
+C 281 g Fa^
+C 282 h 4f 79
+C 282 g B)I
+C 283 h 50 78
+C 283 g B}8
+C 284 h 52 76
+C 284 g U@
+C 285 h 53 75
+C 285 g Cvh
+C 286 h 54 74
+C 286 g 6O
+C 287 h 55 73
+C 287 g B<J
+C 288 h 56 72
+C 288 g _a
+C 289 h 57 71
+C 289 g F5Q
+C 290 h 58 70
+C 290 g D_F
+C 291 h 59 6f
+C 291 g C"W
+C 292 h 5a 6e
+C 292 g tt
+C 293 h 5b 6d
+C 293 g Ewn
+C 294 h 5c 6c
+C 294 g HI1
+C 295 h 5d 6b
+C 295 g EEc
+C 296 h 5e 6a
+C 296 g B{U
+C 297 h 5f 69
+C 297 g EZR
+C 298 h 60 68
+C 298 g Fvb
+C 299 h 61 67
+C 299 g E%7
+C 300 h 63 65
+C 300 g G!
+C 301 h 64 64
+C 301 g B^{
+C 302 h 65 63
+C 302 g _X
+C 303 h 66 62
+C 303 g E#9
+C 304 h 67 61
+C 304 g EAa
+C 305 h 68 60
+C 305 g D}C
+C 306 h 69 5f
+C 306 g G9(
+C 307 h 6a 5e
+C 307 g F;<
+C 308 h 6b 5d
+C 308 g D*I
+C 309 h 6c 5c
+C 309 g p^
+C 310 h 6d 5b
+C 310 g FO9
+C 311 h 6e 5a
+C 311 g HA+
+C 312 h 6f 59
+C 312 g DE?
+C 313 h 70 58
+C 313 g FK@
+C 314 getitem Legionnaire's Ring
+C 314 sfx 20, WW_Fanfare_Item
+C 314 sfx 20, WW_Fanfare_Item
+C 314 h 71 57
+C 314 g B63
+C 315 sfx 18, Message - WW_PauseMenu_Cursor
+C 315 g DYZ
+C 316 sfx 18, Message - WW_PauseMenu_Cursor
+C 316 g 3m
+D 316 A
+C 317 sfx 18, Message - WW_PauseMenu_Cursor
+C 317 g B/z
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 sfx 18, Message - WW_PauseMenu_Cursor
+C 318 g Ghi
+D 318 B
+C 319 g EPZ
+U 321 A
+U 325 B
+U 326 Up
+U 328 Right
+D 366 A
+C 369 g C.6
+C 370 g GG#
+U 371 A
+C 420 g Th
+C 480 g Gxi
+C 540 g D?$
+C 600 g EJc
+C 660 g Caf
+C 720 g H):
+C 780 g Mj
+C 840 g FQ@
+C 900 g F2m
+C 960 g Fg_
+C 1020 g BB4
+C 1080 g D`]
+C 1140 g HAo
+C 1200 g FES
+C 1260 g D,C
+C 1320 g H!P
+C 1380 g *u
+C 1440 g G+^
+C 1500 g F`o
+C 1560 g )J
+C 1620 g FDo
+C 1680 g G<)
+Q 1694 3

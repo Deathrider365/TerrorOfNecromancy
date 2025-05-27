@@ -1,0 +1,1304 @@
+M debug true
+M frames 1010
+M length 1287
+M qst c:/Users/Evan/Desktop/Terror of Necromancy/ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash 009B98037238B129D0F6455B1392583B
+M qst_title Terror of Necromancy
+M starting_dmap 67
+M starting_retsqr 0
+M starting_scr 71
+M sync_rng true
+M test_mode true
+M time_created Thu Apr 10 22:24:51 2025
+M time_updated Thu Apr 10 22:25:09 2025
+M uuid a6580a88-35e5-4ced-a6b9-b5b2fae75356
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1744338291
+Y 0 482 0
+R 0 2 257 2042866444
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 dmap=67 Lv6-F1-GeoPlant West
+C 0 scr=71
+C 0 h 78 a0
+C 0 g DHz
+C 1 g C>[
+C 2 g *?
+C 3 g HYK
+C 4 g FTN
+C 5 g E"H
+C 6 g Gek
+C 7 g B|`
+C 8 g CTq
+C 9 g DtI
+C 10 g zh
+C 11 g C_k
+C 12 g H;]
+C 13 g EIy
+D 13 k LCONTROL
+C 14 g kq
+C 15 g B;c
+C 16 g B1B
+C 17 g C_s
+C 18 g L8
+C 19 g C>,
+C 20 g BH3
+C 21 g BUd
+C 22 g 7c
+C 23 g Bx2
+C 24 g EJ[
+C 25 g |w
+C 26 g DX.
+C 27 g Hg`
+C 28 g GSo
+C 29 g EQ:
+C 30 g FLG
+C 31 g GZn
+C 32 g G[M
+C 33 g C9j
+C 34 g F80
+C 35 g EmH
+C 36 g HDh
+C 37 g EfC
+C 38 g Ho"
+C 39 g F``
+C 40 g B~E
+C 41 g C^F
+C 42 g WF
+C 43 g Gzb
+X 44 Walls
+C 44 g F>(
+D 44 k F11
+C 45 g HUu
+C 46 g D){
+C 47 g Epf
+C 48 g FuV
+C 49 g F:P
+C 50 g F9}
+U 50 k F11
+C 51 g E">
+C 52 g GHa
+C 53 g GK~
+U 53 k LCONTROL
+C 54 g Ba5
+C 55 g E@=
+C 56 g E8,
+C 57 g j6
+C 58 g DYf
+C 59 g E;@
+C 60 g FBh
+C 61 g Bc2
+C 62 g BI_
+C 63 g Fu]
+C 64 g G/{
+C 65 g 9;
+C 66 g Gcl
+C 67 g BTB
+C 68 g HQ!
+C 69 g FXB
+C 70 g C`|
+C 71 sfx 18, Message - WW_PauseMenu_Cursor
+C 72 g EV)
+C 73 sfx 18, Message - WW_PauseMenu_Cursor
+C 74 g FN
+C 75 sfx 18, Message - WW_PauseMenu_Cursor
+C 76 g Fj!
+D 76 Up
+C 77 sfx 18, Message - WW_PauseMenu_Cursor
+C 78 g !L
+C 79 sfx 18, Message - WW_PauseMenu_Cursor
+C 80 g GX)
+C 81 sfx 18, Message - WW_PauseMenu_Cursor
+C 82 g DhX
+C 83 sfx 18, Message - WW_PauseMenu_Cursor
+C 84 g Dwf
+C 85 sfx 18, Message - WW_PauseMenu_Cursor
+C 86 sfx 18, Message - WW_PauseMenu_Cursor
+C 86 g F4t
+D 86 A
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 sfx 18, Message - WW_PauseMenu_Cursor
+C 87 g EvW
+D 87 B
+C 88 g Dl
+U 89 A
+C 90 g Cbf
+C 92 g E|u
+C 94 g Cbf
+U 95 B
+C 96 g CCk
+C 98 g FA~
+C 100 g CCk
+C 102 g D.;
+U 102 Up
+C 104 g FV"
+C 106 g D.;
+C 108 g B{$
+C 110 g C4g
+C 112 g B{$
+C 114 g ClM
+C 116 g Bt?
+C 118 g ClM
+C 120 g Fs1
+C 122 g HQW
+C 124 g Fs1
+C 126 g E&!
+C 128 g G]U
+D 128 A
+C 129 g DJZ
+C 130 g Cge
+D 131 Up
+C 132 g Dl
+C 134 g E(N
+U 134 A
+C 136 g Dl
+C 138 g wd
+D 139 Left
+C 140 g G7t
+C 142 g wd
+C 144 g C60
+C 146 g G)m
+D 146 R
+C 148 g C60
+U 149 Left
+C 150 g Der
+U 151 Up
+C 152 g Cx{
+U 152 R
+C 154 g Der
+C 156 g C={
+C 158 g H<*
+D 159 R
+C 160 g C={
+C 162 g CQi
+C 164 g B]v
+U 165 R
+C 166 g CQi
+C 167 g E:k
+C 168 g H!J
+C 170 g BH$
+C 171 g FtL
+C 172 g E3t
+C 174 g D[E
+C 176 g G`%
+D 176 L
+C 178 g D[E
+C 180 g F89
+C 182 g FGN
+C 184 g F89
+D 185 A
+C 186 sfx 4, Boomerang - WW_Boomerang_Fly
+C 186 g B|U
+D 186 B
+C 187 g C!e
+U 187 L
+C 188 g GMF
+C 189 g Ee;
+U 189 B
+C 190 g Db!
+C 191 g H>~
+C 192 g Sx
+U 192 A
+C 193 g @#
+C 194 g CLc
+C 195 g EA3
+C 196 g BTS
+C 197 g E};
+C 198 g SQ
+C 199 g Gx[
+C 200 g B=r
+C 201 g Egw
+C 202 g Fr(
+C 203 g Dr=
+C 204 g FXN
+C 205 g H8<
+C 206 h 78 9f
+C 206 g C"/
+D 206 Up
+C 207 h 78 9d
+C 207 g y%
+C 208 h 77 9c
+C 208 g Bg7
+D 208 Left
+C 209 h 76 9b
+C 209 g Ev<
+C 210 h 75 9a
+C 210 g H7H
+C 211 h 74 99
+C 211 g H?E
+C 212 h 73 98
+C 212 g >r
+C 213 h 72 97
+C 213 g G_w
+D 213 R
+C 214 h 71 96
+C 214 g H*{
+C 215 h 70 95
+C 215 g DAz
+C 216 h 6e 93
+C 216 g FCN
+C 217 h 6d 92
+C 217 g CE:
+C 218 h 6c 91
+C 218 g HoD
+U 218 R
+C 219 h 6b 90
+C 219 g D&8
+C 220 h 6a 90
+C 220 g HUn
+U 220 Up
+C 221 h 68 90
+C 221 g Dc.
+C 222 h 67 90
+C 222 g C&z
+C 223 g CMq
+U 223 Left
+C 224 g FnM
+C 225 g G@[
+C 226 g E}4
+C 227 g $Z
+C 228 g B`q
+C 229 g DJE
+D 229 R
+C 230 g Gqf
+C 231 g BYO
+C 232 g BEc
+C 233 g >?
+C 234 g DlD
+C 235 g Flh
+U 235 R
+C 236 g h^
+C 237 g G2R
+C 238 g CVr
+C 239 g D#i
+C 240 g C{Z
+C 241 g BMz
+C 242 g Bl,
+C 243 g FO>
+D 243 R
+C 244 g EO|
+C 245 g ED0
+C 246 g C++
+C 247 g F)w
+C 248 g EU5
+U 248 R
+C 249 g H8B
+C 250 g BeR
+C 251 g SR
+C 252 g D^c
+C 253 g G)p
+C 254 g D(>
+C 255 g B(B
+C 256 g EX=
+C 257 g BOx
+C 258 g CPB
+D 258 R
+C 259 g "V
+C 260 g FK7
+C 261 g FD
+C 262 g E%`
+C 263 g C85
+C 264 g Dsr
+C 265 g G%C
+U 265 R
+C 266 g G"d
+C 267 g C;V
+C 268 g FJ
+C 269 g gw
+C 270 g HB|
+C 271 g D?F
+C 272 g g^
+C 273 g N9
+C 274 g #P
+D 274 R
+C 275 g HUS
+C 276 g H[q
+C 277 g Ch.
+C 278 g D:P
+C 279 g FqT
+C 280 g cS
+C 281 g Eqz
+U 281 R
+C 282 g C1A
+C 283 g GNJ
+C 284 g F~!
+C 285 g C?P
+C 286 g G(X
+C 287 g Fzk
+D 287 R
+C 288 g Eye
+C 289 g B30
+C 290 g DQw
+C 291 g FJ^
+C 292 g C4o
+C 293 g B_F
+U 293 R
+C 294 g Es|
+C 295 g CO`
+C 296 g Y1
+C 297 g D.9
+C 298 g DgA
+C 300 g Ho
+D 300 R
+C 302 g HFS
+C 304 g FN3
+C 306 g FII
+U 306 R
+C 308 g BL]
+C 310 g FII
+C 312 g G8)
+D 312 R
+C 314 g D<]
+C 316 g G8)
+C 318 g }<
+U 318 R
+C 320 g DN[
+C 322 g }<
+C 324 g GHa
+C 325 g Dxh
+D 325 R
+C 326 g E9]
+C 328 g Dxh
+C 330 g D=H
+U 331 R
+C 332 g F_C
+C 334 g D=H
+C 336 g C=P
+C 338 g Ep2
+C 339 g C7D
+C 340 g dt
+C 342 g GLl
+C 344 g B[U
+C 345 g HI3
+D 345 L
+C 346 g CtH
+C 348 g CN7
+U 348 L
+C 350 g CFL
+C 352 h 67 8f
+C 352 g D#c
+D 352 Up
+C 353 h 67 8d
+C 353 g ET>
+C 354 h 67 8c
+C 354 g CqD
+C 355 h 67 8a
+C 356 h 67 89
+C 356 g CMX
+C 357 h 67 87
+C 357 g DRS
+C 358 h 67 86
+C 358 g CqD
+C 359 h 66 85
+D 359 Left
+C 360 h 65 84
+C 360 g E6k
+C 361 h 64 83
+C 361 g F=i
+C 362 h 63 82
+C 362 g F(F
+C 363 h 61 80
+C 364 h 60 80
+C 364 g H(#
+U 364 Up
+C 365 h 5e 80
+C 365 g Gpd
+C 366 h 5d 80
+C 366 g DvY
+C 367 h 5b 80
+C 368 h 5a 80
+C 368 g C])
+C 369 h 58 80
+C 369 g H[i
+C 370 h 57 80
+C 370 g DvY
+C 371 h 55 80
+C 372 h 54 80
+C 372 g BY`
+C 373 h 52 80
+C 373 g BsM
+C 374 h 51 80
+C 374 g Dca
+C 375 h 4f 80
+C 376 h 4e 80
+C 376 g GP%
+C 377 h 4c 80
+C 377 g EXx
+C 378 h 4b 80
+C 378 g G@.
+D 379 B
+C 380 g F)R
+C 381 g C![
+C 382 g E#/
+U 382 B
+C 384 g Fdv
+U 384 Left
+C 386 g G}o
+C 388 g Fdv
+C 390 g CQX
+C 392 g 8d
+C 393 sfx 16, Hammer - OOT_MegatonHammer_Hit
+C 393 g FIw
+C 394 sfx 7, OOT_Secret
+C 394 g H2Q
+D 394 Right
+C 396 g DZ=
+C 398 g E}e
+C 399 g FKV
+C 400 g DP]
+C 402 g [a
+C 404 g G}f
+C 406 g [a
+C 408 g B53
+C 409 h 4c 80
+C 409 g C8{
+C 410 h 4e 80
+C 410 g FJo
+C 411 h 4f 80
+C 412 h 51 80
+C 412 g B#z
+C 413 h 52 80
+C 413 g C](
+C 414 h 54 80
+C 414 g Dts
+C 415 h 55 80
+C 416 h 57 80
+C 416 g G*}
+C 417 h 58 80
+C 417 g H+/
+C 418 h 5a 80
+C 418 g Dts
+C 419 h 5b 80
+C 420 h 5d 80
+C 420 g G_Q
+C 421 h 5e 80
+C 421 g B+s
+C 422 h 60 80
+C 422 g B<m
+C 423 h 61 80
+C 423 g B,b
+C 424 h 63 80
+C 424 g Dgu
+C 425 h 64 80
+C 425 g COU
+C 426 h 66 80
+C 426 g B5e
+C 427 h 67 80
+C 428 h 69 80
+C 428 g B~b
+C 429 h 6a 80
+C 429 g B#^
+C 430 h 6c 80
+C 430 g B5e
+C 431 h 6d 80
+C 432 h 6f 80
+C 432 g F&o
+C 433 h 70 80
+C 433 g F,/
+C 434 h 72 80
+C 434 g Hk~
+C 435 h 73 80
+C 436 h 75 80
+C 436 g D<r
+C 437 h 76 80
+C 437 g Cka
+C 438 h 78 80
+C 438 g EKl
+C 439 h 79 80
+C 440 h 7b 80
+C 440 g F}A
+C 441 h 7c 80
+C 441 g Ht
+C 442 h 7e 80
+C 442 g EKl
+C 443 h 7f 80
+C 444 h 81 80
+C 444 g Bou
+C 445 h 82 80
+C 445 g }q
+C 446 h 84 80
+C 446 g CK!
+C 447 h 85 80
+C 448 h 87 80
+C 448 g HeX
+C 449 h 88 80
+C 449 g EY1
+C 450 h 8a 80
+C 450 g G|t
+C 451 h 8b 80
+C 452 h 8d 80
+C 452 g CFN
+C 453 h 8e 80
+C 453 g Uy
+C 454 h 90 80
+C 454 g G|t
+C 455 h 91 80
+C 455 g Hui
+C 456 h 93 80
+C 456 g CcH
+C 457 h 94 80
+C 457 g H0)
+C 458 h 96 80
+C 458 g Boz
+C 459 h 97 80
+C 460 h 99 80
+C 460 g HJ{
+C 461 h 9a 80
+C 461 g Dg0
+C 462 h 9c 80
+C 462 g Cvq
+C 463 h 9d 80
+C 464 h 9f 80
+C 464 g C@C
+C 465 h a0 80
+C 465 g E"W
+C 466 h a2 80
+C 466 g CXm
+C 467 h a3 80
+C 468 h a5 80
+C 468 g D+.
+C 469 h a6 80
+C 469 g Bj}
+C 470 g C9d
+D 470 B
+C 472 g Cf%
+C 474 g H:H
+U 475 B
+C 476 g G9V
+C 478 g H:H
+D 479 Left
+C 480 g @{
+U 480 Right
+C 481 g H7E
+C 482 g Crt
+C 484 sfx 16, Hammer - OOT_MegatonHammer_Hit
+C 484 g H?H
+C 485 g H)+
+C 486 g DJS
+C 487 g B9K
+C 488 g FKB
+C 490 g HKc
+C 492 g Gd$
+C 493 g pX
+C 494 g Dzl
+C 496 g pX
+C 498 g HwO
+C 500 h a8 80
+C 500 g G/)
+D 500 Right
+C 501 h a9 80
+C 501 g BeZ
+C 502 h ab 80
+C 502 g HwO
+U 502 Left
+C 503 h ac 80
+C 504 h ae 80
+C 504 g HC^
+C 505 h af 80
+C 505 g Bv6
+C 506 h b1 80
+C 506 g G5Q
+C 507 h b2 80
+C 507 g 5.
+C 508 g BO%
+D 508 B
+C 510 g 1L
+C 512 g FO{
+U 513 B
+C 514 g 1L
+C 516 g Cam
+U 517 Right
+C 518 g G_0
+C 519 g H@X
+C 520 g C}y
+C 521 g Czo
+C 522 sfx 7, OOT_Secret
+C 522 sfx 16, Hammer - OOT_MegatonHammer_Hit
+C 522 g }*
+C 523 trigger secrets scr=71
+C 523 sfx 7, OOT_Secret
+C 523 map 102 scr 71 flag Secrets
+C 523 map 107 scr 71 flag Secrets carry
+C 523 map 107 scr 87 flag Secrets carry
+C 523 sfx Enemy falls from ceiling
+C 523 g FEn
+C 524 g Fr}
+C 525 g HiN
+D 525 Left
+C 526 g B<n
+C 528 g De>
+C 530 g H(#
+C 531 g DO#
+C 532 g r@
+C 534 g Fmu
+C 536 g ESA
+C 538 h b1 80
+C 538 g Fmu
+C 539 h af 80
+C 540 h ae 80
+C 540 g DN;
+C 541 h ac 80
+C 541 g CJX
+C 542 h ab 80
+C 542 g EX:
+C 543 h a9 80
+C 544 h a8 80
+C 544 g Hvh
+C 545 h a6 80
+C 545 g Du4
+C 546 h a5 80
+C 546 g &[
+C 547 h a3 80
+C 548 h a2 80
+C 548 g DD>
+C 549 h a0 80
+C 549 g 1h
+C 550 h 9f 80
+C 550 g Hp)
+C 551 h 9d 80
+C 552 h 9c 80
+C 552 g CXP
+C 553 h 9a 80
+C 553 g C}!
+C 554 h 99 80
+C 554 g F8k
+C 555 h 97 80
+C 556 h 96 80
+C 556 g H^N
+C 557 h 94 80
+C 557 g BB3
+C 558 h 93 80
+C 558 g CGt
+C 559 h 91 80
+C 560 h 90 80
+C 560 g DqX
+C 561 h 8e 80
+C 561 g B8$
+C 562 h 8d 7f
+C 562 g F8f
+D 562 Up
+C 563 h 8c 7e
+C 564 h 8b 7d
+C 564 g Qv
+C 565 h 8a 7c
+C 565 g FxL
+C 566 h 89 7b
+C 566 g D};
+C 567 h 88 7a
+C 568 h 87 79
+C 568 g CI%
+C 569 h 86 78
+C 569 g G;y
+C 570 h 86 76
+C 570 g Hi[
+U 570 Left
+C 571 h 86 75
+C 572 h 86 73
+C 572 g H:~
+C 573 h 86 72
+C 573 g $f
+C 574 h 86 70
+C 574 g Hi[
+C 575 h 86 6f
+C 576 h 86 6d
+C 576 g DpS
+C 577 h 86 6c
+C 577 g 3w
+C 578 h 86 6a
+C 578 g Clr
+C 579 h 86 69
+C 580 h 85 68
+C 580 g BLc
+D 580 Left
+C 581 h 84 67
+C 581 g H6{
+C 582 h 83 66
+C 582 g GWt
+C 583 h 82 65
+C 584 h 81 64
+C 584 g F<4
+C 585 h 80 63
+C 585 g B_0
+C 586 h 7f 62
+C 586 g GWt
+C 587 h 7e 61
+C 588 h 7c 5f
+C 588 g Hkd
+C 589 h 7b 5e
+C 589 g CZ9
+C 590 h 7a 5d
+C 590 g GKW
+C 591 h 79 5c
+C 591 g E7u
+C 592 h 78 5b
+C 592 g E}5
+C 593 h 77 5a
+C 593 g Eu/
+C 594 h 76 59
+C 594 g s&
+C 595 h 75 58
+C 596 h 74 57
+C 596 g G8v
+C 597 h 73 56
+C 597 g F*W
+C 598 h 72 55
+C 598 g E/1
+C 599 h 71 54
+C 599 g B;,
+C 600 h 70 53
+C 600 g GMu
+C 601 h 6f 52
+C 601 g C$C
+C 602 h 6e 51
+C 602 g Eb2
+C 603 h 6e 4f
+U 603 Left
+C 604 h 6e 4e
+C 604 g D@4
+C 605 h 6e 4c
+C 605 g CwJ
+C 606 h 6e 4b
+C 606 g BZI
+C 607 h 6e 49
+C 608 h 6e 48
+C 608 g F2N
+C 609 h 6e 46
+C 609 g E6{
+C 610 h 6e 45
+C 610 g BZI
+C 611 h 6e 43
+C 612 h 6e 42
+C 612 g C+
+C 613 h 6e 40
+C 613 g D8*
+C 614 h 6e 3f
+C 614 g CCH
+C 615 h 6e 3d
+C 616 h 6e 3c
+C 616 g C<^
+C 617 h 6d 3b
+C 617 g CNs
+D 617 Left
+C 618 h 6b 39
+C 618 g FEW
+C 619 h 6a 38
+C 620 h 69 37
+C 620 g HW&
+C 621 h 68 36
+C 621 g HAI
+C 622 h 67 35
+C 622 g FEW
+C 623 h 66 34
+C 623 g E7i
+C 624 h 65 33
+C 624 g D4a
+C 625 h 64 32
+C 625 g EZ>
+C 626 h 63 31
+C 626 g HFj
+C 627 h 62 30
+C 628 h 61 2f
+C 628 g E4]
+C 629 h 60 2e
+C 629 g FSK
+C 630 h 5f 2d
+C 630 g CGF
+C 631 h 5e 2c
+C 632 h 5d 2b
+C 632 g ]s
+C 633 h 5d 29
+C 633 g DYp
+U 633 Left
+C 634 h 5d 28
+C 634 g Bs.
+C 635 h 5d 26
+C 636 h 5d 25
+C 636 g Grd
+C 637 h 5d 23
+C 637 g F!p
+C 638 h 5d 22
+C 638 g EiW
+C 639 h 5d 20
+C 640 h 5d 1f
+C 640 g GQ3
+C 641 h 5d 1d
+C 641 g Q8
+C 642 h 5d 1c
+C 642 g Bq{
+C 643 h 5d 1a
+C 644 h 5d 19
+C 644 g Dyd
+C 645 h 5d 17
+C 645 g DtE
+C 646 h 5d 16
+C 646 g Bq{
+C 647 h 5c 15
+D 647 Left
+C 648 h 5b 14
+C 648 g He#
+C 649 h 59 12
+C 649 g C8O
+C 650 h 58 12
+C 650 g Gul
+U 650 Up
+C 651 h 56 12
+C 652 h 55 12
+C 652 g D^)
+C 653 h 53 12
+C 653 g EIY
+C 654 g Fdi
+U 654 Left
+C 656 g Ep.
+C 658 g Fdi
+C 660 g CiY
+C 662 g Cw*
+C 663 h 53 11
+D 663 Up
+C 664 h 53 f
+C 664 g /R
+C 665 h 53 e
+C 665 g F_a
+C 666 h 53 c
+C 666 g C<a
+C 667 h 53 b
+C 667 g GUk
+C 668 h 53 9
+C 668 g B"C
+U 669 Up
+C 670 g GUk
+C 672 g E35
+C 674 g Ehg
+C 675 g GS:
+C 676 g HKc
+C 678 g G4=
+D 679 k LCONTROL
+C 680 g G(V
+C 682 g G4=
+C 684 g Hy?
+C 686 g ed
+C 688 g Hy?
+C 690 g BWC
+C 692 g Fl.
+C 694 g BWC
+C 696 g G%;
+C 698 g Gg;
+C 700 g G%;
+C 702 g FdX
+X 704 ShowWalkability
+C 704 g FD*
+D 704 k W
+C 706 g FdX
+C 708 g BDv
+C 710 g Th
+C 712 g BDv
+U 713 k W
+C 714 g GUk
+C 716 g B"C
+C 717 g Ffl
+C 718 g H.C
+C 720 g C:v
+C 722 g $u
+C 724 g C:v
+X 726 ShowWalkability
+C 726 g HY#
+D 726 k W
+C 728 g C+d
+U 729 k W
+C 730 g HY#
+C 732 g i7
+C 734 g GK[
+C 736 g i7
+C 738 g Bop
+C 740 g E(m
+C 742 g Bop
+C 744 g Cxf
+C 746 g DgH
+C 748 g Cxf
+C 750 g FHA
+C 752 g GKt
+C 754 g FHA
+C 756 g C7G
+X 757 Walls
+C 757 g F2A
+D 757 k F11
+C 758 g Ee6
+C 759 g DmK
+C 760 g GOO
+U 761 k F11
+C 762 g D/+
+C 764 g F{o
+C 766 g D/+
+C 768 g E`@
+C 770 g Edv
+X 771 Clock
+C 771 g E`@
+D 771 k I
+C 774 g DwX
+U 775 k I
+U 775 k LCONTROL
+C 780 g B?r
+C 786 g FoD
+C 792 g BEs
+C 794 h 55 9
+C 794 g HD`
+D 794 Right
+C 795 h 56 9
+C 795 g B*(
+C 796 h 58 9
+C 796 g G+^
+C 797 h 59 9
+C 797 g D;j
+C 798 h 5b 9
+C 798 g DVu
+C 799 h 5c 9
+C 799 g BxD
+C 800 h 5e 9
+C 800 g B<]
+C 801 h 5f 9
+C 801 g Fb&
+C 802 h 61 9
+C 802 g C0`
+C 803 h 62 9
+C 803 g h2
+C 804 h 64 9
+C 804 g FR,
+C 805 h 65 9
+C 805 g "y
+C 806 h 67 9
+C 806 g E,b
+C 807 h 68 9
+C 807 g BJh
+C 808 h 6a 9
+C 808 g F{d
+C 809 h 6d b
+C 809 g F/
+C 810 h 71 d
+C 810 g C(l
+C 811 h 72 d
+C 811 g CV~
+C 812 h 74 d
+C 812 g EXa
+C 813 h 75 d
+C 813 g GiU
+C 814 h 77 d
+C 814 g E_C
+C 815 h 78 d
+C 815 g FS*
+C 816 h 7a f
+C 816 g G?;
+C 817 h 7b 18
+C 817 g BLw
+U 820 Right
+C 822 g CKS
+C 827 g C^B
+C 828 g BN;
+C 834 g B%%
+C 837 g B#,
+C 840 g Ban
+D 840 Up
+C 843 g FRz
+C 846 g MH
+C 847 g G7d
+U 850 Up
+C 852 g GPl
+C 858 g B!4
+C 864 g F88
+C 870 g C]B
+C 876 g FXo
+C 882 g G^A
+C 885 g H8Q
+C 887 g FQ]
+C 917 dmap=69 Lv6-B1-GeoPlant West
+C 917 scr=71
+R 917 0 257 1744338307
+C 917 trigger secrets scr=71
+C 917 trigger secrets scr=87
+C 917 trigger secrets scr=87
+C 917 h 7b 178
+C 917 g CWV
+C 918 g TI
+C 919 g GK^
+C 922 h 7b 179
+C 922 g Hz0
+C 923 h 7b 17a
+C 923 g BY3
+C 924 h 7b 17b
+C 924 g Bce
+C 925 h 7b 17c
+C 925 g E%L
+C 926 h 7b 17d
+C 926 g B[v
+C 927 h 7b 17e
+C 927 g Hc|
+C 928 h 7b 180
+C 928 g CN;
+C 929 h 7b 182
+C 929 g B]e
+C 930 h 7b 184
+C 930 g CZT
+C 931 h 7b 186
+C 931 g G4y
+C 932 h 7b 188
+C 932 g GyR
+C 933 h 7b 18a
+C 933 g DT]
+C 934 h 7b 18d
+C 934 g Hq<
+C 935 h 7b 190
+C 935 g Ed6
+C 936 h 7b 193
+C 936 g CB2
+C 937 h 7b 196
+C 937 g D,,
+C 938 h 7b 199
+C 938 g D+V
+C 939 h 7b 19c
+C 939 g Gmo
+C 940 h 7b 19f
+C 940 g HtV
+C 941 h 7b 1a2
+C 941 g <#
+C 942 h 7b 1a5
+C 942 g DWr
+C 943 h 7b 1a8
+C 943 g G0x
+C 944 h 7b 1ab
+C 944 g CDt
+C 945 h 7b 1ae
+C 945 g E)V
+C 946 h 7b 1b1
+C 946 g {S
+C 947 h 7b 1b4
+C 947 g Bps
+C 948 sfx 4, Boomerang - WW_Boomerang_Fly
+C 948 h 7d 1b7
+C 948 g Dye
+D 948 Right
+D 948 A
+C 949 h 7e 1ba
+C 949 g Hhq
+C 950 h 80 1bd
+C 950 g C)y
+C 951 h 81 1c0
+C 951 g EY*
+C 952 h 83 1c3
+C 952 g za
+C 953 sfx 13, Fire - TP_Lantern_Burn
+C 953 h 84 1c6
+C 953 g B4B
+C 954 h 86 1c9
+C 954 g Fr%
+C 955 h 87 1cc
+C 955 g Gb(
+C 956 h 89 1cf
+C 956 g F<^
+C 957 h 8a 1d2
+C 957 g D+o
+C 958 h 8b 1d5
+C 958 g G3P
+D 958 Up
+U 958 A
+C 959 h 8c 1d8
+C 959 g BR{
+C 960 h 8e 1db
+C 960 g Dr(
+U 960 Up
+C 961 h 8c 1de
+C 961 g E[$
+D 961 Left
+U 961 Right
+C 962 h 8b 1e1
+C 962 g HU"
+C 963 h 89 1e4
+C 963 g @E
+C 964 h 88 1e7
+C 964 g GB@
+C 965 h 88 1ea
+C 965 g FKt
+U 965 Left
+C 966 sfx 157 - OOT_AdultLink_Hurt1
+C 966 h 88 1ed
+C 966 g Fj.
+C 967 h 8c 1f0
+C 967 g ENg
+C 968 h 90 1f0
+C 968 g BjT
+C 969 h 94 1f0
+C 969 g EWx
+C 970 h 98 1f0
+C 970 g Hk|
+C 971 h 9c 1ec
+C 971 g ~|
+C 972 h a0 1e8
+C 972 g GU>
+C 973 h a4 1e4
+C 973 g GM8
+C 974 h a8 1e0
+C 974 g HlZ
+C 975 h a8 1dc
+C 975 g HkC
+C 976 h a8 1d9
+C 976 g Gx[
+C 977 h a8 1d6
+C 977 g HKQ
+C 978 h a8 1d3
+C 978 g te
+C 979 h a8 1d0
+C 979 g DU(
+C 980 h a8 1cd
+C 980 g /o
+C 981 h a8 1ca
+C 981 g BCI
+C 982 h a8 1c8
+C 982 g B"h
+C 983 h a8 1c6
+C 983 g Cff
+C 984 h a8 1c4
+C 984 g EG5
+C 985 h a8 1c2
+C 985 g DQk
+C 986 h a8 1c0
+C 986 g #}
+C 987 h a8 1be
+C 987 g HlE
+C 988 h a8 1bd
+C 988 g Fx;
+C 989 sfx 13, Fire - TP_Lantern_Burn
+C 989 h a8 1bc
+C 989 g E<U
+C 990 h a8 1bb
+C 990 g DIS
+C 991 h a8 1ba
+C 991 g ):
+C 992 h a8 1b9
+C 992 g D3W
+C 993 h a8 1b8
+C 993 g F{M
+C 994 h a8 1b7
+C 994 g D<
+C 995 h a8 1b6
+C 995 g B?d
+C 996 h a8 1b5
+C 996 g Hlm
+C 997 h a8 1b4
+C 997 g CL9
+C 998 h a8 1b3
+C 998 g BWv
+C 999 h a8 1b2
+C 999 g 0*
+C 1000 h a8 1b1
+C 1000 g cK
+C 1001 h a8 1b0
+C 1001 g D?%
+C 1002 h a8 1af
+C 1002 g GiQ
+C 1003 h a8 1ae
+C 1003 g ]g
+C 1004 h a8 1ad
+C 1004 g FzI
+C 1005 h a8 1ac
+C 1005 g D{K
+C 1006 h a8 1ab
+C 1006 g F_v
+C 1007 h a8 1aa
+C 1007 g E,x
+C 1008 h a8 1a9
+C 1008 g DbV
+C 1009 h a8 1a8
+C 1009 g E|3
+Q 1010 3

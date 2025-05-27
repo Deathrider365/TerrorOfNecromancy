@@ -1,0 +1,3 @@
+// These are now in std_zh/string_functions.zh and std_zh/string_constants.zh
+// and are loaded by default in std.zh
+// This only exists now to prevent many scripts from breaking.

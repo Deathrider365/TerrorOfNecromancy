@@ -1,0 +1,7354 @@
+M debug true
+M frames 87512
+M length 7339
+M name test
+M qst ../ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash B1ED13CA9C914642BEE4A83F74776F87
+M qst_modified true
+M qst_title Terror of Necromancy
+M sync_rng true
+M time_created Mon May 19 22:07:47 2025
+M time_updated Mon May 19 23:01:13 2025
+M uuid fd42e9f4-daf8-4424-9547-6523d1d9e04f
+M version 40
+M zc_version_created 3.0.0-prerelease.103+2025-05-07
+M zc_version_updated 3.0.0-prerelease.103+2025-05-07
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1747706867
+R 0 2 257 -799133371
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 3 (Master)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Seared Steak
+C 0 getitem Ring 3 (Red)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Wand 1 (Normal)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Potion 2 (Red)
+C 0 getitem Ocarina (L1)
+C 0 getitem Shield 3 (Mirror)
+C 0 getitem Wallet 2 (999) (Thief's)
+C 0 getitem Bomb (Powder Keg)
+C 0 getitem Flippers 1
+C 0 getitem Lens of Truth
+C 0 getitem Bracelet 3 (Giant's Bracer)
+C 0 getitem Arrow 3 (Silver)
+C 0 getitem Din's Fire
+C 0 getitem Farore's Wind
+C 0 getitem Nayru's Love
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Quiver 3 (Large)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Bomb Bag 3 (Large)
+C 0 getitem Hookshot 2 (Long)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Cross Beams
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Scroll: Hurricane Spin
+C 0 getitem Scroll: Peril Beam
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Lantern (Default)
+C 0 dmap=2 Opening Scene
+C 0 scr=0
+C 0 h 78 50
+C 0 g DsV
+C 1 g CQ=
+C 2 g ECY
+C 3 g G2_
+C 4 g Gu7
+C 5 g GNg
+C 6 g H0|
+C 7 g FvT
+C 8 g H4i
+C 9 g EFC
+C 10 g Fmn
+C 11 g G}Y
+C 12 g F(c
+C 13 g 3#
+C 14 g E5W
+C 15 g B7B
+C 16 g D1M
+C 17 g EWF
+C 18 g H3h
+C 19 g HmE
+C 20 g Dv}
+C 21 g F}V
+C 22 g HD&
+C 23 g ]E
+C 24 g BRY
+C 25 g EMi
+C 26 g Ep*
+C 27 g #]
+C 28 g F"5
+C 29 g G`P
+C 30 g G_*
+C 31 g FXJ
+C 32 g C9w
+C 33 g CDI
+C 34 g H(|
+C 35 g D?x
+C 36 g F@M
+C 37 g B,)
+C 38 g Hz2
+C 39 g Cu]
+C 40 g EQU
+C 41 g D#,
+D 41 k ~
+C 42 g GE_
+C 43 g BGJ
+C 44 g Dk~
+C 45 g E1S
+C 46 g CZw
+C 47 g E7E
+C 48 g GD2
+C 49 g B@I
+C 50 g GL9
+C 51 g >h
+C 52 g H>%
+C 53 g FA|
+C 54 g C"u
+C 55 g F1k
+C 56 g Gjv
+C 67 sfx 25, Item pickup 2 - WW_Get_Item
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+C 67 sfx 18, Message - WW_PauseMenu_Cursor
+D 67 B
+C 68 g Djz
+C 77 g BZc
+C 88 g F=z
+C 99 g HV.
+C 110 g Djz
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 sfx 18, Message - WW_PauseMenu_Cursor
+C 118 g ESS
+C 119 g GN$
+C 121 g ,]
+C 132 g HgY
+C 143 g Eem
+C 154 g GN$
+C 165 g ,]
+C 169 g Cf4
+C 170 g Fy*
+C 171 dmap=2 Opening Scene
+C 171 scr=1
+R 171 0 257 1747706869
+C 171 g D(l
+C 172 sfx 25, Item pickup 2 - WW_Get_Item
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 173 sfx 18, Message - WW_PauseMenu_Cursor
+C 174 g Cr{
+C 176 g DLO
+C 187 g Cr{
+C 198 g m&
+C 209 g Cr{
+C 220 g DLO
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 sfx 18, Message - WW_PauseMenu_Cursor
+C 224 g B9/
+C 225 g C+$
+C 231 g C&1
+C 242 g Hy>
+C 253 g C&1
+C 264 g C+$
+C 275 g GFU
+C 276 dmap=2 Opening Scene
+C 276 scr=2
+R 276 0 257 1747706869
+C 276 g Cih
+C 277 sfx 25, Item pickup 2 - WW_Get_Item
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 278 sfx 18, Message - WW_PauseMenu_Cursor
+C 279 g G#4
+C 283 g Hl+
+C 286 g :r
+C 297 g GYp
+C 308 g C70
+C 314 g E8P
+C 319 g Fu4
+C 329 g HJz
+C 330 dmap=2 Opening Scene
+C 330 scr=3
+R 330 0 257 1747706870
+C 330 g HJ0
+C 331 sfx 25, Item pickup 2 - WW_Get_Item
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 332 sfx 18, Message - WW_PauseMenu_Cursor
+C 333 g 0_
+C 341 g HFO
+C 345 g C",
+C 352 g Bq6
+C 363 g BOD
+C 374 g Bfo
+C 376 g 0_
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 sfx 18, Message - WW_PauseMenu_Cursor
+C 383 g CP%
+C 384 g B?9
+C 385 g H*l
+C 396 g EL+
+C 407 g D`7
+C 418 g BjU
+C 429 g B3N
+C 434 g Cx+
+C 435 dmap=2 Opening Scene
+C 435 scr=4
+R 435 0 257 1747706870
+C 435 g Bp]
+C 436 sfx 25, Item pickup 2 - WW_Get_Item
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 437 sfx 18, Message - WW_PauseMenu_Cursor
+C 438 g E!(
+C 440 g He{
+C 444 g GDh
+C 450 g E^a
+C 451 g HL)
+C 456 g B1a
+C 462 g C+o
+C 465 g GW<
+C 468 g Fm6
+C 469 g G7U
+C 473 g Dr]
+C 474 g F+w
+C 480 g Dr]
+C 484 g H[W
+C 486 g CrN
+C 488 g Pk
+C 489 dmap=2 Opening Scene
+C 489 scr=5
+R 489 0 257 1747706870
+C 489 g By~
+C 490 sfx 25, Item pickup 2 - WW_Get_Item
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 491 sfx 18, Message - WW_PauseMenu_Cursor
+C 492 g B!t
+C 495 g /!
+C 498 g E]D
+C 500 g Bxt
+C 506 g GQ+
+C 507 g HbI
+C 514 g G8Y
+C 517 g gO
+C 528 g B;^
+C 530 g ERk
+C 531 g B7u
+C 539 g H$0
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 sfx 18, Message - WW_PauseMenu_Cursor
+C 542 g EzH
+C 543 g H]}
+C 546 g CcK
+C 549 g (z
+C 550 g B>z
+C 561 g GZL
+C 562 g D$3
+C 570 g B%r
+C 572 g C2Z
+C 578 g ECl
+C 583 g dy
+C 591 g EZm
+C 593 g Gt+
+C 594 dmap=2 Opening Scene
+C 594 scr=6
+R 594 0 257 1747706870
+C 594 g $T
+C 595 sfx 25, Item pickup 2 - WW_Get_Item
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 596 sfx 18, Message - WW_PauseMenu_Cursor
+C 597 g b!
+C 605 g Hi]
+C 616 g BsU
+C 624 g Hnz
+C 627 g Ec<
+C 638 g D8_
+C 647 g Bzn
+C 648 g C^l
+C 678 dmap=2 Opening Scene
+C 678 scr=7
+R 678 0 257 1747706871
+C 678 h d0 30
+C 678 g DHz
+C 679 g |/
+C 680 g B9f
+C 681 g GHp
+C 682 g E^6
+C 683 g x!
+C 684 g NQ
+C 685 g C8A
+C 686 g *a
+C 687 g DJ0
+C 688 g HH,
+C 689 g Bnt
+C 690 g F!N
+C 691 g Bqb
+C 692 g HoS
+C 693 g Ei5
+C 694 g DR`
+C 695 g G?z
+C 696 g E:>
+C 697 g {M
+C 698 g D`K
+C 699 g C$v
+C 700 g 8:
+C 701 g /B
+C 702 g F8~
+C 703 g DCz
+C 704 g E+L
+C 705 g G2A
+C 706 g GnF
+C 707 g BF/
+C 708 g D5U
+C 709 g F%Z
+C 710 g BC%
+C 711 g .S
+C 712 g Hb^
+C 713 g F`m
+C 714 g ET
+C 715 g BOb
+C 716 g B0J
+C 717 g HZx
+C 718 g EE,
+C 719 g C5#
+C 720 g Fwp
+C 721 g C?#
+C 722 g DuR
+C 723 g E:i
+C 724 g E9_
+C 725 g Gjs
+C 726 g GjX
+C 727 g E<
+C 728 g Elf
+C 729 g CKx
+C 730 g Ey/
+C 731 g %E
+C 732 g E}&
+C 733 g B^f
+C 734 g H#]
+C 735 g EgV
+C 736 g FU7
+C 737 g G*8
+C 738 g HEt
+C 739 g E@i
+C 740 g }s
+C 741 g C7S
+C 742 g *8
+C 743 g Gin
+C 744 g ChR
+C 745 g (>
+C 750 g |~
+U 756 B
+U 760 k ~
+C 771 g (>
+C 773 h cf 30
+C 773 g G0>
+D 773 Down
+D 773 Left
+C 774 h ce 30
+C 774 g BeJ
+C 775 h cd 30
+C 775 g G,z
+C 776 h cc 30
+C 776 g D}a
+C 777 h cb 30
+C 777 g BMU
+C 778 g Cq(
+U 778 Left
+D 779 k ~
+C 780 g FI`
+C 784 g B;+
+C 790 g FI`
+C 792 g aT
+C 796 h ca 30
+C 796 g Bq_
+D 796 Left
+C 797 h c9 30
+C 797 g E?Y
+C 798 h c8 30
+C 798 g GOv
+C 799 h c6 30
+C 799 g *h
+C 800 h c5 30
+C 800 g Gbe
+C 801 h c4 30
+C 801 g Ch8
+C 802 h c3 30
+C 802 g 8W
+C 803 h c2 30
+C 803 g Cph
+C 804 h c1 30
+C 804 g E_%
+C 805 h c0 30
+C 805 g G3T
+C 806 h bf 30
+C 806 g Da4
+C 807 h be 30
+C 807 g Dh:
+C 808 h bd 30
+C 808 g C[9
+C 809 h bc 30
+C 809 g HC~
+C 810 h bb 30
+C 810 g Es%
+C 811 h ba 30
+C 811 g D|W
+C 812 h b9 30
+C 812 g Evk
+C 813 h b8 30
+C 813 g EU)
+C 814 h b7 30
+C 814 g DV=
+C 815 h b5 30
+C 815 g EEH
+C 816 sfx Refill
+C 816 h b4 30
+C 816 g DAu
+C 818 sfx 18, Message - WW_PauseMenu_Cursor
+U 827 Left
+C 834 g HaV
+C 840 g GTF
+C 855 g C~r
+C 876 g GTF
+D 893 Right
+C 897 g C~r
+C 900 g N]
+C 901 h b5 30
+C 901 g BuU
+C 902 h b7 30
+C 902 g G%b
+C 903 h b8 30
+C 903 g BWF
+C 904 h b9 30
+C 904 g H.0
+C 905 h ba 30
+C 905 g EN%
+C 906 h bb 30
+C 906 g CSb
+C 907 h bc 30
+C 907 g Ev{
+C 908 h bd 30
+C 908 g HHv
+C 909 h be 30
+C 909 g G3d
+C 910 h bf 30
+C 910 g GCI
+C 911 h c0 30
+C 911 g FZz
+C 912 h c1 30
+C 912 g F~i
+C 913 h c2 30
+C 913 g GHD
+C 914 h c3 30
+C 914 g B/e
+C 915 h c4 30
+C 915 g G/S
+C 916 h c5 30
+C 916 g C%r
+C 917 h c6 30
+C 917 g Cqk
+C 918 h c8 30
+C 918 g F&@
+C 919 h c9 30
+C 919 g DGe
+C 920 h ca 30
+C 920 g FnD
+C 921 h cb 30
+C 921 g GDg
+C 922 h cc 30
+C 922 g C&n
+C 923 h cd 30
+C 923 g HZI
+U 923 k ~
+U 924 Right
+C 927 g D2~
+C 933 g HZI
+C 936 h cc 30
+C 936 g C&n
+D 936 Left
+C 937 h cb 30
+C 937 g GDg
+C 938 h ca 30
+C 938 g FRD
+C 939 h c9 30
+C 939 g G9Y
+C 940 h c8 30
+C 940 g Hac
+C 941 h c6 30
+C 941 g Cqk
+C 942 h c5 30
+C 942 g C%r
+C 943 h c4 30
+C 943 g G/S
+U 943 Left
+C 944 h c3 30
+C 944 g {*
+C 945 h c2 30
+C 945 g GHD
+C 946 h c1 30
+C 946 g F~i
+C 947 h c0 30
+C 947 g FZz
+C 948 h c0 32
+C 948 g GZT
+C 949 h c0 33
+C 949 g DSg
+C 950 h c0 35
+C 950 g FT(
+C 951 h c0 36
+C 951 g Faw
+C 952 h c0 38
+C 952 g H+w
+C 953 h c0 39
+C 953 g @W
+C 954 h c0 3b
+C 954 g GlB
+C 955 h c0 3c
+C 955 g DzY
+C 956 h c0 3e
+C 956 g CV@
+C 957 h c0 3f
+C 957 g H,f
+C 958 h c0 41
+C 958 g BkS
+C 959 h c0 42
+C 959 g D?,
+C 960 h c0 44
+C 960 g Gv<
+C 961 h c0 45
+C 961 g F2A
+C 962 h c0 47
+C 962 g D7f
+C 963 h c0 48
+C 963 g E7b
+C 964 h c0 4a
+C 964 g Dt$
+C 965 h bf 4b
+C 965 g HF|
+D 965 Left
+C 966 h be 4c
+C 966 g Hu^
+C 967 h bd 4d
+C 967 g qc
+C 968 h bc 4e
+C 968 g ENC
+C 969 h bb 4f
+C 969 g G(.
+C 970 h ba 50
+C 970 g D@n
+C 971 h b9 51
+C 971 g F,_
+C 972 h b8 52
+C 972 g DQ#
+C 973 h b6 52
+C 973 g G8"
+U 973 Down
+C 974 h b5 52
+C 974 g GT1
+C 975 h b3 52
+C 975 g S(
+C 976 h b2 52
+C 976 g CF*
+C 977 h b0 52
+C 977 g F0"
+C 978 h af 52
+C 978 g tW
+C 979 h ad 52
+C 979 g Dp!
+C 980 h ac 52
+C 980 g GKS
+C 981 h aa 52
+C 981 g EmA
+C 982 h a9 52
+C 982 g BIx
+C 983 h a7 52
+C 983 g Ha7
+C 984 h a6 52
+C 984 g FBx
+C 985 h a4 52
+C 985 g FD{
+C 986 h a3 52
+C 986 g B}R
+C 987 h a1 52
+C 987 g DpG
+C 988 h a0 52
+C 988 g FI?
+C 989 h 9e 52
+C 989 g G0E
+C 990 h 9d 52
+C 990 g E]Z
+C 991 h 9b 52
+C 991 g FUy
+C 992 h 9a 52
+C 992 g EUZ
+C 993 h 98 52
+C 993 g HCI
+C 994 h 97 52
+C 994 g B"X
+C 995 h 95 52
+C 995 g E,Z
+C 996 h 94 52
+C 996 g EPS
+C 997 h 92 52
+C 997 g C{$
+C 998 h 91 52
+C 998 g F60
+C 999 h 8f 52
+C 999 g EkY
+C 1000 h 8e 52
+C 1000 g B4@
+C 1001 h 8c 52
+C 1001 g DA`
+C 1002 h 8b 52
+C 1002 g zG
+C 1003 h 89 52
+C 1003 g G3}
+C 1004 h 88 52
+C 1004 g EbB
+C 1005 h 86 52
+C 1005 g D9i
+C 1006 h 85 52
+C 1006 g HO1
+C 1007 h 83 52
+C 1007 g HOh
+C 1008 h 82 52
+C 1008 g CO,
+C 1009 h 80 52
+C 1009 g E2R
+C 1010 h 7f 52
+C 1010 g BE|
+C 1011 h 7d 52
+C 1011 g Gi!
+C 1012 h 7c 52
+C 1012 g T}
+C 1013 h 7a 52
+C 1013 g C1v
+C 1014 h 79 52
+C 1014 g DSh
+C 1015 h 77 52
+C 1015 g GYI
+C 1016 h 76 52
+C 1016 g H&,
+C 1017 h 74 52
+C 1017 g FsT
+C 1018 h 73 52
+C 1018 g Fev
+C 1019 h 71 52
+C 1019 g BY]
+C 1020 h 70 52
+C 1020 g CD<
+C 1021 h 6e 52
+C 1021 g E4G
+C 1022 h 6d 52
+C 1022 g f2
+C 1023 h 6b 52
+C 1023 g FdC
+C 1024 h 6a 52
+C 1024 g HH!
+C 1025 h 68 52
+C 1025 g G=l
+C 1026 h 67 52
+C 1026 g H=!
+C 1027 h 65 52
+C 1027 g D:r
+C 1028 h 64 52
+C 1028 g H2I
+C 1029 h 62 52
+C 1029 g BWq
+C 1030 h 61 52
+C 1030 g E17
+C 1031 h 60 53
+C 1031 g G[<
+C 1032 h 60 54
+C 1032 g C>^
+C 1033 h 60 55
+C 1033 g HX_
+C 1034 h 60 56
+C 1034 g E:C
+D 1034 Down
+C 1035 h 60 57
+C 1035 g B5*
+C 1036 h 60 58
+C 1036 g Co&
+C 1037 h 5f 59
+C 1037 g HP;
+C 1038 h 5f 5b
+C 1038 g E_h
+U 1038 Left
+C 1039 h 5f 5c
+C 1039 g GsY
+C 1040 h 5f 5e
+C 1040 g CDI
+C 1041 h 5f 5f
+C 1041 g CQM
+C 1042 h 60 60
+C 1042 g DcT
+C 1043 h 60 62
+C 1043 g D6j
+C 1044 h 60 63
+C 1044 g GXa
+C 1045 h 60 65
+C 1045 g B4E
+C 1046 h 60 66
+C 1046 g EKC
+C 1047 h 60 68
+C 1047 g DkQ
+C 1048 h 60 69
+C 1048 g ze
+C 1049 h 60 6b
+C 1049 g DS|
+C 1050 h 60 6c
+C 1050 g FX1
+C 1051 h 60 6e
+C 1051 g D[4
+C 1052 h 60 6f
+C 1052 g my
+C 1053 h 60 71
+C 1053 g G#]
+C 1054 h 60 72
+C 1054 g EQ*
+C 1055 h 60 74
+C 1055 g Hfd
+C 1056 h 60 75
+C 1056 g Bns
+C 1057 h 60 77
+C 1057 g D+q
+C 1058 h 60 78
+C 1058 g z?
+C 1059 h 60 7a
+C 1059 g G]~
+D 1059 k ~
+C 1060 h 60 7b
+C 1060 g B;&
+C 1061 h 60 7d
+C 1061 g F>r
+C 1062 h 60 7e
+C 1062 g H47
+C 1063 h 60 80
+C 1063 g B@c
+C 1064 h 60 81
+C 1064 g HH_
+C 1065 h 60 83
+C 1065 g I`
+C 1066 h 60 84
+C 1066 g E|D
+C 1067 h 60 86
+C 1067 g H?m
+C 1068 h 60 87
+C 1068 g BWG
+C 1069 h 60 89
+C 1069 g B)a
+C 1070 h 60 8a
+C 1070 g =_
+C 1071 h 60 8c
+C 1071 g BM^
+C 1072 h 60 8d
+C 1072 g |`
+C 1073 h 60 8f
+C 1073 g Cz^
+C 1074 h 60 90
+C 1074 g FA&
+C 1075 h 60 92
+C 1075 g Dml
+C 1076 h 60 93
+C 1076 g E;g
+C 1077 h 60 95
+C 1077 g B||
+C 1078 h 60 96
+C 1078 g k7
+C 1079 h 60 98
+C 1079 g D?1
+C 1080 h 60 99
+C 1080 g FN,
+C 1081 h 60 9b
+C 1081 g H?V
+C 1082 h 60 9c
+C 1082 g HlS
+C 1083 h 60 9e
+C 1083 g C:<
+C 1084 h 60 9f
+C 1084 g DPK
+C 1085 h 60 a0
+C 1085 g Cf=
+C 1115 dmap=2 Opening Scene
+C 1115 scr=8
+R 1115 0 257 1747706874
+C 1115 h 90 70
+C 1115 g O:
+C 1116 g Bs2
+C 1117 g Gv"
+C 1118 g Hzm
+C 1119 g CK2
+C 1120 g FT8
+C 1121 g Gt,
+C 1122 g Uf
+C 1123 g DCZ
+C 1124 g Daf
+C 1125 g G:q
+C 1126 g J~
+C 1127 g Bvd
+C 1128 g CYC
+C 1129 g G.i
+C 1130 g B~O
+C 1131 g CLQ
+C 1132 g GaG
+C 1133 g C]*
+C 1134 g C,8
+C 1135 g G?{
+C 1136 g G)H
+C 1137 g GL^
+C 1138 g Fqe
+C 1139 g EZ0
+C 1140 g HNO
+C 1141 g DRp
+C 1142 g +b
+C 1143 g F/b
+C 1144 g 9u
+C 1145 g Cbd
+C 1146 g GjZ
+C 1147 g u3
+C 1148 g E&U
+C 1149 g G}m
+C 1150 g CXJ
+C 1151 g Fi.
+C 1152 g Bu4
+C 1153 g DlZ
+C 1154 g .P
+C 1155 g G@4
+C 1156 g B+[
+C 1157 g E!F
+C 1158 g G!y
+C 1159 g Vx
+C 1160 g HT`
+C 1161 g DO]
+C 1162 g GTw
+C 1163 g F1}
+C 1164 g GFu
+C 1165 g C(y
+C 1166 g B{6
+C 1167 g HMR
+C 1168 g Gfl
+C 1169 g =}
+C 1170 g GXW
+C 1171 g H]5
+C 1172 g FAQ
+C 1173 g CyV
+C 1174 g Wg
+C 1175 g Gc~
+C 1176 g FX9
+C 1182 sfx 4, Boomerang - WW_Boomerang_Fly
+C 1182 g CH&
+D 1182 B
+C 1183 g `/
+C 1184 g Dxe
+C 1185 g B0<
+C 1186 g G,2
+C 1187 g Gg1
+C 1188 g G6x
+C 1189 g D=]
+C 1190 g FlB
+C 1191 g F@4
+U 1191 Down
+C 1192 g CsP
+C 1193 g HQu
+C 1196 g DPx
+C 1197 g Bq!
+C 1198 g G;:
+C 1199 g B~2
+C 1200 g GBJ
+C 1201 g FXH
+C 1202 g D!"
+C 1203 g Cb=
+C 1204 g lt
+C 1205 g Bum
+C 1206 g Be0
+C 1207 g E`d
+C 1208 g DCF
+C 1209 g Hz4
+C 1210 g EJt
+C 1211 g EQ{
+C 1212 g EQ[
+C 1213 g FF}
+C 1214 g F#2
+C 1215 g jF
+C 1216 g BjX
+C 1217 g GK_
+C 1218 g j;
+C 1219 g $c
+C 1224 g E3@
+C 1225 g CJ)
+C 1226 g D@3
+C 1232 g DxH
+C 1237 g B|n
+C 1245 g E.E
+C 1248 g DAC
+C 1250 g H>k
+C 1259 g EOR
+C 1260 g F=,
+C 1266 g C$o
+C 1270 g G%u
+C 1281 g BJ|
+C 1287 g Cqz
+C 1292 g G^R
+C 1303 g HAr
+C 1308 g Fjw
+C 1312 g DLV
+C 1314 g F;/
+C 1320 g GVv
+C 1325 g G@E
+C 1329 g EJs
+C 1336 g F/c
+C 1343 g B.0
+C 1347 g E`.
+C 1350 g BxY
+C 1358 g E=h
+C 1369 g EB+
+C 1371 g D0H
+C 1374 g Erk
+C 1380 g H=b
+C 1391 g tW
+C 1392 g HV!
+C 1402 g F)c
+C 1405 g CL2
+C 1413 g x4
+C 1424 g D.8
+C 1434 g CS5
+C 1435 g D*6
+C 1436 g D8H
+C 1440 g CdD
+C 1446 g FK"
+C 1455 g D&Z
+C 1457 g Dlg
+C 1467 g Bc_
+C 1468 g E.k
+C 1476 g B`T
+C 1479 g xI
+C 1490 g 33
+C 1497 g B!q
+C 1498 g DQ|
+C 1500 g GA%
+C 1501 g H=K
+C 1512 g D^>
+C 1518 g H??
+C 1523 g D=7
+C 1529 g Dm;
+C 1534 g G@9
+C 1539 g Dcf
+C 1545 g Cch
+C 1556 g Gn}
+C 1560 g Gw@
+C 1567 g E(9
+C 1578 g qh
+C 1581 g CHw
+C 1589 g qa
+C 1591 g i5
+C 1600 g CsN
+C 1602 g HZ8
+C 1611 g B*P
+C 1620 g Ck;
+C 1622 g DL#
+C 1623 g CfO
+C 1633 g DG
+C 1644 g E:i
+C 1653 g <n
+C 1655 g G3g
+C 1665 g Caz
+C 1666 g DyT
+C 1677 g H0C
+C 1680 g Z.
+C 1684 g Gt1
+C 1686 g B[|
+C 1688 g CLf
+C 1699 g N]
+C 1707 g C,k
+C 1710 g Egh
+C 1715 g HdU
+C 1721 g C"Z
+C 1728 g F9E
+C 1732 g E~<
+C 1740 g B+S
+C 1743 g ^8
+C 1746 g BLu
+C 1749 g F^N
+C 1754 g GC4
+C 1765 g G85
+C 1770 g G51
+C 1776 g GKl
+C 1777 g C1}
+C 1787 g GBP
+C 1791 g Kv
+C 1798 g F)8
+C 1800 g E2)
+C 1808 g Hn{
+C 1809 g CnA
+C 1812 g D=g
+C 1820 g BHJ
+C 1831 g Ebz
+C 1833 g C;%
+C 1839 g hI
+C 1842 g HMJ
+C 1853 g BXW
+C 1854 g Fc{
+C 1860 g Cj&
+C 1864 g B6W
+C 1870 g HAO
+C 1875 g Hpe
+C 1886 g Hn2
+C 1896 g FN4
+C 1897 g CL0
+C 1901 g CAu
+C 1908 g DoZ
+C 1917 g FA%
+C 1919 g C(#
+C 1920 g EQ*
+C 1930 g N#
+C 1932 g Db8
+C 1938 g C^W
+C 1941 g Ekj
+C 1952 g E=;
+C 1959 g CM,
+C 1963 g EY`
+C 1974 g F:d
+C 1980 g C_L
+C 1985 g E[k
+C 1994 g H=~
+C 1996 g HEi
+C 2001 g GJ3
+C 2007 g f3
+C 2018 g F^:
+C 2022 g E#=
+C 2025 g HX[
+C 2029 g G^$
+C 2040 g B$o
+C 2043 g BhC
+C 2051 g DXN
+C 2056 g C?C
+C 2062 g C<y
+C 2064 g 0<
+C 2073 g G{3
+C 2081 g HGI
+C 2083 g 3f
+C 2084 g ht
+C 2085 g Fqn
+C 2086 g CJL
+C 2087 g DSW
+C 2088 g CLg
+C 2089 g B.d
+C 2090 g nY
+C 2091 g E<l
+C 2092 g 8E
+C 2093 g Efz
+C 2094 g Gv;
+C 2095 g Hc>
+C 2096 g C;b
+C 2097 g FH;
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 sfx 18, Message - WW_PauseMenu_Cursor
+C 2098 g GbE
+C 2099 g ZZ
+C 2106 g D=>
+C 2117 g 5_
+C 2118 g BY8
+C 2127 g GA;
+C 2128 g GtX
+C 2139 g BPl
+C 2148 g D:l
+C 2149 g DFN
+C 2150 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2150 g FHJ
+C 2151 g ).
+C 2152 g C[S
+C 2153 g E9a
+C 2154 g DnE
+C 2155 g E9a
+C 2156 g B~g
+C 2157 g HfB
+C 2158 g FHJ
+C 2160 g F{B
+C 2161 g xf
+C 2162 g GR@
+C 2163 g Bai
+C 2164 g E(l
+C 2165 g FzP
+C 2166 g B,d
+C 2167 g FzP
+C 2168 g B,d
+C 2169 g B1B
+C 2170 g FEN
+C 2171 g H9b
+C 2172 g Hs6
+C 2180 g Hqc
+C 2183 g D&r
+C 2190 g Di^
+C 2194 g GOb
+C 2205 g CIE
+C 2210 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2211 g FO1
+C 2212 g D:?
+C 2213 g FO1
+C 2214 g D:?
+C 2215 g FO1
+C 2216 g D>m
+C 2217 g Fgw
+C 2218 g B+M
+C 2219 g C2E
+C 2220 g BOb
+C 2223 g D<R
+C 2224 g P]
+C 2225 g E9K
+C 2226 g EVk
+C 2227 g GUy
+C 2228 g G5r
+C 2229 g BgV
+C 2230 g G5r
+C 2231 g EcD
+C 2232 g o4
+C 2238 g FP~
+C 2242 g HiK
+C 2249 g Hqx
+C 2253 g BI4
+C 2260 g D)O
+C 2270 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2271 g HJJ
+C 2272 g Cob
+C 2273 g F;I
+C 2274 g BM}
+C 2275 g E_!
+C 2276 g BM}
+C 2277 g E_!
+C 2278 g C7X
+C 2279 g GGM
+C 2280 g Bro
+C 2281 g F9*
+C 2282 g E2W
+C 2286 g GW`
+C 2287 g BSA
+C 2288 g `B
+C 2289 g BSA
+C 2290 g H!,
+C 2291 g E2W
+C 2293 g G58
+C 2295 g GcX
+C 2304 g HN1
+C 2315 g DKs
+C 2316 g E6j
+C 2326 g H)R
+C 2330 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2331 g h@
+C 2332 g 0a
+C 2333 g h@
+C 2334 g 0a
+C 2335 g Hg2
+C 2336 g GwC
+C 2337 g rX
+C 2338 g Fis
+C 2339 g rX
+C 2340 g B+O
+C 2341 g DzE
+C 2342 g E(x
+C 2343 g Cm5
+C 2344 g CJh
+C 2348 g C{P
+C 2349 g BkS
+C 2350 g E3c
+C 2351 g F:e
+C 2358 g D<W
+C 2359 g zs
+C 2366 g C_K
+C 2370 g FZ;
+C 2379 g DSP
+C 2381 g GdF
+C 2390 g L_
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 sfx 18, Message - WW_PauseMenu_Cursor
+C 2391 g Ctm
+C 2392 g GVD
+C 2397 g FW
+C 2400 g 9}
+C 2403 g B+~
+C 2414 g F`&
+C 2421 g G^A
+C 2425 g EPs
+C 2428 g CI`
+C 2436 g Qt
+C 2442 g H>^
+C 2443 g Dy?
+C 2444 g EVH
+C 2445 g Hd&
+C 2446 g HVi
+C 2447 g EtU
+C 2448 g Bf,
+C 2449 g tx
+C 2450 g G0O
+C 2451 g tC
+C 2452 g C98
+C 2453 g fe
+C 2454 g BxW
+C 2455 g =z
+C 2456 g DX=
+C 2457 g GvZ
+C 2458 g G,7
+C 2459 g D}O
+C 2460 g Rv
+C 2461 g HIt
+C 2462 g :y
+C 2463 g Biq
+C 2464 g GJ$
+C 2465 g CV%
+C 2466 g BZv
+C 2467 g H:N
+C 2468 g B`0
+C 2469 g F]r
+C 2470 g E?e
+C 2471 g HV&
+C 2472 g EZ9
+C 2473 g ,
+C 2474 g FQ`
+C 2475 g B|s
+C 2487 dmap=2 Opening Scene
+C 2487 scr=9
+R 2487 0 257 1747706879
+C 2487 h 80 80
+C 2500 g HH?
+C 2501 g 1[
+C 2502 g d4
+C 2503 g Hmx
+C 2504 g DUM
+C 2505 g HJq
+C 2506 g RF
+C 2507 g HG#
+C 2508 g F{V
+C 2509 g =!
+C 2510 g E&k
+C 2511 g G+e
+C 2512 g C)l
+C 2513 g F[q
+C 2514 g oN
+C 2515 g au
+C 2516 g E=,
+C 2517 g F)T
+C 2518 g Fkz
+C 2519 g GjV
+C 2520 g HXI
+C 2521 g /"
+C 2522 g 0S
+C 2523 g BAm
+C 2524 g ExJ
+C 2525 g E.R
+C 2526 g 9A
+C 2527 g Fka
+C 2528 g Fl&
+C 2529 g G2s
+C 2530 g C5^
+C 2531 g Ca~
+C 2534 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2535 g F$(
+C 2536 g F(Q
+C 2537 g Mw
+C 2538 g Bok
+C 2539 g G]z
+C 2540 g Bok
+C 2541 g B<<
+C 2542 g Bok
+C 2543 g Dz0
+C 2544 g Bok
+C 2545 g B~L
+C 2546 g HMX
+C 2547 g Eg3
+C 2548 g E?)
+C 2549 g Y)
+C 2550 g BlL
+C 2551 g HA"
+C 2552 g HYJ
+C 2553 g Gqo
+C 2555 g F:J
+C 2557 g Fu?
+C 2559 g F,N
+C 2562 g =!
+C 2564 g G^%
+C 2566 g G*U
+C 2568 g C{n
+C 2571 g CaU
+C 2573 g J|
+C 2574 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2575 g FFf
+C 2576 g Fo(
+C 2577 g Eo{
+C 2578 g EfM
+C 2579 g QP
+C 2580 g Cg)
+C 2581 g G#}
+C 2582 g C8G
+C 2583 g Fn@
+C 2584 g BJo
+C 2585 g F}L
+C 2586 g FZ6
+C 2587 g Fd]
+C 2589 g G"+
+C 2590 g E4p
+C 2591 g GCL
+C 2592 g B$,
+C 2593 g Dq4
+C 2594 g Pk
+C 2595 g Cbw
+C 2598 g B,k
+C 2600 g H4~
+C 2601 g EV`
+C 2602 g F9.
+C 2604 g EZ6
+C 2607 g DNu
+C 2609 g GT8
+C 2611 g HVv
+C 2612 g G]E
+C 2613 g HM;
+C 2614 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2615 g DV,
+C 2616 g Bes
+C 2617 g Mp
+C 2618 g EpR
+C 2619 g D6L
+C 2620 g D5T
+C 2621 g Dbs
+C 2622 g BHK
+C 2623 g CS3
+C 2625 g H>/
+C 2626 g Em%
+C 2627 g H#b
+C 2628 g F0b
+C 2629 g G"A
+C 2630 g OA
+C 2631 g F/m
+C 2632 g He<
+C 2633 g F/m
+C 2634 g GBJ
+C 2635 g CSr
+C 2636 g Dvo
+C 2638 g us
+C 2640 g DUG
+C 2643 g Zc
+C 2645 g f0
+C 2647 g C~3
+C 2649 g C7s
+C 2652 g FNT
+C 2654 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2654 g B50
+C 2656 g ChB
+C 2658 g Bj<
+C 2659 g Bg5
+C 2660 g Bol
+C 2661 g Ek$
+C 2662 g H,a
+C 2663 g @k
+C 2664 g Fi+
+C 2665 g Cyj
+C 2666 g Gkh
+C 2667 g Vc
+C 2668 g [s
+C 2669 g Vc
+C 2670 g H&t
+C 2671 g BWd
+C 2672 g DV!
+C 2673 g HaA
+C 2674 g C?O
+C 2675 g Gbz
+C 2676 g &`
+C 2678 g FLH
+C 2679 g pF
+C 2681 g E*^
+C 2683 g G7b
+C 2685 g DRy
+C 2688 g C6b
+C 2689 g Gwr
+C 2690 g F:%
+C 2692 g )b
+C 2694 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 2694 g HtH
+C 2695 g CW"
+C 2696 g D*g
+C 2697 g BlS
+C 2698 g Hm:
+C 2699 g G}H
+C 2700 g HL;
+C 2701 g GuO
+C 2702 g HU*
+C 2703 g B`!
+C 2704 g H#/
+C 2705 g B`!
+C 2706 g Gsw
+C 2707 g D[<
+C 2708 g EK"
+C 2709 g Eb
+C 2710 g BxR
+C 2711 g E|)
+C 2712 g HYn
+C 2722 g EL5
+C 2733 g C?I
+C 2744 g DLl
+C 2755 g Br{
+C 2760 g Hu4
+C 2764 g BT5
+C 2766 g GyH
+C 2774 sfx Roar (Aquamentus, Gleeok, Ganon)
+U 2774 B
+C 2775 g HWO
+C 2777 sfx 18, Message - WW_PauseMenu_Cursor
+C 2777 g FuJ
+C 2778 g D"a
+C 2779 sfx 18, Message - WW_PauseMenu_Cursor
+C 2780 g 8y
+C 2781 sfx 18, Message - WW_PauseMenu_Cursor
+C 2782 g ETu
+C 2783 sfx 18, Message - WW_PauseMenu_Cursor
+C 2784 g F[E
+C 2785 sfx 18, Message - WW_PauseMenu_Cursor
+C 2786 g H46
+C 2787 sfx 18, Message - WW_PauseMenu_Cursor
+C 2788 g FMR
+C 2789 sfx 18, Message - WW_PauseMenu_Cursor
+C 2790 g D.h
+C 2791 sfx 18, Message - WW_PauseMenu_Cursor
+C 2792 g H*]
+C 2793 sfx 18, Message - WW_PauseMenu_Cursor
+C 2795 sfx 18, Message - WW_PauseMenu_Cursor
+C 2795 g Cb=
+C 2796 g ESv
+C 2797 sfx 18, Message - WW_PauseMenu_Cursor
+C 2798 g H.)
+C 2799 sfx 18, Message - WW_PauseMenu_Cursor
+C 2799 g HdX
+C 2800 g B]o
+C 2801 sfx 18, Message - WW_PauseMenu_Cursor
+C 2803 sfx 18, Message - WW_PauseMenu_Cursor
+C 2804 g Dl&
+C 2805 sfx 18, Message - WW_PauseMenu_Cursor
+C 2806 g H!<
+C 2807 sfx 18, Message - WW_PauseMenu_Cursor
+C 2808 g Be|
+C 2809 sfx 18, Message - WW_PauseMenu_Cursor
+C 2810 g (:
+C 2811 sfx 18, Message - WW_PauseMenu_Cursor
+C 2812 g CD"
+C 2813 sfx 18, Message - WW_PauseMenu_Cursor
+C 2814 g Brz
+C 2815 sfx 18, Message - WW_PauseMenu_Cursor
+C 2816 g H<G
+C 2821 sfx 18, Message - WW_PauseMenu_Cursor
+C 2821 g uV
+C 2822 g Bt[
+C 2823 sfx 18, Message - WW_PauseMenu_Cursor
+C 2824 g oY
+C 2825 sfx 18, Message - WW_PauseMenu_Cursor
+C 2826 g D64
+C 2827 sfx 18, Message - WW_PauseMenu_Cursor
+C 2828 g Fli
+C 2829 sfx 18, Message - WW_PauseMenu_Cursor
+D 2829 k LCONTROL
+C 2830 g E~<
+C 2831 sfx 18, Message - WW_PauseMenu_Cursor
+C 2832 g H(h
+C 2833 sfx 18, Message - WW_PauseMenu_Cursor
+C 2834 g pE
+C 2835 sfx 18, Message - WW_PauseMenu_Cursor
+C 2836 g CZt
+C 2837 sfx 18, Message - WW_PauseMenu_Cursor
+C 2838 g HPn
+C 2839 sfx 18, Message - WW_PauseMenu_Cursor
+C 2840 g B|d
+C 2841 sfx 18, Message - WW_PauseMenu_Cursor
+C 2842 g De1
+C 2843 sfx 18, Message - WW_PauseMenu_Cursor
+C 2843 g `R
+C 2844 g iz
+C 2845 sfx 18, Message - WW_PauseMenu_Cursor
+C 2846 g Fja
+C 2847 sfx 18, Message - WW_PauseMenu_Cursor
+C 2848 g F42
+C 2849 sfx 18, Message - WW_PauseMenu_Cursor
+C 2850 g C>e
+C 2854 g FWe
+C 2857 g BpB
+X 2862 Kill
+D 2862 k K
+C 2865 g DyR
+C 2876 g B8p
+U 2880 k K
+U 2884 k LCONTROL
+C 2887 g E6y
+C 2888 g C>e
+C 2898 g FWe
+C 2902 g Hpn
+C 2909 g ".
+C 2918 g 5{
+C 2919 g GSX
+C 2920 g B>g
+C 2931 g C/9
+C 2942 g C>@
+C 2948 g C<j
+C 2950 g Hpn
+C 2953 g ".
+C 2964 g C%0
+C 2975 g DSZ
+C 2978 g G*e
+C 2981 g C/9
+C 2986 g C>@
+U 2986 k ~
+C 2997 g GSX
+C 3008 g Eqv
+D 3009 k LCONTROL
+C 3012 g C%0
+D 3013 k ~
+C 3019 g DSZ
+C 3030 g Hpn
+C 3038 g sP
+C 3041 g 5{
+C 3043 g GSX
+U 3048 k ~
+U 3049 k LCONTROL
+C 3052 g B>g
+C 3063 g C/9
+D 3065 k LCONTROL
+C 3068 g Ffq
+X 3070 Kill
+D 3070 k K
+U 3073 k K
+C 3074 g Hpn
+U 3080 k LCONTROL
+C 3085 g ".
+C 3096 g C%0
+C 3098 g CZz
+C 3105 g B>g
+C 3107 g C/9
+C 3118 g C>@
+C 3128 g C<j
+C 3129 g C"M
+D 3129 B
+C 3130 g DV_
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 sfx 18, Message - WW_PauseMenu_Cursor
+C 3131 g C0|
+C 3132 g CS8
+C 3136 g iu
+C 3140 g Eix
+U 3144 B
+C 3151 g HC;
+C 3162 g dF
+C 3167 g DBB
+D 3169 B
+D 3170 k ~
+C 3173 g CS8
+C 3182 g C9!
+C 3183 sfx 120 - OOT_Gohma_DieX
+C 3183 sfx 67, WW_Jabun_Splash
+C 3183 g E#n
+C 3184 sfx 67, WW_Jabun_Splash
+C 3184 g D?y
+C 3185 sfx 67, WW_Jabun_Splash
+C 3185 g Bq>
+C 3186 sfx 67, WW_Jabun_Splash
+C 3186 g Did
+C 3187 sfx 67, WW_Jabun_Splash
+C 3187 g Cj6
+C 3188 sfx 67, WW_Jabun_Splash
+C 3188 g GyN
+C 3189 sfx 67, WW_Jabun_Splash
+C 3189 g B/M
+C 3190 sfx 67, WW_Jabun_Splash
+C 3190 g H)Q
+C 3191 sfx 67, WW_Jabun_Splash
+C 3191 g Hmg
+C 3192 sfx 67, WW_Jabun_Splash
+C 3192 g E$D
+C 3193 sfx 67, WW_Jabun_Splash
+C 3193 g F>6
+C 3194 sfx 67, WW_Jabun_Splash
+C 3194 g BN7
+C 3195 sfx 67, WW_Jabun_Splash
+C 3195 enemy died Leviathan1 (Head)
+C 3195 g VD
+C 3196 sfx 67, WW_Jabun_Splash
+C 3196 g Do!
+C 3197 sfx 67, WW_Jabun_Splash
+C 3197 g DXp
+C 3198 sfx 67, WW_Jabun_Splash
+C 3198 g G6,
+C 3199 sfx 67, WW_Jabun_Splash
+C 3199 g FWl
+C 3200 sfx 67, WW_Jabun_Splash
+C 3200 g F8^
+C 3201 sfx 67, WW_Jabun_Splash
+C 3201 g W#
+C 3202 sfx 67, WW_Jabun_Splash
+C 3202 g Efg
+C 3203 sfx 67, WW_Jabun_Splash
+C 3203 g F22
+C 3204 sfx 67, WW_Jabun_Splash
+C 3204 g B}n
+C 3205 sfx 67, WW_Jabun_Splash
+C 3205 g Z.
+C 3206 sfx 67, WW_Jabun_Splash
+C 3206 g Hc%
+C 3207 sfx 67, WW_Jabun_Splash
+C 3207 g Rs
+C 3208 sfx 67, WW_Jabun_Splash
+C 3208 g Ffc
+C 3209 sfx 67, WW_Jabun_Splash
+C 3209 g Fj
+C 3210 sfx 67, WW_Jabun_Splash
+C 3210 g Cd
+C 3211 sfx 67, WW_Jabun_Splash
+C 3211 g CP/
+C 3212 sfx 67, WW_Jabun_Splash
+C 3212 g CDg
+C 3213 sfx 67, WW_Jabun_Splash
+C 3213 g F;l
+C 3214 sfx 67, WW_Jabun_Splash
+C 3214 g DIU
+C 3215 sfx 67, WW_Jabun_Splash
+C 3215 g GXA
+C 3216 sfx 67, WW_Jabun_Splash
+C 3216 g G]x
+C 3217 sfx 67, WW_Jabun_Splash
+C 3217 g DzB
+C 3218 sfx 67, WW_Jabun_Splash
+C 3218 g Dqa
+C 3219 sfx 67, WW_Jabun_Splash
+C 3219 g bz
+C 3220 sfx 67, WW_Jabun_Splash
+C 3220 g BBl
+C 3221 sfx 67, WW_Jabun_Splash
+C 3221 g Eg1
+C 3222 sfx 67, WW_Jabun_Splash
+C 3222 g C#j
+C 3223 sfx 67, WW_Jabun_Splash
+C 3223 g Fub
+C 3224 sfx 67, WW_Jabun_Splash
+C 3224 g +X
+C 3225 sfx 67, WW_Jabun_Splash
+C 3225 g G#g
+C 3226 sfx 67, WW_Jabun_Splash
+C 3226 g HIM
+C 3227 sfx 67, WW_Jabun_Splash
+C 3227 g F7S
+C 3228 sfx 67, WW_Jabun_Splash
+C 3228 g C,W
+C 3229 sfx 67, WW_Jabun_Splash
+C 3229 g Con
+C 3230 sfx 67, WW_Jabun_Splash
+C 3230 g B0I
+C 3231 sfx 67, WW_Jabun_Splash
+C 3231 g F2b
+C 3232 sfx 67, WW_Jabun_Splash
+C 3232 g H69
+C 3233 sfx 67, WW_Jabun_Splash
+C 3233 g D.n
+C 3234 sfx 67, WW_Jabun_Splash
+C 3234 g GVy
+C 3235 sfx 67, WW_Jabun_Splash
+C 3235 g CQ,
+C 3236 sfx 67, WW_Jabun_Splash
+C 3236 g >u
+C 3237 sfx 67, WW_Jabun_Splash
+C 3237 g H@P
+C 3238 sfx 67, WW_Jabun_Splash
+C 3238 g Ern
+C 3239 sfx 67, WW_Jabun_Splash
+C 3239 g FzP
+C 3240 sfx 67, WW_Jabun_Splash
+C 3240 g Hrs
+C 3241 sfx 67, WW_Jabun_Splash
+C 3242 sfx 67, WW_Jabun_Splash
+C 3242 g EMj
+C 3243 sfx 67, WW_Jabun_Splash
+C 3243 g ES6
+C 3244 sfx 67, WW_Jabun_Splash
+C 3244 g HN4
+C 3245 sfx 67, WW_Jabun_Splash
+C 3245 g D5`
+C 3246 sfx 67, WW_Jabun_Splash
+C 3246 g E#3
+C 3247 sfx 67, WW_Jabun_Splash
+C 3247 g BYF
+C 3248 sfx 67, WW_Jabun_Splash
+C 3248 g B!
+C 3249 sfx 67, WW_Jabun_Splash
+C 3249 g 4R
+C 3250 sfx 67, WW_Jabun_Splash
+C 3250 g GKQ
+C 3251 sfx 67, WW_Jabun_Splash
+C 3251 g Hnw
+C 3252 sfx 67, WW_Jabun_Splash
+C 3252 g IB
+C 3253 sfx 67, WW_Jabun_Splash
+C 3253 g Hc<
+C 3254 sfx 67, WW_Jabun_Splash
+C 3254 g ,C
+C 3255 sfx 67, WW_Jabun_Splash
+C 3255 g GlC
+C 3256 sfx 67, WW_Jabun_Splash
+C 3256 g D")
+C 3257 sfx 67, WW_Jabun_Splash
+C 3257 g B03
+C 3258 sfx 67, WW_Jabun_Splash
+C 3258 g G[M
+C 3259 sfx 67, WW_Jabun_Splash
+C 3259 g Baf
+C 3260 sfx 67, WW_Jabun_Splash
+C 3260 g G]b
+C 3261 sfx 67, WW_Jabun_Splash
+C 3261 g G?`
+C 3262 sfx 67, WW_Jabun_Splash
+C 3262 g yU
+C 3263 sfx 67, WW_Jabun_Splash
+C 3264 sfx 67, WW_Jabun_Splash
+C 3264 g G7*
+C 3265 sfx 67, WW_Jabun_Splash
+C 3265 g J
+C 3266 sfx 67, WW_Jabun_Splash
+C 3266 g GMt
+C 3267 sfx 67, WW_Jabun_Splash
+C 3267 g uM
+C 3268 sfx 67, WW_Jabun_Splash
+C 3268 g B!j
+C 3269 sfx 67, WW_Jabun_Splash
+C 3269 g E^K
+C 3270 sfx 67, WW_Jabun_Splash
+C 3270 g B$@
+C 3271 sfx 67, WW_Jabun_Splash
+C 3271 g Cei
+C 3272 sfx 67, WW_Jabun_Splash
+C 3272 g G*n
+C 3273 sfx 67, WW_Jabun_Splash
+C 3273 g DOP
+C 3274 sfx 67, WW_Jabun_Splash
+C 3274 g Gph
+C 3275 sfx 67, WW_Jabun_Splash
+C 3275 g Cyx
+C 3276 sfx 67, WW_Jabun_Splash
+C 3276 g "r
+C 3277 sfx 67, WW_Jabun_Splash
+C 3277 g D8_
+C 3278 sfx 67, WW_Jabun_Splash
+C 3278 g M4
+C 3279 sfx 67, WW_Jabun_Splash
+C 3279 g EOD
+C 3280 sfx 67, WW_Jabun_Splash
+C 3280 g hO
+C 3281 sfx 67, WW_Jabun_Splash
+C 3281 g Ejn
+C 3282 sfx 67, WW_Jabun_Splash
+C 3282 g GSQ
+C 3283 sfx 67, WW_Jabun_Splash
+C 3283 g CZm
+C 3284 sfx 67, WW_Jabun_Splash
+C 3284 g HMY
+C 3285 sfx 67, WW_Jabun_Splash
+C 3286 sfx 67, WW_Jabun_Splash
+C 3286 g DBk
+C 3287 sfx 67, WW_Jabun_Splash
+C 3287 g B7I
+C 3288 sfx 67, WW_Jabun_Splash
+C 3288 g HA+
+C 3289 sfx 67, WW_Jabun_Splash
+C 3289 g HFR
+C 3290 sfx 67, WW_Jabun_Splash
+C 3290 g G<D
+C 3291 sfx 67, WW_Jabun_Splash
+C 3291 g Eo8
+C 3292 sfx 67, WW_Jabun_Splash
+C 3292 g D@A
+C 3293 sfx 67, WW_Jabun_Splash
+C 3293 g Hh%
+C 3294 sfx 67, WW_Jabun_Splash
+C 3294 g q"
+C 3295 sfx 67, WW_Jabun_Splash
+C 3295 g CF7
+C 3296 sfx 67, WW_Jabun_Splash
+C 3296 g HvX
+C 3297 sfx 67, WW_Jabun_Splash
+C 3297 g EY^
+C 3298 sfx 67, WW_Jabun_Splash
+C 3298 g HCz
+C 3299 sfx 67, WW_Jabun_Splash
+C 3299 g F1Y
+C 3300 sfx 67, WW_Jabun_Splash
+C 3300 g Bmw
+C 3301 sfx 67, WW_Jabun_Splash
+C 3301 g BSw
+C 3302 sfx 67, WW_Jabun_Splash
+C 3302 g GjK
+C 3303 sfx 67, WW_Jabun_Splash
+C 3303 g Bb}
+U 3303 k ~
+C 3304 sfx 67, WW_Jabun_Splash
+C 3304 g G%k
+U 3304 B
+C 3305 sfx 67, WW_Jabun_Splash
+C 3305 g E=S
+C 3306 sfx 67, WW_Jabun_Splash
+C 3306 g D5]
+C 3307 sfx 67, WW_Jabun_Splash
+C 3308 sfx 67, WW_Jabun_Splash
+C 3308 g C9y
+C 3309 sfx 67, WW_Jabun_Splash
+C 3309 g NP
+C 3310 sfx 67, WW_Jabun_Splash
+C 3310 g }3
+C 3311 sfx 67, WW_Jabun_Splash
+C 3311 g D2l
+C 3312 sfx 67, WW_Jabun_Splash
+C 3312 g B@V
+C 3313 sfx 67, WW_Jabun_Splash
+C 3313 g G4C
+C 3314 sfx 67, WW_Jabun_Splash
+C 3314 g F(u
+C 3315 sfx 67, WW_Jabun_Splash
+C 3315 g H3W
+C 3316 sfx 67, WW_Jabun_Splash
+C 3316 g HM(
+C 3317 sfx 67, WW_Jabun_Splash
+C 3317 g 9v
+C 3318 sfx 67, WW_Jabun_Splash
+C 3318 g Gdy
+C 3319 sfx 67, WW_Jabun_Splash
+C 3319 g Bd9
+C 3320 sfx 67, WW_Jabun_Splash
+C 3320 g <J
+C 3321 sfx 67, WW_Jabun_Splash
+C 3321 sfx 4, Boomerang - WW_Boomerang_Fly
+C 3321 g G}0
+D 3321 B
+C 3322 sfx 67, WW_Jabun_Splash
+C 3322 g D5l
+D 3322 k ~
+C 3323 sfx 67, WW_Jabun_Splash
+C 3323 g BSq
+C 3324 sfx 67, WW_Jabun_Splash
+C 3324 g %V
+C 3325 sfx 67, WW_Jabun_Splash
+C 3325 g EDr
+C 3326 sfx 67, WW_Jabun_Splash
+C 3326 g Ec<
+C 3327 sfx 67, WW_Jabun_Splash
+C 3327 g B=B
+C 3328 sfx 67, WW_Jabun_Splash
+C 3328 g B[?
+C 3329 sfx 67, WW_Jabun_Splash
+C 3329 g E67
+C 3330 sfx 67, WW_Jabun_Splash
+C 3330 g DxN
+C 3331 sfx 67, WW_Jabun_Splash
+C 3331 g Co%
+C 3332 sfx 67, WW_Jabun_Splash
+C 3332 g F2<
+C 3333 sfx 67, WW_Jabun_Splash
+C 3333 g EMt
+C 3334 sfx 67, WW_Jabun_Splash
+C 3334 g GvE
+C 3335 sfx 67, WW_Jabun_Splash
+C 3335 g C|#
+C 3336 sfx 67, WW_Jabun_Splash
+C 3336 g Fx2
+C 3337 sfx 67, WW_Jabun_Splash
+C 3337 g Go5
+C 3338 sfx 67, WW_Jabun_Splash
+C 3338 g Fg`
+C 3339 sfx 67, WW_Jabun_Splash
+C 3339 g CF<
+C 3340 sfx 67, WW_Jabun_Splash
+C 3340 g E@f
+C 3341 sfx 67, WW_Jabun_Splash
+C 3341 g :F
+C 3342 sfx 67, WW_Jabun_Splash
+C 3342 g FKa
+C 3343 g F~T
+C 3344 getitem Leviathan Scale
+C 3344 sfx 25, Item pickup 2 - WW_Get_Item
+C 3344 sfx 20, WW_Fanfare_Item
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 sfx 18, Message - WW_PauseMenu_Cursor
+C 3344 g C3S
+C 3345 g Cm$
+C 3346 g Ek1
+C 3347 g G*+
+C 3348 g C0r
+C 3349 g G^S
+C 3350 g KT
+C 3351 g C,j
+C 3352 g F?T
+C 3353 g D6i
+C 3354 g HzO
+C 3355 g Gq3
+C 3356 g Di4
+C 3357 g B$*
+C 3358 g H=}
+C 3359 g Ls
+C 3360 g E%u
+C 3361 g G4K
+C 3362 g C,C
+C 3363 g ENt
+C 3364 g Gli
+C 3365 g ES&
+C 3366 g B,1
+C 3367 g DHp
+C 3368 g EYv
+C 3369 g CHh
+C 3370 g GNI
+C 3371 g Ftd
+C 3372 g Guj
+C 3373 g S}
+C 3374 g DS0
+C 3375 g Ebg
+C 3376 g OW
+C 3377 g Cfb
+C 3378 g Fdg
+C 3379 g Ftd
+C 3380 g Guj
+C 3381 g S}
+C 3382 g F|[
+C 3383 g D?&
+C 3384 g D{g
+C 3385 g Cm$
+C 3386 g Ek1
+C 3387 g BMn
+C 3388 g DY5
+C 3389 g DGx
+C 3390 g Ci=
+C 3391 g Gwm
+C 3392 g D{g
+C 3393 g DJF
+C 3394 g C!n
+C 3395 g E.;
+C 3396 g C2B
+C 3397 enemy died Leviathan1 (Body)
+C 3397 g HIX
+C 3398 g BHN
+C 3399 g nv
+C 3400 g EOR
+C 3401 g DHc
+C 3402 g EDO
+C 3403 g C{I
+C 3404 g cb
+C 3405 g B%e
+C 3406 g H:L
+C 3407 g FG3
+C 3408 g *R
+C 3409 g D3%
+C 3410 g uQ
+C 3411 g H+"
+C 3412 g C0=
+C 3413 g C6!
+C 3414 g Gb1
+C 3415 g .u
+C 3416 g FEI
+C 3417 g Cho
+C 3418 g E{e
+C 3419 g BWv
+C 3420 g F%l
+C 3421 g E^Z
+C 3422 g H(2
+C 3423 g DWy
+C 3424 g EK!
+C 3425 g CM1
+C 3426 g C$$
+C 3427 g Gcm
+C 3428 g HH|
+C 3429 g B|s
+C 3441 dmap=2 Opening Scene
+C 3441 scr=11
+R 3441 0 257 1747706884
+C 3441 h 70 60
+C 3454 g Feo
+C 3455 g E:!
+C 3456 g Cqp
+C 3457 g G3V
+C 3458 g HL@
+C 3459 g EPU
+C 3460 g FQL
+C 3461 g C#+
+C 3462 g G2<
+C 3463 g Cb<
+C 3464 g D`X
+C 3465 g G~h
+C 3466 g EeE
+C 3467 g Dk6
+C 3468 g Gkm
+C 3469 g F^^
+C 3470 g HN2
+C 3471 g Cq5
+C 3472 g Be[
+C 3473 g E?o
+C 3474 g H15
+C 3475 g yj
+C 3476 g FCi
+C 3477 g GSL
+C 3478 g BPl
+C 3479 g D}|
+C 3480 g E#j
+C 3481 g CZH
+C 3482 g E@_
+C 3483 g Hr[
+C 3484 g C*"
+C 3485 g Fx6
+C 3486 g D3J
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 sfx 18, Message - WW_PauseMenu_Cursor
+C 3487 g gE
+C 3488 g BM_
+C 3492 g HWF
+C 3503 g H(%
+U 3508 B
+U 3509 k ~
+C 3514 g F2:
+C 3525 g Bcx
+C 3534 g BM_
+C 3536 g HWF
+D 3537 k ~
+C 3538 g B7?
+D 3538 B
+C 3539 g Evf
+C 3547 g Ger
+C 3558 g GJ?
+C 3565 g G3G
+C 3569 g Hx)
+C 3580 g FX>
+C 3591 g CdN
+C 3596 g HPS
+U 3596 k ~
+C 3599 g Et$
+C 3601 g Gj.
+C 3602 g D]S
+C 3603 g HRw
+U 3604 B
+C 3605 g Ek@
+C 3608 g FW>
+C 3610 g D("
+C 3612 g a$
+C 3613 g H@[
+C 3614 g F?L
+C 3616 g Gm3
+C 3618 g G>i
+C 3620 g D>{
+C 3622 g F6V
+C 3624 g D]O
+C 3626 g pZ
+C 3627 g HX0
+C 3628 g E<%
+C 3631 g Gld
+C 3633 sfx 18, Message - WW_PauseMenu_Cursor
+C 3634 g G2L
+C 3635 sfx 18, Message - WW_PauseMenu_Cursor
+C 3635 g FN{
+C 3636 g E,8
+C 3639 sfx 18, Message - WW_PauseMenu_Cursor
+C 3641 sfx 18, Message - WW_PauseMenu_Cursor
+C 3642 g Cm<
+C 3643 sfx 18, Message - WW_PauseMenu_Cursor
+D 3643 k ~
+C 3644 g BFe
+C 3645 sfx 18, Message - WW_PauseMenu_Cursor
+C 3646 g B7Y
+C 3647 sfx 18, Message - WW_PauseMenu_Cursor
+C 3648 g Chc
+C 3649 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+C 3650 sfx 18, Message - WW_PauseMenu_Cursor
+D 3650 B
+C 3651 g E9{
+C 3657 g Hb>
+C 3658 g Fmk
+C 3668 g B$f
+C 3679 g H7Z
+C 3689 g C]3
+C 3690 g E9{
+C 3701 g Coy
+C 3702 g F>>
+C 3712 g C`&
+C 3720 g C4)
+C 3723 g GZK
+C 3732 g F44
+C 3733 g HpP
+C 3734 g HUj
+C 3735 g a$
+C 3736 g FW>
+C 3737 g HRw
+C 3738 g DCv
+C 3739 g B.Z
+C 3740 g G0S
+C 3741 g HP6
+C 3742 g Esp
+C 3743 g DhG
+C 3744 g GG8
+C 3745 g E|W
+C 3746 g C^o
+C 3747 g H=8
+C 3748 g D|Y
+C 3749 g Drt
+C 3750 g CI:
+C 3751 g H;!
+C 3752 g E8t
+C 3753 g GIE
+C 3754 g jX
+C 3755 g D79
+C 3756 g Hc(
+C 3757 g E=D
+C 3758 g Gyk
+C 3759 g CL)
+C 3760 g B*G
+C 3761 g D(3
+C 3762 g GYe
+C 3763 g BG*
+C 3764 g FgX
+C 3765 g EOL
+C 3766 g FpH
+C 3767 g Gd+
+C 3768 g Hv5
+C 3769 g Gp?
+C 3770 g Dl[
+C 3771 g DSQ
+C 3772 g D5u
+C 3773 g ESr
+C 3774 g Bxk
+C 3775 g D%$
+C 3776 g C;t
+C 3777 g HDf
+C 3778 g DzG
+C 3779 g Cv#
+C 3780 g FLN
+C 3781 g H>=
+C 3782 g Gi"
+C 3783 g Gl2
+C 3784 g Dh~
+C 3785 g Doj
+C 3786 g Eq.
+C 3787 g Crj
+C 3788 g C&q
+C 3789 g Cd$
+C 3790 g Hy/
+C 3791 g Hu[
+C 3792 g BO:
+C 3793 g Cyx
+C 3794 g CRx
+C 3795 g DrQ
+C 3796 g H4%
+C 3797 g HU%
+C 3798 g Dh]
+C 3799 g 2*
+C 3800 g F3v
+C 3801 g G5R
+C 3802 g FQB
+C 3803 g EN]
+C 3804 g HoU
+C 3805 g BL9
+C 3806 g C+x
+C 3807 g CP[
+C 3808 g CDz
+C 3809 g C;3
+C 3810 g DUI
+C 3811 sfx 158 - OOT_AdultLink_Hurt2
+C 3811 g C_a
+C 3812 h 70 64
+C 3812 g B1:
+C 3813 h 70 68
+C 3813 g @Q
+C 3814 h 70 6c
+C 3814 g GwP
+C 3815 h 70 70
+C 3815 g GcJ
+C 3816 g 84
+C 3817 g C`R
+C 3818 g Gp{
+U 3818 k ~
+C 3819 g E,K
+C 3820 g B1:
+U 3820 B
+C 3821 g Ekg
+C 3822 g XI
+C 3823 g CX|
+C 3824 g H1!
+C 3825 g CHj
+C 3826 g HVD
+C 3827 g Bj[
+C 3828 g Hp]
+C 3829 g HXN
+C 3830 g Xe
+C 3831 dmap=2 Opening Scene
+C 3831 scr=12
+R 3831 0 257 1747706887
+C 3831 h 78 50
+C 3831 g E8<
+D 3888 k ~
+D 3895 B
+C 3952 sfx 18, Message - WW_PauseMenu_Cursor
+C 3952 sfx 18, Message - WW_PauseMenu_Cursor
+C 3952 sfx 18, Message - WW_PauseMenu_Cursor
+C 3952 sfx 18, Message - WW_PauseMenu_Cursor
+C 3952 sfx 18, Message - WW_PauseMenu_Cursor
+C 3952 g K$
+C 3953 g D}B
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 sfx 18, Message - WW_PauseMenu_Cursor
+C 4003 g DkO
+C 4004 g 0V
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 sfx 18, Message - WW_PauseMenu_Cursor
+C 4054 g FU8
+C 4055 g BkE
+C 4105 g F<M
+C 4106 g E8<
+C 4118 g HD"
+C 4119 g DoL
+C 4120 g GFp
+C 4121 g ]T
+C 4122 g H]j
+C 4123 g GU`
+C 4124 g Fn6
+C 4125 g B:%
+C 4126 g E{{
+C 4127 g C}K
+C 4128 g Hzk
+C 4129 g E[v
+C 4130 g H?]
+C 4131 g BYQ
+C 4132 g ER]
+C 4133 g Dhq
+C 4134 g G1:
+C 4135 g GZ6
+C 4136 g F9:
+C 4137 g B?7
+C 4138 g GsX
+C 4139 g :b
+C 4140 g uN
+C 4141 g CH<
+C 4142 g D:s
+C 4143 g B=_
+C 4144 g Gnl
+C 4145 g C)2
+C 4146 g Cg%
+C 4147 g DAO
+C 4148 g eb
+C 4149 g G:J
+C 4150 g E|F
+C 4151 g D~t
+C 4152 g Ci$
+C 4153 g Cv:
+C 4154 g Bn5
+C 4155 g CSW
+C 4156 g F+s
+C 4157 g D`C
+C 4158 g C5Y
+C 4159 g EIW
+C 4160 g HtJ
+C 4161 g EQ{
+C 4162 g DQb
+C 4163 g Gjo
+C 4164 g M1
+C 4165 g EO&
+C 4166 g Bg+
+C 4167 g Ci9
+C 4168 g Crk
+C 4169 g Cqo
+C 4170 g D9B
+C 4171 g FF
+C 4172 dmap=0 Isle of Haeren
+C 4172 scr=0
+R 4172 0 257 1747706889
+C 4172 h 50 70
+C 4172 g C]2
+C 4173 g Cm5
+C 4174 g 4X
+C 4175 g C@_
+C 4176 g <+
+C 4177 g BVE
+C 4178 g DL@
+C 4179 g CS+
+C 4180 g sj
+C 4181 g jb
+C 4182 g FOq
+C 4183 g Bl[
+C 4184 g DW{
+C 4185 g F}W
+C 4186 g D>M
+C 4187 g Blc
+C 4188 g H0i
+C 4189 g C,H
+C 4190 g C0P
+C 4191 g E)P
+C 4192 g Fwx
+C 4193 g FN>
+C 4194 g HBi
+C 4195 g B}E
+C 4196 g EK|
+C 4197 g F~{
+C 4198 g CLo
+C 4199 g D{$
+C 4200 g H*h
+C 4201 g G.c
+C 4202 g EhK
+C 4203 g Bkc
+C 4204 g EN/
+C 4205 g EIX
+C 4206 g EhF
+C 4207 g DW<
+C 4208 g EJ{
+C 4209 g G;G
+C 4210 g EvA
+C 4211 g Bu+
+C 4212 g D`}
+C 4213 g CZV
+C 4214 g Fi[
+C 4215 g H[L
+C 4216 g C5w
+C 4217 g F$2
+C 4218 g BTx
+C 4219 g N#
+C 4220 g Dwy
+C 4221 g DeY
+C 4222 g DC#
+C 4223 g HtS
+C 4224 g p;
+C 4225 g E}&
+C 4226 g D/c
+C 4227 g GT$
+C 4228 g HRZ
+C 4229 g H44
+C 4230 g E7i
+C 4231 g DX@
+C 4232 g Hdm
+C 4233 g f"
+C 4234 g Dl9
+C 4235 g H:f
+C 4236 g F%
+C 4237 g GcJ
+C 4238 g E;D
+C 4239 g H>^
+C 4240 g D==
+C 4247 g hF
+C 4251 g Fx?
+C 4256 g D.p
+C 4260 g bp
+C 4262 g De%
+C 4265 g EIe
+C 4273 g E8T
+C 4274 g CPR
+C 4283 g E8T
+C 4284 g G6*
+C 4292 g Hj1
+C 4295 g Iq
+C 4301 g Eqm
+C 4306 g G~l
+C 4310 g 5g
+C 4317 g H/V
+C 4319 g DXg
+C 4320 g DFQ
+C 4328 g BI]
+C 4337 g F`I
+C 4339 g 3K
+C 4346 g E#0
+C 4350 g E5N
+C 4355 g B:=
+C 4361 g B$N
+C 4364 g Q?
+C 4372 g F`1
+C 4373 g [s
+C 4380 g C6N
+C 4382 g B:Z
+C 4383 g Caw
+U 4387 k ~
+U 4388 B
+C 4391 g G@D
+C 4394 g DTS
+C 4400 g ;>
+C 4405 g B^}
+C 4409 g FGA
+C 4416 g {@
+C 4418 g &_
+C 4427 g H:Q
+Q 4430 0
+D 4430 k F6
+Q 4431 0
+Q 4431 1
+C 4431 g E|n
+U 4432 k F6
+C 4446 sfx 6, OOT_Sword_Rock3
+C 4446 g Ct=
+D 4446 Down
+U 4451 Down
+D 4459 Start
+C 4462 g HoX
+U 4462 Start
+C 4466 g Ct=
+C 4470 g HoX
+C 4474 g Ct=
+C 4478 g HoX
+C 4482 g Ct=
+C 4486 g HoX
+C 4490 g Ct=
+C 4494 g HoX
+C 4498 g Ct=
+C 4502 g HoX
+C 4506 g Ct=
+C 4510 g HoX
+C 4514 g Ct=
+C 4518 g HoX
+C 4522 g Ct=
+C 4524 game_over selection made
+C 4524 g C^l
+C 4525 game_over
+C 4525 save game
+C 4526 init_game
+R 4526 0 1 1747708681
+R 4526 2 257 856197422
+C 4526 dmap=0 Isle of Haeren
+C 4526 scr=0
+C 4526 h 50 70
+C 4526 g DHz
+C 4527 g H/<
+C 4528 g F~R
+C 4529 g HQk
+C 4530 g C_#
+C 4531 g Gf6
+C 4532 g Hz6
+C 4533 g G3i
+C 4534 g cg
+C 4535 g D)k
+C 4536 g G0
+C 4537 g F1E
+C 4538 g HH(
+C 4539 g De@
+C 4540 g FSv
+C 4541 g G{A
+C 4542 g B|d
+C 4543 g F!r
+C 4544 g F4a
+C 4545 g Hmd
+C 4546 g DDH
+C 4547 g `m
+C 4548 g HM;
+C 4549 g F[G
+C 4550 g G)B
+C 4551 g BnX
+C 4552 g CQl
+C 4553 g GTp
+C 4554 g HLY
+C 4555 g B*?
+C 4556 g HV`
+C 4557 g BoD
+C 4558 g |`
+C 4559 g Ehw
+C 4560 g E(f
+C 4561 g Cwy
+C 4562 g C!!
+C 4563 g HQ`
+C 4564 g C*[
+C 4565 g F")
+C 4566 g F4B
+C 4567 g HwJ
+C 4568 g Bk(
+C 4569 g C(
+C 4570 g BOk
+C 4571 g HYW
+C 4572 g sQ
+C 4573 g @Z
+C 4574 g *|
+C 4575 g Bs@
+C 4576 g G(f
+C 4577 g GET
+C 4578 g Cn0
+C 4579 g GE{
+C 4580 g BxV
+C 4581 g BK3
+C 4582 g C`w
+C 4583 g Hms
+C 4584 g F"H
+C 4585 g CaZ
+C 4586 g HaQ
+C 4587 g Fn?
+C 4588 g 1M
+C 4589 g BRW
+C 4590 g FKe
+C 4591 g G2p
+C 4592 g C%9
+C 4593 g DW7
+C 4601 g HfY
+C 4603 g Cuu
+C 4610 g FiB
+C 4614 g D<G
+D 4616 Start
+C 4617 g HA^
+C 4618 g F*~
+C 4619 g e!
+C 4620 g D~,
+C 4621 g :r
+C 4622 g DUR
+C 4623 g D&]
+C 4624 g bh
+C 4625 g E}O
+U 4625 Start
+C 4626 g ESM
+C 4627 g Ghv
+C 4628 g Bwa
+C 4629 g E9H
+C 4630 g FZz
+C 4631 g CcU
+C 4632 g HH&
+C 4633 g Gmt
+C 4634 g FRb
+C 4635 g E](
+C 4636 g HtW
+C 4637 g ~7
+C 4638 g GFa
+C 4639 g Fb]
+C 4640 g C+v
+C 4641 g GCI
+C 4642 g CdU
+C 4643 g G|)
+C 4644 g H0w
+C 4645 g j9
+C 4646 g Ed8
+C 4647 g GC(
+C 4648 g QG
+C 4649 g E&(
+C 4650 g F|`
+C 4651 g }T
+C 4652 g B^X
+C 4653 g ji
+C 4654 g EYg
+C 4655 g Fi?
+C 4656 g GYF
+C 4657 g DCk
+C 4658 g ETo
+C 4659 g E9D
+C 4660 g B._
+C 4661 g D=B
+C 4662 g F;f
+C 4663 g G~[
+C 4664 g C}W
+C 4665 g ErV
+C 4666 g Bag
+C 4667 g EJ2
+C 4668 g _t
+C 4669 g F@2
+C 4670 g C%&
+C 4671 g CI&
+C 4672 g DM#
+C 4673 g ]x
+C 4674 g 2j
+C 4675 g &M
+C 4677 g E~c
+C 4694 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 4694 g D,v
+D 4694 Right
+U 4704 Right
+C 4707 g H06
+C 4712 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 4712 g D"`
+D 4712 Right
+U 4722 Right
+C 4737 g Fv)
+C 4741 sfx 21, Bomb placed - OOT_Bomb_Drop
+D 4741 B
+U 4751 B
+C 4767 g D"`
+D 4787 Start
+C 4788 g cG
+C 4789 g HxE
+C 4790 g FsB
+C 4791 g DyM
+C 4792 g FT}
+C 4793 g CKe
+C 4794 g E"3
+U 4794 Start
+C 4795 g E]Q
+C 4796 g Ggo
+C 4797 g Fa1
+C 4798 g GNO
+C 4799 g G"{
+C 4800 g HHY
+C 4801 g k|
+C 4802 g E~I
+C 4803 g F{V
+C 4804 g DiW
+C 4805 g D&)
+C 4806 g F8?
+C 4807 g B;%
+C 4808 g Cw(
+C 4809 g Gf>
+C 4810 g EzK
+C 4811 g G.
+C 4812 g D:F
+C 4813 g B*z
+C 4814 g H?u
+C 4815 g n;
+C 4816 g G/X
+C 4817 g G.f
+C 4818 g Fjr
+C 4819 g Du/
+C 4820 g D&T
+C 4821 g FMF
+C 4822 g G[v
+C 4823 g H+{
+C 4824 g Beg
+C 4825 g G3H
+C 4826 g +?
+C 4827 g C0]
+C 4828 g _t
+C 4829 g EEv
+C 4830 g EOk
+C 4831 g F^2
+C 4832 g s[
+C 4833 g EqU
+C 4834 g B.l
+C 4835 g BiI
+C 4836 g lS
+C 4837 g !w
+C 4838 g ee
+C 4839 g Bkm
+C 4840 g G??
+C 4841 g G3K
+C 4842 g H1g
+C 4843 g VT
+C 4844 g 0Z
+C 4845 g BmS
+C 4846 g D<G
+C 4849 h 51 71
+C 4849 g DiZ
+D 4849 Down
+D 4849 Right
+C 4850 h 52 72
+C 4850 g ES7
+C 4851 h 53 73
+C 4851 g Ff8
+C 4852 h 54 74
+C 4852 g CiF
+C 4853 h 55 75
+C 4853 g D}>
+C 4854 h 56 76
+C 4854 g C6`
+C 4855 h 57 77
+C 4855 g FGU
+C 4856 h 58 78
+C 4856 g F_?
+C 4857 h 5a 7a
+C 4857 g Zn
+C 4858 h 5b 7b
+C 4858 g B=+
+C 4859 h 5c 7c
+C 4859 g BO"
+C 4860 h 5d 7d
+C 4860 g GVj
+C 4861 h 5e 7e
+C 4861 g F%D
+C 4862 h 5f 7f
+C 4862 g B]?
+C 4863 h 60 80
+C 4863 g EhY
+C 4864 h 61 81
+C 4864 g Haf
+C 4865 h 62 82
+C 4865 g fE
+C 4866 h 63 83
+C 4866 g Cu8
+C 4867 h 64 84
+C 4867 g D3$
+C 4868 h 65 85
+C 4868 g F@+
+C 4869 h 66 86
+C 4869 g CU%
+C 4870 h 67 87
+C 4870 g D+@
+C 4871 h 68 88
+C 4871 g F1g
+C 4872 h 69 89
+C 4872 g Cv"
+C 4873 h 6b 8b
+C 4873 g Ht9
+C 4874 h 6c 8c
+C 4874 g E|$
+C 4875 h 6d 8d
+C 4875 g RX
+C 4876 h 6e 8e
+C 4876 g DVN
+C 4877 h 6f 8f
+C 4877 g FQ;
+C 4878 h 70 90
+C 4878 g B5e
+C 4879 h 71 90
+C 4879 g D%^
+U 4879 Down
+C 4880 h 73 90
+C 4880 g B}.
+C 4881 h 74 90
+C 4881 g GhI
+C 4882 h 76 90
+C 4882 g B8l
+C 4883 h 77 90
+C 4883 g D$G
+C 4884 h 79 90
+C 4884 g Ftj
+C 4885 h 7a 90
+C 4885 g D^^
+C 4886 h 7c 90
+C 4886 g F/l
+C 4887 h 7d 90
+C 4887 g H8"
+C 4888 h 7d 8e
+C 4888 g C[K
+D 4888 Up
+U 4888 Right
+C 4889 h 7d 8d
+C 4889 g C`(
+C 4890 h 7d 8b
+C 4890 g G&Z
+C 4891 h 7d 8a
+C 4891 g D"|
+C 4892 h 7d 88
+C 4892 g Hkw
+C 4893 h 7d 87
+C 4893 g H03
+C 4894 h 7d 85
+C 4894 g DJ|
+C 4895 h 7d 84
+C 4895 g GeJ
+C 4896 h 7d 82
+C 4896 g D0`
+C 4897 h 7d 81
+C 4897 g Bm&
+C 4898 h 7d 7f
+C 4898 g HF;
+C 4899 h 7d 7e
+C 4899 g C`l
+C 4900 h 7d 7c
+C 4900 g EBc
+C 4901 h 7d 7b
+C 4901 g GN%
+C 4902 h 7d 79
+C 4902 g Hj4
+C 4903 h 7d 78
+C 4903 g Bh#
+C 4904 map 0 scr 0 flag Item
+C 4904 getitem Sword 1 (Wooden)
+C 4904 sfx 20, WW_Fanfare_Item
+C 4904 h 7d 76
+C 4904 g Ft~
+C 4905 sfx 18, Message - WW_PauseMenu_Cursor
+C 4905 g qH
+C 4906 g G7X
+C 4907 sfx 18, Message - WW_PauseMenu_Cursor
+C 4908 g DN;
+C 4909 sfx 18, Message - WW_PauseMenu_Cursor
+C 4910 g Bg2
+C 4911 sfx 18, Message - WW_PauseMenu_Cursor
+C 4912 g Cg*
+C 4913 sfx 18, Message - WW_PauseMenu_Cursor
+C 4914 g Gz/
+C 4915 sfx 18, Message - WW_PauseMenu_Cursor
+C 4916 g ;8
+U 4916 Up
+C 4917 sfx 18, Message - WW_PauseMenu_Cursor
+C 4918 g H*?
+C 4919 sfx 18, Message - WW_PauseMenu_Cursor
+C 4921 sfx 18, Message - WW_PauseMenu_Cursor
+C 4921 g DsD
+D 4921 A
+C 4922 sfx 18, Message - WW_PauseMenu_Cursor
+C 4922 g E.!
+C 4923 sfx 18, Message - WW_PauseMenu_Cursor
+C 4923 g B/%
+C 4924 sfx 18, Message - WW_PauseMenu_Cursor
+C 4924 g D0>
+C 4925 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 sfx 18, Message - WW_PauseMenu_Cursor
+C 4926 g F`M
+D 4926 B
+C 4927 g C?&
+U 4929 A
+C 4930 g F%9
+C 4932 g B+6
+U 4936 B
+C 4939 g Hp*
+C 4943 g EEU
+C 4948 g nB
+C 4954 g B]>
+C 4957 g BTR
+D 4962 Left
+C 4965 g ;T
+C 4966 g F:>
+C 4975 g ;T
+C 4976 g FEB
+C 4977 g C!;
+D 4980 A
+C 4981 h 7c 76
+C 4981 g G+C
+C 4982 h 7a 76
+C 4982 g w~
+C 4983 h 79 76
+C 4983 g ly
+C 4984 h 77 76
+C 4984 g HMX
+C 4985 h 76 76
+C 4985 g C@k
+C 4986 h 74 76
+C 4986 g N~
+C 4987 h 73 76
+C 4987 g E/q
+C 4988 h 71 76
+C 4988 g D5P
+U 4988 A
+C 4989 h 70 76
+C 4989 g B")
+U 4990 Left
+C 4993 g P~
+D 4997 Start
+C 4998 g FCt
+C 4999 g E]g
+C 5000 g C>E
+C 5001 g G2)
+C 5002 g Div
+C 5003 g D{)
+C 5004 g Dbo
+U 5004 Start
+C 5005 g FxY
+C 5006 g Fyj
+C 5007 g FXT
+C 5008 g 9E
+C 5009 g GWK
+C 5010 g CFh
+C 5011 g 6@
+C 5012 g C?a
+C 5013 g Wb
+C 5014 g G>3
+C 5015 g GY[
+C 5016 g DO?
+C 5017 g EK2
+C 5018 g ENX
+C 5019 g Dr9
+C 5020 g FFb
+C 5021 g H;<
+C 5022 g GZy
+C 5023 g G~j
+C 5024 g FEg
+C 5025 g G;9
+C 5026 g PV
+C 5027 g Fz`
+C 5028 g C"l
+C 5029 g @)
+C 5030 g H(;
+C 5031 g B!+
+C 5032 g Bmf
+C 5033 g HNn
+C 5034 g H!r
+C 5035 g G|e
+C 5036 g F|w
+C 5037 g B$w
+C 5038 g F6G
+C 5039 g GPu
+C 5040 g BTh
+C 5041 g ER}
+C 5042 g E|9
+C 5043 g DS`
+C 5044 g Uk
+C 5045 g Gcj
+C 5046 g G:4
+C 5047 g $v
+C 5048 g G7$
+C 5049 g Fcf
+C 5050 g Hv@
+C 5051 g D`I
+C 5052 g DN*
+C 5053 g D)$
+C 5054 g FL8
+C 5055 g Cv>
+C 5056 g D"i
+C 5067 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5067 g CXt
+D 5067 Left
+U 5073 Left
+C 5081 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5081 g HC.
+D 5081 Left
+U 5087 Left
+C 5093 sfx 21, Bomb placed - OOT_Bomb_Drop
+D 5093 A
+C 5097 g CY(
+U 5100 A
+D 5104 Start
+C 5105 g d?
+C 5106 g D&6
+C 5107 g GkC
+C 5108 g )N
+C 5109 g 6n
+C 5110 g FQV
+C 5111 g GS0
+C 5112 g CG%
+U 5112 Start
+C 5113 g E52
+C 5114 g Dib
+C 5115 g C3b
+C 5116 g W/
+C 5117 g Xp
+C 5118 g ;h
+C 5119 g FPX
+C 5120 g Dk&
+C 5121 g EIq
+C 5122 g [^
+C 5123 g FT$
+C 5124 g Fn9
+C 5125 g BTA
+C 5126 g G+_
+C 5127 g G%t
+C 5128 g D0y
+C 5129 g F|n
+C 5130 g B8)
+C 5131 g FHQ
+C 5132 g E.F
+C 5133 g D<0
+C 5134 g Gx=
+C 5135 g G9:
+C 5136 g D3f
+C 5137 g Bwx
+C 5138 g Dac
+C 5139 g E1J
+C 5140 g DcJ
+C 5141 g FZ,
+C 5142 g DfM
+C 5143 g F>a
+C 5144 g C"%
+C 5145 g F%p
+C 5146 g F`8
+C 5147 g BIK
+C 5148 g Fdn
+C 5149 g Em^
+C 5150 g EsM
+C 5151 g C?5
+C 5152 g |D
+C 5153 g 8.
+C 5154 g U)
+C 5155 g BeT
+D 5155 Left
+C 5156 g BbT
+C 5157 g DI.
+C 5158 g HdV
+C 5159 g B&f
+C 5160 g B2g
+C 5161 g FsU
+C 5162 g CC<
+C 5163 g P~
+C 5164 h 6e 76
+C 5164 g Fr"
+C 5165 h 6d 76
+C 5165 g Dn8
+C 5166 h 6b 76
+C 5166 g wl
+C 5167 sfx 30, Sword - TP_Sword_Slash2
+C 5167 g C2w
+U 5167 Left
+D 5167 A
+C 5168 g C8]
+C 5173 g DaA
+C 5175 g 0!
+U 5175 A
+C 5177 g Hry
+C 5180 g BPL
+C 5181 g EOc
+C 5182 sfx 30, Sword - TP_Sword_Slash2
+C 5182 g G_0
+D 5182 A
+C 5183 g Dl8
+C 5186 g C:
+C 5188 g B3=
+U 5189 A
+C 5192 g Gs>
+C 5195 g Fbi
+C 5196 g F@Z
+C 5197 g Flz
+D 5203 B
+C 5204 g FQM
+C 5208 g E)Z
+U 5210 B
+C 5213 g HGA
+C 5219 g FW`
+C 5222 g D[%
+C 5230 g D5J
+C 5231 g G2I
+D 5232 Start
+C 5233 g BS}
+C 5234 g B}D
+C 5235 g CJ+
+C 5236 g DB1
+C 5237 g EoU
+C 5238 g GzV
+C 5239 g HU3
+C 5240 g >/
+C 5241 g G;w
+C 5242 g Fi_
+C 5243 g Oa
+C 5244 g EIW
+C 5245 g D.~
+U 5245 Start
+C 5246 g G@J
+C 5247 g N7
+C 5248 g HIS
+C 5249 g ;P
+C 5250 g HXD
+C 5251 g FTc
+C 5252 g H#*
+C 5253 g H>/
+C 5254 g F36
+C 5255 g HS1
+C 5256 g Gv)
+C 5257 g Hrw
+C 5258 g B6>
+C 5259 g EuL
+C 5260 g E|:
+C 5261 g B{a
+C 5262 g NE
+C 5263 g D2H
+C 5264 g B;)
+C 5265 g DzV
+C 5266 g BXr
+C 5267 g BIn
+C 5268 g EhU
+C 5269 g F?{
+C 5270 g E5_
+C 5271 g BUm
+C 5272 g DZ<
+C 5273 g Hv4
+C 5274 g G9v
+C 5275 g G"a
+C 5276 g BP&
+C 5277 g FMs
+C 5278 g BHq
+C 5279 g G9{
+C 5280 g EZ[
+C 5281 g F#O
+C 5282 g EP.
+C 5283 g H7Y
+C 5284 g CAD
+C 5285 g B$o
+C 5286 g D!)
+C 5287 g GS[
+C 5288 g GDe
+C 5289 g CCM
+C 5290 g B$&
+C 5291 g CY(
+C 5295 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5295 g CIn
+D 5295 Right
+C 5301 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5301 g CY(
+D 5301 Left
+U 5302 Right
+C 5307 g HC.
+U 5307 Left
+C 5325 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5325 g CXt
+D 5325 Right
+U 5329 Right
+C 5335 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5335 g D+<
+D 5335 Right
+C 5337 g D"i
+U 5341 Right
+C 5367 g D+<
+C 5379 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5379 g CXt
+D 5379 Left
+U 5387 Left
+C 5394 sfx 5, Subscreen cursor - WW_PauseMenu_
+C 5394 g HC.
+D 5394 Left
+C 5397 g CY(
+U 5401 Left
+C 5427 g HC.
+C 5457 g CY(
+C 5487 g HC.
+C 5517 g CY(
+C 5547 g HC.
+C 5577 g CY(
+C 5607 g HC.
+C 5637 g CY(
+C 5667 g HC.
+C 5697 g CY(
+C 5727 g HC.
+C 5757 g CY(
+C 5787 g HC.
+C 5817 g CY(
+C 5847 g HC.
+C 5877 g CY(
+C 5907 g HC.
+C 5937 g CY(
+C 5967 g HC.
+C 5997 g CY(
+C 6027 g HC.
+C 6057 g CY(
+C 6087 g HC.
+C 6117 g CY(
+C 6147 g HC.
+C 6177 g CY(
+C 6207 g HC.
+C 6237 g CY(
+C 6267 g HC.
+C 6297 g CY(
+C 6327 g HC.
+C 6357 g CY(
+C 6387 g HC.
+C 6417 g CY(
+C 6447 g HC.
+C 6477 g CY(
+C 6507 g HC.
+C 6537 g CY(
+C 6567 g HC.
+C 6597 g CY(
+C 6627 g HC.
+C 6657 g CY(
+C 6687 g HC.
+C 6717 g CY(
+C 6747 g HC.
+C 6777 g CY(
+C 6807 g HC.
+C 6837 g CY(
+C 6867 g HC.
+C 6897 g CY(
+C 6927 g HC.
+C 6957 g CY(
+C 6987 g HC.
+C 7017 g CY(
+C 7047 g HC.
+C 7077 g CY(
+C 7107 g HC.
+C 7137 g CY(
+C 7167 g HC.
+C 7197 g CY(
+C 7227 g HC.
+C 7257 g CY(
+C 7287 g HC.
+C 7317 g CY(
+C 7347 g HC.
+C 7377 g CY(
+C 7407 g HC.
+C 7437 g CY(
+C 7467 g HC.
+C 7497 g CY(
+C 7527 g HC.
+C 7557 g CY(
+C 7587 g HC.
+C 7617 g CY(
+C 7647 g HC.
+C 7677 g CY(
+C 7707 g HC.
+C 7737 g CY(
+C 7767 g HC.
+C 7797 g CY(
+C 7827 g HC.
+C 7857 g CY(
+C 7887 g HC.
+C 7917 g CY(
+C 7947 g HC.
+C 7977 g CY(
+C 8007 g HC.
+C 8037 g CY(
+C 8067 g HC.
+C 8097 g CY(
+C 8127 g HC.
+C 8157 g CY(
+C 8187 g HC.
+C 8217 g CY(
+C 8247 g HC.
+C 8277 g CY(
+C 8307 g HC.
+C 8337 g CY(
+C 8367 g HC.
+C 8397 g CY(
+C 8427 g HC.
+C 8457 g CY(
+C 8487 g HC.
+C 8517 g CY(
+C 8547 g HC.
+C 8577 g CY(
+C 8607 g HC.
+C 8637 g CY(
+C 8667 g HC.
+C 8697 g CY(
+C 8727 g HC.
+C 8757 g CY(
+C 8787 g HC.
+C 8817 g CY(
+C 8847 g HC.
+C 8877 g CY(
+C 8907 g HC.
+C 8937 g CY(
+C 8967 g HC.
+C 8997 g CY(
+C 9027 g HC.
+C 9057 g CY(
+C 9087 g HC.
+C 9117 g CY(
+C 9147 g HC.
+C 9177 g CY(
+C 9207 g HC.
+C 9237 g CY(
+C 9267 g HC.
+C 9297 g CY(
+C 9327 g HC.
+C 9357 g CY(
+C 9387 g HC.
+C 9417 g CY(
+C 9447 g HC.
+C 9477 g CY(
+C 9507 g HC.
+C 9537 g CY(
+C 9567 g HC.
+C 9597 g CY(
+C 9627 g HC.
+C 9657 g CY(
+C 9687 g HC.
+C 9717 g CY(
+C 9747 g HC.
+C 9777 g CY(
+C 9807 g HC.
+C 9837 g CY(
+C 9867 g HC.
+C 9897 g CY(
+C 9927 g HC.
+C 9957 g CY(
+C 9987 g HC.
+C 10017 g CY(
+C 10047 g HC.
+C 10077 g CY(
+C 10107 g HC.
+C 10137 g CY(
+C 10167 g HC.
+C 10197 g CY(
+C 10227 g HC.
+C 10257 g CY(
+C 10287 g HC.
+C 10317 g CY(
+C 10347 g HC.
+C 10377 g CY(
+C 10407 g HC.
+C 10437 g CY(
+C 10467 g HC.
+C 10497 g CY(
+C 10527 g HC.
+C 10557 g CY(
+C 10587 g HC.
+C 10617 g CY(
+C 10647 g HC.
+C 10677 g CY(
+C 10707 g HC.
+C 10737 g CY(
+C 10767 g HC.
+C 10797 g CY(
+C 10827 g HC.
+C 10857 g CY(
+C 10887 g HC.
+C 10917 g CY(
+C 10947 g HC.
+C 10977 g CY(
+C 11007 g HC.
+C 11037 g CY(
+C 11067 g HC.
+C 11097 g CY(
+C 11127 g HC.
+C 11157 g CY(
+C 11187 g HC.
+C 11217 g CY(
+C 11247 g HC.
+C 11277 g CY(
+C 11307 g HC.
+C 11337 g CY(
+C 11367 g HC.
+C 11397 g CY(
+C 11427 g HC.
+C 11457 g CY(
+C 11487 g HC.
+C 11517 g CY(
+C 11547 g HC.
+C 11577 g CY(
+C 11607 g HC.
+C 11637 g CY(
+C 11667 g HC.
+C 11697 g CY(
+C 11727 g HC.
+C 11757 g CY(
+C 11787 g HC.
+C 11817 g CY(
+C 11847 g HC.
+C 11877 g CY(
+C 11907 g HC.
+C 11937 g CY(
+C 11967 g HC.
+C 11997 g CY(
+C 12027 g HC.
+C 12057 g CY(
+C 12087 g HC.
+C 12117 g CY(
+C 12147 g HC.
+C 12177 g CY(
+C 12207 g HC.
+C 12237 g CY(
+C 12267 g HC.
+C 12297 g CY(
+C 12327 g HC.
+C 12357 g CY(
+C 12387 g HC.
+C 12417 g CY(
+C 12447 g HC.
+C 12477 g CY(
+C 12507 g HC.
+C 12537 g CY(
+C 12567 g HC.
+C 12597 g CY(
+C 12627 g HC.
+C 12657 g CY(
+C 12687 g HC.
+C 12717 g CY(
+C 12747 g HC.
+C 12777 g CY(
+C 12807 g HC.
+C 12837 g CY(
+C 12867 g HC.
+C 12897 g CY(
+C 12927 g HC.
+C 12957 g CY(
+C 12987 g HC.
+C 13017 g CY(
+C 13047 g HC.
+C 13077 g CY(
+C 13107 g HC.
+C 13137 g CY(
+C 13167 g HC.
+C 13197 g CY(
+C 13227 g HC.
+C 13257 g CY(
+C 13287 g HC.
+C 13317 g CY(
+C 13347 g HC.
+C 13377 g CY(
+C 13407 g HC.
+C 13437 g CY(
+C 13467 g HC.
+C 13497 g CY(
+C 13527 g HC.
+C 13557 g CY(
+C 13587 g HC.
+C 13617 g CY(
+C 13647 g HC.
+C 13677 g CY(
+C 13707 g HC.
+C 13737 g CY(
+C 13767 g HC.
+C 13797 g CY(
+C 13827 g HC.
+C 13857 g CY(
+C 13887 g HC.
+C 13917 g CY(
+C 13947 g HC.
+C 13977 g CY(
+C 14007 g HC.
+C 14037 g CY(
+C 14067 g HC.
+C 14097 g CY(
+C 14127 g HC.
+C 14157 g CY(
+C 14187 g HC.
+C 14217 g CY(
+C 14247 g HC.
+C 14277 g CY(
+C 14307 g HC.
+C 14337 g CY(
+C 14367 g HC.
+C 14397 g CY(
+C 14427 g HC.
+C 14457 g CY(
+C 14487 g HC.
+C 14517 g CY(
+C 14547 g HC.
+C 14577 g CY(
+C 14607 g HC.
+C 14637 g CY(
+C 14667 g HC.
+C 14697 g CY(
+C 14727 g HC.
+C 14757 g CY(
+C 14787 g HC.
+C 14817 g CY(
+C 14847 g HC.
+C 14877 g CY(
+C 14907 g HC.
+C 14937 g CY(
+C 14967 g HC.
+C 14997 g CY(
+C 15027 g HC.
+C 15057 g CY(
+C 15087 g HC.
+C 15117 g CY(
+C 15147 g HC.
+C 15177 g CY(
+C 15207 g HC.
+C 15237 g CY(
+C 15267 g HC.
+C 15297 g CY(
+C 15327 g HC.
+C 15357 g CY(
+C 15387 g HC.
+C 15417 g CY(
+C 15447 g HC.
+C 15477 g CY(
+C 15507 g HC.
+C 15537 g CY(
+C 15567 g HC.
+C 15597 g CY(
+C 15627 g HC.
+C 15657 g CY(
+C 15687 g HC.
+C 15717 g CY(
+C 15747 g HC.
+C 15777 g CY(
+C 15807 g HC.
+C 15837 g CY(
+C 15867 g HC.
+C 15897 g CY(
+C 15927 g HC.
+C 15957 g CY(
+C 15987 g HC.
+C 16017 g CY(
+C 16047 g HC.
+C 16077 g CY(
+C 16107 g HC.
+C 16137 g CY(
+C 16167 g HC.
+C 16197 g CY(
+C 16227 g HC.
+C 16257 g CY(
+C 16287 g HC.
+C 16317 g CY(
+C 16347 g HC.
+C 16377 g CY(
+C 16407 g HC.
+C 16437 g CY(
+C 16467 g HC.
+C 16497 g CY(
+C 16527 g HC.
+C 16557 g CY(
+C 16587 g HC.
+C 16617 g CY(
+C 16647 g HC.
+C 16677 g CY(
+C 16707 g HC.
+C 16737 g CY(
+C 16767 g HC.
+C 16797 g CY(
+C 16827 g HC.
+C 16857 g CY(
+C 16887 g HC.
+C 16917 g CY(
+C 16947 g HC.
+C 16977 g CY(
+C 17007 g HC.
+C 17037 g CY(
+C 17067 g HC.
+C 17097 g CY(
+C 17127 g HC.
+C 17157 g CY(
+C 17187 g HC.
+C 17217 g CY(
+C 17247 g HC.
+C 17277 g CY(
+C 17307 g HC.
+C 17337 g CY(
+C 17367 g HC.
+C 17397 g CY(
+C 17427 g HC.
+C 17457 g CY(
+C 17487 g HC.
+C 17517 g CY(
+C 17547 g HC.
+C 17577 g CY(
+C 17607 g HC.
+C 17637 g CY(
+C 17667 g HC.
+C 17697 g CY(
+C 17727 g HC.
+C 17757 g CY(
+C 17787 g HC.
+C 17817 g CY(
+C 17847 g HC.
+C 17877 g CY(
+C 17907 g HC.
+C 17937 g CY(
+C 17967 g HC.
+C 17997 g CY(
+C 18027 g HC.
+C 18057 g CY(
+C 18087 g HC.
+C 18117 g CY(
+C 18147 g HC.
+C 18177 g CY(
+C 18207 g HC.
+C 18237 g CY(
+C 18267 g HC.
+C 18297 g CY(
+C 18327 g HC.
+C 18357 g CY(
+C 18387 g HC.
+C 18417 g CY(
+C 18447 g HC.
+C 18477 g CY(
+C 18507 g HC.
+C 18537 g CY(
+C 18567 g HC.
+C 18597 g CY(
+C 18627 g HC.
+C 18657 g CY(
+C 18687 g HC.
+C 18717 g CY(
+C 18747 g HC.
+C 18777 g CY(
+C 18807 g HC.
+C 18837 g CY(
+C 18867 g HC.
+C 18897 g CY(
+C 18927 g HC.
+C 18957 g CY(
+C 18987 g HC.
+C 19017 g CY(
+C 19047 g HC.
+C 19077 g CY(
+C 19107 g HC.
+C 19137 g CY(
+C 19167 g HC.
+C 19197 g CY(
+C 19227 g HC.
+C 19257 g CY(
+C 19287 g HC.
+C 19317 g CY(
+C 19347 g HC.
+C 19377 g CY(
+C 19407 g HC.
+C 19437 g CY(
+C 19467 g HC.
+C 19497 g CY(
+C 19527 g HC.
+C 19557 g CY(
+C 19587 g HC.
+C 19617 g CY(
+C 19647 g HC.
+C 19677 g CY(
+C 19707 g HC.
+C 19737 g CY(
+C 19767 g HC.
+C 19797 g CY(
+C 19827 g HC.
+C 19857 g CY(
+C 19887 g HC.
+C 19917 g CY(
+C 19947 g HC.
+C 19977 g CY(
+C 20007 g HC.
+C 20037 g CY(
+C 20067 g HC.
+C 20097 g CY(
+C 20127 g HC.
+C 20157 g CY(
+C 20187 g HC.
+C 20217 g CY(
+C 20247 g HC.
+C 20277 g CY(
+C 20307 g HC.
+C 20337 g CY(
+C 20367 g HC.
+C 20397 g CY(
+C 20427 g HC.
+C 20457 g CY(
+C 20487 g HC.
+C 20517 g CY(
+C 20547 g HC.
+C 20577 g CY(
+C 20607 g HC.
+C 20637 g CY(
+C 20667 g HC.
+C 20697 g CY(
+C 20727 g HC.
+C 20757 g CY(
+C 20787 g HC.
+C 20817 g CY(
+C 20847 g HC.
+C 20877 g CY(
+C 20907 g HC.
+C 20937 g CY(
+C 20967 g HC.
+C 20997 g CY(
+C 21027 g HC.
+C 21057 g CY(
+C 21087 g HC.
+C 21117 g CY(
+C 21147 g HC.
+C 21177 g CY(
+C 21207 g HC.
+C 21237 g CY(
+C 21267 g HC.
+C 21297 g CY(
+C 21327 g HC.
+C 21357 g CY(
+C 21387 g HC.
+C 21417 g CY(
+C 21447 g HC.
+C 21477 g CY(
+C 21507 g HC.
+C 21537 g CY(
+C 21567 g HC.
+C 21597 g CY(
+C 21627 g HC.
+C 21657 g CY(
+C 21687 g HC.
+C 21717 g CY(
+C 21747 g HC.
+C 21777 g CY(
+C 21807 g HC.
+C 21837 g CY(
+C 21867 g HC.
+C 21897 g CY(
+C 21927 g HC.
+C 21957 g CY(
+C 21987 g HC.
+C 22017 g CY(
+C 22047 g HC.
+C 22077 g CY(
+C 22107 g HC.
+C 22137 g CY(
+C 22167 g HC.
+C 22197 g CY(
+C 22227 g HC.
+C 22257 g CY(
+C 22287 g HC.
+C 22317 g CY(
+C 22347 g HC.
+C 22377 g CY(
+C 22407 g HC.
+C 22437 g CY(
+C 22467 g HC.
+C 22497 g CY(
+C 22527 g HC.
+C 22557 g CY(
+C 22587 g HC.
+C 22617 g CY(
+C 22647 g HC.
+C 22677 g CY(
+C 22707 g HC.
+C 22737 g CY(
+C 22767 g HC.
+C 22797 g CY(
+C 22827 g HC.
+C 22857 g CY(
+C 22887 g HC.
+C 22917 g CY(
+C 22947 g HC.
+C 22977 g CY(
+C 23007 g HC.
+C 23037 g CY(
+C 23067 g HC.
+C 23097 g CY(
+C 23127 g HC.
+C 23157 g CY(
+C 23187 g HC.
+C 23217 g CY(
+C 23247 g HC.
+C 23277 g CY(
+C 23307 g HC.
+C 23337 g CY(
+C 23367 g HC.
+C 23397 g CY(
+C 23427 g HC.
+C 23457 g CY(
+C 23487 g HC.
+C 23517 g CY(
+C 23547 g HC.
+C 23577 g CY(
+C 23607 g HC.
+C 23637 g CY(
+C 23667 g HC.
+C 23697 g CY(
+C 23727 g HC.
+C 23757 g CY(
+C 23787 g HC.
+C 23817 g CY(
+C 23847 g HC.
+C 23877 g CY(
+C 23907 g HC.
+C 23937 g CY(
+C 23967 g HC.
+C 23997 g CY(
+C 24027 g HC.
+C 24057 g CY(
+C 24087 g HC.
+C 24117 g CY(
+C 24147 g HC.
+C 24177 g CY(
+C 24207 g HC.
+C 24237 g CY(
+C 24267 g HC.
+C 24297 g CY(
+C 24327 g HC.
+C 24357 g CY(
+C 24387 g HC.
+C 24417 g CY(
+C 24447 g HC.
+C 24477 g CY(
+C 24507 g HC.
+C 24537 g CY(
+C 24567 g HC.
+C 24597 g CY(
+C 24627 g HC.
+C 24657 g CY(
+C 24687 g HC.
+C 24717 g CY(
+C 24747 g HC.
+C 24777 g CY(
+C 24807 g HC.
+C 24837 g CY(
+C 24867 g HC.
+C 24897 g CY(
+C 24927 g HC.
+C 24957 g CY(
+C 24987 g HC.
+C 25017 g CY(
+C 25047 g HC.
+C 25077 g CY(
+C 25107 g HC.
+C 25137 g CY(
+C 25167 g HC.
+C 25197 g CY(
+C 25227 g HC.
+C 25257 g CY(
+C 25287 g HC.
+C 25317 g CY(
+C 25347 g HC.
+C 25377 g CY(
+C 25407 g HC.
+C 25437 g CY(
+C 25467 g HC.
+C 25497 g CY(
+C 25527 g HC.
+C 25557 g CY(
+C 25587 g HC.
+C 25617 g CY(
+C 25647 g HC.
+C 25677 g CY(
+C 25707 g HC.
+C 25737 g CY(
+C 25767 g HC.
+C 25797 g CY(
+C 25827 g HC.
+C 25857 g CY(
+C 25887 g HC.
+C 25917 g CY(
+C 25947 g HC.
+C 25977 g CY(
+C 26007 g HC.
+C 26037 g CY(
+C 26067 g HC.
+C 26097 g CY(
+C 26127 g HC.
+C 26157 g CY(
+C 26187 g HC.
+C 26217 g CY(
+C 26247 g HC.
+C 26277 g CY(
+C 26307 g HC.
+C 26337 g CY(
+C 26367 g HC.
+C 26397 g CY(
+C 26427 g HC.
+C 26457 g CY(
+C 26487 g HC.
+C 26517 g CY(
+C 26547 g HC.
+C 26577 g CY(
+C 26607 g HC.
+C 26637 g CY(
+C 26667 g HC.
+C 26697 g CY(
+C 26727 g HC.
+C 26757 g CY(
+C 26787 g HC.
+C 26817 g CY(
+C 26847 g HC.
+C 26877 g CY(
+C 26907 g HC.
+C 26937 g CY(
+C 26967 g HC.
+C 26997 g CY(
+C 27027 g HC.
+C 27057 g CY(
+C 27087 g HC.
+C 27117 g CY(
+C 27147 g HC.
+C 27177 g CY(
+C 27207 g HC.
+C 27237 g CY(
+C 27267 g HC.
+C 27297 g CY(
+C 27327 g HC.
+C 27357 g CY(
+C 27387 g HC.
+C 27417 g CY(
+C 27447 g HC.
+C 27477 g CY(
+C 27507 g HC.
+C 27537 g CY(
+C 27567 g HC.
+C 27597 g CY(
+C 27627 g HC.
+C 27657 g CY(
+C 27687 g HC.
+C 27717 g CY(
+C 27747 g HC.
+C 27777 g CY(
+C 27807 g HC.
+C 27837 g CY(
+C 27867 g HC.
+C 27897 g CY(
+C 27927 g HC.
+C 27957 g CY(
+C 27987 g HC.
+C 28017 g CY(
+C 28047 g HC.
+C 28077 g CY(
+C 28107 g HC.
+C 28137 g CY(
+C 28167 g HC.
+C 28197 g CY(
+C 28227 g HC.
+C 28257 g CY(
+C 28287 g HC.
+C 28317 g CY(
+C 28347 g HC.
+C 28377 g CY(
+C 28407 g HC.
+C 28437 g CY(
+C 28467 g HC.
+C 28497 g CY(
+C 28527 g HC.
+C 28557 g CY(
+C 28587 g HC.
+C 28617 g CY(
+C 28647 g HC.
+C 28677 g CY(
+C 28707 g HC.
+C 28737 g CY(
+C 28767 g HC.
+C 28797 g CY(
+C 28827 g HC.
+C 28857 g CY(
+C 28887 g HC.
+C 28917 g CY(
+C 28947 g HC.
+C 28977 g CY(
+C 29007 g HC.
+C 29037 g CY(
+C 29067 g HC.
+C 29097 g CY(
+C 29127 g HC.
+C 29157 g CY(
+C 29187 g HC.
+C 29217 g CY(
+C 29247 g HC.
+C 29277 g CY(
+C 29307 g HC.
+C 29337 g CY(
+C 29367 g HC.
+C 29397 g CY(
+C 29427 g HC.
+C 29457 g CY(
+C 29487 g HC.
+C 29517 g CY(
+C 29547 g HC.
+C 29577 g CY(
+C 29607 g HC.
+C 29637 g CY(
+C 29667 g HC.
+C 29697 g CY(
+C 29727 g HC.
+C 29757 g CY(
+C 29787 g HC.
+C 29817 g CY(
+C 29847 g HC.
+C 29877 g CY(
+C 29907 g HC.
+C 29937 g CY(
+C 29967 g HC.
+C 29997 g CY(
+C 30027 g HC.
+C 30057 g CY(
+C 30087 g HC.
+C 30117 g CY(
+C 30147 g HC.
+C 30177 g CY(
+C 30207 g HC.
+C 30237 g CY(
+C 30267 g HC.
+C 30297 g CY(
+C 30327 g HC.
+C 30357 g CY(
+C 30387 g HC.
+C 30417 g CY(
+C 30447 g HC.
+C 30477 g CY(
+C 30507 g HC.
+C 30537 g CY(
+C 30567 g HC.
+C 30597 g CY(
+C 30627 g HC.
+C 30657 g CY(
+C 30687 g HC.
+C 30717 g CY(
+C 30747 g HC.
+C 30777 g CY(
+C 30807 g HC.
+C 30837 g CY(
+C 30867 g HC.
+C 30897 g CY(
+C 30927 g HC.
+C 30957 g CY(
+C 30987 g HC.
+C 31017 g CY(
+C 31047 g HC.
+C 31077 g CY(
+C 31107 g HC.
+C 31137 g CY(
+C 31167 g HC.
+C 31197 g CY(
+C 31227 g HC.
+C 31257 g CY(
+C 31287 g HC.
+C 31317 g CY(
+C 31347 g HC.
+C 31377 g CY(
+C 31407 g HC.
+C 31437 g CY(
+C 31467 g HC.
+C 31497 g CY(
+C 31527 g HC.
+C 31557 g CY(
+C 31587 g HC.
+C 31617 g CY(
+C 31647 g HC.
+C 31677 g CY(
+C 31707 g HC.
+C 31737 g CY(
+C 31767 g HC.
+C 31797 g CY(
+C 31827 g HC.
+C 31857 g CY(
+C 31887 g HC.
+C 31917 g CY(
+C 31947 g HC.
+C 31977 g CY(
+C 32007 g HC.
+C 32037 g CY(
+C 32067 g HC.
+C 32097 g CY(
+C 32127 g HC.
+C 32157 g CY(
+C 32187 g HC.
+C 32217 g CY(
+C 32247 g HC.
+C 32277 g CY(
+C 32307 g HC.
+C 32337 g CY(
+C 32367 g HC.
+C 32397 g CY(
+C 32427 g HC.
+C 32457 g CY(
+C 32487 g HC.
+C 32517 g CY(
+C 32547 g HC.
+C 32577 g CY(
+C 32607 g HC.
+C 32637 g CY(
+C 32667 g HC.
+C 32697 g CY(
+C 32727 g HC.
+C 32757 g CY(
+C 32787 g HC.
+C 32817 g CY(
+C 32847 g HC.
+C 32877 g CY(
+C 32907 g HC.
+C 32937 g CY(
+C 32967 g HC.
+C 32997 g CY(
+C 33027 g HC.
+C 33057 g CY(
+C 33087 g HC.
+C 33117 g CY(
+C 33147 g HC.
+C 33177 g CY(
+C 33207 g HC.
+C 33237 g CY(
+C 33267 g HC.
+C 33297 g CY(
+C 33327 g HC.
+C 33357 g CY(
+C 33387 g HC.
+C 33417 g CY(
+C 33447 g HC.
+C 33477 g CY(
+C 33507 g HC.
+C 33537 g CY(
+C 33567 g HC.
+C 33597 g CY(
+C 33627 g HC.
+C 33657 g CY(
+C 33687 g HC.
+C 33717 g CY(
+C 33747 g HC.
+C 33777 g CY(
+C 33807 g HC.
+C 33837 g CY(
+C 33867 g HC.
+C 33897 g CY(
+C 33927 g HC.
+C 33957 g CY(
+C 33987 g HC.
+C 34017 g CY(
+C 34047 g HC.
+C 34077 g CY(
+C 34107 g HC.
+C 34137 g CY(
+C 34167 g HC.
+C 34197 g CY(
+C 34227 g HC.
+C 34257 g CY(
+C 34287 g HC.
+C 34317 g CY(
+C 34347 g HC.
+C 34377 g CY(
+C 34407 g HC.
+C 34437 g CY(
+C 34467 g HC.
+C 34497 g CY(
+C 34527 g HC.
+C 34557 g CY(
+C 34587 g HC.
+C 34617 g CY(
+C 34647 g HC.
+C 34677 g CY(
+C 34707 g HC.
+C 34737 g CY(
+C 34767 g HC.
+C 34797 g CY(
+C 34827 g HC.
+C 34857 g CY(
+C 34887 g HC.
+C 34917 g CY(
+C 34947 g HC.
+C 34977 g CY(
+C 35007 g HC.
+C 35037 g CY(
+C 35067 g HC.
+C 35097 g CY(
+C 35127 g HC.
+C 35157 g CY(
+C 35187 g HC.
+C 35217 g CY(
+C 35247 g HC.
+C 35277 g CY(
+C 35307 g HC.
+C 35337 g CY(
+C 35367 g HC.
+C 35397 g CY(
+C 35427 g HC.
+C 35457 g CY(
+C 35487 g HC.
+C 35517 g CY(
+C 35547 g HC.
+C 35577 g CY(
+C 35607 g HC.
+C 35637 g CY(
+C 35667 g HC.
+C 35697 g CY(
+C 35727 g HC.
+C 35757 g CY(
+C 35787 g HC.
+C 35817 g CY(
+C 35847 g HC.
+C 35877 g CY(
+C 35907 g HC.
+C 35937 g CY(
+C 35967 g HC.
+C 35997 g CY(
+C 36027 g HC.
+C 36057 g CY(
+C 36087 g HC.
+C 36117 g CY(
+C 36147 g HC.
+C 36177 g CY(
+C 36207 g HC.
+C 36237 g CY(
+C 36267 g HC.
+C 36297 g CY(
+C 36327 g HC.
+C 36357 g CY(
+C 36387 g HC.
+C 36417 g CY(
+C 36447 g HC.
+C 36477 g CY(
+C 36507 g HC.
+C 36537 g CY(
+C 36567 g HC.
+C 36597 g CY(
+C 36627 g HC.
+C 36657 g CY(
+C 36687 g HC.
+C 36717 g CY(
+C 36747 g HC.
+C 36777 g CY(
+C 36807 g HC.
+C 36837 g CY(
+C 36867 g HC.
+C 36897 g CY(
+C 36927 g HC.
+C 36957 g CY(
+C 36987 g HC.
+C 37017 g CY(
+C 37047 g HC.
+C 37077 g CY(
+C 37107 g HC.
+C 37137 g CY(
+C 37167 g HC.
+C 37197 g CY(
+C 37227 g HC.
+C 37257 g CY(
+C 37287 g HC.
+C 37317 g CY(
+C 37347 g HC.
+C 37377 g CY(
+C 37407 g HC.
+C 37437 g CY(
+C 37467 g HC.
+C 37497 g CY(
+C 37527 g HC.
+C 37557 g CY(
+C 37587 g HC.
+C 37617 g CY(
+C 37647 g HC.
+C 37677 g CY(
+C 37707 g HC.
+C 37737 g CY(
+C 37767 g HC.
+C 37797 g CY(
+C 37827 g HC.
+C 37857 g CY(
+C 37887 g HC.
+C 37917 g CY(
+C 37947 g HC.
+C 37977 g CY(
+C 38007 g HC.
+C 38037 g CY(
+C 38067 g HC.
+C 38097 g CY(
+C 38127 g HC.
+C 38157 g CY(
+C 38187 g HC.
+C 38217 g CY(
+C 38247 g HC.
+C 38277 g CY(
+C 38307 g HC.
+C 38337 g CY(
+C 38367 g HC.
+C 38397 g CY(
+C 38427 g HC.
+C 38457 g CY(
+C 38487 g HC.
+C 38517 g CY(
+C 38547 g HC.
+C 38577 g CY(
+C 38607 g HC.
+C 38637 g CY(
+C 38667 g HC.
+C 38697 g CY(
+C 38727 g HC.
+C 38757 g CY(
+C 38787 g HC.
+C 38817 g CY(
+C 38847 g HC.
+C 38877 g CY(
+C 38907 g HC.
+C 38937 g CY(
+C 38967 g HC.
+C 38997 g CY(
+C 39027 g HC.
+C 39057 g CY(
+C 39087 g HC.
+C 39117 g CY(
+C 39147 g HC.
+C 39177 g CY(
+C 39207 g HC.
+C 39237 g CY(
+C 39267 g HC.
+C 39297 g CY(
+C 39327 g HC.
+C 39357 g CY(
+C 39387 g HC.
+C 39417 g CY(
+C 39447 g HC.
+C 39477 g CY(
+C 39507 g HC.
+C 39537 g CY(
+C 39567 g HC.
+C 39597 g CY(
+C 39627 g HC.
+C 39657 g CY(
+C 39687 g HC.
+C 39717 g CY(
+C 39747 g HC.
+C 39777 g CY(
+C 39807 g HC.
+C 39837 g CY(
+C 39867 g HC.
+C 39897 g CY(
+C 39927 g HC.
+C 39957 g CY(
+C 39987 g HC.
+C 40017 g CY(
+C 40047 g HC.
+C 40077 g CY(
+C 40107 g HC.
+C 40137 g CY(
+C 40167 g HC.
+C 40197 g CY(
+C 40227 g HC.
+C 40257 g CY(
+C 40287 g HC.
+C 40317 g CY(
+C 40347 g HC.
+C 40377 g CY(
+C 40407 g HC.
+C 40437 g CY(
+C 40467 g HC.
+C 40497 g CY(
+C 40527 g HC.
+C 40557 g CY(
+C 40587 g HC.
+C 40617 g CY(
+C 40647 g HC.
+C 40677 g CY(
+C 40707 g HC.
+C 40737 g CY(
+C 40767 g HC.
+C 40797 g CY(
+C 40827 g HC.
+C 40857 g CY(
+C 40887 g HC.
+C 40917 g CY(
+C 40947 g HC.
+C 40977 g CY(
+C 41007 g HC.
+C 41037 g CY(
+C 41067 g HC.
+C 41097 g CY(
+C 41127 g HC.
+C 41157 g CY(
+C 41187 g HC.
+C 41217 g CY(
+C 41247 g HC.
+C 41277 g CY(
+C 41307 g HC.
+C 41337 g CY(
+C 41367 g HC.
+C 41397 g CY(
+C 41427 g HC.
+C 41457 g CY(
+C 41487 g HC.
+C 41517 g CY(
+C 41547 g HC.
+C 41577 g CY(
+C 41607 g HC.
+C 41637 g CY(
+C 41667 g HC.
+C 41697 g CY(
+C 41727 g HC.
+C 41757 g CY(
+C 41787 g HC.
+C 41817 g CY(
+C 41847 g HC.
+C 41877 g CY(
+C 41907 g HC.
+C 41937 g CY(
+C 41967 g HC.
+C 41997 g CY(
+C 42027 g HC.
+C 42057 g CY(
+C 42087 g HC.
+C 42117 g CY(
+C 42147 g HC.
+C 42177 g CY(
+C 42207 g HC.
+C 42237 g CY(
+C 42267 g HC.
+C 42297 g CY(
+C 42327 g HC.
+C 42357 g CY(
+C 42387 g HC.
+C 42417 g CY(
+C 42447 g HC.
+C 42477 g CY(
+C 42507 g HC.
+C 42537 g CY(
+C 42567 g HC.
+C 42597 g CY(
+C 42627 g HC.
+C 42657 g CY(
+C 42687 g HC.
+C 42717 g CY(
+C 42747 g HC.
+C 42777 g CY(
+C 42807 g HC.
+C 42837 g CY(
+C 42867 g HC.
+C 42897 g CY(
+C 42927 g HC.
+C 42957 g CY(
+C 42987 g HC.
+C 43017 g CY(
+C 43047 g HC.
+C 43077 g CY(
+C 43107 g HC.
+C 43137 g CY(
+C 43167 g HC.
+C 43197 g CY(
+C 43227 g HC.
+C 43257 g CY(
+C 43287 g HC.
+C 43317 g CY(
+C 43347 g HC.
+C 43377 g CY(
+C 43407 g HC.
+C 43437 g CY(
+C 43467 g HC.
+C 43497 g CY(
+C 43527 g HC.
+C 43557 g CY(
+C 43587 g HC.
+C 43617 g CY(
+C 43647 g HC.
+C 43677 g CY(
+C 43707 g HC.
+C 43737 g CY(
+C 43767 g HC.
+C 43797 g CY(
+C 43827 g HC.
+C 43857 g CY(
+C 43887 g HC.
+C 43917 g CY(
+C 43947 g HC.
+C 43977 g CY(
+C 44007 g HC.
+C 44037 g CY(
+C 44067 g HC.
+C 44097 g CY(
+C 44127 g HC.
+C 44157 g CY(
+C 44187 g HC.
+C 44217 g CY(
+C 44247 g HC.
+C 44277 g CY(
+C 44307 g HC.
+C 44337 g CY(
+C 44367 g HC.
+C 44397 g CY(
+C 44427 g HC.
+C 44457 g CY(
+C 44487 g HC.
+C 44517 g CY(
+C 44547 g HC.
+C 44577 g CY(
+C 44607 g HC.
+C 44637 g CY(
+C 44667 g HC.
+C 44697 g CY(
+C 44727 g HC.
+C 44757 g CY(
+C 44787 g HC.
+C 44817 g CY(
+C 44847 g HC.
+C 44877 g CY(
+C 44907 g HC.
+C 44937 g CY(
+C 44967 g HC.
+C 44997 g CY(
+C 45027 g HC.
+C 45057 g CY(
+C 45087 g HC.
+C 45117 g CY(
+C 45147 g HC.
+C 45177 g CY(
+C 45207 g HC.
+C 45237 g CY(
+C 45267 g HC.
+C 45297 g CY(
+C 45327 g HC.
+C 45357 g CY(
+C 45387 g HC.
+C 45417 g CY(
+C 45447 g HC.
+C 45477 g CY(
+C 45507 g HC.
+C 45537 g CY(
+C 45567 g HC.
+C 45597 g CY(
+C 45627 g HC.
+C 45657 g CY(
+C 45687 g HC.
+C 45717 g CY(
+C 45747 g HC.
+C 45777 g CY(
+C 45807 g HC.
+C 45837 g CY(
+C 45867 g HC.
+C 45897 g CY(
+C 45927 g HC.
+C 45957 g CY(
+C 45987 g HC.
+C 46017 g CY(
+C 46047 g HC.
+C 46077 g CY(
+C 46107 g HC.
+C 46137 g CY(
+C 46167 g HC.
+C 46197 g CY(
+C 46227 g HC.
+C 46257 g CY(
+C 46287 g HC.
+C 46317 g CY(
+C 46347 g HC.
+C 46377 g CY(
+C 46407 g HC.
+C 46437 g CY(
+C 46467 g HC.
+C 46497 g CY(
+C 46527 g HC.
+C 46557 g CY(
+C 46587 g HC.
+C 46617 g CY(
+C 46647 g HC.
+C 46677 g CY(
+C 46707 g HC.
+C 46737 g CY(
+C 46767 g HC.
+C 46797 g CY(
+C 46827 g HC.
+C 46857 g CY(
+C 46887 g HC.
+C 46917 g CY(
+C 46947 g HC.
+C 46977 g CY(
+C 47007 g HC.
+C 47037 g CY(
+C 47067 g HC.
+C 47097 g CY(
+C 47127 g HC.
+C 47157 g CY(
+C 47187 g HC.
+C 47217 g CY(
+C 47247 g HC.
+C 47277 g CY(
+C 47307 g HC.
+C 47337 g CY(
+C 47367 g HC.
+C 47397 g CY(
+C 47427 g HC.
+C 47457 g CY(
+C 47487 g HC.
+C 47517 g CY(
+C 47547 g HC.
+C 47577 g CY(
+C 47607 g HC.
+C 47637 g CY(
+C 47667 g HC.
+C 47697 g CY(
+C 47727 g HC.
+C 47757 g CY(
+C 47787 g HC.
+C 47817 g CY(
+C 47847 g HC.
+C 47877 g CY(
+C 47907 g HC.
+C 47937 g CY(
+C 47967 g HC.
+C 47997 g CY(
+C 48027 g HC.
+C 48057 g CY(
+C 48087 g HC.
+C 48117 g CY(
+C 48147 g HC.
+C 48177 g CY(
+C 48207 g HC.
+C 48237 g CY(
+C 48267 g HC.
+C 48297 g CY(
+C 48327 g HC.
+C 48357 g CY(
+C 48387 g HC.
+C 48417 g CY(
+C 48447 g HC.
+C 48477 g CY(
+C 48507 g HC.
+C 48537 g CY(
+C 48567 g HC.
+C 48597 g CY(
+C 48627 g HC.
+C 48657 g CY(
+C 48687 g HC.
+C 48717 g CY(
+C 48747 g HC.
+C 48777 g CY(
+C 48807 g HC.
+C 48837 g CY(
+C 48867 g HC.
+C 48897 g CY(
+C 48927 g HC.
+C 48957 g CY(
+C 48987 g HC.
+C 49017 g CY(
+C 49047 g HC.
+C 49077 g CY(
+C 49107 g HC.
+C 49137 g CY(
+C 49167 g HC.
+C 49197 g CY(
+C 49227 g HC.
+C 49257 g CY(
+C 49287 g HC.
+C 49317 g CY(
+C 49347 g HC.
+C 49377 g CY(
+C 49407 g HC.
+C 49437 g CY(
+C 49467 g HC.
+C 49497 g CY(
+C 49527 g HC.
+C 49557 g CY(
+C 49587 g HC.
+C 49617 g CY(
+C 49647 g HC.
+C 49677 g CY(
+C 49707 g HC.
+C 49737 g CY(
+C 49767 g HC.
+C 49797 g CY(
+C 49827 g HC.
+C 49857 g CY(
+C 49887 g HC.
+C 49917 g CY(
+C 49947 g HC.
+C 49977 g CY(
+C 50007 g HC.
+C 50037 g CY(
+C 50067 g HC.
+C 50097 g CY(
+C 50127 g HC.
+C 50157 g CY(
+C 50187 g HC.
+C 50217 g CY(
+C 50247 g HC.
+C 50277 g CY(
+C 50307 g HC.
+C 50337 g CY(
+C 50367 g HC.
+C 50397 g CY(
+C 50427 g HC.
+C 50457 g CY(
+C 50487 g HC.
+C 50517 g CY(
+C 50547 g HC.
+C 50577 g CY(
+C 50607 g HC.
+C 50637 g CY(
+C 50667 g HC.
+C 50697 g CY(
+C 50727 g HC.
+C 50757 g CY(
+C 50787 g HC.
+C 50817 g CY(
+C 50847 g HC.
+C 50877 g CY(
+C 50907 g HC.
+C 50937 g CY(
+C 50967 g HC.
+C 50997 g CY(
+C 51027 g HC.
+C 51057 g CY(
+C 51087 g HC.
+C 51117 g CY(
+C 51147 g HC.
+C 51177 g CY(
+C 51207 g HC.
+C 51237 g CY(
+C 51267 g HC.
+C 51297 g CY(
+C 51327 g HC.
+C 51357 g CY(
+C 51387 g HC.
+C 51417 g CY(
+C 51447 g HC.
+C 51477 g CY(
+C 51507 g HC.
+C 51537 g CY(
+C 51567 g HC.
+C 51597 g CY(
+C 51627 g HC.
+C 51657 g CY(
+C 51687 g HC.
+C 51717 g CY(
+C 51747 g HC.
+C 51777 g CY(
+C 51807 g HC.
+C 51837 g CY(
+C 51867 g HC.
+C 51897 g CY(
+C 51927 g HC.
+C 51957 g CY(
+C 51987 g HC.
+C 52017 g CY(
+C 52047 g HC.
+C 52077 g CY(
+C 52107 g HC.
+C 52137 g CY(
+C 52167 g HC.
+C 52197 g CY(
+C 52227 g HC.
+C 52257 g CY(
+C 52287 g HC.
+C 52317 g CY(
+C 52347 g HC.
+C 52377 g CY(
+C 52407 g HC.
+C 52437 g CY(
+C 52467 g HC.
+C 52497 g CY(
+C 52527 g HC.
+C 52557 g CY(
+C 52587 g HC.
+C 52617 g CY(
+C 52647 g HC.
+C 52677 g CY(
+C 52707 g HC.
+C 52737 g CY(
+C 52767 g HC.
+C 52797 g CY(
+C 52827 g HC.
+C 52857 g CY(
+C 52887 g HC.
+C 52917 g CY(
+C 52947 g HC.
+C 52977 g CY(
+C 53007 g HC.
+C 53037 g CY(
+C 53067 g HC.
+C 53097 g CY(
+C 53127 g HC.
+C 53157 g CY(
+C 53187 g HC.
+C 53217 g CY(
+C 53247 g HC.
+C 53277 g CY(
+C 53307 g HC.
+C 53337 g CY(
+C 53367 g HC.
+C 53397 g CY(
+C 53427 g HC.
+C 53457 g CY(
+C 53487 g HC.
+C 53517 g CY(
+C 53547 g HC.
+C 53577 g CY(
+C 53607 g HC.
+C 53637 g CY(
+C 53667 g HC.
+C 53697 g CY(
+C 53727 g HC.
+C 53757 g CY(
+C 53787 g HC.
+C 53817 g CY(
+C 53847 g HC.
+C 53877 g CY(
+C 53907 g HC.
+C 53937 g CY(
+C 53967 g HC.
+C 53997 g CY(
+C 54027 g HC.
+C 54057 g CY(
+C 54087 g HC.
+C 54117 g CY(
+C 54147 g HC.
+C 54177 g CY(
+C 54207 g HC.
+C 54237 g CY(
+C 54267 g HC.
+C 54297 g CY(
+C 54327 g HC.
+C 54357 g CY(
+C 54387 g HC.
+C 54417 g CY(
+C 54447 g HC.
+C 54477 g CY(
+C 54507 g HC.
+C 54537 g CY(
+C 54567 g HC.
+C 54597 g CY(
+C 54627 g HC.
+C 54657 g CY(
+C 54687 g HC.
+C 54717 g CY(
+C 54747 g HC.
+C 54777 g CY(
+C 54807 g HC.
+C 54837 g CY(
+C 54867 g HC.
+C 54897 g CY(
+C 54927 g HC.
+C 54957 g CY(
+C 54987 g HC.
+C 55017 g CY(
+C 55047 g HC.
+C 55077 g CY(
+C 55107 g HC.
+C 55137 g CY(
+C 55167 g HC.
+C 55197 g CY(
+C 55227 g HC.
+C 55257 g CY(
+C 55287 g HC.
+C 55317 g CY(
+C 55347 g HC.
+C 55377 g CY(
+C 55407 g HC.
+C 55437 g CY(
+C 55467 g HC.
+C 55497 g CY(
+C 55527 g HC.
+C 55557 g CY(
+C 55587 g HC.
+C 55617 g CY(
+C 55647 g HC.
+C 55677 g CY(
+C 55707 g HC.
+C 55737 g CY(
+C 55767 g HC.
+C 55797 g CY(
+C 55827 g HC.
+C 55857 g CY(
+C 55887 g HC.
+C 55917 g CY(
+C 55947 g HC.
+C 55977 g CY(
+C 56007 g HC.
+C 56037 g CY(
+C 56067 g HC.
+C 56097 g CY(
+C 56127 g HC.
+C 56157 g CY(
+C 56187 g HC.
+C 56217 g CY(
+C 56247 g HC.
+C 56277 g CY(
+C 56307 g HC.
+C 56337 g CY(
+C 56367 g HC.
+C 56397 g CY(
+C 56427 g HC.
+C 56457 g CY(
+C 56487 g HC.
+C 56517 g CY(
+C 56547 g HC.
+C 56577 g CY(
+C 56607 g HC.
+C 56637 g CY(
+C 56667 g HC.
+C 56697 g CY(
+C 56727 g HC.
+C 56757 g CY(
+C 56787 g HC.
+C 56817 g CY(
+C 56847 g HC.
+C 56877 g CY(
+C 56907 g HC.
+C 56937 g CY(
+C 56967 g HC.
+C 56997 g CY(
+C 57027 g HC.
+C 57057 g CY(
+C 57087 g HC.
+C 57117 g CY(
+C 57147 g HC.
+C 57177 g CY(
+C 57207 g HC.
+C 57237 g CY(
+C 57267 g HC.
+C 57297 g CY(
+C 57327 g HC.
+C 57357 g CY(
+C 57387 g HC.
+C 57417 g CY(
+C 57447 g HC.
+C 57477 g CY(
+C 57507 g HC.
+C 57537 g CY(
+C 57567 g HC.
+C 57597 g CY(
+C 57627 g HC.
+C 57657 g CY(
+C 57687 g HC.
+C 57717 g CY(
+C 57747 g HC.
+C 57777 g CY(
+C 57807 g HC.
+C 57837 g CY(
+C 57867 g HC.
+C 57897 g CY(
+C 57927 g HC.
+C 57957 g CY(
+C 57987 g HC.
+C 58017 g CY(
+C 58047 g HC.
+C 58077 g CY(
+C 58107 g HC.
+C 58137 g CY(
+C 58167 g HC.
+C 58197 g CY(
+C 58227 g HC.
+C 58257 g CY(
+C 58287 g HC.
+C 58317 g CY(
+C 58347 g HC.
+C 58377 g CY(
+C 58407 g HC.
+C 58437 g CY(
+C 58467 g HC.
+C 58497 g CY(
+C 58527 g HC.
+C 58557 g CY(
+C 58587 g HC.
+C 58617 g CY(
+C 58647 g HC.
+C 58677 g CY(
+C 58707 g HC.
+C 58737 g CY(
+C 58767 g HC.
+C 58797 g CY(
+C 58827 g HC.
+C 58857 g CY(
+C 58887 g HC.
+C 58917 g CY(
+C 58947 g HC.
+C 58977 g CY(
+C 59007 g HC.
+C 59037 g CY(
+C 59067 g HC.
+C 59097 g CY(
+C 59127 g HC.
+C 59157 g CY(
+C 59187 g HC.
+C 59217 g CY(
+C 59247 g HC.
+C 59277 g CY(
+C 59307 g HC.
+C 59337 g CY(
+C 59367 g HC.
+C 59397 g CY(
+C 59427 g HC.
+C 59457 g CY(
+C 59487 g HC.
+C 59517 g CY(
+C 59547 g HC.
+C 59577 g CY(
+C 59607 g HC.
+C 59637 g CY(
+C 59667 g HC.
+C 59697 g CY(
+C 59727 g HC.
+C 59757 g CY(
+C 59787 g HC.
+C 59817 g CY(
+C 59847 g HC.
+C 59877 g CY(
+C 59907 g HC.
+C 59937 g CY(
+C 59967 g HC.
+C 59997 g CY(
+C 60027 g HC.
+C 60057 g CY(
+C 60087 g HC.
+C 60117 g CY(
+C 60147 g HC.
+C 60177 g CY(
+C 60207 g HC.
+C 60237 g CY(
+C 60267 g HC.
+C 60297 g CY(
+C 60327 g HC.
+C 60357 g CY(
+C 60387 g HC.
+C 60417 g CY(
+C 60447 g HC.
+C 60477 g CY(
+C 60507 g HC.
+C 60537 g CY(
+C 60567 g HC.
+C 60597 g CY(
+C 60627 g HC.
+C 60657 g CY(
+C 60687 g HC.
+C 60717 g CY(
+C 60747 g HC.
+C 60777 g CY(
+C 60807 g HC.
+C 60837 g CY(
+C 60867 g HC.
+C 60897 g CY(
+C 60927 g HC.
+C 60957 g CY(
+C 60987 g HC.
+C 61017 g CY(
+C 61047 g HC.
+C 61077 g CY(
+C 61107 g HC.
+C 61137 g CY(
+C 61167 g HC.
+C 61197 g CY(
+C 61227 g HC.
+C 61257 g CY(
+C 61287 g HC.
+C 61317 g CY(
+C 61347 g HC.
+C 61377 g CY(
+C 61407 g HC.
+C 61437 g CY(
+C 61467 g HC.
+C 61497 g CY(
+C 61527 g HC.
+C 61557 g CY(
+C 61587 g HC.
+C 61617 g CY(
+C 61647 g HC.
+C 61677 g CY(
+C 61707 g HC.
+C 61737 g CY(
+C 61767 g HC.
+C 61797 g CY(
+C 61827 g HC.
+C 61857 g CY(
+C 61887 g HC.
+C 61917 g CY(
+C 61947 g HC.
+C 61977 g CY(
+C 62007 g HC.
+C 62037 g CY(
+C 62067 g HC.
+C 62097 g CY(
+C 62127 g HC.
+C 62157 g CY(
+C 62187 g HC.
+C 62217 g CY(
+C 62247 g HC.
+C 62277 g CY(
+C 62307 g HC.
+C 62337 g CY(
+C 62367 g HC.
+C 62397 g CY(
+C 62427 g HC.
+C 62457 g CY(
+C 62487 g HC.
+C 62517 g CY(
+C 62547 g HC.
+C 62577 g CY(
+C 62607 g HC.
+C 62637 g CY(
+C 62667 g HC.
+C 62697 g CY(
+C 62727 g HC.
+C 62757 g CY(
+C 62787 g HC.
+C 62817 g CY(
+C 62847 g HC.
+C 62877 g CY(
+C 62907 g HC.
+C 62937 g CY(
+C 62967 g HC.
+C 62997 g CY(
+C 63027 g HC.
+C 63057 g CY(
+C 63087 g HC.
+C 63117 g CY(
+C 63147 g HC.
+C 63177 g CY(
+C 63207 g HC.
+C 63237 g CY(
+C 63267 g HC.
+C 63297 g CY(
+C 63327 g HC.
+C 63357 g CY(
+C 63387 g HC.
+C 63417 g CY(
+C 63447 g HC.
+C 63477 g CY(
+C 63507 g HC.
+C 63537 g CY(
+C 63567 g HC.
+C 63597 g CY(
+C 63627 g HC.
+C 63657 g CY(
+C 63687 g HC.
+C 63717 g CY(
+C 63747 g HC.
+C 63777 g CY(
+C 63807 g HC.
+C 63837 g CY(
+C 63867 g HC.
+C 63897 g CY(
+C 63927 g HC.
+C 63957 g CY(
+C 63987 g HC.
+C 64017 g CY(
+C 64047 g HC.
+C 64077 g CY(
+C 64107 g HC.
+C 64137 g CY(
+C 64167 g HC.
+C 64197 g CY(
+C 64227 g HC.
+C 64257 g CY(
+C 64287 g HC.
+C 64317 g CY(
+C 64347 g HC.
+C 64377 g CY(
+C 64407 g HC.
+C 64437 g CY(
+C 64467 g HC.
+C 64497 g CY(
+C 64527 g HC.
+C 64557 g CY(
+C 64587 g HC.
+C 64617 g CY(
+C 64647 g HC.
+C 64677 g CY(
+C 64707 g HC.
+C 64737 g CY(
+C 64767 g HC.
+C 64797 g CY(
+C 64827 g HC.
+C 64857 g CY(
+C 64887 g HC.
+C 64917 g CY(
+C 64947 g HC.
+C 64977 g CY(
+C 65007 g HC.
+C 65037 g CY(
+C 65067 g HC.
+C 65097 g CY(
+C 65127 g HC.
+C 65157 g CY(
+C 65187 g HC.
+C 65217 g CY(
+C 65247 g HC.
+C 65277 g CY(
+C 65307 g HC.
+C 65337 g CY(
+C 65367 g HC.
+C 65397 g CY(
+C 65427 g HC.
+C 65457 g CY(
+C 65487 g HC.
+C 65517 g CY(
+C 65547 g HC.
+C 65577 g CY(
+C 65607 g HC.
+C 65637 g CY(
+C 65667 g HC.
+C 65697 g CY(
+C 65727 g HC.
+C 65757 g CY(
+C 65787 g HC.
+C 65817 g CY(
+C 65847 g HC.
+C 65877 g CY(
+C 65907 g HC.
+C 65937 g CY(
+C 65967 g HC.
+C 65997 g CY(
+C 66027 g HC.
+C 66057 g CY(
+C 66087 g HC.
+C 66117 g CY(
+C 66147 g HC.
+C 66177 g CY(
+C 66207 g HC.
+C 66237 g CY(
+C 66267 g HC.
+C 66297 g CY(
+C 66327 g HC.
+C 66357 g CY(
+C 66387 g HC.
+C 66417 g CY(
+C 66447 g HC.
+C 66477 g CY(
+C 66507 g HC.
+C 66537 g CY(
+C 66567 g HC.
+C 66597 g CY(
+C 66627 g HC.
+C 66657 g CY(
+C 66687 g HC.
+C 66717 g CY(
+C 66747 g HC.
+C 66777 g CY(
+C 66807 g HC.
+C 66837 g CY(
+C 66867 g HC.
+C 66897 g CY(
+C 66927 g HC.
+C 66957 g CY(
+C 66987 g HC.
+C 67017 g CY(
+C 67047 g HC.
+C 67077 g CY(
+C 67107 g HC.
+C 67137 g CY(
+C 67167 g HC.
+C 67197 g CY(
+C 67227 g HC.
+C 67257 g CY(
+C 67287 g HC.
+C 67317 g CY(
+C 67347 g HC.
+C 67377 g CY(
+C 67407 g HC.
+C 67437 g CY(
+C 67467 g HC.
+C 67497 g CY(
+C 67527 g HC.
+C 67557 g CY(
+C 67587 g HC.
+C 67617 g CY(
+C 67647 g HC.
+C 67677 g CY(
+C 67707 g HC.
+C 67737 g CY(
+C 67767 g HC.
+C 67797 g CY(
+C 67827 g HC.
+C 67857 g CY(
+C 67887 g HC.
+C 67917 g CY(
+C 67947 g HC.
+C 67977 g CY(
+C 68007 g HC.
+C 68037 g CY(
+C 68067 g HC.
+C 68097 g CY(
+C 68127 g HC.
+C 68157 g CY(
+C 68187 g HC.
+C 68217 g CY(
+C 68247 g HC.
+C 68277 g CY(
+C 68307 g HC.
+C 68337 g CY(
+C 68367 g HC.
+C 68397 g CY(
+C 68427 g HC.
+C 68457 g CY(
+C 68487 g HC.
+C 68517 g CY(
+C 68547 g HC.
+C 68577 g CY(
+C 68607 g HC.
+C 68637 g CY(
+C 68667 g HC.
+C 68697 g CY(
+C 68727 g HC.
+C 68757 g CY(
+C 68787 g HC.
+C 68817 g CY(
+C 68847 g HC.
+C 68877 g CY(
+C 68907 g HC.
+C 68937 g CY(
+C 68967 g HC.
+C 68997 g CY(
+C 69027 g HC.
+C 69057 g CY(
+C 69087 g HC.
+C 69117 g CY(
+C 69147 g HC.
+C 69177 g CY(
+C 69207 g HC.
+C 69237 g CY(
+C 69267 g HC.
+C 69297 g CY(
+C 69327 g HC.
+C 69357 g CY(
+C 69387 g HC.
+C 69417 g CY(
+C 69447 g HC.
+C 69477 g CY(
+C 69507 g HC.
+C 69537 g CY(
+C 69567 g HC.
+C 69597 g CY(
+C 69627 g HC.
+C 69657 g CY(
+C 69687 g HC.
+C 69717 g CY(
+C 69747 g HC.
+C 69777 g CY(
+C 69807 g HC.
+C 69837 g CY(
+C 69867 g HC.
+C 69897 g CY(
+C 69927 g HC.
+C 69957 g CY(
+C 69987 g HC.
+C 70017 g CY(
+C 70047 g HC.
+C 70077 g CY(
+C 70107 g HC.
+C 70137 g CY(
+C 70167 g HC.
+C 70197 g CY(
+C 70227 g HC.
+C 70257 g CY(
+C 70287 g HC.
+C 70317 g CY(
+C 70347 g HC.
+C 70377 g CY(
+C 70407 g HC.
+C 70437 g CY(
+C 70467 g HC.
+C 70497 g CY(
+C 70527 g HC.
+C 70557 g CY(
+C 70587 g HC.
+C 70617 g CY(
+C 70647 g HC.
+C 70677 g CY(
+C 70707 g HC.
+C 70737 g CY(
+C 70767 g HC.
+C 70797 g CY(
+C 70827 g HC.
+C 70857 g CY(
+C 70887 g HC.
+C 70917 g CY(
+C 70947 g HC.
+C 70977 g CY(
+C 71007 g HC.
+C 71037 g CY(
+C 71067 g HC.
+C 71097 g CY(
+C 71127 g HC.
+C 71157 g CY(
+C 71187 g HC.
+C 71217 g CY(
+C 71247 g HC.
+C 71277 g CY(
+C 71307 g HC.
+C 71337 g CY(
+C 71367 g HC.
+C 71397 g CY(
+C 71427 g HC.
+C 71457 g CY(
+C 71487 g HC.
+C 71517 g CY(
+C 71547 g HC.
+C 71577 g CY(
+C 71607 g HC.
+C 71637 g CY(
+C 71667 g HC.
+C 71697 g CY(
+C 71727 g HC.
+C 71757 g CY(
+C 71787 g HC.
+C 71817 g CY(
+C 71847 g HC.
+C 71877 g CY(
+C 71907 g HC.
+C 71937 g CY(
+C 71967 g HC.
+C 71997 g CY(
+C 72027 g HC.
+C 72057 g CY(
+C 72087 g HC.
+C 72117 g CY(
+C 72147 g HC.
+C 72177 g CY(
+C 72207 g HC.
+C 72237 g CY(
+C 72267 g HC.
+C 72297 g CY(
+C 72327 g HC.
+C 72357 g CY(
+C 72387 g HC.
+C 72417 g CY(
+C 72447 g HC.
+C 72477 g CY(
+C 72507 g HC.
+C 72537 g CY(
+C 72567 g HC.
+C 72597 g CY(
+C 72627 g HC.
+C 72657 g CY(
+C 72687 g HC.
+C 72717 g CY(
+C 72747 g HC.
+C 72777 g CY(
+C 72807 g HC.
+C 72837 g CY(
+C 72867 g HC.
+C 72897 g CY(
+C 72927 g HC.
+C 72957 g CY(
+C 72987 g HC.
+C 73017 g CY(
+C 73047 g HC.
+C 73077 g CY(
+C 73107 g HC.
+C 73137 g CY(
+C 73167 g HC.
+C 73197 g CY(
+C 73227 g HC.
+C 73257 g CY(
+C 73287 g HC.
+C 73317 g CY(
+C 73347 g HC.
+C 73377 g CY(
+C 73407 g HC.
+C 73437 g CY(
+C 73467 g HC.
+C 73497 g CY(
+C 73527 g HC.
+C 73557 g CY(
+C 73587 g HC.
+C 73617 g CY(
+C 73647 g HC.
+C 73677 g CY(
+C 73707 g HC.
+C 73737 g CY(
+C 73767 g HC.
+C 73797 g CY(
+C 73827 g HC.
+C 73857 g CY(
+C 73887 g HC.
+C 73917 g CY(
+C 73947 g HC.
+C 73977 g CY(
+C 74007 g HC.
+C 74037 g CY(
+C 74067 g HC.
+C 74097 g CY(
+C 74127 g HC.
+C 74157 g CY(
+C 74187 g HC.
+C 74217 g CY(
+C 74247 g HC.
+C 74277 g CY(
+C 74307 g HC.
+C 74337 g CY(
+C 74367 g HC.
+C 74397 g CY(
+C 74427 g HC.
+C 74457 g CY(
+C 74487 g HC.
+C 74517 g CY(
+C 74547 g HC.
+C 74577 g CY(
+C 74607 g HC.
+C 74637 g CY(
+C 74667 g HC.
+C 74697 g CY(
+C 74727 g HC.
+C 74757 g CY(
+C 74787 g HC.
+C 74817 g CY(
+C 74847 g HC.
+C 74877 g CY(
+C 74907 g HC.
+C 74937 g CY(
+C 74967 g HC.
+C 74997 g CY(
+C 75027 g HC.
+C 75057 g CY(
+C 75087 g HC.
+C 75117 g CY(
+C 75147 g HC.
+C 75177 g CY(
+C 75207 g HC.
+C 75237 g CY(
+C 75267 g HC.
+C 75297 g CY(
+C 75327 g HC.
+C 75357 g CY(
+C 75387 g HC.
+C 75417 g CY(
+C 75447 g HC.
+C 75477 g CY(
+C 75507 g HC.
+C 75537 g CY(
+C 75567 g HC.
+C 75597 g CY(
+C 75627 g HC.
+C 75657 g CY(
+C 75687 g HC.
+C 75717 g CY(
+C 75747 g HC.
+C 75777 g CY(
+C 75807 g HC.
+C 75837 g CY(
+C 75867 g HC.
+C 75897 g CY(
+C 75927 g HC.
+C 75957 g CY(
+C 75987 g HC.
+C 76017 g CY(
+C 76047 g HC.
+C 76077 g CY(
+C 76107 g HC.
+C 76137 g CY(
+C 76167 g HC.
+C 76197 g CY(
+C 76227 g HC.
+C 76257 g CY(
+C 76287 g HC.
+C 76317 g CY(
+C 76347 g HC.
+C 76377 g CY(
+C 76407 g HC.
+C 76437 g CY(
+C 76467 g HC.
+C 76497 g CY(
+C 76527 g HC.
+C 76557 g CY(
+C 76587 g HC.
+C 76617 g CY(
+C 76647 g HC.
+C 76677 g CY(
+C 76707 g HC.
+C 76737 g CY(
+C 76767 g HC.
+C 76797 g CY(
+C 76827 g HC.
+C 76857 g CY(
+C 76887 g HC.
+C 76917 g CY(
+C 76947 g HC.
+C 76977 g CY(
+C 77007 g HC.
+C 77037 g CY(
+C 77067 g HC.
+C 77097 g CY(
+C 77127 g HC.
+C 77157 g CY(
+C 77187 g HC.
+C 77217 g CY(
+C 77247 g HC.
+C 77277 g CY(
+C 77307 g HC.
+C 77337 g CY(
+C 77367 g HC.
+C 77397 g CY(
+C 77427 g HC.
+C 77457 g CY(
+C 77487 g HC.
+C 77517 g CY(
+C 77547 g HC.
+C 77577 g CY(
+C 77607 g HC.
+C 77637 g CY(
+C 77667 g HC.
+C 77697 g CY(
+C 77727 g HC.
+C 77757 g CY(
+C 77787 g HC.
+C 77817 g CY(
+C 77847 g HC.
+C 77877 g CY(
+C 77907 g HC.
+C 77937 g CY(
+C 77967 g HC.
+C 77997 g CY(
+C 78027 g HC.
+C 78057 g CY(
+C 78087 g HC.
+C 78117 g CY(
+C 78147 g HC.
+C 78177 g CY(
+C 78207 g HC.
+C 78237 g CY(
+C 78267 g HC.
+C 78297 g CY(
+C 78327 g HC.
+C 78357 g CY(
+C 78387 g HC.
+C 78417 g CY(
+C 78447 g HC.
+C 78477 g CY(
+C 78507 g HC.
+C 78537 g CY(
+C 78567 g HC.
+C 78597 g CY(
+C 78627 g HC.
+C 78657 g CY(
+C 78687 g HC.
+C 78717 g CY(
+C 78747 g HC.
+C 78777 g CY(
+C 78807 g HC.
+C 78837 g CY(
+C 78867 g HC.
+C 78897 g CY(
+C 78927 g HC.
+C 78957 g CY(
+C 78987 g HC.
+C 79017 g CY(
+C 79047 g HC.
+C 79077 g CY(
+C 79107 g HC.
+C 79137 g CY(
+C 79167 g HC.
+C 79197 g CY(
+C 79227 g HC.
+C 79257 g CY(
+C 79287 g HC.
+C 79317 g CY(
+C 79347 g HC.
+C 79377 g CY(
+C 79407 g HC.
+C 79437 g CY(
+C 79467 g HC.
+C 79497 g CY(
+C 79527 g HC.
+C 79557 g CY(
+C 79587 g HC.
+C 79617 g CY(
+C 79647 g HC.
+C 79677 g CY(
+C 79707 g HC.
+C 79737 g CY(
+C 79767 g HC.
+C 79797 g CY(
+C 79827 g HC.
+C 79857 g CY(
+C 79887 g HC.
+C 79917 g CY(
+C 79947 g HC.
+C 79977 g CY(
+C 80007 g HC.
+C 80037 g CY(
+C 80067 g HC.
+C 80097 g CY(
+C 80127 g HC.
+C 80157 g CY(
+C 80187 g HC.
+C 80217 g CY(
+C 80247 g HC.
+C 80277 g CY(
+C 80307 g HC.
+C 80337 g CY(
+C 80367 g HC.
+C 80397 g CY(
+C 80427 g HC.
+C 80457 g CY(
+C 80487 g HC.
+C 80517 g CY(
+C 80547 g HC.
+C 80577 g CY(
+C 80607 g HC.
+C 80637 g CY(
+C 80667 g HC.
+C 80697 g CY(
+C 80727 g HC.
+C 80757 g CY(
+C 80787 g HC.
+C 80817 g CY(
+C 80847 g HC.
+C 80877 g CY(
+C 80907 g HC.
+C 80937 g CY(
+C 80967 g HC.
+C 80997 g CY(
+C 81027 g HC.
+C 81057 g CY(
+C 81087 g HC.
+C 81117 g CY(
+C 81147 g HC.
+C 81177 g CY(
+C 81207 g HC.
+C 81237 g CY(
+C 81267 g HC.
+C 81297 g CY(
+C 81327 g HC.
+C 81357 g CY(
+C 81387 g HC.
+C 81417 g CY(
+C 81447 g HC.
+C 81477 g CY(
+C 81507 g HC.
+C 81537 g CY(
+C 81567 g HC.
+C 81597 g CY(
+C 81627 g HC.
+C 81657 g CY(
+C 81687 g HC.
+C 81717 g CY(
+C 81747 g HC.
+C 81777 g CY(
+C 81807 g HC.
+C 81837 g CY(
+C 81867 g HC.
+C 81897 g CY(
+C 81927 g HC.
+C 81957 g CY(
+C 81987 g HC.
+C 82017 g CY(
+C 82047 g HC.
+C 82077 g CY(
+C 82107 g HC.
+C 82137 g CY(
+C 82167 g HC.
+C 82197 g CY(
+C 82227 g HC.
+C 82257 g CY(
+C 82287 g HC.
+C 82317 g CY(
+C 82347 g HC.
+C 82377 g CY(
+C 82407 g HC.
+C 82437 g CY(
+C 82467 g HC.
+C 82497 g CY(
+C 82527 g HC.
+C 82557 g CY(
+C 82587 g HC.
+C 82617 g CY(
+C 82647 g HC.
+C 82677 g CY(
+C 82707 g HC.
+C 82737 g CY(
+C 82767 g HC.
+C 82797 g CY(
+C 82827 g HC.
+C 82857 g CY(
+C 82887 g HC.
+C 82917 g CY(
+C 82947 g HC.
+C 82977 g CY(
+C 83007 g HC.
+C 83037 g CY(
+C 83067 g HC.
+C 83097 g CY(
+C 83127 g HC.
+C 83157 g CY(
+C 83187 g HC.
+C 83217 g CY(
+C 83247 g HC.
+C 83277 g CY(
+C 83307 g HC.
+C 83337 g CY(
+C 83367 g HC.
+C 83397 g CY(
+C 83427 g HC.
+C 83457 g CY(
+C 83487 g HC.
+C 83517 g CY(
+C 83547 g HC.
+C 83577 g CY(
+C 83607 g HC.
+C 83637 g CY(
+C 83667 g HC.
+C 83697 g CY(
+C 83727 g HC.
+C 83757 g CY(
+C 83787 g HC.
+C 83817 g CY(
+C 83847 g HC.
+C 83877 g CY(
+C 83907 g HC.
+C 83937 g CY(
+C 83967 g HC.
+C 83997 g CY(
+C 84027 g HC.
+C 84057 g CY(
+C 84087 g HC.
+C 84117 g CY(
+C 84147 g HC.
+C 84177 g CY(
+C 84207 g HC.
+C 84237 g CY(
+C 84267 g HC.
+C 84297 g CY(
+C 84327 g HC.
+C 84357 g CY(
+C 84387 g HC.
+C 84417 g CY(
+C 84447 g HC.
+C 84477 g CY(
+C 84507 g HC.
+C 84537 g CY(
+C 84567 g HC.
+C 84597 g CY(
+C 84627 g HC.
+C 84657 g CY(
+C 84687 g HC.
+C 84717 g CY(
+C 84747 g HC.
+C 84777 g CY(
+C 84807 g HC.
+C 84837 g CY(
+C 84867 g HC.
+C 84897 g CY(
+C 84927 g HC.
+C 84957 g CY(
+C 84987 g HC.
+C 85017 g CY(
+C 85047 g HC.
+C 85077 g CY(
+C 85107 g HC.
+C 85137 g CY(
+C 85167 g HC.
+C 85197 g CY(
+C 85227 g HC.
+C 85257 g CY(
+C 85287 g HC.
+C 85317 g CY(
+C 85347 g HC.
+C 85377 g CY(
+C 85407 g HC.
+C 85437 g CY(
+C 85467 g HC.
+C 85497 g CY(
+C 85527 g HC.
+C 85557 g CY(
+C 85587 g HC.
+C 85617 g CY(
+C 85647 g HC.
+C 85677 g CY(
+C 85707 g HC.
+C 85737 g CY(
+C 85767 g HC.
+C 85797 g CY(
+C 85827 g HC.
+C 85857 g CY(
+C 85887 g HC.
+C 85917 g CY(
+C 85947 g HC.
+C 85977 g CY(
+C 86007 g HC.
+C 86037 g CY(
+C 86067 g HC.
+C 86097 g CY(
+C 86127 g HC.
+C 86157 g CY(
+C 86187 g HC.
+C 86217 g CY(
+C 86247 g HC.
+C 86277 g CY(
+C 86307 g HC.
+C 86337 g CY(
+C 86367 g HC.
+C 86397 g CY(
+C 86427 g HC.
+C 86457 g CY(
+C 86487 g HC.
+C 86517 g CY(
+C 86547 g HC.
+C 86577 g CY(
+C 86607 g HC.
+C 86637 g CY(
+C 86667 g HC.
+C 86697 g CY(
+C 86727 g HC.
+C 86757 g CY(
+C 86787 g HC.
+C 86817 g CY(
+C 86847 g HC.
+C 86877 g CY(
+C 86907 g HC.
+C 86937 g CY(
+C 86967 g HC.
+C 86997 g CY(
+C 87027 g HC.
+C 87057 g CY(
+C 87087 g HC.
+C 87117 g CY(
+C 87147 g HC.
+C 87177 g CY(
+C 87207 g HC.
+C 87237 g CY(
+C 87267 g HC.
+C 87297 g CY(
+C 87327 g HC.
+C 87357 g CY(
+C 87387 g HC.
+C 87417 g CY(
+C 87447 g HC.
+C 87477 g CY(
+C 87507 g HC.
+Q 87512 3

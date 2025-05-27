@@ -1,0 +1,10 @@
+replay: replays/DarkMatt-s-Fun-in-the-Sun-8-Bit-Extraodinaire-The-New-Frontier-g.zplay
+mode: record
+time: Thu May  8 23:05:44 2025
+duration: 52064
+zc_version: 3.0.0-prerelease.97+2025-04-04
+record_log_frames: 69
+frame: 69
+fps: 1
+success: true
+stopped: true

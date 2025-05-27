@@ -1,0 +1,10 @@
+replay: replays/Terror-of-Necromancy-Demo5-007.zplay
+mode: record
+time: Tue Apr  8 22:28:20 2025
+duration: 32057
+zc_version: 3.0.0-prerelease.97+2025-04-04
+record_log_frames: 628
+frame: 629
+fps: 19
+success: false
+stopped: true

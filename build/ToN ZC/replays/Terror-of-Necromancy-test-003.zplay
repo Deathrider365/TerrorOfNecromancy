@@ -1,0 +1,13 @@
+M debug true
+M frames 0
+M length 1
+M name test
+M qst ../ToN Main Quest/Quest+Music/ToNDemo5.qst
+M sync_rng true
+M time_created Mon May 19 22:01:50 2025
+M time_updated Mon May 19 22:01:50 2025
+M uuid cb1f6257-6b06-4f28-91a5-6be203ebfd54
+M version 40
+M zc_version_created 3.0.0-prerelease.103+2025-05-07
+M zc_version_updated 3.0.0-prerelease.103+2025-05-07
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0

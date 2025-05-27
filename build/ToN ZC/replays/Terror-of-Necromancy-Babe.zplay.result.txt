@@ -1,0 +1,10 @@
+replay: replays/Terror-of-Necromancy-Babe.zplay
+mode: record
+time: Mon Dec 30 12:37:27 2024
+duration: 19605
+zc_version: 3.0.0-prerelease.83+2024-12-29
+record_log_frames: 896
+frame: 941
+fps: 47
+success: false
+stopped: true

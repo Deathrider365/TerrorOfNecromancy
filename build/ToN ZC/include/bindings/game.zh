@@ -1,0 +1,1734 @@
+// Used with [Game->Gravity].
+enum GravityIndex
+{
+	GR_STRENGTH,
+	GR_TERMINALV,
+	GR_SPRLAYER,
+	GR_AIRDRAG
+};
+
+// Used with [Game->Scrolling].
+enum ScrollingIndex
+{
+	// The scrolling [Direction]. -1 if not scrolling.
+	SCROLL_DIR,
+	// The offset for the new screen, relative to the current viewport. 
+	SCROLL_NX, SCROLL_NY,
+	// The offset for the old screen, relative to the current viewport.
+	SCROLL_OX, SCROLL_OY,
+	// The offset for the new region's origin screen, relative to the current viewport. 
+	SCROLL_NRX, SCROLL_NRY,
+	// The offset for the old region's origin screen, relative to the current viewport. 
+	SCROLL_ORX, SCROLL_ORY,
+	// The delta between the new and old regions.
+	SCROLL_NEW_REGION_DELTA_X, SCROLL_NEW_REGION_DELTA_Y,
+	// The top-left coordinate of the destination screen, in the new region coordinate system.
+	SCROLL_NEW_SCREEN_X, SCROLL_NEW_SCREEN_Y,
+	// The top-left coordinate of the old screen, in the old region coordinate system.
+	SCROLL_OLD_SCREEN_X, SCROLL_OLD_SCREEN_Y,
+	// The final hero position, in the new region.
+	SCROLL_NEW_HERO_X, SCROLL_NEW_HERO_Y,
+	// The initial hero position at the start of scrolling, in the old region coordinate system.
+	SCROLL_OLD_HERO_X, SCROLL_OLD_HERO_Y,
+	// The number of screens in the new region (width and height).
+	SCROLL_NEW_REGION_SCREEN_WIDTH, SCROLL_NEW_REGION_SCREEN_HEIGHT,
+	// The number of screens in the old region (width and height).
+	SCROLL_OLD_REGION_SCREEN_WIDTH, SCROLL_OLD_REGION_SCREEN_HEIGHT,
+	// The final viewport size.
+	SCROLL_NEW_VIEWPORT_WIDTH, SCROLL_NEW_VIEWPORT_HEIGHT,
+	// The initial viewport size.
+	SCROLL_OLD_VIEWPORT_WIDTH, SCROLL_OLD_VIEWPORT_HEIGHT,
+	// The final viewport position, in the new region coorindate system.
+	SCROLL_NEW_VIEWPORT_X, SCROLL_NEW_VIEWPORT_Y,
+	// The initial viewport position, in the old region coorindate system.
+	SCROLL_OLD_VIEWPORT_X, SCROLL_OLD_VIEWPORT_Y
+};
+
+// Used with [Game->MiscSprites].
+enum MiscSpriteIndex
+{
+	MISCSPR_FALL,
+	MISCSPR_DROWN,
+	MISCSPR_LAVADROWN,
+	MISCSPR_SWITCHPOOF,
+	MISCSPR_MAX
+};
+
+// Used with [Game->MiscSFX].
+enum MiscSfx
+{
+	MISCSFX_BUSH,
+	MISCSFX_SWITCHED,
+	MISCSFX_LOWHEART,
+	MISCSFX_ERROR,
+	MISCSFX_PLAYER_HURT,
+	MISCSFX_HAMMER_PEG,
+	MISCSFX_SUBSCR_ITEM_ASSIGN,
+	MISCSFX_SUBSCR_CURSOR_MOVE,
+	MISCSFX_REFILL,
+	MISCSFX_RUPEEDRAIN,
+	MISCSFX_SWORDTAP,
+	MISCSFX_SWORDTAP_HOLLOW,
+	MISCSFX_HERO_LANDS,
+	MISCSFX_MAX
+};
+
+// Used with [Game->Generic].
+enum GenericIndex
+{
+	GEN_HEARTPIECES        = 0, // Heart Pieces currently possessed
+	GEN_MAGICDRAINRATE     = 1, // Link's magic usage equals n / 2.
+	GEN_CANSLASH           = 2, // Link can slash with the sword.
+	// Warp Ring number that a Whirlwind warp will send Link to.
+	// It is set every time that Link uses the Whistle.
+	GEN_WARPLEVEL          = 3,
+	GEN_HCPPERHC           = 4, // How many Pieces of Heart form a complete Heart Container?
+	GEN_CONTINUEHEARTS     = 5, // Amount of life that Link continues with
+	GEN_CONTINUEISPERCENT  = 6, // Percentage of life that Link continues with
+	GEN_HP_PER_HEART       = 7, //How much HP makes a 'heart'
+	GEN_MP_PER_BLOCK       = 8, //How much MP makes a 'block'
+	GEN_HERO_DMG_MULT      = 9, //Damage multiplier for damage by Link
+	GEN_ENEM_DMG_MULT      = 10, //Damage multiplier for damage by enemies
+	GEN_DITHER_TYPE        = 11, //Type of dithering used with dark rooms ([ditherType] (`DITH_`) constants)
+	GEN_DITHER_ARG         = 12, //Dithering argument used with dark rooms
+	GEN_DITHER_PERCENT     = 13, //Percent of light circles taken up by dithering
+	GEN_DEFAULT_LIGHT_RAD  = 14, //Default light radius initialized to enemies
+	GEN_TRANS_PERCENT      = 15, //Percent of light circles taken up by transparency
+	GEN_DARKNESS_COLOR     = 16, //Color of darkness
+	GEN_WATERGRAVITY       = 17, //Y position addition when not moving when sideview swimming. can be negative
+	GEN_SIDESWIM_STEP_UP   = 18, //Hero step speed when sideview swimming, moving up
+	GEN_SIDESWIM_STEP_SIDE = 19, //Hero step speed when sideview swimming, moving left and right
+	GEN_SIDESWIM_STEP_DOWN = 20, //Hero step speed when sideview swimming, moving down
+	// Jump value when exiting water from the top.
+	// If 0, Link can only leave the top of the water via
+	// sideview ladder.
+	GEN_SIDESWIM_EXITJUMP  = 21,
+	GEN_BUNNY_TILEMOD      = 22, //Tile modifier to apply while [Hero] is bunnified
+	GEN_SWITCHHOOK_STYLE   = 23, //Which 'SW_EFF' style to use for the 'Switch w/ Hero' enemy defense
+	GEN_FLICKER_FRAMES     = 24, //How many frames Link / enemies flicker for with the flicker damage effect
+	GEN_FLICKER_COLOR      = 25, //Color used for the flicker effect
+	GEN_FLICKER_TRANSP     = 26, //Number of transparency passes for the flicker effect
+	GEN_LIGHT_WAVE_RATE    = 27,
+	GEN_LIGHT_WAVE_SIZE    = 28,
+	GEN_REGION_MAPPING     = 29, //Which [RegionMapping] (method of mapping) is used for regions
+	GEN_MAX                = 30
+};
+
+enum RegionMapping
+{
+	REGION_MAPPING_PHYSICAL,
+	REGION_MAPPING_FULL,
+	REGION_MAPPING_MAX
+};
+
+// Values for [Game->MouseCursor].
+enum MouseCursor
+{
+	ZCM_CUSTOM,
+	ZCM_BLANK,
+	ZCM_NORMAL,
+	ZCM_MAX
+};
+
+// Level item flags. Used with [Game->LItems].
+@Bitflags("int")
+enum LevelItemBitflags
+{
+	LI_TRIFORCE                    = 0x01, // The Triforce of this Level has been obtained.
+	LI_MAP                         = 0x02, // The Dungeon Map of this Level has been obtained.
+	LI_COMPASS                     = 0x04, // The Compass of this Level has been obtained.
+	LI_BOSS                        = 0x08, // A "Dungeon Boss" enemy has been slain.
+	LI_BOSSKEY                     = 0x10, // The Boss Key of this Level has been obtained.
+};
+
+// Used with [Game->GameOverScreen].
+enum GameOverScreenElementIndex
+{
+	GOS_BACKGROUND                 = 0,
+	GOS_TEXT_COLOUR                = 1,
+	GOS_CURSOR_TILE                = 2,
+	GOS_CURSOR_CSET                = 3,
+	GOS_CURSOR_SOUND               = 4,
+	GOS_TEXT_CONTINUE_COLOUR       = 5,
+	GOS_TEXT_SAVE_COLOUR           = 6,
+	GOS_TEXT_RETRY_COLOUR          = 7,
+	GOS_TEXT_CONTINUE_FLASH        = 8,
+	GOS_TEXT_SAVE_FLASH            = 9,
+	GOS_TEXT_RETRY_FLASH           = 10,
+	GOS_MIDI                       = 11,
+	GOS_CUR_FLIP                   = 12,
+	GOS_TEXT_DONTSAVE_COLOUR       = 13,
+	GOS_TEXT_SAVEQUIT_COLOUR       = 14,
+	GOS_TEXT_SAVE2_COLOUR          = 15,
+	GOS_TEXT_QUIT_COLOUR           = 16,
+	GOS_TEXT_DONTSAVE_FLASH        = 17,
+	GOS_TEXT_SAVEQUIT_FLASH        = 18,
+	GOS_TEXT_SAVE2_FLASH           = 19,
+	GOS_TEXT_QUIT_FLASH            = 20,
+	GOS_EXTRA1                     = 21,
+	GOS_EXTRA2                     = 22,
+	GOS_EXTRA3                     = 23,
+};
+
+// Used with [Game->GameOverStrings].
+enum GameOverStringIndex
+{
+	GOSTR_CONTINUE                 = 0, // (Continue:Retry:Save) Screen.
+	GOSTR_SAVE                     = 1, // (Continue:Retry:Save) Screen.
+	GOSTR_RETRY                    = 2, // (Continue:Retry:Save) Screen.
+	GOSTR_DONT_SAVE                = 3, // Savepoint Screen.
+	GOSTR_SAVEANDQUIT              = 4, // Save and Quit Screen.
+	GOSTR_SAVE2                    = 5, // Savepoint Screen.
+	GOSTR_QUIT                     = 6, // Save and Quit Screen.
+};
+
+// Used with [Game->CurrentItemID].
+@Bitflags("int")
+enum CurrentItemIDBitflags
+{
+	CIID_FLAG_CHECKCOST            = 0x01, // Ignore items whose usecosts are currently not affordable.
+	CIID_FLAG_CHECKJINX            = 0x02, // Ignore items which are currently disabled by jinxes.
+	CIID_FLAG_CHECKBUNNY           = 0x04, // Ignore items which are currently disabled by BunnyClk.
+};
+
+// Engine processes that can be paused. Used with [Game->Suspend].
+enum SuspendType
+{
+	// Combo animation
+	susptCOMBOANIM,
+
+	// Main Sprite animation by type
+	susptGUYS, susptLWEAPONS, susptEWEAPONS, susptITEMS, susptLINK, 
+
+	// FFC (e.g. movement, changers, but not scripts)
+	susptUPDATEFFC,
+
+	// Sprite subclasses
+	susptDECORATIONS, susptPARTICLES, //sprite subclasses
+
+	// Palette events
+	susptPALCYCLE, susptLAKES, //lake dries up
+
+	// game system events
+	susptCOLLISIONS, susptCONTROLSTATE, susptONEFRAMECONDS, susptSCRIPDRAWCLEAR, susptQUAKE,
+
+	// Script Types
+	susptGLOBALGAME, susptNPCSCRIPTS, susptLWEAPONSCRIPTS, susptEWEAPONSCRIPTS, susptITEMSPRITESCRIPTS,
+
+	susptFFCSCRIPTS, susptLINKACTIVE, susptITEMSCRIPTENGINE, susptDMAPSCRIPT, susptSCREENSCRIPTS,
+	susptSUBSCREENSCRIPTS, susptCOMBOSCRIPTS,
+
+	// Moving items
+	susptCONVEYORSITEMS = 60, susptDRAGGINGITEM, susptROAMINGITEM,
+	// Misc
+	susptLENS, susptHOOKSHOT, susptMOVINGBLOCKS, susptMAGICCAST, susptSCREENDRAW,
+
+	susptLAST,
+};
+
+enum EventDataIndex_HeroHit //[Game->EventData] indexes for [GENSCR_EVENT_HERO_HIT_1] and [GENSCR_EVENT_HERO_HIT_2]
+{
+	GENEV_HEROHIT_DAMAGE, //Damage to be taken
+	GENEV_HEROHIT_HITDIR, //[Direction] to be knocked in
+	GENEV_HEROHIT_NULLIFY, //Bool: to nullify the hit, or not
+	GENEV_HEROHIT_NAYRUON, //Bool: if [IC_NAYRUSLOVE] will nullify the damage, or not
+	GENEV_HEROHIT_IFRAMES, //Number of IFrames to have after hit, if not nullified
+	GENEV_HEROHIT_HITTYPE, //What type of object is hitting the hero ([ObjectType])
+	GENEV_HEROHIT_HITOBJ, //The pointer to that object
+	GENEV_HEROHIT_HITTYPE2, //A second type of object ([ObjectType], can be [OBJTYPE_NONE])
+	GENEV_HEROHIT_HITOBJ2 //The pointer to the second object
+};
+enum EventDataIndex_CollectItem //[Game->EventData] indexes for [GENSCR_EVENT_COLLECT_ITEM]
+{
+	GENEV_ITEMCOL_ID, //Item ID to be gained
+	GENEV_ITEMCOL_PICKUP, //Pickup flags for the item pickup [ItemPickupBitflags]
+	GENEV_ITEMCOL_PSTR, //Pickup string to be displayed
+	GENEV_ITEMCOL_PSTRFLAGS, //Pickup string flags [PickupStringBitflags]
+	GENEV_ITEMCOL_NULLIFY, //Bool: to nullify the item pickup, or not
+	GENEV_ITEMCOL_ITEMPTR, //[itemsprite] object pointer
+	GENEV_ITEMCOL_TYPE, //Type of hit; see [ItemCollectEventType]
+	GENEV_ITEMCOL_WPNPTR //[lweapon] object pointer, or [NULL] if no weapon is available
+};
+enum EventDataIndex_EnemyDropItem1 //[Game->EventData] indexes for [GENSCR_EVENT_ENEMY_DROP_ITEM_1]
+{
+	GENEV_EDI1_NPC, //the [npc] pointer
+	//the chosen item ID
+	//If set to `-2`, the dropset will be rolled automatically.
+	//If set to `-1`, no item will be dropped.
+	GENEV_EDI1_ITEMID,
+	GENEV_EDI1_DROPSET //the dropset the ID was chosen from
+};
+enum EventDataIndex_EnemyDropItem2 //[Game->EventData] indexes for [GENSCR_EVENT_ENEMY_DROP_ITEM_2]
+{
+	GENEV_EDI2_NPC, //the [npc] pointer
+	GENEV_EDI2_ITM //the [itemsprite] pointer
+};
+enum EventDataIndex_EnemyDeath //[Game->EventData] indexes for [GENSCR_EVENT_ENEMY_DEATH]
+{
+	GENEV_EDEATH_DYING, //Bool: if the enemy is dying, or not (set false to cancel death)
+	GENEV_EDEATH_NPC //the [npc] pointer
+};
+enum EventDataIndex_EnemyHit //[Game->EventData] indexes for [GENSCR_EVENT_ENEMY_HIT1] and [GENSCR_EVENT_ENEMY_HIT2]
+{
+	GENEV_EHIT_POWER, //damage amount
+	GENEV_EHIT_DEFENSETYPE, //defense type
+	GENEV_EHIT_UNBLOCKABLE, // [UnblockableBitflags] flagset
+	GENEV_EHIT_WEAPONID, //weapon ID
+	GENEV_EHIT_NULLIFY, //Bool: if true the hit will not connect
+	GENEV_EHIT_NPCPTR, //[npc] pointer
+	GENEV_EHIT_LWPNPTR //[lweapon] pointer
+};
+enum EventDataIndex_PlayerFallDrown //[Game->EventData] indexes for [GENSCR_EVENT_PLAYER_FALL] and [GENSCR_EVENT_PLAYER_DROWN]
+{
+	GENEV_PLAYER_FALLDROWN_COMBO //The combo ID the [Hero] is falling/drowning into.
+};
+
+//constants for [GENEV_ITEMCOL_TYPE] index of [Game->EventData]
+enum ItemCollectEventType
+{
+	GENEVT_ICTYPE_COLLECT, //Hero collected the item
+	GENEVT_ICTYPE_MELEE, //Melee weapon collected the item
+	GENEVT_ICTYPE_MELEE_EW, //Melee weapon collected the item
+	GENEVT_ICTYPE_RANGED_DRAG //Ranged weapon collected, and will drag. Only [GENEV_ITEMCOL_NULLIFY] can be edited here
+};
+
+// constants for [GENEV_HEROHIT_HITTYPE] / [GENEV_HEROHIT_HITTYPE2] indexes of [Game->EventData]
+enum ObjectType
+{
+	OBJTYPE_NONE = -1,
+	OBJTYPE_NPC, OBJTYPE_LWPN, OBJTYPE_EWPN, OBJTYPE_ITSPR, OBJTYPE_COMBODATA,
+	OBJTYPE_COMBOPOS, OBJTYPE_FFC,
+	NUM_OBJTYPE
+};
+
+// Max value of [Game->Time].
+const int MAX_TIME = 1944000000L;
+
+// Contains general internal functions and variables.
+//
+// Access with `Game->`.
+class Game {
+	// @delete
+	internal Game();
+
+	// The origin screen (top-left) of the current [Region] that the player is in.
+	//
+	// During a scrolling screen transition, this is the new screen.
+	//
+	// @deprecated_getter GetCurScreen
+	// @zasm_var CURSCR
+	internal const int CurScreen;
+
+	// The screen that the [Hero] is in. In a scrolling region, this updates as the player
+	// moves around according to their coordinates. Otherwise, this is equivalent to [CurScreen].
+	//
+	// During a scrolling screen transition, this is the new screen.
+	//
+	// @versionadded 2.55.9
+	// @zasm_var HERO_SCREEN
+	internal const int HeroScreen;
+
+	// The screen the [Hero] is currently on, offset by the current dmap offset.
+	//
+	// @deprecated_getter GetCurDMapScreen
+	// @zasm_var CURDSCR
+	internal const int CurDMapScreen;
+
+	// The map the [Hero] is currently on.
+	//
+	// @deprecated_getter GetCurMap
+	// @zasm_var CURMAP
+	internal const int CurMap;
+
+	// The dmap the [Hero] is currently on.
+	//
+	// @deprecated_getter GetCurDMap
+	// @zasm_var CURDMAP
+	internal const int CurDMap;
+
+	// The level the [Hero] is currently on.
+	//
+	// @deprecated_getter GetCurLevel
+	// @zasm_var CURLEVEL
+	internal const int CurLevel;
+
+	// The number of times the player has died.
+	//
+	// @zasm_var GAMEDEATHS
+	internal int NumDeaths;
+
+	// The current activated cheat level (range 0-4).
+	//
+	// @zasm_var GAMECHEAT
+	internal int Cheat;
+
+	// The highest cheat level that is enabled for the player. The player can
+	// change their cheat level in the cheat menu to any value <= this value
+	// (range 0-4). Updates when the player enters a cheat code.
+	//
+	// @zasm_var GAMEMAXCHEAT
+	internal int MaxCheat;
+
+	// Speed multiplier for the engine subscreen rise/fall. Default 1. Max 85.
+	//
+	// @zasm_var ACTIVESSSPEED
+	internal long SubscreenSpeed;
+
+	// Returns true if the current save file was loaded, false if it was a
+	// freshly created save.
+	//
+	// @zasm_var GAMEHASPLAYED
+	internal const bool HasPlayed;
+
+	// If true, keyboard input is disabled except for scripts reading it.
+	//
+	// @zasm_var TYPINGMODE
+	internal bool TypingMode;
+
+	// If [Game->Time] contains accurate time information.
+	//
+	// @zasm_var GAMETIMEVALID
+	internal bool TimeValid;
+
+	// The number of frames passed on the save file.
+	//
+	// `include/deprecated/time.zh` has several functions that help manage this value.
+	//
+	// @zasm_var GAMETIME
+	internal long Time;
+
+	// The count of enemies remaining alive for each screen on the current map.
+	//
+	// @zasm_var GAMEGUYCOUNT
+	internal int GuyCount[];
+
+	// The continue point the player will be reset to when continuing.
+	//
+	// @zasm_var GAMECONTSCR
+	internal int ContinueScreen;
+
+	// The continue point the player will be reset to when continuing.
+	//
+	// @zasm_var GAMECONTDMAP
+	internal int ContinueDMap;
+
+	// The value of each of the game's counters.
+	//
+	// @index [enum CounterIndex]
+	// @value `0–65535`
+	// @zasm_var GAMECOUNTERD
+	internal int Counter[];
+
+	// The max value of each of the game's counters.
+	//
+	// @index [enum CounterIndex]
+	// @value `0–65535`
+	// @zasm_var GAMEMCOUNTERD
+	internal int MCounter[];
+
+	// The value of each of the game's drain counters.
+	//
+	// @index [enum CounterIndex]
+	// @value `-32768–32767`
+	// @zasm_var GAMEDCOUNTERD
+	internal int DCounter[];
+
+	// Generic values related to the game.
+	//
+	// @index [enum GenericIndex]
+	// @zasm_var GAMEGENERICD
+	internal untyped Generic[];
+
+	// Contains a bitflags of the "Level Items".
+	//
+	// @value [enum LevelItemBitflags]
+
+	// @zasm_var GAMELITEMSD
+	internal int LItems[];
+
+	// How many level-specific keys are owned for each level.
+	//
+	// @zasm_var GAMELKEYSD
+	internal int LKeys[];
+	
+	// @deprecated Use [Game->LevelStates] instead!
+	// @zasm_var GAMELSWITCH
+	internal long LSwitches[];
+
+	// @deprecated Use [Game->GlobalStates] instead!
+	// @zasm_var GAMEGSWITCH
+	internal int GSwitch[];
+	
+	// The level-specific switch states for each level. Each level has a single
+	// `long`, representing 32 bitwise states. Ex:
+	// `(Game->LevelStates[Game->CurLevel] & (1Lb << (5)))` will get the switch
+	// state indexed `5`.
+	//
+	// @zasm_var GAMELSWITCH
+	internal long LevelStates[];
+
+	// The 256 global switch timers.
+	//
+	// @zasm_var GAMEGSWITCH
+	internal int GlobalStates[];
+
+	// The contents of the [Hero]'s fillable bottles. Use bottle type IDs for
+	// the values, and slots (set in the bottle item's attributes) as the
+	// indexes.
+	//
+	// @zasm_var GAMEBOTTLEST
+	internal int BottleState[];
+
+	// True if the game is running in `Standalone` mode.
+	//
+	// @zasm_var GAMESTANDALONE
+	internal bool Standalone;
+
+	// The last entrance point the [Hero] used, and will be reset to by some
+	// mechanics.
+	//
+	// @zasm_var GAMEENTRSCR
+	internal int LastEntranceScreen;
+
+	// The last entrance point the [Hero] used, and will be reset to by some
+	// mechanics.
+	//
+	// @zasm_var GAMEENTRDMAP
+	internal int LastEntranceDMap;
+
+	// Writing this to 'false' forcibly disables the "Click To Freeze" setting,
+	// allowing the user to click without pausing the game (ex. for scripted
+	// mouse interaction)
+	//
+	// @zasm_var GAMECLICKFREEZE
+	internal bool ClickToFreezeEnabled;
+
+	// The values of all Quest Rules.
+	//
+	// @index [enum QR]
+	// @zasm_var FFRULE
+	internal bool FFRules[];
+
+	// If true, the end credits will not be shown.
+	//
+	// @zasm_var SKIPCREDITS
+	internal bool SkipCredits;
+
+	// If true, the F6 menu will not appear when F6 is pressed. The prompt to
+	// exit the game will still be shown.
+	//
+	// @zasm_var SKIPF6
+	internal bool SkipF6;
+
+	// An array of suspend states, all false by default. By writing these true,
+	// certain game operations may be paused until the state is written false
+	// again.
+	//
+	// @zasm_var GAMESUSPEND
+	internal bool Suspend[];
+
+	// Whether each item is disabled or not on the current dmap.
+	//
+	// @zasm_var DISABLEDITEM
+	internal bool DisableItem[];
+
+	// The number of maps in the quest.
+	//
+	// @zasm_var GAMEMAXMAPS
+	internal const int MapCount;
+
+	// The ZScript version number the quest was last compiled in.
+	//
+	// @zasm_var ZSCRIPTVERSION
+	internal const int ZScriptVersion;
+
+	// The current version of ZC that the quest is being played in (ex: "2.55"
+	// for 2.55)
+	//
+	// @zasm_var ZELDAVERSION
+	internal const int Version;
+
+	// The current Build ID of ZC that the quest is being played in.
+	//
+	// @deprecated
+	// @zasm_var ZELDABUILD
+	internal const int Build;
+
+	// The current detailed version; this can be the current Alpha, Beta, Gamma,
+	// or Release number, depending on the version of the program.
+	//
+	// @zasm_var ZELDABETA
+	internal const int Beta;
+
+	// What type of detailed version the program is in. `0 = Alpha`, `1 = Beta`,
+	// `2 = Gamma`, `3 = Release`, `-1 = error`.
+	//
+	// @zasm_var ZELDABETATYPE
+	internal const int BetaType;
+
+	// If true, pressing the Start button will no longer open the active
+	// subscreen.
+	//
+	// @zasm_var NOACTIVESUBSC
+	internal bool DisableActiveSubscreen;
+
+	// The number of message strings in the quest.
+	//
+	// @zasm_var GAMENUMMESSAGES
+	internal const int NumMessages;
+
+	// Values related to gravity.
+	//
+	// @index [enum GravityIndex]
+	// @zasm_var GAMEGRAVITY
+	internal int Gravity[];
+
+	// An array of values related to scrolling. See [ScrollingIndex] for specifics. If not
+	// scrolling, all values are 0 unless otherwise stated.
+	//
+	// Drawing during scrolling requires taking into account that the viewport and coordinate
+	// systems are shifting. To anchor draw calls to a particular point, such as the screen
+	// being scrolled to, the old way looks like this:
+	//```
+	//    Screen->DrawTile(x + Game->Scrolling[SCROLL_NX], y + Game->Scrolling[SCROLL_NY], ...)
+	//```
+	// The above draws a tile at (`x, y`) relative to the new screen.
+	//
+	// This is deprecated by [Screen->DrawOrigin]. The new way to do the same is:
+	//```
+	//    Screen->DrawOrigin = DRAW_ORIGIN_WORLD; // This is the default in a scrolling region.
+	//    Screen->DrawTile(x, y, ...)
+	//```
+	// @index [enum ScrollingIndex]
+	// @zasm_var GAMESCROLLING
+	internal const int Scrolling[];
+
+	// The `Quest->Graphics->Sprites->Misc Sprites` values.
+	//
+	// @index [enum MiscSpriteIndex]
+	// @zasm_var GAMEMISCSPR
+	internal int MiscSprites[];
+
+	// The `Quest->Audio->Misc SFX` values.
+	//
+	// @index [enum MiscSfx]
+	// @zasm_var GAMEMISCSFX
+	internal int MiscSFX[];
+
+	// A variably-sized array containing information about the current event.
+	// This should be accessed from [genericdata] after returning from
+	// [WaitEvent]. Depending on what [GenericScriptEvent] is returned by `WaitEvent()`,
+	// a different set of constants should be used to access this array.
+	//
+	// @zasm_var GAMEEVENTDATA
+	internal untyped EventData[];
+
+	// Which mouse cursor should be displayed during gameplay.
+	// [ZCM_BLANK] is the default, and it resets on visiting the title screen.
+	//
+	// @value [enum MouseCursor]
+
+	// @zasm_var GAMEMOUSECURSOR
+	internal int MouseCursor;
+
+	// Returns the number of saved portals that currently exist.
+	//
+	// @zasm_var SAVEDPORTALCOUNT
+	internal const int NumSavedPortals;
+
+	// A 0-indexed Internal Array pointer referencing the saved portal objects.
+	// Cannot access the Magic Mirror's portal.
+	//
+	// @zasm_internal_array 6
+	internal const savedportal SavedPortals[];
+
+	// The 256 'Trigger Group' values for the current screen.
+	//
+	// @zasm_var GAMETRIGGROUPS
+	internal const int TrigGroups[];
+
+	// The 256 'Trigger Group' values for the current screen.
+	//
+	// @zasm_var GAMETRIGGROUPS
+	internal const int TriggerGroups[];
+
+	// The override values for each itemclass. Default value is `-2`. If set to
+	// `-2`, no override occurs. If `> -2`, anything that checks for the
+	// 'highest level item' of this class uses this ID instead. A value of `-1`
+	// indicates forcing it to return 'no item'.
+	//
+	// @zasm_var GAMEOVERRIDEITEMS
+	internal int OverrideItems[];
+
+	// True if the active subscreen is currently open.
+	//
+	// @zasm_var GAMEASUBOPEN
+	internal const bool ActiveSubscreenOpen;
+
+	// The Y offset of the active subscreen, used while it is opening/closing.
+	//
+	// Value is `-224` if subscreen is closed, `-56` if it is open, or the
+	// current draw offset otherwise.
+	//
+	// @zasm_var GAMEASUBYOFF
+	internal const int ActiveSubscreenY;
+
+	// Returns the total number of active subscreens
+	//
+	// @zasm_var GAMENUMASUB
+	internal int NumActiveSubscreens;
+
+	// Returns the total number of passive subscreens
+	//
+	// @zasm_var GAMENUMPSUB
+	internal int NumPassiveSubscreens;
+
+	// Returns the total number of overlay subscreens
+	//
+	// @zasm_var GAMENUMOSUB
+	internal int NumOverlaySubscreens;
+
+	// Returns the highest valid ID of the strings in the ZQuest String Editor.
+	//
+	// @zasm_var GAMENUMMESSAGES
+	internal const int HighestStringID;
+
+	// @deprecated Use [Input->KeyPress] instead!
+	// @zasm_var READKEY
+	internal const bool ReadKey[];
+
+	// @deprecated Use [Input->Joypad] instead!
+	// @zasm_var JOYPADPRESS
+	internal const bool JoypadPress[];
+
+	// @deprecated Use [Input->Press] instead!
+	// @zasm_var BUTTONPRESS
+	internal bool ButtonPress[];
+
+	// @deprecated Use [Input->Button] instead!
+	// @zasm_var BUTTONINPUT
+	internal bool ButtonInput[];
+
+	// @deprecated Use [Input->Button] instead!
+	// @zasm_var BUTTONHELD
+	internal bool ButtonHeld[];
+
+	// Set or get the Level Palette for each DMap
+	//
+	// @deprecated Use [dmapdata::Palette] instead!
+	// @zasm_var DMAPLEVELPAL
+	internal int DMapPalette[];
+
+	// @deprecated Use [dmapdata::Flagset] instead!
+	// @zasm_var DMAPFLAGSD
+	internal int DMapFlags[];
+
+	// @deprecated Use [dmapdata::Level] instead!
+	// @zasm_var DMAPLEVELD
+	internal int DMapLevel[];
+
+	// @deprecated Use [dmapdata::Compass] instead!
+	// @zasm_var DMAPCOMPASSD
+	internal int DMapCompass[];
+
+	// @deprecated Use [dmapdata::Continue] instead!
+	// @zasm_var DMAPCONTINUED
+	internal int DMapContinue[];
+
+	// @deprecated Use [dmapdata::MIDI] instead!
+	// @zasm_var DMAPMIDID
+	internal int DMapMIDI[];
+
+	// @deprecated Use [dmapdata::Offset] instead!
+	// @zasm_var DMAPOFFSET
+	internal int DMapOffset[];
+
+	// @deprecated Use [dmapdata::Map] instead!
+	// @zasm_var DMAPMAP
+	internal int DMapMap[];
+
+	// @zasm_var SETGAMEOVERELEMENT
+	internal int GameOverScreen[];
+
+	// @zasm_var SETGAMEOVERSTRING
+	internal int GameOverStrings[];
+
+	// Ends the current quest in victory, resetting to the title screen (without
+	// showing the normal end credits), and if this quest is part of a module,
+	// increment to the next quest in the module.
+	//
+	// @zasm
+	//   SETR D2 INCQST
+	internal int IncrementQuest();
+
+	// Returns the current max sprite count for each sprite type.
+	//
+	// @zasm
+	//   SETR D2 SPRITEMAXNPC
+	internal int MaxNPCs();
+
+	// Sets the max sprite count for a sprite type to the given new value. Max
+	// must be between 1 and 1024, inclusive.
+	//
+	// @zasm
+	//   POP D2
+	//   SETR SPRITEMAXNPC D2
+	internal void MaxNPCs(int value);
+
+	// Returns the current max sprite count for each sprite type.
+	//
+	// @zasm
+	//   SETR D2 SPRITEMAXLWPN
+	internal int MaxLWeapons();
+
+	// Sets the max sprite count for a sprite type to the given new value. Max
+	// must be between 1 and 1024, inclusive.
+	//
+	// @zasm
+	//   POP D2
+	//   SETR SPRITEMAXLWPN D2
+	internal void MaxLWeapons(int value);
+
+	// Returns the current max sprite count for each sprite type.
+	//
+	// @zasm
+	//   SETR D2 SPRITEMAXEWPN
+	internal int MaxEWeapons();
+
+	// Sets the max sprite count for a sprite type to the given new value. Max
+	// must be between 1 and 1024, inclusive.
+	//
+	// @zasm
+	//   POP D2
+	//   SETR SPRITEMAXEWPN D2
+	internal void MaxEWeapons(int value);
+
+	// Returns the current max sprite count for each sprite type.
+	//
+	// @zasm
+	//   SETR D2 SPRITEMAXITEM
+	internal int MaxItemsprites();
+
+	// Sets the max sprite count for a sprite type to the given new value. Max
+	// must be between 1 and 1024, inclusive.
+	//
+	// @zasm
+	//   POP D2
+	//   SETR SPRITEMAXITEM D2
+	internal void MaxItemsprites(int value);
+
+	// @zasm
+	//   POP D1
+	//   POP D0
+	//   SETR D2 SDDD
+	internal untyped GetScreenD(int screen, int register);
+
+	// @zasm
+	//   POP D6
+	//   POP D1
+	//   POP D0
+	//   SETR SDDD D6
+	internal void SetScreenD(int screen, int register, untyped value);
+
+	// @zasm
+	//   POP D2
+	//   POP D1
+	//   POP D0
+	//   SETR D2 SDDDD
+	internal untyped GetDMapScreenD(int dmap, int screen, int register);
+
+	// @zasm
+	//   POP D6
+	//   POP D2
+	//   POP D1
+	//   POP D0
+	//   SETR SDDDD D6
+	internal void SetDMapScreenD(int dmap, int screen, int register, untyped value);
+
+	// @zasm
+	//   POP D2
+	//   LOADITEMDATAR D2
+	//   SETR D2 REFITEMCLASS
+	internal itemdata LoadItemData(int item);
+
+	// @deprecated Use [Audio->MIDI] instead!
+	// @zasm
+	//   SETR D2 GETMIDI
+	internal int GetMIDI();
+
+	// Saves the game. Can only run once per script per frame.
+	//
+	// @zasm
+	//   SAVE
+	internal void Save();
+
+	// Closes the quest, returning to the title screen.
+	//
+	// @exit
+	// @zasm
+	//   GAMEEND
+	internal void End();
+
+	// Closes the program, without saving.
+	//
+	// @exit
+	// @zasm
+	//   GAMEEXIT
+	internal void Exit();
+
+	// Exits the quest without saving, then reloads the previous save.
+	//
+	// @exit
+	// @zasm
+	//   GAMERELOAD
+	internal void Reload();
+
+	// Continue's the quest, as 'F6->Continue'.
+	//
+	// @exit
+	// @zasm
+	//   GAMECONTINUE
+	internal void Continue();
+
+	// Saves the game, then exits.
+	//
+	// @exit
+	// @zasm
+	//   GAMESAVEQUIT
+	internal void SaveAndQuit();
+
+	// Saves the game, then continues.
+	//
+	// @exit
+	// @zasm
+	//   GAMESAVECONTINUE
+	internal void SaveAndContinue();
+
+	// Displays the engine Continue/Save/Retry screen.
+	//
+	// @zasm
+	//   SHOWF6SCREEN
+	internal void ShowContinueScreen();
+
+	// Loads the save file name into the buffer.
+	//
+	// @zasm
+	//   POP D2
+	//   GETSAVENAME D2
+	internal void GetSaveName(char32[] buf);
+
+	// Sets the save file name to the contents of the buffer, limit 8
+	// characters.
+	//
+	// @zasm
+	//   POP D2
+	//   SETSAVENAME D2
+	internal void SetSaveName(char32[] buf);
+
+	// Displays the Save screen, as Save Point combos use. Returns true if the
+	// [Hero] saved, false otherwise.
+	//
+	// @zasm
+	//   SAVESCREEN D2
+	internal bool ShowSaveScreen();
+
+	// Displays the Save/Quit screen.
+	//
+	// @zasm
+	//   SAVEQUITSCREEN
+	internal void ShowSaveQuitScreen();
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETFFCSCRIPT D2
+	internal int GetFFCScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETCOMBOSCRIPT D2
+	internal int GetComboScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETITEMSCRIPT D2
+	internal int GetItemScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETNPCSCRIPT D2
+	internal int GetNPCScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETLWEAPONSCRIPT D2
+	internal int GetLWeaponScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETEWEAPONSCRIPT D2
+	internal int GetEWeaponScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @alias GetHeroScript
+	// @deprecated_alias GetLinkScript
+	// @zasm
+	//   POP D2
+	//   GETHEROSCRIPT D2
+	internal int GetPlayerScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETGLOBALSCRIPT D2
+	internal int GetGlobalScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETDMAPSCRIPT D2
+	internal int GetDMapScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETSCREENSCRIPT D2
+	internal int GetScreenScript(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETSPRITESCRIPT D2
+	internal int GetItemSpriteScript(char32[] name);
+
+	// Gets the ID of the npc/item/combo/dmap whose name exactly matches `name`.
+	// If no such object exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETNPCBYNAME D2
+	internal int GetNPC(char32[] name);
+
+	// Gets the ID of the npc/item/combo/dmap whose name exactly matches `name`.
+	// If no such object exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETITEMBYNAME D2
+	internal int GetItem(char32[] name);
+
+	// Gets the ID of the npc/item/combo/dmap whose name exactly matches `name`.
+	// If no such object exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETCOMBOBYNAME D2
+	internal int GetCombo(char32[] name);
+
+	// Gets the ID of the npc/item/combo/dmap whose name exactly matches `name`.
+	// If no such object exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETDMAPBYNAME D2
+	internal int GetDMap(char32[] name);
+
+	// Gets the script of the specified type with a name exactly matching
+	// `name`. If no such script exists, returns `-1`.
+	//
+	// @zasm
+	//   POP D2
+	//   GETGENERICSCRIPT D2
+	internal int GetGenericScript(char32[] name);
+
+	// The number of maps in the quest.
+	//
+	// @deprecated Use [MapCount] instead!
+	// @zasm
+	//   SETR D2 GAMEMAXMAPS
+	internal int MapCount();
+
+	// Loads an Enemy Editor table data ref for NPC [id], to a [npcdata]
+	// pointer.
+	//
+	// @param [NPCID] id
+	// @zasm
+	//   POP D2
+	//   LOADNPCDATAR D2
+	//   SETR D2 REFNPCCLASS
+	internal npcdata LoadNPCData(int id);
+
+	// Loads a Combo Editor table data ref for combo [id], to a [combodata]
+	// pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADCOMBODATAR D2
+	//   SETR D2 REFCOMBODATA
+	internal combodata LoadComboData(int id);
+
+	// Loads a canonical [mapdata] pointer for the screen at `(map,screen)`. Edits to
+	// these pointers do not persist through quest exit. Edits to these pointers
+	// will NOT affect the "current screen", even if the current map/screen is
+	// supplied; see [LoadTempScreen] below for that.
+	//
+	// @zasm
+	//   POP D1
+	//   POP D0
+	//   SETR D2 LOADMAPDATA
+	internal mapdata LoadMapData(int map, int screen);
+
+	// Loads the temp [mapdata] pointer for the specified layer.
+	//
+	// `LoadTempScreen(0)` gives a pointer that works mostly the same as
+	// `Screen->`, while passing 1 through 6 will give equal access to the other
+	// layers of the screen. Modifications to these pointers are reset when the
+	// screen changes.
+	//
+	// The entire [Region] at the specificed layer may be accessed by the combo array
+	// variables of this [mapdata], but other variables read from just the top-left origin
+	// screen.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADTMPSCR D2
+	internal mapdata LoadTempScreen(int layer);
+
+	// Same as [LoadTempScreen], but for the specific [screen], which must be within the
+	// current [Region].
+	// 
+	// If the given screen is not valid, then the return value of this function is falsy.
+	//
+	// @zasm
+	//   POP D3
+	//   POP D2
+	//   LOADTMPSCR2 D2 D3
+	internal mapdata LoadTempScreen(int layer, int screen);
+
+	// Same as [LoadTempScreen], but loads the screen that contains the given combo [pos].
+	//
+	// To convert an `x, y` pixel coordinate to a combo pos with [ComboAt].
+	//
+	// @zasm
+	//   POP D3
+	//   POP D2
+	//   REGION_LOAD_TMPSCR_FOR_LAYER_COMBO_POS D2 D3
+	internal mapdata LoadTempScreenForComboPos(int layer, int pos);
+
+	// Loads the temp mapdata pointer for the specified layer's *scrolling screen*. This is only
+	// used during scrolling, for drawing the screen you just came from during the scrolling
+	// animation.
+	//
+	// The entire scrolling [Region] at the specificed layer may be accessed by the combo array
+	// variables of this [mapdata], but other variables read from just the top-left origin
+	// screen.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSCROLLSCR D2
+	internal mapdata LoadScrollingScreen(int layer);
+
+	// Same as [LoadScrollingScreen], but for the specific [screen], which must be within
+	// the [Region] being scrolled away from.
+	//
+	// If the given screen is not valid, or the player is not currently scrolling, then
+	// the return value of this function is falsy.
+	//
+	// @zasm
+	//   POP D3
+	//   POP D2
+	//   LOADSCROLLSCR2 D2 D3
+	internal mapdata LoadScrollingScreen(int layer, int screen);
+
+	// Loads an Weapon Sprite Editor table data ref for sprite 'id', to a
+	// 'spritedata' typed pointer.
+	//
+	// @param [SpriteID] id
+	// @zasm
+	//   POP D2
+	//   LOADSPRITEDATAR D2
+	//   SETR D2 REFSPRITEDATA
+	internal spritedata LoadSpriteData(int id);
+
+	// Loads a Shop Editor table ref for an item shop with an ID of 'id' to a
+	// 'shopdata' typed pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSHOPR D2
+	//   SETR D2 REFSHOPDATA
+	internal shopdata LoadShopData(int shop);
+
+	// Loads a Shop Editor table ref for an info shop with an ID of [id] to a
+	// 'shopdata' typed pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADINFOSHOPR D2
+	//   SETR D2 REFSHOPDATA
+	internal shopdata LoadInfoShopData(int shop);
+
+	// Loads a [bitmap] pointer for one of the old-style render target bitmaps.
+	//
+	// @param [RenderTarget] id
+	// @zasm
+	//   POP D2
+	//   LOADBITMAPDATAR D2
+	//   SETR D2 REFBITMAP
+	internal bitmap LoadBitmapID(int id);
+
+	// Loads an String Table Editor table data ref for ZQ Message String 'id',
+	// to a [messagedata] typed pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADMESSAGEDATAR D2
+	//   SETR D2 REFMSGDATA
+	internal messagedata LoadMessageData(int id);
+
+	// Loads a dmapdata ref for dmap ID [dmap] to a [dmapdata] typed pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADDMAPDATAR D2
+	//   SETR D2 REFDMAPDATA
+	internal dmapdata LoadDMapData(int dmap);
+
+	// Loads a dropsetdata ref for dropset number [id] to a [dropsetdata] typed
+	// pointer.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADDROPSETR D2
+	//   SETR D2 REFDROPS
+	internal dropsetdata LoadDropset(int id);
+
+	// @deprecated Use `new randgen()` instead.
+	// @zasm
+	//   LOADRNG
+	internal randgen LoadRNG();
+
+	// @deprecated Use `new stack()` instead.
+	// @zasm
+	//   LOADSTACK
+	internal stack LoadStack();
+
+	// @zasm
+	//   POP D2
+	//   WEBSOCKET_LOAD D2
+	internal websocket LoadWebSocket(char32[] url);
+
+	// Loads a [bottledata] ref for bottledata number [id] to a [bottledata]
+	// typed pointer.
+	//
+	// Range 1-64
+	//
+	// @zasm
+	//   POP D2
+	//   LOADBOTTLETYPE D2
+	//   SETR D2 REFBOTTLETYPE
+	internal bottledata LoadBottleData(int id);
+
+	// Loads a [bottleshopdata] ref for bottleshopdata number [id] to a
+	// 'bottleshopdata' typed pointer.
+	//
+	// Range 0-255
+	//
+	// @zasm
+	//   POP D2
+	//   LOADBSHOPDATA D2
+	//   SETR D2 REFBOTTLESHOP
+	internal bottleshopdata LoadBottleShopData(int id);
+
+	// Loads the [genericdata] pointer referencing the specified generic
+	// [scriptslot].
+	//
+	// Note that `0` is invalid.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADGENERICDATA D2
+	//   SETR D2 REFGENERICDATA
+	internal genericdata LoadGenericData(int scriptslot);
+
+	// Allocates a new bitmap pointer, creating a `width by height` canvas
+	// (cleared to color 0).
+	//
+	// @deprecated Use `new bitmap(width, height)` instead!
+	// @zasm
+	//   POP D1
+	//   POP D0
+	//   SETR D2 CREATEBITMAP
+	internal bitmap CreateBitmap(int width = 256, int height = 256);
+
+	// Allocates a new bitmap pointer, but does not create a canvas on it.
+	// [bitmap::Create] can later be used to create a canvas on the pointer.
+	//
+	// @zasm
+	//   SETR D2 ALLOCATEBITMAPR
+	internal bitmap AllocateBitmap();
+
+	// Sets the custom cursor based on the given bitmap. This cursor will be
+	// displayed if `Game->MouseCursor == ZCM_CUSTOM`.
+	//
+	// [fx], [fy] denotes the "focus point" of the cursor. For a normal cursor,
+	// this is usually the top-left (the engine cursor uses `1, 1`, which is the
+	// transparent pixel directly pointed to by the arrow). For a crosshair type
+	// cursor, this would be the center.
+	//
+	// If [user_scale] is true, the user's mouse scale config will apply to the
+	// custom cursor.
+	//
+	// If [sys_recolor] is true, some special colors will be replaced based on
+	// the current theme.
+	//
+	// - 0xF1 = Cursor Misc
+	// - 0xF2 = Cursor Outline
+	// - 0xF3 = Cursor Light
+	// - 0xF5 = Cursor Dark
+	//
+	// WARNING: The palette will NOT update on custom cursors automatically. You
+	// must call this function again if the cursor should be affected by palette
+	// changes.
+	//
+	// @zasm
+	//   GAMESETCUSTOMCURSOR
+	//   POPARGS D5 0.0005
+	internal void SetCustomCursor(bitmap b, int fx, int fy,
+								  bool sys_recolor = false,
+								  bool user_scale = false);
+
+	// Returns the number of saved portals that currently exist.
+	//
+	// @deprecated Use [NumSavedPortals] instead!
+	// @zasm
+	//   SETR D2 SAVEDPORTALCOUNT
+	internal int NumSavedPortals();
+
+	// Loads a 'Saved Portal' pointer. Use 1 <= [saved_portal_id] <=
+	// [NumSavedPortals], OR [saved_portal_id] == -1 to access the Magic
+	// Mirror's portal.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSAVPORTAL D2
+	internal savedportal LoadSavedPortal(int saved_portal_id);
+
+	// @zasm
+	//   CREATESAVPORTAL
+	internal savedportal CreateSavedPortal();
+
+	// Returns the current item of the selected [itemtype]. This generally
+	// returns the highest owned of an itemclass, with some exceptions.
+	//
+	// If the item is set to an override value via [Game->OverrideItems], that
+	// value is returned.
+	//
+	// Returns `-1` for 'no item'.
+	//
+	// @param [ItemType] itemtype
+	// @param [CurrentItemIDBitflags] bitflags
+	// @zasm
+	//   CURRENTITEMID
+	//   POPARGS D5 0.0002
+	internal int CurrentItemID(int itemtype, int bitflags = 1L);
+
+	// Loads the [subscreendata] pointer for the specified
+	// active/passive/overlay subscreen.
+	//
+	// Use id `-1` to load the current subscreen of the type.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSUBDATARV D2 0
+	internal subscreendata LoadASubData(int id);
+
+	// Loads the [subscreendata] pointer for the specified
+	// active/passive/overlay subscreen.
+	//
+	// Use id `-1` to load the current subscreen of the type.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSUBDATARV D2 1
+	internal subscreendata LoadPSubData(int id);
+
+	// Loads the [subscreendata] pointer for the specified
+	// active/passive/overlay subscreen.
+	//
+	// Use id `-1` to load the current subscreen of the type.
+	//
+	// @zasm
+	//   POP D2
+	//   LOADSUBDATARV D2 2
+	internal subscreendata LoadOSubData(int id);
+
+	// @zasm
+	//   SWAPSUBSCREENV 0
+	//   POPARGS D5 0.0002
+	internal int SwapActiveSubscreens(int sub_id_1, int sub_id_2);
+
+	// @zasm
+	//   SWAPSUBSCREENV 1
+	//   POPARGS D5 0.0002
+	internal int SwapPassiveSubscreens(int sub_id_1, int sub_id_2);
+
+	// @zasm
+	//   SWAPSUBSCREENV 2
+	//   POPARGS D5 0.0002
+	internal int SwapOverlaySubscreens(int sub_id_1, int sub_id_2);
+
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   GETMESSAGE D3 D2
+	internal void GetMessage(int string, char32[] buffer);
+
+	// Places string 'str[]' into ZQ Message 'message'.
+	//
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   SETMESSAGE D3 D2
+	internal void SetMessage(int message, char32[] str);
+
+	// @zasm
+	//   POP D3
+	//   COMBOTILE D2 D3
+	internal int ComboTile(int combo);
+
+	// @deprecated Use [Audio->PlaySound] instead!
+	// @zasm
+	//   POP D2
+	//   PLAYSOUNDR D2
+	internal void PlaySound(int soundid);
+
+	// @deprecated Use [Audio->PlayMIDI] instead!
+	// @zasm
+	//   POP D2
+	//   PLAYMIDIR D2
+	internal void PlayMIDI(int MIDIid);
+
+	// @deprecated Use [Audio->PlayEnhancedMusic] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   PLAYENHMUSIC D3 D2
+	internal bool PlayEnhancedMusic(char32[] filename, int track);
+
+	// @deprecated Use [Audio->PlayEnhancedMusic] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   PLAYENHMUSICEX D3 D2
+	internal bool PlayOgg(char32[] filename, int track);
+
+	// @deprecated
+	// @zasm
+	//   GETENHMUSICPOS D2
+	internal int GetOggPos();
+
+	// @deprecated
+	// @zasm
+	//   POP D2
+	//   SETENHMUSICPOS D2
+	internal void SetOggPos(int pos);
+
+	// @deprecated
+	// @zasm
+	//   POP D2
+	//   SETENHMUSICSPEED D2
+	internal void SetOggSpeed(int speed);
+
+	// @deprecated Use 'mapdata->' vars instead!
+	// @zasm
+	//   POP D0
+	//   POP D1
+	//   POP D2
+	//   GETSCREENFLAGS D2
+	internal int GetScreenFlags(int map, int screen, int bitflags);
+
+	// @deprecated Use 'mapdata->' vars instead!
+	// @zasm
+	//   POP D1
+	//   POP D0
+	//   POP D2
+	//   SUBV D2 1
+	//   MULTV D2 136
+	//   ADDR D0 D2
+	//   SETR D2 SCREENSTATEDD
+	//   COMPAREV D2 0
+	//   SETCMP D2 !=
+	internal bool GetScreenState(int map, int screen, int flag);
+
+	// @deprecated Use 'mapdata->' vars instead!
+	// @zasm
+	//   POP D6
+	//   POP D1
+	//   POP D0
+	//   POP D2
+	//   SUBV D2 1
+	//   MULTV D2 136
+	//   ADDR D0 D2
+	//   COMPAREV D6 0
+	//   SETCMP SCREENSTATEDD !=
+	internal void SetScreenState(int map, int screen, int flag, bool value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboD]' instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBODDM
+	internal int GetComboData(int map, int screen, int pos);
+
+	// Updates the canonical screen. If the screen is currently active, the temporary screen is also updated.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboD] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBODDM D3
+	internal void SetComboData(int map, int screen, int pos, int value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboC] instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBOCDM
+	internal int GetComboCSet(int map, int screen, int pos);
+
+	// Updates the canonical screen. If the screen is currently active, the temporary screen is also updated.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboC] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBOCDM D3
+	internal void SetComboCSet(int map, int screen, int pos, int value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboF] instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBOFDM
+	internal int GetComboFlag(int map, int screen, int pos);
+
+	// Updates the canonical screen. If the screen is currently active, the temporary screen is also updated.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboF] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBOFDM D3
+	internal void SetComboFlag(int map, int screen, int pos, int value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboT] instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBOTDM
+	internal int GetComboType(int map, int screen, int pos);
+
+	// Updates the combo type at the position in the canonical screen.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboT] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBOTDM D3
+	internal void SetComboType(int map, int screen, int pos, int value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboI] instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBOIDM
+	internal int GetComboInherentFlag(int map, int screen, int pos);
+
+	// Updates the combo inherent flag at the position in the canonical screen.
+	//
+	// @deprecated Use [mapdata::ComboI] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBOIDM D3
+	internal void SetComboInherentFlag(int map, int screen, int pos, int value);
+
+	// Reads the canonical screen. If the screen is currently active (including as a layer), the temporary screen is read instead.
+	//
+	// Note: since Regions came after this was deprecated, only the top-left screen may be considered "active" for purposes of this function.
+	//       Referencing any other screen in the current region will access the canonical screen instead.
+	//
+	// @deprecated Use [mapdata::ComboS] instead!
+	// @zasm
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR D2 COMBOSDM
+	internal int GetComboSolid(int map, int screen, int pos);
+
+	// Updates the combo solidity at the position in the canonical screen.
+	//
+	// @deprecated Use [mapdata::ComboS] instead!
+	// @zasm
+	//   POP D3
+	//   POP D0
+	//   POP D2
+	//   POP D1
+	//   SETR COMBOSDM D3
+	internal void SetComboSolid(int map, int screen, int pos, int value);
+
+	// @deprecated
+	// @zasm
+	//   POP D2
+	//   GETUNTYPEDSCRIPT D2
+	internal int GetUntypedScript(char32[] name);
+
+	// @deprecated
+	// @zasm
+	//   POP D2
+	//   GETSUBSCREENSCRIPT D2
+	internal int GetSubscreenScript(char32[] name);
+
+	// @deprecated Use [dmapdata::GetMusic] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   GETMUSICFILE D3 D2
+	internal void GetDMapMusicFilename(int dmap, char32[] buf);
+
+	// @deprecated Use [dmapdata::MusicTrack] instead!
+	// @zasm
+	//   POP D2
+	//   GETMUSICTRACK D2
+	internal int GetDMapMusicTrack(int dmap);
+
+	// @deprecated Use [dmapdata::SetMusic] instead!
+	// @zasm
+	//   SETDMAPENHMUSIC
+	//   POPARGS D5 0.0003
+	internal void SetDMapEnhancedMusic(int dmap, char32[] filename, int track);
+
+	// @deprecated Use [dmapdata::GetName] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   GETDMAPNAME D3 D2
+	internal void GetDMapName(int DMap, char32[] buffer);
+
+	// @deprecated Use [dmapdata::SetName] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   SETDMAPNAME D3 D2
+	internal void SetDMapName(int DMap, char32[] buffer);
+
+	// @deprecated Use [dmapdata::GetTitle] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   GETDMAPTITLE D3 D2
+	internal void GetDMapTitle(int DMap, char32[] buffer);
+
+	// @deprecated Use [dmapdata::SetTitle] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   SETDMAPTITLE D3 D2
+	internal void SetDMapTitle(int DMap, char32[] buffer);
+
+	// @deprecated Use [dmapdata::GetIntro] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   GETDMAPINTRO D3 D2
+	internal void GetDMapIntro(int DMap, char32[] buffer);
+
+	// @deprecated Use [dmapdata::SetIntro] instead!
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   SETDMAPINTRO D3 D2
+	internal void SetDMapIntro(int DMap, char32[] buffer);
+}
+
+internal const Game Game;

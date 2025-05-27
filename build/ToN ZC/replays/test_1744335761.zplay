@@ -1,0 +1,151 @@
+M debug true
+M frames 46
+M length 134
+M qst c:/Users/Evan/Desktop/Terror of Necromancy/ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash 68B87E2E9454E82B51FF8E7EC5B80822
+M qst_title Terror of Necromancy
+M starting_dmap 26
+M starting_retsqr 0
+M starting_scr 27
+M sync_rng true
+M test_mode true
+M time_created Thu Apr 10 21:42:42 2025
+M time_updated Thu Apr 10 21:42:46 2025
+M uuid cb1f9e0f-370f-4cd4-9af3-77fa2d4ebba8
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1744335762
+Y 0 482 0
+R 0 2 257 2042863915
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 dmap=26 Seized Grd Twr F3
+C 0 scr=27
+C 0 h f0 88
+C 0 g DHz
+C 2 g Ffn
+C 3 g CFm
+C 4 g Haf
+C 5 g l@
+C 6 g GAm
+C 7 g Et3
+C 8 g D}e
+C 9 g G/A
+C 10 g Gi)
+C 11 g BFK
+C 12 g GKX
+C 13 g BF^
+C 14 g BVz
+C 15 g CEC
+D 15 k LCONTROL
+C 16 g Fp/
+C 17 g BHG
+C 18 g E$@
+C 19 g Cc>
+C 20 g F&~
+C 21 g fM
+C 22 g q!
+C 23 g E#m
+C 24 g EeW
+C 25 g B+6
+C 26 g FmL
+C 27 g DyP
+C 28 g G|r
+D 28 k G
+C 29 g FmX
+U 29 k G
+U 29 k LCONTROL
+C 30 g GZM
+C 31 g E((
+C 32 g DO]
+C 33 g F(@
+C 34 g Ge$
+C 35 g CcO
+C 36 g C+q
+C 37 g E|$
+C 38 g Fn]
+C 39 g G;K
+C 40 g Eg<
+C 41 g H9)
+C 42 g el
+C 43 g Hf6
+C 44 g F7a
+C 45 g Fs3
+Q 46 3

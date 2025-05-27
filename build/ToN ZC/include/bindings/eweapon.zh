@@ -1,0 +1,418 @@
+// EWeapon types. Used with [Screen->CreateEWeapon] and [Screen->LoadEWeapon].
+enum EWeaponType
+{
+	EW_ARROW                       = 130,
+	EW_BRANG                       = 131,
+	EW_BEAM                        = 132, // Sword beam.
+	EW_ROCK                        = 133,
+	EW_MAGIC                       = 134,
+	EW_FIREBALL                    = 129,
+	EW_FIREBALL2                   = 145, // Arcing boss fireball.
+	EW_BOMB                        = 137, // Projectile bomb.
+	EW_BOMBBLAST                   = 135, // Bomb explosion.
+	EW_SBOMB                       = 138, // Projectile super bomb.
+	EW_SBOMBBLAST                  = 136, // Super bomb explosion.
+	EW_FIRETRAIL                   = 139,
+	EW_FIRE                        = 140,
+	EW_WIND                        = 141, // Wind wizzrobe magic.
+	EW_FIRE2                       = 142,
+	EW_SCRIPT1                     = 31,  // Dummy weapon, for use with scripts.
+	EW_SCRIPT2                     = 32,
+	EW_SCRIPT3                     = 33,
+	EW_SCRIPT4                     = 34,
+	EW_SCRIPT5                     = 35,
+	EW_SCRIPT6                     = 36,
+	EW_SCRIPT7                     = 37,
+	EW_SCRIPT8                     = 38,
+	EW_SCRIPT9                     = 39,
+	EW_SCRIPT10                    = 40,
+};
+
+// Weapons active on the screen from enemies. See [Screen->LoadEWeapon] and [Screen->CreateEWeapon].
+//
+// @zasm_ref REFEWPN
+// @extends sprite
+class eweapon {
+	// @delete
+	internal eweapon();
+
+	// The weapon type. Some types have hardcoded behaviors.
+	//
+	// @zasm_var EWPNID
+	internal int Type;
+
+	// Exactly the same as [Type], use that instead.
+	//
+	// @zasm_var EWPNID
+	internal int ID;
+
+	// Exactly the same as [Type], use that instead.
+	//
+	// @zasm_var EWPNID
+	internal int Family;
+
+	// For lweapons, the level of the weapon.
+	//
+	// @zasm_var EWPNLEVEL
+	internal int Level;
+
+	// Returns the max number of weapons currently allowed.
+	//
+	// @zasm_var SPRITEMAXEWPN
+	internal int Max;
+
+	// The angle of the weapon, in radians for Angle or degrees for DegAngle.
+	// Has no real effect if the weapon is not `Angular`.
+	//
+	// @zasm_var EWPNANGLE
+	internal int Angle;
+
+	// The movement speed of the weapon, in 100th's/pixel per frame.
+	//
+	// @zasm_var EWPNSTEP
+	internal int Step;
+
+	// The number of frames in the weapon's animation.
+	//
+	// @zasm_var EWPNFRAMES
+	internal int NumFrames;
+
+	// The current frame number that the animation is on.
+	//
+	// @zasm_var EWPNFRAME
+	internal int Frame;
+
+	// The amount of damage the weapon deals.
+	//
+	// @zasm_var EWPNPOWER
+	internal int Power;
+
+	// The amount of damage the weapon deals.
+	//
+	// @zasm_var EWPNPOWER
+	internal int Damage;
+
+	// If the weapon is angular (instead of directional)
+	//
+	// @zasm_var EWPNANGULAR
+	internal bool Angular;
+
+	// If true, the weapon's sprite will draw behind the [Hero] and enemies.
+	//
+	// @zasm_var EWPNBEHIND
+	internal bool Behind;
+
+	// The speed of the animation, in frames per frame.
+	//
+	// @zasm_var EWPNASPEED
+	internal int ASpeed;
+
+	// The secondary CSet used for flashing.
+	//
+	// @zasm_var EWPNFLASHCSET
+	internal int FlashCSet;
+
+	// @value [enum WeaponDeadState]
+
+	// @zasm_var EWPNDEAD
+	internal int DeadState;
+
+	// If the weapon is flashing or not. When flashing, it changes between its
+	// CSet and FlashCSet.
+	//
+	// @zasm_var EWPNFLASH
+	internal bool Flash;
+
+	// The starting tile of the weapon's animation.
+	//
+	// @zasm_var EWPNOTILE
+	internal int OriginalTile;
+
+	// The starting cset of the weapon.
+	//
+	// @zasm_var EWPNOCSET
+	internal int OriginalCSet;
+
+	// the weapon's total visual Y-offset.
+	//
+	// @zasm_var EWPNTOTALDYOFFS
+	internal const int TotalDYOffset;
+
+	// The ID of the item, or pointer of the npc (respectively for lweapon, and
+	// for eweapon) that created this weapon.
+	//
+	// Weapons created by script have a default Parent of -1 (lweapon) and
+	// <npc>-0.0001 (eweapon).
+	//
+	// For lweapons, this value determines what item editor index to read item
+	// flags from.
+	//
+	// Setting it to an item of a class that does not normally generate the
+	// given weapon
+	//
+	// type may have unexpected effects.
+	//
+	// @zasm_var EWPNPARENT
+	internal npc Parent;
+
+	// If the weapon's collision is enabled. Set to false to disable collision
+	// entirely.
+	//
+	// @zasm_var EWPNCOLLDET
+	internal bool CollDetection;
+
+	// The weapon script running on this weapon.
+	//
+	// @zasm_var EWPNSCRIPT
+	internal int Script;
+
+	// The 8 InitD[] arguments for the weapon script.
+	//
+	// @zasm_var EWPNINITD
+	internal untyped InitD[];
+
+	// Unblockable bitflags.
+	//
+	// @value [enum UnblockableBitflags]
+
+	// @zasm_var EWPNUNBL
+	internal int Unblockable;
+
+	// If > 0, ticks down each frame. When ticking down to 0, kills the weapon.
+	//
+	// @zasm_var EWPNTIMEOUT
+	internal int Timeout;
+
+	// The angle of the weapon, in radians for Angle or degrees for DegAngle.
+	// Has no real effect if the weapon is not `Angular`.
+	//
+	// @zasm_var EWPNDEGANGLE
+	internal int DegAngle;
+
+	// The velocity on the X or Y axis. Setting these will make the weapon
+	// Angular if it isn't already, and will adjust the weapon's Angle and Step
+	// speed.
+	//
+	// @zasm_var EWPNVX
+	internal int Vx;
+
+	// The velocity on the X or Y axis. Setting these will make the weapon
+	// Angular if it isn't already, and will adjust the weapon's Angle and Step
+	// speed.
+	//
+	// @zasm_var EWPNVY
+	internal int Vy;
+
+	// If true, the weapon's 'Rotation' will be automatically set based on its
+	// Angle.
+	//
+	// @zasm_var EWPNAUTOROTATE
+	internal bool AutoRotate;
+
+	// The weapon's flags.
+	//
+	// @index [enum WeaponFlag]
+	// @zasm_var EWPNFLAGS
+	internal bool Flags[];
+
+	// If `> -1`, this item will be spawned when the weapon dies.
+	//
+	// @zasm_var EWPNDEATHITEM
+	internal int DeathItem;
+
+	// If `> -1`, this item dropset will be rolled for a drop when the weapon
+	// dies.
+	//
+	// @zasm_var EWPNDEATHDROPSET
+	internal int DeathDropset;
+
+	// The [itemsprite::Pickup] to use for the item dropped via [DeathItem] or
+	// [DeathDropset].
+	//
+	// @zasm_var EWPNDEATHIPICKUP
+	internal int DeathItemPFlags;
+
+	// If `> -1`, display this Sprite Data sprite when the weapon dies.
+	//
+	// @zasm_var EWPNDEATHSPRITE
+	internal int DeathSprite;
+
+	// If `> 0`, this SFX will be played when the weapon dies.
+	//
+	// @zasm_var EWPNDEATHSFX
+	internal int DeathSFX;
+
+	// NOTE: Not implemented - currently only [lweapon] can be lifted.
+	//
+	// @zasm_var EWPNLIFTLEVEL
+	internal int LiftLevel;
+
+	// The time it takes to lift this weapon via engine lifting.
+	//
+	// @zasm_var EWPNLIFTTIME
+	internal int LiftTime;
+
+	// The height to lift this weapon to via engine lifting.
+	//
+	// @zasm_var EWPNLIFTHEIGHT
+	internal int LiftHeight;
+
+	// Various sprites used by the weapon.
+	//
+	// @zasm_var EWPNSPRITES
+	internal int Sprites[];
+
+	// The burning light radii associated with sprites of the weapon.
+	//
+	// @index [enum WeaponSpriteIndex]
+	// @zasm_var EWPNBURNLIGHTRADIUS
+	internal int BurnLightRadius[];
+
+	// @deprecated - This is now just the internal engine ID, which is the same as doing `<int>some_sprite`.
+	// @zasm_var EWEAPONSCRIPTUID
+	internal const int UID;
+
+	// @deprecated
+	// @zasm_var EWPNPARENTUID
+	internal int ParentUID;
+
+	// Returns the max number of weapons currently allowed.
+	//
+	// @deprecated Use [Max] instead!
+	// @zasm
+	//   POP REFEWPN
+	//   SETR D2 SPRITEMAXEWPN
+	internal int Max();
+
+	// Sets the max number of weapons allowed to a new value. Range `1-1024`.
+	//
+	// @deprecated Use [Max] instead!
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   SETR SPRITEMAXEWPN D2
+	internal void Max(int value);
+
+	// Returns true if this pointer points to a valid weapon. If this returns
+	// false, using any other value of this pointer will error.
+	//
+	// @zasm
+	//   POP D2
+	//   ISVALIDEWPN D2
+	internal bool isValid();
+
+	// Loads the graphical information from the [spritedata] indicated by
+	// [sprite_id] to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP D3
+	//   SETR REFEWPN D3
+	//   EWPNUSESPRITER D2
+	internal void UseSprite(int sprite_id);
+
+	// Creates an explosion particle effect in mode 0, 1, or 2 of the sprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   EWEAPONEXPLODER D2
+	internal void Explode(int mode);
+
+	// Instantly deletes the weapon.
+	//
+	// @zasm
+	//   POP REFEWPN
+	//   EWPNDEL
+	internal void Remove();
+
+	// Switch the [Hero] with this sprite.
+	//
+	// Valid values for [effect]: [SwitchEffect] (`SW_EFF_`).
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   SWITCHEW D2
+	internal bool Switch(int effect);
+
+	// If the weapon is not Angular, makes it Angular, and sets its Angle based
+	// on its Dir.
+	//
+	// @zasm
+	//   POP D2
+	//   EWPNMAKEANGULAR D2
+	internal void MakeAngular();
+
+	// If the weapon is Angular, makes it not Angular, and set its Dir based
+	// on its Angle
+	//
+	// @zasm
+	//   POP D2
+	//   EWPNMAKEDIRECTIONAL D2
+	internal void MakeDirectional();
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_BITMAP D2 0.0009
+	internal void Own(bitmap b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_PALDATA D2 0.0009
+	internal void Own(paldata b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_FILE D2 0.0009
+	internal void Own(file b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_DIR D2 0.0009
+	internal void Own(directory b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_STACK D2 0.0009
+	internal void Own(stack b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_RNG D2 0.0009
+	internal void Own(randgen b);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_ARRAY D2 0.0009
+	internal void OwnArray(untyped array);
+
+	// Grants 'Ownership' of the parameter object to the weapon.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFEWPN
+	//   OBJ_OWN_CLASS D2 0.0009
+	internal void OwnObject(untyped object);
+}

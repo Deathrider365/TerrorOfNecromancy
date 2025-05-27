@@ -1,0 +1,472 @@
+M debug true
+M frames 303
+M length 455
+M qst c:/Users/Evan/Desktop/Terror of Necromancy/ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash A5C48F895D664173427121229C824088
+M qst_title Terror of Necromancy
+M starting_dmap 69
+M starting_retsqr 0
+M starting_scr 51
+M sync_rng true
+M test_mode true
+M time_created Tue Apr  8 21:59:51 2025
+M time_updated Tue Apr  8 22:00:03 2025
+M uuid 1b1602fa-2027-4fb7-be6c-63172514427c
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1744163991
+R 0 2 257 2042692144
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 1 (Wooden)
+C 0 getitem Sword 2 (Blade of Conflator)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Arrow 1 (Wooden)
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Ring 2 (Blue)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Boomerang 2 (Soldier's)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Ocarina (L1)
+C 0 getitem Hookshot 1 (Short)
+C 0 getitem Lens of Truth
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Bracelet 1 (Landscaper Glove)
+C 0 getitem Potion 3 (Life)
+C 0 getitem Hammer 1 (Wooden)
+C 0 getitem Engagement Ring
+C 0 getitem Candle 1 (Wax)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Ocarina (L2)
+C 0 getitem Ebrira Key
+C 0 getitem Leviathan Scale
+C 0 getitem Trading: #1 - Special Mushroom
+C 0 getitem Trading: #2 - Perfect Leaf
+C 0 getitem Trading: #3 - Lady's Bow
+C 0 getitem Lantern Lv1 (Wax)
+C 0 getitem Lantern Lv2 (Oil)
+C 0 getitem Signet of Allegiance
+C 0 getitem Lantern (Default)
+C 0 dmap=69 Lv6-B1-GeoPlant West
+C 0 scr=51
+C 0 h 80 50
+C 0 g DHz
+C 1 g D:j
+C 2 g Giv
+C 3 g C45
+C 4 g E2_
+C 5 g >f
+C 6 g D[8
+C 7 g G=4
+C 8 g ESl
+C 9 g DBS
+C 10 g C2u
+C 11 g Cv.
+C 12 g EQd
+C 13 g FIE
+C 14 g DSu
+C 15 g dw
+C 16 g Gcg
+C 17 g G"o
+C 18 g D]c
+C 19 g Cye
+D 19 k LCONTROL
+C 20 g EY|
+C 21 g F@Q
+C 22 g HR6
+C 23 g Bk"
+C 24 g G}~
+C 25 g C3z
+C 26 g BP/
+C 27 g BH]
+C 28 g C"q
+C 29 g C&Q
+C 30 g FR
+C 31 g B`t
+X 32 Walls
+C 32 g E%`
+D 32 k F11
+C 33 g FB(
+C 34 g Hs
+C 35 g 8l
+U 35 k F11
+C 36 g Fdu
+C 37 g Eg8
+C 38 g CF6
+C 39 g CRi
+U 39 k LCONTROL
+C 40 g D*#
+C 41 g F@/
+C 42 g D$8
+C 43 g DB^
+C 44 g Dwv
+C 45 g H5Z
+C 46 g _9
+C 47 g Bo0
+C 48 g CEA
+C 49 g GKr
+D 49 k LCONTROL
+C 50 g @?
+C 51 g D,Q
+C 52 g Ce]
+C 53 g Dca
+C 54 g Gb5
+C 55 g HpW
+C 56 g G|w
+C 57 g B?J
+C 58 g BR)
+C 59 g GJJ
+C 60 g C?=
+C 61 g t`
+C 62 g F@r
+C 63 g Ep>
+C 64 g Y8
+C 65 g C~1
+C 66 g E(H
+C 67 g EFK
+C 68 g C+E
+C 70 g EFK
+C 72 g C+E
+X 74 ShowHitbox
+C 74 g E%p
+D 74 R
+C 76 g G50
+C 78 g E%p
+U 79 k LCONTROL
+C 80 g G50
+C 81 h 82 50
+C 81 g BsD
+D 81 Right
+U 81 R
+C 82 h 83 50
+C 82 g E%p
+C 83 h 85 50
+C 84 h 86 50
+C 84 g FM9
+C 85 h 88 50
+C 85 g DNB
+C 86 h 89 50
+C 86 g E%p
+C 87 h 8b 50
+C 88 h 8c 50
+C 88 g G^#
+C 89 h 8e 50
+C 89 g CE9
+C 90 h 8f 50
+C 90 g E%p
+C 91 h 91 50
+C 92 h 92 50
+C 92 g G])
+C 93 h 94 50
+C 93 g H>R
+C 94 h 95 50
+C 94 g E%p
+C 95 h 97 50
+C 96 h 98 50
+C 96 g Em]
+C 97 h 9a 50
+C 97 g Bh}
+C 98 h 9b 50
+C 98 g E%p
+C 99 h 9d 50
+C 100 h 9e 50
+C 100 g h6
+C 101 h a0 50
+C 101 g C;J
+C 102 h a1 50
+C 102 g E%p
+C 103 h a2 4f
+D 103 Up
+C 104 h a3 4e
+C 104 g _?
+C 105 h a4 4d
+C 105 g 56
+C 106 h a5 4c
+C 106 g E%p
+C 107 h a6 4b
+C 108 h a7 4a
+C 108 g DdJ
+C 109 h a8 49
+C 109 g Gol
+C 110 h a9 48
+C 110 g E%p
+C 111 h ab 46
+C 112 h ac 45
+C 112 g Gjy
+C 113 h ad 44
+C 113 g Cnj
+C 114 h ae 43
+C 114 g E%p
+C 115 h af 43
+U 115 Up
+C 116 h b1 43
+C 116 g G~d
+C 117 h b2 43
+C 117 g D{Q
+C 118 h b4 43
+C 118 g E%p
+C 119 h b5 43
+C 120 h b7 43
+C 120 g Ha5
+C 121 h b8 43
+C 121 g Fq@
+C 122 h ba 43
+C 122 g Bkp
+C 123 h bb 43
+C 124 h bd 43
+C 124 g H$%
+C 125 h be 43
+C 125 g iE
+C 126 h c0 43
+C 126 g Bkp
+C 127 h c1 43
+C 128 h c3 43
+C 128 g D"
+C 129 h c4 43
+C 129 g H9o
+C 130 h c6 43
+C 130 g Bkp
+C 131 h c7 43
+C 132 h c9 43
+C 132 g B/m
+C 133 h ca 43
+C 133 g HAx
+D 133 R
+C 134 g FI=
+U 134 Right
+C 136 g FCY
+C 138 g FI=
+C 140 g FCY
+U 140 R
+C 142 g FI=
+C 144 g FCY
+C 146 g FI=
+C 148 g FCY
+C 150 g FI=
+C 152 g FCY
+C 154 g FI=
+C 156 g FCY
+C 157 h ca 45
+C 157 g CC$
+D 157 Down
+C 158 h ca 46
+C 158 g FI=
+C 159 h ca 48
+C 160 h ca 49
+C 160 g "I
+C 161 h ca 4b
+C 161 g Ek%
+C 162 h ca 4c
+C 162 g FI=
+C 163 h ca 4e
+C 164 h ca 4f
+C 164 g Gqu
+C 165 h ca 51
+C 165 g H?e
+C 166 h ca 52
+C 166 g FI=
+C 167 h ca 54
+C 168 h ca 55
+C 168 g DAC
+C 169 h ca 57
+C 169 g FQ?
+C 170 h ca 58
+C 170 g FI=
+C 171 h ca 5a
+C 172 h ca 5b
+C 172 g FeB
+C 173 h c9 5c
+C 173 g CSU
+D 173 Left
+C 174 h c8 5d
+C 174 g FI=
+C 175 h c7 5e
+C 176 h c6 60
+C 176 g Bw5
+C 177 h c5 61
+C 177 g Hh.
+C 178 h c4 62
+C 178 g FI=
+C 179 h c3 63
+C 180 h c2 64
+C 180 g G|*
+C 181 h c1 65
+C 181 g BF<
+C 182 h c0 66
+C 182 g FZR
+C 183 h bf 67
+C 184 h bd 67
+C 184 g GVd
+U 184 Down
+C 185 h bc 67
+C 185 g CUQ
+C 186 g FZR
+U 186 Left
+C 188 g CUQ
+C 190 g FZR
+C 192 g CUQ
+C 194 g FZR
+C 195 h bc 65
+D 195 Up
+C 196 h bc 64
+C 196 g C3:
+C 197 h bc 62
+C 197 g <=
+C 198 h bc 61
+C 198 g FZR
+C 199 h bc 5f
+C 200 g Cp|
+U 200 Up
+C 202 g FZR
+C 204 g Cp|
+C 206 g FZR
+C 208 g Cp|
+C 210 g FZR
+C 212 g Cp|
+C 214 g FZR
+C 216 g Cp|
+C 218 g FZR
+C 220 g Cp|
+C 222 g FZR
+C 224 g Cp|
+C 226 g FZR
+C 227 sfx 1, Arrow - WW_Arrow_Shoot
+C 227 g B2E
+D 227 B
+C 228 g EMM
+C 229 g F&J
+C 230 g E@T
+C 231 g H;:
+C 232 g #w
+C 233 g g@
+U 233 B
+C 234 g D8L
+C 235 g E7y
+C 236 g D.|
+C 237 g GTD
+C 238 g F_j
+C 239 g BgB
+C 240 g D[_
+C 241 g ^&
+C 242 g &e
+C 243 trigger secrets scr=51
+C 243 sfx 7, OOT_Secret
+C 243 map 106 scr 51 flag Secrets
+C 243 map 107 scr 67 flag Secrets carry
+C 243 g F8r
+D 243 k F4
+C 244 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 244 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 244 sfx 9, Shutter - OOT_Door_Stone_Slam
+C 244 g ;]
+C 245 g HUU
+C 246 g CSe
+D 246 k F3
+U 246 k F4
+C 247 g CyW
+C 248 g FwF
+C 249 g D.$
+U 249 k F3
+C 250 g G4(
+C 251 g D:l
+C 252 g FVK
+C 253 g XZ
+C 254 g C[#
+C 255 g B%:
+C 256 g .M
+C 257 g CV&
+C 258 g Gyb
+C 259 g Ep~
+D 259 k F3
+D 259 k F4
+C 260 g DUl
+U 260 k F4
+C 261 g Eag
+C 262 g CD[
+C 263 g H[|
+U 263 k F3
+C 264 g HF.
+C 265 g C[S
+C 266 g Gce
+C 267 g BZ|
+C 268 g ENT
+D 268 k F3
+C 269 g Du8
+C 270 g B)!
+C 271 g FD)
+U 271 k F3
+C 272 g i/
+C 273 g C}:
+C 274 g G8f
+C 275 g Eum
+C 276 g G"r
+C 277 g HiG
+C 278 g FmX
+C 279 g HJ&
+C 280 g _A
+C 281 g E~S
+C 282 g =P
+C 283 g F`G
+C 284 g Bny
+D 284 k F3
+C 285 g Gy#
+C 286 g G7B
+C 287 g DO7
+U 287 k F3
+C 288 g DuE
+C 290 g C8Y
+C 292 g DuE
+C 294 g C8Y
+C 296 g DuE
+C 298 g C8Y
+C 300 g B|b
+C 302 g HiS
+Q 303 3

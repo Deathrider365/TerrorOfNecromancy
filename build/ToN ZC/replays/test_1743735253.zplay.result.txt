@@ -1,0 +1,10 @@
+replay: replays/test_1743735253.zplay
+mode: record
+time: Thu Apr  3 22:54:14 2025
+duration: 56539
+zc_version: 3.0.0-prerelease.96+2025-03-27
+record_log_frames: 3350
+frame: 3352
+fps: 59
+success: false
+stopped: true

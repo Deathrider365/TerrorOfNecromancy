@@ -1,0 +1,499 @@
+M frames 7277
+M length 485
+M name Demo5
+M parent_uuid 1bf2f4a0-fa66-49af-88df-e224b208ca24
+M qst ../ToN Main Quest/Quest+Music/ToNDemo5.qst
+M qst_hash 2BA51580443319A20ECE67A61CDF34A0
+M qst_modified true
+M qst_title Terror of Necromancy
+M sync_rng true
+M time_created Thu Apr  3 21:55:01 2025
+M time_updated Thu Apr  3 22:00:40 2025
+M version 39
+M zc_version_created 3.0.0-prerelease.94+2025-03-14
+M zc_version_updated 3.0.0-prerelease.94+2025-03-14
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1743731701
+R 0 2 257 -359245338
+C 0 getitem Bomb (Normal)
+C 0 getitem Sword 3 (Master)
+C 0 getitem Shield 2 (Iron)
+C 0 getitem Candle 2 (Oil)
+C 0 getitem Medical Herb
+C 0 getitem Bow 1 (Wooden)
+C 0 getitem Seared Steak
+C 0 getitem Ring 3 (Red)
+C 0 getitem Boomerang 1 (Wooden)
+C 0 getitem Wand 1 (Normal)
+C 0 getitem Raft
+C 0 getitem Ladder
+C 0 getitem Potion 2 (Red)
+C 0 getitem Ocarina (L1)
+C 0 getitem Shield 3 (Mirror)
+C 0 getitem Wallet 2 (999) (Theif's)
+C 0 getitem Bomb (Powder Keg)
+C 0 getitem Flippers 1
+C 0 getitem Lens of Truth
+C 0 getitem Bracelet 3 (Giant's Bracer)
+C 0 getitem Arrow 3 (Silver)
+C 0 getitem Din's Fire
+C 0 getitem Farore's Wind
+C 0 getitem Nayru's Love
+C 0 getitem Quiver 1 (Small)
+C 0 getitem Quiver 3 (Large)
+C 0 getitem Bomb Bag 1 (Small)
+C 0 getitem Bomb Bag 3 (Large)
+C 0 getitem Hookshot 2 (Long)
+C 0 getitem Shield 1 (Wooden)
+C 0 getitem Scroll: Spin Attack
+C 0 getitem Scroll: Cross Beams
+C 0 getitem Scroll: Quake Hammer
+C 0 getitem Scroll: Super Quake
+C 0 getitem Scroll: Hurricane Spin
+C 0 getitem Scroll: Peril Beam
+C 0 getitem Hammer 2 (Smith's)
+C 0 getitem zz 3 Difficulty Normal
+C 0 getitem Lantern (Default)
+C 0 dmap=2 Opening Scene
+C 0 scr=0
+D 104 A
+D 104 B
+U 112 A
+U 115 B
+D 143 B
+D 148 k ~
+C 208 dmap=2 Opening Scene
+C 208 scr=1
+R 208 0 257 1743731704
+C 313 dmap=2 Opening Scene
+C 313 scr=2
+R 313 0 257 1743731705
+C 367 dmap=2 Opening Scene
+C 367 scr=3
+R 367 0 257 1743731705
+U 397 k ~
+U 401 B
+D 423 B
+D 425 k ~
+C 475 dmap=2 Opening Scene
+C 475 scr=4
+R 475 0 257 1743731705
+U 496 k ~
+U 504 B
+D 723 A
+C 724 dmap=2 Opening Scene
+C 724 scr=5
+R 724 0 257 1743731709
+D 729 B
+U 733 A
+U 737 B
+D 773 A
+D 780 B
+U 785 A
+U 789 B
+D 826 B
+D 828 k ~
+C 832 dmap=2 Opening Scene
+C 832 scr=6
+R 832 0 257 1743731711
+C 916 dmap=2 Opening Scene
+C 916 scr=7
+R 916 0 257 1743731711
+U 980 k ~
+U 983 B
+D 1017 Left
+D 1030 Down
+U 1036 Left
+D 1050 Right
+U 1060 Right
+U 1078 Down
+D 1084 k LCONTROL
+X 1097 GoTo 39 111
+C 1097 dmap=39 SWI Mt. Duratu
+C 1097 scr=111
+R 1097 0 257 1743731735
+D 1097 k G
+D 1098 Start
+U 1098 k G
+U 1098 k LCONTROL
+U 1100 Start
+D 1150 Start
+U 1154 Start
+D 1198 Down
+D 1206 Left
+U 1216 Left
+U 1218 Down
+D 1231 k LCONTROL
+X 1243 Walls
+D 1243 k F11
+U 1247 k F11
+U 1247 k LCONTROL
+D 1267 Down
+D 1268 Left
+U 1304 Down
+D 1312 Up
+U 1325 Left
+U 1329 Up
+D 1350 k LCONTROL
+D 1363 k F10
+D 1363 k F11
+U 1364 k F10
+U 1364 k F11
+U 1364 k LCONTROL
+D 1412 k LCONTROL
+X 1451 Walls
+D 1451 k F11
+U 1454 k F11
+C 1482 dmap=67 Lv6-F1-GeoPlant West
+C 1482 scr=71
+R 1482 0 257 1743731743
+X 1510 Clock
+D 1510 k I
+U 1514 k I
+U 1531 k LCONTROL
+D 1560 A
+D 1565 B
+U 1570 A
+U 1575 B
+D 1606 A
+U 1613 A
+Q 1636 0
+Q 1637 0
+Q 1637 1
+D 1649 Down
+U 1653 Down
+D 1664 Start
+U 1667 Start
+C 1730 game_over
+C 1730 save game
+C 1731 init_game
+R 1731 0 1 1743731749
+R 1731 2 257 -473517158
+C 1731 dmap=67 Lv6-F1-GeoPlant West
+C 1731 scr=71
+D 1812 A
+U 1821 A
+D 1854 Up
+D 1888 Left
+U 1894 Left
+U 1896 Up
+D 1913 A
+D 1916 Right
+U 1919 A
+D 1923 A
+U 1928 A
+D 1932 A
+U 1938 A
+D 1941 A
+U 1948 A
+D 1963 Left
+U 1965 Right
+D 2001 Up
+U 2014 Up
+U 2032 Left
+X 2045 PlayerData VERSION=1 items[2]=131 items[6]=49 items[11]=224
+C 2045 getitem Ring 2 (Blue)
+C 2045 getitem Hookshot 1 (Short)
+Q 2066 0
+Q 2067 0
+Q 2067 1
+D 2081 Down
+U 2087 Down
+D 2093 Start
+D 2093 k RSHIFT
+U 2095 k RSHIFT
+U 2096 Start
+C 2159 game_over
+C 2159 save game
+C 2160 init_game
+R 2160 0 1 1743731777
+R 2160 2 257 -958756552
+C 2160 dmap=67 Lv6-F1-GeoPlant West
+C 2160 scr=71
+D 2227 Up
+D 2258 Left
+U 2282 Up
+C 2347 scr=70
+R 2347 0 257 1743731781
+D 2424 Up
+U 2443 Up
+D 2459 k LCONTROL
+U 2461 Left
+X 2478 Kill
+D 2478 k K
+U 2481 k LCONTROL
+U 2482 k K
+D 2495 Left
+C 2498 enemy died Bat (L1)
+C 2498 trigger secrets scr=70
+C 2498 map 102 scr 70 flag Secrets
+D 2541 L
+U 2548 L
+D 2552 L
+U 2557 L
+D 2558 Up
+D 2562 L
+U 2565 Left
+U 2567 L
+D 2572 L
+U 2577 L
+D 2582 L
+U 2588 L
+D 2594 L
+U 2600 L
+C 2610 scr=54
+R 2610 0 257 1743731785
+D 2661 Left
+D 2661 L
+U 2664 Left
+U 2669 L
+D 2687 Left
+U 2692 Up
+D 2701 Up
+U 2711 Left
+D 2714 B
+U 2718 B
+U 2729 Up
+C 2746 map 102 scr 54 flag Secrets
+C 2746 trigger secrets scr=54
+D 2751 Down
+D 2760 Left
+U 2764 Down
+D 2771 Down
+U 2774 Left
+D 2777 B
+U 2780 B
+U 2798 Down
+D 2810 Right
+D 2845 Down
+U 2854 Down
+D 2875 B
+U 2880 B
+D 2893 Down
+U 2895 Right
+C 2913 scr=70
+R 2913 0 257 1743731790
+C 2913 trigger secrets scr=70
+C 2965 trigger secrets scr=70
+D 3010 Right
+U 3013 Down
+D 3033 Up
+U 3066 Right
+C 3093 scr=54
+R 3093 0 257 1743731793
+C 3093 trigger secrets scr=54
+D 3170 Left
+D 3221 Right
+U 3222 Left
+U 3233 Up
+D 3253 Left
+U 3255 Right
+D 3269 Down
+U 3273 Left
+D 3280 Right
+U 3284 Down
+D 3419 Left
+U 3420 Right
+D 3425 A
+U 3427 Left
+U 3431 A
+D 3436 A
+U 3442 A
+D 3445 A
+U 3450 A
+D 3458 Right
+C 3469 scr=55
+R 3469 0 257 1743731800
+D 3559 L
+U 3566 L
+D 3579 L
+U 3584 Right
+U 3585 L
+D 3606 L
+U 3611 L
+D 3623 L
+U 3627 L
+D 3636 L
+U 3640 L
+D 3666 L
+U 3670 L
+D 3695 L
+U 3699 L
+D 3715 L
+U 3721 L
+D 3723 Start
+U 3727 Start
+D 3788 A
+U 3792 A
+D 3810 Down
+U 3814 Down
+D 3820 Down
+U 3823 Down
+D 3828 Right
+U 3833 Right
+D 3837 Right
+U 3843 Right
+D 3852 B
+U 3855 B
+D 3855 Start
+U 3859 Start
+D 3894 Left
+D 3900 Down
+U 3902 Left
+D 3909 B
+U 3910 Down
+U 3915 B
+C 3923 trigger secrets scr=55
+D 3939 Up
+D 3947 B
+U 3950 Up
+U 3952 B
+C 3961 trigger secrets scr=55
+X 3970 PlayerData VERSION=1 items[18]=8
+C 3970 getitem Hammer 1 (Wooden)
+D 5019 Right
+D 5032 Up
+D 5037 B
+U 5039 Right
+U 5041 B
+U 5043 Up
+D 5078 Start
+U 5081 Start
+D 5134 B
+U 5138 B
+D 5141 Start
+U 5145 Start
+D 5189 Up
+U 5198 Up
+D 5199 B
+U 5202 B
+C 5213 trigger secrets scr=55
+D 5226 Down
+D 5241 B
+U 5244 Down
+U 5244 B
+C 5255 trigger secrets scr=55
+C 5255 trigger secrets scr=55
+C 5255 map 102 scr 55 flag Secrets
+D 5265 Left
+U 5283 Left
+D 5284 A
+U 5289 A
+D 5294 A
+U 5298 A
+D 5302 A
+D 5305 Right
+U 5308 A
+D 5312 A
+U 5317 A
+C 5318 map 102 scr 55 flag Item
+C 5318 getitem Key (Level Specific)
+U 5318 Right
+D 5335 A
+D 5336 B
+U 5340 A
+U 5344 B
+D 5368 Left
+D 5376 A
+U 5380 A
+D 5395 A
+U 5400 A
+C 5450 scr=54
+R 5450 0 257 1743731838
+C 5450 trigger secrets scr=54
+U 5538 Left
+D 5573 Right
+U 5589 Right
+D 5593 R
+U 5599 R
+D 5610 L
+D 5614 Down
+U 5615 L
+D 5620 L
+U 5626 Down
+U 5626 L
+D 5665 Left
+D 5676 B
+U 5678 Left
+U 5680 B
+D 5712 Start
+U 5714 Start
+X 5805 PlayerData VERSION=1 items[3]=236
+X 6065 PlayerData VERSION=1 counter[7]=2 counter[8]=1 counter[11]=6 counter[12]=21 counter[13]=2 counter[14]=1 counter[15]=2 items[8]=0
+Q 6110 0
+Q 6111 0
+Q 6111 1
+D 6126 Down
+U 6132 Down
+D 6139 Start
+U 6141 Start
+C 6205 game_over
+C 6205 save game
+C 6206 init_game
+R 6206 0 1 1743731977
+R 6206 2 257 -1274488082
+C 6206 dmap=67 Lv6-F1-GeoPlant West
+C 6206 scr=71
+D 6274 Up
+D 6277 Left
+D 6278 A
+D 6284 B
+U 6286 A
+U 6290 B
+U 6333 Up
+D 6349 Up
+U 6369 Up
+C 6420 scr=70
+R 6420 0 257 1743731981
+C 6420 trigger secrets scr=70
+U 6487 Left
+D 6544 Up
+D 6546 Down
+U 6548 Up
+U 6549 Down
+D 6553 Left
+D 6561 Up
+U 6579 Up
+D 6585 A
+D 6590 Down
+U 6593 A
+U 6596 Left
+D 6609 Left
+U 6610 Down
+D 6623 A
+D 6625 Down
+U 6630 A
+U 6631 Left
+U 6636 Down
+D 6647 Start
+U 6651 Start
+D 6697 Start
+U 6705 Start
+D 6741 Up
+D 6745 Left
+U 6761 Left
+C 6803 scr=54
+R 6803 0 257 1743731987
+C 6803 trigger secrets scr=54
+U 6854 Up
+D 6911 Down
+C 6913 scr=70
+R 6913 0 257 1743731989
+C 6913 trigger secrets scr=70
+D 7030 Left
+X 7055 PlayerData VERSION=1 counter[2]=20 mcounter[2]=20
+U 7055 Down
+U 7056 Left
+D 7075 Start
+U 7078 Start
+X 7158 PlayerData VERSION=1 counter[0]=96 counter[3]=30 counter[6]=5 mcounter[0]=96 mcounter[3]=30
+Q 7180 0
+Q 7181 0
+Q 7181 1
+D 7196 Down
+U 7203 Down
+D 7210 Start
+U 7213 Start
+C 7276 game_over
+C 7276 save game

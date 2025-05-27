@@ -1,0 +1,55 @@
+M frames 1144
+M length 42
+M name s
+M qst ../Tilesets/Isle of Rebirth.qst
+M qst_hash 2A83925BF6880B3417E33E86501C14EC
+M qst_title Isle of Rebirth
+M sync_rng true
+M time_created Mon Mar 17 21:20:02 2025
+M time_updated Mon Mar 17 21:20:16 2025
+M uuid 98b6bc0b-dc3a-4ed6-8204-2464c62b041f
+M version 38
+M zc_version_created 3.0.0-prerelease.84+2025-01-03
+M zc_version_updated 3.0.0-prerelease.84+2025-01-03
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1742260802
+R 0 2 257 2040788955
+C 0 getitem Shield 1 (Small)
+C 0 getitem Difficulty (Normal)
+C 0 dmap=19 Opening Cutscene
+C 0 scr=85
+D 25 k ~
+D 66 B
+C 332 trigger secrets scr=85
+C 362 dmap=17 TitleScreen
+C 362 scr=86
+R 362 0 257 1742260805
+C 639 trigger secrets scr=86
+C 639 dmap=17 TitleScreen
+C 639 scr=83
+R 639 0 257 1742260806
+U 816 k ~
+U 817 B
+D 853 B
+U 858 B
+C 873 trigger secrets scr=83
+C 903 dmap=0 Southern Remdra
+C 903 scr=110
+R 903 0 257 1742260808
+D 909 k LCONTROL
+D 919 k F11
+U 924 k F11
+U 931 k LCONTROL
+D 967 k LCONTROL
+D 990 k F11
+U 996 k F11
+U 1005 k LCONTROL
+D 1089 k LCONTROL
+D 1101 k F11
+U 1106 k F11
+U 1123 k LCONTROL
+D 1129 Up
+D 1137 Left
+U 1139 Up
+Q 1144 3

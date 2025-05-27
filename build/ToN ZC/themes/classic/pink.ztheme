@@ -1,0 +1,27 @@
+[Theme]
+jcbox = 4
+jclight = 5
+jcmedlt = 4
+jcmeddark = 3
+jcdark = 2
+jcboxfg = 7
+jctitlel = 8
+jctitler = 8
+jctitlefg = 7
+jctextbg = 5
+jctextfg = 7
+jcselbg = 8
+jcselfg = 6
+jccursormisc = 1
+jccursoroutline = 2
+jccursorlight = 3
+jccursordark = 5
+color_1 = 0
+color_2 = 3C3C3C
+color_3 = 7C7C7C
+color_4 = F8B4B8
+color_5 = F8E8E8
+color_6 = F0F09C
+color_7 = 74A8B8
+color_8 = D8B4E0
+ztheme_ver = 1

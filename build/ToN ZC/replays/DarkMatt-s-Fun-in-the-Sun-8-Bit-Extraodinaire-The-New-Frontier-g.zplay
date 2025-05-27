@@ -1,0 +1,38 @@
+M debug true
+M frames 69
+M length 24
+M name g
+M qst 
+M qst_hash F077307D5E98527C2052B8971ACAF565
+M qst_title DarkMatt's "Fun in the Sun" 8-Bit Extraodinaire:The New Frontier
+M sync_rng true
+M time_created Thu May  8 23:05:44 2025
+M time_updated Thu May  8 23:06:36 2025
+M uuid d3acd876-d8d4-41dc-88dc-7005586757ac
+M version 39
+M zc_version_created 3.0.0-prerelease.97+2025-04-04
+M zc_version_updated 3.0.0-prerelease.97+2025-04-04
+K 0 84 85 82 83 24 26 67 115 3 75 0 0 0 0
+C 0 init_game
+R 0 0 1 1746759944
+R 0 2 257 -910672596
+C 0 getitem Bomb (Normal)
+C 0 getitem Arrow 1 (Wooden)
+C 0 dmap=0 Ze Overworld
+C 0 scr=120
+C 0 h 78 60
+C 0 g Bl^
+C 5 g CHo
+C 10 g E6!
+C 15 g GIs
+C 20 g "/
+C 25 g E8w
+C 30 g (M
+C 35 g DOW
+C 40 g CS<
+C 45 g C&I
+C 50 g B]E
+C 55 g HYN
+C 60 g E?k
+C 65 g Bnt
+Q 69 3

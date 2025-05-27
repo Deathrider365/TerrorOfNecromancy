@@ -1,0 +1,1 @@
+-only c:\Users\Evan\Desktop\Terror of Necromancy\ToN Main Quest\Quest+Music\ToNDemo5.qst -window-title Terror of Necromancy

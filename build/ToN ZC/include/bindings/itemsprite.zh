@@ -1,0 +1,256 @@
+typedef itemsprite item;
+
+// An active item on the screen.
+//
+// See [Screen->LoadItem] and [Screen->CreateItem].
+//
+// @zasm_ref REFITEM
+// @extends sprite
+class itemsprite {
+	// @delete
+	internal itemsprite();
+
+	// @value [enum ItemID]
+
+	// @zasm_var ITEMID
+	internal int ID;
+
+	// @value [enum ItemType]
+
+	// @zasm_var ITEMFAMILY
+	internal int Type;
+
+	// Exactly the same as [Type] - use that instead.
+	//
+	// @zasm_var ITEMFAMILY
+	internal int Family;
+
+	// Max number of itemsprites currently allowed.
+	//
+	// @zasm_var SPRITEMAXITEM
+	internal int Max;
+
+	// The item's level
+	//
+	// @zasm_var ITEMLEVEL
+	internal int Level;
+
+	// The starting tile of the itemsprite's animation.
+	//
+	// @zasm_var ITEMOTILE
+	internal int OriginalTile;
+
+	// The secondary CSet used for flashing.
+	//
+	// @zasm_var ITEMFLASHCSET
+	internal int FlashCSet;
+
+	// The number of frames in the itemsprite's animation.
+	//
+	// @zasm_var ITEMFRAMES
+	internal int NumFrames;
+
+	// The current frame number that the animation is on.
+	//
+	// @zasm_var ITEMFRAME
+	internal int Frame;
+
+	// The speed of the animation, in frames per frame.
+	//
+	// @zasm_var ITEMASPEED
+	internal int ASpeed;
+
+	// The number of delay frames at the start of the itemsprite's animation.
+	//
+	// @zasm_var ITEMDELAY
+	internal int Delay;
+
+	// If the itemsprite is flashing or not. When flashing, it changes between
+	// its' CSet and FlashCSet.
+	//
+	// @zasm_var ITEMFLASH
+	internal bool Flash;
+
+	// The item pickup bitflags.
+	//
+	// @value [enum ItemPickupBitflags]
+
+	// @zasm_var ITEMPICKUP
+	internal int Pickup;
+
+	// If true, picking up the item does not play it's usual pickup sound
+	// assigned in the item editor. Does not affect holdup sound.
+	//
+	// @zasm_var ITEMNOSOUND
+	internal bool NoSound;
+
+	// If true, picking up the item does not play the screen's holdup sound.
+	// Does not affect the usual pickup sound assigned in the item editor.
+	//
+	// @zasm_var ITEMNOHOLDSOUND
+	internal bool NoHoldSound;
+
+	// The 8 InitD[] arguments for the itemsprite script.
+	//
+	// @zasm_var ITEMSPRITEINITD
+	internal untyped InitD[];
+
+	// The timer that ASpeed is used with.
+	//
+	// @zasm_var ITEMACLK
+	internal int AClock;
+
+	// The message string to display upon picking up the item.
+	//
+	// @zasm_var ITEMPSTRING
+	internal int PickupString;
+
+	// The bitflags associated with the pickup string.
+	//
+	// @value [enum PickupStringBitflags]
+
+	// @zasm_var ITEMPSTRINGFLAGS
+	internal int PickupStringFlags;
+
+	// The itemsprite script running on this itemsprite.
+	//
+	// @zasm_var ITEMSPRITESCRIPT
+	internal int Script;
+
+	// The dropset that this item was dropped by. Will be set for engine-dropped
+	// items, can be written by scripts as well.
+	//
+	// @zasm_var ITEMDROPPEDBY
+	internal int DroppedBy;
+
+	// If set to true, the item will automatically be collected by the [Hero] as
+	// soon as possible.
+	//
+	// @zasm_var ITEMFORCEGRAB
+	internal bool ForceGrab;
+
+	// @deprecated - This is now just the internal engine ID, which is the same as doing `<int>some_sprite`.
+	// @zasm_var ITEMSCRIPTUID
+	internal const int UID;
+
+	// Bitflags that determines how internal engine sizing of items is applied.
+	//
+	// @deprecated Never implemented.
+	// @zasm_var ITEMOVERRIDEFLAGS
+	internal int SizeFlags;
+
+	// Returns the max number of itemsprites currently allowed.
+	//
+	// @deprecated Use [Max] instead!
+	// @zasm
+	//   POP REFITEM
+	//   SETR D2 SPRITEMAXITEM
+	internal int Max();
+
+	// Sets the max number of itemsprites allowed to a new value. Range
+	// `1-1024`.
+	//
+	// @deprecated Use [Max] instead!
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   SETR SPRITEMAXITEM D2
+	internal void Max(int value);
+
+	// Returns true if this pointer points to a valid itemsprite. If this
+	// returns false, using any other value of this pointer will error.
+	//
+	// @zasm
+	//   POP D2
+	//   ISVALIDITEM D2
+	internal bool isValid();
+
+	// Creates an explosion particle effect in mode 0, 1, or 2 of the sprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   ITEMEXPLODER D2
+	internal void Explode(int mode);
+
+	// Instantly deletes the itemsprite.
+	//
+	// @zasm
+	//   POP REFITEM
+	//   ITEMDEL
+	internal void Remove();
+
+	// Switch the [Hero] with this sprite.
+	//
+	// Valid values for [effect]: [SwitchEffect] (`SW_EFF_`).
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   SWITCHITM D2
+	internal bool Switch(int effect);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_BITMAP D2 0.0011
+	internal void Own(bitmap b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_PALDATA D2 0.0011
+	internal void Own(paldata b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_FILE D2 0.0011
+	internal void Own(file b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_DIR D2 0.0011
+	internal void Own(directory b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_STACK D2 0.0011
+	internal void Own(stack b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_RNG D2 0.0011
+	internal void Own(randgen b);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_ARRAY D2 0.0011
+	internal void OwnArray(untyped array);
+
+	// Grants 'Ownership' of the parameter object to the itemsprite.
+	//
+	// @zasm
+	//   POP D2
+	//   POP REFITEM
+	//   OBJ_OWN_CLASS D2 0.0011
+	internal void OwnObject(untyped object);
+}
