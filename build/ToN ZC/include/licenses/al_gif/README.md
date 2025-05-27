@@ -1,1 +1,0 @@
-Made by Paul Bartrum
