@@ -795,7 +795,7 @@ ffc script ServusSoldier {
       }
 
       this->Data = prevData;
-      template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
+      // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
 
       while (true) {
          until(Screen->State[ST_SECRET]) Waitframe();

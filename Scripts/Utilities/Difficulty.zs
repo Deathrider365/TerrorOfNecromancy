@@ -2,45 +2,45 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Difficulty ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 ///////////////////////////////////////////////////////////////////////////////
 
-const int NPCM_DIFFICULTYFLAG = 14;         // npc->Misc[] index used to track enemy difficulty modification. Be sure this doesn't overlap with other scripts.
-const int DIFFICULTY_APPLY_NPC_SCALING = 1; // If 1, scaling will be applied to enemies based on settings. If not, that will be skipped completely
+CONFIG NPCM_DIFFICULTYFLAG = 14;         // npc->Misc[] index used to track enemy difficulty modification. Be sure this doesn't overlap with other scripts.
+CONFIG DIFFICULTY_APPLY_NPC_SCALING = 1; // If 1, scaling will be applied to enemies based on settings. If not, that will be skipped completely
 
 // Global damage multipliers for all difficulties
-const int DIFFICULTY_VERYEASY_DAMAGE_MULTIPLIER = .8;
-const int DIFFICULTY_EASY_DAMAGE_MULTIPLIER = .9;
-const int DIFFICULTY_NORMAL_DAMAGE_MULTIPLIER = 1;
-const int DIFFICULTY_HARD_DAMAGE_MULTIPLIER = 1.1;
-const int DIFFICULTY_VERYHARD_DAMAGE_MULTIPLIER = 1.2;
+CONFIG DIFFICULTY_VERYEASY_DAMAGE_MULTIPLIER = .8;
+CONFIG DIFFICULTY_EASY_DAMAGE_MULTIPLIER = .9;
+CONFIG DIFFICULTY_NORMAL_DAMAGE_MULTIPLIER = 1;
+CONFIG DIFFICULTY_HARD_DAMAGE_MULTIPLIER = 1.1;
+CONFIG DIFFICULTY_VERYHARD_DAMAGE_MULTIPLIER = 1.2;
 
 // Enemy base damage multipliers
-const int DIFFICULTY_ENEMY_VERYEASY_DAMAGE_MULTIPLIER = 0.75;
-const int DIFFICULTY_ENEMY_EASY_DAMAGE_MULTIPLIER = 0.8;
-const int DIFFICULTY_ENEMY_NORMAL_DAMAGE_MULTIPLIER = 1;
-const int DIFFICULTY_ENEMY_HARD_DAMAGE_MULTIPLIER = 1.2;
-const int DIFFICULTY_ENEMY_VERYHARD_DAMAGE_MULTIPLIER = 1.75;
+CONFIG DIFFICULTY_ENEMY_VERYEASY_DAMAGE_MULTIPLIER = 0.75;
+CONFIG DIFFICULTY_ENEMY_EASY_DAMAGE_MULTIPLIER = 0.8;
+CONFIG DIFFICULTY_ENEMY_NORMAL_DAMAGE_MULTIPLIER = 1;
+CONFIG DIFFICULTY_ENEMY_HARD_DAMAGE_MULTIPLIER = 1.2;
+CONFIG DIFFICULTY_ENEMY_VERYHARD_DAMAGE_MULTIPLIER = 1.75;
 
 // Enemy base HP multipliers
-const int DIFFICULTY_ENEMY_VERYEASY_HP_MULTIPLIER = 0.8;
-const int DIFFICULTY_ENEMY_EASY_HP_MULTIPLIER = 0.9;
-const int DIFFICULTY_ENEMY_NORMAL_HP_MULTIPLIER = 1;
-const int DIFFICULTY_ENEMY_HARD_HP_MULTIPLIER = 1.1;
-const int DIFFICULTY_ENEMY_VERYHARD_HP_MULTIPLIER = 1.25;
+CONFIG DIFFICULTY_ENEMY_VERYEASY_HP_MULTIPLIER = 0.8;
+CONFIG DIFFICULTY_ENEMY_EASY_HP_MULTIPLIER = 0.9;
+CONFIG DIFFICULTY_ENEMY_NORMAL_HP_MULTIPLIER = 1;
+CONFIG DIFFICULTY_ENEMY_HARD_HP_MULTIPLIER = 1.1;
+CONFIG DIFFICULTY_ENEMY_VERYHARD_HP_MULTIPLIER = 1.25;
 
 // Enemy base Step multipliers
-const int DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER = .8; // 0.8
-const int DIFFICULTY_ENEMY_EASY_STEP_MULTIPLIER = .9;     // 0.9
-const int DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER = 1;
-const int DIFFICULTY_ENEMY_HARD_STEP_MULTIPLIER = 1.1;     // 1.1
-const int DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER = 1.2; // 1.2
+CONFIG DIFFICULTY_ENEMY_VERYEASY_STEP_MULTIPLIER = .8; // 0.8
+CONFIG DIFFICULTY_ENEMY_EASY_STEP_MULTIPLIER = .9;     // 0.9
+CONFIG DIFFICULTY_ENEMY_NORMAL_STEP_MULTIPLIER = 1;
+CONFIG DIFFICULTY_ENEMY_HARD_STEP_MULTIPLIER = 1.1;     // 1.1
+CONFIG DIFFICULTY_ENEMY_VERYHARD_STEP_MULTIPLIER = 1.2; // 1.2
 
 // Item IDs for difficulty selection items
 // If using damage divisors for lower difficulties, these should use Peril Ring items for best results
 // If 0, that difficulty level will go unused
-const int ITEM_DIFF_VERYEASY = 163;
-const int ITEM_DIFF_EASY = 160;
-const int ITEM_DIFF_NORMAL = 161;
-const int ITEM_DIFF_HARD = 162;
-const int ITEM_DIFF_VERYHARD = 164;
+CONFIG ITEM_DIFF_VERYEASY = 163;
+CONFIG ITEM_DIFF_EASY = 160;
+CONFIG ITEM_DIFF_NORMAL = 161;
+CONFIG ITEM_DIFF_HARD = 162;
+CONFIG ITEM_DIFF_VERYHARD = 164;
 
 void DifficultyGlobal_SetEnemyHP(npc n, int val) {
    // If using ghost.zh, uncomment the following and comment out the line below
