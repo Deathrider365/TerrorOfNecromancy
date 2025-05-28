@@ -117,7 +117,7 @@ ffc script ContinuePoint {
             switch (round) {
                case 0:
                   playBattleTheme(arenaListNum);
-                  setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST});
+                  setEnemies({ENEMY_CANDLEHEAD_LV1, ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST});
                   break;
                case 1: setEnemies({ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_ROPE_LV1, ENEMY_ROPE_LV1}); break;
                case 2: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
@@ -259,7 +259,7 @@ ffc script ContinuePoint {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
                      if (sfx)
                         Audio->PlaySound(sfx);
-                     runEWeaponScript(projectile, scr, {-1, 0, projectileType});
+                     runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0});
                   }
                }
             }

@@ -518,13 +518,13 @@ subscreendata script CyclableTriforceFrames {
          int stringDrawX = 58;
          int stringDrawY = drawY + yOff - 16;
          if (currTriforceIndex == 0)
-            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 1)
-            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 2)
-            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
          if (currTriforceIndex == 3 && Game->CurDMap != 2)
-            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 
          Screen->DrawTile(0, 10, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
 

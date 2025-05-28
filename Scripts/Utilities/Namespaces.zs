@@ -1099,7 +1099,6 @@ namespace EmilyMap {
 
    @Author("EmilyV99") dmapdata script Map {
       void run(bool lockPalette) {
-
          DEFINE WIDTH = 256 * 16;
          DEFINE HEIGHT = 176 * 8;
 

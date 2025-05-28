@@ -1206,7 +1206,7 @@ namespace ShamblesNamespace {
          ShamblesWaitframe(this, ghost, 16);
          eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0});
          Waitframes(15);
       }
    }
@@ -1621,7 +1621,7 @@ namespace HazarondNamespace {
    void commenceIntroSequence(npc this, int data, npc heads) {
       bitmap introSequenceBitmap;
 
-      introSequenceBitmap = create(512, 168);
+      introSequenceBitmap = create(512, 176);
       int panPosition = 0;
       disableLink();
 
@@ -1647,7 +1647,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
          introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, 0, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, 0, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1671,7 +1671,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1696,7 +1696,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1727,7 +1727,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1753,7 +1753,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1779,7 +1779,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1793,7 +1793,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
          introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1840,7 +1840,7 @@ namespace HazarondNamespace {
          if (!(panPosition % 16) || panPosition == 254)
             Audio->PlaySound(121);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          EnemyWaitframe(this, data);
       }
@@ -1857,7 +1857,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
          introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
 
-         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
+         introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
       }
@@ -1904,7 +1904,7 @@ namespace HazarondNamespace {
 
          eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
-         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage});
+         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage, 0});
          EnemyWaitframe(this, data, 5);
       }
 
@@ -2111,7 +2111,7 @@ namespace OvergrownRaccoonNamespace {
 
                   eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2129,7 +2129,7 @@ namespace OvergrownRaccoonNamespace {
                      unless(i % 20) {
                         eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE});
+                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0});
                      }
 
                      Waitframe();
@@ -2151,7 +2151,7 @@ namespace OvergrownRaccoonNamespace {
 
                      eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this});
+                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, });
                   }
 
                   state = STATE_NORMAL;
@@ -3212,7 +3212,7 @@ namespace ServusMalusNamespace {
 
    ffc script ServusFloatingAbout {
       void run(int startX, int startY, int moveInX, int moveInY, int isXPositiveDirection, int isYPositiveDirection) {
-         if (Hero->Item[202])
+         if (Game->LoadMapData(40, 0x5B)->State[ST_SECRET])
             Quit();
 
          int startingRightCombo = 6920;
@@ -4727,7 +4727,7 @@ namespace LatrosNamespace {
                LatrosWaitframe(this, latros, 16);
                eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, arrowDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_ARROW);
-               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage});
+               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage, 0});
             }
             break;
          }
