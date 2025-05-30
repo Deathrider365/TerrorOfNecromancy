@@ -651,7 +651,7 @@ ffc script EgentemShrineSoldier {
    void run(int message) {
       mapdata m = Game->LoadMapData(44, 0x33);
 
-      if (Game->Counter[CR_TRIFORCE_OF_COURAGE] != 2 || m->State[ST_SECRET]) {
+      if (!(Game->LItems[5] & LI_TRIFORCE) || m->State[ST_SECRET]) {
          this->Data = COMBO_INVIS;
          mapdata template = Game->LoadTempScreen(2);
          template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_INVIS;
@@ -779,29 +779,34 @@ ffc script InfoShop {
 ffc script ServusSoldier {
    // clang-format on
    void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
-      mapdata template = Game->LoadTempScreen(1);
-      int prevData = this->Data;
+      // mapdata template = Game->LoadTempScreen(1);
+      // int prevData = this->Data;
 
       if (Hero->Item[itemToCheckFor]) {
-         this->Data = 1;
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
+         this->Data = 0;
+         // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Quit();
       }
 
+      // While waiting for the torches to be lit
       until(getScreenD(253)) {
          this->Data = 1;
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
+         this->Flags[FFCF_SOLID] = false;
+         // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Waitframe();
       }
 
-      this->Data = prevData;
+      // this->Data = prevData;
       // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
 
-      while (true) {
-         until(Screen->State[ST_SECRET]) Waitframe();
+      this->Flags[FFCF_SOLID] = true;
+      this->Data = 6709;
 
-         this->Data = 6755;
+      until(Screen->State[ST_SECRET]) Waitframe();
 
+      this->Data = 6755;
+
+      loop() {
          until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
             if (againstFFC(this->X, this->Y))
                Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);

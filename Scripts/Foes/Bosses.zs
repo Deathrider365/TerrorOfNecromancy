@@ -2245,11 +2245,12 @@ namespace ServusMalusNamespace {
          this->X = -32;
          this->Y = -32;
          int maxHp = this->HP;
+         this->Immortal = true;
 
-         Audio->PlayEnhancedMusic(NULL, 0);
+         Audio->PlayEnhancedMusic(NULL);
 
          if (getScreenD(254))
-            Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
+            Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg");
 
          until(getScreenD(254)) {
             int litTorchCount = 0;
@@ -5162,5 +5163,30 @@ npc script Demonwall {
       // do some attacks
 
       // }
+   }
+}
+
+
+// clang-format off
+@Author("Deathrider365")
+npc script TheMorsa {
+   // clang-format on
+
+   using namespace EnemyNamespace;
+
+   void run() {
+      this->Immortal = true;
+
+      while(this->HP > 0) {
+         Waitframe();
+      }
+
+      //Death animation
+
+      auriVillageMusicSet = true;
+      dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
+      dm->SetMusic("Final Fantasy VII - Desert Wasteland.ogg");
+
+      this->Immortal = false;
    }
 }

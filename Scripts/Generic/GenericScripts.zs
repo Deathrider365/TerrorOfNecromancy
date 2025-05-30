@@ -557,6 +557,7 @@ dmapdata script MagicBar {
 
    void run() {
       loop() {
+         Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
          magicBar(0);
          minimap(0);
          dmapTitle(0);

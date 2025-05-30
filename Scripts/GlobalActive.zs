@@ -447,7 +447,10 @@ global script onSaveLoad {
    // clang-format off
 
    void run() {
-
+      if (auriVillageMusicSet) {
+         dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
+         dm->SetMusic("Final Fantasy VII - Desert Wasteland.ogg");
+      }
    }
 }
 

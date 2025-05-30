@@ -27,6 +27,8 @@ StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
 
+bool auriVillageMusicSet = false;
+
 // Author - Justin
 int[] LinkVars = {0, 0}; // array so as to not use too many global variables
 CONFIG LV_SWORDJINX = 0;

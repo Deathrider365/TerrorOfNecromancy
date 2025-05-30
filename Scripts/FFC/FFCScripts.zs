@@ -55,7 +55,7 @@ ffc script ContinuePoint {
 
       char32 areaMusic[256];
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      Audio->PlayEnhancedMusic(areaMusic);
 
       Quit();
    }
@@ -1250,5 +1250,14 @@ ffc script AssignAAndBForIntro {
    void run() {
       Hero->ItemA = ITEM_SWORD3;
       Hero->ItemB = ITEM_BRANG2;
+   }
+}
+
+ffc script BecomeNotSolid {
+   void run() {
+      // while(this->Data != 1)
+      //    Waitframe();
+
+      // this->Flags[FFCF_SOLID] = false;
    }
 }
