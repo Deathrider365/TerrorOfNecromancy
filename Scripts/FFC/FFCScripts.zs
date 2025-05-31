@@ -117,7 +117,7 @@ ffc script ContinuePoint {
             switch (round) {
                case 0:
                   playBattleTheme(arenaListNum);
-                  setEnemies({ENEMY_CANDLEHEAD_LV1, ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST});
+                  setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST});
                   break;
                case 1: setEnemies({ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_ROPE_LV1, ENEMY_ROPE_LV1}); break;
                case 2: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
@@ -707,7 +707,7 @@ ffc script FaceLinkOnEntrance {
 
 // clang-format off
 @Author("Deathrider365")
- ffc script UnlockMoltenFloodedForgeBoss {
+ffc script UnlockMoltenFloodedForgeBoss {
    // clang-format on
 
    void run() {

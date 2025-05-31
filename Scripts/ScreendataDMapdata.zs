@@ -160,3 +160,29 @@ dmapdata script HeatedRoom {
       handleHeatOrCold(armorLevel, damage);
    }
 }
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("frequency"),
+@InitDHelp0("how often to play (smaller number is more frequent)"),
+@InitD1("cooldown"),
+@InitDHelp1("after a sound plays, how long to wait until playing another one"),
+@InitD2("sfx1"),
+@InitDHelp2("sfx number to play"),
+@InitD3("sfx2"),
+@InitDHelp3("sfx number to play"),
+@InitD4("sfx2"),
+@InitDHelp4("sfx number to play")
+dmapdata script PlaySFXByFrequency {
+// clang-format on
+   void run(int frequency, int cooldown, int sfx1, int sfx2, int sfx3) {
+      loop() {
+         if (gameframe % frequency == 0) {
+            Audio->PlaySound(Choose(sfx1, sfx2, sfx3));
+            Waitframes(cooldown);
+         }
+
+         Waitframe();
+      }
+   }
+}

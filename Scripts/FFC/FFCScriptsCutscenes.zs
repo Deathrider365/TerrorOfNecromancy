@@ -1279,8 +1279,7 @@ ffc script GraveKeeperSequence {
             Waitframe();
 
             this->Data = COMBO_INVIS;
-            mapdata template = Game->LoadTempScreen(1);
-            template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+            this->Flags[FFCF_SOLID] = false;
 
             npc enemy = Screen->CreateNPC(ENEMY_GRAVE_KEEPER_GONE_APE);
             enemy->X = this->X;

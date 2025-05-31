@@ -158,6 +158,7 @@ ffc script SignpostTriggerFromItem {
          if (triggerToSetOff == TRIGGER_SECRET && Screen->State[ST_SECRET]) {
             if (selfKill) {
                this->Data = COMBO_INVIS;
+               this->Flags[FFCF_SOLID] = false;
                Quit();
             }
 
@@ -169,6 +170,7 @@ ffc script SignpostTriggerFromItem {
          else if (triggerToSetOff == TRIGGER_SCREEND && getScreenD(triggerValue)) {
             if (selfKill) {
                this->Data = COMBO_INVIS;
+               this->Flags[FFCF_SOLID] = false;
                Quit();
             }
 

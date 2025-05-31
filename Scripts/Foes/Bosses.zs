@@ -3274,7 +3274,7 @@ npc script TurnedHylianElite {
 
       CONFIG DMG_STANDING_SLASH = this->WeaponDamage *= 1.50;
       CONFIG DMG_SPRINTING_SLASH_CHARGING = this->WeaponDamage *= .75;
-      CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage *= .33;
+      CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage *= .5;
 
       int maxHp = this->HP;
       Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
