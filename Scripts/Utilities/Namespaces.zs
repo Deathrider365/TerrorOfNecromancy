@@ -967,20 +967,18 @@ namespace EmilyMap {
    CONFIG INPUT_REPEAT_TIME = 3;
    CONFIG ZOOM_INPUT_REPEAT_TIME = 12;
    CONFIG MAP_PUSH_PIXELS = 16;
-   CONFIGB ALLOW_COMBO_ANIMS = false;
+   CONFIGB ALLOW_COMBO_ANIMS = true;
    DEFINE MAP_PUSH_VAL = MAP_PUSH_PIXELS / 8;
 
    void generateMap(bitmap bmp, dmapdata this, bool lockPalette, bitmap currentScreen) {
       bool isOverworld = ((this->Type & 11b) == DMAP_OVERWORLD);
-
-      bitmap bmp = create(512, 168);
 
       bmp->Clear(0);
       int mapWidth = isOverworld ? 16 : 8;
       int leftEdge = Max(this->Offset, 0);
       int rightEdge = Min(this->Offset + mapWidth - 1, 15);
       int xdraw = -1;
-      bitmap tmp = create(256, 176);
+      bitmap tmp = new bitmap(256, 176);
 
       int layer1, layer2;
       bool paths;
@@ -1040,7 +1038,8 @@ namespace EmilyMap {
 
                // non-overlay ffcs
                for (int freeformCombo = 1; freeformCombo < 33; ++freeformCombo) {
-                  unless(mapData->FFCData[freeformCombo]) continue;
+                  unless(mapData->FFCData[freeformCombo])
+                     continue;
 
                   if (mapData->FFCFlags[freeformCombo] & (FFCBF_CHANGER | FFCBF_ETHEREAL | FFCBF_LENSVIS))
                      continue;
@@ -1085,7 +1084,7 @@ namespace EmilyMap {
                handlePaths(tmp, mapData, 6, layer1, layer2);
 
                if (currentScreen && screen == Game->CurScreen) {
-                  currentScreen->Blit(7, tmp, 0, 0, 256, 168, 0, 0, 256, 168, 0, 0, 0, BITDX_NORMAL, 0, false);
+                  currentScreen->Blit(7, tmp, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, false);
 
                   for (int q = 0; q < CUR_ROOM_BORDER_THICKNESS; ++q)
                      tmp->Rectangle(7, q, q, 255 - q, 175 - q, COLOR_CUR_ROOM, 1, 0, 0, 0, false, OP_OPAQUE);
@@ -1096,14 +1095,16 @@ namespace EmilyMap {
          }
       }
    }
-
-   @Author("EmilyV99") dmapdata script Map {
+// clang-format off
+   @Author("EmilyV99")
+   dmapdata script Map {
+      // clang-format on
       void run(bool lockPalette) {
          DEFINE WIDTH = 256 * 16;
          DEFINE HEIGHT = 176 * 8;
 
          bitmap bmp = create(WIDTH, HEIGHT);
-         bitmap currentScreen = create(256, 168);
+         bitmap currentScreen = create(256, 176);
 
          currentScreen->BlitTo(7, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
          generateMap(bmp, this, lockPalette, currentScreen);
@@ -1170,8 +1171,8 @@ namespace EmilyMap {
             int tx = (256 + ((x - 256) * zoomMultiplier)) / 2;
             int ty = ((224 + ((y - 224) * zoomMultiplier)) / 2) - 28;
 
-            Screen->Rectangle(7, 0, -56, 255, 175, COLOR_NULL, 1, 0, 0, 0, true, OP_OPAQUE);
-            Screen->Rectangle(7, tx - 1, ty - 1, tx + usableWidth / zoom, ty + HEIGHT / zoom, COLOR_FRAME, 1, 0, 0, 0, false, OP_OPAQUE);
+            Screen->Rectangle(7, 0, -56, 255, 175, COLOR_NULL);
+            Screen->Rectangle(7, tx - 1, ty - 1, tx + usableWidth / zoom, ty + HEIGHT / zoom, COLOR_FRAME);
 
             bmp->Blit(7, RT_SCREEN, 0, 0, usableWidth, HEIGHT, tx, ty, usableWidth / zoom, HEIGHT / zoom, 0, 0, 0, BITDX_NORMAL, 0, false);
 

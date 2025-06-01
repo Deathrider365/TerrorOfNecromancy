@@ -1439,11 +1439,3 @@ ffc script GoddessFaithfulZeldaScenes {
 
    }
 }
-
-// clang-format off
-@Author("Deathrider365")
-ffc script AuriVillageGuardInformsLink {
-   void run() {
-      //the guard runs to link when link appears outside the well building and tells him that he has opened the gate at the entrance
-   }
-}

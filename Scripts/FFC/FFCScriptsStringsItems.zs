@@ -11,9 +11,7 @@
 @InitD3("secondMessage"),
 @InitDHelp3("String to play"),
 @InitD4("vanishesOnSecondString"),
-@InitDHelp4("After the second string plays quit the script"),
-@InitD5("layerToClearOnVanish"),
-@InitDHelp5("Layer to handle solidity combo drawing for the FFC")
+@InitDHelp4("After the second string plays quit the script")
 ffc script Signpost {
    // clang-format on
 
@@ -21,7 +19,7 @@ ffc script Signpost {
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int layerToClearOnVanish) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString) {
       int secondMessageTrigger, secondMessageTriggerValue;
 
       if (hasSecondMessage) {
@@ -30,12 +28,12 @@ ffc script Signpost {
       }
 
       if (vanishesOnSecondString) {
-         handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue, layerToClearOnVanish);
+         handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
       }
 
       while (true) {
          if (vanishesOnSecondString) {
-            handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue, layerToClearOnVanish);
+            handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
          }
 
          waitForTalking(this);
@@ -73,32 +71,29 @@ ffc script Signpost {
       }
    }
 
-   void handleVanishing(ffc combo, int secondMessageTrigger, int secondMessageTriggerValue, int layerToClearOnVanish) {
+   void handleVanishing(ffc this, int secondMessageTrigger, int secondMessageTriggerValue) {
       switch (secondMessageTrigger) {
          case SMT_SCREEND:
-            if (getScreenD(secondMessageTriggerValue))
-               quitFFC(combo, layerToClearOnVanish);
+            if (getScreenD(secondMessageTriggerValue)) {
+               this->Data = COMBO_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
             break;
          case SMT_SECRETS:
-            if (Screen->State[ST_SECRET])
-               quitFFC(combo, layerToClearOnVanish);
-            break;
+            if (Screen->State[ST_SECRET]) {
+               this->Data = COMBO_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
          case SMT_HAS_ITEM:
-            if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM])
-               quitFFC(combo, layerToClearOnVanish);
+            if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) {
+               this->Data = COMBO_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
             break;
       }
-   }
-
-   // TODO: remove this since combos can be solid now
-   void quitFFC(ffc combo, int layerToClearOnVanish) {
-      if (layerToClearOnVanish > -1) {
-         combo->Data = COMBO_INVIS;
-         mapdata template = Game->LoadTempScreen(layerToClearOnVanish);
-         template->ComboD[ComboAt(combo->X + 8, combo->Y + 8)] = COMBO_INVIS;
-         Quit();
-      }
-      Quit();
    }
 }
 
@@ -322,19 +317,24 @@ ffc script SignpostTriggerFromScreenD {
 }
 
 // clang-format off
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("stringPreScreenDSet"),
+@InitDHelp1("String that plays before the screenD is set"),
+@InitD2("stringGettingItem"),
+@InitDHelp2("String for when you are getting the item"),
+@InitD3("stringGottenItem"),
+@InitDHelp3("String for when you already got the item"),
+@InitD4("screenDFromExternal"),
+@InitDHelp4("ScreenD that the external screen should set to trigger this"),
+@InitD5("screenDForThis"),
+@InitDHelp5("ScreenD on this screen that resolves the events of this NPC")
 ffc script GetItemOnScreenD {
    // clang-format on
-   // start Instructions
-   // D0: itemIdToReceive      - Item you will receive
-   // D1: stringPreSecret      - String that plays before secrets are triggered
-   // D2: stringGettingItem    - String for when you are getting the item
-   // D3: stringGottenItem     - String for when you are receiving the item
-   // D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
-   // end
    void run(int itemIdToReceive, int stringPreScreenDSet, int stringGettingItem, int stringGottenItem, int screenDFromExternal, int screenDForThis) {
       while (true) {
-         if (getScreenD(screenDFromExternal) && Hero->Item[itemIdToReceive]) {
+         if (getScreenD(screenDFromExternal) && getScreenD(screenDForThis)) {
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
@@ -519,6 +519,53 @@ ffc script GetItemOnItem {
    }
 }
 
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("screenD"),
+@InitDHelp1("ScreenD to check"),
+@InitD2("gettingItemString"),
+@InitDHelp2("String for when you are getting the item"),
+@InitD3("gottenItemString"),
+@InitDHelp3("String for when you are receiving the item"),
+@InitD4("screenDForThis"),
+@InitDHelp4("ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])")
+ffc script GetItemOnScreenDHiddenBefore {
+   // clang-format on
+   void run(int itemIdToReceive, int screenD, int gettingItemString, int gottenItemString, int screenDForThis) {
+      int prevData = this->Data;
+
+      loop () {
+         this->Data = COMBO_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+
+         if (getScreenD(screenD)) {
+            this->Data = prevData;
+            this->Flags[FFCF_SOLID] = true;
+
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+
+            if (getScreenD(screenDForThis)) {
+               Screen->Message(gottenItemString);
+               Waitframe();
+            }
+            else {
+               Screen->Message(gettingItemString);
+               Waitframe();
+
+               itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
+               setScreenD(screenDForThis, true);
+            }
+         }
+         Waitframe();
+      }
+   }
+}
+
 // clang-format off
 @Author("Deathrider365")
 ffc script GetItemFromSecretAtLocation {
@@ -682,9 +729,7 @@ ffc script EgentemShrineSoldier {
 ffc script BuyItem {
    // clang-format on
    void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
-      bool alreadyBought = false;
-
-      if (buyOnce && Hero->Item[itemId]) {
+      if (buyOnce && getScreenD(0)) {
          this->Data = COMBO_INVIS;
          Quit();
       }
@@ -702,7 +747,7 @@ ffc script BuyItem {
 
       Waitframe();
 
-      while (!alreadyBought) {
+      while (!getScreenD(0)) {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (onTop(this->X, this->Y) && Game->Counter[CR_MONEY] >= price) {
@@ -711,21 +756,33 @@ ffc script BuyItem {
             item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
             itemToBuy->Pickup = IP_HOLDUP;
 
+            if (buyOnce)
+               setScreenD(0, true);
+
             switch (itemId) {
                case ITEM_EXPANSION_BOMB:
                   Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
-                  Hero->Item[ITEM_EXPANSION_BOMB] = false;
                   Screen->State[ST_ITEM] = true;
+
+                  this->Data = COMBO_INVIS;
+                  Waitframe();
+                  Hero->Item[ITEM_EXPANSION_BOMB] = false;
                   break;
                case ITEM_EXPANSION_QUIVER:
                   Game->Counter[CR_QUIVER_EXPANSIONS]++;
-                  Hero->Item[ITEM_EXPANSION_QUIVER] = false;
                   Screen->State[ST_ITEM] = true;
+
+                  this->Data = COMBO_INVIS;
+                  Waitframe();
+                  Hero->Item[ITEM_EXPANSION_QUIVER] = false;
                   break;
-               case ITEM_BATTLE_ARENA_TICKET: Screen->TriggerSecrets(); break;
+               case ITEM_BATTLE_ARENA_TICKET:
+                  this->Data = COMBO_INVIS;
+                  Screen->TriggerSecrets();
+                  Quit();
+                  break;
             }
 
-            alreadyBought = true;
             this->Data = COMBO_INVIS;
          }
          Waitframe();

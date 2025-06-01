@@ -917,3 +917,22 @@ ffc script SwitchSequential {
       }
    }
 }
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("map"),
+@InitDHelp0("map to set screenD"),
+@InitD1("screen"),
+@InitDHelp1("screen to set screenD"),
+@InitD1("screenD"),
+@InitDHelp1("screenD to set")
+ffc script TriggerScreenDFromSecretsElsewhere {
+// clang-format on
+   void run(int map, int screen, int screenD) {
+      mapdata mapData = Game->LoadMapData(map, screen);
+
+      if (mapData->State[ST_SECRET]) {
+         setScreenD(screenD, true);
+      }
+   }
+}

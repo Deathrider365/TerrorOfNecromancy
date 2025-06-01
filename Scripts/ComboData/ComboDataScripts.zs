@@ -157,9 +157,9 @@ combodata script HotSteam {
       int count = 0;
 
       while (true) {
-         itemdata ringData = Game->LoadItemData(GetHighestLevelItemOwned(IC_RING));
+         int highestLevelRing = GetHighestLevelItemOwned(IC_RING);
 
-         // Add check to make it only damage link when walking? Link->Action == LA_WALKING
+         itemdata ringData = Game->LoadItemData(highestLevelRing < 1 ? 0 : highestLevelRing);
 
          if (Collision(this)) {
             if (canTakeDamage())

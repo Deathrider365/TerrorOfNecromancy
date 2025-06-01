@@ -259,7 +259,7 @@ ffc script ContinuePoint {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
                      if (sfx)
                         Audio->PlaySound(sfx);
-                     runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0});
+                     runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0, false});
                   }
                }
             }
@@ -1253,11 +1253,39 @@ ffc script AssignAAndBForIntro {
    }
 }
 
-ffc script BecomeNotSolid {
-   void run() {
-      // while(this->Data != 1)
-      //    Waitframe();
+// clang-format off
+@InitD0("condition"),
+@InitDHelp0("The condition in which enemies vanish: 1 - screenD set, 2 - secrets triggered, 3 - based on item"),
+@InitD1("conditionValue"),
+@InitDHelp1("screenD value, N/A, itemId"),
+@Author("Deathrider365")
+ffc script EnemiesNeverReturn {
+   // clang-format on
 
-      // this->Flags[FFCF_SOLID] = false;
+   CONFIG SMT_SCREEND = 1;
+   CONFIG SMT_SECRETS = 2;
+   CONFIG SMT_HAS_ITEM = 3;
+
+   void run(int condition, int conditionValue) {
+      switch(condition) {
+         case SMT_SCREEND:
+            if (getScreenD(conditionValue))
+               removeEnemies();
+            break;
+         case SMT_SECRETS:
+            if (Screen->State[ST_SECRET])
+               removeEnemies();
+            break;
+         case SMT_HAS_ITEM:
+            if (Hero->Item[conditionValue])
+               removeEnemies();
+            break;
+         default: break;
+      }
+   }
+
+   void removeEnemies() {
+      for (int q = 0; q < 10; ++q)
+         Screen->Enemy[q] = 0;
    }
 }

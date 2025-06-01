@@ -163,7 +163,7 @@ global script GlobalScripts {
       }
    }
 
-   // 654321
+   // 654321b
    int getTransLayers(int dmap, int screen) {
       switch (dmap) {
          case 4:
@@ -183,15 +183,20 @@ global script GlobalScripts {
          case 6:
             switch (screen) {
                case 0x08:
-               case 0x17: return 000100;
+               case 0x17: return 000100b;
             }
             break;
+         case 9:
+            switch (screen) {
+               case 0x76: return 001000b;
+            }
          case 14:
             switch (screen) {
-               case 0x0D: return 001000;
-               case 0x0B: return 011000;
-               case 0x0A: return 011000;
-               case 0x2B: return 011000;
+               case 0x0E: return 001000b;
+               case 0x0D: return 001000b;
+               case 0x0B: return 011000b;
+               case 0x0A: return 011000b;
+               case 0x2B: return 011000b;
             }
             break;
          case 15:
@@ -207,11 +212,8 @@ global script GlobalScripts {
             break;
          case 31:
             switch (screen) {
-               case 0x4a:
-               case 0x59:
-               case 0x5b:
-               case 0x5d:
-               case 0x7c:
+               case 0x4A:
+               case 0x7C:
                case 0x5D: return 001000b;
             }
             break;
@@ -255,6 +257,12 @@ global script GlobalScripts {
          case 50:
             switch (screen) {
                case 0x02: return 000100b;
+            }
+            break;
+         case 59:
+            switch (screen) {
+               case 0x76: return 000100b;
+               case 0x77: return 001000b;
             }
             break;
          case 69:
@@ -381,6 +389,11 @@ global script OnLaunch {
       subscreenOpen = false;
 
       setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
+
+      // Makes these combos' invisible (dont make these combos animate)
+      for (cid : { 7302 }) {
+         Game->LoadComboData(cid)->OriginalTile = TILE_INVIS;
+      }
 
       if (onContHP != 0) {
          Hero->HP = onContHP;

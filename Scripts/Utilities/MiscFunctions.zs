@@ -414,47 +414,6 @@ int switchPressed(int x, int y, bool noLink) {
    return 0;
 }
 
-// Checks if link is against a combo and looking at it
-bool againstCombo(int loc) {
-   if (Hero->Z == 0) {
-      if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8) {
-         if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8 && Hero->Dir == DIR_UP)
-            return true;
-         else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
-      }
-      else if (Abs((Hero->Y + 8) - (ComboY(loc) + 8)) <= 8) {
-         if (Hero->X > ComboX(loc) && Hero->X - ComboX(loc) <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ComboX(loc) && ComboX(loc) - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
-      }
-   }
-   return false;
-}
-
-// Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) {
-   if (Hero->Z > 0)
-      return false;
-
-   if (Abs((Hero->X) - (ffcX)) <= 16) {
-      if (Abs((Hero->Y) - (ffcY)) <= (Hero->Y < ffcY ? 16 : 8))
-         // clang-format off
-         if (
-            ((Hero->X - ffcX > 8) && Hero->Dir == DIR_RIGHT) ||
-            ((ffcX - Hero->X > 8) && Hero->Dir == DIR_LEFT) ||
-            ((Hero->Y - ffcY > 8) && Hero->Dir == DIR_DOWN) ||
-            ((ffcY - Hero->Y > 8) && Hero->Dir == DIR_UP)
-         )
-            // clang-format on
-            return false;
-         else
-            return true;
-   }
-   return false;
-}
-
 // TODO not a misc function
 void leavingTransition(int dmap, int screen, int usingPresents) {
    for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
@@ -550,6 +509,28 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
       case DIR_RIGHTDOWN: return CanWalk(x, y, DIR_RIGHT, step, full_tile) && CanWalk(x, y, DIR_DOWN, step, full_tile); break;
       default: return CanWalk(x, y, dir, step, full_tile); break;
    }
+}
+
+// Checks if link is against a ffc and looking at it
+bool againstFFC(int ffcX, int ffcY) {
+   if (Hero->Z > 0)
+      return false;
+
+   if (Abs((Hero->X) - (ffcX)) <= 16) {
+      if (Abs((Hero->Y) - (ffcY)) <= ((Hero->Y < ffcY) ? 16 : 8))
+         // clang-format off
+         if (
+            ((Hero->X - ffcX > 8) && Hero->Dir == DIR_RIGHT) ||
+            ((ffcX - Hero->X > 8) && Hero->Dir == DIR_LEFT) ||
+            ((Hero->Y - ffcY > 8) && Hero->Dir == DIR_DOWN) ||
+            ((ffcY - Hero->Y > 8) && Hero->Dir == DIR_UP)
+         )
+            // clang-format on
+            return false;
+         else
+            return true;
+   }
+   return false;
 }
 
 void waitForTalking(ffc this) {

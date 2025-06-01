@@ -69,6 +69,9 @@ npc script Candlehead {
       n->Dir = getInvertedDir(n->Dir);
       n->Step += n->Step / 2;
 
+      n->LightRadius = 24;
+      n->LightShape = LIGHT_CIRCLE;
+
       until(n->HP <= 0) {
          int x = chungo ? n->X + 8 : n->X;
          int y = chungo ? n->Y + 8 : n->Y;
@@ -83,7 +86,7 @@ npc script Candlehead {
          n->Slide();
 
          if (gameframe % 20 == 0) {
-            eweapon flame = CreateEWeaponAt(EW_SCRIPT1, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
+            eweapon flame = CreateEWeaponAt(EW_FIRE, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
             flame->Dir = n->Dir;
             flame->Script = Game->GetEWeaponScript("StopperKiller");
             flame->Z = n->Z;
@@ -91,6 +94,9 @@ npc script Candlehead {
             flame->Gravity = true;
             flame->Damage = damage;
             flame->UseSprite(sprite);
+            flame->Step = 0;
+            flame->LightRadius = 16;
+            flame->LightShape = LIGHT_CIRCLE;
 
             if (chungo) {
                flame->Extend = 3;
@@ -116,7 +122,7 @@ npc script Candlehead {
       }
 
       for (int i = 0; i < 8; ++i) {
-         eweapon flame = CreateEWeaponAt(EW_SCRIPT1, n->X, n->Y);
+         eweapon flame = CreateEWeaponAt(EW_FIRE, n->X, n->Y);
          flame->Dir = i;
          flame->Step = chungo ? 160 : 120;
          flame->Angular = true;
@@ -128,6 +134,8 @@ npc script Candlehead {
          flame->Gravity = true;
          flame->Damage = damage;
          flame->UseSprite(sprite);
+         flame->LightRadius = 16;
+         flame->LightShape = LIGHT_CIRCLE;
 
          if (chungo) {
             flame->Extend = 3;
@@ -434,7 +442,7 @@ npc script Bomber {
          unless(attackCooldown) {
             Waitframes(15);
             eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, DMG_BOMB, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0});
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0, true});
             attackCooldown = 150 + Rand(-30, 30);
          }
 

@@ -801,7 +801,7 @@ namespace LeviathanNamespace {
          }
       }
    }
-} // namespace LeviathanNamespace
+}
 
 // clang-format off
 @Author("Moosh, modified by Deathrider365")
@@ -1105,7 +1105,9 @@ namespace ShamblesNamespace {
          while (true) {
             attack = chooseAttack(attack);
 
-            ShamblesWaitframe(this, ghost, 120);
+            Ghost_X = -16;
+            Ghost_Y = -16;
+            ShamblesWaitframe(this, ghost, Ghost_HP < startHP * difficultyMultiplier ? 90 : 120);
 
             int pos = moveMe();
             Ghost_X = ComboX(pos);
@@ -1206,7 +1208,7 @@ namespace ShamblesNamespace {
          ShamblesWaitframe(this, ghost, 16);
          eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0});
+         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
          Waitframes(15);
       }
    }
@@ -1309,7 +1311,7 @@ namespace ShamblesNamespace {
          Ghost_Waitframe(this, ghost, 1, true);
       }
    }
-} // namespace ShamblesNamespace
+}
 
 namespace HazarondNamespace {
    using namespace EnemyNamespace;
@@ -1904,7 +1906,7 @@ namespace HazarondNamespace {
 
          eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
-         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage, 0});
+         runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage, 0, true});
          EnemyWaitframe(this, data, 5);
       }
 
@@ -2018,7 +2020,7 @@ namespace HazarondNamespace {
          }
       }
    }
-} // namespace HazarondNamespace
+}
 
 namespace OvergrownRaccoonNamespace {
    using namespace EnemyNamespace;
@@ -2039,8 +2041,6 @@ namespace OvergrownRaccoonNamespace {
       using namespace EnemyNamespace;
 
       void run() {
-         disableLink();
-
          CONFIG DMG_BOULDER = this->WeaponDamage;
          CONFIG DMG_ROCK = this->WeaponDamage / 2;
          CONFIG DMG_PEBBLE = this->WeaponDamage / 4;
@@ -2052,14 +2052,18 @@ namespace OvergrownRaccoonNamespace {
 
          this->Dir = faceLink(this);
 
-         until(this->Z == 0) Waitframe();
+         until(this->Z == 0) {
+            disableLink();
+            Waitframe();
+         }
 
          Screen->Quake = 60;
          Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
-         Waitframes(30);
-
-         disableLink();
+         for (int i = 0; i < 30; ++i) {
+            disableLink();
+            Waitframe();
+         }
 
          unless(getScreenD(255)) {
             Screen->Message(805);
@@ -2111,7 +2115,7 @@ namespace OvergrownRaccoonNamespace {
 
                   eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0});
+                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2129,7 +2133,7 @@ namespace OvergrownRaccoonNamespace {
                      unless(i % 20) {
                         eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0});
+                        runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0, true});
                      }
 
                      Waitframe();
@@ -2151,7 +2155,7 @@ namespace OvergrownRaccoonNamespace {
 
                      eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, });
+                     runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, true});
                   }
 
                   state = STATE_NORMAL;
@@ -2201,7 +2205,7 @@ namespace OvergrownRaccoonNamespace {
          default: return STATE_CHARGE;
       }
    }
-} // namespace OvergrownRaccoonNamespace
+}
 
 namespace ServusMalusNamespace {
    using namespace EnemyNamespace;
@@ -3251,7 +3255,7 @@ namespace ServusMalusNamespace {
          }
       }
    }
-} // namespace ServusMalusNamespace
+}
 
 // clang-format off
 @Author("Moosh")
@@ -4063,7 +4067,7 @@ namespace EgentemNamespace {
          }
 
          eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, thrownHammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage});
+         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage, true});
 
          Waitframes(hammerThrowDelay);
       }
@@ -4282,7 +4286,7 @@ namespace EgentemNamespace {
          setScreenD(0, true);
       }
    }
-} // namespace EgentemNamespace
+}
 
 namespace LatrosNamespace {
    using namespace EnemyNamespace;
@@ -4715,7 +4719,7 @@ namespace LatrosNamespace {
                LatrosWaitframe(this, latros, 12);
                eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_LAUNCH_BOMBS);
-               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage});
+               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage, true});
                LatrosWaitframe(this, latros, 6);
             }
 
@@ -4728,7 +4732,7 @@ namespace LatrosNamespace {
                LatrosWaitframe(this, latros, 16);
                eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, arrowDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                Audio->PlaySound(SFX_ARROW);
-               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage, 0});
+               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage, 0, true});
             }
             break;
          }
@@ -4745,7 +4749,7 @@ namespace LatrosNamespace {
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
                eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, hammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage});
+               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage, true});
                LatrosWaitframe(this, latros, 16);
             }
 
@@ -5013,7 +5017,7 @@ namespace LatrosNamespace {
       n->Immortal = false;
       n->HP = 0;
    }
-} // namespace LatrosNamespace
+}
 
 namespace Quickknife {
    using namespace EnemyNamespace;
