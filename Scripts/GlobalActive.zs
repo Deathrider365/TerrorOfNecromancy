@@ -395,6 +395,10 @@ global script OnLaunch {
          Game->LoadComboData(cid)->OriginalTile = TILE_INVIS;
       }
 
+      // For debug purposes because test builds start you with nothing on a or b
+      Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
+      Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+
       if (onContHP != 0) {
          Hero->HP = onContHP;
          Hero->MP = onContMP;

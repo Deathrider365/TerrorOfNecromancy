@@ -823,7 +823,7 @@ ffc script Legionnaire {
       CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
 
       if (triggerOnSecret == 0 && Screen->State[ST_SECRET]) {
-         ghost->Remove();
+         ghost->Remove(); //TODO sometimes the sprite is seen just sitting after death
          Quit();
       }
 
@@ -889,10 +889,10 @@ ffc script Legionnaire {
          Ghost_Z = 0;
       }
 
-      while (true) {
+      loop() {
          Ghost_Data = combo + 4;
          Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
-         int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection;
+         int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection; //TODO this isnt working, always going clockwise
          numEnemies = Screen->NumNPCs;
 
          Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
@@ -936,22 +936,22 @@ ffc script Legionnaire {
 
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32, DMG_JUMPS_ON_YOU);
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_FIRE_SWORDS);
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_SPRINT_SLASH);
+                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, 32, DMG_JUMPS_ON_YOU);
+                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_FIRE_SWORDS);
+                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_SPRINT_SLASH);
                   attack = ATTACK_FIRE_SWORDS;
                   break;
                }
                case ATTACK_FIRE_SWORDS: {
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_FIRE_SWORDS);
+                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_FIRE_SWORDS);
                   break;
                }
                case ATTACK_JUMPS_ON_YOU: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, 32, DMG_JUMPS_ON_YOU);
+                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, 32, DMG_JUMPS_ON_YOU);
                   break;
                }
                case ATTACK_SPRINT_SLASH: {
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_X, movementDirection, DMG_SPRINT_SLASH);
+                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_SPRINT_SLASH);
                   break;
                }
             }

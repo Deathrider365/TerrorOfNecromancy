@@ -565,6 +565,57 @@ ffc script GetItemOnScreenDHiddenBefore {
       }
    }
 }
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("triforceToCheck"),
+@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")
+ffc script TriforceDeciples {
+// clang-format on
+   void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange) {
+      loop() {
+         if (getScreenD(triforceToCheck)) {
+            triggerDoor(comboPosToChange);
+         }
+
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (getScreenD(triforceToCheck)) {
+            Screen->Message(secondMessageComplete);
+         } else {
+            if (!getScreenD(triforceToCheck + 10) && Game->Counter[triforceToCheck] < 4) {
+               Screen->Message(messageNotComplete);
+               setScreenD(triforceToCheck + 10, true);
+            } else if (Game->Counter[triforceToCheck] < 4) {
+               Screen->Message(secondMessageNotComplete);
+               //TODO enhance to say how many shards are missing and the area where they are
+               // Waitframe();
+               // Screen->Message(getRemainingTriforceString(triforceToCheck));
+            } else if (Game->Counter[triforceToCheck] == 4 && !getScreenD(triforceToCheck)) {
+               Screen->Message(messageComplete);
+
+               Waitframe();
+
+               setScreenD(triforceToCheck, true);
+               triggerDoor(comboPosToChange);
+               Audio->PlaySound(SFX_SHUTTER_OPEN);
+            }
+         }
+         Waitframe();
+      }
+   }
+
+   // char32[] getRemainingTriforceString(int triforceToCheck) {
+   //    char32 buf[16] = "hello";
+   //    return buf;
+   // }
+
+   void triggerDoor(int pos) {
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      mapDataLayer1->ComboD[pos] = 1;
+      mapDataLayer1->ComboD[pos + 1] = 1;
+   }
+}
 
 // clang-format off
 @Author("Deathrider365")

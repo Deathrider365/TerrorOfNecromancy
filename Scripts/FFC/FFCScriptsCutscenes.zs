@@ -845,13 +845,30 @@ ffc script CapturedSequenceNecromancer {
    // clang-format on
 
    void run() {
-      unless(getScreenD(33, 0x23, 0)) Quit();
+      unless(getScreenD(33, 0x23, 0) || !getScreenD(0)) Quit();
 
       CONFIG COMBO_NECROMANCER = 6744;
       CONFIG COMBO_RIGHT_HAND = 6753;
       CONFIG COMBO_GUARD = 6755;
+      CONFIG COMBO_LEFT_BARRIER = 6970;
+      CONFIG COMBO_RIGHT_BARRIER = 6969;
 
-      until(Hero->X > 96 && Hero->X < 160 && Hero->Y >= 128) Waitframe();
+      mapdata mapData = Game->LoadTempScreen(1);
+
+      Input->DisableKey[KEY_F6] = true;
+
+      //TODO these are currently in cset 0, can it be changed?
+      mapData->ComboD[64] = COMBO_LEFT_BARRIER;
+      mapData->ComboD[80] = COMBO_LEFT_BARRIER;
+      mapData->ComboD[96] = COMBO_LEFT_BARRIER;
+
+      mapData->ComboD[79] = COMBO_RIGHT_BARRIER;
+      mapData->ComboD[95] = COMBO_RIGHT_BARRIER;
+      mapData->ComboD[111] = COMBO_RIGHT_BARRIER;
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+
+      until(Hero->X > 96 && Hero->X < 160 && Hero->Y >= 128)
+         Waitframe();
 
       if (Hero->X > 96 && Hero->X < 160 && Hero->Y > 144) {
          Hero->X = 120;
@@ -884,20 +901,10 @@ ffc script CapturedSequenceNecromancer {
          if (i >= 120 && i % 8 == 0) {
             ++leftGuardX;
             --rightGuardX;
-
-            for (int i = 0; i < 9; ++i) {
-               Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-               Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-            }
          }
 
          Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
-
-         for (int i = 0; i < 9; ++i) {
-            Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-            Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         }
 
          Waitframe();
       }
@@ -905,21 +912,12 @@ ffc script CapturedSequenceNecromancer {
       Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
       Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
 
-      for (int i = 0; i < 9; ++i) {
-         Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-      }
 
       Screen->Message(244);
       Waitframe();
 
       Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
       Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
-
-      for (int i = 0; i < 9; ++i) {
-         Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-      }
 
       Screen->Message(257);
       Waitframe();
@@ -950,11 +948,6 @@ ffc script CapturedSequenceNecromancer {
                Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
                Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
 
-               for (int i = 0; i < 9; ++i) {
-                  Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-                  Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-               }
-
                Waitframe();
             }
             chose = true;
@@ -967,21 +960,11 @@ ffc script CapturedSequenceNecromancer {
          Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
 
-         for (int i = 0; i < 9; ++i) {
-            Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-            Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         }
-
          Waitframe();
       }
 
       Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
       Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
-
-      for (int i = 0; i < 9; ++i) {
-         Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-      }
 
       Screen->Message(message);
       Waitframe();
@@ -997,15 +980,12 @@ ffc script CapturedSequenceNecromancer {
          Screen->FastCombo(1, 120, necromancerStartY, COMBO_NECROMANCER, 0, OP_OPAQUE);
          Screen->FastCombo(1, 120, rightHandStartY, COMBO_RIGHT_HAND, 0, OP_OPAQUE);
 
-         for (int i = 0; i < 9; ++i) {
-            Screen->FastCombo(1, leftGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-            Screen->FastCombo(1, rightGuardX, 16 + (i * 16), COMBO_GUARD, 7, OP_OPAQUE);
-         }
-
          Waitframe();
       }
 
       Hero->Stun = 0;
+      Input->DisableKey[KEY_F6] = false;
+      setScreenD(0, true);
       Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
    }
 }
