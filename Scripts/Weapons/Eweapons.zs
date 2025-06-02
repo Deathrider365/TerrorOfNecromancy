@@ -529,6 +529,13 @@ eweapon script Boomerang {
    }
 }
 
+@Author("Deathrider365"),
+@InitD0("Damage"),
+@InitDHelp0("damage"),
+@InitD0("sprite"),
+@InitDHelp0("sprite"),
+@InitD0("step"),
+@InitDHelp0("stepSpeed")
 eweapon script ShootingProjectile {
    void run(int damage, int sprite, int step) {
       this->Damage = damage;

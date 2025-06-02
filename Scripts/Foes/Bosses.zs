@@ -3465,6 +3465,8 @@ namespace EgentemNamespace {
       using namespace GhostBasedMovement;
       using namespace EnemyNamespace;
 
+      //TODO for some reason the pillar projectile itself is only doing a heart of damage on paladin mode
+
       void run() {
          AnimHandler aptr = new AnimHandler(this);
 
@@ -4272,7 +4274,7 @@ namespace EgentemNamespace {
       }
    }
 
-   ffc script EgentumGotcha {
+   ffc script EgentemGotcha {
       void run() {
          if (getScreenD(31, 0x33, 1)) {
             mapdata mapData = Game->LoadTempScreen(0);

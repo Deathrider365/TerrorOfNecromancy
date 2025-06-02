@@ -425,8 +425,8 @@ npc script Bomber {
    using namespace EnemyNamespace;
 
    void run() {
-      CONFIG DMG_BOMB = this->WeaponDamage;
-      CONFIG DMG_BOMB_EXPLOSION = this->WeaponDamage * 2;
+      CONFIG DMG_BOMB = this->WeaponDamage * 2;
+      CONFIG DMG_BOMB_EXPLOSION = this->WeaponDamage;
 
       int attackCooldown = 150 + Rand(-30, 30);
 

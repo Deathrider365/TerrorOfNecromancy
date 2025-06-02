@@ -845,7 +845,8 @@ ffc script CapturedSequenceNecromancer {
    // clang-format on
 
    void run() {
-      unless(getScreenD(33, 0x23, 0) || !getScreenD(0)) Quit();
+      unless(getScreenD(33, 0x23, 0)) Quit();
+      if (getScreenD(0)) Quit();
 
       CONFIG COMBO_NECROMANCER = 6744;
       CONFIG COMBO_RIGHT_HAND = 6753;

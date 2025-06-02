@@ -565,6 +565,88 @@ ffc script GetItemOnScreenDHiddenBefore {
       }
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script EscapedEgentemCultist {
+// clang-format on
+   void run(int initialMessage, int initialItemId, int secondaryMessage, int secondaryItem, int initialScreenD, int secondaryScreenD, int tertiaryMessage, int requiredItem) {
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            Waitframe();
+
+            itemsprite it = CreateItemAt(initialItemId, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD) && !Hero->Item[requiredItem] && !getScreenD(secondaryScreenD)) {
+            Screen->Message(secondaryMessage);
+         } else if (Hero->Item[requiredItem]) {
+            Screen->Message(tertiaryMessage);
+
+            Waitframe();
+
+            itemsprite it = CreateItemAt(secondaryItem, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+
+            setScreenD(secondaryScreenD, true);
+            Hero->Item[requiredItem] = false;
+         } else {
+            Screen->Message(tertiaryMessage + 1);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script ConflatosElder {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD, int requiredItemForTertiary) {
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         mapdata forgeBossRoom = Game->LoadMapData(61, 0x43);
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            Waitframe();
+            setScreenD(initialScreenD, true);
+
+            Audio->PlaySound(SFX_SECRET);
+            mapdata forgeEntrance = Game->LoadMapData(20, 0x70);
+            forgeEntrance->State[ST_SECRET] = true;
+
+         } else if (getScreenD(initialScreenD) && !forgeBossRoom->State[ST_SECRET]) {
+            Screen->Message(secondaryMessage);
+         } else if (forgeBossRoom->State[ST_SECRET] && !Hero->Item[ITEM_RING2]) {
+            Screen->Message(tertiaryMessage);
+         } else if (Hero->Item[ITEM_RING2] && !getScreenD(initialScreenD + 1)) {
+            Screen->Message(tertiaryMessage + 1);
+            Waitframe();
+
+            Audio->PlaySound(SFX_SECRET);
+            mapdata forgeDepthsDoor = Game->LoadMapData(61, 0x16);
+            forgeDepthsDoor->State[ST_SECRET] = true;
+            setScreenD(initialScreenD + 1, true);
+         } else if (getScreenD(initialScreenD + 1)) {
+            Screen->Message(tertiaryMessage + 2);
+            setScreenD(initialScreenD + 2, true);
+         } else {
+            Screen->Message(tertiaryMessage + 3);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
