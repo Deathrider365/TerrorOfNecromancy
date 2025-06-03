@@ -1,0 +1,81 @@
+/////////////////////////////////////////
+//   VenrobKeyboardManager.zh Header   //
+//                Venrob               //
+//            Version: 0.01            //
+//               11 Sep 19             //
+/////////////////////////////////////////
+
+#option SHORT_CIRCUIT on
+#option HEADER_GUARD on
+#include "std.zh"
+
+namespace Venrob
+{
+	typedef const int DEFINE;
+	namespace KeyStorage
+	{
+		DEFINE SIZE_KEY = 127; //Size of 'Input->Key[]'
+		int Key[SIZE_KEY];
+		DEFINE FLAG_PRESSED = 001b;
+		DEFINE FLAG_INPUT = 010b;
+		DEFINE FLAG_TRUE_INPUT = 100b;
+	}
+}
+using namespace Venrob::KeyStorage;
+
+void pollKeys()
+{
+	for(int key = 0; key < SIZE_KEY; ++key)
+	{
+		if(Input->Key[key] && !(Key[key]&FLAG_TRUE_INPUT))
+			Key[key] |= FLAG_PRESSED;
+		else
+			Key[key] &= ~FLAG_PRESSED;
+		if(Input->Key[key])
+			Key[key] |= (FLAG_INPUT | FLAG_TRUE_INPUT);
+		else
+			Key[key] &= ~(FLAG_INPUT | FLAG_TRUE_INPUT);
+	}
+}
+
+bool KeyPressed(int key)
+{
+	return Key[key]&FLAG_PRESSED;
+}
+
+void KeyPressed(int key, bool state)
+{
+	if(state)
+		Key[key]|=FLAG_PRESSED;
+	else
+		Key[key]&=~FLAG_PRESSED;
+}
+
+bool KeyInput(int key)
+{
+	return Key[key]&FLAG_INPUT;
+}
+
+void KeyInput(int key, bool state)
+{
+	if(state)
+		Key[key]|=FLAG_INPUT;
+	else
+		Key[key]&=~FLAG_INPUT;
+}
+
+void KillAllKeyboard()
+{
+	for(int key = 0; key < SIZE_KEY; ++key)
+	{
+		Key[key] &= ~(FLAG_PRESSED|FLAG_INPUT);
+	}
+}
+
+void KillAllKeyboardPress()
+{
+	for(int key = 0; key < SIZE_KEY; ++key)
+	{
+		Key[key] &= ~FLAG_PRESSED;
+	}
+}

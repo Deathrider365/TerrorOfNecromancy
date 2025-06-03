@@ -1,0 +1,293 @@
+//import "scrollingDraws.zh"
+
+const int RT_SCROLLINGMAP = 1;
+const int RT_CURRENTSCREEN = 2;
+const int RT_LASTSCREEN = 3;
+
+ffc script Mode7Test{
+	void run(){
+		int str1[] = "[L, R] ANGLE";
+		int str2[] = "[L, R] Z";
+		int str3[] = "[L, R] HORIZON";
+		int str4[] = "[L, R] SCALE_X";
+		int str5[] = "[L, R] SCALE_Y";
+		int str6[] = "[L, R] CENTER_X";
+		int str7[] = "[L, R] CENTER_Y";
+		int str8[] = "[L, R] CAMERA";
+		int str9[] = "[L, R] BITMAP PREVIEW";
+		int str10[] = "[L, R] OFFSET X";
+		int str11[] = "[L, R] OFFSET Y";
+		
+		int names[16] = {str1, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11};
+		int args[16] = {0, 100, 32, 200, 200, 128, 256, 0, 0, 128, 128};
+		
+		int i = 7;
+		int camX;
+		int camY;
+		
+		bitmap testa = Game->CreateBitmap(512, 512);
+		bitmap testb = Game->CreateBitmap(512, 512);
+		
+		bool regionBoxOn = false;
+		bool internalDrawMethod = false;
+		while(true){
+			Screen->DrawString(7, 0, 0, FONT_Z1, 0x01, 0x0F, TF_NORMAL, names[i], 128);
+			Screen->DrawInteger(7, 0, 8, FONT_Z1, 0x01, 0x0F, -1, -1, args[i], 0, 128);
+			if(regionBoxOn)
+				Screen->DrawString(7, 0, 16, FONT_Z1, 0x01, 0x0F, TF_NORMAL, "[A] REGIONBOX - ON", 128);
+			else
+				Screen->DrawString(7, 0, 16, FONT_Z1, 0x01, 0x0F, TF_NORMAL, "[A] REGIONBOX - OFF", 128);
+			
+			if(internalDrawMethod)
+				Screen->DrawString(7, 0, 24, FONT_Z1, 0x01, 0x0F, TF_NORMAL, "[B] DRAW METHOD - bitmap->Mode7()", 128);
+			else
+				Screen->DrawString(7, 0, 24, FONT_Z1, 0x01, 0x0F, TF_NORMAL, "[B] DRAW METHOD - Moosh function", 128);
+			
+			if(Link->PressL){
+				i--;
+				if(i<1)
+					i += 8;
+			}
+			else if(Link->PressR){
+				i++;
+				if(i>=9)
+					i -= 8;
+			}
+			
+			if(Link->PressA)
+				regionBoxOn = !regionBoxOn;
+			if(Link->PressB)
+				internalDrawMethod = !internalDrawMethod;
+			
+			if(i==7||i==8){
+				if(Link->InputUp)
+					camY -= 5;
+				else if(Link->InputDown)
+					camY += 5;
+				if(Link->InputLeft)
+					camX -= 5;
+				else if(Link->InputRight)
+					camX += 5;
+					
+				camX = Clamp(camX, 0, 15*256);
+				camY = Clamp(camY, 0, 7*176);
+			}
+			else{
+				if(Link->InputUp){
+					args[i]--;
+				}
+				else if(Link->InputDown){
+					args[i]++;
+				}
+			}
+			
+			if(i==8){
+				testa->Rectangle(6, 0, 0, 511, 511, 0x00, 1, 0, 0, 0, true, 128);
+				Mode7_BitmapDrawTrueScreenPosition(testa, 128, 128, camX, camY);
+				
+				if(regionBoxOn){
+					testa->Rectangle(6, 128, 128, 128+255, 128+175, 0x81, 1, 0, 0, 0, false, 128);
+					testa->Rectangle(6, 128-1, 128-1, 128+255+1, 128+175+1, 0x81, 1, 0, 0, 0, false, 128);
+					testa->Rectangle(6, 128-2, 128-2, 128+255+2, 128+175+2, 0x81, 1, 0, 0, 0, false, 128);
+				}
+				
+				testa->Blit(6, -2, 0, 0, 512, 512, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
+			}
+			else{
+				testa->Rectangle(6, 0, 0, 511, 511, 0x00, 1, 0, 0, 0, true, 128);
+				Mode7_BitmapDrawTrueScreenPosition(testa, 128, 128, camX, camY);
+				
+				if(regionBoxOn){
+					testa->Rectangle(6, 128, 128, 128+255, 128+175, 0x81, 1, 0, 0, 0, false, 128);
+					testa->Rectangle(6, 128-1, 128-1, 128+255+1, 128+175+1, 0x81, 1, 0, 0, 0, false, 128);
+					testa->Rectangle(6, 128-2, 128-2, 128+255+2, 128+175+2, 0x81, 1, 0, 0, 0, false, 128);
+				}
+				
+				testb->Rectangle(6, 0, 0, 511, 511, 0x00, 1, 0, 0, 0, true, 128);
+				//ZORIA FUNCTION
+				if(internalDrawMethod)
+					testa->Mode7(6, testb, 0, 0, 256, 176, 256, 176, 0, args[5], args[6], args[1], args[2], args[3], args[4], false);
+				//MOOSH FUNCTION
+				else 
+					Mode7_BitmapDrawPlane(6, testa, testb, args[5], args[6], 0, 0, 256, 176, args[1], args[2], args[3], args[4], false);
+				
+				testb->Blit(6, -2, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, false);
+			}
+			NoAction();
+			Waitframe();
+		}
+	}
+}
+
+void Mode7_BitmapDrawTrueScreenPosition(bitmap b, int x, int y, int mapX, int mapY){
+	int scrn = Round(mapX/256)+Round(mapY/176)*16;
+	
+	int scrnX = (scrn%16)*256;
+	int scrnY = Floor(scrn/16)*176;
+	
+	int drawX = Round(scrnX-mapX);
+	int drawY = Round(scrnY-mapY);
+	
+	b->DrawScreen(6, Game->GetCurMap(), scrn, x + drawX, y + drawY, 0);
+	if(scrn>15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-16, x + drawX, y + drawY-176, 0);
+	if(scrn>31)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-32, x + drawX, y + drawY-352, 0);
+	if(scrn<112)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+16, x + drawX, y + drawY+176, 0);
+	if(scrn<96)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+32, x + drawX, y + drawY+352, 0);
+	if(scrn%16>0)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-1, x + drawX-256, y + drawY, 0);
+	if(scrn%16<15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+1, x + drawX+256, y + drawY, 0);
+	if(scrn>15 && scrn%16>0)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-17, x + drawX-256, y + drawY-176, 0);
+	if(scrn>31 && scrn%16>0)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-33, x + drawX-256, y + drawY-352, 0);
+	if(scrn>15 && scrn%16<15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-15, x + drawX+256, y + drawY-176, 0);
+	if(scrn>31 && scrn%16<15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn-31, x + drawX+256, y + drawY-352, 0);
+	if(scrn<112 && scrn%16>0)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+15, x + drawX-256, y + drawY+176, 0);
+	if(scrn<96 && scrn%16>0)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+31, x + drawX-256, y + drawY+352, 0);
+	if(scrn<112 && scrn%16<15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+17, x + drawX+256, y + drawY+176, 0);
+	if(scrn<96 && scrn%16<15)
+		b->DrawScreen(6, Game->GetCurMap(), scrn+33, x + drawX+256, y + drawY+352, 0);
+}
+
+//int layer - The layer to draw to
+//bitmap source - The bitmap to draw onto the plane
+//bitmap dest - The bitmap to draw the plane to
+//int srcX, srcY - Camera X,Y, position to draw from on the source bitmap
+//int destX, destY - X,Y position offset to draw to on the destination bitmap
+//int destW, destH - Size of the plane drawn to the destination bitmap
+//int space_z - Camera height above the bitmap
+//int horizon - Moves the drawn plane up and down on the screen
+//int scale_x,scale_y - Arbitrary scale factor. Y also affects perspective. 200 seems to be a good base.
+//bool mask - Whether or not to mask color 0
+void Mode7_BitmapDrawPlane(int layer, bitmap source, bitmap dest, int srcX, int srcY, int destX, int destY, int destW, int destH, int space_z, int horizon, int scale_x, int scale_y, bool mask){
+	int screen_x; int screen_y;
+	
+	int distance; int horizontal_scale;
+	
+	int screen_y_horizon;
+	
+	int line_dx; int line_dy;
+	
+	int space_x; int space_y;
+	
+	for(screen_y=0; screen_y<destH; screen_y++){
+		//Calculate the distance of each line from the camera point
+		screen_y_horizon = screen_y + horizon;
+		if(screen_y_horizon==0)
+			distance = space_z * scale_y;
+		else
+			distance = (space_z * scale_y) / screen_y_horizon;
+			
+		//Get the scale of each line based on the distance
+		if(scale_x==0)
+			horizontal_scale = distance;
+		else
+			horizontal_scale = (distance / scale_x);
+		
+		//There was some math here before I stripped out the rotation step
+		line_dx = horizontal_scale;
+		line_dy = 0;
+		
+		//space_x,space_y - where to grab each scanline from on the space bitmap
+		space_x = srcX - destW/2 * line_dx;
+		space_y = srcY - distance + destH/2 * line_dy;
+		
+		//Keep blits within the bounds of both bitmaps to avoid crashes
+		int y1 = srcY+space_y;
+		int y2 = destY+screen_y;
+		if(y1>=0&&y1<=source->Height-1&&y2>=0&&y2<=dest->Height-1){
+			source->Blit(6, dest, srcX+space_x, srcY+space_y, line_dx*destW, 1, destX+screen_x, destY+screen_y, destW, 1, 0, 0, 0, 0, 0, mask);
+		}
+	}
+}
+
+void Mode7_DrawPlane(int layer, int rt, int srcX, int srcY, int srcW, int srcH, int destW, int destH, int cx, int cy, int space_z, int horizon, int scale_x, int scale_y){
+	int screen_x; int screen_y;
+	
+	int distance; int horizontal_scale;
+	
+	int mask_x;
+	int mask_y;
+	
+	int line_dx; int line_dy;
+	
+	int space_x; int space_y;
+	
+	for(screen_y=0; screen_y<destH; screen_y++){
+		distance = (space_z * scale_y) / (screen_y + horizon);
+		
+		horizontal_scale = (distance / scale_x);
+		
+		line_dx = horizontal_scale;
+		line_dy = 0;
+		
+		space_x = cx - destW/2 * line_dx;
+		space_y = cy - distance + destH/2 * line_dy;
+		
+		if(srcY+space_y>=0)
+			Screen->DrawBitmap(layer, rt, srcX+space_x, srcY+space_y, line_dx*destW, 1, screen_x, screen_y, destW, 1, 0, false);
+	}
+}
+
+//spritePos[3] = {x, y, scale}
+int GetSpritePosMode7(int spritePos, int spriteX, int spriteY, int srcW, int srcH, int destW, int destH, int cx, int cy, int space_z, int horizon, int scale_x, int scale_y, int obj_w, int obj_h, int obj_scale_x, int obj_scale_y){
+	// cx = 0;
+	// cy = 0;
+	
+	int width; int height;
+	int screen_y; int screen_x;
+	
+	int obj_x = spriteX - cx;
+	int obj_y = spriteY - cy;
+	
+	int space_x = obj_x;
+	int space_y = -obj_y;
+	
+	screen_x = destW/2 + (scale_y / space_y) * space_x;
+	screen_y = ((space_z * scale_x) / space_y) - horizon;
+	
+	width = obj_w * (obj_scale_x / space_y);
+	//height = obj_h * (obj_scale_y / space_y);
+	
+	spritePos[0] = screen_x;
+	spritePos[1] = screen_y;
+	spritePos[2] = width/obj_w;
+	// Screen->DrawInteger(7, 0, 0, FONT_Z1, 0x01, 0x0F, -1, -1, width, 0, 128);
+	// Screen->DrawInteger(7, 0, 8, FONT_Z1, 0x01, 0x0F, -1, -1, height, 0, 128);
+	
+	
+	//Screen->DrawTile(6, screen_x - width/2, screen_y - height, Link->Tile, 1, 1, 6, width, height, 0, 0, 0, Link->Flip, true, 128);
+}
+
+void SortLowestToHighestAndReturnOrder(int arrayold, int arrayorder){
+	int lowest = 214747;
+	int lowestindex = 0;
+	bool used[256];
+	int size = SizeOfArray(arrayorder);
+	int size2 = SizeOfArray(arrayold);
+	for(int i=0; i<size; i++){
+		for(int j=0; j<size2; j++){
+			if(arrayold[j]<=lowest&&!used[j]){
+				lowest = arrayold[j];
+				lowestindex = j;
+			}
+		}
+		arrayorder[i] = lowestindex;
+		used[lowestindex] = true;
+		lowest = 214747;
+	}
+}
+
+int EnemyFlashCSet(int timer){
+	return 9-(timer>>1);
+}

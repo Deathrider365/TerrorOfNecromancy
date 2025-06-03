@@ -1,0 +1,2202 @@
+//////////////////////////////
+/// Scrolling System       ///
+/// for Zelda Classic 2.55 ///
+/// Alpha 22, or Later     ///
+/// ALPHA v1.9.0           ///
+/// 14th May, 2019         ///
+//////////////////////////////
+// v0.1.0 : Initial Base
+// v0.2.0 : Added Solidity
+// v0.3.0 : Changed the scroll script from a hero script to a dmap script.
+//        : Moved bitmaps into their own class. Construct on hero init, clear on dmap script. 
+//        : This allows us to recycle the same master bitmaps per dmap, so that each dmap change
+//        : loads its own dmap script, initialising the values to the maps that we want to use. 
+// v0.3.1 : Added a debug function, that writes all current bitmaps to files for inspection, on pressing Ex4. 
+// v0.3.2 : Remove Clamp() and constrain movement inside the movement code. 
+// v0.4.0 : Added OVERSCAN bitmaps so that the player is not as constrained, but he is still fixed in the centre of the screen.
+//        : Changed Link-> pointer use to Hero->
+// v0.5.0 : Added a virtual coordinate system, and methods for getting accurate screen IDs, and enemy lists.
+//        : Added STRUCT mapInfo, and STRUCT encounter.
+// v0.5.1 : Added additional encounter system code.
+// v0.5.2 : Added check for slow walk combos. 
+// v0.5.3 : Added mock encounter visual effects.
+//        : Don't draw the player sprite, or allow scrolling during an encounter.
+// v0.5.4 : Changed rate on slow walk tiles (hills) to be less sluggish.
+// v0.6.0 : Begin adding menus.
+// v0.6.1 : Added dice namespace, added global init script, added some menu initialisation.
+// v0.6.2 : Removed some namespaces, because of array bugs in ZC>
+//        : Added a STRUCT script for the statsmenu.
+//        : Added a STRUCT script for the vitals.
+//        : Draw the stats menu. 
+//        : Disabled some traces.
+// v0.6.3 : Added menu STRUCT. 
+//        : Added menutype ENUM.
+// v0.7.0 : Begin adding spells.
+// v0.7.1 : Fix pseudo-2d array access. 
+// v0.7.2 : More array access fixes. 
+// v0.8.0 : Added code to draw enemies moving around on the screen, and an npc script 'enemy'
+//        : to control their initial blits. 
+// v0.8.1 : Minor adjustments to enemy drawing code, to clear, resize, and reprime the bitmap, per enemy. 
+// v0.8.2 : Fixed reading of spell string datum.
+// v0.8.2 : Added rpg namespace. Moved dice namespace inside it. Added version control values.
+// v0.8.3 : Improvements to spell drawing/init.
+// v0.9.0 : Now draw to screen on layer 0, with invisible passive subscreen.
+//        : Removed manual enemy/sprite draws, player sprite draws, and rearranged layer ordering in general.
+// v1.0.0 : Added scrolling for weapons, refactored scrolling for enemies. 
+//        : Added STRUCTs lweapons, eweapons, game. Move frame into STRUCT game.
+//        : Added global active script to control the framecount. 
+// v1.1.0 : Refactored enemies. ISSUE: Enemies clump on screen edges because their coordinates cannot move offscreen.
+//        : All sprites now move, at least. 
+// v1.1.1 : Remove some unused code blocks. 
+// v1.1.2 : dmapdata script scrolling now uses args d0 and d1 to set the scrolling area dimensions (in screens).
+// v1.2.0 : Added npc script walking, for custom enemy walking cycles.
+// v1.2.1 : Bugfixes to npc script walking.
+//        : Revisions to npc script walking, to control cooldown, add constantwalk (ad arg d0), and modify overall speed.
+// v1.2.2 : Check three spots on the side of the npc for collision with solid. We still have BUGS to fix with the npc script 'walking'.
+//        : DO we WANT a 56 offset on all Y checks in the npc script walking?  
+// v1.2.3 : Don't allow randomised dir changes for npc script walking to become stuck in a perpetual loop.
+// v1.2.4 : Fixes to npc script walking.
+// v1.2.5 : Refactor enemy script 'walking', and force enemies to clip out of being stuck. 
+// v1.2.6 : Make enemy halt and random rate based on editor fields. 
+// v1.2.7 : Refactor enemy script 'walking', to check only full moves, not per-pixel increments; and fix coordinates off-by-one error (16 became 15).
+// v1.2.8 : Added namespace 'npcs' and npcs::canWalk(T, step, dir).
+// v1.3.0 : Completely rewrite npc script walking. Enemies are no longer able to become stuck!!
+// v1.3.1 : Enemy step is once again modified by CT_SLOWWALK.
+// v1.3.2 : Remember to check if the enemy ignores SLow Walk combos. 
+// v1.3.3 : Remove unused vars from npc script walking, and re-implement frame ticker. 
+// v1.3.4 : Disabled logging in npc script walking.
+// v1.3.5 : Added a call to this->Attack() during the enemy halt in npc script walking.
+// v1.4.0 : Created better handling for enemy spawning on virtual screens.
+// v1.4.1 : Use mapInfo.enemiesInitialised[] to track valid enemy spawns.
+//        : Prevent using F6->Continue to despawn enemies.
+// v1.4.2 : Fix drawing of border screens to overscan bitmap.
+// v1.4.3 : Acquire blank map, blank screen, and info on if we are to draw stats menu, from Game->Misc[].
+// v1.5.0 : Add spells menu drawing. 
+// v1.5.1 : Add cursor drawing. Added some structs and other data envelopes for drawing the spells menu.
+// v1.5.2 : Fix cursor column/row positioning.
+// v1.5.3 : Added spelltype getspell(int index) and converted cursor to an index, instead of returning a direct spelltype.
+//        : We need this for arbitrary matching from the spell tables as strings.
+// v1.5.4 : Store spell ID and spell sfx in strings. 
+//        : The current string format is: NAME <cost> @effect !<id> *<sfx>
+//        : Example: Blaze 2 @flash !3 *53 
+//        : The spell string displayed in the spells window is 'Blaze'. It costs 2MP, it flashes the screen
+//        : when the player casts it, its internal ID is 3, and it plays SFX 53 when cast.
+// v1.5.5 : Fix spell menu cusrow wrapping to +1 position, and corrected the menu column/row dimensions in spells.init().
+// v1.5.6 : Moved spells.init param vars into Game->Misc[3, 4, 5, and 6].
+// v1.6.0 : Automate handling of known spells. Only known spells will be displayed.
+//        : Only cast if actually known.
+//        : Can we automate the CURSOR to start on the lowest KNOWN spell, and to pass over unknowns??
+// v1.7.0 : Automate stats generation per level, with string tables.
+// v1.7.1 : std::vbound is now a ternary expression.
+// v1.7.2 : Moved cursor tile, cset to Game->Misc[8].
+//        : Added spells.learn(), spells.forget(). Noted some unused vars, and vars that can be merged into arrays
+//        : in STRUCT spells.
+// v1.8.0 : Spell strings now use String->Next, rather than first and last position in their init.
+//        : This means that the end-user can assign any number of non-sequential strings as spell strings,
+//        : by setting the 'Next String' attribute, to create a chain.
+// v1.8.1 : Allow 'level string' IDs to be non-contiguous. They now work in the same way as spell strings,
+//        : using the 'String->Next' attribute of each string. 
+// v1.8.2 : Abort character.init() or spells.init() if first_string is NULL. 
+// v1.8.3 : Fix compile.
+//        : Stats menu strings are now also in an arbitrary sequence, and the first string is now set from Quest->Misc[4].
+// v1.9.0 : Added Xp table string system, automated as the others. it uses Game->Misc[10] for its 'first string id'.
+
+//! NOTES: spelltype needa a 'none' value, for NULL, so that we csan have 'P0' for levelups, when not learning new spells. 
+
+//TODO: use high/low float for border map/screen; and for spell window columns/rows. 
+
+script typedef untyped STRUCT;
+typedef const int def;
+
+
+enum dqcolours { black, white, blue, dkblue, maroon, peach, rose, grey, pink, tan, fadedgold, royalblue, red = 0x11, truegold};
+enum menutype { mNone, mStats, mBattle, mCommand, mDialogue, mInventory, mShop, mInn, mSpell };
+enum stattype { level, hp, mp, gold, exp, str, dex, wis, con, cha, mind, soul, luck };
+enum spelltype { heal, hurt, light, fire, firemore, healmore, hurtmore, healmost, firemost, hurtmost, exit, warp };
+enum spelleffect { FXnone, FXflash };
+
+
+
+
+namespace std
+{
+	void memset(int ptr, int value, int sz)
+	{
+		for ( int q = 0; q < sz; ++q )
+		{
+			ptr[q] = value;
+		}
+	}
+	int sizeof(int ptr) { return SizeOfArray(ptr); }
+	int vbound(int v, int a, int b)
+	{
+		/*
+		if ( a < b ) 
+		{
+			if ( v <= a ) return a;
+			if ( v >= b ) return b;
+			return v;
+		}
+		else
+		{
+			if ( v <= b ) return b;
+			if ( v >= a ) return a;
+			return v;
+		}
+		*/
+		return a < b ? (v < a ? (a) : (v > b ? (b) : (v))) : (v < b ? (b) : (v > a ? (a) : (v)));
+	}
+	bool matchstring(int a, int b)
+	{
+		bool match;
+		//if ( strlen(a) != strlen(b) )
+		//LogPrint("Size of string a: %d \n", SizeOfArray(a));
+		//LogPrint("Size of string b: %d \n", SizeOfArray(b));
+		for ( int q = 0; (a[q] != 0 && b[q] != 0); ++q )
+		{
+			if ( a[q] == b[q] ) match = true;
+			else match = false;
+			if ( !match ) return false;
+		}
+		return match;
+	}
+}
+
+
+namespace rpg
+{
+	//def VERSION = 0;
+	//def BETA = 1;
+	//def RPG_DATA_SIZE = 64;
+	//int data[RPG_DATA_SIZE];
+	
+	//def DRAWSTATS = Game->Misc[2]; 
+	def DRAWSTATS = 2;
+	def RPG_VERSION = 1.101;
+	def RPG_ISBETA = -1; //1 for beta, 0 for release, -1 for alpha.
+	
+	float Version(){ return RPG_VERSION; }
+	float Beta() { return RPG_ISBETA; }
+	namespace dice
+	{
+		int roll(int sides)
+		{
+			return Rand(sides)+1;
+		}
+		int roll(int dice, int sides)
+		{
+			int v;
+			for ( int q = 0; q < dice; ++q )
+				v+= Rand(sides)+1;
+			return v;
+		}
+	}
+	
+	
+}
+
+lweapon script lweapons
+{
+	void run(){}
+	
+	void scroll(lweapon l, int x, int y, int xPos, int yPos)
+	{
+		switch(l->ID)
+		{
+			case LW_SWORD: 
+			case LW_WAND: 
+			case LW_CANDLE: 
+			case LW_HAMMER: 
+			case LW_HOOKSHOT: 
+			case LW_CANEOFBYRNA: 
+				break;
+			
+			
+			default:
+			{
+				l->X +=  x * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+				l->Y +=  y * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+			}
+		}
+		
+	}
+	
+}
+
+namespace npcs
+{
+	bool canWalk(npc T, int step, int dir)
+	{
+		switch(dir)
+		{
+			case DIR_UP:
+			{
+				if (!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+(T->TileWidth*4), 
+						scroll.yPos+T->Y-step+56) ) 
+					&& //corners
+					!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X, 
+						scroll.yPos+T->Y-step+56) ) 
+					&&
+					!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+(T->TileWidth*8)-1, 
+						scroll.yPos+T->Y-step+56) ) 
+					
+					)
+				{
+					return true;
+				}
+				return false;
+			}
+			case DIR_DOWN:
+			{
+				
+				if (!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+(T->TileWidth*4), 
+					scroll.yPos+T->Y +15+ step+56)) 
+				 && //corners
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X, 
+					scroll.yPos+T->Y +15+ step+56)) 
+				&&
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+(T->TileWidth*8)-1, 
+					scroll.yPos+T->Y +15+ step+56))
+			
+				)
+				{
+					return true;
+				}	
+				return false;
+			}
+			case DIR_LEFT:
+			{
+				if(!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X-step, 
+					scroll.yPos+T->Y+56+(T->TileHeight*4)) ) 
+				&& //corners
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X-step, 
+					scroll.yPos+T->Y+56) ) 
+				&&
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X-step, 
+					scroll.yPos+T->Y+56+(T->TileHeight*8)-1) ) 
+				
+				)
+				{
+					return true;
+				}
+				return false;
+			}
+			case DIR_RIGHT:
+			{
+				
+				if(!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+15+step, 
+					scroll.yPos+T->Y+56+(T->TileHeight*4)) ) 
+				&& //corners
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+15+step, 
+					scroll.yPos+T->Y+56) ) 
+				&&
+				!(Graphics->GetPixel(bitmaps.overscan_solid,scroll.xPos+T->X+15+step, 
+					scroll.yPos+T->Y+56+(T->TileHeight*8)-1) ) 
+				
+				)
+				{
+					return true;
+				}
+				return false;
+			}
+			default: return false;
+		}
+	}
+}
+
+lweapon script eweapons
+{
+	void run(){}
+	
+	void scroll(eweapon l, int x, int y, int xPos, int yPos)
+	{
+		switch(l->ID)
+		{
+			default:
+			{
+				l->X +=  x * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+				l->Y +=  y * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+			}
+		}
+	}
+	
+}
+
+namespace commands
+{
+	
+	void check()
+	{
+		if ( Input->ReadKey[KEY_P] ) game.drawspells = ( game.drawspells ) ? 0 : 1;
+	}
+}
+
+STRUCT script spells
+{
+	
+	//Defaults
+	def bWidth = 100; //Default size of spells window; width.
+	def bHeight = 64; //Default size of spells window; height.
+	def dispX = 64;
+	def dispY = 4;
+	def bColumns = 2;
+	def bRows = 4;
+	def cursorWidth = 6;
+	def cursor_cset = 0;
+	
+	int stack[256];
+	//ZString Game->Misc[] Indices
+	def stringMin = 3; //Game->Misc[3]
+	def stringMax = 4; //Game->Misc[4]
+	def windowColumns = 5; //Game->Misc[5];
+	def windowRows = 6; //Game->Misc[6];
+	def cursor_tile = 8; //Game->Misc[8];
+	
+	//enum { refresh, selected, curLearned, maxSpells, infoLast };
+	int displayOrder[32];
+	//int info[infoLast];
+	int refresh; //migrate to info[]
+	int known[warp+1]={1,1,1,1,1};
+	spelltype current;
+	int selected; //migrate to info[]
+	
+	int curLearned = 4; //migrate to info[]
+	enum{ spStr, spCost, spEffect, spDuration, spID, spSFX, spLast };
+	enum { dispColumn, dispRow, dispLast };
+	int data[warp, spLast]; //[<int>warp]; //2d array
+	int display[dispLast]; //This is never actually used. Prune?
+	int the_strings[32,64]; //Holds master record of all spell names known.
+	
+	bitmap bitty;
+
+	spelltype select()
+	{
+		spelltype ret = current;
+		
+		return ret;
+	}
+	void learn(spelltype the_spell)
+	{
+		known[the_spell] = 1;
+		++curLearned;
+	}
+	void forget(spelltype the_spell)
+	{
+		known[the_spell] = 0;
+		--curLearned;
+	}
+	int know(int input_string)//we check against the input string
+	{
+		LogPrint("know() input string is %s \n", input_string);
+		int temp[256];
+		//data spID should be in the same order as the_strings
+		
+		//count spaces
+		int count; int temp_pos;
+		//LogPrint("the_strings[0] is %d \n", the_strings[0]);
+		for ( int q = 0; (the_strings[q] != 0 && the_strings[q] != '!'); ++q )
+		{
+			temp[temp_pos] = the_strings[q];
+			++temp_pos;
+			if ( the_strings[q] == ' ' ) //we hit a space
+			{
+				LogPrint("know() temp[] is %s \n", temp);
+				++count;
+				//temp[temp_pos] = 0;
+				//return true;
+				//temp[temp_pos] = 0;
+				temp[temp_pos-1] = 0;
+				//for ( int w = 0; temp[w] != 0; ++w )
+				//{
+				//	LogPrint("temp[] index %d is: %d \n", w, temp[w]);
+				//}
+				//for ( int e = 0; input_string[e] != 0; ++e )
+				//{
+				//	LogPrint("input_string[] index %d is: %d \n", e, input_string[e]);
+				//}
+				//bool m = std::matchstring(temp, input_string);
+				//LogPrint("std::matchstring returned %s \n", ( m ? "true" : "false") );
+				//LogPrint("strcmp() returned %d \n", strcmp(temp, input_string));
+				//if ( !strcmp(temp, input_string) )
+				if ( std::matchstring(temp, input_string) )
+				{
+					LogPrint("Matched string: %s \n", temp);
+					//a match, so, we check the ID based on count
+					int id = data[count*warp+spID];
+					return id; //known[id];
+				}
+				//wipe the temp string
+				for ( int q = 0; q < 256; ++q ) temp[q] = 0;
+				//reset the position
+				temp_pos = 0;
+			}
+		}
+		
+	}
+	void listall()
+	{
+		LogPrint("All spells string: %s \n", the_strings);
+	}
+	void draw(int columns, int rows, int spacing_x, int spacing_y, int font, dqcolours colour)
+	{
+		//current = <spelltype>2;
+		//LogPrint("spell strings entirety is: %s \n", the_strings);
+		//columns, rows
+		//do these here, to wipe the bitmap each time the cursor changes!
+		bitty->Rectangle(0, 0, 0, bitty->Width-1, bitty->Height-1, 0x4F, -1, 0,0,0,true,128);
+		bitty->Rectangle(0, 1, 1, bitty->Width-2, bitty->Height-2, 0x01, -1, 0,0,0,true,128);
+		bitty->Rectangle(0, 2, 2, bitty->Width-3, bitty->Height-3, 0x4F, -1, 0,0,0,true,128);
+		int x, y;
+		x = 2+cursorWidth;
+		y = 3;
+		int pos;
+		for ( int q = 0; q < rows; ++q )
+		{
+			x = 2+cursorWidth;
+			for ( int w = 0; w < columns; ++w )
+			{
+				int tempstr[64]; int dest_pos;
+				for ( dest_pos = 0; (the_strings[pos] != ' ' && the_strings[pos] != '!' 
+					&& the_strings[pos] != 0); ++dest_pos )
+				{
+					tempstr[dest_pos] = the_strings[pos];
+					++pos;
+				}
+				++pos; //skip over the next space!
+				if ( spells.refresh )
+				{
+					int known = know(tempstr);
+					LogPrint("known id: %d \n", known);
+					displayOrder[q*rows+w] = known; //This is the order of the menu.
+				}
+				
+				//LogPrint("spells.draw(), single string is %s \n", tempstr);
+				if ( spells.known[displayOrder[q*rows+w]])
+				{
+					bitty->DrawString(0, x, y, font, colour, -1, 0, tempstr, 128);
+				}
+				x += spacing_x+cursorWidth;
+			}
+			y += spacing_y;
+		}
+		spells.refresh = 0;
+		//draw cursor
+		int cursor_x, cursor_y;
+		int cursor_column, cursor_row;
+	
+		cursor_column = ( selected % (columns) );
+		cursor_row = ((selected/columns)<<0);
+		//TODO: Error-Check with different combinations of columns and rows!
+		
+		cursor_x = 4 + (cursor_column * spacing_x);
+		cursor_y = (cursor_row * spacing_y) + 1;
+		//LogPrint("Current Cursor Column: %d \n", cursor_column);
+		//LogPrint("Current Cursor Row: %d \n", cursor_row);
+		
+		int cursorTile = (Game->Misc[cursor_tile] << 0);
+		int cursorCSet = ( Game->Misc[cursor_tile] -  (Game->Misc[cursor_tile] << 0) ) * 10000; //decimal portion
+		
+		bitty->FastTile(0, cursor_x, cursor_y, cursorTile, cursorCSet, 128);
+		bitty->Blit(6, -2, 0, 0, bitty->Width, bitty->Height,/*align to right edge of screen*/ (255-(bitty->Width)) ,
+			-56+1, bitty->Width, bitty->Height, 0,0,0,0,0,false); 
+	
+		
+		
+	}
+	
+	void select(int max, int columns)
+	{
+		if (!game.drawspells) return;
+		if ( Hero->PressRight ) 
+		{
+			Hero->PressRight = false;
+			selected = (( selected < (max-1) ) ? ( selected+1 ) : 0);
+		}
+		if ( Hero->PressLeft ) 
+		{
+			Hero->PressLeft = false;
+			selected = (( selected > 0 ) ? ( selected-1 ) : max);
+		}
+		if ( Hero->PressUp ) 
+		{
+			Hero->PressUp = false;
+			selected -= (( selected > 0 ) ? ( (columns) ) : max);
+			
+		}
+		if ( Hero->PressDown ) 
+		{
+			Hero->PressDown = false;
+			selected += (( selected < (max-1) ) ? ( columns ) : 0);
+		}
+		if ( Hero->PressB ) 
+		{ 
+			spelltype the_spell = getspell(selected);
+			if ( known[the_spell] )
+			{
+				if(( Hero->MP ) >= getcost(selected) )
+				{
+					Audio->PlaySound(getsound(selected));
+					cast(the_spell, geteffect(selected)); game.drawspells = 0; 
+				}
+			}
+		}
+		if ( Hero->PressA || Hero->PressEx1 || Hero->PressEx2 || Hero->PressEx3 || Hero->PressEx4 || Hero->PressR || Hero->PressL ) 
+		{
+			game.drawspells = 0;
+		}
+	}
+	
+	spelltype getspell(int index)
+	{
+		//LogPrint("Spell ID should be: %d \n", data[index*warp+spID]);
+		///int cost = getcost(index);
+		//int effect = geteffect(index);
+		//int sfx = getsound(index);
+		return <spelltype> data[index*warp+spID];
+		//hardcoded nonsense for now. We need to store the spell ID in the strings.
+		//switch(index) 
+		//{
+		//	case 0: return heal;
+		//	case 1: return hurt;
+		//	case 2: return fire;
+		//	case 3: return light;
+		//	default: return heal;
+		//}
+		
+	}
+	
+	int getcost(int index)
+	{
+		//enum{ spStr, spCost, spEffect, spDuration, spID, spLast };
+		LogPrint("Spell Cost should be: %d \n", data[index*warp+spCost]);
+		return data[index*warp+spCost];
+		
+	}
+	int geteffect(int index)
+	{
+		LogPrint("Spell Effect should be: %d \n", data[index*warp+spEffect]);
+		return data[index*warp+spEffect];
+	}
+	int getsound(int index)
+	{
+		LogPrint("Spell SFX should be: %d \n", data[index*warp+spSFX]);
+		return data[index*warp+spSFX];
+		
+	}
+	
+	bool cancast(int index)
+	{
+		int cost = getcost(index);
+		int effect = geteffect(index);
+		
+		
+	}
+	
+	void cast(spelltype spell, int spell_visuals)
+	{
+		
+		switch(spell)
+		{
+			case heal: LogPrint("Casting spell: %s \n", "Heal"); break;
+			case hurt: LogPrint("Casting spell: %s \n", "Hurt"); break;
+			case light: LogPrint("Casting spell: %s \n", "Light"); break;
+			case fire: LogPrint("Casting spell: %s \n", "Fire"); break;
+			case firemore:LogPrint("Casting spell: %s \n", "Firemore");  break;
+			case healmore: LogPrint("Casting spell: %s \n", "Heamorel"); break;
+			case hurtmore: LogPrint("Casting spell: %s \n", "Hurtmore"); break;
+			case healmost: LogPrint("Casting spell: %s \n", "Healmost"); break;
+			case firemost: LogPrint("Casting spell: %s \n", "Firemost");  break;
+			case hurtmost: LogPrint("Casting spell: %s \n", "Hurtmost");  break;
+			case warp: LogPrint("Casting spell: %s \n", "Warp"); break;
+			
+			default: LogPrint("Casting spell: %s \n", "WTF"); break;
+			
+		}
+		
+	}
+	//6,7,8,9,10
+	void init(int first_str, int columns, int rows, int height, int width) //stores the string ID, the cost, and the effect for each spell, using ths string editor
+	//string format is: 
+	//name 000 @effect
+	//example: 
+	//blaze 8 @flash
+	
+	//needs to become id, name cost, effect, sound
+	{
+		if ( !first_str ) return; //Abort if pointing at NULL.
+		//Get the first string, and read in sequence, each 'next strick', pushing each to the stack.
+		//stack[0] will be the total count, stack[1] and above will be the string IDs. 
+		stack[1] = first_str; ++stack[0]; int nx;
+		messagedata the_message = Game->LoadMessageData(first_str);
+		//
+		while(the_message->Next)
+		{
+			++stack[0];
+			nx = the_message->Next;
+			LogPrint("Next String in sequence is: %d \n", nx);
+			stack[stack[0]] = nx;
+			
+			the_message = Game->LoadMessageData(nx);
+		}
+			
+		
+		///need to store spell IDs by string matching
+		bitty = Game->CreateBitmap(height,width);
+		
+		display[dispColumn] = columns; //used when we draw them.
+		display[dispRow] = rows;
+		int dest_str_pos;
+		int sz = SizeOfArray(data);
+		LogPrint("array spells.data[] is size %d \n", sz);
+		//string format SPELLNAME 000 @effects
+		//example: hurtmore, 4 @2
+		int count = stack[0];
+		LogPrint("Strings count is: %d \n", count);
+		int last_str = stack[count];
+		LogPrint("Last String is: %d \n", last_str);
+		int max = ( ( ( last_str - first_str ) + 1 )  < spLast ) ? (( last_str - first_str ) + 1) : spLast;
+		for ( int q = 1; q < count; ++q ) //the max number of strings to process
+		{
+			LogPrint("Proceesing string: %d \n", stack[q]);
+			int chr[256];
+			int sp_str[64];
+			int the_id[16];
+			int the_sound[16];
+			data[q*warp+spStr] = stack[q]; //first_str is also the current string that we are reading
+			Game->GetMessage(stack[q], chr); //No longer need they be sequential.
+			//strip trailing spaces
+			int w;
+			for ( w = 255; chr[w] != ' ' && chr[w] != 0; --w )
+			{
+				chr[w] = 0; //clear trailing spaces
+			}			
+			
+			int id_pos;
+			//slow, but fuck it
+			int m;
+			int sound_pos;
+			int n;
+			do
+			{
+				++m;
+			}until(chr[m] == '!' || chr[m] == 0);
+			LogPrint("spell_id found delim '!' at pos: %d \n", m);
+			for ( ; chr[m] != 0; ++m )
+			{
+				//if(chr[m] != '!') continue;
+				if(isNumber(chr[m]))
+				{
+					
+					the_id[id_pos] = chr[m];
+					++id_pos;
+				}
+				if ( chr[m] == '*' ) break;
+			}
+			LogPrint("Spell id is: %s \n", the_id);
+			data[q*warp+spID] = atoi(the_id);
+			
+			
+			do
+			{
+				++n;
+			}until(chr[n] == '*' || chr[n] == 0);
+			LogPrint("spell_sound found delim '*' at pos: %d \n", n);
+			for ( ; chr[n] != 0; ++n )
+			{
+				//if(chr[m] != '!') continue;
+				if(isNumber(chr[n]))
+				{
+					
+					the_sound[sound_pos] = chr[n];
+					++sound_pos;
+				}
+			}
+			
+			LogPrint("Spell sound is: %s \n", the_sound);
+			data[q*warp+spSFX] = atoi(the_sound);
+			
+			
+			LogPrint("Spell String is: %s \n", chr);
+			int a = 0;
+			for ( a = 0; (chr[a] != 0 && chr[a] != '@' && !isNumber(chr[a])); ++a )
+			{
+				sp_str[a] = chr[a];
+			}
+			LogPrint("Spell String Section is: %s \n", sp_str);
+			int b = 0;
+			for ( b = 0; (sp_str[b] != 0); ++b )
+			{
+				the_strings[dest_str_pos] = sp_str[b];
+				++dest_str_pos;
+			}
+			
+			
+			the_strings[dest_str_pos] = '!'; //so that we don't end in a termination early.
+			LogPrint("GLobal Spell String is: %s \n", the_strings);
+			
+				
+				int the_cost[5];
+				int the_effect[10];
+				//int effect[3];
+				int effect_buf[16];
+			
+			//get only the cost.
+			int pos; bool eff;
+			for ( w = 0; chr[w] != 0; ++w )
+			{
+				if ( chr[w] == '@' && !eff ) { pos = 0; eff = true; LogPrint("Encountered Delim %s. \n", "@"); }
+				
+				if ( !eff && !isNumber(chr[w]) && chr[w] != 0 ) continue;
+				if ( chr[w] == 0 ) break;
+				
+				if ( !eff ) the_cost[pos] = chr[w];
+				
+				else 
+				{ 
+					if ( pos < 16 )
+						effect_buf[pos] = chr[w]; 
+				}
+				++pos;
+
+			}
+			effect_buf[15] = 0;
+			for ( int r = 15; r >= 0; --r ) 
+			{
+				if ( !isNumber(effect_buf[r]) ) effect_buf[r] = 0;
+				else break;
+			}
+			LogPrint("Spell Cost is: %s \n", the_cost);
+			data[q*warp+spCost] = atoi(the_cost);
+			//get the effect
+			
+			//pos = 0;
+			//do
+			//{
+			//	++w;
+			//} until(chr[w] == '@' || chr[w] == 0);
+			//for ( ; chr[w] != 0; ++w ) the_effect[pos] = chr[w];
+			//pos = 0;
+			//for ( ; chr[w] != 0; ++w )
+			//{
+				
+				//if ( chr[w] == '@' ) continue;
+				//if ( chr[w] == 0 ) break;
+			//	the_effect[pos] = chr[w];
+				
+			//}
+			//int aa[2]; aa[1] = 
+			LogPrint("Spell Effect is: %s \n", effect_buf);
+			switch(effect_buf[1])
+			{
+				case 'n': 
+				case 'N': LogPrint("Storing spell type %s \n", "none"); data[q*warp+spEffect] = FXnone; break;
+				case 'f':
+				case 'F': LogPrint("Storing spell type %s \n", "flash");  data[q*warp+spEffect] = FXflash; break;
+				default: break;
+			}
+			
+			//String literal errors, and possible issue with strcmp() -Z
+			//int none="@none";
+			//int flash= "@flash";
+			//Trace((strcmp(effect_buf,flash)));
+			//if ( !(strcmp(effect_buf,none)) ) { LogPrint("Storing spell type %s \n", "none"); data[q*warp+spEffect] = FXnone; }
+			//if ( !strcmp(effect_buf,flash) ) { LogPrint("Storing spell type %s \n", "flash");  data[q*warp+spEffect] = FXflash; }
+			
+			
+		}
+		//Draw to the bitmnap here?
+		int name[256];
+		
+		the_strings[SizeOfArray(the_strings)-1] = 0; //add final terminator.
+		
+		
+	}
+}
+
+STRUCT script vital
+{
+	enum { level, hp, mp, gold, exp, str, dex, wis, con, cha, mind, soul, luck, last };
+	int stat[last];
+	void set(int statid, int v)
+	{
+		stat[statid] = v;
+	}
+	void reduce(int statid)
+	{
+		--stat[statid];
+	}
+	void reduce(int statid, int v)
+	{
+		stat[statid]-=v;
+	}
+	void increase(int statid)
+	{
+		++stat[statid];
+	}
+	void increase(int statid, int v)
+	{
+		stat[statid]+=v;
+	}
+	float get(int statid)
+	{
+		return stat[statid];
+	}
+	void set(int ptr)
+	{
+		if ( SizeOfArray(ptr) != last )
+		{
+			LogPrint("Array passed to stats.set(*ptr) is the wrong size [ %d", SizeOfArray(ptr));
+			LogPrint(" ]. \n You must use an array sized to [ %d", last);
+			LogPrint(" ] %s \n", "for this function.");
+			return;
+		}
+		for ( int q = 0; q < last; ++q )
+		{
+			stat[q] = ptr[q];
+		}
+		
+	}
+	void init(int ptr) { set(ptr); } 
+	
+}
+
+STRUCT script menu
+{
+	enum { selection, last = 64 };
+	const int DATA_LAST = 64;
+	menutype current;
+	
+	int data[last];
+}
+
+/*
+	
+void Blit	( int layer, 
+			bitmap target, 
+			int source_x, int source_y, int source_w, int source_h, 
+			int dest_x, int dest_y, int dest_w, int dest_h, 
+			float rotation, int cx, int cy, int mode, int lit,  bool mask);
+			
+ * BLITS THE BITMAP ON POINTER 'b' TO A TARGET BITMAP. 
+ * As DrawBitmapEx(), except that it draws FROM an initialised bitmap pointer,
+ * TO a target bitmap, which may be a user-created bitmap, or it may be the screen.
+ * To draw to the screen, or to one of the old system bitmaps, use the RT_* value from std_constants.zh
+ *	as the argument to 'bitmap target'.
+ * To draw to a user created bitmap, pass its pointer to 'bitmap target'.
+*/
+
+STRUCT script xp
+{
+	def maxLevel = 9; //Game->Misc[9]
+	def firstXPstring = 10; //Game->Misc[10];
+	int stack[40];
+	int levels[100];
+	
+	void init(int first_str)
+	{
+		//messagedata md;
+		//LogPrint("setMessages(first,num) data[numOptions] is %d \n", data[numOptions]);
+		if ( !first_str ) return; //Abort if pointing at NULL.
+		//Stores all level strings in character.stack[]
+		stack[1] = first_str; ++stack[0]; int nx; 
+		messagedata the_message = Game->LoadMessageData(first_str);
+		//
+		int str_lvl = 2;
+		//Run for the first level (LV2)...
+		int xp_string[256];
+			int curid = ((<int>the_message)*10000);
+			LogPrint("Current message ID is: %d \n", curid);
+			Game->GetMessage(curid,xp_string); 
+			int val = atoi(xp_string);
+			LogPrint("XP Value is: %d \n", val);
+			levels[str_lvl] = val;
+			++str_lvl;
+		while(the_message->Next)
+		{
+			
+			++stack[0];
+			nx = the_message->Next;
+			LogPrint("Next XP String in sequence is: %d \n", nx);
+			stack[stack[0]] = nx;
+			
+			the_message = Game->LoadMessageData(nx);
+			//now run for each additional level
+			int xp_string[256];
+			int curid = ((<int>the_message)*10000);
+			LogPrint("Current message ID is: %d \n", curid);
+			Game->GetMessage(curid,xp_string); 
+			int val = atoi(xp_string);
+			LogPrint("XP Value is: %d \n", val);
+			levels[str_lvl] = val;
+			++str_lvl;
+		}
+		
+	}
+	void print()
+	{
+		for ( int q = 2; q < Game->Misc[maxLevel]; ++q )
+		{
+			LogPrint("XP Base for Level %d is %d. \n", q, levels[q]);
+		}
+	}
+}
+
+STRUCT script statsmenu
+{
+	enum { valid, x, y, selection, cursor, numOptions, colour, font, font_height, font_width, kerning, background, width, height, messages, curMsg, last };
+
+	def MAX_MESSAGES = 20;
+	def MAX_VALUES = 20;
+	bitmap bitty;
+	def bWidth = 64;
+	def bHeight = 96;
+	def X = 0;
+	def Y = 0;
+	def FONT = FONT_FF;
+	def FONT_H = 16;
+	def FONT_W = 16;
+	def KERN = 4;
+	def BG = 0x0F;
+	def COLOUR = 0x01;
+	int data[last];
+	int values[MAX_VALUES]; //stat values
+	int msg[MAX_MESSAGES]; //menu text lines
+	int stack[256];
+	
+	def statsFirstmessage = 4; //game->Misc[4]
+	void init(int ptr)
+	{
+		bitty = Game->CreateBitmap(bWidth,bHeight);
+		
+		setProperties(ptr);
+	}
+	void init()
+	{
+		bitty = Game->CreateBitmap(bWidth,bHeight);
+		for ( int q = 0; q < vital.last; ++q )
+		{
+			values[q] = vital.stat[q];
+		}
+		//setProperties(ptr);
+	}
+	void draw()
+	{
+		
+		int text_y = 4; int len_x;
+		//LogPrint("current number of options is: %d \n", data[numOptions]);
+		//for ( int q = 0; q < SizeOfArray(msg); ++q )
+		//{
+		//	LogPrint("msg[] %d is %d \n", q, msg[q]);
+		//}			
+		for ( int q = 0; q < data[numOptions]; ++q )
+		{
+			//LogPrint("Current message in draw() is %d \n", msg[q]);
+			//messagedata md = Game->LoadMessageData(msg[q]);
+			int curmsg[256]; int curvalue[10];
+			Game->GetMessage(msg[q], curmsg);
+			//TraceS(curmsg);
+			//md->Get(curmsg);
+			for ( int w = 255; curmsg[w] != ' ' && curmsg[w] != 0; --w )
+			{
+				curmsg[w] = 0; //clear trailing spaces
+			}
+			//LogPrint("values[] %d is %d \n", q, values[q]);
+			itoa(curvalue, values[q]);
+			int spacing[10];
+			spacing[q] = strlen(curvalue); //Chars are variable width. We need a text map of them as an enum. 
+			//for ( int ww = 0; curvalue[ww] != 0; ++ww ) len_x += data[font_width]; //Get numerical text width
+			//LogPrint("Menu message is: %s \n", curmsg);
+			//bitty->Clear(0);
+			bitty->Rectangle(0, 0, 0, bitty->Width-1, bitty->Height-1, 0x4F, -1, 0,0,0,true,128);
+			bitty->Rectangle(0, 1, 1, bitty->Width-2, bitty->Height-2, 0x01, -1, 0,0,0,true,128);
+			bitty->Rectangle(0, 2, 2, bitty->Width-3, bitty->Height-3, 0x4F, -1, 0,0,0,true,128);
+			bitty->DrawString(6,4, text_y, data[font], data[colour], -1, 0, curmsg, 128);
+			//LogPrint("Drawing stats menu text: %s \n", curmsg);
+			bitty->DrawString(6,bitty->Width - 18, text_y, data[font], data[colour], -1, 0, curvalue, 128);
+			//LogPrint("Drawing stats menu text: %s \n", curvalue);
+			text_y += data[font_height] + data[kerning];
+			//wipe itoa buffer
+			for ( int a = 0; a < 10; ++a ) curvalue[a] = 0;
+			
+		}
+		//bitty->Write(6,"statsmenu.png",true);
+		bitty->Blit(6, -2, 0, 0, bitty->Width, bitty->Height, data[x], data[y], bitty->Width, bitty->Height, 0,0,0,((encounter.valid) ? 0 : BITDX_TRANS),0,false); 
+	}
+	void setCurMessage(int m)
+	{
+		//msg[data[curMsg]] = m;
+		//++data[curMsg];
+	}
+	void setMessages(int first_str)
+	{
+		//messagedata md;
+		//LogPrint("setMessages(first,num) data[numOptions] is %d \n", data[numOptions]);
+		if ( !first_str ) return; //Abort if pointing at NULL.
+		//Stores all level strings in character.stack[]
+		stack[1] = first_str; ++stack[0]; int nx;
+		messagedata the_message = Game->LoadMessageData(first_str);
+		//
+		while(the_message->Next)
+		{
+			++stack[0];
+			nx = the_message->Next;
+			LogPrint("Next Stat Display String in sequence is: %d \n", nx);
+			stack[stack[0]] = nx;
+			
+			the_message = Game->LoadMessageData(nx);
+		}
+		int count = stack[0];
+		
+		for ( int q = 0; q < count; ++q )
+		{
+			//md = Game->LoadMessageData(q+first);
+			msg[q] = stack[q+1];
+		}
+	}
+	void set(int p, int v)
+	{
+		if ( p < 0 || p > (last-1) ) 
+		{
+			LogPrint("Invalid menu property [ %d ", p);
+			LogPrint("] passed to set(). Min value is 0, max is %d. \n", last-1);
+			return;
+		}
+		data[p] = v;
+	}
+	void setMessage(int mID, int msg)
+	{
+		if ( mID < 0 || mID > (MAX_MESSAGES-1) ) 
+		{
+			LogPrint("Invalid message index ID [ %d ", mID);
+			LogPrint("] passed to setMessage. Min index is 0, max is %d. \n", (MAX_MESSAGES-1));
+			return;
+		}
+		msg[mID] = msg;
+	}
+	void extractMessages(int ptr)
+	{
+		if ( SizeOfArray(ptr) != MAX_MESSAGES ) 
+		{
+			LogPrint("Array passed to setMenuProperties() is the wrong size [ %d ", SizeOfArray(ptr));
+			LogPrint("]. \n The array must be a size of [ %d ", last);
+			LogPrint("] %s \n", "Aborting.");
+			return;
+		}
+		for ( int q = 0; q < last; ++q ) 
+		{
+			msg[q] = ptr[q];
+		}
+	}
+	void setProperties(int ptr)
+	{
+		int p = ptr;
+		if ( SizeOfArray(p) != last ) 
+		{
+			LogPrint("Array passed to setMenuProperties() is the wrong size [ %d ", SizeOfArray(p));
+			LogPrint("]. \n The array must be a size of [ %d ", last);
+			LogPrint("] %s \n", "Aborting.");
+			return;
+		}
+		for ( int q = 0; q < last; ++q ) 
+		{
+			data[q] = p[q];
+		}
+		
+	}
+	void setMenuProperties(int m_valid, int m_x, int m_y, int m_selection, int m_numOptions, int m_colour, int m_font, int m_font_height,
+		int m_font_width, int m_kerning,
+		int m_background, int m_width, int m_height, int m_messages, int m_curMsg)
+	{
+		data[valid] = m_valid;
+		data[selection] = m_selection;
+		data[numOptions] = m_numOptions;
+		data[colour] = m_colour;
+		data[font] = m_font;
+		data[font_height] = m_font_height; 
+		data[font_width] = m_font_width; 
+		data[kerning] = m_kerning;
+		data[background] = m_background;
+		data[x] = m_x;
+		data[y] = m_y;
+		data[width] = m_width;
+		data[height] = m_height;
+		data[messages] = m_messages;
+		data[curMsg] = m_curMsg;
+		
+	}
+	
+}
+
+STRUCT script bitmaps
+{
+	bitmap resized; //Used for 3d effects
+	bitmap scrn; //used to draw the screen
+	bitmap blanktile;
+	
+	//Map bitmaps.
+	bitmap fullmap; //the current, full map
+	bitmap fullmap_solid; //solidity of the current map
+	bitmap fullmap_type; //combo types on the current map
+	bitmap fullmap_flag; //combo flags on the current map
+	bitmap fullmap_iflag; //combo inh. flags on the current map
+	
+	//OVERSCAN bitmaps. These have a generic border, used for Out of Bounds.
+	bitmap overscan;
+	bitmap overscan_solid;
+	bitmap overscan_type;
+	bitmap overscan_flag;
+	bitmap overscan_iflag;
+	bitmap border;
+	
+	//Sprite bitmaps. 
+	bitmap herosprite; //Used to draw the player sprite.
+	bitmap heroBUF; //Used as a buffer for the player sprite. 
+	bitmap enemyQuad;
+	bitmap enemyBUF;
+	bitmap enemyText;
+	
+	void Clear()
+	{
+		resized->Clear(0);	
+		scrn->Clear(0);	
+		blanktile->Clear(0);
+		fullmap->Clear(0);	
+		fullmap_solid->Clear(0);	
+		fullmap_type->Clear(0);	
+		fullmap_flag->Clear(0);	
+		fullmap_iflag->Clear(0);	
+		overscan->Clear(0);	
+		overscan_solid->Clear(0);	
+		overscan_type->Clear(0);	
+		overscan_flag->Clear(0);	
+		overscan_iflag->Clear(0);	
+		border->Clear(0);	
+		herosprite->Clear(0);	
+		heroBUF->Clear(0);
+		enemyQuad->Clear(0);
+		enemyBUF->Clear(0);
+		enemyText->Clear(0);
+	}
+	void Init()
+	{
+		resized = Game->CreateBitmap(256, 256);
+		scrn = Game->CreateBitmap(256, 256);
+		blanktile = Game->CreateBitmap(16,16);
+		
+		fullmap = Game->CreateBitmap(256*16, 176*8);
+		fullmap_solid = Game->CreateBitmap(256*16, 176*8);
+		fullmap_type = Game->CreateBitmap(256*16, 176*8);
+		fullmap_flag = Game->CreateBitmap(256*16, 176*8);
+		fullmap_iflag = Game->CreateBitmap(256*16, 176*8);
+		
+		overscan = Game->CreateBitmap(256*18, 176*10);
+		overscan_solid  = Game->CreateBitmap(256*18, 176*10);
+		overscan_type = Game->CreateBitmap(256*18, 176*10);	
+		overscan_flag = Game->CreateBitmap(256*18, 176*10);	
+		overscan_iflag = Game->CreateBitmap(256*18, 176*10);
+		border = Game->CreateBitmap(256, 176);
+		
+		herosprite = Game->CreateBitmap(16,16);
+		heroBUF = Game->CreateBitmap(16,16);
+		
+		enemyQuad = Game->CreateBitmap(128,96);
+		enemyBUF = Game->CreateBitmap(128,96);
+		enemyText = Game->CreateBitmap(16,16);
+	}
+	void Save()
+	{
+		resized->Write(0,"sb_resized.png", true);
+		scrn->Write(0,"sb_scrn.png", true);
+		
+		fullmap->Write(0,"sb_fullmap.png", true);
+		fullmap_solid->Write(0,"sb_fullmap_solid.png", true);
+		fullmap_type->Write(0,"sb_fullmap_type.png", true);
+		fullmap_flag->Write(0,"sb_fullmap_flag.png", true);
+		fullmap_iflag->Write(0,"sb_fullmap_iflag.png", true);
+		
+		overscan->Write(0,"sb_OSCfullmap.png", true);
+		overscan_solid->Write(0,"sb_OSCfullmap_solid.png", true);
+		overscan_type->Write(0,"sb_OSCfullmap_type.png", true);
+		overscan_flag->Write(1,"sb_OSCfullmap_flag.png", true);
+		overscan_iflag->Write(0,"sb_OSCfullmap_iflag.png", true);
+		border->Write(0,"sb_border.png", true);
+		
+		herosprite->Write(0,"sb_herosprite.png", true);
+		heroBUF->Write(0,"sb_heroBUF.png", true);
+	}
+	
+}
+
+STRUCT script mapInfo
+{
+	int enemiesInitialised[128];
+	//Dragon Quest
+	def blankMap = 0; //Game->Misc[0]
+	def blankScreen = 1; //Game->Misc[1]; 
+
+	int curMap;
+	int curScreen;
+	bool canScroll = true;
+	int ScreenAt(int x, int y)
+	{
+		y -= Hero->Y+56; //Centre on the player. 
+		x -= Hero->X;
+		int scr, sc_x, sc_y;
+		//Trace(x); Trace(y);
+		for ( int q = 256; q < x; q += 256 ) 
+		{
+			++sc_x;
+			//Trace(sc_x);
+		}
+		for ( int q = 176; q < y; q += 176 ) 
+		{
+			++sc_y;
+			//Trace(sc_y);
+		}
+		scr = sc_y * 16;
+		scr += sc_x;
+	
+		return scr;
+	}
+	int getEnemy()
+	{
+		if ( !mapInfo.curMap ) return 0; 
+		mapdata md = Game->LoadMapData(mapInfo.curMap, mapInfo.curScreen);
+		int ids[10]; int id = 0; int temp;
+		for ( int q = 0; q < 10; ++q ) 
+		{
+			ids[q] = md->Enemy[q];
+			if ( ids[q] ) temp = ids[q];
+		}
+		if ( !temp ) return 0; //no enemies on this virtual screen, so return early.
+		//Get a valid ID of an enemy and return it at random.
+		do
+		{
+			id = ids[Rand(10)];
+		} until(id);
+		
+		return id;
+	}
+	int getEnemyIndex(int id)
+	{
+		if ( !mapInfo.curMap ) return 0; 
+		mapdata md = Game->LoadMapData(mapInfo.curMap, mapInfo.curScreen);
+		//LogPrint("Current Virtual Map is %d \n", mapInfo.curMap);
+		//LogPrint("Current Virtual Screen is %d \n", mapInfo.curScreen);
+		//LogPrint("Current Virtual Screen Enemy is %d \n", md->Enemy[id]);
+		
+		return md->Enemy[id];
+	}
+	//Get information about combos on the maps. 
+	bool comboS(int xpos, int ypos)
+	{
+		//return (Graphics->GetPixel(bitmaps.overscan_solid,xpos+Hero->X + 8, ypos+Hero->Y+56+8));
+		//return bitmaps.overscan_solid->GetPixel(0,xpos+Hero->X + 8, ypos+Hero->Y+56+8);
+		//return bitmaps.overscan_solid->GetPixel(0,xpos+Hero->X + 8, ypos+Hero->Y+56+8);
+	}
+	//int getComboSolidity()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_solid,xpos+Hero->X + 8, ypos+Hero->Y+56+8)*10000);
+	//}
+	int comboT(int xpos, int ypos)
+	{
+		return (Graphics->GetPixel(bitmaps.overscan_type,xpos+Hero->X + 8, ypos+Hero->Y+56+8) * 10000);
+	}
+	int comboF(int xpos, int ypos)
+	{
+		//return (Graphics->GetPixel(bitmaps.overscan_flag,xpos+Hero->X + 8, ypos+Hero->Y+56+8) * 10000);
+		return (Graphics->GetPixel(bitmaps.overscan_flag,xpos, ypos) * 10000);
+	}
+	int comboI(int xpos, int ypos)
+	{
+		return (Graphics->GetPixel(bitmaps.overscan_iflag,xpos+Hero->X + 8, ypos+Hero->Y+56+8) * 10000);
+	}
+	int checkSpawnFlags()
+	{
+		
+		npc the_enemy;
+		mapdata md = Game->LoadMapData(mapInfo.curMap, mapInfo.curScreen);
+		
+		if (!(mapInfo.enemiesInitialised[mapInfo.curScreen]))
+		{
+			for ( int q = 0; q < 256; q+= 16)
+			{
+				for ( int w = 0; w < 176; w+= 16)
+				{
+					int f =  (Graphics->GetPixel(bitmaps.overscan_flag,scroll.xPos+q, scroll.yPos+w) * 10000);
+					if ( f >= CF_ENEMY0 && f <= CF_ENEMY9 )
+					{
+						LogPrint("Found Spawn Flag %d at x: %d, y: %d \n", f, q, w);
+						int id = getEnemyIndex(f-CF_ENEMY0);
+						the_enemy = Screen->CreateNPC(id);
+						the_enemy->X = q;
+						the_enemy->Y = w-56;
+					}
+				}
+			}
+			mapInfo.enemiesInitialised[mapInfo.curScreen] = 1;
+		}
+		
+	}
+	int checkSpawnFlags(int xpos, int ypos)
+	{
+		npc the_enemy;
+		mapdata md = Game->LoadMapData(mapInfo.curMap, mapInfo.curScreen);
+		for ( int q = 0; q < 176; ++q ) 
+		{
+			int f = md->ComboF[q];
+			if ( md->ComboF[q] >= CF_ENEMY0 && md->ComboF[q] <= CF_ENEMY9 )
+			{
+				the_enemy = Screen->CreateNPC(md->Enemy[md->ComboF[q]-CF_ENEMY0]);
+				the_enemy->X = ComboX(q); the_enemy->Y = ComboY(q); 
+				md->ComboF[q] = 0;
+			}
+			
+		}
+		
+		
+	}
+}
+
+itemsprite script items
+{
+	void run(){}
+	void scroll(item l, int x, int y, int xPos, int yPos)
+	{
+		l->X +=  x * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		l->Y +=  y * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+	}
+}
+
+//enemy that appears on scrolling draws.
+npc script enemy
+{
+	int count;
+	def REL_X = 16; //->Misc
+	def REL_Y = 17;
+	int jj;
+	void updateCount()
+	{
+		count = Screen->NumNPCs();
+	}
+	void run()
+	{
+		//this->Misc[REL_X] = this->X; //Update every game.frame, and blit the sprite based on this.
+		//this->Misc[REL_Y] = this->Y;
+		bitmap bitty = bitmaps.enemyText;
+		
+		bitty->Create(0, this->TileWidth*16, this->TileHeight*16);
+		bitty->Clear(0);
+		Trace(bitty);
+		//bitmaps.enemyBUF->Create(0,this->TileWidth,this->TileHeight);
+		while(this->isValid())
+		{
+			//bitmaps.enemyText->Clear(6);
+			//bitmaps.enemyText->DrawTile(6, 0,0,this->OriginalTile, this->TileWidth, this->TileHeight,
+			//	this->CSet, 0, 0, 0, 0, 0, /*this->Flip*/ 0, false, 128);
+			//bitmaps.enemyText->DrawTile(0, 0,0,/*this->OriginalTile*/ 473, 1, 1,
+			//	this->CSet, 0, 0, 0, 0, 0, /*this->Flip*/ 0, true, 128);
+			//bitty->FastTile(0, 0, 0, this->Tile, this->CSet, 128);
+			//LogPrint("Drawing %d tile to enemyBUF. \n", this->Tile);
+			//bitmaps.enemyText->Write(6, "enemtext.png", true);
+			Waitframe();
+		}
+		
+		
+		
+	}	
+	void scroll(npc l, int x, int y, int xPos, int yPos)
+	{
+		int new_x, new_y;
+		new_x = l->X +  x * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		new_y = l->Y +  y * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		
+		
+		l->X = new_x;
+		l->Y = new_y;
+		//if ( new_x < 0 || new_x > 240 ) l->DrawXOffset = -32768;
+		//else l->DrawXOffset = 0;
+		//if ( new_y < 0 || new_y > 160 ) l->DrawYOffset = -32768;
+		
+		//else l->DrawXOffset = 0;
+		/*
+		int new_x = l->X +  x * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		int new_y = l->Y +  y * ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		l->X = new_x;
+		l->Y = new_y;
+		*/
+		//if ( !mapInfo.comboS(new_x,l->X) ) l->X = new_x;
+		//if ( !mapInfo.comboS(l->X,new_y) ) l->Y = new_y;
+			
+		/*
+		x *= ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		y *= ( ( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+		
+		if (!(Graphics->GetPixel(bitmaps.overscan_solid,xPos+x, yPos+y)))
+		{
+			l->X += x;
+			l->Y += y;
+		}
+		*/
+		
+		
+		
+	}
+	
+	void draw(npc n)
+	{
+		//LogPrint("n->Misc[REL_X] is %d \n", n->Misc[REL_X]);
+		//LogPrint("n->Misc[REL_Y] is %d \n", n->Misc[REL_Y]);
+		//bitmaps.enemyText->Blit(6, bitmaps.scrn, 0,0, bitmaps.enemyText->Width, bitmaps.enemyText->Height,
+			//n->Misc[REL_X], 
+			//n->Misc[REL_Y], 
+			//100,100,
+			//n->X, n->Y,
+			//bitmaps.enemyText->Width, bitmaps.enemyText->Height, 0,0,0,0,0, true);
+			//if ( !jj )
+			//{
+			//	++jj;
+			//	bitmaps.enemyText->Write(6, "enem.png", true);
+			//}
+		
+	}
+}
+
+STRUCT script encounter
+{
+	int terrain_type; int valid;
+	npcdata enemies[8];
+	enum { terFIELD, terFOREST, terHILL, terSWAMP, terDUNGEON, terVILL, terCASTLE, terDARK, terLAST };
+	//relativity to the Hero
+	
+	bool init(int xpos, int ypos) //xpos and ypos are the current bitmap coordinates
+	{
+		terrain_type = mapInfo.comboI(xpos,ypos); //Inh flag for terrain type.
+		//We will use this for backgrounds on the enemy quads. 
+		mapInfo.curScreen = mapInfo.ScreenAt(xpos,ypos);
+		int enem_id = mapInfo.getEnemy();
+		if ( !enem_id ) return false;
+		//start the encounter here.
+		valid = enem_id;
+		mapInfo.canScroll = false;
+		
+		//Mock encounter
+		LogPrint("Mock Encounter got an enemy ID of %d \n", enem_id);
+		return true;
+		
+	}
+	void draw()
+	{
+		bitmaps.enemyQuad->Clear(0);
+		bitmaps.enemyBUF->Clear(0);
+		switch(terrain_type)
+		{
+			//might need to load a palette, too?
+			case terFIELD: bitmaps.enemyBUF->Read(0, "dq_terr_field.png"); break;
+			case terFOREST: bitmaps.enemyBUF->Read(0, "dq_terr_forest.png"); break;
+			case terHILL: bitmaps.enemyBUF->Read(0, "dq_terr_hill.png"); break;
+			case terSWAMP: bitmaps.enemyBUF->Read(0, "dq_terr_swamp.png"); break;
+			case terDUNGEON: bitmaps.enemyBUF->Read(0, "dq_terr_dungeon.png"); break;
+			case terVILL: bitmaps.enemyBUF->Read(0, "dq_terr_towne.png"); break;
+			case terCASTLE: bitmaps.enemyBUF->Read(0, "dq_terr_castle.png"); break;
+			case terDARK: 
+			default: bitmaps.enemyBUF->Read(0, "dq_terr_darkness.png"); break;
+		}
+		
+		
+		bitmaps.enemyBUF->Blit(7, bitmaps.scrn, 0, 0, bitmaps.enemyBUF->Width, bitmaps.enemyBUF->Height, 64, 64, 
+				bitmaps.enemyBUF->Width, bitmaps.enemyBUF->Height,0,0,0,0,0,false);
+	}
+	
+	
+}
+
+global script Init
+{
+	void run()
+	{
+		for ( int q = 0; q < 32; ++q )
+			LogPrint("Game->Misc[ %d is: %f \n", q, Game->Misc[q]);
+		//rpg::data[rpg::VERSION] = RPG_VERSION;
+		//rpg::data[rpg::BETA] = RPG_ISBETA;
+		vital.init({1, 16, 0, 20, 0, rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6), rpg::dice::roll(6) });
+		//for ( int q = 0; q < 13; ++q ) LogPrint("vital.stat[] %d is %d \n", q, vital.stat[q]);
+		//level, hp, mp, gold, exp, str, dex, wis, con, cha, mind, soul, luck, last };
+		//statsmenu.init({1, statsmenu.X, statsmenu.Y, -1, -1, -1, statsmenu.COLOUR, statsmenu.FONT, statsmenu.FONT_H, 
+		//	statsmenu.FONT_W, statsmenu.KERN, statsmenu.BG, statsmenu.bWidth, statsmenu.bHeight, statsmenu.msg, -1});
+		statsmenu.init();
+		statsmenu.setMenuProperties(1, statsmenu.X, -56, -1, 5, statsmenu.COLOUR, statsmenu.FONT, statsmenu.FONT_H,
+			statsmenu.FONT_W, statsmenu.KERN, statsmenu.BG, statsmenu.bWidth, statsmenu.bHeight, statsmenu.msg, -1);
+		
+		statsmenu.setMessages(Game->Misc[statsmenu.statsFirstmessage]);
+		
+		switch(rpg::Beta())
+		{
+			case -1: LogPrint("RPG.zh Status: %s \n", "ALPHA"); break;
+			case 1: LogPrint("RPG.zh Status: %s \n", "BETA"); break;
+			default: LogPrint("RPG.zh Status: %s \n", "RELEASE"); break;
+		}
+		LogPrint("RPG.zh Version: %f \n", rpg::Version());
+	}
+}
+
+//The Init script. We initialise bitmaps here. 
+hero script h_init
+{
+	void run()
+	{
+		//menu::init();
+		bitmaps.Init();
+		//statsmenu.setMessages(1, 5);
+		this->CollDetection = false;
+		spells.init(Game->Misc[spells.stringMin], Game->Misc[spells.windowColumns], 
+			Game->Misc[spells.windowRows], spells.bWidth, spells.bHeight);
+		spells.listall();
+		character.init(Game->Misc[character.lvlStrFirst]);
+		xp.init(Game->Misc[xp.firstXPstring]);
+		xp.print();
+		//(int layer, bitmap dest, int columns, int rows, int spacing_x, int spacing_y, int font, int colour)
+		
+	}
+}
+
+
+STRUCT script game
+{
+	
+	int frame = 0;
+	int drawspells = 1;
+	
+}
+
+STRUCT script character
+{
+	int stats[luck+1]={1};
+	int steps[2]={1,2};
+	int stack[256];
+	
+	void init(int first_str)
+	{
+		if ( !first_str ) return; //Abort if pointing at NULL.
+		//Stores all level strings in character.stack[]
+		stack[1] = first_str; ++stack[0]; int nx;
+		messagedata the_message = Game->LoadMessageData(first_str);
+		//
+		while(the_message->Next)
+		{
+			++stack[0];
+			nx = the_message->Next;
+			LogPrint("Next Level String in sequence is: %d \n", nx);
+			stack[stack[0]] = nx;
+			
+			the_message = Game->LoadMessageData(nx);
+		}
+		
+	}
+	
+	def lvlStrFirst = 7; //Game->Misc[7]
+	void levelup()
+	{
+		//More strings nonsense ahoy.
+		//String format:
+		//minStr + levelId = current string
+		//S1 / 0 : Stats increase? 1 yes, 0 no
+		//M1 / 0 : Magic increases?
+		//H1 / 0 : health increases?
+		//P## : Learn spell IDs
+		//! end of commands
+		//example
+		//S0 M1 H1 S4!
+		//stats do not increase, magic increases, hp increases, learn spell 4
+		
+		int chr[256];
+		int lvl = stats[level];
+		LogPrint("Level is %d \n", lvl);
+		Game->GetMessage(stack[lvl], chr);
+		LogPrint("Level String Contents: %s \n", chr);
+		
+		int changes[4];
+		int the_number[16];
+		
+		int pos; int changetype;
+		for ( int q = 0; (chr[q] != 0 && chr[q] != '!'); ++q )
+		{
+			if ( chr[q] == 'S' || chr[q] == 'M' || chr[q] == 'H' || chr[q] == 'P' )
+			{
+				int number_pos;
+				for ( int w = q; (chr[w] != ' ' && chr[w] != 0 && chr[w] != '!'); ++w )
+				{
+					if ( isNumber(chr[w]) )
+					{
+						the_number[number_pos] = chr[w];
+						++number_pos;
+						if ( number_pos > 15 ) break; //Max size, don't overflow.
+					}
+				}
+				changes[changetype] = atoi(the_number);
+				++changetype;
+			}
+		}
+		for ( int q = 0; q < 4; ++q )
+		{
+			LogPrint("Change %d is: %d \n", q, changes[q]);
+		}
+		//INCREASE STATS HERE
+	}
+}
+	
+
+global script active
+{
+	void run()
+	{
+		character.levelup();
+		LogPrint("Clearing %s \n", "mapInfo.enemiesInitialised");
+		std::memset(mapInfo.enemiesInitialised, 0, std::sizeof(mapInfo.enemiesInitialised));
+		spells.refresh = 1; //do this on lev el up, too
+		while(1)
+		{
+			++game.frame;
+			Waitframe();
+		}
+	}
+}
+			
+npc script walking
+{
+	/* SUGGESTED VALUES
+
+		Random rate: 120
+		Halt Rate: 64
+		Step Speed: 1
+		Args <d3, Duration of Halt>: 40
+	*/
+	int comboT(npc T)
+	{
+		return (Graphics->GetPixel(bitmaps.overscan_type,scroll.xPos+T->X + (T->TileWidth*0.5), scroll.yPos+T->Y+56+(T->TileHeight*0.5)) * 10000);
+	}
+	void run(bool constantwalk, bool ignoreSlowWalk, int haltFrames) //.d0, the cooldown time between moves
+	{
+		const int HALT_FRAMES = 32;
+		haltFrames = ( haltFrames > 0 ) ? haltFrames : HALT_FRAMES;
+		int f;
+		this->Dir = Rand(4); 
+		int dirclk = this->Rate;
+		
+		int curx, cury, stuckclk; //used to check if we are stuck.
+		curx = this->X; cury = this->Y; 
+		
+		int randomclk = this->Rate;
+		int haltclk = this->Haltrate;
+		int curstep = this->Step;
+		
+		while(this->isValid())
+		{
+			++f;
+			//logic
+			if (comboT(this) == CT_SLOWWALK && !ignoreSlowWalk)
+			{
+				curstep = ( (f&1) ) ? curstep : 0;
+			}
+			else curstep = this->Step;
+			//move
+			//halt for a bit if not constantwalk
+			//check if it is time to change direction
+			//if it is, then we do a coinflip. heads, change, tails, do not change, reset the clk (random)
+			
+			if ( randomclk > 0 ) 
+			{
+				--randomclk;
+			}
+			else
+			{
+				//change direction.
+				this->Dir = Rand(4);
+				randomclk = this->Rate;
+			}
+			if ( haltclk > 0 ) 
+			{
+				--haltclk;
+				//LogPrint("NPC Can Walk? %s \n", (npcs::canWalk(this, curstep, this->Dir)) ? "true" : "false!");
+				if (npcs::canWalk(this, curstep, this->Dir))
+				{
+					switch(this->Dir)
+					{
+						case DIR_UP: this->Y -= curstep; break;
+						case DIR_DOWN: this->Y += curstep; break;
+						case DIR_LEFT: this->X -= curstep; break;
+						case DIR_RIGHT: this->X += curstep; break;
+					}
+				}
+				else //change dir
+				{
+					//LogPrint("npc %d could not move \n", <int>this);
+					int validDirs[3];
+					switch(this->Dir)
+					{
+						case DIR_UP:
+						{
+							validDirs[0] = DIR_DOWN;
+							validDirs[1] = DIR_LEFT;
+							validDirs[2] = DIR_RIGHT;
+							break;
+						}
+						case DIR_LEFT:
+						{
+							validDirs[0] = DIR_DOWN;
+							validDirs[1] = DIR_UP;
+							validDirs[2] = DIR_RIGHT;
+							break;
+						}
+						case DIR_DOWN:
+						{
+							validDirs[0] = DIR_LEFT;
+							validDirs[1] = DIR_UP;
+							validDirs[2] = DIR_RIGHT;
+							break;
+						}
+						case DIR_RIGHT:
+						{
+							validDirs[0] = DIR_LEFT;
+							validDirs[1] = DIR_UP;
+							validDirs[2] = DIR_DOWN;
+							break;
+						}
+						default: break;
+					}
+					//change direction
+					this->Dir = validDirs[Rand(3)];
+				}
+				
+			}
+			else
+			{
+				int halfwaypoint = haltFrames*0.5;
+				for ( int q = 0; q < haltFrames; ++q ) 
+				{
+					if ( q == halfwaypoint ) this->Attack();
+					Waitframe();
+				}
+				haltclk = this->Haltrate;
+			}
+			Waitframe();
+		}
+	}
+}
+	
+
+dmapdata script scroll
+{
+	int scrollcountx;
+	int scrollcounty;
+	int lastScrn;
+	int xPos = 256; int yPos = 176; //Positional data starts here. 
+	void run(int screens_wide, int screens_high, int cam_xpos, int cam_ypos) //adjust the scrolling field based on this, rather than on fixed sizes. 
+	{
+		if ( cam_xpos ) xPos = cam_xpos;
+		if ( cam_ypos ) yPos = cam_ypos;
+		mapInfo.curMap = this->Map;
+		mapInfo.curScreen = mapInfo.ScreenAt(xPos,yPos);
+		lastScrn = mapInfo.curScreen;
+		scrollcountx = 0;
+		scrollcounty = 0;
+		// bitmap image1 = Game->AllocateBitmap();
+		// image1->Read(0,"test.png");
+		bitmaps.Clear();
+		bitmaps.border->DrawScreen(0, Game->Misc[mapInfo.blankMap], Game->Misc[mapInfo.blankScreen], 0, 0, 0);
+		
+		
+		//Add OVERSCAN to visible map. 
+		//top strip
+		for ( int q = 0; q < 256*18; q+= 256 )
+		{
+			bitmaps.border->Blit(0, bitmaps.overscan, 0, 0, bitmaps.border->Width, bitmaps.border->Height, q, 0, 
+			bitmaps.border->Width, bitmaps.border->Height,0,0,0,0,0,false);
+		}
+		//left side
+		for ( int q = 0; q < 176*10; q+=176 )
+		{
+			
+			bitmaps.border->Blit(0, bitmaps.overscan, 0, 0, bitmaps.border->Width, bitmaps.border->Height, 0, q, 
+			bitmaps.border->Width, bitmaps.border->Height,0,0,0,0,0,false);
+		}
+		//right side
+		for ( int q = 0; q < 176*10; q+=176 )
+		{
+			
+			bitmaps.border->Blit(0, bitmaps.overscan, 0, 0, bitmaps.border->Width, bitmaps.border->Height, 256*17, q, 
+			bitmaps.border->Width, bitmaps.border->Height,0,0,0,0,0,false);
+		}
+		//bottom strip
+		for ( int q = 0; q < 256*18; q+=256 )
+		{
+			
+			bitmaps.border->Blit(0, bitmaps.overscan, 0, 0, bitmaps.border->Width, bitmaps.border->Height, q, 176*9, 
+			bitmaps.border->Width, bitmaps.border->Height,0,0,0,0,0,false);
+		}
+		
+		
+		//TraceS("Bitmap Solidity Pointer is: \n"); Trace(bitmaps.fullmap_solid);
+		
+		
+		//draw screens to large map bitmap
+		for(int i=0; i<128; i++)
+		{
+			bitmaps.fullmap->DrawScreen(0, 1, i, (i%16)*256, Floor(i/16)*176, 0);
+		}
+		//and draw solidity &c to its counterparts
+		for(int i=0; i<128; i++)
+		{
+			bitmaps.fullmap_solid->DrawScreenSolid(0, 1, i, (i%16)*256, Floor(i/16)*176, 0);
+		}
+		
+		for(int i=0; i<128; i++)
+		{
+			bitmaps.fullmap_type->DrawScreenComboTypes(0, 1, i, (i%16)*256, Floor(i/16)*176, 0);
+		}
+		for(int i=0; i<128; i++)
+		{
+			bitmaps.fullmap_flag->DrawScreenComboFlags(0, 1, i, (i%16)*256, Floor(i/16)*176, 0);
+		}
+		for(int i=0; i<128; i++)
+		{
+			bitmaps.fullmap_iflag->DrawScreenComboIFlags(0, 1, i, (i%16)*256, Floor(i/16)*176, 0);
+		}
+		
+		//copy the large map and its mask counterparts to the OVERSCAN bitmaps
+		bitmaps.fullmap->Blit(0, bitmaps.overscan, 0, 0, bitmaps.fullmap->Width, bitmaps.fullmap->Height, 256, 176, 
+			bitmaps.fullmap->Width, bitmaps.fullmap->Height,0,0,0,0,0,false);
+		
+		bitmaps.fullmap_solid->Blit(0, bitmaps.overscan_solid, 0, 0, bitmaps.fullmap_solid->Width, bitmaps.fullmap_solid->Height, 256, 176, 
+			bitmaps.fullmap_solid->Width, bitmaps.fullmap_solid->Height,0,0,0,0,0,false);
+		
+		
+		bitmaps.fullmap_type->Blit(0, bitmaps.overscan_type, 0, 0, bitmaps.fullmap_type->Width, bitmaps.fullmap_type->Height, 256, 176, 
+			bitmaps.fullmap_type->Width, bitmaps.fullmap_type->Height,0,0,0,0,0,false);
+		
+		bitmaps.fullmap_flag->Blit(0, bitmaps.overscan_flag, 0, 0, bitmaps.fullmap_flag->Width, bitmaps.fullmap_flag->Height, 256, 176, 
+			bitmaps.fullmap_flag->Width, bitmaps.fullmap_flag->Height,0,0,0,0,0,false);
+		
+		bitmaps.fullmap_iflag->Blit(0, bitmaps.overscan_iflag, 0, 0, bitmaps.fullmap_iflag->Width, bitmaps.fullmap_iflag->Height, 256, 176, 
+			bitmaps.fullmap_iflag->Width, bitmaps.fullmap_iflag->Height,0,0,0,0,0,false);
+		//scrn->Rectangle(6, 0, 0, 255, 175, 0x00, 1, 0, 0, 0, true, 128);
+		//scrn->DrawLayer(6, 1, 0x01, 0, 0, 0, 0, 128);
+		
+		bitmap b = Game->CreateBitmap(256, 256);
+		
+		int pPosX, pPosY;
+		
+		//Load initial enemies. 
+		//mapInfo.checkSpawnFlags(xPos, yPos);
+		//mapInfo.checkSpawnFlags();
+		
+		while(1)
+		{
+			commands::check(); //What menus are visible?
+			Hero->X = ( 16*8 )-8; //Fixed coordinates int he centre of the screen.
+			Hero->Y = (16*7.5)-56-8;
+			//LogPrint("Hero->Tile is: %d \n", Hero->Tile);
+			//bitmaps.herosprite->Clear(0);
+			//bitmaps.herosprite->FastTile(6, 0,0,Hero->Tile, 6, 128);
+			
+			if ( Hero->PressEx4 ) bitmaps.Save();
+			
+			
+			if ( Hero->PressEx3 )
+			{
+				LogPrint("Current Virtual Screen: %d \n", mapInfo.ScreenAt(xPos, yPos));
+				LogPrint("Current Virtual Map: %d \n", mapInfo.curMap);
+			}
+			if ( mapInfo.canScroll && !game.drawspells )
+			{
+				if(Hero->InputLeft)
+				{
+					//LogPrint("Solidity is: %f \n", Graphics->GetPixel(bitmaps.fullmap_solid,xPos+Hero->X, yPos+Hero->Y+56));
+					//LogPrint("Hero->X is: %d \n", Hero->X);
+					//LogPrint("Hero->Y is: %d \n", Hero->Y);
+					if (!(Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X - (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] )), yPos+Hero->Y+56+8) ) )
+					//LogPrint("xPos is: %d \n", xPos);
+						//xPos-=5;
+					{
+						//Trace(bitmaps.overscan_solid->GetPixel(0,xPos+Hero->X - (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] )), yPos+Hero->Y+8) );
+						scrollcountx -= (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						
+						int temp_x_pos = xPos - (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						//xPos -= ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						if ( temp_x_pos >= 0 && temp_x_pos <= (256*(screens_wide)) ) //Might need to extend the <= value out a bit
+						{
+							xPos = temp_x_pos;
+						}
+						//else, move the player sprite itself. 
+						for ( int q = Screen->NumNPCs(); q > 0; --q )
+						{
+							npc n = Screen->LoadNPC(q);
+							enemy.scroll(n, 1, 0, xPos, yPos);
+							//n->X += (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						}
+						for ( int q = Screen->NumLWeapons(); q > 0; --q )
+						{
+							lweapon l = Screen->LoadLWeapon(q);
+							lweapons.scroll(l, 1, 0, xPos, yPos);
+						}
+						for ( int q = Screen->NumEWeapons(); q > 0; --q )
+						{
+							eweapon l = Screen->LoadEWeapon(q);
+							eweapons.scroll(l, 1, 0, xPos, yPos);
+						}
+						for ( int q = Screen->NumItems(); q > 0; --q )
+						{
+							item l = Screen->LoadItem(q);
+							items.scroll(l, 1, 0, xPos, yPos);
+						}
+						mapInfo.curScreen = mapInfo.ScreenAt(xPos,yPos);
+						
+					}
+				}
+				else if(Hero->InputRight)
+				{
+					//LogPrint("Solidity is: %f \n", Graphics->GetPixel(fullmap_solid,xPos+Hero->X, yPos+Hero->Y+56+8));
+					//LogPrint("Hero->X is: %d \n", Hero->X);
+					//LogPrint("Hero->Y is: %d \n", Hero->Y);
+					//LogPrint("xPos is: %d \n", xPos);
+					if (!(Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X + 16 + (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] )), yPos+Hero->Y+56+8) ) )
+					{
+						//xPos+=5;
+						scrollcountx += (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						
+						int temp_x_pos = xPos + (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						//xPos -= ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						if ( temp_x_pos >= 0 && temp_x_pos <= (256*(screens_wide)) )  //Might need to extend the <= value out a bit
+						{
+							xPos = temp_x_pos;
+						}
+						//else, move the player sprite itself. 
+						//xPos += ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						for ( int q = Screen->NumNPCs(); q > 0; --q )
+						{
+							npc n = Screen->LoadNPC(q);
+							enemy.scroll(n, -1, 0, xPos, yPos);
+							//n->X -= (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						}
+						
+						for ( int q = Screen->NumLWeapons(); q > 0; --q )
+						{
+							lweapon l = Screen->LoadLWeapon(q);
+							lweapons.scroll(l, -1, 0, xPos, yPos);
+						}
+						for ( int q = Screen->NumEWeapons(); q > 0; --q )
+						{
+							eweapon l = Screen->LoadEWeapon(q);
+							eweapons.scroll(l, -1, 0, xPos, yPos);
+						}
+						for ( int q = Screen->NumItems(); q > 0; --q )
+						{
+							item l = Screen->LoadItem(q);
+							items.scroll(l, -1, 0, xPos, yPos);
+						}
+						mapInfo.curScreen = mapInfo.ScreenAt(xPos,yPos);
+					}
+				}
+					
+				if(Hero->InputUp)
+				{
+					//LogPrint("Solidity is: %f \n", Graphics->GetPixel(fullmap_solid,xPos+Hero->X, yPos+Hero->Y+56));
+					//LogPrint("yPos is: %d \n", yPos);
+				
+					if (!(Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X+8, yPos+Hero->Y + 56 - (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ))) ) )
+					{
+						scrollcounty -= (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						
+						int temp_y_pos = yPos - (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						//xPos -= ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						if ( temp_y_pos >= 0 && temp_y_pos <= (176*screens_high) )  //Might need to extend the <= value out a bit
+						{
+							yPos = temp_y_pos;
+						}
+						//else, move the player sprite itself. 
+						//yPos -= ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						for ( int q = Screen->NumNPCs(); q > 0; --q )
+						{
+							npc n = Screen->LoadNPC(q);
+							enemy.scroll(n, 0, 1, xPos, yPos);
+							//n->Y += (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						}
+						for ( int q = Screen->NumLWeapons(); q > 0; --q )
+						{
+							lweapon l = Screen->LoadLWeapon(q);
+							lweapons.scroll(l, 0, 1, xPos, yPos);
+						}
+						for ( int q = Screen->NumEWeapons(); q > 0; --q )
+						{
+							eweapon l = Screen->LoadEWeapon(q);
+							eweapons.scroll(l, 0, 1, xPos, yPos);
+						}
+						for ( int q = Screen->NumItems(); q > 0; --q )
+						{
+							item l = Screen->LoadItem(q);
+							items.scroll(l, 0, 1, xPos, yPos);
+						}
+						mapInfo.curScreen = mapInfo.ScreenAt(xPos,yPos);
+					}
+				}
+				else if(Hero->InputDown)
+				{
+					//LogPrint("Solidity is: %f \n", Graphics->GetPixel(fullmap_solid,xPos+Hero->X, yPos+Hero->Y+56));
+					//LogPrint("yPos is: %d \n", yPos);
+					if (!(Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X+8, 16+yPos+Hero->Y+56 + (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ))) ))
+					{
+						scrollcounty += (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						
+						//yPos+=5;
+						int temp_y_pos = yPos + (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						//xPos -= ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						if ( temp_y_pos >= 0 && temp_y_pos <= (176*screens_high) )  //Might need to extend the <= value out a bit
+						{
+							yPos = temp_y_pos;
+						}
+						//else, move the player sprite itself. 
+						//yPos += ( ((game.frame&1)) ? character.steps[0] : character.steps[1] );
+						for ( int q = Screen->NumNPCs(); q > 0; --q )
+						{
+							npc n = Screen->LoadNPC(q);
+							enemy.scroll(n, 0, -1, xPos, yPos);
+							//n->Y -= (( ( mapInfo.comboT(xPos,yPos) == CT_SLOWWALK ) ) ? ( ((game.frame&1)) ? 2 : 0 ) : ( ((game.frame&1)) ? character.steps[0] : character.steps[1] ));
+						}
+						for ( int q = Screen->NumLWeapons(); q > 0; --q )
+						{
+							lweapon l = Screen->LoadLWeapon(q);
+							lweapons.scroll(l, 0, -1, xPos, yPos);
+						}
+						for ( int q = Screen->NumEWeapons(); q > 0; --q )
+						{
+							eweapon l = Screen->LoadEWeapon(q);
+							eweapons.scroll(l, 0, -1, xPos, yPos);
+						}
+						for ( int q = Screen->NumItems(); q > 0; --q )
+						{
+							item l = Screen->LoadItem(q);
+							items.scroll(l, 0, -1, xPos, yPos);
+						}
+						mapInfo.curScreen = mapInfo.ScreenAt(xPos,yPos);
+					}
+				}
+			}
+			//xPos = Clamp(xPos, 0, 256*15);
+			//yPos = Clamp(yPos, 0, 176*7);
+			
+			//blit the current screen slice from the OVERSCAN bitmap, to the temp bitmap used to render the screen.
+			bitmaps.scrn->BlitTo(0, bitmaps.overscan, xPos, yPos, 256, 256, 0, 0, bitmaps.resized->Width, bitmaps.resized->Height, 0, 0, 0, 0, 0, false);
+			if ( Hero->PressEx2 ) encounter.init(xPos,yPos);
+			if ( encounter.valid ) encounter.draw();
+			
+			if ( Hero->PressEx1 ) { encounter.valid = 0; mapInfo.canScroll = true; } //end the encounter.
+			int sW = 128;
+			int sH = 128;
+			//blit the temp screen bitmap to the video bitmap. 
+			for ( int q = Screen->NumNPCs(); q > 0; --q )
+			{
+				npc n = Screen->LoadNPC(q);
+				//enemy.draw(n);
+			}
+			bitmaps.scrn->Blit(0, -2, 0, 0, 256, 256, 0, -56, 256, 256, 0, 0, 0, 0, 0, false);
+			if ( Game->Misc[rpg::DRAWSTATS] ) statsmenu.draw();
+			if ( game.drawspells ) 
+			{
+				spells.select(spells.curLearned, spells.bColumns);
+				spells.draw(spells.bColumns, spells.bRows, ((spells.bitty->Width * 0.5)-4), 18, FONT_FF, white);
+			}
+			//if ( game.drawspells ) spells.draw(4, 2, ((spells.bitty->Width * 0.5)-4), 18, FONT_FF, white);
+			//if ( (scrollcountx && !(Abs(scrollcountx)&16)) || (scrollcounty && !(Abs(scrollcounty)&16)) )
+			
+			if ( lastScrn != mapInfo.curScreen ) //We are on a new virtual screen
+			{
+				//mapInfo.checkSpawnFlags(xPos, yPos);
+				mapInfo.checkSpawnFlags();
+				lastScrn = mapInfo.curScreen;
+			}
+			//blit the player sprite to the video bitmap. 
+			//if ( !encounter.valid ) bitmaps.herosprite->Blit(7, -2, 0, 0, 16, 16, Hero->X, Hero->Y, 16, 16, 0, 0, 0, (( Hero->Dir == DIR_LEFT ) ? BITDX_VFLIP : 0), 0, true);
+			
+			
+			//NoAction();
+			Waitdraw();
+			enemy.updateCount();
+			Waitframe();
+		}
+	}
+	//bool getComboSolid()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X + 8, yPos+Hero->Y+56+8));
+	//}
+	//int getComboSolidity()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_solid,xPos+Hero->X + 8, yPos+Hero->Y+56+8)*10000);
+	//}
+	//int getComboType()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_type,xPos+Hero->X + 8, yPos+Hero->Y+56+8) * 10000);
+	//}
+	//int getComboFlag()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_flag,xPos+Hero->X + 8, yPos+Hero->Y+56+8) * 10000);
+	//}
+	//int getComboIFlag()
+	//{
+	//	return (Graphics->GetPixel(bitmaps.overscan_iflag,xPos+Hero->X + 8, yPos+Hero->Y+56+8) * 10000);
+	//}
+}
+
+//Drawing Utilities
+int VectorX3D(int distance, int yaw, int pitch)
+{
+	return distance*Sin(pitch)*Cos(yaw);
+}
+
+int VectorY3D(int distance, int yaw, int pitch)
+{
+	return distance*Sin(pitch)*Sin(yaw);
+}
+
+int VectorZ3D(int distance, int yaw, int pitch)
+{
+	return distance*Cos(pitch);
+}
+
+void RotateX3D(int angle, int cx, int cy, int cz)
+{
+	int sz = SizeOfArray(cx);
+	for(int i=0; sz; ++i)
+	{
+		int y = cy[i];
+		int z = cz[i];
+		
+		cy[i] = y * Cos(angle) - z * Sin(angle);
+		cz[i] = z * Cos(angle) + y * Sin(angle);
+	}
+}
+
+void RotateY3D(int angle, int cx, int cy, int cz)
+{
+	int sz = SizeOfArray(cx);
+	for(int i=0; i < sz; ++i)
+	{
+		int x = cx[i];
+		int z = cz[i];
+		
+		cx[i] = x * Cos(angle) - z * Sin(angle);
+		cz[i] = z * Cos(angle) + x * Sin(angle);
+	}
+}
+
+void RotateZ3D(int angle, int cx, int cy, int cz)
+{
+	int sz = SizeOfArray(cx);
+	for(int i=0; i < sz; ++i )
+	{
+		int x = cx[i];
+		int y = cy[i];
+		
+		cx[i] = x * Cos(angle) - y * Sin(angle);
+		cy[i] = y * Cos(angle) + x * Sin(angle);
+	}
+}

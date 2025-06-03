@@ -1,0 +1,689 @@
+//2.55 Changes
+
+//Alpha 24
+
+Screen scripts now have a flag 'Run on Screen Init', that
+	behaves in an identical manner to ffcs.
+	If enabled, the script runs as soon as scrolling 
+	begins; otherwise, the script runs after the screen 
+	scrolling ends and the screen is fully-loaded.
+Allow using the NOT (!) token on any type.
+	e.g. !bitmap or !FFC will be true if the bitmap pointer
+	is UNINITIALISED.
+Fix timing of Screen (screndata) scripts.
+	Screen scripts now run immediately prior to ffcs, as if they were ffc 0.
+	They execute from ffcscriptengine, as part of the same function invocation,
+		but they run before FFC ID 1. 
+Updated to build Alpha 24.
+	( ZoriaRPG, 2nd June, 2019 )
+	
+
+//Alpha 23
+Waitdraw now works on passive item scripts.
+	Further, if the script calls Quit(), then itemdata[id].script is set to 0,
+	so the script STOPS running.
+Added 'Constant Script' as item Flag16.;
+	If this is enabled on the item, and the item is in inventory (Link->Item == true),
+	then the script will run constantly.
+		***This is for passive item scripts.
+Added Gleeok's old experimental files, including ZPP as refs to repo.
+	( ZoriaRPG, 29th May, 2019 )
+
+Added epilepsyFlashReductionto bomb palette flashes.
+Added an Epilepsy Flash Protection option to the Settings menu,
+	and to zc.cfg.
+	( ZoriaRPG, 26th May, 2019 )
+	
+Fix call to #include "std_keyboard.zh" in std.zh.
+Move New GetByString functions to Game->, to match GetFFCScript() and GetItemScript().
+Added Label field to the Combo Editor:
+	The user can now supply a label (10 char string) to every combo.
+	They can use the function GetCombo("string") to get the first ID of a combo with that label.
+Add Waitdraw to itemsprite, item, and eweapon scripts.
+Added Waitdraw (with a QR to disable it; disabled by default for
+	quests < 2.55), and began adding it for all sprite scripts.
+Added a QR (ZScript Rule 'No FFC Waitdraw'), and enabled it  by
+	default for quests made < 2.55:
+	This is a QUEST RULE to disable Waitdraw() on ffcs. 
+	It is enabled by default for 2.50 quests,
+		preserving the old behaviour for the old quest format. 
+Fixed Waitdraw not working in ffc/screen scripts:
+	I forgot to call the waitdraw routine in zelda.cpp.
+	Waitdraw now works from screen and ffc scripts
+Change long ffcswaitdraw to unsigned long.
+Correct behaviour for get_bitl(), and set_bitl() in zsys.cpp.
+	( ZoriaRPG, 23rd May, 2019 )
+
+Fix crash when compiling ZScript (pass 3):
+	Missing sanity check in syncDisable, missed comment-out
+	( Venrob, 23rd May, 2019 )
+
+Update error message for Waitdraw() unsupported script types.
+Add set_bitl() and get_bitl() (to zsys.cpp) for longs.
+Added Waitdraw() support to ffcs. 
+Add ffcswaitdraw long to TheMaps.
+Screen scripts now run more like global/DMap scripts, than like ffcs.
+	They also support Waitdraw.
+	( ZoriaRPG, 22nd May, 2019 )
+
+Added a series of getters to get script IDs and other object IDs:
+	int GetNPCScript("name");
+	int GetLWeaponScript("name");
+	int GetEWeaponScript("name");
+	int GetDMapScript("name");
+	int GetScreenScript("name");
+	int GetHeroScript("name");
+	int GetLinkScript("name");
+	int GetPlayerScript("name");
+	int GetSubscreenScript("name");
+	int GetUntypedScript("name");
+	int GetNPC("name");
+	int GetItem("name");
+	int GetDMap("name");
+	int GetCombo("label");
+	( ZoriaRPG, 21st May, 2019 )
+
+Fix many crashes when using NO_ERROR_HALT:
+	Added `syncDisable()` calls for all caseExpr* functions in RecursiveVisitor
+	Added `syncDisable()` calls to analyzer functions in SemanticAnalyzer
+	( Venrob, 20th May, 2019 )
+
+Add utol(string[]), ltou(string[]), and convcase(string[]):
+	int utol(string[]) converts all uppercase characters in a string to lowercase characters.
+	int ltou(string[]) converts all lowercase characters in a string to uppercase characters.
+	int convcase(string[]) converts all uppercase characters in a string to lowercase characters, 
+		and all lowercase characters in that string to uppercase characters, inverting the case of 
+		all characters in a given string.
+		All three of these return the pointer to the string.
+Move old ZASM ilen and itoa into std::string namespace. 
+Fix ilen(), itoa(). These are now internal.
+	( ZoriaRPG, 20th May, 2019 )
+
+`import` will now check include paths if it cannot find the file in the ZC dir/absolute path.
+	( Venrob, 19th May, 2019 )
+	
+Optimise strchr and strnchr
+New ZScript internal functions on the global pointer are:
+	int atoi("string");
+	int strcat(string[], string[]);
+	int strchr(string[], int chr);
+	int strrchr(string[], int chr);
+	int strspn(string[], keys[]);
+	int strcspn(string[], keys[]);
+	int strstr(string[], "substring");
+	Note: While not technically illegal, using literals for these functions is probably pointless in most
+	cases, as the changed string is deleted before it can then be used.
+	Literals can only be safely used when the above functions show them.
+	You can ALWAYS USE A NORMNAL STRING POINTER, WHERE THESE SHOW LITERALS. 
+Moved old ZASM-based string.zh functions, that are now internal, to 
+	a new namespace in string.zh.
+	The namespace is std::string.
+Added some string functions internally, including:
+	strchr(), strrchr(), strstr().
+Update std_constants for new max/min float/int/const.
+	( ZoriaRPG, 19th May, 2019 )
+
+Begin porting string.zh functions to internal functions.
+	( ZoriaRPG, 18th May, 2019 )
+
+Corrected some errors in std_keyboard.zh
+Convert key modifier functions to use Input->ModifierKeys&flag in std_keyboard.zh.
+	The old functions used Input->Key[modifier], which did not give authentic status indication
+		on if the modifier was applied to another keypress.
+
+	Added bool AccentShift(int n); where n == 1, 2, 3, or 4.
+	Added bool ScrollLock();
+Optimised std_keyboard.zh
+Made -5 for the Y coordinate act as a pit warp, instead of using a WR destination.
+	( ZoriaRPG, 16th May, 2019 )
+
+Give `namespace` access to parent-scope vars
+	(Removes parent-scope access to namespace-scope vars as a consequence. This is identical to scripts.)
+Fix: OPTION_VALUE is compile-time constant
+Add sanity check on handleError(): Prevent accessing `recursionStack.back()` if `recursionStack` is empty.
+	Fixes crash when array size is > MAX_INT
+Add Opcodes for internal optimization 
+	CASTBOOLI: Sets the value of a register to 1, unless it is currently 0.
+	CASTBOOLF: Sets the value of a register to 0.0001, unless it is currently 0.
+	SETTRUEI: Same as SETTRUE, but uses 1 instead of 0.0001.
+	SETFALSEI: Same as SETFALSE, but uses 1 instead of 0.0001.
+	SETMOREI: Same as SETMORE, but uses 1 instead of 0.0001.
+	SETLESSI: Same as SETLESS, but uses 1 instead of 0.0001.
+
+	Using these opcodes, relational operators have been internally optimized.
+	( Venrob, 16th May, 2019 )
+
+If Link->WarpEx() or Warp SCC X coordinate is < 0 and (unsigned)Y coordinate is 5, 
+	we pit-warp Link. Otherwise, if X is < 0 and (unsigned)Y is < 4, we use that warp return 
+	square.
+	Example: 
+		X == -1, Y == 3 uses Warp Return 3
+		X == -1 and Y == -3, also uses Warp Return 3.
+		X == -1 and Y == 5, pit warps Link.
+
+Added a string control code to set Screen->D[reg] = value for any DMap.
+	\19 \dmap \screen \reg \value
+
+	This requires testing as I may have transposed where the bitshift belongs.
+
+Added a string control code to warp Link, as:
+	\18 \dmap \screen \x \y \effect \sound
+
+	If x/y is negative, it should use a warp return point equal to the absolute
+	value passed (e.g. -1 is warp return 1).
+
+DMap Script InitD labels now save properly.
+Increased V_DMaps and updated quest loader/saver.
+	( ZoriaRPG, 16th May, 2019 )
+
+Parser: Match internal functions w/ numParams, allow overloading
+	( Venrob, 15th May, 2019 )
+	
+Moved old ZScript-based strcpy(), strcmp(), strncmp(), and strlen()
+	into namespace std::string in string_functions.zh.
+Converted strcpy(), strncmp(), and strlen() into internal functions.
+Remove logging from strncmp()
+Fix number of params for strcmp, strncmp.
+Make strcmp and strncmp internal.
+Remove strcmp and strncmp from string.zh
+Add QR qr_CLEARINITDONSCRIPTCHANGE
+std.zh: Add enum ffruletype to std_constants.zh.
+Fix fonts for window title in Screen->Script and Game->Misc[] dialogues.
+Fix Window Title for Screen Script dialogue.
+	( ZoriaRPG, 15th May, 2019 )
+
+//Alpha 22
+Added Screen->Script, Screen->InitD[8], mapdata->Script, and mapdata->InitD[8]
+	to ZScript. Arrays may not be properly deallocated on changing Screen->Script.
+Fully implemented Screen Scripts (screendata script).
+	The scripts are set via the menu Screen->Script.
+	Each screen has 8 InitD values, and one Script value.
+	Scripts run similar to ffcs, but always on screen init. 
+	V_MAPS is now 20.
+	Updated the quest loader, and the quest reader, for the new screen/maps variables.
+	( ZoriaRPG, 15th May, 2019 )
+
+Set saved=false when editing Quest->Misc[32]. 
+	Without this, the SAVE menu option is disabled after editing Game->Misc[].
+	( ZoriaRPG, 14th May, 2019 )
+	
+Disabled `inline` for user-functions, it isn't going to be this easy.
+	Did several optimizations, and an amount of work on the system, regardless.
+Parser: Inline `TraceS()`
+	For internal function inline testing purposes. Works correctly.
+Revert previous commit; incorrect diagnosis 
+	The commit previously reverted was not the cause of the issue, and
+	should not have been reverted. This restores the original commit.
+Revert "Parser: Fix duplicate function ZASM"
+	This caused an unexpected issue, and needs to be reverted until said
+	issue is fixed.
+Parser: Inline internal functions, a start at least.
+	Inlined `Trace()`, saving 5 opcodes.
+	Functions can now be made inline by giving them the flag `FUNCFLAG_INLINE` in their GlobalSymbols.cpp table.
+		Note: The function must actually be edited to work with `inline`. Mostly, `OReturn` must be commented out.
+Parser: Fix duplicate function ZASM 
+	Functions declared at the file scope were having two copies of their ZASM inserted into the quest, due to a duplication issue with RootScope/FileScope. 
+	This has been rectified.
+	( Venrob, 14th May, 2019 )
+
+Flipped the behaviour of qr_OLDQUESTMISC in ffscript.cpp
+Added a ZScript RUle that Game->Misc is not / or * 10000.
+	This is for older 2.55 quest scripts.
+Add Game->Misc Config Panel
+	This is under the Game menu as 'Misc[]', and it allows the user
+	to set up to 32 global constants/vars, each with a label, accessed by
+	scripts as Game->Misc[32].
+	( ZoriaRPG, 13th May, 2019 )
+
+Restructured GlobalSymbols.cpp, assing the number of params for each
+	function, function flags, and general table clean-up.
+	( Venrob, 13th May, 2019 )
+	
+Parser: Some progress debugging `inline`
+	( Venrob, 12th May, 2019 )
+
+Parser: Complete `inline`, option FORCE_INLINE 
+	Option FORCE_INLINE: if on, all functions that can be inline will be made so. Default off.
+	By placing `inline` before a function, the function's assembly will be copied to the locations it is called at. This can help with script speed.
+	( Venrob, 11th May, 2019 )
+	
+Fixed the bounding of npc->Attributes between indicies [0] and [15].
+	It is now [0]and [31], as intended.
+Fixed the display of the QR in Quest->Rules->Enemies->2
+	Added a bit check to a second out of bounds model.
+Add QR to allow npcs to go out of bounds.
+Added logging to bitmap->GetPixel
+	( ZoriaRPG, 11th May, 2019 )
+
+Begin adding rgbdata and palette; revise bitmap->GetPixel
+Rename bitmap->Mode7 to bitmap->DrawPlane
+Revised bitmap->Mode7
+	( ZoriaRPG, 10th May, 2019 )
+	
+Parser: Partially-functional `inline` 
+	`return` is completely nonfunctional. There is still a lot of work left to get this working.
+Preliminary setup of 'inline', add func flags 
+	Function declarations now hold flags. Function objects now hold flags, which are recieved from the function decl object.
+	Added function flag 'invalid' for error checking
+	Added function flag 'inline', for inline functions. Currently does nothing.
+	( Venrob, 10th May, 2019 )
+	
+Fix: Repeat incorrect recursion
+	( Venrob, 9th May, 2019 )
+	
+Fix: Blit to destBMP, not subBMP
+Remove duplicate token entry.
+Changelog: Added bitmap->Mode7(16 args)
+//sdci[1]=layer
+	//sdci[2]=bitmap target
+		//
+		//	-2 is the current Render Target
+		//	-1, this is the screen (framebuf).
+		//	0: Render target 0
+		//	1: Render target 1
+		//	2: Render target 2
+		//	3: Render target 3
+		//	4: Render target 4
+		//	5: Render target 5
+		//	6: Render target 6
+		//	Otherwise: The pointer to a bitmap.
+
+	//sdci[3]=sourcex
+	//sdci[4]=sourcey
+	//sdci[5]=sourcew
+	//sdci[6]=sourceh
+
+	//sdci[7]=destw
+	//sdci[8]=desth
+	//sdci[9]=angle
+	//scdi[10] = pivot cx
+	//sdci[11] = pivot cy
+	//sdci[12] = space Z
+	//sdci[13] = horizon
+	//scdi[14] = scale X
+	//scdi[15] = scale Y
+	//sdci[16] = masked?
+	//sdci[17] Bitmap Pointer
+	( ZoriaRPG, 9th May, 2019 )
+
+Fix: Forgotten field initializers
+Added `repeat(const int){}`
+Parser: Make `syncDisable()` static
+Added `unless`, as opposite of `if` 
+	( Venrob, 8th May, 2019 )
+
+Added bitmap->DrawLayerSolid(), DrawLayerSolidity(), 
+	DrawLayerComboTypes, DrawScreenComboFlags(), and DrawScreenComboIFlags() to ZScript.
+	( ZoriaRPG, 7th May, 2019 )
+
+Fixed crash when trying to load a bitmap file that does not exist.
+Added Scrolling.zh to test_scripts/dmap_scripts
+Corrected bitmap pointer for Graphics->GetPixel.
+Add Graphics->GetPixel(bitmap, x, y) to ZScript
+Add bitmap->DrawScreenSolid()
+	This draws a block in colour 1, if the 8x8 pixel space is solid.
+Added the following bitmap drawing commands:
+	DrawScreenSolidity() : Draws a palette index based on the raw literal value
+	for the solidity of each combo space, by drawing a 16px block to that space
+	in the palette value equal to the solidity mask of that combo.
+
+	DrawScreenComboTypes(), as above, but the palette index is equal to the
+	combo Type ID value.
+
+	DrawScreenComboFlags(), as above, for placed flags.
+
+	DrawScreenComboIFlags(), as above, for inh. flags.
+	( ZoriaRPG, 6th May, 2019 )
+	
+Began adding commands to the bitmap-> pointer, similar to DrawScreen,
+	that when done, should draw blocks to the space on a bitmap that a combo occupies,
+	that the user can utilise in conjunction with GetPixel() to rapidly read values
+	for solidity mask, type, flag, and inh flag.
+
+	This would make it easier to produce large-scale scrolling environments, including
+	with Mode-7 style effects, as the end-user can blit out these masks for an entire map
+	to bitmaps, then read the same absolute position on a set of bitmaps to get
+	the properties of any specific point/node/coordinates.
+std.zh: Begin Optimising std_keyboard.zh
+	( ZoriaRPG, 4th May, 2019 )
+
+Fix Input->ModifierKeys return type, and values.
+	( ZoriaRPG, 3rd May, 2019 )
+
+Refactor: Move checkExtension to class FFScript
+Don't copy strings with checkExtension
+Updated todo.txt
+Fix: Correct Return Type of Input->Keybindings[]
+Make file_exists inline.
+Minor performance adjustments.
+Updated build date.
+Ensured that unused bitmap pointers are initialised to NULL.
+Removed inline specifier from drawing functions.
+Ensure that bitmap->Quad() checks if the bitmap is valid, if the
+	user suppkies a render source, and if not, use the old Screen-> texture cache.
+Ensure that bitmap->DrawScreen() and bitmap->DrawLayer() use the correct y offsets.
+Optimise bitmap->Quad()
+	( ZoriaRPG, 1st May, 2019 )
+
+Docs: Clean up formatting of ZScript_Additions.txt
+Added bitmap->BlitTo().
+	This blits a source bitmap, to the pointer, using the same args
+	as DrawBitmapEx(), when drawing to the screen.
+Add warning if the size of the render_source bitmap, or the h/w
+	args are not a power of 2.
+Try to ensure that ZC Player PNG snapshots follow the identical
+	logic of ZQ Editor snapshots when writing their palette.
+Fixed the type and internal value for the target of Blit.
+	Before, it would not allow passing a bitmap pointer to the blit target, and
+	the value for the pointer would have been wrong, in any case.
+
+	This fixes both of these issues.
+
+Fixed ZC Player palette corruption when calling bitmap->Read()
+
+Fixed a crash and incorrect values when using bitmap->Height and
+	bitmap->Width.
+
+	These now use the .height and .width members of the struct, which are set when
+	a bitmap is created, or loaded from a file.
+Fix implicit casts.
+
+Added Screen->Polygon(int layer, int points, int vertices[], int colour, int opacity)
+	and bitmap->Polygon(int layer, int points, int vertices[], int colour, int opacity) to ZScript.
+Updated build date.
+Ensure that when calling a polytype function on a bitmap pointer,
+	such as bitmap->Quad(), that if the pointer used as 'render_source' is not
+	initialised, that we default to drawing it using a tile.
+
+	This should prevent some possible stack corruption.
+std.zh: NULL is now untyped.
+Docs: Updated ZScript_Additions.txt for bitmap-> draw instructions.
+Fixed crashes when using bitmap draws from/to uninitialised bitmaps
+	with bitmap->Quad(), &c.
+	Now if bitmap->Read() fails to load an image, it will create a blank bitmap at
+	256x176 on the pointer.
+	( ZoriaRPG, 30th April, 2019 )
+	
+Added 'bitmap render_source' to bitmap->Quad3D, Triangle3D	
+Fix rendering bitmap->Quad() with a bitmap render_src.
+	Applied the same fix to bitmap->Triangle
+
+	Removed mandatory power of 2 check for these two functions, when using a
+	bitmap render_src.
+	
+Flipped thew order of int height, int width for Game->CreateBitmap()
+	and for bitmap->Create().
+
+Added a QR to use the old args order, set for quests with a build ID < 44.
+Enabled that QR for older quests on quest load.
+Fixed some sign mismatches.
+	( ZoriaRPG, 29th April, 2019 )
+	
+Some fixes/changes to edTRANSFORM for boss enemies.
+Docs: Updated ZScript_Additions.txt, documenting `bitmap render_source`
+Fix unintentional forced offset in Screen->Triangle3D
+
+I made the FFCore array access functions non-static, and I used calls
+	to them in place of ArrayH:: static member functions, because somehow ptr.Size() was
+	getting corrupted, or there was some kind of internal i386 stack issue when
+	using those functions with script draws.
+
+	Thus, I replaced every call to ArrayH::getValues() with FFCore.getValues(), which
+	seems to have fixed it.
+
+	This commit also fixes an offset issue with Quad3D.
+std.zh: Fix missing line for including keyboard.zh
+	( ZoriaRPG, 28th April, 2019 )
+	
+Fix various typos and logical issues in examples
+	Update some docs, which referenced mechanics which have changed.
+	Add newline to EOF
+	( Venrob, 27th April, 2019 )
+	
+Fix: Add segments to segmented enemies in edREPLACE
+Fix an if/else chain and coordinates of edREPLACE.
+
+The compiler was choosing the wrong function to use for normal weapon
+	generation, where the dummyweapon function was not intended to be called.
+
+	I added extra params (unused) to the dummy weapon function, to ensure proper
+	function matching.
+
+Changed Values for Transform Effect Type 
+ 	 0: None
+	-1: Particle Dissolve (A)
+	-2: Particle Explode
+	-3: Particle Dissolve (B)
+	-4: Harmless Superbomb Blast
+	-5: Harmless Bomb Blast
+	-6: Superbomb Blast (Harms Link, uses enemy weapon damage for its power.)
+	-7: Bomb Blash (Harms Link, uses enemy weapon damage for its power.)
+	 1: Sprite 1
+	 +: Higher Sprites
+ 
+ Added the ability to control the visual effect for edREPLACE
+	(Enemy Editor Defence: Transform), and added the ability to specify an enemy ID.
+
+	Attribute 15 (Attributes[14] in ZScript): The Effect Type
+		-3: Bomb Blast (harmless)
+		-2: Superbomb Blast (harmless)
+		-1: None
+		 0: Dissolve (a)
+		 1: Dissolve (b)
+		 2: Particle Explode
+		 3: Sparkle Weapon using Sprite ID 3
+		 +: Sparkle weapon with sprite 4 or above.
+
+		Attribute 16 (Attributes[15] in ZScript) : The Enemy ID
+		0: Next in Editor
+		1+: A specific enemy ID.
+	( ZoriaRPG, 27th April, 2019 )
+	
+Fix the return value in case edREPLACE so that bouncing weapons
+	do not phase through enemies. Weapons react as if they hit the original enemy
+	normally.
+Try to ensure that enemies aren't knocked back during transformation.
+
+Added a new defence outcome 'Transform(next)'.
+	If this enemy is hit by the weapon with this defence resolution, it will be replaced
+	by the next enemy in the list, with a visual effect of the original enemy dissolving
+	into particles.
+
+Added the following parser tokens:
+	compl: Equivalent to ~
+	bitnot: Equivalent to ~
+	not_equal: alt for not_eq
+	and_equal: alt for and_eq
+	xor_equal: alt for xor_eq
+	or_equal: alt for or_equal
+	( ZoriaRPG, 26th April, 2019 )
+	
+//Alpha 21
+Fix extension handling of bitmap->Write(), and properly support all
+	legal file formats (.png, .gif, .pcx, .tgx, and .bmp).
+	( ZoriaRPG, 26th April, 2019 )
+Re-wrote sprite script refInfo, closing a memory leak, and removing a hack.
+	( ZoriaRPG, 25th April, 2019 )
+Updated std_keyboard.zh, and ZScript_Additions.txt with
+	KB_* constants for modifier key flags.
+Updated internal build to Alpha 21.
+Updated ZScipt_Additions.txt
+Updated todo.txt
+Added Input->KeyBindings[14] (r/w), Input->ModifierKeys,
+	and Input->SimulateKeypress[127]
+Don't use bitmap->Blit() offset fix on Screen->DrawBitmapEx()
+
+The params for bitmap->Write are now:
+	bitmap->Write(int layer, "filename", bool allow_overwrite);
+
+	Behaviour: Overwriting is off by default. If bool allow_overwrite == true,
+		AND the filename extension is .png, then the file can be overwritten.
+
+Add notes to bitmap->Clear
+
+Added bitmap->Clear(int layer).
+Added bitmap->Create(int layer, int h, int w)
+
+	->Create only works on a bitmap pointer that has been initialised, and it
+	destroys any existing bitmap on that pointer, before creating a new one.
+
+Applied the same set of fixes that I used for Screen->PutPixels()
+	to Screen->Lines(), Screen->DrawCombos(), and Screen->DrawTiles()
+	to all other Screen-> pointer, array-drawing functions.
+Screen->PutPixels() should now work in any scope and in any drawing order.
+	(Enqueued drawing needs vector pointers to keep the ZScript array data in scope.)
+
+Added 'bitmap render_source' arg to bitmap->Quad() and to bitmap->Triangle();
+	The new args are:
+	void Quad ( int layer, 
+		int x1, int y1, int x2, int y2, 
+		int x3, int y3, int x4, int y4,
+		int w, int h, int cset, int flip, 
+		int texture, int render_mode, bitmap render_source);
+	void Triangle	( int layer, 
+			int x1, int y1, int x2, 
+			int y2, int x3, int y3,
+			int w, int h, int cset, 
+			int flip, int texture, int render_mode, bitmap render_source);
+		
+	If render_source is not NULL, then the function *should* use that, rather than a tile/combo
+	as its texture. This is wholly UNPROVEN.
+	( ZoriaRPG, 25th April, 2019 )
+
+
+bitmap->Write() will not overwrite an existing file.
+Added bitmap render_src arg to bitmap->Quad() as its 16th param.
+	All bitmap drawing commands now check if the dest is not the
+	screen, and set their yoffset to 0 if it is not the screen.
+
+	They also check if the dest is ! -2, which is the present RENDER TARGET,
+	but they do not also validate that the RT is not RT_SCREEN.
+
+	We may need to do that, too.
+Fixed the yoffset coordinates for bitmap->Blit and bitmap->Rectangle.
+Fix: Read/Write Bitmaps
+	Changed bitmap Game->ReadBitmap("filename") to bitmap Game->AllocateBitmap();
+	Made bitmap->Read("filename") into a drawing command as bitmap->Read(layer,"filename")
+	Made bitmap->Write("filename") into a drawing command as bitmap->Write(layer,"filename")
+	( ZoriaRPG, 24th April, 2019 )
+	
+Cleanup: Remove "Bitmap" BuiltinConstant
+	( Venrob, 23rd April, 2019 )
+	
+Possible fix for WriteBitmap refVar
+Some fixes to writebitmap()
+Begin adding bitmap->Write("filename")
+Added bitmap->Height, bitmap->Width
+Don't use bitmap pointers < 17 for ReadBitmap()
+Fix compile and improve ReadBitmap
+Begin adding bitmap Game->ReadBitmap("filename")
+
+Added the ability to call onPasteAll, onPasteToAll, and onPasteAlltoAll
+	from hotkeys. 
+	All screen paste hotkeys use 'V', as follows:
+		V: 			onPaste
+		Shift+V: 		onPasteAll
+		Control+V: 		onPasteToAll
+		Control+Shift+V: 	onPasteAllToAll
+
+I also added all of the normal copy/paste options to the contextual menu, and I added
+	the ZScript submenu to the contextual menu.
+	( ZoriaRPG, 23rd April, 2019 )
+	
+	
+Parser: change `RELATIONAL_OP_RETURN_DECIMAL` to `BOOL_TRUE_RETURN_DECIMAL
+	Now, instead of just relational operators, it also includes `true` itself.
+	Also, the option previously failed to affect constant expressions; this has been fixed.
+	( Venrob, 22nd April, 2019 )
+
+
+//Alpha 20
+Updated default_qst.dat.
+Updated classic_qst.dat.
+Fixed bitmap pointers and drawing functions to respect the correct
+	bitmap pointer ID.
+Fixed Debug->SP to read/write to the correct data location.
+	( ZoriaRPG, 22nd April, 2019 )
+	
+Fixed missing case for NO_ERROR_HALT:
+	Function calls need to syncDisable with their parameters.
+Fix type issues.
+Function calls need to syncDisable with their parameters.
+Fix: `using` fails to find current-scope namespaces
+Fix: `using` nonfunctional within namespace
+Fix: `==` and `!=` cast two-way 
+	Added two-way checkCast, to see if two types are compatible in EITHER direction.
+Fix: `==` and `!=` casting error failed to report location 
+	This left an error that was extremely difficult to locate!
+	( Venrob, 20th April, 2019 )
+
+//Alpha 19
+Increased Build ID to 43.
+Added a QR that causes eweapon->Parent to be multiplied / divided by 10000, for
+	legacy support in quests made in older versions of 2.55 (or 2.54). 
+Changed int eweapon->Parent to npc eweapon->Parent to ease typecasting,
+	and removed the 10000 shifting. The npc pointer would use
+	the raw value, not value * or / 10000.
+	The setter now accepts npc as its arg. 
+Added BITMAP to Scope.cpp. This had no effect that I can detect.
+	I'm unsure why it was not there.
+Fixed Graphics->NumDraws() to report the correct number of draws
+	on the current frame.
+Corrected (internal) args order for Game->CreateBitmap(h,w).
+Renamed the function identifiers for Dimentio's Enhanced Music Ex
+	chain in ffscript.cpp, and migrated them tot he FFScript class.
+
+	The new functions are:
+		void FFScript::do_playogg_ex(const bool v);
+		void FFScript::do_set_oggex_position(const bool v);
+		void FFScript::go_get_oggex_position();
+		void FFScript::do_set_oggex_speed(const bool v);
+Added bitmap->isValid() to ZScript.
+Changed Graphics->MaxDraws to Graphics->MaxDraws() and changed
+	Graphics->NumDraws to Graphics->NumDraws().
+
+	The change is purely for the purpose of semantics. If these appear to be a variable,
+	then the user may try to write to them. In the form of a function, it is immediately
+	clear that they are read-only.
+
+	The actual GlobalSymbols code still sees both as a GETTER, as a function with a return value
+	and no parameters can be a basic GETTER. The only difference, is whether the table entry
+	precedes the string with "get" or "set".
+
+	i.e.
+		"getMaxDraws" as a type of GETTER creates a variable 'MaxDraws'.
+		By using the string "MaxDraws", the parser knows that this is the FORM of a function,
+		'MaxDraws()', but it needs no params to push/pop, so it can still work as a
+		GETTER type, instead of as a FUNCTION type.
+
+		See 'NumNPCs' for more information.
+Added Graphics->MaxDraws to ZScript:
+	This, like Graphics->NumDraws is read-only, and it returns the maximum number
+	of script drawing commands per frame.
+	The purpose of this is as a utility for the end-user, as this value is a constant
+		that may change on a per-build basis.
+Added Graphics->NumDraws to ZScript:
+	This returns the current count of script draws (CScriptDrawingCommands.Count())
+	so that the user can know how many they have remaining.
+Converted all script draws to inline functions, with the hope that this may
+	make them faster.
+Additional fixes to bitmaps and script-draws.
+	( ZoriaRPG, 18th April, 2019 )
+
+Restored the file 'zstrings.txt', used for the HELP button in the ZQ String Editor.
+Various fixes to the bitmap datatype, bitmap->Blit, 
+	Game->CreateBitmap(). 
+	Bitmap pointers are now offset by +10.
+	When calling bitmap->Blit(), you can specif the destination
+		as the current RenderTarget by passing -2 as the dest.
+		-1 is the screen normally, but draws to the screen with Blit(RT_SCREEN) only
+		work on 'Layer 7'.
+		Draws to the screen, if the current RenderTarget is RT_SCREEN, using
+		Blit(-2) work on all layers. 
+	Don't consider the SCREEN uninitialised. 
+	Fixed some issues with bitmap pointer values being incorrect.
+	Ensured that the sub-bitmap used for (allegro) sprite rotation commands
+		is large-enough, based on the source bitmap size.
+Removed invisible widgets carried over to the 2.50 (big) interface from
+	small mode that allow toggling the cset and layer.
+	( ZoriaRPG, 17th April, 2019 )

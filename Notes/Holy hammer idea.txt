@@ -1,1 +1,0 @@
-when using it should behave like radagon's hammer with the aoe splash

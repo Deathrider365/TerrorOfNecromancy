@@ -1,0 +1,24 @@
+float InputAngle(bool radians){
+{
+	if ( Link->InputUp )
+	{
+		if ( Link->InputLeft ) return ( Cond(radians, 3.927, 225) );
+		if ( Link->InputRight ) return ( Cond(radians, 5.4978, 315) );
+		return ( Cond(radians, 4.7214, 270) );
+	}
+	if ( Link->InputDown ) 
+	{
+		if ( Link->InputLeft ) return ( Cond(radians, 2.3562, 135) );
+		if ( Link->InputRight ) return ( Cond(radians, 0.7854, 45) );
+		return ( Cond(radians, 1.5708, 90) );
+	}
+	if ( Link->InputLeft )
+	{		
+		return ( Cond(radians, 3.1519, 180) );
+	}
+	if ( Link->InputRight )
+	{		
+		return  0;
+	}
+	return -1;
+}

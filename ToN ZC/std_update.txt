@@ -1,0 +1,170 @@
+ -- New Constants ( 2.50.2 ) --
+ ==============================
+ 
+const int MAX_CONSTANT, float MAX_VARIABLE, int MAX_INT, float MAX_FLOAT
+const int MAX_COUNTER, int MIN_COUNTER
+const int MAX_LWEAPONS, int MAX_EWEAPONS, int MAX_NPCS, MAX_ITEMS, int MAX_OBJECT_POINTERS, int MAX_SPRITES
+const int MAX_DRAWING
+const int MAX_GLOBAL_VARIABLES, int MAX_VARIABLES, int MAX_BITSPERVARIABLE
+const int MAX_ARRAY_POINTERS, int MAX_TILES, int MAX_COMBOS, int MAX_STRINGS
+const int MAX_SCRIPTDRAWINGCOMMANDS
+const int MAX_MESSAGES, int MAX_MESSAGELENGTH
+const int MAX_MAPS, MAX_DMAPS
+const int MAX_DMAPNAMELENGTH, MAX_DMAPTITLELENGTH, MAX_DMAPINTROLENGTH
+const int MAX_FFC_*
+ * Information about some system constraints
+ 
+const int SCREEN_WIDTH, int SCREEN_HEIGHT, int SUBSCREEN_BOTTOM, int SUBSCREEN_TOP
+ * Screen dimensions. 
+
+const int NPCSF_*
+* NPC Spawn Flags
+
+const int NPCM_*
+* NPC Misc. Flags
+ 
+ const int SFM__*
+* Misc. Screen Flags
+
+const int CSET_*
+ * Values for the first colour in each CSet
+ 
+const int SPRITE_*
+ * Values for all default sprites
+  
+const int CB_*
+ * Controller input buttons
+ 
+const int AT_*
+ * Aim types for use with AimEWeapon()
+ 
+ 
+
+
+ -- New Functions ( 2.50.2 ) -- 
+ ==============================
+ 
+ 
+int GetLayerComboI(int layer, int pos)
+ * A shorthand way to get a combo inherent flag on the specified layer.
+ * Layer 0 is the screen itself.
+
+void SetLayerComboI(int layer, int pos, int flag)
+ * A shorthand way to set a combo inherent flag on the specified layer.
+ * Layer 0 is the screen itself.
+
+int GetLayerComboC(int layer, int pos)
+ * A shorthand way to get a combo's CSet on the specified layer.
+ * Layer 0 is the screen itself.
+
+void SetLayerComboC(int layer, int pos, int cset)
+ * A shorthand way to set a combo's CSet on the specified layer.
+ * Layer 0 is the screen itself.
+
+ 
+bool ChooseB(bool a, bool b)
+bool ChooseB(bool a, bool b, bool c)
+bool ChooseB(bool a, bool b, bool c, bool d)
+bool ChooseB(bool a, bool b, bool c, bool d, bool e)
+bool ChooseB(bool a, bool b, bool c, bool d, bool e, bool f)
+ * Fairly chooses between two or more boolean values. Overloaded for up to six options.
+ 
+bool ChooseB()
+ * Randomly returns true, or false with a 50/50% chance.. 
+ 
+bool RandB()
+ * Randomly returns true, or false with a 50/50% chance.
+ 
+bool RandB(int percentTrue)
+ * Randomly returns true, or false. uses the input of percentTrue to determine chance.
+ * Example: RandB(40) sets a 40% chance of the return being true, and a 60% chance of it being false.
+
+float SafeSqrt(int n, int spec)
+ * Returns the square root of n, and returns a specified value 'spec' if n is a negative number.
+ * Returns 0 on a failure. 
+ 
+float SafeSqrt(int n)
+ * Returns the square root of n, and returns -32768 is the value of n is a negative number.
+ * Returns 0 on a failure. 
+
+void SetLinkItem(int itm)
+ * Safely sets an item 'itm' true, if it is false, or false if it is true.
+ * Will not slow down ZC.
+ 
+void SetLinkItem(int itm, bool state)
+ * Safely sets an item 'itm' to the value of 'state'.
+ * Will not slow down ZC.
+ 
+void TraceA(int arr)
+ * Traces the contents of an array 'arr' to allegro.log. 
+ * Warning: This may slow ZC down.
+
+void TraceArray(int arr)
+ * Traces the contents of an array 'arr' to allegro.log. 
+ * Warning: This may slow ZC down.
+
+void EndFFC(int ffc_ID)
+* Terminates an ffc specified by 'ffc_id' and sets all of its values to 0. 
+
+bool InputMiddleClick()
+ * Returns true if the middle mouse button is pressed. 
+ * Note that not all mice have a middle button. 
+  
+float BoolToFloat(bool input)
+ * Converts variable 'input' to a floating point 1/0 value.
+	** Modified from submission by BlueTopHat
+ 
+int BoolToInt(bool input)
+ * Converts variable 'input' to a integer (0 or 1).
+ 
+void ScreenToLayer(int sourceMap, int sourceScreen, int layerMin, int layerMax, int drawOpacity, int destLayer){
+ * Draws a screen specified by 'sourceMap and sourceScreen;, from layers specified by 'layerMin and layerMax', 
+ * at a desired opacity, to the layer specified by 'destLayer' of the current screen.
+	** Originally DrawScreenToLayer() - ZoriaRPG
+ 
+int GetLowFloat(int n)
+ * Accepts a float as input, and returns the decimal portion as int.
+	** Originally GetLowArgument() - Successor, or grayswandir?
+
+int GetHighFloat(int n)
+ * Accepts a float as input, and returns the integer portion as int. 
+	** Originally GetHighArgument() - Successor, or grayswandir?
+ 
+int GetDigitValue(int n, int place)
+ * Extracts a single digit from n at the place specified. 
+ * -4 is the ten-thousandTHs place, 0 is the ones spot, and 4 is the ten-thousanDs spot.
+	** Originally GetDigit() - Gleeok
+
+int GetPartialValue(int n, int place, int num)
+ * Extracts an integer using specific places of any value 'n', from position 'place' plus a number of places 'num'.
+	** Originally GetDigit() - Gleeok, or Saffith?
+
+int DecimalToInt(int v)
+ * Converts floating point value 'v', after the decimal, to an integer.
+	** Originally GetRemainderAsInt() - Gleeok
+
+bool Xor(bool valA, bool valB)
+ * Xor comparison of two boolean values. 
+ * Returns true if values *do not match*, otherwise false. 
+ 
+bool Collision(npc n) 
+bool Collision(ffc f)
+bool Collision(item i)
+bool Collision(lweapon l)
+bool Collision(eweapon e)
+ * Shorthand way of doing LinkCollision() and prophylactic against erroneous usage. 
+ 
+float Distance(int x1, int y1, int x2, int y2, int specify_negative_value) 
+ * Returns the distance between two sets of coordinates using Pythagoras' Theorem
+ * Use specify_negative_value to specify a number to return, if an attempt is made to resolve the square root
+   of a negative number. 
+   
+NoInput(bool analogue_stick)
+ * Kill inputs, but not from analogue stock, unless value 'analogue_stick' is set 'true'.
+ 
+ -- Function Changes ( 2.50.2 ) -- 
+ ==================================
+ 
+ Distance() now uses SafeSqrt() to avoid errors when parsing negative values, or values too large for ZC 
+ to use to perform a square root operation.
+  

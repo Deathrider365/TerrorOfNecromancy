@@ -1,0 +1,3317 @@
+ZQuest Classic Player, v.2.55 Alpha 70
+Allocating quest path buffers (4.00k/4.00k)...OK
+Allocating map buffer (455.28k/459.28k)... OK
+Allocating combo buffer (5.98k/465.26k)... OK
+Allocating string buffer (768.00k/1.20M)... OK
+Allocating door combo buffer (159.50k/1.36M)... OK
+Allocating dmap buffer (798.00k/2.14M)... OK
+Allocating combo buffer (6.23M/8.36M)... OK
+Allocating color data buffer (314.11k/8.67M)... OK
+Allocating tile buffer (27.82M/36.49M)... OK
+Allocating trash buffer (97.66k/36.59M)... OK
+Allocating item buffer (517.01k/37.09M)... OK
+Allocating weapon buffer (4.00k/37.10M)... OK
+Allocating guy buffer (862.00k/37.94M)... OK
+Allocating combo class buffer (36.93k/37.97M)... OK
+Initializing Allegro... The Current ZQuest Player Module is: modules/classic.zmod
+Module zelda_dat set to modules/classic/classic_zelda.dat
+Module zquest_dat set to modules/classic/classic_zquest.dat
+Module fonts_dat set to modules/classic/classic_fonts.dat
+Module sfx_dat set to modules/classic/classic_sfx.dat
+Module qst_dat set to modules/classic/classic_qst.dat
+Base NSF file: modules/classic/zelda.nsf
+Module Title: Zelda Classic
+Module Author: Armageddon Games
+Module Info: 
+The 'Zelda Classic Module' for ZC Player
+and ZQ Editor, featuring the classic
+first through tenth quests by Armageddon
+Games, and various contest contributors.
+
+Module Version: 2.0.2.0
+Module Build: 0, Beta: 0
+Build Date: 8th February, 2020 at @ 12:51 GMT
+ZModule::load() was called by: ZC Player
+OK
+Checking Files... OK
+Allocating bitmap buffers... OK
+Loading data files:
+Zelda.Dat...OK
+Fonts.Dat...OK
+SFX.Dat...OK
+Initializing sound driver... OK
+Used switch: -fullscreen
+set gfx mode succsessful at -1 8bpp 960 x 720 
+Triplebuffer not available
+Loading saved games... OK
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\modules/classic/zelda.nsf
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Continue DMap set to 2
+Gained item 3: Bomb (Normal)
+Gained item 5: Sword 1 (Wooden)
+Gained item 10: Candle 1 (Red)
+Gained item 12: Medical Herb
+Gained item 13: Arrow 1 (Wooden)
+Gained item 15: Bow 1 (Wooden)
+Gained item 16: Seared Steak
+Gained item 23: Boomerang 1 (Wooden)
+Gained item 25: Wand 1 (Normal)
+Gained item 26: Raft
+Gained item 27: Ladder
+Gained item 29: Potion 1 (Blue)
+Gained item 31: Ocarina
+Gained item 42: Wallet 2 (999)
+Gained item 48: Bomb (Powder Keg)
+Gained item 51: Flippers
+Gained item 53: Lens of Truth
+Gained item 64: Din's Fire
+Gained item 65: Farore's Wind
+Gained item 66: Nayru's Love
+Gained item 74: Quiver 1 (Small)
+Gained item 81: Bomb Bag 1 (Small)
+Gained item 89: Hookshot
+Gained item 94: Scroll: Spin Attack
+Gained item 95: Scroll: Cross Beams
+Gained item 96: Scroll: Quake Hammer
+Gained item 97: Scroll: Super Quake
+Gained item 98: Scroll: Hurricane Spin
+Gained item 103: Scroll: Peril Beam
+Gained item 107: Bracelet 1 (Worn-out Glove)
+Gained item 147: Hammer 1 (Wooden)
+Continue screen set to 0
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 1 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 1
+Warped to DMap 2: Opening Scene, screen 1, via Insta-Warp.
+Screen (6, 01) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 2 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 2
+Warped to DMap 2: Opening Scene, screen 2, via Insta-Warp.
+Screen (6, 02) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 3 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 3
+Warped to DMap 2: Opening Scene, screen 3, via Insta-Warp.
+Screen (6, 03) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 4 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 4
+Warped to DMap 2: Opening Scene, screen 4, via Insta-Warp.
+Screen (6, 04) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 5 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 5
+Warped to DMap 2: Opening Scene, screen 5, via Insta-Warp.
+Screen (6, 05) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 6 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 6
+Warped to DMap 2: Opening Scene, screen 6, via Insta-Warp.
+Screen (6, 06) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 7 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 136
+WarpEx Return Point Y is: 72
+Continue screen set to 7
+Warped to DMap 2: Opening Scene, screen 7, via Insta-Warp.
+Screen (6, 07) 
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\modules/classic/zelda.nsf
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Continue DMap set to 2
+Gained item 3: Bomb (Normal)
+Gained item 5: Sword 1 (Wooden)
+Gained item 10: Candle 1 (Red)
+Gained item 12: Medical Herb
+Gained item 13: Arrow 1 (Wooden)
+Gained item 15: Bow 1 (Wooden)
+Gained item 16: Seared Steak
+Gained item 23: Boomerang 1 (Wooden)
+Gained item 25: Wand 1 (Normal)
+Gained item 26: Raft
+Gained item 27: Ladder
+Gained item 29: Potion 1 (Blue)
+Gained item 31: Ocarina
+Gained item 42: Wallet 2 (999)
+Gained item 48: Bomb (Powder Keg)
+Gained item 51: Flippers
+Gained item 53: Lens of Truth
+Gained item 64: Din's Fire
+Gained item 65: Farore's Wind
+Gained item 66: Nayru's Love
+Gained item 74: Quiver 1 (Small)
+Gained item 81: Bomb Bag 1 (Small)
+Gained item 89: Hookshot
+Gained item 94: Scroll: Spin Attack
+Gained item 95: Scroll: Cross Beams
+Gained item 96: Scroll: Quake Hammer
+Gained item 97: Scroll: Super Quake
+Gained item 98: Scroll: Hurricane Spin
+Gained item 103: Scroll: Peril Beam
+Gained item 107: Bracelet 1 (Worn-out Glove)
+Gained item 147: Hammer 1 (Wooden)
+Continue screen set to 0
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 1 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 1
+Warped to DMap 2: Opening Scene, screen 1, via Insta-Warp.
+Screen (6, 01) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 2 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 2
+Warped to DMap 2: Opening Scene, screen 2, via Insta-Warp.
+Screen (6, 02) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 3 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 3
+Warped to DMap 2: Opening Scene, screen 3, via Insta-Warp.
+Screen (6, 03) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 4 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 4
+Warped to DMap 2: Opening Scene, screen 4, via Insta-Warp.
+Screen (6, 04) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 5 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 5
+Warped to DMap 2: Opening Scene, screen 5, via Insta-Warp.
+Screen (6, 05) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 6 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 6
+Warped to DMap 2: Opening Scene, screen 6, via Insta-Warp.
+Screen (6, 06) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 7 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 136
+WarpEx Return Point Y is: 72
+Continue screen set to 7
+Warped to DMap 2: Opening Scene, screen 7, via Insta-Warp.
+Screen (6, 07) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 2 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 8 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 5 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 0 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 128
+WarpEx Return Point Y is: 144
+Continue screen set to 8
+Warped to DMap 2: Opening Scene, screen 8, via Entrance/Exit.
+Screen (6, 08) 
+(guys.spr(GuyH::getNPCIndex(i))->initialised) is 0
+Script created NPC "Leviathan1 (Head)" with UID = 5025
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\ 
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ 
+Script created lweapon 23 with UID = 5035
+Script created lweapon 23 with UID = 5036
+Script created lweapon 23 with UID = 5037
+Script created lweapon 23 with UID = 5038
+Script created lweapon 23 with UID = 5039
+Script created lweapon 23 with UID = 5040
+Script created lweapon 23 with UID = 5041
+Script created lweapon 23 with UID = 5042
+Script created lweapon 23 with UID = 5043
+Script created lweapon 23 with UID = 5044
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5083
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5084
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5089
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5090
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5096
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5097
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5105
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5106
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5113
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5114
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5118
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5119
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 5121
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5122
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5131
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5132
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+Script created eweapon 40 with UID = 5137
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 5138
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (6, 09) 
+Screen (6, 08) 
+Screen (6, 07) 
+Screen (6, 17) 
+Screen (6, 18) 
+Screen (6, 08) 
+Screen (6, 09) 
+Screen (6, 08) 
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\modules/classic/zelda.nsf
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Continue DMap set to 2
+Gained item 3: Bomb (Normal)
+Gained item 5: Sword 1 (Wooden)
+Gained item 10: Candle 1 (Red)
+Gained item 12: Medical Herb
+Gained item 13: Arrow 1 (Wooden)
+Gained item 15: Bow 1 (Wooden)
+Gained item 16: Seared Steak
+Gained item 23: Boomerang 1 (Wooden)
+Gained item 25: Wand 1 (Normal)
+Gained item 26: Raft
+Gained item 27: Ladder
+Gained item 29: Potion 1 (Blue)
+Gained item 31: Ocarina
+Gained item 42: Wallet 2 (999)
+Gained item 48: Bomb (Powder Keg)
+Gained item 51: Flippers
+Gained item 53: Lens of Truth
+Gained item 64: Din's Fire
+Gained item 65: Farore's Wind
+Gained item 66: Nayru's Love
+Gained item 74: Quiver 1 (Small)
+Gained item 81: Bomb Bag 1 (Small)
+Gained item 89: Hookshot
+Gained item 94: Scroll: Spin Attack
+Gained item 95: Scroll: Cross Beams
+Gained item 96: Scroll: Quake Hammer
+Gained item 97: Scroll: Super Quake
+Gained item 98: Scroll: Hurricane Spin
+Gained item 103: Scroll: Peril Beam
+Gained item 107: Bracelet 1 (Worn-out Glove)
+Gained item 147: Hammer 1 (Wooden)
+Continue screen set to 0
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 1 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 1
+Warped to DMap 2: Opening Scene, screen 1, via Insta-Warp.
+Screen (6, 01) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 2 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 2
+Warped to DMap 2: Opening Scene, screen 2, via Insta-Warp.
+Screen (6, 02) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 3 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 3
+Warped to DMap 2: Opening Scene, screen 3, via Insta-Warp.
+Screen (6, 03) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 4 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 4
+Warped to DMap 2: Opening Scene, screen 4, via Insta-Warp.
+Screen (6, 04) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 5 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 5
+Warped to DMap 2: Opening Scene, screen 5, via Insta-Warp.
+Screen (6, 05) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 6 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 6
+Warped to DMap 2: Opening Scene, screen 6, via Insta-Warp.
+Screen (6, 06) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 7 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 136
+WarpEx Return Point Y is: 72
+Continue screen set to 7
+Warped to DMap 2: Opening Scene, screen 7, via Insta-Warp.
+Screen (6, 07) 
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 2 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 8 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 5 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 0 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 128
+WarpEx Return Point Y is: 144
+Continue screen set to 8
+Warped to DMap 2: Opening Scene, screen 8, via Entrance/Exit.
+Screen (6, 08) 
+(guys.spr(GuyH::getNPCIndex(i))->initialised) is 0
+Script created NPC "Leviathan1 (Head)" with UID = 6970
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\modules/classic/zelda.nsf
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Continue DMap set to 2
+Gained item 3: Bomb (Normal)
+Gained item 5: Sword 1 (Wooden)
+Gained item 10: Candle 1 (Red)
+Gained item 12: Medical Herb
+Gained item 13: Arrow 1 (Wooden)
+Gained item 15: Bow 1 (Wooden)
+Gained item 16: Seared Steak
+Gained item 23: Boomerang 1 (Wooden)
+Gained item 25: Wand 1 (Normal)
+Gained item 26: Raft
+Gained item 27: Ladder
+Gained item 29: Potion 1 (Blue)
+Gained item 31: Ocarina
+Gained item 42: Wallet 2 (999)
+Gained item 48: Bomb (Powder Keg)
+Gained item 51: Flippers
+Gained item 53: Lens of Truth
+Gained item 64: Din's Fire
+Gained item 65: Farore's Wind
+Gained item 66: Nayru's Love
+Gained item 74: Quiver 1 (Small)
+Gained item 81: Bomb Bag 1 (Small)
+Gained item 89: Hookshot
+Gained item 94: Scroll: Spin Attack
+Gained item 95: Scroll: Cross Beams
+Gained item 96: Scroll: Quake Hammer
+Gained item 97: Scroll: Super Quake
+Gained item 98: Scroll: Hurricane Spin
+Gained item 103: Scroll: Peril Beam
+Gained item 107: Bracelet 1 (Worn-out Glove)
+Gained item 147: Hammer 1 (Wooden)
+Continue screen set to 0
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 1 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 1
+Warped to DMap 2: Opening Scene, screen 1, via Insta-Warp.
+Screen (6, 01) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 2 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 2
+Warped to DMap 2: Opening Scene, screen 2, via Insta-Warp.
+Screen (6, 02) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 3 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 3
+Warped to DMap 2: Opening Scene, screen 3, via Insta-Warp.
+Screen (6, 03) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 4 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 4
+Warped to DMap 2: Opening Scene, screen 4, via Insta-Warp.
+Screen (6, 04) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 5 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 5
+Warped to DMap 2: Opening Scene, screen 5, via Insta-Warp.
+Screen (6, 05) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 6 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 6
+Warped to DMap 2: Opening Scene, screen 6, via Insta-Warp.
+Screen (6, 06) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 7 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 136
+WarpEx Return Point Y is: 72
+Continue screen set to 7
+Warped to DMap 2: Opening Scene, screen 7, via Insta-Warp.
+Screen (6, 07) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 2 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 8 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 5 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 0 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 128
+WarpEx Return Point Y is: 144
+Continue screen set to 8
+Warped to DMap 2: Opening Scene, screen 8, via Entrance/Exit.
+Screen (6, 08) 
+(guys.spr(GuyH::getNPCIndex(i))->initialised) is 0
+Script created NPC "Leviathan1 (Head)" with UID = 8490
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\ 
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ 
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Script created lweapon 23 with UID = 8493
+Script created lweapon 23 with UID = 8494
+Script created lweapon 23 with UID = 8495
+Script created lweapon 23 with UID = 8496
+Script created lweapon 23 with UID = 8497
+Script created lweapon 23 with UID = 8498
+Script created lweapon 23 with UID = 8499
+Script created lweapon 23 with UID = 8500
+Script created lweapon 23 with UID = 8501
+Script created lweapon 23 with UID = 8502
+Script created eweapon 40 with UID = 8503
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8504
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8505
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8506
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8507
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8508
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8509
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8510
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8511
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8512
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8513
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8514
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8515
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8516
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8517
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8518
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8519
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8520
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8521
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8522
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8523
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8524
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8525
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8526
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8527
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8528
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8529
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8530
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 8531
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 8532
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\modules/classic/zelda.nsf
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+2.50 title screen. Font: 0
+2.50 title screen. X: 80
+2.50 title screen. Y: 134
+2.50 title screen. col: 255
+2.50 title screen. sz: -1
+2.50 title screen. Font2: 0
+2.50 title screen. X2: 80
+2.50 title screen. Y2: 142
+2.50 title screen. col2: 15
+2.50 title screen. sz2: -1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Saving Quest...
+
+Writing Header...okay.
+Writing Rules...okay.
+Writing Strings...okay.
+Writing Doors...okay.
+Writing DMaps...okay.
+Writing Misc. Data...okay.
+Writing Misc. Colors...okay.
+Writing Game Icons...okay.
+Writing Items...okay.
+Writing Weapons...okay.
+Writing Maps...okay.
+Writing Combos...okay.
+Writing Combo Aliases...okay.
+Writing Color Data...okay.
+Counting tiles used
+writetiles counted 46608tiles used.
+Writing Tiles...okay.
+Writing MIDIs...okay.
+Writing Cheat Codes...okay.
+Writing Init. Data...okay.
+Writing Custom Guy Data...okay.
+Writing Custom Link Sprite Data...okay.
+Writing Custom Subscreen Data...okay.
+About to write combo script pt 1.
+About to write combo script pt 2.
+About to write combo script pt 3.
+About to write combo script pt 4.
+About to write combo script pt 1.
+About to write combo script pt 2.
+About to write combo script pt 3.
+About to write combo script pt 4.
+Writing FF Script Data...okay.
+Writing SFX Data...okay.
+Writing Item Drop Sets...okay.
+Writing Favorite Combos...okay.
+Pass 1: Parsing
+Pass 2: Preprocessing
+Pass 3: Registration
+Pass 4: Analyzing Code
+Pass 5: Generating object code
+Pass 6: Assembling
+~InitZQ_PARSER~InitZQ_PARSERGlobalScriptsGlobalScriptsOnSaveLoadOnSaveLoadonF6MenuonF6MenuonContGameonContGameBossNameStringBossNameStringCompassBeepCompassBeepOpenForItemIDOpenForItemIDBossMusicBossMusicMessageThenWarpMessageThenWarpScreenBeforeLeviathan1ScreenBeforeLeviathan1NormalStringNormalStringTradeGuyTradeGuySignpostSignpostSwitchSecretSwitchSecretSwitchRemoteSwitchRemoteSwitchHitAllSwitchHitAllSwitchTrapSwitchTrapSwitchSequentialSwitchSequentialIceBlockIceBlockIceTriggerIceTriggersfxplaysfxplayAdvanceBoomerangPickUpAdvanceBoomerangPickUpLegionRingsLegionRingsGanonRageGanonRageLifeRingLifeRingHaerenGraceHaerenGraceGaleBRangGaleBRangPortalSpherePortalSphereLeviathan_WaterfallLeviathan_WaterfallHeroActiveHeroActiveOnDeathOnDeathLeviathan1Leviathan1Success!
+
+Compiled scripts in version: 18
+Continue screen set to ff
+Quest number is: 2
+Quest skip string is: ZELDAQuest number is: 3
+Quest skip string is: ALPHAQuest number is: 4
+Quest skip string is: GANONQuest number is: 5
+Quest skip string is: JEANTrying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_1st.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Quest Number 1 of this Module
+Last saved in ZC Editor Version: 2.53.0
+Project ID: ZQuest Creator Suite
+Reading Header...okay.
+Made in ZQuest 250 Beta 32
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 2
+Copying misc.colors.*tile to misc.colors.new_*tile.
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+Copying over old init values:
+temp_zinit.bombs is: 0
+temp_zinit.nBombs is: 0
+temp_zinit.super_bombs is: 0
+temp_zinit.nSbombs is: 0
+temp_zinit.max_bombs is: 8
+temp_zinit.nBombmax is: 8
+temp_zinit.arrows is: 0
+temp_zinit.nArrows is: 0
+temp_zinit.max_arrows is: 0
+temp_zinit.nArrowmax is: 0
+About to copy over new init data values for quest made in: 250
+Reading Init. Data...okay.
+Guy CVersion is: 3
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Populating InitD Label Fields for NPCS
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 6
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 250
+Quest made in ZC Build: 32
+Quest Section 'Header' is Version: 3
+Quest Section 'Rules' is Version: 13
+Quest Section 'Strings' is Version: 5
+Quest Section 'Misc' is Version: 7
+Quest Section 'Tiles' is Version: 1
+Quest Section 'Combos' is Version: 7
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 18
+Quest Section 'DMaps' is Version: 9
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 25
+Quest Section 'Weapons' is Version: 6
+Quest Section 'Colors' is Version: 2
+Quest Section 'Icons' is Version: 1
+Quest Section 'InitData' is Version: 18
+Quest Section 'Guys' is Version: 24
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 2
+Quest Section 'Link Sprites' is Version: 5
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 6
+Quest Section 'SFX' is Version: 6
+Quest Section 'Favorites' is Version: 1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Running game_details(int file)
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: modules/classic/classic_qst.dat#NESQST_NEW_QST...
+
+Decrypting...okay.
+Opening...okay.
+Registering blank tiles
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+Trying to do strncasecmp() when loading a quest
+Filename size of qst.dat file modules/classic/classic_qst.dat is 31.
+Loading Quest: C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ToN.qst...
+
+Decrypting...okay.
+Opening...okay.
+
+[ZQUEST CREATOR METADATA]
+Last saved in ZC Editor Version: (2,55,0,0) Alpha 70
+Created with ZC Module: modules/classic.zmod
+
+Developr Signoff by: ZoriaRPG, (ID: 1)
+Compiled with: MSVC, (ID: 1)
+Compiler Version: 1500, (15,0,21022,8)
+Project ID: AEternal
+
+Editor Built at date and time: 7-5-2020 at @ 03:28:09 GMT
+
+Reading Header...okay.
+Made in ZQuest 255 Beta 50
+Reading Rules...okay.
+Reading Strings...okay.
+Reading Doors...okay.
+Reading DMaps...okay.
+Reading Misc. Data...okay.
+Misc Colours section version: 3
+Reading Misc. Colors...okay.
+Reading Game Icons...okay.
+Reading Items...okay.
+Reading Weapons...okay.
+Reading Maps...okay.
+Reading Combos...okay.
+Reading Combo Aliases...okay.
+Reading Color Data...okay.
+Registering blank tiles
+Reading Tiles...okay.
+Reading Tunes...okay.
+Reading Cheat Codes...okay.
+2.50.x version of init data, or older.
+2.50.x version of init data, or older.
+About to copy over new init data values for quest made in: 255
+Reading Init. Data...okay.
+Guy CVersion is: 4
+Reading Custom Guy Data...okay.
+Reading Custom Link Sprite Data...okay.
+Reading Custom Subscreen Data...okay.
+Loaded scripts last compiled in ZScript version: 18
+Reading FF Script Data...okay.
+Reading SFX Data...okay.
+Reading Item Drop Sets...okay.
+Reading Favorite Combos...okay.
+Done.
+Quest made in ZC Version: 255
+Quest made in ZC Build: 50
+Quest Section 'Header' is Version: 5
+Quest Section 'Rules' is Version: 15
+Quest Section 'Strings' is Version: 7
+Quest Section 'Misc' is Version: 11
+Quest Section 'Tiles' is Version: 2
+Quest Section 'Combos' is Version: 15
+Quest Section 'CSets' is Version: 4
+Quest Section 'Maps' is Version: 22
+Quest Section 'DMaps' is Version: 14
+Quest Section 'Doors' is Version: 1
+Quest Section 'Items' is Version: 45
+Quest Section 'Weapons' is Version: 7
+Quest Section 'Colors' is Version: 3
+Quest Section 'Icons' is Version: 10
+Quest Section 'InitData' is Version: 20
+Quest Section 'Guys' is Version: 41
+Quest Section 'MIDIs' is Version: 4
+Quest Section 'Cheats' is Version: 1
+Quest Section 'Combo Aliases' is Version: 3
+Quest Section 'Link Sprites' is Version: 6
+Quest Section 'Subscreen' is Version: 6
+Quest Section 'Dropsets' is Version: 2
+Quest Section 'FFScript' is Version: 18
+Quest Section 'SFX' is Version: 7
+Quest Section 'Favorites' is Version: 1
+Continue DMap set to 2
+Gained item 3: Bomb (Normal)
+Gained item 5: Sword 1 (Wooden)
+Gained item 10: Candle 1 (Red)
+Gained item 12: Medical Herb
+Gained item 13: Arrow 1 (Wooden)
+Gained item 15: Bow 1 (Wooden)
+Gained item 16: Seared Steak
+Gained item 23: Boomerang 1 (Wooden)
+Gained item 25: Wand 1 (Normal)
+Gained item 26: Raft
+Gained item 27: Ladder
+Gained item 29: Potion 1 (Blue)
+Gained item 31: Ocarina
+Gained item 42: Wallet 2 (999)
+Gained item 48: Bomb (Powder Keg)
+Gained item 51: Flippers
+Gained item 53: Lens of Truth
+Gained item 64: Din's Fire
+Gained item 65: Farore's Wind
+Gained item 66: Nayru's Love
+Gained item 74: Quiver 1 (Small)
+Gained item 81: Bomb Bag 1 (Small)
+Gained item 89: Hookshot
+Gained item 94: Scroll: Spin Attack
+Gained item 95: Scroll: Cross Beams
+Gained item 96: Scroll: Quake Hammer
+Gained item 97: Scroll: Super Quake
+Gained item 98: Scroll: Hurricane Spin
+Gained item 103: Scroll: Peril Beam
+Gained item 107: Bracelet 1 (Worn-out Glove)
+Gained item 147: Hammer 1 (Wooden)
+Continue screen set to 0
+Full path string is: include/
+Include path 0: include/
+Include path 1: 
+Include path 2: 
+Include path 3: 
+Include path 4: 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 1 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 1
+Warped to DMap 2: Opening Scene, screen 1, via Insta-Warp.
+Screen (6, 01) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 2 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 2
+Warped to DMap 2: Opening Scene, screen 2, via Insta-Warp.
+Screen (6, 02) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 3 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 3
+Warped to DMap 2: Opening Scene, screen 3, via Insta-Warp.
+Screen (6, 03) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 4 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 4
+Warped to DMap 2: Opening Scene, screen 4, via Insta-Warp.
+Screen (6, 04) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 5 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 5
+Warped to DMap 2: Opening Scene, screen 5, via Insta-Warp.
+Screen (6, 05) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 6 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 120
+WarpEx Return Point Y is: 80
+Continue screen set to 6
+Warped to DMap 2: Opening Scene, screen 6, via Insta-Warp.
+Screen (6, 06) 
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 5 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 7 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 0 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 1 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 136
+WarpEx Return Point Y is: 72
+Continue screen set to 7
+Warped to DMap 2: Opening Scene, screen 7, via Insta-Warp.
+Screen (6, 07) 
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+FFscript.cpp running do_warp_ex with 9 args
+Link script 2 (HeroActive): Running warpex from Link.cpp
+FFScript::warp_link() arg warpType is: 2 
+FFScript::warp_link() arg dmapID is: 2 
+FFScript::warp_link() arg scrID is: 8 
+FFScript::warp_link() arg warpDestX is: -1 
+FFScript::warp_link() arg warpDestY is: 0 
+FFScript::warp_link() arg warpEffect is: 5 
+FFScript::warp_link() arg warpSound is: 0 
+FFScript::warp_link() arg warpFlags is: 96 
+FFScript::warp_link() arg linkFacesDir is: 0 
+WarpEx() was set to warp return point:0
+WarpEx Return Point X is: 128
+WarpEx Return Point Y is: 144
+Continue screen set to 8
+Warped to DMap 2: Opening Scene, screen 8, via Entrance/Exit.
+Screen (6, 08) 
+(guys.spr(GuyH::getNPCIndex(i))->initialised) is 0
+Script created NPC "Leviathan1 (Head)" with UID = 10120
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\ 
+Trying to load C:\Users\testing\Desktop\Terror of Necromancy\ToN ZC\..\ 
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Script created lweapon 23 with UID = 10123
+Script created lweapon 23 with UID = 10124
+Script created lweapon 23 with UID = 10125
+Script created lweapon 23 with UID = 10126
+Script created lweapon 23 with UID = 10127
+Script created lweapon 23 with UID = 10128
+Script created lweapon 23 with UID = 10129
+Script created lweapon 23 with UID = 10130
+Script created lweapon 23 with UID = 10131
+Script created lweapon 23 with UID = 10132
+Script created eweapon 40 with UID = 10133
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10134
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10135
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10136
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10137
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10138
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10139
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10140
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10141
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10142
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10143
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10144
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10145
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10146
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10147
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10148
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10149
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10150
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10151
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10152
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Script created eweapon 40 with UID = 10154
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+Script created eweapon 31 with UID = 10155
+(Ewpns.spr(EwpnH::getEWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 23
+parentitem: 23
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Continue screen set to 0
+Continue DMap set to 0
+Warped to DMap 0: Isle of Haeren, screen 0, via Insta-Warp.
+Screen (1, 00) 
+Current screen's State was set: Item
+itemscriptInitialised[new_i] is 0
+Gained item 24: Boomerang 2 (Magic)
+Item script reached quit/end of scope
+Item script reached quit/end of scope for new_i: 35
+Gained item 35: Boomerang 3 (Gale)
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (1, 01) 
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (1, 02) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (1, 03) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Warped to DMap 1: IoH Caves, screen 12, via Insta-Warp.
+Screen (1, 0c) 
+Warped to DMap 0: Isle of Haeren, screen 3, via Insta-Warp.
+Screen (1, 03) 
+Screen (1, 13) 
+Warped to DMap 1: IoH Caves, screen 28, via Insta-Warp.
+Screen (1, 1c) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (1, 1b) 
+Screen (1, 2b) 
+Screen (1, 2a) 
+Warped to DMap 0: Isle of Haeren, screen 33, via Insta-Warp.
+Screen (1, 21) 
+Screen (1, 20) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+State change carried over to (1, 29)
+State change carried over to (1, 20)
+State change carried over to (1, 29)
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 1: IoH Caves, screen 41, via Insta-Warp.
+Screen (1, 29) [Secrets]
+Screen (1, 39) 
+Screen (1, 3a) 
+Screen (1, 39) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 29) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 0: Isle of Haeren, screen 32, via Insta-Warp.
+Screen (1, 20) [Secrets]
+Screen (1, 10) 
+Screen (1, 11) 
+Screen (1, 01) 
+Screen (1, 02) 
+Screen (1, 12) 
+Screen (1, 22) 
+Continue screen set to 42
+Continue DMap set to 3
+Warped to DMap 3: Temple of Haeren, screen 66, via Insta-Warp.
+Screen (7, 42) 
+Screen (7, 32) 
+Screen (7, 31) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+Screen (7, 41) 
+Screen (7, 51) 
+Screen (7, 52) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 53) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 52) 
+Screen (7, 51) 
+Screen (7, 41) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 31) [Secrets]
+Screen (7, 30) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 20) 
+Screen (7, 10) 
+Screen (7, 11) 
+Screen (7, 01) 
+Screen (7, 02) 
+Screen (7, 03) 
+Screen (7, 13) 
+Screen Secrets triggered by the 'Enemies->Secret' screen flag.
+Current screen's State was set: Secrets
+Current screen's State was set: Item
+Screen (7, 14) 
+Screen (7, 24) 
+Current screen's State was set: Item
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 34) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 24) [Secrets, Item]
+Screen (7, 34) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 24) [Secrets, Item]
+Screen (7, 14) 
+Current screen's State was set: Treasure Chests
+Current screen's State was set: Special Item
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 24) [Secrets, Item]
+Screen (7, 34) 
+Screen (7, 33) 
+Screen (7, 43) 
+Current screen's State was set: Secrets
+Screen Secrets triggered.
+Screen (7, 33) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 43) [Secrets]
+Screen (7, 33) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+Screen (7, 23) 
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+takehit wpnId is: 1
+Screen Secrets triggered by the 'Enemies->Secret' screen flag.
+Current screen's State was set: Secrets
+Current screen's State was set: Treasure Chests
+Current screen's State was set: Special Item
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 33) [Secrets]
+Screen (7, 32) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 31) [Secrets]
+Screen (7, 30) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 31) [Secrets]
+Screen (7, 41) 
+Screen (7, 51) 
+Screen (7, 52) 
+Screen (7, 53) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 43) [Secrets]
+Screen (7, 53) 
+Screen (7, 52) 
+Screen (7, 62) 
+Current screen's State was set: Item
+Screen (7, 52) 
+Screen (7, 51) 
+Screen (7, 41) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 31) [Secrets]
+Screen (7, 30) 
+Screen (7, 20) 
+Screen (7, 10) 
+Current screen's State was set: Treasure Chests
+Current screen's State was set: Special Item
+Screen (7, 11) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+Screen (7, 21) 
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+Current screen's State was set: Item
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 31) [Secrets]
+Screen (7, 32) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (7, 33) [Secrets]
+Screen (7, 32) 
+Current screen's State was set: Lock Blocks
+Screen (7, 22) 
+Current screen's State was set: Item
+Current screen's State was set: Boss Lock Blocks
+Screen (7, 12) 
+Current screen's State was set: Item
+itemscriptInitialised[new_i] is 0
+Item script reached quit/end of scope
+Item script reached quit/end of scope for new_i: 130
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 02) 
+Screen (7, 12) [Item]
+itemid: 24
+parentitem: 24
+extend: 0
+size flags: 0
+TileWidth: 1
+TileHeight: 1
+HitWidth: 7
+HitHeight: 11
+HitZHeight: 8
+HitXOffset: 4
+HitYOffset: 0
+DrawYOffset: 54
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen (7, 02) 
+Continue screen set to 0
+Continue DMap set to 0
+Warped to DMap 0: Isle of Haeren, screen 0, via Insta-Warp.
+Screen (1, 00) [Item]
+Screen (1, 10) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 20) [Secrets]
+Screen (1, 30) 
+Screen (1, 40) 
+Screen (1, 50) 
+Screen (1, 40) 
+Screen (1, 30) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 20) [Secrets]
+Screen (1, 21) 
+Screen (1, 11) 
+Screen (1, 12) 
+Screen (1, 13) 
+Screen (1, 14) 
+Screen (1, 15) 
+Screen (1, 25) 
+Screen (1, 35) 
+Screen (1, 34) 
+Screen (1, 24) 
+Screen (1, 14) 
+Screen (1, 24) 
+Screen (1, 34) 
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Warped to DMap 1: IoH Caves, screen 61, via Insta-Warp.
+Screen (1, 3d) 
+Screen (1, 3e) 
+Screen (1, 2e) 
+Screen (1, 2f) 
+Screen (1, 1f) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+State change carried over to (1, 16)
+State change carried over to (1, 1F)
+State change carried over to (1, 16)
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 0: Isle of Haeren, screen 22, via Insta-Warp.
+Screen (1, 16) [Secrets]
+Screen (1, 15) 
+Screen (1, 25) 
+Screen (1, 35) 
+Screen (1, 36) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+State change carried over to (1, 3F)
+State change carried over to (1, 36)
+State change carried over to (1, 3F)
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 1: IoH Caves, screen 63, via Insta-Warp.
+Screen (1, 3f) [Secrets]
+Screen (1, 2f) 
+Current screen's State was set: Secrets
+Screen Secrets triggered.
+Screen (1, 2e) 
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Screen Secrets triggered.
+Current screen's State was set: Secrets
+State change carried over to (1, 25)
+State change carried over to (1, 2E)
+State change carried over to (1, 25)
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 0: Isle of Haeren, screen 37, via Insta-Warp.
+Screen (1, 25) [Secrets]
+Screen (1, 26) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 36) [Secrets]
+Screen (1, 26) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 36) [Secrets]
+Screen (1, 26) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 25) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 1: IoH Caves, screen 46, via Insta-Warp.
+Screen (1, 2e) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 2f) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 1f) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 0: Isle of Haeren, screen 22, via Insta-Warp.
+Screen (1, 16) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 1: IoH Caves, screen 31, via Insta-Warp.
+Screen (1, 1f) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 2f) [Secrets]
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 2e) [Secrets]
+Screen (1, 3e) 
+Screen (1, 3d) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Warped to DMap 0: Isle of Haeren, screen 52, via Insta-Warp.
+Screen (1, 34) [Secrets]
+Screen (1, 24) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 25) [Secrets]
+Screen (1, 15) 
+Screen (1, 05) 
+Screen (1, 04) 
+Screen (1, 05) 
+Warped to DMap 1: IoH Caves, screen 14, via Insta-Warp.
+Screen (1, 0e) 
+Screen (1, 1e) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 2e) [Secrets]
+Screen (1, 3e) 
+Screen (1, 3d) 
+Screen (1, 2d) 
+Screen (1, 3d) 
+Screen (1, 3c) 
+Warped to DMap 0: Isle of Haeren, screen 51, via Insta-Warp.
+Screen (1, 33) 
+Warped to DMap 1: IoH Caves, screen 60, via Insta-Warp.
+Screen (1, 3c) 
+Screen (1, 3d) 
+Screen (1, 3e) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen (1, 2e) [Secrets]
+Screen (1, 1e) 
+Screen (1, 0e) 
+Warped to DMap 0: Isle of Haeren, screen 5, via Insta-Warp.
+Screen (1, 05) 
+Screen (1, 06) 
+Screen (1, 05) 
+Screen (1, 04) 
+Screen (1, 05) 
+Screen (1, 06) 
+Screen (1, 05) 
+Screen (1, 04) 
+Warped to DMap 1: IoH Caves, screen 13, via Insta-Warp.
+Screen (1, 0d) 
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+Screen Secrets triggered by the 'Secrets' screen state.
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+(Lwpns.spr(LwpnH::getLWeaponIndex(i))->initialised) is 0
+Warped to DMap 0: Isle of Haeren, screen 0, via Insta-Warp.
+Screen (1, 00) [Item]
+Removing timers. 
+Freeing Data: 
+Bitmaps... 
+Subscreens... 
+SFX... 
+Misc... 
+Script buffers... 
+Screen Data... 
+Deleting quest buffers... 
+Cleaning maps. 
+Cleaning tile buffers. 
+Cleaning misc. 
+Armageddon Games web site: http://www.armageddongames.com
+Zelda Classic web site: http://www.zeldaclassic.com
+Zelda Classic wiki: http://www.shardstorm.com/ZCwiki/
+Saving Quest...
+
+Writing Header...okay.
+Writing Rules...okay.
+Writing Strings...okay.
+Writing Doors...okay.
+Writing DMaps...okay.
+Writing Misc. Data...okay.
+Writing Misc. Colors...okay.
+Writing Game Icons...okay.
+Writing Items...okay.
+Writing Weapons...okay.
+Writing Maps...okay.
+Writing Combos...okay.
+Writing Combo Aliases...okay.
+Writing Color Data...okay.
+Counting tiles used
+writetiles counted 46608tiles used.
+Writing Tiles...okay.
+Writing MIDIs...okay.
+Writing Cheat Codes...okay.
+Writing Init. Data...okay.
+Writing Custom Guy Data...okay.
+Writing Custom Link Sprite Data...okay.
+Writing Custom Subscreen Data...okay.
+About to write combo script pt 1.
+About to write combo script pt 2.
+About to write combo script pt 3.
+About to write combo script pt 4.
+About to write combo script pt 1.
+About to write combo script pt 2.
+About to write combo script pt 3.
+About to write combo script pt 4.
+Writing FF Script Data...okay.
+Writing SFX Data...okay.
+Writing Item Drop Sets...okay.
+Writing Favorite Combos...okay.
+Removing timers. 
+Cleaning aliases. 
+Cleaning subscreens. 
+Cleaning sfx. 
+Cleaning script buffer. 
+Cleaning qst buffers. 
+Cleaning maps. 
+Cleaning tile buffers. 
+Cleaning misc. 
+Cleaning midis. 
+Cleaning undotilebuf. 
+Cleaning datafiles. 
+Cleaning bitmaps...... OK. 

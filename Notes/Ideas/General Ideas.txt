@@ -1,8 +1,0 @@
-Have a paladin mode, similar to hero mode, where you get all of the holy gear off the bat but their effectiveness is slightly worse and the entire game is harder with a slightly different story
-
-The cemetary where the undead legion is will have no music but rather just have the sound of wind and the environment, refer to the OoT graveyard
-
-have something like from GS where there is that room with 3 torches that an npc mentiones or something which perhaps can refer to a shrine of takagon and use the takagon glory squad statues
-
-game generic value to pull the dither of dark rooms and change them in global script
-

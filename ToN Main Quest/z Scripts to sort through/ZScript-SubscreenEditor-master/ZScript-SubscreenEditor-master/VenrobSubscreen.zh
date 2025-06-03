@@ -1,0 +1,1382 @@
+#option SHORT_CIRCUIT on
+#option BINARY_32BIT off
+#option HEADER_GUARD on
+#include "std.zh"
+
+/*
+DEV NOTES
+
+PANELS: Multiple separate screens, as many games such as OoT/MM have.
+	-EVERY module needs a panel value, indicating which panel it belongs to.
+	-ANIMATION:
+		-3D Cube style animations between panels, as well as an instant switch, and a 2d slide effect. This will be in the panel settings.
+SETTINGS: Global options for an entire subscreen.
+	-Stored in a settings module, which is always the first module (module '0')
+*/
+
+namespace Venrob
+{
+	typedef const int DEFINE;
+	typedef const int CONFIG;
+	typedef const bool CONFIGB;
+}
+
+namespace Venrob::Subscreen
+{
+	//start Constants/vars
+	DEFINE MAX_MODULE_SIZE = 32;
+	DEFINE MODULE_META_SIZE = P1;
+	DEFINE SUBSCR_STORAGE_SIZE = MAX_INT;
+	DEFINE MAX_MODULES = ((SUBSCR_STORAGE_SIZE / MAX_MODULE_SIZE)/10000)*10000;
+	DEFINE NUM_SETTINGS = 100;
+	untyped activeData[SUBSCR_STORAGE_SIZE];
+	int activeModules[MAX_MODULES];
+	untyped passiveData[SUBSCR_STORAGE_SIZE];
+	int passiveModules[MAX_MODULES];
+	untyped g_arr[G_ARR_SIZE];
+	CONFIGB DEBUG = true;
+	enum Data
+	{
+		START_SETTINGS_META,
+		START_SETTINGS = START_SETTINGS_META + P1,
+		STTNG_FLAGS1 = START_SETTINGS,
+		STTNG_FLAGS2,
+		STTNG_FLAGS3,
+		STTNG_FLAGS4,
+		A_STTNG_FRAME_HOLD_DELAY,
+		A_STTNG_SELECTOR_TYPE,
+		A_STTNG_SELECTOR_VALUE,
+		A_STTNG_SELECTOR_VALUE2,
+		A_STTNG_SELECTOR_SFX,
+		END_SETTINGS = START_SETTINGS+NUM_SETTINGS
+	};
+	enum SelectorType
+	{
+		SEL_RECTANGLE, //Value is Color. Value2 unused.
+		SEL_TILE, //Value is Tile, Value2 is CSet
+		SEL_COMBO, //Value is Tile, Value2 is CSet
+		SEL_ITEM //Value is Item ID, Value2 is unused.
+	};
+	
+	enum GArr
+	{
+		INPUT_TIMERS,
+		NUM_ACTIVE_MODULES = INPUT_TIMERS+18,
+		SZ_ACTIVE_DATA,
+		NUM_PASSIVE_MODULES,
+		SZ_PASSIVE_DATA,
+		ACTIVE_TIMER,
+		PASSIVE_TIMER,
+		ACTIVE_SELECTED_INDEX,
+		LAST_SELECTED_INDEX,
+		INDEX_SELECTION_COOLDOWN,
+		ACTIVE_BITMAP,
+		PASSIVE_BITMAP,
+		ACTIVE_1FRAME_FLAGS_1,
+		PASSIVE_1FRAME_FLAGS_1,
+		SHARED_1FRAME_FLAGS_1,
+		PREPARED_SELECTOR_DATA_START,
+		PREPARED_SELECTOR_DATA_END = PREPARED_SELECTOR_DATA_START + 10,
+		G_ARR_SIZE
+	}; //end Constants/vars
+	
+	enum //For parameters for modules.
+	{
+		//Meta
+		M_SIZE, M_META_SIZE, M_TYPE, M_PANEL, M_LAYER, M_X, M_Y, M_FLAGS1,
+		//Parameters
+		P1, P2, P3, P4, P5, P6, P7, P8, P9, P10
+	};
+
+	DEFINE SUBSCR_BITS_INT = 18;
+	enum
+	{
+		FLAG1  = 000000000000000001b,
+		FLAG2  = 000000000000000010b,
+		FLAG3  = 000000000000000100b,
+		FLAG4  = 000000000000001000b,
+		FLAG5  = 000000000000010000b,
+		FLAG6  = 000000000000100000b,
+		FLAG7  = 000000000001000000b,
+		FLAG8  = 000000000010000000b,
+		FLAG9  = 000000000100000000b,
+		FLAG10 = 000000001000000000b,
+		FLAG11 = 000000010000000000b,
+		FLAG12 = 000000100000000000b,
+		FLAG13 = 000001000000000000b,
+		FLAG14 = 000010000000000000b,
+		FLAG15 = 000100000000000000b,
+		FLAG16 = 001000000000000000b,
+		FLAG17 = 010000000000000000b,
+		FLAG18 = 100000000000000000b
+	};
+	enum //SelectableItems
+	{
+		FLAG_ABTN = FLAG1,
+		FLAG_BBTN = FLAG2
+	};
+	enum //A_STTNG_FLAGS1
+	{
+		FLAG_ITEMS_USE_HITBOX_FOR_SELECTOR = FLAG1
+	};
+	enum //ACTIVE_1FRAME_FLAGS_1
+	{
+		FLAG_DREW_SELECTOR = FLAG1
+	};
+	//start Clearing/Init
+	void init()
+	{
+		clear();
+	}
+	
+	void clear()
+	{
+		clearActive();
+		clearPassive();
+	}
+	
+	void clearActive()
+	{
+		memset(activeData, 0, SUBSCR_STORAGE_SIZE);
+		memset(activeModules, 0, MAX_MODULES);
+		g_arr[NUM_ACTIVE_MODULES] = 1;
+		g_arr[SZ_ACTIVE_DATA] = NUM_SETTINGS + MODULE_META_SIZE;
+		activeModules[1] = g_arr[SZ_ACTIVE_DATA];
+		load_active_settings(NULL);
+	}
+	
+	void clearPassive()
+	{
+		memset(passiveData, 0, SUBSCR_STORAGE_SIZE);
+		memset(passiveModules, 0, MAX_MODULES);
+		g_arr[NUM_PASSIVE_MODULES] = 1;
+		g_arr[SZ_PASSIVE_DATA] = NUM_SETTINGS + MODULE_META_SIZE;
+		passiveModules[1] = g_arr[SZ_PASSIVE_DATA];
+		load_passive_settings(NULL);
+	} //end Clearing/Init
+	
+	//start Modules
+	/*
+	 * Load a saved data array, replacing the currently loaded active subscreen.
+	 * Returns: The number of modules successfully loaded.
+	 * On error: If an invalid array is passed, returns -1, doing nothing else.
+	 */
+	int loadActive(untyped data_arr)
+	{
+		unless(IsValidArray(data_arr) && data_arr[0])
+		{
+			if(DEBUG) error("Subscreen::loadActive() - invalid/empty data loaded!");
+			return -1;
+		}
+		clearActive();
+		int sz = SizeOfArray(data_arr);
+		for(int index = 0; index < sz && data_arr[index] > 0; index += data_arr[index])
+		{
+			untyped buf[MAX_MODULE_SIZE];
+			unless(data_arr[index] < MAX_MODULE_SIZE)
+			{
+				if(DEBUG) error("Subscreen::loadActive() - Module too large! Corrupt/invalid data!");
+				return g_arr[NUM_ACTIVE_MODULES];
+			}
+			memcpy(buf, 0, data_arr, index, data_arr[index]);
+			unless(add_active_module(buf))
+			{
+				if(DEBUG) error("Subscreen::loadActive() - Invalid module loaded!");
+				return g_arr[NUM_ACTIVE_MODULES];
+			}
+		}
+		if(DEBUG) debug("Subscreen::loadActive() - loaded %d data, total %d modules.", g_arr[SZ_ACTIVE_DATA], g_arr[NUM_ACTIVE_MODULES]);
+		return g_arr[NUM_ACTIVE_MODULES];
+	}
+	
+	/*
+	 * Load a saved data array, replacing the currently loaded passive subscreen.
+	 * Returns: The number of modules successfully loaded.
+	 * On error: If an invalid array is passed, returns -1, doing nothing else.
+	 */
+	int loadPassive(untyped data_arr)
+	{
+		unless(IsValidArray(data_arr) && data_arr[0])
+		{
+			if(DEBUG) error("Subscreen::loadPassive() - invalid/empty data loaded!");
+			return -1;
+		}
+		clearPassive();
+		int sz = SizeOfArray(data_arr);
+		for(int index = 0; index < sz && data_arr[index] > 0; index += data_arr[index])
+		{
+			untyped buf[MAX_MODULE_SIZE];
+			unless(data_arr[index] < MAX_MODULE_SIZE)
+			{
+				if(DEBUG) error("Subscreen::loadPassive() - Module too large! Corrupt/invalid data!");
+				return g_arr[NUM_PASSIVE_MODULES];
+			}
+			memcpy(buf, 0, data_arr, index+1, data_arr[index]-1);
+			unless(add_passive_module(buf))
+			{
+				if(DEBUG) error("Subscreen::loadPassive() - Invalid module loaded!");
+				return g_arr[NUM_PASSIVE_MODULES];
+			}
+		}
+		if(DEBUG) debug("Subscreen::loadPassive() - loaded %d data, total %d modules.", g_arr[SZ_PASSIVE_DATA], g_arr[NUM_PASSIVE_MODULES]);
+		return g_arr[NUM_PASSIVE_MODULES];
+	}
+	
+	/*
+	 * Saves the currently loaded active subscreen to a buffer array.
+	 * Returns: true if successful
+	 * Fails if: Buffer provided is too small
+	 */
+	bool saveActive(untyped buf_arr)
+	{
+		if(SizeOfArray(buf_arr) < g_arr[SZ_ACTIVE_DATA])
+		{
+			if(DEBUG) error("Subscreen::saveActive() - buf_arr[] is size %d, expecting minimum %d!", SizeOfArray(buf_arr), g_arr[SZ_ACTIVE_DATA]);
+			return false;
+		}
+		
+		memset(buf_arr, 0, SizeOfArray(buf_arr));
+		memcpy(buf_arr, activeData, g_arr[SZ_ACTIVE_DATA]);
+		if(DEBUG) debug("Subscreen::saveActive() - saved %d data", g_arr[SZ_ACTIVE_DATA]);
+		return true;
+	}
+	
+	/*
+	 * Saves the currently loaded passive subscreen to a buffer array.
+	 * Returns: true if successful
+	 * Fails if: Buffer provided is too small
+	 */
+	bool savePassive(untyped buf_arr)
+	{
+		if(SizeOfArray(buf_arr) < g_arr[SZ_PASSIVE_DATA])
+		{
+			if(DEBUG) error("Subscreen::savePassive() - buf_arr[] is size %d, expecting minimum %d!", SizeOfArray(buf_arr), g_arr[SZ_PASSIVE_DATA]);
+			return false;
+		}
+		
+		memset(buf_arr, 0, SizeOfArray(buf_arr));
+		memcpy(buf_arr, passiveData, g_arr[SZ_PASSIVE_DATA]);
+		if(DEBUG) debug("Subscreen::savePassive() - saved %d data", g_arr[SZ_PASSIVE_DATA]);
+		return true;
+	}
+	
+	/*
+	 * Add a module to the current subscreen.
+	 * 'module_arr' should be of the form: {MODULE_TYPE_CONSTANT, (data/params)...}
+	 * The 'MODULE_TYPE_' constants represent the valid module types, and each have comments for their data parameters.
+	 */
+	bool add_active_module(untyped module_arr, int indx)
+	{
+		unless(validate_active_module(module_arr)) return false;
+		indx = VBound(indx, g_arr[NUM_ACTIVE_MODULES], 1);
+		switch(module_arr[M_TYPE])
+		{
+			case MODULE_TYPE_SETTINGS:
+			{
+				load_active_settings(module_arr);
+				if(g_arr[NUM_ACTIVE_MODULES]) return true; //If there is already a settings module, return here; overwrite it, instead of adding a new one.
+				++g_arr[NUM_ACTIVE_MODULES];
+				g_arr[SZ_ACTIVE_DATA] += activeData[0];
+				return true;
+			}
+			
+			default:
+			{
+				if(indx < g_arr[NUM_ACTIVE_MODULES])
+				{
+					int sz_shift = activeModules[g_arr[NUM_ACTIVE_MODULES]] - activeModules[indx];
+					untyped buf[SUBSCR_STORAGE_SIZE];
+					memcpy(buf, activeData, SUBSCR_STORAGE_SIZE);
+					memcpy(activeData, activeModules[indx]+module_arr[M_SIZE], buf, activeModules[indx], sz_shift);
+					memcpy(activeData, activeModules[indx], module_arr, 0, module_arr[M_SIZE]);
+					g_arr[SZ_ACTIVE_DATA] += module_arr[M_SIZE];
+					for(int q = g_arr[NUM_ACTIVE_MODULES]; q > indx; --q)
+					{
+						activeModules[q] = activeModules[q-1] + module_arr[M_SIZE];
+					}
+				}
+				else
+				{
+					memcpy(activeData, activeModules[indx], module_arr, 0, module_arr[M_SIZE]);
+					g_arr[SZ_ACTIVE_DATA] += module_arr[M_SIZE];
+					activeModules[indx+1] = g_arr[SZ_ACTIVE_DATA];
+				}
+				++g_arr[NUM_ACTIVE_MODULES];
+				activeModules[g_arr[NUM_ACTIVE_MODULES]] = g_arr[SZ_ACTIVE_DATA];
+				break;
+			}
+		}
+		return true;
+	}
+	bool add_active_module(untyped module_arr)
+	{
+		return add_active_module(module_arr, g_arr[NUM_ACTIVE_MODULES]);
+	}
+	void remove_active_module(int indx)
+	{
+		if(indx < 1) return;
+		else if(indx > g_arr[NUM_ACTIVE_MODULES]) indx = g_arr[NUM_ACTIVE_MODULES];
+		int sz = activeData[activeModules[indx]];
+		if(indx < g_arr[NUM_ACTIVE_MODULES])
+		{
+			int sz_shift = activeModules[g_arr[NUM_ACTIVE_MODULES]] - (activeModules[indx]+sz);
+			memmove(activeData, activeModules[indx], activeData, activeModules[indx]+sz, sz_shift);
+			memset(activeData, activeModules[g_arr[NUM_ACTIVE_MODULES]]-sz, 0, g_arr[SZ_ACTIVE_DATA]-(activeModules[g_arr[NUM_ACTIVE_MODULES]]-sz));
+			g_arr[SZ_ACTIVE_DATA] -= sz;
+			for(int q = indx; q <= g_arr[NUM_ACTIVE_MODULES]; ++q)
+			{
+				activeModules[q] = activeModules[q+1] - sz;	
+			}
+		}
+		else if(indx < 1) return;
+		else
+		{
+			memset(activeData, activeModules[indx], 0, sz);
+			g_arr[SZ_ACTIVE_DATA] -= sz;
+			activeModules[g_arr[NUM_ACTIVE_MODULES]] = 0;
+		}
+		--g_arr[NUM_ACTIVE_MODULES];
+	}
+	bool replace_active_module(untyped module_arr, int indx)
+	{
+		remove_active_module(indx);
+		add_active_module(module_arr, indx);
+	}
+	
+	/*
+	 * Add a module to the current subscreen.
+	 * 'module_arr' should be of the form: {MODULE_TYPE_CONSTANT, (data/params)...}
+	 * The 'MODULE_TYPE_' constants represent the valid module types, and each have comments for their data parameters.
+	 */
+	bool add_passive_module(untyped module_arr, int indx)
+	{
+		unless(validate_passive_module(module_arr)) return false;
+		indx = VBound(indx, g_arr[NUM_PASSIVE_MODULES], 1);
+		switch(module_arr[M_TYPE])
+		{
+			case MODULE_TYPE_SETTINGS:
+			{
+				load_passive_settings(module_arr);
+				if(g_arr[NUM_PASSIVE_MODULES]) return true; //If there is already a settings module, return here; overwrite it, instead of adding a new one.
+				++g_arr[NUM_PASSIVE_MODULES];
+				g_arr[SZ_PASSIVE_DATA] += passiveData[0];
+				return true;
+			}
+			
+			default:
+			{
+				if(indx < g_arr[NUM_PASSIVE_MODULES])
+				{
+					int sz_shift = passiveModules[g_arr[NUM_PASSIVE_MODULES]] - passiveModules[indx];
+					untyped buf[SUBSCR_STORAGE_SIZE];
+					memcpy(buf, passiveData, SUBSCR_STORAGE_SIZE);
+					memcpy(passiveData, passiveModules[indx]+module_arr[M_SIZE], buf, passiveModules[indx], sz_shift);
+					memcpy(passiveData, passiveModules[indx], module_arr, 0, module_arr[M_SIZE]);
+					g_arr[SZ_PASSIVE_DATA] += module_arr[M_SIZE];
+					for(int q = g_arr[NUM_PASSIVE_MODULES]; q > indx; --q)
+					{
+						passiveModules[q] = passiveModules[q-1] + module_arr[M_SIZE];
+					}
+				}
+				else
+				{
+					memcpy(passiveData, passiveModules[indx], module_arr, 0, module_arr[M_SIZE]);
+					g_arr[SZ_PASSIVE_DATA] += module_arr[M_SIZE];
+					passiveModules[indx+1] = g_arr[SZ_PASSIVE_DATA];
+				}
+				++g_arr[NUM_PASSIVE_MODULES];
+				passiveModules[g_arr[NUM_PASSIVE_MODULES]] = g_arr[SZ_PASSIVE_DATA];
+				break;
+			}
+		}
+		return true;
+	}
+	bool add_passive_module(untyped module_arr)
+	{
+		return add_passive_module(module_arr, g_arr[NUM_PASSIVE_MODULES]);
+	}
+	void remove_passive_module(int indx)
+	{
+		if(indx < 1) return;
+		else if(indx > g_arr[NUM_PASSIVE_MODULES]) indx = g_arr[NUM_PASSIVE_MODULES];
+		int sz = passiveData[passiveModules[indx]];
+		if(indx < g_arr[NUM_PASSIVE_MODULES])
+		{
+			int sz_shift = passiveModules[g_arr[NUM_PASSIVE_MODULES]] - (passiveModules[indx]+sz);
+			memmove(passiveData, passiveModules[indx], passiveData, passiveModules[indx]+sz, sz_shift);
+			memset(passiveData, passiveModules[g_arr[NUM_PASSIVE_MODULES]]-sz, 0, g_arr[SZ_PASSIVE_DATA]-(passiveModules[g_arr[NUM_PASSIVE_MODULES]]-sz));
+			g_arr[SZ_PASSIVE_DATA] -= sz;
+			for(int q = indx; q <= g_arr[NUM_PASSIVE_MODULES]; ++q)
+			{
+				passiveModules[q] = passiveModules[q+1] - sz;	
+			}
+		}
+		else if(indx < 1) return;
+		else
+		{
+			memset(passiveData, passiveModules[indx], 0, sz);
+			g_arr[SZ_PASSIVE_DATA] -= sz;
+			passiveModules[g_arr[NUM_PASSIVE_MODULES]] = 0;
+		}
+		--g_arr[NUM_PASSIVE_MODULES];
+	}
+	bool replace_passive_module(untyped module_arr, int indx)
+	{
+		remove_passive_module(indx);
+		add_passive_module(module_arr, indx);
+	}
+	
+	/*
+	 * Returns true if the passed module is valid for an active subscreen.
+	 * This has separate handling per module type, ensuring that individual requirements are met.
+	 */
+	bool validate_active_module(untyped module_arr)
+	{
+		moduleType type = module_arr[M_TYPE];
+		switch(type)
+		{
+			case MODULE_TYPE_BGCOLOR:
+			{
+				if(module_arr[M_SIZE]!=P1+1)
+				{
+					if(DEBUG)
+						error("MODULE_TYPE_BGCOLOR (%d) must have argument size (1) in format {COLOR}; argument size %d found", MODULE_TYPE_BGCOLOR, module_arr[M_SIZE]-MODULE_META_SIZE);
+					return false;
+				}
+				if(module_arr[M_LAYER]!=0)
+				{
+					if(DEBUG)
+						error("MODULE_TYPE_BGCOLOR (%d) must use layer 0; %d found", MODULE_TYPE_BGCOLOR, module_arr[M_LAYER]);
+					return false;
+				}
+				if(module_arr[P1] < 0 || module_arr[P1] > 0xFF || (module_arr[P1]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P1]%1)
+							error("MODULE_TYPE_BGCOLOR (%d) argument 1 (COLOR) must be an integer between (0) and (255), inclusive; found %f", MODULE_TYPE_BGCOLOR, module_arr[P1]);
+						else
+							error("MODULE_TYPE_BGCOLOR (%d) argument 1 (COLOR) must be an integer between (0) and (255), inclusive; found %d", MODULE_TYPE_BGCOLOR, module_arr[P1]);
+					}
+					return false;
+				}
+				return true;
+			}
+			
+			case MODULE_TYPE_SELECTABLE_ITEM_ID:
+			{
+				if(module_arr[M_SIZE]!=P6+1)
+				{
+					if(DEBUG)
+						error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) must have argument size (6) in format {ITEMID, POS, UP, DOWN, LEFT, RIGHT}; argument size %d found", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[M_SIZE]-MODULE_META_SIZE);
+					return false;
+				}
+				if(module_arr[P1] < MIN_ITEMDATA || module_arr[P1] > MAX_ITEMDATA || (module_arr[P1]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P1]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 1 (ITEMID) must be an integer between (0) and (%d), inclusive; found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, MAX_ITEMDATA, module_arr[P1]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 1 (ITEMID) must be an integer between (0) and (%d), inclusive; found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, MAX_ITEMDATA, module_arr[P1]);
+					}
+					return false;
+				}
+				if(module_arr[P2] < -1 || (module_arr[P2]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P2]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 2 (POS) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P2]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 2 (POS) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P2]);
+					}
+					return false;
+				}
+				if(module_arr[P3] < -1 || (module_arr[P3]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P3]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 3 (UP) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P3]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 3 (UP) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P3]);
+					}
+					return false;
+				}
+				if(module_arr[P4] < -1 || (module_arr[P4]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P4]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 4 (DOWN) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P4]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 4 (DOWN) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P4]);
+					}
+					return false;
+				}
+				if(module_arr[P5] < -1 || (module_arr[P5]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P5]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 5 (LEFT) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P5]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 5 (LEFT) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P5]);
+					}
+					return false;
+				}
+				if(module_arr[P6] < -1 || (module_arr[P6]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P6]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 6 (RIGHT) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P6]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_ID (%d) argument 6 (RIGHT) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_ID, module_arr[P6]);
+					}
+					return false;
+				}
+				return true;
+			}
+			
+			case MODULE_TYPE_SELECTABLE_ITEM_CLASS:
+			{
+				if(module_arr[M_SIZE]!=P6+1)
+				{
+					if(DEBUG)
+						error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) must have argument size (6) in format {ITEMCLASS, POS, UP, DOWN, LEFT, RIGHT}; argument size %d found", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[M_SIZE]-MODULE_META_SIZE);
+					return false;
+				}
+				if(module_arr[P1] < 0 || (module_arr[P1]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P1]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 1 (ITEMCLASS) must be a positive integer; found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P1]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 1 (ITEMCLASS) must be a positive integer; found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P1]);
+					}
+					return false;
+				}
+				if(module_arr[P2] < -1 || (module_arr[P2]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P2]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 2 (POS) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P2]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 2 (POS) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P2]);
+					}
+					return false;
+				}
+				if(module_arr[P3] < -1 || (module_arr[P3]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P3]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 3 (UP) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P3]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 3 (UP) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P3]);
+					}
+					return false;
+				}
+				if(module_arr[P4] < -1 || (module_arr[P4]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P4]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 4 (DOWN) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P4]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 4 (DOWN) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P4]);
+					}
+					return false;
+				}
+				if(module_arr[P5] < -1 || (module_arr[P5]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P5]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 5 (LEFT) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P5]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 5 (LEFT) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P5]);
+					}
+					return false;
+				}
+				if(module_arr[P6] < -1 || (module_arr[P6]%1))
+				{
+					if(DEBUG)
+					{
+						if(module_arr[P6]%1)
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 6 (RIGHT) must be an integer (>= -1); found %f", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P6]);
+						else
+							error("MODULE_TYPE_SELECTABLE_ITEM_CLASS (%d) argument 6 (RIGHT) must be an integer (>= -1); found %d", MODULE_TYPE_SELECTABLE_ITEM_CLASS, module_arr[P6]);
+					}
+					return false;
+				}
+				return true;
+			}
+			
+			case MODULE_TYPE_SETTINGS:
+			{
+				return module_arr[M_SIZE] >= MODULE_META_SIZE;
+			}
+			
+			case MODULE_TYPE_ABUTTONITEM:
+			case MODULE_TYPE_BBUTTONITEM:
+			case MODULE_TYPE_PASSIVESUBSCREEN:
+				return true;
+			
+			default:
+			{
+				if(DEBUG) error("validate_module() - Invalid module type encountered (%d)", type);
+				return false;
+			}
+		}
+	}
+	
+	bool validate_passive_module(untyped module_arr)
+	{
+		moduleType type = module_arr[M_TYPE];
+		switch(type)
+		{
+			case MODULE_TYPE_SELECTABLE_ITEM_ID:
+			case MODULE_TYPE_SELECTABLE_ITEM_CLASS:
+			{
+				if(DEBUG) error("Selectable items cannot be placed on the passive subscreen!");
+				return false;
+			}
+			
+			case MODULE_TYPE_PASSIVESUBSCREEN:
+			{
+				if(DEBUG) error("You cannot place a Passive Subscreen on a Passive Subscreen!");
+				return false;
+			}
+			
+			default: //Fall-through to active cases
+			{
+				return validate_active_module(module_arr);
+			}
+		}
+	}
+	
+	void load_active_settings(untyped settings_arr)
+	{
+		untyped settings[MODULE_META_SIZE+NUM_SETTINGS];
+		load_default_settings(settings, true);
+		if(IsValidArray(settings_arr))
+		{
+			memcpy(settings, 0, settings_arr, 0, Min(NUM_SETTINGS, SizeOfArray(settings_arr)));
+		}
+		memcpy(activeData, START_SETTINGS, settings, START_SETTINGS, NUM_SETTINGS);
+		activeData[M_SIZE] = NUM_SETTINGS + MODULE_META_SIZE;
+		activeData[M_TYPE] = MODULE_TYPE_SETTINGS;
+	}
+	
+	void load_passive_settings(untyped settings_arr)
+	{
+		untyped settings[MODULE_META_SIZE+NUM_SETTINGS];
+		load_default_settings(settings, false);
+		if(IsValidArray(settings_arr))
+			memcpy(settings, 0, settings_arr, 0, Min(NUM_SETTINGS, SizeOfArray(settings_arr)-1));
+		memcpy(passiveData, START_SETTINGS, settings, 0, NUM_SETTINGS);
+		passiveData[M_SIZE] = NUM_SETTINGS + MODULE_META_SIZE;
+		passiveData[M_TYPE] = MODULE_TYPE_SETTINGS;
+	}
+
+	void load_default_settings(untyped settings, bool active)
+	{
+		if(active)
+		{
+			settings[STTNG_FLAGS1] = 000000000000000000b;
+			settings[STTNG_FLAGS2] = 000000000000000000b;
+			settings[STTNG_FLAGS3] = 000000000000000000b;
+			settings[STTNG_FLAGS4] = 000000000000000000b;
+			settings[A_STTNG_FRAME_HOLD_DELAY] = 30;
+			settings[A_STTNG_SELECTOR_TYPE] = SEL_RECTANGLE;
+			settings[A_STTNG_SELECTOR_VALUE] = 0x01;
+			settings[A_STTNG_SELECTOR_VALUE2] = 0;
+			settings[A_STTNG_SELECTOR_SFX] = SFX_CURSOR;
+		}
+		else
+		{
+			settings[STTNG_FLAGS1] = 000000000000000000b;
+			settings[STTNG_FLAGS2] = 000000000000000000b;
+			settings[STTNG_FLAGS3] = 000000000000000000b;
+			settings[STTNG_FLAGS4] = 000000000000000000b;
+		}
+	}//end Modules
+	
+	enum moduleType
+	{
+		MODULE_TYPE_SETTINGS = -1, //Internal use only; for settings
+		MODULE_TYPE_NULL, //NULL
+		MODULE_TYPE_BGCOLOR, //FORMAT: {META..., COLOR} - COLOR is an integer 0 to 255, representing a color from ZC's palette to use.
+		MODULE_TYPE_SELECTABLE_ITEM_ID, //FORMAT: {META..., ITEMID, POS, UP, DOWN, LEFT, RIGHT}
+		MODULE_TYPE_SELECTABLE_ITEM_CLASS, //FORMAT: {META..., ITEMCLASS, POS, UP, DOWN, LEFT, RIGHT}
+		MODULE_TYPE_ABUTTONITEM, //FORMAT: {META...}
+		MODULE_TYPE_BBUTTONITEM, //FORMAT: {META...}
+		MODULE_TYPE_PASSIVESUBSCREEN, //FORMAT: {META...}
+		MODULE_TYPE_MAX
+	};
+	
+	//start Running
+	hero script subscreenRunner
+	{
+		void run()
+		{
+			Game->DisableActiveSubscreen = true;
+			while(true)
+			{
+				if(Input->Press[CB_START])
+				{
+					runActiveSubscreen();
+				}
+				runPassiveSubscreen();
+				Waitframe();
+			}
+		}
+	}
+	
+	void saveModule(untyped buf_arr, int mod_indx, bool active)
+	{
+		memset(buf_arr, 0, MAX_MODULE_SIZE);
+		if(active) memcpy(buf_arr, 0, activeData, activeModules[mod_indx], activeData[activeModules[mod_indx]]);
+		else memcpy(buf_arr, 0, passiveData, passiveModules[mod_indx], passiveData[passiveModules[mod_indx]]);
+	}
+	
+	void cloneModule(int mod_indx, bool active)
+	{
+		if(mod_indx<2) return; //No cloning settings/BGColor
+		untyped buf_arr[MAX_MODULE_SIZE];
+		saveModule(buf_arr, mod_indx, active);
+		if(active)
+			add_active_module(buf_arr);
+		else
+			add_passive_module(buf_arr);
+	}
+	
+	void runActiveSubscreen()
+	{
+		/*for(int q = 0; q <= g_arr[NUM_ACTIVE_MODULES]; ++q)
+		{
+			Trace(activeModules[q]);
+		}
+		int iter = 0;
+		for(int q = activeModules[0]; q < activeModules[g_arr[NUM_ACTIVE_MODULES]]; ++q)
+		{
+			bool isSz;
+			for(int i = 0; i < g_arr[NUM_ACTIVE_MODULES]; ++i)
+			{
+				if(activeModules[i]==q) isSz = true;
+			}
+			if(isSz) TraceNL();
+			printf("%d: %d\n", iter++, activeData[q]);
+			//Trace(activeData[q]);
+		}*/
+		event_t event = EVENT_NONE;
+		bitmap abit = getSubscreenBitmap(true), pbit = getSubscreenBitmap(false);
+		do
+		{
+			runPassiveLogic();
+			for(int q = 1; q < g_arr[NUM_ACTIVE_MODULES] ; ++q)
+			{
+				untyped buf[MAX_MODULE_SIZE];
+				memcpy(buf, 0, activeData, activeModules[q], activeData[activeModules[q]]);
+				if((g_arr[ACTIVE_SELECTED_INDEX]==-1) || (g_arr[ACTIVE_SELECTED_INDEX] == buf[P2] && isSelectable(buf[M_TYPE]) && !canSelect(buf)))
+				{
+					g_arr[ACTIVE_SELECTED_INDEX] = -1;
+					for(int i = 1; i < g_arr[NUM_ACTIVE_MODULES]; ++i)
+					{
+						untyped buf[MAX_MODULE_SIZE];
+						memcpy(buf, 0, activeData, activeModules[i], activeData[activeModules[i]]);
+						if(canSelect(buf))
+						{
+							g_arr[ACTIVE_SELECTED_INDEX] = buf[P2];
+							break;
+						}
+					}
+				}
+				event = runModule(q, buf, true);
+			}
+			if(g_arr[ACTIVE_SELECTED_INDEX] != g_arr[LAST_SELECTED_INDEX])
+				clearPreparedSelector();
+			else runPreparedSelector(true);
+			activetimers();
+			KillButtons();
+			abit->Blit(7, RT_SCREEN, 0, 0, 256, 224, 0, -56, 256, 224, 0, 0, 0, 0, 0, true);
+			clearActive1frame();
+			Waitframe();
+			switch(event)
+			{
+				case EVENT_EXIT:
+					Input->Press[CB_START] = true;
+					break;
+			}
+		}
+		until(Input->Press[CB_START]);
+	}
+	
+	void activetimers()
+	{
+		++g_arr[ACTIVE_TIMER];
+		g_arr[ACTIVE_TIMER]%=3600;
+		for(int q = INPUT_TIMERS; q < INPUT_TIMERS+18; ++q)
+		{
+			++g_arr[q];
+			if(activeData[A_STTNG_FRAME_HOLD_DELAY])
+				g_arr[q]%=activeData[A_STTNG_FRAME_HOLD_DELAY];
+		}
+	}
+	
+	void runPassiveSubscreen()
+	{
+		runPassiveLogic();
+		drawPassiveSubscreen();
+	}
+	
+	void runPassiveLogic()
+	{
+		++g_arr[PASSIVE_TIMER];
+		g_arr[PASSIVE_TIMER]%=3600;
+		for(int q = 1; q < g_arr[NUM_PASSIVE_MODULES] ; ++q)
+		{
+			untyped buf[MAX_MODULE_SIZE];
+			memcpy(buf, 0, passiveData, passiveModules[q], passiveData[passiveModules[q]]);
+			runModule(q, buf, false);
+		}
+	}
+	
+	void drawPassiveSubscreen()
+	{
+		getSubscreenBitmap(false)->Blit(7, RT_SCREEN, 0, 0, 256, 56, 0, -56, 256, 56, 0, 0, 0, 0, 0, true);
+		runPreparedSelector(false);
+		clearPassive1frame();
+	}
+	
+	enum event_t
+	{
+		EVENT_EXIT = -1,
+		EVENT_NONE,
+		EVENT_MAX
+	};
+	
+	event_t runModule(int mod_indx, untyped module_arr, bool active)
+	{
+		bitmap bit = getSubscreenBitmap(active);
+		switch(module_arr[M_TYPE])
+		{
+			case MODULE_TYPE_BGCOLOR:
+			{
+				if(module_arr[P1])
+				{
+					if(active)
+						bit->Rectangle(module_arr[M_LAYER], 0, 0, 256, 224, module_arr[P1], 1, 0, 0, 0, true, OP_OPAQUE);
+					else
+						bit->Rectangle(module_arr[M_LAYER], 0, 0, 256, 56, module_arr[P1], 1, 0, 0, 0, true, OP_OPAQUE);
+				}
+				break;
+			}
+			
+			case MODULE_TYPE_ABUTTONITEM:
+			{
+				if(Hero->ItemA)
+				{
+					itemdata id = Game->LoadItemData(Hero->ItemA);
+					int frm = Div(g_arr[active ? ACTIVE_TIMER : PASSIVE_TIMER] % (Max(1,id->ASpeed*id->AFrames)),Max(1,id->ASpeed));
+					bit->FastTile(module_arr[M_LAYER], module_arr[M_X], module_arr[M_Y], id->Tile + frm, id->CSet, OP_OPAQUE);
+				}
+				break;
+			}
+				
+			case MODULE_TYPE_BBUTTONITEM:
+			{
+				if(Hero->ItemB)
+				{
+					itemdata id = Game->LoadItemData(Hero->ItemB);
+					int frm = Div(g_arr[active ? ACTIVE_TIMER : PASSIVE_TIMER] % (Max(1,id->ASpeed*id->AFrames)),Max(1,id->ASpeed));
+					//bit->FastTile(module_arr[M_LAYER], module_arr[M_X], module_arr[M_Y], id->Tile + frm, id->CSet, OP_OPAQUE);
+					bit->DrawTile(module_arr[M_LAYER], module_arr[M_X], module_arr[M_Y], id->Tile + frm, 1, 1, id->CSet, 16, 16, 0, 0, 0, 0, true, OP_OPAQUE);
+				}
+				break;
+			}
+			case MODULE_TYPE_SELECTABLE_ITEM_ID:
+			case MODULE_TYPE_SELECTABLE_ITEM_CLASS:
+			{
+				unless(active) break; //Not allowed on passive
+				int itmid = ((module_arr[M_TYPE]==MODULE_TYPE_SELECTABLE_ITEM_CLASS)?(get_item_of_class(module_arr[P1])):(module_arr[P1]));
+				if(itmid < 0 || !Hero->Item[itmid]) break;
+				
+				itemdata id = Game->LoadItemData(itmid);
+				int frm = Div(g_arr[ACTIVE_TIMER] % (Max(1,id->ASpeed*id->AFrames)),Max(1,id->ASpeed));
+				bit->FastTile(module_arr[M_LAYER], module_arr[M_X], module_arr[M_Y], id->Tile + frm, id->CSet, OP_OPAQUE);
+				if(g_arr[ACTIVE_SELECTED_INDEX] == module_arr[P2])
+				{
+					if(Hero->ItemA != itmid && PressCheck(CB_A) && (module_arr[M_FLAGS1] & FLAG_ABTN))
+					{
+						//Hero->SetItemSlot(itmid, 1, 1);
+						Hero->ItemA = itmid;
+						killBtn(CB_A, true);
+						if(Hero->ItemB == itmid) Hero->SetItemSlot(0, 2, 2);
+					}
+					else if(Hero->ItemB != itmid && PressCheck(CB_B) && (module_arr[M_FLAGS1] & FLAG_BBTN))
+					{
+						//Hero->SetItemSlot(itmid, 2, 1);
+						Hero->ItemB = itmid;
+						killBtn(CB_B, true);
+						if(Hero->ItemA == itmid) Hero->SetItemSlot(0, 1, 2);
+					}
+					else unless(g_arr[INDEX_SELECTION_COOLDOWN] || (g_arr[ACTIVE_SELECTED_INDEX] != g_arr[LAST_SELECTED_INDEX]))
+					{
+						int selectedDir = -1;
+						for(int dir = DIR_UP; dir <= DIR_RIGHT; ++dir)
+						{
+							if(PressCheck(CB_UP+dir) && module_arr[P3+dir] > -1)
+							{
+								selectedDir = dir;
+								break;
+							}
+						}
+						if(selectedDir > -1)
+						{
+							bool visited[MAX_INT];
+							visited[module_arr[P2]] = true;
+							g_arr[ACTIVE_SELECTED_INDEX] = module_arr[P3+selectedDir];
+							for(int q = 1; q < g_arr[NUM_ACTIVE_MODULES] ; ++q)
+							{
+								untyped buf[MAX_MODULE_SIZE];
+								memcpy(buf, 0, activeData, activeModules[q], activeData[activeModules[q]]);
+								if(isSelectable(buf[M_TYPE]) && g_arr[ACTIVE_SELECTED_INDEX] == buf[P2])
+								{
+									if(visited[buf[P2]])
+									{
+										g_arr[ACTIVE_SELECTED_INDEX] = module_arr[P2];
+										break;
+									}
+									if(canSelect(buf))
+										break;
+									else
+									{
+										g_arr[ACTIVE_SELECTED_INDEX] = Max(-1, buf[P3+selectedDir]);
+										q = 1;
+									}
+									visited[buf[P2]] = true;
+								}
+							}
+							if(g_arr[ACTIVE_SELECTED_INDEX]==-1) g_arr[ACTIVE_SELECTED_INDEX] = module_arr[P2];
+							if(g_arr[ACTIVE_SELECTED_INDEX]!=module_arr[P2]) //If the selection changed
+							{
+								KillButtons(true);
+								Audio->PlaySound(activeData[A_STTNG_SELECTOR_SFX]);
+								g_arr[INDEX_SELECTION_COOLDOWN] = 2;
+								break;
+							}
+						}
+					}
+					bool hit = activeData[STTNG_FLAGS1]&FLAG_ITEMS_USE_HITBOX_FOR_SELECTOR;
+					unless(id->HitWidth) id->HitWidth = 16;
+					unless(id->HitHeight) id->HitHeight = 16;
+					unless(id->TileWidth) id->TileWidth = 1;
+					unless(id->TileHeight) id->TileHeight = 1;
+					DrawSelector(module_arr[M_LAYER], module_arr[M_X] + (hit ? id->HitXOffset : id->DrawXOffset), module_arr[M_Y] + (hit ? id->HitYOffset : id->DrawYOffset), (hit ? id->HitWidth : id->TileWidth*16), (hit ? id->HitHeight : id->TileHeight*16), true);
+				}
+				break;
+			}
+			
+			case MODULE_TYPE_PASSIVESUBSCREEN:
+			{
+				bit->BlitTo(module_arr[M_LAYER], getSubscreenBitmap(false), 0, 0, 256, 56, module_arr[M_X], module_arr[M_Y], 256, 56, 0, 0, 0, 0, 0, true);
+				break;
+			}
+			
+			//case :
+		}
+		return EVENT_NONE;
+	}//end Running
+	//start Constructors
+	void MakeModule(untyped buf_arr)
+	{
+		memset(buf_arr, 0, SizeOfArray(buf_arr));
+		buf_arr[M_META_SIZE] = MODULE_META_SIZE;
+	}
+	
+	void MakeBGColorModule(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_SIZE] = P1+1;
+		buf_arr[M_X] = 0;
+		buf_arr[M_Y] = 0;
+		buf_arr[M_LAYER] = 0;
+		buf_arr[M_TYPE] = MODULE_TYPE_BGCOLOR;
+		
+		buf_arr[P1] = 0x0F; //Default BG color
+	}
+	
+	void MakeSelectableItemID(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_SIZE] = P6+1;
+		buf_arr[M_LAYER] = 0;
+		buf_arr[M_TYPE] = MODULE_TYPE_SELECTABLE_ITEM_ID;
+		buf_arr[M_FLAGS1] = (Game->FFRules[qr_SELECTAWPN]?FLAG_ABTN:0) | FLAG_BBTN;
+		
+		buf_arr[P1] = I_RUPEE1;
+		buf_arr[P2] = -1;
+		buf_arr[P3] = -1;
+		buf_arr[P4] = -1;
+		buf_arr[P5] = -1;
+		buf_arr[P6] = -1;
+	}
+	
+	void MakeSelectableItemClass(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_SIZE] = P6+1;
+		buf_arr[M_LAYER] = 0;
+		buf_arr[M_TYPE] = MODULE_TYPE_SELECTABLE_ITEM_CLASS;
+		buf_arr[M_FLAGS1] = FLAG_BBTN;
+		buf_arr[M_FLAGS1] = (Game->FFRules[qr_SELECTAWPN]?FLAG_ABTN:0) | FLAG_BBTN;
+		
+		buf_arr[P1] = 0;
+		buf_arr[P2] = -1;
+		buf_arr[P3] = -1;
+		buf_arr[P4] = -1;
+		buf_arr[P5] = -1;
+		buf_arr[P6] = -1;
+	}
+	
+	void MakeAButtonItem(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_SIZE] = MODULE_META_SIZE;
+		buf_arr[M_TYPE] = MODULE_TYPE_ABUTTONITEM;
+	}
+	
+	void MakeBButtonItem(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_SIZE] = MODULE_META_SIZE;
+		buf_arr[M_TYPE] = MODULE_TYPE_BBUTTONITEM;
+	}
+	
+	void MakePassiveSubscreen(untyped buf_arr)
+	{
+		MakeModule(buf_arr);
+		buf_arr[M_X] = 0;
+		buf_arr[M_SIZE] = MODULE_META_SIZE;
+		buf_arr[M_TYPE] = MODULE_TYPE_PASSIVESUBSCREEN;
+	}
+	//end Constructors
+	
+	//start Misc
+	void PrepareSelector(int layer, int x, int y, int wid, int hei, bool active, int selection_style, int val1, int val2)
+	{
+		g_arr[PREPARED_SELECTOR_DATA_START+0] = layer;
+		g_arr[PREPARED_SELECTOR_DATA_START+1] = x;
+		g_arr[PREPARED_SELECTOR_DATA_START+2] = y;
+		g_arr[PREPARED_SELECTOR_DATA_START+3] = wid;
+		g_arr[PREPARED_SELECTOR_DATA_START+4] = hei;
+		g_arr[PREPARED_SELECTOR_DATA_START+5] = active;
+		g_arr[PREPARED_SELECTOR_DATA_START+6] = selection_style;
+		g_arr[PREPARED_SELECTOR_DATA_START+7] = val1;
+		g_arr[PREPARED_SELECTOR_DATA_START+8] = val2;
+	}
+	void runPreparedSelector(bool active)
+	{
+		if(g_arr[PREPARED_SELECTOR_DATA_START+0] < 0 || active != g_arr[PREPARED_SELECTOR_DATA_START+5]) return;
+		g_arr[PREPARED_SELECTOR_DATA_START+0] = 7; //Force layer to top, to draw over everything else.
+		DrawSelector(g_arr[PREPARED_SELECTOR_DATA_START+0],g_arr[PREPARED_SELECTOR_DATA_START+1],g_arr[PREPARED_SELECTOR_DATA_START+2],
+		             g_arr[PREPARED_SELECTOR_DATA_START+3],g_arr[PREPARED_SELECTOR_DATA_START+4],g_arr[PREPARED_SELECTOR_DATA_START+5],
+		             false,                                g_arr[PREPARED_SELECTOR_DATA_START+6],g_arr[PREPARED_SELECTOR_DATA_START+7],
+					 g_arr[PREPARED_SELECTOR_DATA_START+8]);
+		clearPreparedSelector();
+	}
+	void clearPreparedSelector()
+	{
+		memset(g_arr, PREPARED_SELECTOR_DATA_START, -1, PREPARED_SELECTOR_DATA_END-PREPARED_SELECTOR_DATA_START);
+	}
+	void DrawSelector(int layer, int x, int y, int wid, int hei, bool active)
+	{
+		DrawSelector(layer, x, y, wid, hei, active, true, activeData[A_STTNG_SELECTOR_TYPE], activeData[A_STTNG_SELECTOR_VALUE], activeData[A_STTNG_SELECTOR_VALUE2]);
+	}
+	void DrawSelector(int layer, int x, int y, int wid, int hei, bool active, bool onlyOnce)
+	{
+		DrawSelector(layer, x, y, wid, hei, active, onlyOnce, activeData[A_STTNG_SELECTOR_TYPE], activeData[A_STTNG_SELECTOR_VALUE], activeData[A_STTNG_SELECTOR_VALUE2]);
+	}
+	void DrawSelector(int layer, int x, int y, int wid, int hei, bool active, bool onlyOnce, int selection_style, int val1)
+	{
+		DrawSelector(layer, x, y, wid, hei, active, onlyOnce, selection_style, val1, 0);
+	}
+	void DrawSelector(int layer, int x, int y, int wid, int hei, bool active, bool onlyOnce, int selection_style, int val1, int val2)
+	{
+		if(onlyOnce)
+		{
+			PrepareSelector(layer, x, y, wid, hei, active, selection_style, val1, val2);
+			return;
+		}
+		bitmap bit = getSubscreenBitmap(active);
+		switch(selection_style)
+		{
+			case SEL_TILE:
+			{
+				bit->DrawTile(layer, x, y, val1, Ceiling(wid/16), Ceiling(hei/16), val2, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+				return;
+			}
+			case SEL_COMBO:
+			{
+				bit->DrawCombo(layer, x, y, val1, Ceiling(wid/16), Ceiling(hei/16), val2, -1, -1, 0, 0, 0, 0, 0, true, OP_OPAQUE);
+				return;
+			}
+			case SEL_RECTANGLE:
+			{
+				bit->Rectangle(layer, x, y, x+wid, y+hei, val1, -1, 0, 0, 0, false, OP_OPAQUE);
+				return;
+			}
+			case SEL_ITEM:
+			{
+				itemdata id = Game->LoadItemData(val1);
+				int frm = Div(g_arr[ACTIVE_TIMER] % (Max(1,id->ASpeed*id->AFrames)),Max(1,id->ASpeed));
+				bit->FastTile(layer, x, y, id->Tile + frm, id->CSet, OP_OPAQUE);
+				return;
+			}
+		}
+	}
+	
+	bitmap getSubscreenBitmap(bool active)
+	{
+		if(active)
+		{
+			DEFINE H = 168+56, W = 256;
+			unless((<bitmap>g_arr[ACTIVE_BITMAP])->isAllocated()) g_arr[ACTIVE_BITMAP] = Game->AllocateBitmap();
+			unless((<bitmap>g_arr[ACTIVE_BITMAP])->isValid()) generate((<bitmap>g_arr[ACTIVE_BITMAP]), W, H);
+			return (<bitmap>g_arr[ACTIVE_BITMAP]);
+		}
+		else
+		{
+			DEFINE H = 56, W = 256;
+			unless((<bitmap>g_arr[PASSIVE_BITMAP])->isAllocated()) g_arr[PASSIVE_BITMAP] = Game->AllocateBitmap();
+			unless((<bitmap>g_arr[PASSIVE_BITMAP])->isValid()) generate((<bitmap>g_arr[PASSIVE_BITMAP]), W, H);
+			return (<bitmap>g_arr[PASSIVE_BITMAP]);
+		}
+	}
+	
+	void clearActive1frame()
+	{
+		getSubscreenBitmap(true)->Clear(7);
+		getSubscreenBitmap(false)->Clear(7);
+		g_arr[ACTIVE_1FRAME_FLAGS_1] = 0;
+		g_arr[SHARED_1FRAME_FLAGS_1] = 0;
+		if(g_arr[LAST_SELECTED_INDEX] != g_arr[ACTIVE_SELECTED_INDEX])
+		{
+			g_arr[INDEX_SELECTION_COOLDOWN] = 2;
+		}
+		else if(g_arr[INDEX_SELECTION_COOLDOWN])
+			--g_arr[INDEX_SELECTION_COOLDOWN];
+		g_arr[LAST_SELECTED_INDEX] = g_arr[ACTIVE_SELECTED_INDEX];
+	}
+
+	void clearPassive1frame()
+	{
+		getSubscreenBitmap(false)->Clear(7);
+		g_arr[PASSIVE_1FRAME_FLAGS_1] = 0;
+		g_arr[SHARED_1FRAME_FLAGS_1] = 0;
+	}
+	//end
+	
+	//start getters/setters
+	int getModX(int mod_indx, bool active)
+	{
+		return active ? activeData[activeModules[mod_indx]+M_X] : passiveData[passiveModules[mod_indx]+M_X];
+	}
+	int getModY(int mod_indx, bool active)
+	{
+		return active ? activeData[activeModules[mod_indx]+M_Y] : passiveData[passiveModules[mod_indx]+M_Y];
+	}
+	void setModX(int mod_indx, bool active, int x)
+	{
+		(active ? (activeData[activeModules[mod_indx]+M_X]=x) : (passiveData[passiveModules[mod_indx]+M_X]=x));
+	}
+	void setModY(int mod_indx, bool active, int y)
+	{
+		(active ? (activeData[activeModules[mod_indx]+M_Y]=y) : (passiveData[passiveModules[mod_indx]+M_Y]=y));
+	}
+	int incModX(int mod_indx, bool active, int x_off)
+	{
+		return (active ? (activeData[activeModules[mod_indx]+M_X]+=x_off) : (passiveData[passiveModules[mod_indx]+M_X]+=x_off));
+	}
+	int incModY(int mod_indx, bool active, int y_off)
+	{
+		return (active ? (activeData[activeModules[mod_indx]+M_Y]+=y_off) : (passiveData[passiveModules[mod_indx]+M_Y]+=y_off));
+	}
+	//end
+	
+	using namespace Venrob::Subscreen::Internal;
+	namespace Internal //start
+	{
+		//start Loggers
+		void traceArr(untyped arr)
+		{
+			traceArr(arr, 0, -1);
+		}
+		void traceArr(untyped arr, int pos)
+		{
+			traceArr(arr, pos, -1);
+		}
+		void traceArr(untyped arr, int pos, int len)
+		{
+			DEFINE end = ((len < 0) ? SizeOfArray(arr) : Min(SizeOfArray(arr), pos + len));
+			unless(pos<end) return;
+			for(int q = pos; q < end; ++q)
+			{
+				printf("%d: %d\n", q, arr[q]);
+			}
+			TraceNL();
+		}
+		
+		void error(char32 msg)
+		{
+			printf("[ERROR] [VenrobSubscreen.zh] %s\n", msg);
+		}
+		
+		void error(char32 msg, untyped arg1)
+		{
+			char32 buf[2048];
+			sprintf(buf, "[ERROR] [VenrobSubscreen.zh] %s\n", msg);
+			printf(buf, arg1);
+		}
+		
+		void error(char32 msg, untyped arg1, untyped arg2)
+		{
+			char32 buf[2048];
+			sprintf(buf, "[ERROR] [VenrobSubscreen.zh] %s\n", msg);
+			printf(buf, arg1, arg2);
+		}
+		
+		void error(char32 msg, untyped arg1, untyped arg2, untyped arg3)
+		{
+			char32 buf[2048];
+			sprintf(buf, "[ERROR] [VenrobSubscreen.zh] %s\n", msg);
+			printf(buf, arg1, arg2, arg3);
+		}
+		
+		void debug(char32 msg)
+		{
+			printf("[DEBUG] [VenrobSubscreen.zh] %s\n", msg);
+		}
+		
+		void debug(char32 msg, untyped arg1)
+		{
+			char32 buf[2048];
+			sprintf(buf, "[DEBUG] [VenrobSubscreen.zh] %s\n", msg);
+			printf(buf, arg1);
+		}
+		
+		void debug(char32 msg, untyped arg1, untyped arg2)
+		{
+			char32 buf[2048];
+			sprintf(buf, "[DEBUG] [VenrobSubscreen.zh] %s\n", msg);
+			printf(buf, arg1, arg2);
+		} //end Loggers
+		
+		bool PressCheck(int cb)
+		{
+			if(Input->Press[cb] || (Input->Button[cb] && !g_arr[INPUT_TIMERS+cb]))
+			{
+				g_arr[INPUT_TIMERS+cb] = 0;
+				return true;
+			}
+			return false;
+		}
+		
+		void PressClear(int cb)
+		{
+			g_arr[INPUT_TIMERS+cb] = 1;
+		}
+		
+		void killBtn(int cb)
+		{
+			killBtn(cb, false);
+		}
+		void killBtn(int cb, bool pushtimer)
+		{
+			Input->Press[cb] = false;
+			Input->Button[cb] = false;
+			if(pushtimer) g_arr[INPUT_TIMERS+cb] = 1;
+		}
+		
+		void KillButtons()
+		{
+			KillButtons(false);
+		}
+		void KillButtons(bool pushtimers)
+		{
+			for(int q = 0; q < 18; ++q)
+			{
+				killBtn(q);
+				if(pushtimers) PressClear(q);
+			}
+		}
+		
+		int get_item_of_class(int ic)
+		{
+			get_item_of_class(ic, false);
+		}
+		int get_item_of_class(int ic, bool noRequire)
+		{
+			int highestLevel = -1;
+			int highestID = -1;
+			for(int q = MIN_ITEMDATA; q <= MAX_ITEMDATA; ++q)
+			{
+				itemdata id = Game->LoadItemData(q);
+				if(noRequire || (Hero->Item[q] && !(Game->DisableItem[q])))
+				{
+					if(id->Type == ic)
+					{
+						if(id->Level > highestLevel)
+						{
+							highestLevel = id->Level;
+							highestID = q;
+						}
+					}
+				}
+			}
+			return highestID;
+		}
+		
+		bool isSelectable(int type)
+		{
+			switch(type)
+			{
+				case MODULE_TYPE_SELECTABLE_ITEM_ID:
+				case MODULE_TYPE_SELECTABLE_ITEM_CLASS:
+				{
+					return true;
+				}
+				
+				default:
+					return false;
+			}
+		}
+		
+		bool canSelect(untyped module_arr)
+		{
+			switch(module_arr[M_TYPE])
+			{
+				case MODULE_TYPE_SELECTABLE_ITEM_ID:
+				{
+					int itmid = module_arr[P1];
+					return (itmid >= 0 && Hero->Item[itmid]);
+				}
+				case MODULE_TYPE_SELECTABLE_ITEM_CLASS:
+				{
+					int itmid = get_item_of_class(module_arr[P1]);
+					return (itmid >= 0 && Hero->Item[itmid]);
+				}
+				
+				default:
+					return isSelectable(module_arr[M_TYPE]);
+			}
+		}
+		
+	} //end Internal
+}
