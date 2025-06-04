@@ -3276,9 +3276,9 @@ npc script TurnedHylianElite {
       AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
       AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
 
-      CONFIG DMG_STANDING_SLASH = this->WeaponDamage *= 1.50;
-      CONFIG DMG_SPRINTING_SLASH_CHARGING = this->WeaponDamage *= .75;
-      CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage *= .5;
+      CONFIG DMG_STANDING_SLASH = this->WeaponDamage *= 2;
+      CONFIG DMG_SPRINTING_SLASH_CHARGING = this->WeaponDamage *= 1.25;
+      CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage;
 
       int maxHp = this->HP;
       Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
@@ -3320,7 +3320,7 @@ npc script TurnedHylianElite {
             }
 
             int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
-            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 75 : 100), SPW_NONE);
+            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 100 : 75), SPW_NONE);
             --attackCoolDown;
 
             FaceLink(this);
@@ -3337,7 +3337,7 @@ npc script TurnedHylianElite {
          Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK);
 
          for (int i = 0; i < dashFrames; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 20 : 25), SPW_NONE);
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
             FaceLink(this);
 
             if (i > dashFrames / 2)
@@ -3350,7 +3350,7 @@ npc script TurnedHylianElite {
          distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
 
          for (int i = 0; i <= 12 && !swordCollided; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 30 : 35), SPW_NONE);
             FaceLink(this);
             swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, DMG_SPRINTING_SLASH);
             CustomWaitframe(this);
@@ -5026,13 +5026,15 @@ namespace Quickknife {
 
    npc script Quickknife {
       void run() {
-         this->X = 128;
-         this->Y = 32;
+         // this->X = 128;
+         // this->Y = 32;
+
+         this->HP = 0;
 
          while (true) {
-            doWallAttack(this);
+            // doWallAttack(this);
 
-            QuickknifeWaitframe(this);
+            // QuickknifeWaitframe(this);
          }
 
          /*
