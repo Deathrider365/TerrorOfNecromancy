@@ -240,6 +240,11 @@ global script GlobalScripts {
                case 0x76: return 001000b;
             }
             break;
+         case 39:
+            switch (screen) {
+               case 0x7C: return 011100b;
+            }
+            break;
          case 43:
             switch (screen) {
                case 0x0F: return 001000b;

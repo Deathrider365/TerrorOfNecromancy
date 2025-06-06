@@ -691,7 +691,6 @@ ffc script MaceEnemy {
 //       flashTiles->DrawTile(0, 0, 32, oTile, 20, 2, 14, -1, -1, 0, 0, 0, 0, false, 128);
 //       flashTiles->Blit(0, flashTiles, 0, 0, 320, 32, 0, 32, 320, 32, 0, 0, 0, BITDX_TRANS, 0, true);
 //       flashTiles->Blit(0, flashTiles, 0, 0, 320, 32, 0, 32, 320, 32, 0, 0, 0, BITDX_TRANS, 0, true);
-//       flashTiles->Own();
 
 //       bitmap dissolve = Game->CreateBitmap(96, 32);
 //       dissolve->Clear(0);
