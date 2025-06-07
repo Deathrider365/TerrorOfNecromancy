@@ -103,6 +103,7 @@ generic script MinecartGeneric {
       bool waitRepositionCarts;
       while (true) {
          WaitTo(SCR_TIMING_POST_FFCS);
+
          if (lastDMap != Game->CurDMap || lastScreen != Game->CurScreen) {
             lastScreen = Game->CurScreen;
             lastDMap = Game->CurDMap;
@@ -120,8 +121,8 @@ generic script MinecartGeneric {
 
          if (waitRepositionCarts && Game->Scrolling[SCROLL_DIR] == -1) {
             if (GBMinecarts[MCI_INMINECART]) {
-               GBMinecarts[MCI_CARTX] = Link->X;
-               GBMinecarts[MCI_CARTY] = Link->Y;
+               GBMinecarts[MCI_CARTX] = VBound(Hero->X, Region->Width - 16, 0);
+               GBMinecarts[MCI_CARTY] = VBound(Hero->Y, Region->Height - 16, 0);
             }
             waitRepositionCarts = false;
          }
@@ -129,12 +130,15 @@ generic script MinecartGeneric {
          if (GBMinecarts[MCI_INMINECART]) {
             Game->FFRules[qr_NO_SCROLL_WHILE_IN_AIR] = false;
             ++GBMinecarts[MCI_SFXTIMER];
+
             if (GBMinecarts[MCI_SFXTIMER] >= MINECART_SFX_FREQ) {
                GBMinecarts[MCI_SFXTIMER] = 0;
                Audio->PlaySound(SFX_MINECART);
             }
 
             PreventScrolling();
+
+            WaitTo(SCR_TIMING_POST_EWPN_SCRIPT); // Before Link moves
 
             if (Game->Scrolling[SCROLL_DIR] > -1) {
                WaitTo(SCR_TIMING_POST_PLAYER_ANIMATE); // After Link moves
@@ -147,8 +151,6 @@ generic script MinecartGeneric {
                Screen->FastCombo(SPLAYER_PLAYER_DRAW, Link->X, Link->Y, cmb + dir + 8, cs, OP_OPAQUE);
             }
             else {
-               WaitTo(SCR_TIMING_POST_EWPN_SCRIPT); // Before Link moves
-
                if (!CanUseItemInMinecart(Link->ItemA)) {
                   Link->InputA = false;
                   Link->PressA = false;
@@ -224,6 +226,7 @@ generic script MinecartGeneric {
       Link->ShadowXOffset = 1000;
       TempLinkState_UnsetCollDetection(1);
       GBMinecarts[MCI_CARTTEMPSTEP] += GBMinecarts[MCI_CARTSPEED];
+
       while (GBMinecarts[MCI_CARTTEMPSTEP] >= 1) {
          // When grid aligned, process turns
          if (GBMinecarts[MCI_CARTX] % 16 == 0 && GBMinecarts[MCI_CARTY] % 16 == 0) {

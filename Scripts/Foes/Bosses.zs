@@ -3992,7 +3992,6 @@ namespace EgentemNamespace {
 
       if (linkGotHit) {
          yeetHero(Angle(this->X, this->Y, Hero->X, Hero->Y), 4, 200, true, true);
-         Trace(spinnyDamage);
 
          for (int i = 0; i < 45; ++i) {
             hitbox = sword1x1Persistent(hitbox, this->X, this->Y, facingAngle + spinDir * 90, 12, CMB_HAMMER, CSET_HAMMER, spinnyDamage);
@@ -4816,8 +4815,6 @@ namespace LatrosNamespace {
             eweapon hitLink = Screen->LoadEWeapon(hitId);
 
             int stunDur = boomerangLevel * 50;
-
-            Trace(stunDur);
 
             if (hitLink->isValid()) {
                Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
