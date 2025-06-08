@@ -474,6 +474,7 @@ subscreendata script CyclableTriforceFrames {
       int drawY = 94;
 
       loop() {
+         Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
          magicBar(Game->ActiveSubscreenY + 232);
          minimap(Game->ActiveSubscreenY + 232);
          dmapTitle(Game->ActiveSubscreenY + 232);

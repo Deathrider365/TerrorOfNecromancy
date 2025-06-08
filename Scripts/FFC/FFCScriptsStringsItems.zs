@@ -7,7 +7,7 @@
 @InitD1("warp"),
 @InitDHelp1("dmap.screen"),
 @InitD2("hasSecondMessage"),
-@InitDHelp2("second message trigger (0: screend, 1: secrets, 2: has item).trigger value (screend register, n/a, itemId)"),
+@InitDHelp2("second message trigger (1: screend, 2: secrets, 3: has item).trigger value (screend register, n/a, itemId)"),
 @InitD3("secondMessage"),
 @InitDHelp3("String to play"),
 @InitD4("vanishesOnSecondString"),
@@ -25,10 +25,6 @@ ffc script Signpost {
       if (hasSecondMessage) {
          secondMessageTrigger = Floor(hasSecondMessage);
          secondMessageTriggerValue = (hasSecondMessage % 1) / 1L;
-      }
-
-      if (vanishesOnSecondString) {
-         handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
       }
 
       while (true) {
