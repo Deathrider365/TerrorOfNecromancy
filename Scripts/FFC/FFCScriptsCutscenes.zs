@@ -1280,6 +1280,7 @@ ffc script GraveKeeperSequence {
             this->Y = lastY;
 
             this->Data = originalCombo;
+            this->Flags[FFCF_SOLID] = true;
             Screen->Message(messageDontKillMe);
             Waitframe();
 
