@@ -1338,7 +1338,7 @@ ffc script GoddessFaithfulZeldaScenes {
          else if (mapDataBombRoom->State[ST_SECRET])
             zeldaGivesMagicOcarina(this);
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
-            zeldaInformsLinkAboutCarulemAndINSERTNAME(this);
+            zeldaInformsLinkAboutCarulemAndDuratu(this);
          else {
             const int zeldaIDontKnowYouMessage = 448;
 
@@ -1399,7 +1399,7 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 441;
       const int zeldaPostIntroMessage = 443;
 
-      if (!getScreenD(screenD3)) {
+      if (!getScreenD(screenD3) && !getScreenD(screenD0)) {
          setScreenD(screenD0, 1);
 
          Game->Suspend[susptSCREENDRAW] = true;
@@ -1410,14 +1410,20 @@ ffc script GoddessFaithfulZeldaScenes {
 
          itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
          it->Pickup = IP_HOLDUP;
-
       }
       else
          Screen->Message(zeldaPostIntroMessage);
 
       Game->Suspend[susptSCREENDRAW] = false;
    }
-   void zeldaInformsLinkAboutCarulemAndINSERTNAME(ffc this) {
 
+   void zeldaInformsLinkAboutCarulemAndDuratu(ffc this) {
+      const int zeldaIntroMessage = 521;
+
+      Game->Suspend[susptSCREENDRAW] = true;
+      Screen->Message(zeldaIntroMessage);
+      Game->Suspend[susptSCREENDRAW] = false;
+
+      Waitframe();
    }
 }
