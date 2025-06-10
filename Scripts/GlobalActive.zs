@@ -34,6 +34,8 @@ global script GlobalScripts {
 
       Hero->HurtSound = getHeroHitSound();
 
+      int ocarinaIndex = 1;
+
       while (true) {
          gameframe = (gameframe + 1) % 3600;
 

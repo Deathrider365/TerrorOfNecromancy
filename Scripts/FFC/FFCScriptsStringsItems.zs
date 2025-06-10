@@ -644,6 +644,36 @@ ffc script ConflatosElder {
 }
 
 // clang-format off
+@Author("Deathrider365")
+ffc script AuriElder {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            Waitframe();
+
+            itemsprite it = CreateItemAt(207, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET]) {
+            Screen->Message(secondaryMessage);
+         } else if (Screen->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
+            setScreenD(initialScreenD + 1, true);
+            Screen->Message(tertiaryMessage);
+         } else {
+            Screen->Message(quartupleMessage);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
 @InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")
