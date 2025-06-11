@@ -752,7 +752,7 @@ ffc script GetItemFromSecretAtLocation {
 ffc script Shop {
    // clang-format on
 
-   void run(int itemId, int price, bool boughtOnce, int noMoneyString, bool activateOnSecrets) {
+   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets) {
       int originalCombo = this->Data;
 
       if (activateOnSecrets) {
@@ -776,9 +776,25 @@ ffc script Shop {
 
       int loc = ComboAt(this->X + 8, this->Y + 8);
       char32 priceBuf[6];
-      sprintf(priceBuf, "%d", price);
 
-      while (true) {
+      loop() {
+         int price = basePrice;
+
+         int wealthMedalId = Game->CurrentItemID(IC_WEALTHMEDAL);
+
+         if (wealthMedalId > -1) {
+            itemdata wealthMedal = Game->LoadItemData(wealthMedalId);
+
+            if (wealthMedal->Flags[0])
+               price *= wealthMedal->Attributes[0] / 100;
+            else
+               price += wealthMedal->Attributes[0];
+         }
+
+         price = Max(1, Ceiling(price));
+
+         sprintf(priceBuf, "%d", price);
+
          if (boughtOnce && Hero->Item[itemId]) {
             this->Data = noStockCombo;
 
@@ -787,6 +803,7 @@ ffc script Shop {
 
             this->Data = COMBO_INVIS;
          }
+
 
          Screen->FastTile(7, this->X, this->Y, itemTile, itemCSet, OP_OPAQUE);
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);

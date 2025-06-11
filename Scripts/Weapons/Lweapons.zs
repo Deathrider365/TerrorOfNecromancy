@@ -404,26 +404,3 @@ lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight
 
    return weapon;
 }
-
-lweapon script OcarinaWhirlwind {
-   void run() {
-      switch(Hero->Dir) {
-         case DIR_UP:
-            newLocation = getOcarinaLocation();
-            break;
-         case DIR_DOWN:
-            newLocation = getOcarinaLocation();
-            break;
-         case DIR_LEFT:
-            newLocation = getOcarinaLocation();
-            break;
-         case DIR_RIGHT:
-            newLocation = getOcarinaLocation();
-            break;
-      }
-   }
-
-   int getOcarinaLocation(int modifier) {
-
-   }
-}
