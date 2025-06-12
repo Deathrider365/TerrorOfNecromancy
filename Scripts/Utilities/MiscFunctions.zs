@@ -360,6 +360,9 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) {
 void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
    Game->GameOverScreen[GOS_BACKGROUND] = bg;
 
+   //TODO find this
+   // Game->GameOverScreen[GOS_FONT] = 0;
+
    Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
    Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
    Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;

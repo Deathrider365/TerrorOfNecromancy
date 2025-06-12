@@ -477,7 +477,7 @@ subscreendata script CyclableTriforceFrames {
          Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
          magicBar(Game->ActiveSubscreenY + 232);
          minimap(Game->ActiveSubscreenY + 232);
-         dmapTitle(Game->ActiveSubscreenY + 232);
+         // dmapTitle(Game->ActiveSubscreenY + 232);
 
          int yOff = Game->ActiveSubscreenY;
 
@@ -554,7 +554,7 @@ dmapdata script MagicBar {
          Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
          magicBar(0);
          minimap(0);
-         dmapTitle(0);
+         // dmapTitle(0);
          Waitframe();
       }
    }
@@ -606,7 +606,7 @@ void magicBar(int yOff) {
 }
 
 void minimap(int yOff) {
-   using namespace Subscreen;
+   // using namespace Subscreen;
 
    int drawX = 0 + 1;
    int drawY = yOff - 48 - 1;
@@ -627,7 +627,7 @@ void minimap(int yOff) {
    }
 
    Screen->DrawTile(7, drawX, drawY, minimapTile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
-   minimap(RT_SCREEN, 7, drawX, drawY, ow);
+   minimap2(RT_SCREEN, 7, drawX, drawY, ow);
 }
 
 void dmapTitle(int yOff) {
@@ -659,4 +659,77 @@ void dmapTitle(int yOff) {
       titlebuf[q] = 0;
 
    Emily::DrawStrings(7, drawX, drawY + yOff, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
+}
+
+
+//TODO figure out how to remove everything except what draws the discovered screens on the map
+void minimap2(untyped bit, int layer, int originalX, int originalY, ScreenType dmap) {
+   // if (dmap == DM_OVERWORLD) {
+   //    int scr = Game->HeroScreen;
+   //    int x = originalX + 9 + (4 * (scr % 0x010));
+   //    int y = originalY + 8 + (4 * Div(scr, 0x010));
+
+   //    if (bit == RT_SCREEN)
+   //       Screen->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+   //    else
+   //       <bitmap>(bit)->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+   // }
+   // else {
+      dmapdata currentDmap = Game->LoadDMapData(Game->CurDMap);
+      bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
+      bool hasCompass = Game->LItems[Game->CurLevel] & LI_COMPASS;
+      bool killedBoss = Game->LItems[Game->CurLevel] & LI_BOSS;
+
+      hasCompass = currentDmap->Compass ? hasCompass : false;
+
+      originalX += 8;
+      originalY += 8;
+
+      int dmapOffset = currentDmap->Offset;
+      int currentScreen = Game->HeroScreen - dmapOffset;
+
+      int dmapOffsetMax = 8 - Max(dmapOffset - 8, 0);
+      int dmapOffsetMin = -Min(dmapOffset, 0);
+
+      for (int q = 0; q < 128; ++q) {
+         if (q % 0x10 >= dmapOffsetMax || q % 0x10 < dmapOffsetMin)
+            continue;
+
+         Color mapCellColor = C_TRANS;
+         Color compassMarkerColor = C_TRANS;
+         int x = originalX + (8 * (q % 0x010));
+         int y = originalY + (4 * Div(q, 0x010));
+
+         if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass)
+            compassMarkerColor = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
+         else if (q == currentScreen)
+            compassMarkerColor = C_MINIMAP_LINK;
+         else
+            compassMarkerColor = C_TRANS; // remove when issue with var initializers is fixed
+
+         unless(dmap == DM_BSOVERWORLD) {
+            mapdata m = Game->LoadMapData(Game->CurMap, q + dmapOffset);
+
+            if (m->State[ST_VISITED])
+               mapCellColor = C_MINIMAP_EXPLORED;
+            else if (hasMap && VisibleOnDungeonMap(q, true))
+               mapCellColor = C_MINIMAP_ROOM;
+            else
+               mapCellColor = C_TRANS; // remove when issue with var initializers is fixed
+         }
+
+         if (mapCellColor) {
+            if (bit == RT_SCREEN)
+               Screen->Rectangle(layer, x, y, x + 6, y + 2, mapCellColor, 1, 0, 0, 0, true, OP_OPAQUE);
+            else
+               <bitmap>(bit)->Rectangle(layer, x, y, x + 6, y + 2, mapCellColor, 1, 0, 0, 0, true, OP_OPAQUE);
+         }
+         if (compassMarkerColor) {
+            if (bit == RT_SCREEN)
+               Screen->Rectangle(layer, x + 2, y, x + 4, y + 2, compassMarkerColor, 1, 0, 0, 0, true, OP_OPAQUE);
+            else
+               <bitmap>(bit)->Rectangle(layer, x + 2, y, x + 4, y + 2, compassMarkerColor, 1, 0, 0, 0, true, OP_OPAQUE);
+         }
+      }
+   // }
 }
