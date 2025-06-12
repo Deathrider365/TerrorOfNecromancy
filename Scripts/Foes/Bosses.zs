@@ -2382,7 +2382,7 @@ namespace ServusMalusNamespace {
             int dodgeTimer;
 
             while (timer < START_TIMER) {
-               if (this->HP <= maxHp * .3)
+               if (this->HP <= maxHp * .5)
                   gettingDesperate = true;
 
                float percent = timer / START_TIMER;
@@ -5028,11 +5028,11 @@ namespace Quickknife {
 
          this->HP = 0;
 
-         while (true) {
-            // doWallAttack(this);
+         // while (true) {
+         //    doWallAttack(this);
 
-            // QuickknifeWaitframe(this);
-         }
+         //    QuickknifeWaitframe(this);
+         // }
 
          /*
          magic focused, but also fast as you would expect from a pirate. utilized magic predominently, but also throws weapons (maybe knives?)

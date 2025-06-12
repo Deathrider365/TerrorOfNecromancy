@@ -196,8 +196,6 @@ dmapdata script LensTorches {
 
       bitmap lenslayer = new bitmap(256, 176); //TODO refactor to handle showing multiple screens (if necessary)
       bitmap lensmask = new bitmap(256, 176);
-      // bitmap scrollLayer = new bitmap(256, 176);
-      // bitmap scrollmask = new bitmap(256, 176);
       int drawLayer;
 
       while (true) {
@@ -218,10 +216,9 @@ dmapdata script LensTorches {
 
          while(screen == Game->CurScreen) {
             lenslayer->Clear(0);
-            // scrollLayer->Clear(0);
+
             // lensmask gets cleared to a color because circles are erased from it rather than added
             lensmask->ClearToColor(0, C_LENSBITMAPMARKER);
-            // scrollmask->ClearToColor(0, C_LENSBITMAPMARKER);
 
             for (int i = 1; i <= 6; ++i) {
                if (md->LensShows[i] || i == drawLayer) {
@@ -230,13 +227,6 @@ dmapdata script LensTorches {
                   for (int j = 0; j < 176; ++j)
                      lenslayer->FastCombo(0, ComboX(j), ComboY(j), md->ComboD[j], md->ComboC[j]);
                }
-
-               // if ((md2->LensShows[i] || i == oldLayer) && Game->Scrolling[SCROLL_DIR] > -1) {
-               //    mapdata md2 = Game->LoadScrollingScreen(i);
-
-               //    for (int j = 0; j < 176; ++j)
-               //       scrollLayer->FastCombo(0, ComboX(j), ComboY(j), md2->ComboD[j], md2->ComboC[j]);
-               // }
             }
 
             // Draw circles for combos on layers 0-4
@@ -246,16 +236,8 @@ dmapdata script LensTorches {
 
                for (int j = 0; j < 176; ++j) {
                   combodata cd = Game->LoadComboData(md->ComboD[j]);
-                  if (cd->Script == comboSlot) {
+                  if (cd->Script == comboSlot)
                      DrawLensCircle(lensmask, ComboX(j) + 8, ComboY(j) + 8, cd->InitD[0]);
-                  }
-
-                  // if (Game->Scrolling[SCROLL_DIR] > -1) {
-                  //    combodata cd2 = Game->LoadComboData(md2->ComboD[j]);
-                  //    if (cd2->Script == comboSlot) {
-                  //       DrawLensCircle(scrollmask, ComboX(j) + 8, ComboY(j) + 8, cd2->InitD[0]);
-                  //    }
-                  // }
                }
             }
 
@@ -264,18 +246,9 @@ dmapdata script LensTorches {
                ffc f = Screen->LoadFFC(i);
                if (f->Data) {
                   combodata cd = Game->LoadComboData(f->Data);
-                  if (cd->Script == comboSlot) {
+                  if (cd->Script == comboSlot)
                      DrawLensCircle(lensmask, f->X + 8, f->Y + 8, cd->InitD[0]);
-                  }
                }
-               // if (Game->Scrolling[SCROLL_DIR] > -1) {
-               //    if (md2->FFCData[i]) {
-               //       combodata cd = Game->LoadComboData(md2->FFCData[i]);
-               //       if (cd->Script == comboSlot) {
-               //          DrawLensCircle(lensmask, md2->FFCX[i] + 8, md2->FFCY[i] + 8, cd->InitD[0]);
-               //       }
-               //    }
-               // }
             }
 
             Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
@@ -285,16 +258,6 @@ dmapdata script LensTorches {
             lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
 
             lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
-            // if (Game->Scrolling[SCROLL_DIR] > -1) {
-            //    Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_OLD;
-            //    // Draw the mask over the layer
-            //    scrollmask->Blit(0, scrollLayer, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-            //    // Replace colors from the mask
-            //    scrollLayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
-
-            //    scrollLayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-            // }
 
             Waitframe();
          }
