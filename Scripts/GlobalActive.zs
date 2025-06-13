@@ -335,16 +335,41 @@ global script GlobalScripts {
 
    int getFadeMult() {
       switch (Game->CurDMap) {
-         case 0: return .5;
+         // Smaller value quicker decay
          case 1: return 1;
          case 3: return 2;
          case 4: return 1;
          case 5...6: return 2;
-         case 7: return .2;
+         case 7: {
+            mapdata mapData = Game->LoadMapData(9, 0x62);
+            return mapData->State[ST_SECRET] ? 1 : .2;
+         }
          case 8: return 1;
          case 9: return .2;
          case 10...13: return 1;
+         case 14: return .2;
+         case 15...16: return 1;
          case 18...23: return 2;
+         case 21: return 1;
+         case 22...23: return 3;
+         case 30...31: return 2;
+         case 32: return 1;
+         case 35: return 1;
+         case 36: return 2;
+         case 37: return 1;
+         case 38: return 1;
+         case 39: return .75;
+         case 40: return 1;
+         case 48: return 3;
+         case 49: return 1;
+         case 50...52: return 2;
+         case 57: return .75;
+         case 58: return .75;
+         case 60: return 1.5;
+         case 61...62: return .5;
+         case 71: return 3;
+         case 73: return 2;
+         case 74: return 2;
       }
 
       return 0;

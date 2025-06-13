@@ -1,0 +1,15 @@
+Level, Map, Dmap, Scr, Dungeon
+--------------------------------
+1  - 9(10),	5D (Pernicious Grotto)
+2  - 9(4),	29 (Derelict Quarry)
+3  - 9(4),	44 (Ancient Shrine)
+4  - 20(34),	01 (Pillaged Prison)
+5  - 20(15),	68 (Temple of Gamoth)
+6  - 20(39),	7D (Geothermal Plant)
+7  - 96(66),	22 (Water dungeon in the archipelago)
+8  - 89(62),	66 (Marauder's Cove)
+9  - 20(15),	26 (Castle Interitus)
+10 - 20(38),	40 (Mt. Caldum)
+11 - 9(9),	64 (Mortuary of Darkness)
+12 - 20(15),	75 (Towers of Dichotomy)
+ 
