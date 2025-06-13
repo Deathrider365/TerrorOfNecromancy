@@ -546,7 +546,7 @@ subscreendata script CyclableTriforceFrames {
    }
 }
 
-dmapdata script MagicBar {
+dmapdata script ScriptedSubscreenComponents {
    using namespace Subscreen;
 
    void run() {
@@ -613,20 +613,20 @@ void minimap(int yOff) {
 
    ScreenType ow = getScreenType(true);
    int minimapTile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
-   int cs = 0;
-   dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
-   bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
+   // int cs = 0;
+   // dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+   // bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
 
-   if (hasMap && dmap->MiniMapTile[1]) {
-      minimapTile = dmap->MiniMapTile[1];
-      cs = dmap->MiniMapCSet[1];
-   }
-   else if (dmap->MiniMapTile[0] && !hasMap) {
-      minimapTile = dmap->MiniMapTile[0];
-      cs = dmap->MiniMapCSet[0];
-   }
+   // if (hasMap && dmap->MiniMapTile[1]) {
+   //    minimapTile = dmap->MiniMapTile[1];
+   //    cs = dmap->MiniMapCSet[1];
+   // }
+   // else if (dmap->MiniMapTile[0] && !hasMap) {
+   //    minimapTile = dmap->MiniMapTile[0];
+   //    cs = dmap->MiniMapCSet[0];
+   // }
 
-   Screen->DrawTile(7, drawX, drawY, minimapTile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+   // Screen->DrawTile(7, drawX, drawY, minimapTile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
    minimap2(RT_SCREEN, 7, drawX, drawY, ow);
 }
 
@@ -664,17 +664,17 @@ void dmapTitle(int yOff) {
 
 //TODO figure out how to remove everything except what draws the discovered screens on the map
 void minimap2(untyped bit, int layer, int originalX, int originalY, ScreenType dmap) {
-   // if (dmap == DM_OVERWORLD) {
-   //    int scr = Game->HeroScreen;
-   //    int x = originalX + 9 + (4 * (scr % 0x010));
-   //    int y = originalY + 8 + (4 * Div(scr, 0x010));
+   if (dmap == DM_OVERWORLD) {
+      int scr = Game->HeroScreen;
+      int x = originalX + 9 + (4 * (scr % 0x010));
+      int y = originalY + 8 + (4 * Div(scr, 0x010));
 
-   //    if (bit == RT_SCREEN)
-   //       Screen->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
-   //    else
-   //       <bitmap>(bit)->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
-   // }
-   // else {
+      if (bit == RT_SCREEN)
+         Screen->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+      else
+         <bitmap>(bit)->Rectangle(layer, x, y, x + 2, y + 2, C_MINIMAP_LINK, 1, 0, 0, 0, true, OP_OPAQUE);
+   }
+   else {
       dmapdata currentDmap = Game->LoadDMapData(Game->CurDMap);
       bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
       bool hasCompass = Game->LItems[Game->CurLevel] & LI_COMPASS;
@@ -731,5 +731,5 @@ void minimap2(untyped bit, int layer, int originalX, int originalY, ScreenType d
                <bitmap>(bit)->Rectangle(layer, x + 2, y, x + 4, y + 2, compassMarkerColor, 1, 0, 0, 0, true, OP_OPAQUE);
          }
       }
-   // }
+   }
 }
