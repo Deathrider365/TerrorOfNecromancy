@@ -183,19 +183,6 @@ ffc script ContinuePoint {
 }
 
 // clang-format off
-@Author("Emily")
- ffc script DisableRadialTransparency {
-   // clang-format on
-
-   void run(int pos) {
-      while (true) {
-         disableTrans = Screen->ComboD[pos] ? true : false;
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
 @Author("Moosh")
  ffc script PoisonWater {
    // clang-format on
