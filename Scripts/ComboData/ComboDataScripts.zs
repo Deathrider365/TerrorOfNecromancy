@@ -180,7 +180,11 @@ combodata script HotSteam {
    }
 
    bool canTakeDamage() {
-      return Hero->Action != LA_DROWNING && Hero->Action != LA_SWIMMING && Hero->Action != LA_GOTHURTWATER && Hero->Action != LA_DIVING && Hero->Action != LA_SIDEDROWN;
+      return Hero->Action != LA_DROWNING &&
+      Hero->Action != LA_SWIMMING &&
+      Hero->Action != LA_GOTHURTWATER &&
+      Hero->Action != LA_DIVING &&
+      Hero->Action != LA_SIDEDROWN;
    }
 }
 

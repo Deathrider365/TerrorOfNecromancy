@@ -282,16 +282,24 @@ ffc script SignpostTriggerFromItem {
 @InitD0("message"),
 @InitDHelp0("String to play once screenD set"),
 @InitD1("screenD"),
-@InitDHelp1("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)")
+@InitDHelp1("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)"),
+@InitD2("screenDToRemove"),
+@InitDHelp2("ScreenD register to check if this FFC is to vanish ")
 ffc script SignpostTriggerFromScreenD {
    // clang-format on
-   void run(int message, int screenD) {
+   void run(int message, int screenD, int screenDToRemove) {
       int data = this->Data;
       int x = this->X;
       int y = this->Y;
 
-      while (true) {
+      loop() {
          if (getScreenD(screenD)) {
+            if (getScreenD(screenDToRemove)) {
+               this->X = -1000;
+               this->Y = -1000;
+               Quit();
+            }
+
             this->Data = data;
             this->X = x;
             this->Y = y;
@@ -1132,7 +1140,7 @@ ffc script GoronForemanDialogLvl6 {
    // clang-format on
 
    void run(int message, int secondMessage, int thirdMessage) {
-      while (true) {
+      loop() {
          waitForTalking(this);
 
          Input->Button[CB_SIGNPOST] = false;

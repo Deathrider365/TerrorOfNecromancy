@@ -12,4 +12,30 @@ Level, Map, Dmap, Scr, Dungeon
 10 - 20(38),	40 (Mt. Caldum)
 11 - 9(9),	64 (Mortuary of Darkness)
 12 - 20(15),	75 (Towers of Dichotomy)
- 
+
+Minidungeon 1: Temple of Haeren	-	-	-	13
+Level 1: Pernicious Grotto	-	-	-	1
+Level 2: Derelict Quarry	-	-	-	2
+Minidungeon 2: Seized Guard Tower	-	-	14
+Level 3: Ancient Shrine	-	-	-	-	3
+Minidungeon 3: Molten Flooded Forge	-	-	15
+Level 4: Pillaged Prison	-	-	-	4
+Minidungeon 4: Sweltering Iron Mine	-	-	16
+Level 5: Temple of Gamoth	-	-	-	5
+Minidungeon 5: The Summus Pass	-	-	-	17
+Optional Dungeon 1: Sealed Abyss	-	-	18
+Level 6: Geothermal Plant	-	-	-	6
+Level 7: WATER DUNGEON IN TEH ARCHIPELAGO	-	7
+Minidungeon 6: Seaside Output	-	-	-	19
+Level 8: Marauder's Cove	-	-	-	8
+Minidungeon 7: Hylian Wreck	-	-	-	20
+Optional Dungeon 3: Depths of The Flooded Forge	-	21
+Level 9: Castle Interitus	-	-	-	9
+Optional Dungeon 4: Forgotten Spire (IoH)	-	22
+Level 10: Mt. Caldum	-	-	-	-	10
+Minidungeon 8: tower west of auri village	-	23
+Level 11: Mortuary of Darkness	-	-	-	11
+Optional Dungeon 5: Origin of Death (paliux)	-	24
+Level 12: Towers of Dichotomy	-	-	-	12
+Optional Dungeon 6:	-	-	-	-	25
+Optional Dungeon 7: Chapel of Rumination	-	26

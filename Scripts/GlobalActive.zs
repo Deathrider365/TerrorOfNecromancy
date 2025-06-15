@@ -429,8 +429,10 @@ global script OnLaunch {
       }
 
       // For debug purposes because test builds start you with nothing on a or b
-      Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
-      Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+      if (Debug->Testing) {
+         Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
+         Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+      }
 
       if (onContHP != 0) {
          Hero->HP = onContHP;

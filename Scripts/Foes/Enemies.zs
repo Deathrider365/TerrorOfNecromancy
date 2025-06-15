@@ -26,8 +26,8 @@ npc script Candlehead {
 
       int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
 
-      CONFIG DMG_FLAME = this->WeaponDamage;
-      // CONFIG DMG_FLAME = Game->LoadItemData(highestLevelCandle)->Damage * (chungo ? 2 : 1) * this->WeaponDamage;
+      // CONFIG DMG_FLAME = this->WeaponDamage;
+      CONFIG DMG_FLAME = (Game->LoadItemData(highestLevelCandle)->Damage * (chungo ? 2 : 1) * this->WeaponDamage) / 2;
 
       gridLockNPC(this);
 

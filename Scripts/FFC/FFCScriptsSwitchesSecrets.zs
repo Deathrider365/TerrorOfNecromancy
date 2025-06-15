@@ -924,8 +924,8 @@ ffc script SwitchSequential {
 @InitDHelp0("map to set screenD"),
 @InitD1("screen"),
 @InitDHelp1("screen to set screenD"),
-@InitD1("screenD"),
-@InitDHelp1("screenD to set")
+@InitD2("screenD"),
+@InitDHelp2("screenD to set")
 ffc script TriggerScreenDFromSecretsElsewhere {
 // clang-format on
    void run(int map, int screen, int screenD) {

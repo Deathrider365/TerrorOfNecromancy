@@ -184,13 +184,12 @@ ffc script IntroLeavingIoH {
    // clang-format on
 
    void run() {
-      while (true) {
-         if (Hero->X == 0 && Hero->Y > 59) {
+      loop() {
+         if (Hero->X == 5 && Hero->Y > 59) {
             unless(getScreenD(0)) {
                setScreenD(0, true);
                Hero->WarpEx({WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
             }
-            else Hero->Warp(10, 47);
          }
          else
             Hero->Action = LA_RAFTING;
