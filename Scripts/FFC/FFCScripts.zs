@@ -1185,3 +1185,10 @@ ffc script EnemiesNeverReturn {
          Screen->Enemy[q] = 0;
    }
 }
+
+ffc script EquipItemsOnGameStart {
+   void run() {
+      Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
+      Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+   }
+}

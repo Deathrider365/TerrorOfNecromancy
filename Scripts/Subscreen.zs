@@ -831,3 +831,205 @@ namespace Subscreen {
    }
 } // namespace Subscreen
 
+namespace SubscreenWidgets {
+   // clang-format off
+   @Author("Deathrider365")
+   subscreendata script CyclableTriforceFrames {
+      // clang-format on
+      using namespace Subscreen;
+
+      void run() {
+         int leftArrowCombo = 7746;
+         int rightArrowCombo = 7747;
+         int LCombo = 7744;
+         int RCombo = 7745;
+         int drawY = 94;
+
+         loop() {
+            Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
+            magicBar(Game->ActiveSubscreenY + 232);
+            minimap(Game->ActiveSubscreenY + 232);
+            // dmapTitle(Game->ActiveSubscreenY + 232);
+
+            int yOff = Game->ActiveSubscreenY;
+
+            if (Input->Press[CB_L]) {
+               Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+               --currTriforceIndex;
+            }
+            else if (Input->Press[CB_R]) {
+               Audio->PlaySound(TRIFORCE_CYCLE_SFX);
+               ++currTriforceIndex;
+            }
+            unless(Game->CurDMap <= 2) {
+               if (currTriforceIndex == -1)
+                  currTriforceIndex = 3;
+               else if (currTriforceIndex == 4)
+                  currTriforceIndex = 0;
+            }
+            else {
+               if (currTriforceIndex == -1)
+                  currTriforceIndex = 2;
+               else if (currTriforceIndex == 3)
+                  currTriforceIndex = 0;
+            }
+
+            Screen->FastCombo(7, 4, drawY + yOff, leftArrowCombo, 0, OP_OPAQUE);
+            Screen->FastCombo(7, 96, drawY + yOff, rightArrowCombo, 0, OP_OPAQUE);
+
+            Screen->FastCombo(7, 4, 16 + drawY + yOff, LCombo, 0, OP_OPAQUE);
+            Screen->FastCombo(7, 96, 16 + drawY + yOff, RCombo, 0, OP_OPAQUE);
+
+            // Triforce Frame Cycling / Drawing
+            int stringDrawX = 58;
+            int stringDrawY = drawY + yOff - 16;
+            if (currTriforceIndex == 0)
+               Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Courage", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            if (currTriforceIndex == 1)
+               Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Power", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            if (currTriforceIndex == 2)
+               Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Wisdom", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+            if (currTriforceIndex == 3 && Game->CurDMap != 2)
+               Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
+
+            Screen->DrawTile(0, 10, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+
+            switch (currTriforceIndex) {
+               case 0:
+                  for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_COURAGE]; ++i)
+                     Screen->DrawTile(0, 10, drawY + yOff - 8, courageShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  break;
+               case 1:
+                  for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_POWER]; ++i)
+                     Screen->DrawTile(0, 10, drawY + yOff - 8, powerShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  break;
+               case 2:
+                  for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_WISDOM]; ++i)
+                     Screen->DrawTile(0, 10, drawY + yOff - 8, wisdomShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  break;
+               case 3:
+                  for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
+                     Screen->DrawTile(0, 10, drawY + yOff - 8, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                  break;
+            }
+
+            Waitframe();
+         }
+      }
+   }
+
+   dmapdata script ScriptedSubscreenComponents {
+      using namespace Subscreen;
+
+      void run() {
+         loop() {
+            Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
+            magicBar(0);
+            minimap(0);
+            // dmapTitle(0);
+            Waitframe();
+         }
+      }
+   }
+
+   void magicBar(int yOff) {
+      using namespace Subscreen;
+
+      int y = -12 + yOff;
+
+      int numMagicExpansions = Game->Counter[CR_MAGIC_EXPANSIONS];
+      int magicSegmentX = 166;
+
+      int perc = Game->Counter[CR_MAGIC] / Game->MCounter[CR_MAGIC];
+      int widthToFill = 10 + (8 * numMagicExpansions);
+      int startFillX = 177;
+      int startFillY = y + 3;
+      int endFillX = 176 + Round(widthToFill * perc);
+      int endFillY = y + 4;
+
+      // initial segment
+      Screen->DrawTile(7, magicSegmentX, y, TILE_MAGIC_METER + (Game->Generic[GEN_MAGICDRAINRATE] < 2 ? 20 : 0), 1, 1, 0, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+      magicSegmentX += 8;
+
+      for (int segmentNumber = 1; segmentNumber <= numMagicExpansions; segmentNumber++) {
+         int segmentTileMod;
+         int segmentCorner;
+
+         // left segment
+         if (segmentNumber % 2) {
+            segmentTileMod = 3;
+            segmentCorner = 0;
+            magicSegmentX += 8;
+            minitile(RT_SCREEN, 7, magicSegmentX, y, TILE_MAGIC_METER + 3, 0, 0);
+         }
+         else {
+            segmentTileMod = 4;
+            segmentCorner = 1;
+            magicSegmentX += 8;
+            minitile(RT_SCREEN, 7, magicSegmentX, y, TILE_MAGIC_METER + 4, 0, 1);
+         }
+      }
+
+      // final segment
+      minitile(RT_SCREEN, 7, magicSegmentX + 8, y, TILE_MAGIC_METER + 2, 0, 0);
+
+      if (widthToFill * perc >= 0.5)
+         Screen->Rectangle(7, startFillX, startFillY, endFillX, endFillY, C_MAGIC_METER_FILL, 1, 0, 0, 0, true, OP_OPAQUE);
+   }
+
+   void minimap(int yOff) {
+      using namespace Subscreen;
+
+      int drawX = 0 + 1;
+      int drawY = yOff - 48 - 1;
+
+      ScreenType ow = getScreenType(true);
+      int minimapTile = ow == DM_OVERWORLD ? TILE_MINIMAP_OW_BG : TILE_MINIMAP_DNGN_BG;
+      // int cs = 0;
+      // dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+      // bool hasMap = Game->LItems[Game->CurLevel] & LI_MAP;
+
+      // if (hasMap && dmap->MiniMapTile[1]) {
+      //    minimapTile = dmap->MiniMapTile[1];
+      //    cs = dmap->MiniMapCSet[1];
+      // }
+      // else if (dmap->MiniMapTile[0] && !hasMap) {
+      //    minimapTile = dmap->MiniMapTile[0];
+      //    cs = dmap->MiniMapCSet[0];
+      // }
+
+      // Screen->DrawTile(7, drawX, drawY, minimapTile, 5, 3, cs, -1, -1, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
+      minimap(RT_SCREEN, 7, drawX, drawY, ow);
+   }
+
+   void dmapTitle(int yOff) {
+      int drawX = 41;
+      int drawY = -55;
+
+      dmapdata dmap = Game->LoadDMapData(Game->CurDMap);
+      char32 titlebuf[80];
+      dmap->GetTitle(titlebuf);
+
+      int index;
+      int lastLetter;
+      bool wasSpace = true;
+
+      for (int q = 0; q < SizeOfArray(titlebuf); ++q) {
+         if (titlebuf[q] == ' ') {
+            unless(wasSpace) wasSpace = true;
+            else continue;
+         }
+         else {
+            lastLetter = q;
+            wasSpace = false;
+         }
+
+         titlebuf[index++] = titlebuf[q];
+      }
+
+      for (int q = lastLetter + 1; q < SizeOfArray(titlebuf); ++q)
+         titlebuf[q] = 0;
+
+      Emily::DrawStrings(7, drawX, drawY + yOff, SUBSCR_DMAPTITLE_FONT, C_SUBSCR_COUNTER_TEXT, C_SUBSCR_COUNTER_BG, TF_CENTERED, titlebuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK, 1, 64);
+   }
+}
