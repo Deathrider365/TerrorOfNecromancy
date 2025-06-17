@@ -883,8 +883,10 @@ ffc script EgentemShrineSoldier {
    // clang-format on
    void run(int message) {
       mapdata m = Game->LoadMapData(44, 0x33);
+      mapdata mBoss = Game->LoadMapData(48, 0x3B);
 
-      if (!(Game->LItems[5] & LI_TRIFORCE) || m->State[ST_SECRET]) {
+      // if (!(Game->LItems[3] & LI_TRIFORCE) || m->State[ST_SECRET]) {
+      if (!mBoss->State[ST_SECRET] || m->State[ST_SECRET]) {
          this->Data = COMBO_INVIS;
          mapdata template = Game->LoadTempScreen(2);
          template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_INVIS;
