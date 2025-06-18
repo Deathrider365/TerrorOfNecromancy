@@ -55,7 +55,7 @@ ffc script Shutter {
       int underCSet = m->ComboC[cp];
       int LinkX = Link->X;
 
-      if (perm && Screen->State[ST_SECRET])
+      if (perm && Screen->State[ST_SECRET] && type != -1)
          Quit();
 
       if (LinkX <= 0)
@@ -136,7 +136,7 @@ ffc script Shutter {
             Waitframe();
       }
 
-      while (true) {
+      loop() {
          if (GB_Shutter_InShutter(this, Link->X, Link->Y, 3)) {
             m->ComboD[cp] = underCombo;
             m->ComboC[cp] = underCSet;

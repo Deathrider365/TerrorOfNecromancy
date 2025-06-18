@@ -653,6 +653,43 @@ ffc script ConflatosElder {
 
 // clang-format off
 @Author("Deathrider365")
+ffc script CeloElder {
+// clang-format on
+   void run(int initialMessage, int messageWaiting, int messageTriggering, int messageDoneAll, int initialScreenD, int secondaryScreenD) {
+
+      mapdata quickknifeScreen = Game->LoadMapData(66, 0x23);
+      mapdata entranceToGoddessFaithfulScreen = Game->LoadMapData(20, 0x00);
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            Waitframe();
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
+            Screen->Message(messageWaiting);
+         } else if (quickknifeScreen->State[ST_SECRET] && !entranceToGoddessFaithfulScreen->State[ST_SECRET]) {
+            Screen->Message(messageTriggering);
+
+            Waitframe();
+            entranceToGoddessFaithfulScreen->State[ST_SECRET] = true;
+            Audio->PlaySound(SFX_SECRET);
+         } else if (entranceToGoddessFaithfulScreen->State[ST_SECRET] && !getScreenD(secondaryScreenD)) {
+            Screen->Message(messageDoneAll);
+            Waitframe();
+
+            setScreenD(secondaryScreenD, true);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
 ffc script AuriElder {
 // clang-format on
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
@@ -1024,12 +1061,8 @@ ffc script InfoShop {
 ffc script ServusSoldier {
    // clang-format on
    void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
-      // mapdata template = Game->LoadTempScreen(1);
-      // int prevData = this->Data;
-
       if (Hero->Item[itemToCheckFor]) {
          this->Data = 0;
-         // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Quit();
       }
 
@@ -1037,12 +1070,8 @@ ffc script ServusSoldier {
       until(getScreenD(253)) {
          this->Data = 1;
          this->Flags[FFCF_SOLID] = false;
-         // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = 0;
          Waitframe();
       }
-
-      // this->Data = prevData;
-      // template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_SOLID;
 
       this->Flags[FFCF_SOLID] = true;
       this->Data = 6709;
