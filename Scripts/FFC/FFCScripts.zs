@@ -729,6 +729,8 @@ ffc script OpenTheGates {
    CONFIG D_GATE_RIGHT = 7235;
    CONFIG D_GATE_TOP = 7231;
 
+   CONFIG INVISIBLE_GATE = 4463;
+
    void run(int screenWithTrigger) {
       mapdata map = Game->LoadMapData(70, screenWithTrigger);
       mapdata mapDataLayer0 = Game->LoadTempScreen(0);
@@ -743,8 +745,8 @@ ffc script OpenTheGates {
                    mapDataLayer1->ComboD[i] == 7284)
                   mapDataLayer1->ComboD[i] = COMBO_INVIS;
 
-               if (mapDataLayer2->ComboD[i] == 4362) {
-                  mapDataLayer0->ComboD[i] = 4807;
+               if (mapDataLayer2->ComboD[i] == 4463) {
+                  mapDataLayer2->ComboD[i] = 4362;
                }
             }
 

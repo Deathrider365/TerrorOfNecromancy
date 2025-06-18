@@ -852,12 +852,15 @@ ffc script CapturedSequenceNecromancer {
       CONFIG COMBO_GUARD = 6755;
       CONFIG COMBO_LEFT_BARRIER = 6970;
       CONFIG COMBO_RIGHT_BARRIER = 6969;
+      CONFIG COMBO_TOP_BARRIER = 6966;
 
       mapdata mapData = Game->LoadTempScreen(1);
 
       Input->DisableKey[KEY_F6] = true;
 
       //TODO these are currently in cset 0, can it be changed?
+      mapData->ComboD[12] = COMBO_TOP_BARRIER;
+
       mapData->ComboD[64] = COMBO_LEFT_BARRIER;
       mapData->ComboD[80] = COMBO_LEFT_BARRIER;
       mapData->ComboD[96] = COMBO_LEFT_BARRIER;

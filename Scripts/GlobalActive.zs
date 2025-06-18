@@ -204,7 +204,7 @@ global script GlobalScripts {
          case 15:
             switch (screen) {
                case 0x04: return 011100;
-               case 0x55: return 001100;
+               case 0x55: return 000100;
             }
             break;
 
