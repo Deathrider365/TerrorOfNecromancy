@@ -1380,7 +1380,7 @@ ffc script GoddessFaithfulZeldaScenes {
 
    void zeldaGetGiantBombsDialogue(ffc this) {
       const int zeldaIntroMessage = 404;
-      const int zeldaPostIntroMessage = 405;
+      const int zeldaPostIntroMessage = 437;
 
       if (!getScreenD(screenD0)) {
          setScreenD(screenD0, 1);
