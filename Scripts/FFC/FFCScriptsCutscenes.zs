@@ -1333,7 +1333,7 @@ ffc script GoddessFaithfulZeldaScenes {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 1 && Game->Counter[CR_TRIFORCE_OF_POWER] < 2)
+         if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 1 && Game->Counter[CR_TRIFORCE_OF_POWER] < 2) //TODO change these checks
             zeldaIntroDialogue(this);
          else if (Game->Counter[CR_TRIFORCE_OF_POWER] == 2 && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue(this);
@@ -1380,7 +1380,7 @@ ffc script GoddessFaithfulZeldaScenes {
 
    void zeldaGetGiantBombsDialogue(ffc this) {
       const int zeldaIntroMessage = 404;
-      const int zeldaPostIntroMessage = 437;
+      const int zeldaPostIntroMessage = 437; //TODO this seems wrong
 
       if (!getScreenD(screenD0)) {
          setScreenD(screenD0, 1);
@@ -1401,8 +1401,8 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 441;
       const int zeldaPostIntroMessage = 443;
 
-      if (!getScreenD(screenD3) && !getScreenD(screenD0)) {
-         setScreenD(screenD0, 1);
+      if (!getScreenD(screenD3)) {
+         setScreenD(screenD3, 1);
 
          Game->Suspend[susptSCREENDRAW] = true;
          Screen->Message(zeldaIntroMessage);
