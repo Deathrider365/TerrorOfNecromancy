@@ -862,14 +862,6 @@ ffc script Shop {
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
 
                   switch (itemId) {
-                     case ITEM_EXPANSION_BOMB: {
-                        Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
-                        break;
-                     }
-                     case ITEM_EXPANSION_QUIVER: {
-                        Game->Counter[CR_QUIVER_EXPANSIONS]++;
-                        break;
-                     }
                      case ITEM_BATTLE_ARENA_TICKET: {
                         Screen->TriggerSecrets();
                         break;
@@ -983,22 +975,6 @@ ffc script BuyItem {
                setScreenD(0, true);
 
             switch (itemId) {
-               case ITEM_EXPANSION_BOMB:
-                  Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
-                  Screen->State[ST_ITEM] = true;
-
-                  this->Data = COMBO_INVIS;
-                  Waitframe();
-                  Hero->Item[ITEM_EXPANSION_BOMB] = false;
-                  break;
-               case ITEM_EXPANSION_QUIVER:
-                  Game->Counter[CR_QUIVER_EXPANSIONS]++;
-                  Screen->State[ST_ITEM] = true;
-
-                  this->Data = COMBO_INVIS;
-                  Waitframe();
-                  Hero->Item[ITEM_EXPANSION_QUIVER] = false;
-                  break;
                case ITEM_BATTLE_ARENA_TICKET:
                   this->Data = COMBO_INVIS;
                   Screen->TriggerSecrets();

@@ -375,3 +375,17 @@ itemsprite script ArcingItemSprite2 {
          this->Pickup |= IP_TIMEOUT;
    }
 }
+
+item script ExpansionPickup {
+   void run() {
+      switch(this->ID) {
+         case ITEM_EXPANSION_BOMB:
+            Game->Counter[CR_BOMB_BAG_EXPANSIONS]++;
+            break;
+         case ITEM_EXPANSION_QUIVER:
+            Game->Counter[CR_QUIVER_EXPANSIONS]++;
+            break;
+
+      }
+   }
+}

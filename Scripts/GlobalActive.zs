@@ -82,6 +82,11 @@ global script GlobalScripts {
             onDMapChange();
          }
 
+         if (Hero->Item[ITEM_EXPANSION_BOMB])
+            Hero->Item[ITEM_EXPANSION_BOMB] = false;
+         if (Hero->Item[ITEM_EXPANSION_QUIVER])
+            Hero->Item[ITEM_EXPANSION_QUIVER] = false;
+
          LinkMovement_Update2();
          UpdateGhostZH2();
 
