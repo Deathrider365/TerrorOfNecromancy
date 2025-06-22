@@ -810,6 +810,7 @@ ffc script TriggerSavedGoronsLvl6 {
             Screen->TriggerSecrets();
             Screen->State[ST_SECRET] = true;
             Audio->PlaySound(SFX_SECRET);
+            Quit();
          }
 
          goronsSaved = 0;
