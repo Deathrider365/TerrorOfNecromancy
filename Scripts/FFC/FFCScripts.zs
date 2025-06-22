@@ -776,9 +776,8 @@ ffc script HeatedRoomFFC {
 ffc script TriggerSavedGoronsLvl6 {
    // clang-format on
    void run() {
-      if (Screen->State[ST_SECRET]) {
+      if (Screen->State[ST_SECRET])
          Quit();
-      }
 
       int goronsSaved = 0;
 
@@ -813,6 +812,7 @@ ffc script TriggerSavedGoronsLvl6 {
             Audio->PlaySound(SFX_SECRET);
          }
 
+         goronsSaved = 0;
          Waitframe();
       }
    }
