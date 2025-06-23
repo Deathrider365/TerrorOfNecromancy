@@ -322,6 +322,41 @@ ffc script SignpostTriggerFromScreenD {
 
 // clang-format off
 @Author("Deathrider365"),
+@InitD0("message"),
+@InitDHelp0("String to play once screenD set"),
+@InitD1("secondMessage"),
+@InitDHelp1("String to play once secrets are triggered"),
+@InitD2("screenD"),
+@InitDHelp2("ScreenD to set to play the second message")
+ffc script SignpostTriggerFromSecret {
+   // clang-format on
+   void run(int message, int secondMessage, int screenD) {
+      int data = this->Data;
+      this->Flags[FFCF_SOLID] = false;
+      this->Data = COMBO_INVIS;
+
+      loop() {
+         if (Screen->State[ST_SECRET]) {
+            this->Data = data;
+            this->Flags[FFCF_SOLID] = true;
+
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+
+            if (getScreenD(screenD))
+               Screen->Message(secondMessage);
+            else {
+               Screen->Message(message);
+               setScreenD(screenD, 1);
+            }
+         }
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
 @InitD0("itemIdToReceive"),
 @InitDHelp0("Item you will receive"),
 @InitD1("stringPreScreenDSet"),
