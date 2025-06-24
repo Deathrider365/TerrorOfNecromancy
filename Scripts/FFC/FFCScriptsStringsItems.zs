@@ -11,7 +11,9 @@
 @InitD3("secondMessage"),
 @InitDHelp3("String to play"),
 @InitD4("vanishesOnSecondString"),
-@InitDHelp4("After the second string plays quit the script")
+@InitDHelp4("After the second string plays quit the script"),
+@InitD5("remoteSecrets"),
+@InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen")
 ffc script Signpost {
    // clang-format on
 
@@ -19,7 +21,7 @@ ffc script Signpost {
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets) {
       int secondMessageTrigger, secondMessageTriggerValue;
 
       if (hasSecondMessage) {
@@ -46,8 +48,13 @@ ffc script Signpost {
                else Screen->Message(secondMessage);
                break;
             case SMT_SECRETS:
-               unless(Screen->State[ST_SECRET]) Screen->Message(message);
-               else Screen->Message(secondMessage);
+               mapdata mapData = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L);
+
+               if ((!remoteSecrets && Screen->State[ST_SECRET]) || (remoteSecrets && mapData->State[ST_SECRET]))
+                  Screen->Message(secondMessage);
+               else
+                  Screen->Message(message);
+
                break;
             case SMT_HAS_ITEM:
                unless(Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) Screen->Message(message);
@@ -323,20 +330,29 @@ ffc script SignpostTriggerFromScreenD {
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("message"),
-@InitDHelp0("String to play once screenD set"),
+@InitDHelp0("String to play before secrets are triggered"),
 @InitD1("secondMessage"),
 @InitDHelp1("String to play once secrets are triggered"),
 @InitD2("screenD"),
-@InitDHelp2("ScreenD to set to play the second message")
+@InitDHelp2("ScreenD to set to play the second message"),
+@InitD3("isRemote"),
+@InitDHelp3("Flag indicating that the secrets are on another string"),
+@InitD4("map"),
+@InitDHelp4("Map of the remote secret"),
+@InitD5("screen"),
+@InitDHelp5("Screen of the remote secret"),
+@InitD6("invisibleBeforeSecrets"),
+@InitDHelp6("Whether the FFC is dormant before secrets are triggered")
 ffc script SignpostTriggerFromSecret {
    // clang-format on
-   void run(int message, int secondMessage, int screenD) {
+   void run(int message, int secondMessage, int screenD, bool isRemote, int map, int screen) {
       int data = this->Data;
       this->Flags[FFCF_SOLID] = false;
       this->Data = COMBO_INVIS;
+      mapdata mapData = Game->LoadMapData(map, screen);
 
       loop() {
-         if (Screen->State[ST_SECRET]) {
+         if ((isRemote && mapData->State[ST_SECRET]) || (!isRemote && Screen->State[ST_SECRET])) {
             this->Data = data;
             this->Flags[FFCF_SOLID] = true;
 

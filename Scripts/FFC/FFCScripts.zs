@@ -349,7 +349,7 @@ ffc script ContinuePoint {
 
 // clang-format off
 @Author("Deathrider365")
- ffc script PlayEnhancedMusic {
+ffc script PlayEnhancedMusic {
    // clang-format on
 
    void run(int musicChoice) {
