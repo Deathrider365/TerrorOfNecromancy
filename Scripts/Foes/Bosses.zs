@@ -2051,6 +2051,7 @@ namespace OvergrownRaccoonNamespace {
          int timer;
 
          this->Dir = faceLink(this);
+         Hero->CollDetection = false;
 
          until(this->Z == 0) {
             disableLink();
@@ -2070,6 +2071,7 @@ namespace OvergrownRaccoonNamespace {
             setScreenD(255, true);
          }
 
+         Hero->CollDetection = true;
          while (true) {
             if (this->HP <= 0)
                deathAnimation(this, 136);

@@ -41,9 +41,6 @@ ffc script EnemiesChest {
 @InitDHelp2("0 to not, 1 to play")
 ffc script Shutter {
    // clang-format on
-   // start Instructions
-   //  type: 1 for enemy, 0 for secrets, -1 for never open
-   // end
    void run(int type, int perm, bool playSound) {
       int thisData = this->Data;
       int thisCSet = this->CSet;
@@ -55,7 +52,7 @@ ffc script Shutter {
       int underCSet = m->ComboC[cp];
       int LinkX = Link->X;
 
-      if (perm && Screen->State[ST_SECRET] && type != -1)
+      if (perm && Screen->State[ST_SECRET] && type == 0)
          Quit();
 
       if (LinkX <= 0)
