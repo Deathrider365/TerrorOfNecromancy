@@ -1612,14 +1612,6 @@ namespace HazarondNamespace {
       this->ScriptTile = this->OriginalTile;
    }
 
-   void test(bitmap b, int panPosition) {
-      until(Hero->PressA) {
-         b->Blit(2, RT_SCREEN, panPosition, 0, 512, 168, 0, 0, 512, 168, 0, 0, 0, BITDX_NORMAL, 0, true);
-
-         Waitframe();
-      }
-   }
-
    void commenceIntroSequence(npc this, int data, npc heads) {
       bitmap introSequenceBitmap;
 
@@ -1636,18 +1628,18 @@ namespace HazarondNamespace {
       Audio->PlayEnhancedMusic(null, 0);
       introSequenceBitmap->Clear(0);
 
+      CONFIG CMB_SHUTTER = 4632;
+      CONFIG CMB_LINK = 6731;
+
       // Pause
       for (int i = 0; i < 60; ++i) {
          disableLink();
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
 
          introSequenceBitmap->Blit(2, RT_SCREEN, 0, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1658,20 +1650,13 @@ namespace HazarondNamespace {
       until(panPosition >= 40) {
          disableLink();
          panPosition += 4;
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1683,20 +1668,12 @@ namespace HazarondNamespace {
          disableLink();
          panPosition += 6;
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1714,20 +1691,13 @@ namespace HazarondNamespace {
          if (panPosition > 170)
             this->X -= 8;
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1740,20 +1710,13 @@ namespace HazarondNamespace {
          panPosition += 5;
          this->X -= 5;
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1766,20 +1729,13 @@ namespace HazarondNamespace {
          panPosition += 1;
          this->X -= 1;
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1789,11 +1745,7 @@ namespace HazarondNamespace {
       // Pausing on him
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1824,20 +1776,13 @@ namespace HazarondNamespace {
 
          this->Y += yModifier;
 
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->DrawLayer(2, 37, 44, 3, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 0, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 1, 256, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 2, 256, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 44, 4, 256, 0, 0, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+
 
          if (!(panPosition % 16) || panPosition == 254)
             Audio->PlaySound(121);
@@ -1850,14 +1795,11 @@ namespace HazarondNamespace {
       // Wait and Roars
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawLayer(2, 37, 43, 3, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 0, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 1, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 2, 0, 0, 0, OP_TRANS);
-         introSequenceBitmap->DrawLayer(2, 37, 43, 4, 0, 0, 0, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 112, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, 4632, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, 6731, 0, OP_OPAQUE);
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+         
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 

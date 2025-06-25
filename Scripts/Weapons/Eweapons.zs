@@ -102,12 +102,21 @@ eweapon script ArcingWeapon {
                break;
             }
             case AE_OIL_BLOB: {
-               const int oilCombo = 6349;
+               CONFIG CMB_OIL = 6349;
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
-               int pos = ComboAt(this->X + 8, this->Y + 8);
+               for (int i = 2; i > -1; --i) {
+                  mapdata mapData = Game->LoadTempScreen(i);
+                  int comboType = mapData->ComboT[ComboAt(this->X + 8, this->Y + 8)];
 
-               if (Screen->ComboT[pos] == CT_SCRIPT20)
-                  Screen->ComboD[pos] = oilCombo;
+                  if (comboType == CT_SCRIPT20)
+                     mapData->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL;
+               }
+
+
+               //Working Implementation
+               // int pos = ComboAt(this->X + 8, this->Y + 8);
+                  // if (Screen->ComboT[pos] == CT_SCRIPT20)
+                  //    Screen->ComboD[pos] = CMB_OIL;
 
                break;
             }
