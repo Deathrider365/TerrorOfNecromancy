@@ -378,8 +378,7 @@ ffc script PlayEnhancedMusic {
    const int OILBUSH_OIL_DURATION = 180; // Duration oil burns for in frames
    const int OILBUSH_BUSH_DURATION = 60; // Duration bushes/grass burn for in frames
 
-   const int OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn
-                                            // duration)
+   const int OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn duration)
    const int OILBUSH_BUSH_SPREAD_FREQ = 10; // How frequently burning bushes/grass spread
 
    const int CS_OIL_BURNING = 7;               // was 8 CSet for burning oil
@@ -409,7 +408,7 @@ ffc script PlayEnhancedMusic {
       int burnTypes[176];
       lweapon burnHitboxes[176];
 
-      while (true) {
+      loop() {
          // start Loop through all EWeapons
          for (i = Screen->NumEWeapons; i >= 1; i--) {
             eweapon e = Screen->LoadEWeapon(i);
