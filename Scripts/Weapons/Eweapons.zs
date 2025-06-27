@@ -102,14 +102,17 @@ eweapon script ArcingWeapon {
                break;
             }
             case AE_OIL_BLOB: {
-               CONFIG CMB_OIL = 6349;
+               CONFIG CMB_OIL = 10284;
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
+
+               mapdata mapDataLayer2 = Game->LoadTempScreen(2);
+
                for (int i = 2; i > -1; --i) {
                   mapdata mapData = Game->LoadTempScreen(i);
                   int comboType = mapData->ComboT[ComboAt(this->X + 8, this->Y + 8)];
 
                   if (comboType == CT_SCRIPT20)
-                     mapData->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL;
+                     mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL;
                }
 
 
@@ -274,10 +277,20 @@ eweapon makeHitbox(int x, int y, int w, int h, int damage) {
    e->DrawYOffset = -1000;
    e->HitWidth = w;
    e->HitHeight = h;
-   SetEWeaponLifespan(e, EWL_TIMER, 1);
-   SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+   e->Timeout = 1;
 
    return e;
+}
+
+lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage) {
+   // lweapon FireLWeaponDir(int type, int x, int y, int dir, int step, int dmg, int sprite = -1, int sfx = 0, int scriptid = 0, untyped[] args = NULL)
+   lweapon l = FireLWeaponDir(type, x, y, -1, 0, damage);
+   l->DrawYOffset = -1000;
+   l->HitWidth = w;
+   l->HitHeight = h;
+   l->Timeout = 1;
+
+   return l;
 }
 
 eweapon makeHitboxPersistent(eweapon hitbox, int x, int y, int w, int h, int damage) {

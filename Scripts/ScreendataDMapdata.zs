@@ -29,68 +29,68 @@ screendata script OverheadTransparency {
 }
 
 // clang-format off
-@Author ("EmilyV99")
-screendata script RadialTransparency {
-   // clang-format on
+// @Author ("EmilyV99")
+// screendata script RadialTransparency {
+//    // clang-format on
 
-   void run(int layers, int radius) {
-      mapdata mapData[6];
+//    void run(int layers, int radius) {
+//       mapdata mapData[6];
 
-      for (int l = 1; l < 6; ++l) {
-         unless(layers & (1b << (l - 1))) continue;
+//       for (int l = 1; l < 6; ++l) {
+//          unless(layers & (1b << (l - 1))) continue;
 
-         Screen->LayerInvisible[l] = true;
+//          Screen->LayerInvisible[l] = true;
 
-         unless(overheadBitmaps[l]->isValid()) overheadBitmaps[l] = create(256, 176);
+//          unless(overheadBitmaps[l]->isValid()) overheadBitmaps[l] = create(256, 176);
 
-         mapData[l] = Game->LoadTempScreen(l);
-      }
+//          mapData[l] = Game->LoadTempScreen(l);
+//       }
 
-      while (true) {
-         for (int l = 1; l < 6; ++l) {
-            unless(layers & (1b << (l - 1))) continue;
+//       while (true) {
+//          for (int l = 1; l < 6; ++l) {
+//             unless(layers & (1b << (l - 1))) continue;
 
-            overheadBitmaps[l]->Clear(0);
+//             overheadBitmaps[l]->Clear(0);
 
-            for (int q = 0; q < 176; ++q)
-               overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_OPAQUE);
+//             for (int q = 0; q < 176; ++q)
+//                overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_OPAQUE);
 
-            overheadBitmaps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
+//             overheadBitmaps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
 
-            for (int q = 0; q < 176; ++q)
-               Screen->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_TRANS);
+//             for (int q = 0; q < 176; ++q)
+//                Screen->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_TRANS);
 
-            overheadBitmaps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
-         }
+//             overheadBitmaps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
+//          }
 
-         Waitframe();
+//          Waitframe();
 
-         if (disableTrans) {
-            for (int l = 1; l < 6; ++l) {
-               unless(layers & (1b << (l - 1))) continue;
+//          if (disableTrans) {
+//             for (int l = 1; l < 6; ++l) {
+//                unless(layers & (1b << (l - 1))) continue;
 
-               Screen->LayerInvisible[l] = false;
-            }
+//                Screen->LayerInvisible[l] = false;
+//             }
 
-            while (disableTrans)
-               Waitframe();
-         }
+//             while (disableTrans)
+//                Waitframe();
+//          }
 
-         if (HeroIsScrolling())
-            for (int l = 1; l < 6; ++l) {
-               unless(layers & (1b << (l - 1))) continue;
+//          if (HeroIsScrolling())
+//             for (int l = 1; l < 6; ++l) {
+//                unless(layers & (1b << (l - 1))) continue;
 
-               Screen->LayerInvisible[l] = false;
-            }
-         else
-            for (int l = 1; l < 6; ++l) {
-               unless(layers & (1b << (l - 1))) continue;
+//                Screen->LayerInvisible[l] = false;
+//             }
+//          else
+//             for (int l = 1; l < 6; ++l) {
+//                unless(layers & (1b << (l - 1))) continue;
 
-               Screen->LayerInvisible[l] = true;
-            }
-      }
-   }
-}
+//                Screen->LayerInvisible[l] = true;
+//             }
+//       }
+//    }
+// }
 
 // clang-format off
 @Author ("EmilyV99, Dimi")

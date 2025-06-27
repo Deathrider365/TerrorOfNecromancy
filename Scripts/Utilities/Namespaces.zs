@@ -1512,3 +1512,158 @@ namespace MinecartNamespace {
    }
 
 } // namespace MinecartNamespace
+
+
+namespace BurningCombosNamespace {
+   CONFIG BURNABLE_INID_POST_BURN_OFFSET = 0;
+   CONFIG BURNABLE_INID_BURNTIME = 1;
+   CONFIG BURNABLE_INID_SPREADTIME = 2;
+   CONFIG BURNABLE_INID_INCLUDE_EWEAPONS = 3;
+
+   class BurningCombo {
+      combodata comboData;
+      int burnTimer;
+      int spreadTimer;
+      int layer;
+      int damage;
+   }
+
+   combodata script Burnable {
+      void run(int postBurnOffset, int burnTime, int spreadTime, bool includeEWeapons) {
+         //used as a marker
+      }
+   }
+
+   ffc script RecursiveFire {
+      void run(int minLevelRequired) {
+         BurningCombo burningCombos[176];
+         ResizeArray(burningCombos, NUM_COMBO_POS);
+
+         int slotBurnable = Game->GetComboScript("Burnable");
+
+         loop() {
+            if (Game->LoadItemData(GetHighestLevelItemOwned(IC_CANDLE))->Level >= minLevelRequired) {
+               //LWeapon collision
+               for (int i = Screen->NumLWeapons; i > 0; --i) {
+                  lweapon lWeapon = Screen->LoadLWeapon(i);
+
+                     if (lWeapon->Type != LW_FIRE)
+                        continue;
+
+                  int pos = ComboAt(CenterX(lWeapon), CenterY(lWeapon));
+
+                  for (int layer = 0; layer <= 2; ++layer) {
+                     combodata comboData = Game->LoadComboData(Game->LoadTempScreen(layer)->ComboD[pos]);
+
+                     if (comboData->Script == slotBurnable) {
+                        if (burningCombos[pos] == null)
+                           burningCombos[pos] = new BurningCombo();
+
+                        if (burningCombos[pos]->burnTimer == 0) {
+                           burningCombos[pos]->burnTimer = comboData->InitD[BURNABLE_INID_BURNTIME];
+                           burningCombos[pos]->spreadTimer = comboData->InitD[BURNABLE_INID_SPREADTIME];
+                           burningCombos[pos]->comboData = comboData;
+                           burningCombos[pos]->layer = layer;
+                           burningCombos[pos]->damage = lWeapon->Damage;
+                        }
+                     }
+                  }
+               }
+            }
+            //EWeapon collision=
+            for (int i = Screen->NumEWeapons; i > 0; --i) {
+               eweapon eWeapon = Screen->LoadEWeapon(i);
+
+               if (eWeapon->Type != EW_FIRE)
+                  continue;
+
+               int pos = ComboAt(CenterX(eWeapon), CenterY(eWeapon));
+
+               for (int layer = 0; layer <= 2; ++layer) {
+                  combodata comboData = Game->LoadComboData(Game->LoadTempScreen(layer)->ComboD[pos]);
+
+                  if (comboData->Script == slotBurnable) {
+                     if (burningCombos[pos] == null)
+                        burningCombos[pos] = new BurningCombo();
+
+                     if (burningCombos[pos]->burnTimer == 0) {
+                        burningCombos[pos]->burnTimer = comboData->InitD[BURNABLE_INID_BURNTIME];
+                        burningCombos[pos]->spreadTimer = comboData->InitD[BURNABLE_INID_SPREADTIME];
+                        burningCombos[pos]->comboData = comboData;
+                        burningCombos[pos]->layer = layer;
+                        burningCombos[pos]->damage = eWeapon->Damage;
+                     }
+                  }
+               }
+            }
+
+            //Combo updates as the fire spreads
+            for (int comboPos = 0; comboPos < NUM_COMBO_POS; ++comboPos) {
+               BurningCombo burnCombo = burningCombos[comboPos];
+
+               if (burnCombo != null && burnCombo->burnTimer > 0) {
+                  --burnCombo->burnTimer;
+
+                  // This ain't no Bible. Bushes burn up eventually.
+                  if (burnCombo->burnTimer == 0) {
+                     mapdata mapData = Game->LoadTempScreen(burnCombo->layer);
+                     mapData->ComboD[comboPos] += burnCombo->comboData->InitD[BURNABLE_INID_POST_BURN_OFFSET];
+                  }
+
+                  Screen->FastCombo(burnCombo->layer, ComboX(comboPos), ComboY(comboPos), getBurningCombo(), 0, OP_OPAQUE);
+                  makeHitbox(ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage);
+                  makeHitboxLW(LW_SCRIPT1, ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage);
+
+                  //If you're on fire raise your hand
+                  if (burnCombo->spreadTimer > 0) {
+                     --burnCombo->spreadTimer;
+
+                     if (burnCombo->spreadTimer == 0) {
+                        for (int dir = 0; dir <= 3; ++dir) {
+                           int adjacentPos = AdjacentCombo(comboPos, dir);
+
+                           if (adjacentPos > -1) {
+                              for (int layer = 0; layer <= 2; ++layer) {
+                                 combodata comboData = Game->LoadComboData(Game->LoadTempScreen(layer)->ComboD[adjacentPos]);
+
+                                 if (comboData->Script == slotBurnable) {
+                                    if (burningCombos[adjacentPos] == null)
+                                       burningCombos[adjacentPos] = new BurningCombo();
+
+                                    if (burningCombos[adjacentPos]->burnTimer == 0) {
+                                       burningCombos[adjacentPos]->burnTimer = comboData->InitD[BURNABLE_INID_BURNTIME];
+                                       burningCombos[adjacentPos]->spreadTimer = comboData->InitD[BURNABLE_INID_SPREADTIME];
+
+                                       if (adjacentPos > comboPos) {
+                                          ++burningCombos[adjacentPos]->burnTimer;
+                                          ++burningCombos[adjacentPos]->spreadTimer;
+                                       }
+
+                                       burningCombos[adjacentPos]->comboData = comboData;
+                                       burningCombos[adjacentPos]->layer = layer;
+                                       burningCombos[adjacentPos]->damage = burnCombo->damage;
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+
+            Waitframe();
+         }
+      }
+   }
+
+   int getBurningCombo() {
+      switch (GetHighestLevelItemOwned(IC_CANDLE)) {
+         case 158: return 6344;
+         case 10: return 6345;
+         case 11: return 6346;
+         case 150: return 6347;
+         default: return 6344;
+      }
+   }
+}

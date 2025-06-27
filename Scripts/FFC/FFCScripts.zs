@@ -361,323 +361,322 @@ ffc script PlayEnhancedMusic {
 }
 
 // clang-format off
-@Author("Moosh")
- ffc script BurningOilandBushes {
-   // clang-format on
+// @Author("Moosh")
+//  ffc script BurningOilAndBushes {
+//    // clang-format on
 
-   // start constants
-   const int OILBUSH_LAYER = 2;  // Layer to which burning is drawn
-   const int OILBUSH_DAMAGE = 2; // Damage dealt by burning oil/bushes
+//    // start constants
+//    CONFIG OILBUSH_LAYER = 2;  // Layer to which burning is drawn
+//    CONFIG OILBUSH_DAMAGE = 2; // Damage dealt by burning oil/bushes
 
-   const int OILBUSH_CANTRIGGER = 1;           // Set to 1 if burning objects can trigger adjacent burn triggers
-   const int OILBUSH_DAMAGEENEMIES = 1;        // Set to 1 if burning objects can damage enemies standing on them
-   const int OILBUSH_BUSHESSTILLDROPITEMS = 1; // Set to 1 if burning bushes should still drop their items
+//    CONFIG OILBUSH_CANTRIGGER = 1;           // Set to 1 if burning objects can trigger adjacent burn triggers
+//    CONFIG OILBUSH_DAMAGEENEMIES = 1;        // Set to 1 if burning objects can damage enemies standing on them
+//    CONFIG OILBUSH_BUSHESSTILLDROPITEMS = 1; // Set to 1 if burning bushes should still drop their items
 
-   const int NPC_BUSHDROPSET = 177; // The ID of an Other type enemy with the tall grass dropset
+//    CONFIG NPC_BUSHDROPSET = 177; // The ID of an Other type enemy with the tall grass dropset
 
-   const int OILBUSH_OIL_DURATION = 180; // Duration oil burns for in frames
-   const int OILBUSH_BUSH_DURATION = 60; // Duration bushes/grass burn for in frames
+//    CONFIG OILBUSH_OIL_DURATION = 180; // Duration oil burns for in frames
+//    CONFIG OILBUSH_BUSH_DURATION = 60; // Duration bushes/grass burn for in frames
 
-   const int OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn duration)
-   const int OILBUSH_BUSH_SPREAD_FREQ = 10; // How frequently burning bushes/grass spread
+//    CONFIG OILBUSH_OIL_SPREAD_FREQ = 2;   // How frequently burning oil spreads (should be shorter than burn duration)
+//    CONFIG OILBUSH_BUSH_SPREAD_FREQ = 10; // How frequently burning bushes/grass spread
 
-   const int CS_OIL_BURNING = 7;               // was 8 CSet for burning oil
-   const int OILBUSH_ENDFRAMES_OILBURN = 4;    // Number of combos for oil burning out
-   const int OILBUSH_ENDDURATION_OILBURN = 16; // Duration of the burning out animation
+//    CONFIG CS_OIL_BURNING = 7;               // was 8 CSet for burning oil
+//    CONFIG OILBUSH_ENDFRAMES_OILBURN = 4;    // Number of combos for oil burning out
+//    CONFIG OILBUSH_ENDDURATION_OILBURN = 16; // Duration of the burning out animation
 
-   const int CMB_BUSH_BURNING = 6344;           // First combo for burning oil
-   const int CS_BUSH_BURNING = 0;               // CSet for burning oil (I set this to 0 since
-                                                // the combos are 8 bit anyway)
-   const int OILBUSH_ENDFRAMES_BUSHBURN = 4;    // Number of combos for bushes/grass burning out
-   const int OILBUSH_ENDDURATION_BUSHBURN = 16; // Duration of the burning out animation
+//    CONFIG CMB_BUSH_BURNING = 6344;           // First combo for burning oil
+//    CONFIG CS_BUSH_BURNING = 0;               // CSet for burning oil (I set this to 0 since the combos are 8 bit anyway)
+//    CONFIG OILBUSH_ENDFRAMES_BUSHBURN = 4;    // Number of combos for bushes/grass burning out
+//    CONFIG OILBUSH_ENDDURATION_BUSHBURN = 16; // Duration of the burning out animation
 
-   const int SFX_OIL_BURN = 13;  // Sound when oil catches fire
-   const int SFX_BUSH_BURN = 13; // Sound when bushes catch fire
+//    CONFIG SFX_OIL_BURN = 13;  // Sound when oil catches fire
+//    CONFIG SFX_BUSH_BURN = 13; // Sound when bushes catch fire
 
-   // EWeapon and LWeapon IDs used for burning stuff.
-   const int EW_OILBUSHBURN = 40; // EWeapon ID. Script 10 by default
-   const int LW_OILBUSHBURN = 9;  // LWeapon ID. Fire by default
-   // end constants
+//    // EWeapon and LWeapon IDs used for burning stuff.
+//    CONFIG EW_OILBUSHBURN = 40; // EWeapon ID. Script 10 by default
+//    CONFIG LW_OILBUSHBURN = 9;  // LWeapon ID. Fire by default
+//    // end constants
 
-   void run(int noOil, int noBushes, int advanceOil, int burnCSet) {
-      int i;
-      int j;
-      int c;
-      int ct;
-      int burnTimers[176];
-      int burnTypes[176];
-      lweapon burnHitboxes[176];
+//    void run(int noOil, int noBushes, int advanceOil, int burnCSet) {
+//       int i;
+//       int j;
+//       int c;
+//       int ct;
+//       int burnTimers[176];
+//       int burnTypes[176];
+//       lweapon burnHitboxes[176];
 
-      loop() {
-         // start Loop through all EWeapons
-         for (i = Screen->NumEWeapons; i >= 1; i--) {
-            eweapon e = Screen->LoadEWeapon(i);
+//       loop() {
+//          // start Loop through all EWeapons
+//          for (i = Screen->NumEWeapons; i >= 1; i--) {
+//             eweapon e = Screen->LoadEWeapon(i);
 
-            // Only fire weapons can burn oil/bushes
-            if ((e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800) && GetHighestLevelItemOwned(IC_CANDLE) != 158) {
-               c = ComboAt(CenterX(e), CenterY(e));
-               // Check to make sure it isn't already burning
+//             // Only fire weapons can burn oil/bushes
+//             if ((e->ID == EW_FIRE || e->ID == EW_FIRE2 || e->OriginalTile == 800) && GetHighestLevelItemOwned(IC_CANDLE) != 158) {
+//                c = ComboAt(CenterX(e), CenterY(e));
+//                // Check to make sure it isn't already burning
 
-               if (burnTimers[c] <= 0) {
-                  // Check if oil is allowed and if the combo is a water combo
-                  if (!noOil && OilBush_IsWater(c)) {
-                     if (SFX_OIL_BURN > 0)
-                        Audio->PlaySound(SFX_OIL_BURN);
+//                if (burnTimers[c] <= 0) {
+//                   // Check if oil is allowed and if the combo is a water combo
+//                   if (!noOil && OilBush_IsWater(c)) {
+//                      if (SFX_OIL_BURN > 0)
+//                         Audio->PlaySound(SFX_OIL_BURN);
 
-                     burnTimers[c] = OILBUSH_OIL_DURATION;
-                     burnTypes[c] = 0; // Mark as an oil burn
-                  }
-                  // Else check if bushes are allowd and if the combo is a bush
-                  else if (!noBushes && OilBush_IsBush(c)) {
-                     if (SFX_BUSH_BURN > 0)
-                        Audio->PlaySound(SFX_BUSH_BURN);
+//                      burnTimers[c] = OILBUSH_OIL_DURATION;
+//                      burnTypes[c] = 0; // Mark as an oil burn
+//                   }
+//                   // Else check if bushes are allowd and if the combo is a bush
+//                   else if (!noBushes && OilBush_IsBush(c)) {
+//                      if (SFX_BUSH_BURN > 0)
+//                         Audio->PlaySound(SFX_BUSH_BURN);
 
-                     burnTimers[c] = OILBUSH_BUSH_DURATION;
-                     burnTypes[c] = 1;    // Mark as a bush burn
-                     Screen->ComboD[c]++; // Advance to the next combo
+//                      burnTimers[c] = OILBUSH_BUSH_DURATION;
+//                      burnTypes[c] = 1;    // Mark as a bush burn
+//                      Screen->ComboD[c]++; // Advance to the next combo
 
-                     // If item drops are allowed, create and kill a dummy enemy
-                     if (OILBUSH_BUSHESSTILLDROPITEMS) {
-                        npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
-                        n->HP = -1000;
-                        n->DrawYOffset = -1000;
-                     }
-                  }
-               }
-            }
-         } // end
+//                      // If item drops are allowed, create and kill a dummy enemy
+//                      if (OILBUSH_BUSHESSTILLDROPITEMS) {
+//                         npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
+//                         n->HP = -1000;
+//                         n->DrawYOffset = -1000;
+//                      }
+//                   }
+//                }
+//             }
+//          } // end
 
-         if (GetHighestLevelItemOwned(IC_CANDLE) != 158) {
-            // start Loop through all LWeapons
-            for (i = Screen->NumLWeapons; i >= 1; i--) {
-               lweapon l = Screen->LoadLWeapon(i);
-               // Only fire weapons can burn oil/bushes
-               if (l->ID == LW_FIRE) {
-                  c = ComboAt(CenterX(l), CenterY(l));
-                  // Check to make sure it isn't already burning
-                  if (burnTimers[c] <= 0) {
-                     // Check if oil is allowed and if the combo is a water combo
-                     if (!noOil && OilBush_IsWater(c)) {
-                        if (SFX_OIL_BURN > 0)
-                           Audio->PlaySound(SFX_OIL_BURN);
+//          if (GetHighestLevelItemOwned(IC_CANDLE) != 158) {
+//             // start Loop through all LWeapons
+//             for (i = Screen->NumLWeapons; i >= 1; i--) {
+//                lweapon l = Screen->LoadLWeapon(i);
+//                // Only fire weapons can burn oil/bushes
+//                if (l->ID == LW_FIRE) {
+//                   c = ComboAt(CenterX(l), CenterY(l));
+//                   // Check to make sure it isn't already burning
+//                   if (burnTimers[c] <= 0) {
+//                      // Check if oil is allowed and if the combo is a water combo
+//                      if (!noOil && OilBush_IsWater(c)) {
+//                         if (SFX_OIL_BURN > 0)
+//                            Audio->PlaySound(SFX_OIL_BURN);
 
-                        burnTimers[c] = OILBUSH_OIL_DURATION;
-                        burnTypes[c] = 0; // Mark as an oil burn
-                     }
-                     // Else check if bushes are allowd and if the combo is a bush
-                     else if (!noBushes && OilBush_IsBush(c)) {
-                        if (SFX_BUSH_BURN > 0)
-                           Audio->PlaySound(SFX_BUSH_BURN);
+//                         burnTimers[c] = OILBUSH_OIL_DURATION;
+//                         burnTypes[c] = 0; // Mark as an oil burn
+//                      }
+//                      // Else check if bushes are allowd and if the combo is a bush
+//                      else if (!noBushes && OilBush_IsBush(c)) {
+//                         if (SFX_BUSH_BURN > 0)
+//                            Audio->PlaySound(SFX_BUSH_BURN);
 
-                        burnTimers[c] = OILBUSH_BUSH_DURATION;
-                        burnTypes[c] = 1;    // Mark as a bush burn
-                        Screen->ComboD[c]++; // Advance to the next combo
+//                         burnTimers[c] = OILBUSH_BUSH_DURATION;
+//                         burnTypes[c] = 1;    // Mark as a bush burn
+//                         Screen->ComboD[c]++; // Advance to the next combo
 
-                        if (OILBUSH_BUSHESSTILLDROPITEMS) { // If item drops are
-                                                            // allowed, create and kill
-                                                            // a dummy enemy
-                           npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
-                           n->HP = -1000;
-                           n->DrawYOffset = -1000;
-                        }
-                     }
-                  }
-               }
-            } // end
-         }
+//                         if (OILBUSH_BUSHESSTILLDROPITEMS) { // If item drops are
+//                                                             // allowed, create and kill
+//                                                             // a dummy enemy
+//                            npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
+//                            n->HP = -1000;
+//                            n->DrawYOffset = -1000;
+//                         }
+//                      }
+//                   }
+//                }
+//             } // end
+//          }
 
-         // start Loop through all Combos (spread the fire around)
-         for (i = 0; i < 176; i++) {
-            // If you're on fire raise your hand
-            if (burnTimers[i] > 0) {
-               int burnDuration = OILBUSH_OIL_DURATION;
-               int spreadFreq = OILBUSH_OIL_SPREAD_FREQ;
-               int burnEndFrames = OILBUSH_ENDFRAMES_OILBURN;
-               int burnEndDuration = OILBUSH_ENDDURATION_OILBURN;
+//          // start Loop through all Combos (spread the fire around)
+//          for (i = 0; i < 176; i++) {
+//             // If you're on fire raise your hand
+//             if (burnTimers[i] > 0) {
+//                int burnDuration = OILBUSH_OIL_DURATION;
+//                int spreadFreq = OILBUSH_OIL_SPREAD_FREQ;
+//                int burnEndFrames = OILBUSH_ENDFRAMES_OILBURN;
+//                int burnEndDuration = OILBUSH_ENDDURATION_OILBURN;
 
-               // Bushes have different burning properties from oil
-               if (burnTypes[i] == 1) {
-                  burnDuration = OILBUSH_BUSH_DURATION;
-                  spreadFreq = OILBUSH_BUSH_SPREAD_FREQ;
-                  burnEndFrames = OILBUSH_ENDFRAMES_BUSHBURN;
-                  burnEndDuration = OILBUSH_ENDDURATION_BUSHBURN;
-               }
+//                // Bushes have different burning properties from oil
+//                if (burnTypes[i] == 1) {
+//                   burnDuration = OILBUSH_BUSH_DURATION;
+//                   spreadFreq = OILBUSH_BUSH_SPREAD_FREQ;
+//                   burnEndFrames = OILBUSH_ENDFRAMES_BUSHBURN;
+//                   burnEndDuration = OILBUSH_ENDDURATION_BUSHBURN;
+//                }
 
-               // start If it has been spreadFreq frames since the burning started,
-               // spread to adjacent combos
-               if (burnTimers[i] == burnDuration - spreadFreq) {
-                  // Check all four adjacent combos
-                  for (j = 0; j < 4; j++) {
-                     c = i; // Target combo is set to i and moved based on direction or
-                            // j
+//                // start If it has been spreadFreq frames since the burning started,
+//                // spread to adjacent combos
+//                if (burnTimers[i] == burnDuration - spreadFreq) {
+//                   // Check all four adjacent combos
+//                   for (j = 0; j < 4; j++) {
+//                      c = i; // Target combo is set to i and moved based on direction or
+//                             // j
 
-                     if (j == DIR_UP) {
-                        c -= 16;
-                        if (i < 16) // Prevent checking combo above along top edge
-                           continue;
-                     }
-                     else if (j == DIR_DOWN) {
-                        c += 16;
+//                      if (j == DIR_UP) {
+//                         c -= 16;
+//                         if (i < 16) // Prevent checking combo above along top edge
+//                            continue;
+//                      }
+//                      else if (j == DIR_DOWN) {
+//                         c += 16;
 
-                        if (i > 159) // Prevent checking combo below along bottom edge
-                           continue;
-                     }
-                     else if (j == DIR_LEFT) {
-                        c--;
+//                         if (i > 159) // Prevent checking combo below along bottom edge
+//                            continue;
+//                      }
+//                      else if (j == DIR_LEFT) {
+//                         c--;
 
-                        if (i % 16 == 0) // Prevent checking combo to the left along left edge
-                           continue;
-                     }
-                     else if (j == DIR_RIGHT) {
-                        c++; // Name drop
+//                         if (i % 16 == 0) // Prevent checking combo to the left along left edge
+//                            continue;
+//                      }
+//                      else if (j == DIR_RIGHT) {
+//                         c++; // Name drop
 
-                        if (i % 16 == 15) // Prevent checking combo to the right along right edge
-                           continue;
-                     }
+//                         if (i % 16 == 15) // Prevent checking combo to the right along right edge
+//                            continue;
+//                      }
 
-                     // If the adjacent combo isn't already burning
-                     if (burnTimers[c] <= 0) {
-                        // If the burning combo at i is oil
-                        if (burnTypes[i] == 0) {
-                           // If the adjacent combo is water, light it on fire
-                           if (OilBush_IsWater(c)) {
-                              if (SFX_OIL_BURN > 0)
-                                 Audio->PlaySound(SFX_OIL_BURN);
+//                      // If the adjacent combo isn't already burning
+//                      if (burnTimers[c] <= 0) {
+//                         // If the burning combo at i is oil
+//                         if (burnTypes[i] == 0) {
+//                            // If the adjacent combo is water, light it on fire
+//                            if (OilBush_IsWater(c)) {
+//                               if (SFX_OIL_BURN > 0)
+//                                  Audio->PlaySound(SFX_OIL_BURN);
 
-                              burnTimers[c] = OILBUSH_OIL_DURATION;
-                              burnTypes[c] = 0;
-                           }
-                           // If there's an adjacent fire trigger and the script is
-                           // allowed to trigger them
-                           else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
-                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
-                                  ComboY(c));         // Make a weapon on top of
-                                                      // the combo to trigger it
-                              l->CollDetection = 0;   // Turn off its collision
-                              l->Step = 0;            // Make it stationary
-                              l->DrawYOffset = -1000; // Make it invisible
-                           }
-                        }
+//                               burnTimers[c] = OILBUSH_OIL_DURATION;
+//                               burnTypes[c] = 0;
+//                            }
+//                            // If there's an adjacent fire trigger and the script is
+//                            // allowed to trigger them
+//                            else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
+//                               lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
+//                                   ComboY(c));         // Make a weapon on top of
+//                                                       // the combo to trigger it
+//                               l->CollDetection = 0;   // Turn off its collision
+//                               l->Step = 0;            // Make it stationary
+//                               l->DrawYOffset = -1000; // Make it invisible
+//                            }
+//                         }
 
-                        // Otherwise if it's a bush
-                        else if (burnTypes[i] == 1) {
-                           // If the adjancent combo is a bush, light it on fire
-                           if (OilBush_IsBush(c)) {
-                              if (SFX_BUSH_BURN > 0)
-                                 Audio->PlaySound(SFX_BUSH_BURN);
+//                         // Otherwise if it's a bush
+//                         else if (burnTypes[i] == 1) {
+//                            // If the adjancent combo is a bush, light it on fire
+//                            if (OilBush_IsBush(c)) {
+//                               if (SFX_BUSH_BURN > 0)
+//                                  Audio->PlaySound(SFX_BUSH_BURN);
 
-                              burnTimers[c] = OILBUSH_BUSH_DURATION;
-                              burnTypes[c] = 1;    // Mark as a bush burn
-                              Screen->ComboD[c]++; // Advance to the next combo
+//                               burnTimers[c] = OILBUSH_BUSH_DURATION;
+//                               burnTypes[c] = 1;    // Mark as a bush burn
+//                               Screen->ComboD[c]++; // Advance to the next combo
 
-                              // If item drops are allowed, create and kill a dummy enemy
-                              if (OILBUSH_BUSHESSTILLDROPITEMS) {
-                                 npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
-                                 n->HP = -1000;
-                                 n->DrawYOffset = -1000;
-                              }
-                           }
+//                               // If item drops are allowed, create and kill a dummy enemy
+//                               if (OILBUSH_BUSHESSTILLDROPITEMS) {
+//                                  npc n = CreateNPCAt(NPC_BUSHDROPSET, ComboX(c), ComboY(c));
+//                                  n->HP = -1000;
+//                                  n->DrawYOffset = -1000;
+//                               }
+//                            }
 
-                           // If there's an adjacent fire trigger and the script is
-                           // allowed to trigger them
-                           else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
-                              lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
-                                  ComboY(c));         // Make a weapon on top of
-                                                      // the combo to trigger it
-                              l->CollDetection = 0;   // Turn off its collision
-                              l->Step = 0;            // Make it stationary
-                              l->DrawYOffset = -1000; // Make it invisible
-                           }
-                        }
-                     }
-                  }
-               } // end
-            }
-         } // end
+//                            // If there's an adjacent fire trigger and the script is
+//                            // allowed to trigger them
+//                            else if (ComboFI(c, CF_CANDLE1) && OILBUSH_CANTRIGGER) {
+//                               lweapon l = CreateLWeaponAt(LW_FIRE, ComboX(c),
+//                                   ComboY(c));         // Make a weapon on top of
+//                                                       // the combo to trigger it
+//                               l->CollDetection = 0;   // Turn off its collision
+//                               l->Step = 0;            // Make it stationary
+//                               l->DrawYOffset = -1000; // Make it invisible
+//                            }
+//                         }
+//                      }
+//                   }
+//                } // end
+//             }
+//          } // end
 
-         // start Loop through all Combos again (actually draw the fire)
-         for (i = 0; i < 176; i++) {
-            // Check through all burning combos
-            if (burnTimers[i] > 0) {
-               // Only if enemy damaging is on
-               if (OILBUSH_DAMAGEENEMIES) {
-                  // If the hitbox for the tile isn't there, recreate it
-                  if (!burnHitboxes[i]->isValid()) {
-                     burnHitboxes[i] = CreateLWeaponAt(LW_SCRIPT10, ComboX(i), ComboY(i));
-                     burnHitboxes[i]->Step = 0;                // Make it stationary
-                     burnHitboxes[i]->Dir = 8;                 // Make it pierce
-                     burnHitboxes[i]->DrawYOffset = -1000;     // Make it invisible
-                     burnHitboxes[i]->Damage = OILBUSH_DAMAGE; // Make it deal damage
-                  }
-               }
+//          // start Loop through all Combos again (actually draw the fire)
+//          for (i = 0; i < 176; i++) {
+//             // Check through all burning combos
+//             if (burnTimers[i] > 0) {
+//                // Only if enemy damaging is on
+//                if (OILBUSH_DAMAGEENEMIES) {
+//                   // If the hitbox for the tile isn't there, recreate it
+//                   if (!burnHitboxes[i]->isValid()) {
+//                      burnHitboxes[i] = CreateLWeaponAt(LW_SCRIPT10, ComboX(i), ComboY(i));
+//                      burnHitboxes[i]->Step = 0;                // Make it stationary
+//                      burnHitboxes[i]->Dir = 8;                 // Make it pierce
+//                      burnHitboxes[i]->DrawYOffset = -1000;     // Make it invisible
+//                      burnHitboxes[i]->Damage = OILBUSH_DAMAGE; // Make it deal damage
+//                   }
+//                }
 
-               // If Link is close enough, create fire hitboxes
-               if (Distance(ComboX(i), ComboY(i), Link->X, Link->Y) < 48) {
-                  eweapon e = FireEWeapon(EW_SCRIPT10, ComboX(i), ComboY(i), 0, 0, OILBUSH_DAMAGE, 0, 0, EWF_UNBLOCKABLE);
-                  // Make the hitbox invisible
-                  e->DrawYOffset = -1000;
-                  // Make the hitbox last for one frame
-                  SetEWeaponLifespan(e, EWL_TIMER, 1);
-                  SetEWeaponDeathEffect(e, EWD_VANISH, 0);
-               }
+//                // If Link is close enough, create fire hitboxes
+//                if (Distance(ComboX(i), ComboY(i), Link->X, Link->Y) < 48) {
+//                   eweapon e = FireEWeapon(EW_SCRIPT10, ComboX(i), ComboY(i), 0, 0, OILBUSH_DAMAGE, 0, 0, EWF_UNBLOCKABLE);
+//                   // Make the hitbox invisible
+//                   e->DrawYOffset = -1000;
+//                   // Make the hitbox last for one frame
+//                   SetEWeaponLifespan(e, EWL_TIMER, 1);
+//                   SetEWeaponDeathEffect(e, EWD_VANISH, 0);
+//                }
 
-               burnTimers[i]--; // This ain't no Bible. Bushes burn up eventually.
+//                burnTimers[i]--; // This ain't no Bible. Bushes burn up eventually.
 
-               if (burnTimers[i] == 0 && advanceOil && Screen->ComboT[i] == CT_SHALLOWWATER)
-                  ++Screen->ComboD[i];
+//                if (burnTimers[i] == 0 && advanceOil && Screen->ComboT[i] == CT_SHALLOWWATER)
+//                   ++Screen->ComboD[i];
 
-               int cmbBurn;
+//                int cmbBurn;
 
-               // if(burnTypes[i] == 0)
-               // {
-               // Set animation for oil burning out
-               // cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 -
-               // Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN /
-               // OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
-               // Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn,
-               // burnCSet ? burnCSet : CS_OIL_BURNING, 128);
-               // }
-               // else
-               // {
-               // Set animation for bush burning out
-               // cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 -
-               // Floor(burnTimers[i] /
-               // (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0,
-               // OILBUSH_ENDFRAMES_BUSHBURN - 1);
-               Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), getBurningCombo(), CS_BUSH_BURNING, 128);
-               // }
-            }
-            else {
-               // Clean up any leftover hitboxes
-               if (burnHitboxes[i]->isValid())
-                  burnHitboxes[i]->DeadState = 0;
-            }
-         } // end
+//                // if(burnTypes[i] == 0)
+//                // {
+//                // Set animation for oil burning out
+//                // cmbBurn = CMB_OIL_BURNING + Clamp(OILBUSH_ENDFRAMES_OILBURN - 1 -
+//                // Floor(burnTimers[i] / (OILBUSH_ENDDURATION_OILBURN /
+//                // OILBUSH_ENDFRAMES_OILBURN)), 0, OILBUSH_ENDFRAMES_OILBURN - 1);
+//                // Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), cmbBurn,
+//                // burnCSet ? burnCSet : CS_OIL_BURNING, 128);
+//                // }
+//                // else
+//                // {
+//                // Set animation for bush burning out
+//                // cmbBurn = CMB_BUSH_BURNING + Clamp(OILBUSH_ENDFRAMES_BUSHBURN - 1 -
+//                // Floor(burnTimers[i] /
+//                // (OILBUSH_ENDDURATION_BUSHBURN/OILBUSH_ENDFRAMES_BUSHBURN)), 0,
+//                // OILBUSH_ENDFRAMES_BUSHBURN - 1);
+//                Screen->FastCombo(OILBUSH_LAYER, ComboX(i), ComboY(i), getBurningCombo(), CS_BUSH_BURNING, 128);
+//                // }
+//             }
+//             else {
+//                // Clean up any leftover hitboxes
+//                if (burnHitboxes[i]->isValid())
+//                   burnHitboxes[i]->DeadState = 0;
+//             }
+//          } // end
 
-         Waitframe();
-      }
-   }
+//          Waitframe();
+//       }
+//    }
 
-   bool OilBush_IsWater(int pos) {
-      int combo = Screen->ComboT[pos];
-      return (combo == CT_SHALLOWWATER || combo == CT_WATER || combo == CT_SWIMWARP || combo == CT_DIVEWARP || (combo >= CT_SWIMWARPB && combo <= CT_DIVEWARPD));
-   }
+//    bool OilBush_IsWater(int pos) {
+//       int combo = Screen->ComboT[pos];
+//       return (combo == CT_SHALLOWWATER || combo == CT_WATER || combo == CT_SWIMWARP || combo == CT_DIVEWARP || (combo >= CT_SWIMWARPB && combo <= CT_DIVEWARPD));
+//    }
 
-   bool OilBush_IsBush(int pos) {
-      int combo = Screen->ComboT[pos];
-      return (combo == CT_BUSHNEXT || combo == CT_BUSHNEXTC || combo == CT_TALLGRASSNEXT);
-   }
+//    bool OilBush_IsBush(int pos) {
+//       int combo = Screen->ComboT[pos];
+//       return (combo == CT_BUSHNEXT || combo == CT_BUSHNEXTC || combo == CT_TALLGRASSNEXT);
+//    }
 
-   int getBurningCombo() {
-      switch (GetHighestLevelItemOwned(IC_CANDLE)) {
-         case 158: return 6344;
-         case 10: return 6345;
-         case 11: return 6346;
-         case 150: return 6347;
-         default: return 6344;
-      }
-   }
-}
+//    int getBurningCombo() {
+//       switch (GetHighestLevelItemOwned(IC_CANDLE)) {
+//          case 158: return 6344;
+//          case 10: return 6345;
+//          case 11: return 6346;
+//          case 150: return 6347;
+//          default: return 6344;
+//       }
+//    }
+// }
 
 // clang-format off
 @Author("Deathrider365"),

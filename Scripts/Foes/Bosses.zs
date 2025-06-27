@@ -1631,6 +1631,10 @@ namespace HazarondNamespace {
       CONFIG CMB_SHUTTER = 4632;
       CONFIG CMB_LINK = 6731;
 
+      CONFIG SFX_STEP = 121;
+      CONFIG SFX_ROAR = 142;
+      CONFIG SFX_SPLASH = 26;
+
       // Pause
       for (int i = 0; i < 60; ++i) {
          disableLink();
@@ -1785,7 +1789,7 @@ namespace HazarondNamespace {
 
 
          if (!(panPosition % 16) || panPosition == 254)
-            Audio->PlaySound(121);
+            Audio->PlaySound(SFX_STEP);
 
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
@@ -1796,7 +1800,7 @@ namespace HazarondNamespace {
       for (int i = 0; i < 60; ++i) {
          disableLink();
          introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         
+
          introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
          introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
          introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
@@ -1806,14 +1810,34 @@ namespace HazarondNamespace {
          Waitframe();
       }
 
-      Audio->PlaySound(142);
       Hero->Invisible = false;
 
+      this->Jump = 4;
+      this->Z = 12.5;
+
+      until (this->Z == 0) {
+         NoAction();
+         Waitframe();
+      }
+
+      Audio->PlaySound(SFX_BOMB_BLAST);
+      Screen->Quake = 20;
+
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+      mapDataLayer1->ComboD[94] = COMBO_INVIS;
+      mapDataLayer1->ComboD[95] = COMBO_INVIS;
+
+      for (int i = 0; i < 60; ++i) {
+         NoAction();
+         Waitframe();
+      }
+
+      Audio->PlaySound(SFX_ROAR);
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
    }
 
    void dropFlame(npc[] heads, int headOpenIndex, int eweaponStopper, int damage) {
-      eweapon flame = CreateEWeaponAt(EW_SCRIPT1, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
+      eweapon flame = CreateEWeaponAt(EW_FIRE, heads[headOpenIndex]->X, heads[headOpenIndex]->Y + 8);
       flame->Dir = heads[headOpenIndex]->Dir;
       flame->Step = RandGen->Rand(125, 175);
       flame->Angular = true;
@@ -1846,7 +1870,7 @@ namespace HazarondNamespace {
          else
             this->ScriptTile = this->OriginalTile;
 
-         eweapon oilBlob = FireAimedEWeapon(194, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         eweapon oilBlob = FireAimedEWeapon(EW_SCRIPT1, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
          Audio->PlaySound(SFX_SQUISH);
          runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage, 0, true});
          EnemyWaitframe(this, data, 5);

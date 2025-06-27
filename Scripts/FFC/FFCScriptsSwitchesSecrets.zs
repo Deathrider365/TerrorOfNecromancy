@@ -46,7 +46,7 @@ ffc script Shutter {
       int thisCSet = this->CSet;
       this->Data = FFCS_INVISIBLE_COMBO;
 
-      mapdata m = Game->LoadTempScreen(1);
+      mapdata m = Game->LoadTempScreen(2);
       int cp = ComboAt(this->X + 8, this->Y + 8);
       int underCombo = m->ComboD[cp];
       int underCSet = m->ComboC[cp];

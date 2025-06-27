@@ -860,7 +860,10 @@ ffc script Shop {
          this->Data = originalCombo;
       }
 
-      if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER)
+      if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER
+         || (itemId == ITEM_EXPANSION_QUIVER && getScreenD(ITEM_EXPANSION_QUIVER))
+         || (itemId == ITEM_EXPANSION_BOMB && getScreenD(ITEM_EXPANSION_BOMB))
+         )
          Quit();
 
       int noStockCombo = this->Data;
@@ -874,6 +877,18 @@ ffc script Shop {
       char32 priceBuf[6];
 
       loop() {
+         // if ((itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
+         //    Quit();
+         // }
+         if ((boughtOnce && Hero->Item[itemId]) || (itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
+            this->Data = noStockCombo;
+
+            while (Hero->Item[itemId] || getScreenD(itemId))
+               Waitframe();
+
+            this->Data = COMBO_INVIS;
+         }
+
          int price = basePrice;
 
          int wealthMedalId = Game->CurrentItemID(IC_WEALTHMEDAL);
@@ -891,16 +906,6 @@ ffc script Shop {
 
          sprintf(priceBuf, "%d", price);
 
-         if (boughtOnce && Hero->Item[itemId]) {
-            this->Data = noStockCombo;
-
-            while (Hero->Item[itemId])
-               Waitframe();
-
-            this->Data = COMBO_INVIS;
-         }
-
-
          Screen->FastTile(7, this->X, this->Y, itemTile, itemCSet, OP_OPAQUE);
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
@@ -908,9 +913,12 @@ ffc script Shop {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) { // TODO is bugged like classic ZC
+               if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
+
+                  if (boughtOnce && (itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB))
+                     setScreenD(itemId, 1);
 
                   switch (itemId) {
                      case ITEM_BATTLE_ARENA_TICKET: {
@@ -924,6 +932,7 @@ ffc script Shop {
                            Screen->Message(725);
                      }
                   }
+
 
                   itemToBuy->Pickup = IP_HOLDUP;
                }
