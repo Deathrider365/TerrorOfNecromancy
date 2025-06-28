@@ -1360,6 +1360,7 @@ namespace HazarondNamespace {
             heads[headIndex] = Screen->CreateNPC(minion);
             heads[headIndex]->InitD[0] = this;
             heads[headIndex]->Dir = headIndex + 4;
+            heads[headIndex]->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
          }
 
          if (firstRun) {
@@ -1386,6 +1387,8 @@ namespace HazarondNamespace {
 
                for (int i = 0; i < 20; ++i)
                   this->Defense[i] = NPCDT_IGNORE;
+
+               this->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
 
                for (int i = 0; i < 4; ++i)
                   if (heads[i])
@@ -1474,6 +1477,8 @@ namespace HazarondNamespace {
                   this->Defense[i] = NPCDT_NONE;
             }
 
+            this->Defense[LW_SCRIPT1] = NPCDT_IGNORE;
+
             for (int i = 0; i < 10; ++i)
                EnemyWaitframe(this, data);
 
@@ -1482,6 +1487,8 @@ namespace HazarondNamespace {
             int fleeDuration = 5 * 60;
 
             while (fleeDuration) {
+               this->Defense[LW_SCRIPT1] = NPCDT_IGNORE;
+
                if (this->HP <= 0)
                   deathAnimation(this, 142);
 
@@ -1537,6 +1544,7 @@ namespace HazarondNamespace {
                heads[headIndex]->Dir = headIndex + 4;
                heads[headIndex]->DrawXOffset = 1000;
                heads[headIndex]->CollDetection = false;
+               heads[headIndex]->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
             }
 
             this->CSet = originalCSet;
@@ -1941,6 +1949,7 @@ namespace HazarondNamespace {
          unless(parent) this->Remove();
 
          while (true) {
+            this->Defense[LW_SCRIPT1] = NPCDT_IGNORE;
             this->X = (parent->X + (parent->HitWidth / 2) + parent->HitXOffset) + getDrawLocationX(this);
             this->Y = (parent->Y + (parent->HitHeight / 2) + parent->HitYOffset) + getDrawLocationY(this) - 2;
             this->Z = parent->Z;

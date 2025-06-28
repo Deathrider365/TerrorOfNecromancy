@@ -105,7 +105,7 @@ eweapon script ArcingWeapon {
                CONFIG CMB_OIL = 10284;
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
-               mapdata mapDataLayer2 = Game->LoadTempScreen(2);
+               mapdata mapDataLayer2 = Game->LoadTempScreen(1);
 
                for (int i = 2; i > -1; --i) {
                   mapdata mapData = Game->LoadTempScreen(i);
