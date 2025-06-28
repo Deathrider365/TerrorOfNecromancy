@@ -78,20 +78,20 @@ ffc script Signpost {
       switch (secondMessageTrigger) {
          case SMT_SCREEND:
             if (getScreenD(secondMessageTriggerValue)) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
             break;
          case SMT_SECRETS:
             if (Screen->State[ST_SECRET]) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
          case SMT_HAS_ITEM:
             if (Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
@@ -155,7 +155,7 @@ ffc script SignpostTriggerFromItem {
       while (true) {
          if (triggerToSetOff == TRIGGER_SECRET && Screen->State[ST_SECRET]) {
             if (selfKill) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
@@ -167,7 +167,7 @@ ffc script SignpostTriggerFromItem {
          }
          else if (triggerToSetOff == TRIGGER_SCREEND && getScreenD(triggerValue)) {
             if (selfKill) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
@@ -179,7 +179,7 @@ ffc script SignpostTriggerFromItem {
          }
          else if (triggerToSetOff == TRIGGER_ITEM && Hero->Item[itemReceiving] && getScreenD(screenDToCheck)) {
             if (selfKill) {
-               this->Data = COMBO_INVIS;
+               this->Data = CMB_INVIS;
                Quit();
             }
 
@@ -348,7 +348,7 @@ ffc script SignpostTriggerFromSecret {
    void run(int message, int secondMessage, int screenD, bool isRemote, int map, int screen) {
       int data = this->Data;
       this->Flags[FFCF_SOLID] = false;
-      this->Data = COMBO_INVIS;
+      this->Data = CMB_INVIS;
       mapdata mapData = Game->LoadMapData(map, screen);
 
       loop() {
@@ -514,8 +514,8 @@ ffc script GetItemOnItem {
       int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
 
       while (true) {
-         this->Data = COMBO_INVIS;
-         template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+         this->Data = CMB_INVIS;
+         template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
 
          if (itemIdRequired) {
             if (requiredItemKills > 0) {
@@ -534,8 +534,8 @@ ffc script GetItemOnItem {
 
                while (!Hero->Item[itemIdRequired]) {
                   if (hideMe) {
-                     this->Data = COMBO_INVIS;
-                     template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+                     this->Data = CMB_INVIS;
+                     template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
                      this->Flags[FFCF_SOLID] = false;
                      Quit();
                   }
@@ -593,7 +593,7 @@ ffc script GetItemOnScreenDHiddenBefore {
       int prevData = this->Data;
 
       loop () {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
 
          if (getScreenD(screenD)) {
@@ -853,7 +853,7 @@ ffc script Shop {
 
       if (activateOnSecrets) {
          until(Screen->State[ST_SECRET]) {
-            this->Data = COMBO_INVIS;
+            this->Data = CMB_INVIS;
             Waitframe();
          }
 
@@ -867,7 +867,7 @@ ffc script Shop {
          Quit();
 
       int noStockCombo = this->Data;
-      this->Data = COMBO_INVIS;
+      this->Data = CMB_INVIS;
 
       itemdata itemData = Game->LoadItemData(itemId);
       int itemTile = itemData->Tile;
@@ -886,7 +886,7 @@ ffc script Shop {
             while (Hero->Item[itemId] || getScreenD(itemId))
                Waitframe();
 
-            this->Data = COMBO_INVIS;
+            this->Data = CMB_INVIS;
          }
 
          int price = basePrice;
@@ -976,9 +976,9 @@ ffc script EgentemShrineSoldier {
 
       // if (!(Game->LItems[3] & LI_TRIFORCE) || m->State[ST_SECRET]) {
       if (!mBoss->State[ST_SECRET] || m->State[ST_SECRET]) {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          mapdata template = Game->LoadTempScreen(2);
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = COMBO_INVIS;
+         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_INVIS;
          Quit();
       }
 
@@ -1005,7 +1005,7 @@ ffc script BuyItem {
    // clang-format on
    void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
       if (buyOnce && getScreenD(0)) {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          Quit();
       }
 
@@ -1036,13 +1036,13 @@ ffc script BuyItem {
 
             switch (itemId) {
                case ITEM_BATTLE_ARENA_TICKET:
-                  this->Data = COMBO_INVIS;
+                  this->Data = CMB_INVIS;
                   Screen->TriggerSecrets();
                   Quit();
                   break;
             }
 
-            this->Data = COMBO_INVIS;
+            this->Data = CMB_INVIS;
          }
          Waitframe();
       }

@@ -1570,7 +1570,7 @@ namespace BurningCombosNamespace {
                   }
                }
             }
-            //EWeapon collision=
+            //EWeapon collision
             for (int i = Screen->NumEWeapons; i > 0; --i) {
                eweapon eWeapon = Screen->LoadEWeapon(i);
 
@@ -1611,8 +1611,8 @@ namespace BurningCombosNamespace {
                   }
 
                   Screen->FastCombo(burnCombo->layer, ComboX(comboPos), ComboY(comboPos), getBurningCombo(), 0, OP_OPAQUE);
-                  makeHitbox(ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage);
-                  makeHitboxLW(LW_SCRIPT1, ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage);
+                  makeHitbox(ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage, 2);
+                  makeHitboxLW(LW_SCRIPT1, ComboX(comboPos), ComboY(comboPos), 16, 16, burnCombo->damage, 2);
 
                   //If you're on fire raise your hand
                   if (burnCombo->spreadTimer > 0) {

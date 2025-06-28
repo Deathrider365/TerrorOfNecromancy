@@ -43,17 +43,25 @@ ffc script Shutter {
    // clang-format on
    void run(int type, int perm, bool playSound) {
       int thisData = this->Data;
-      int thisCSet = this->CSet;
-      this->Data = FFCS_INVISIBLE_COMBO;
+      // int thisCSet = this->CSet;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
 
-      mapdata m = Game->LoadTempScreen(2);
-      int cp = ComboAt(this->X + 8, this->Y + 8);
-      int underCombo = m->ComboD[cp];
-      int underCSet = m->ComboC[cp];
+      // mapdata m = Game->LoadTempScreen(2);
+      // int cp = ComboAt(this->X + 8, this->Y + 8);
+      // int underCombo = m->ComboD[cp];
+      // int underCSet = m->ComboC[cp];
       int LinkX = Link->X;
 
-      if (perm && Screen->State[ST_SECRET] && type == 0)
+      if (perm && (Screen->State[ST_SECRET] && type == 0))
          Quit();
+
+      if (type == 1) {
+         Waitframes(8);
+
+         if (Screen->NumNPCs < 1)
+            Quit();
+      }
 
       if (LinkX <= 0)
          LinkX = 240;
@@ -95,13 +103,11 @@ ffc script Shutter {
 
             Waitframe();
          }
-
-         Audio->PlaySound(SFX_SHUTTER_CLOSE);
-         m->ComboD[cp] = underCombo;
-         m->ComboC[cp] = underCSet;
-         this->Data = thisData + 1;
-         Game->LoadComboData(this->Data)->Frame = 0;
-         this->CSet = thisCSet;
+         // m->ComboD[cp] = underCombo;
+         // m->ComboC[cp] = underCSet;
+         // this->Data = thisData + 1;
+         // Game->LoadComboData(this->Data)->Frame = 0;
+         // this->CSet = thisCSet;
 
          for (int i = 0; i < 4; i++) {
             if (moveDir == DIR_UP)
@@ -116,16 +122,19 @@ ffc script Shutter {
             Waitframe();
          }
 
-         this->Data = FFCS_INVISIBLE_COMBO;
-         m->ComboD[cp] = thisData;
-         m->ComboC[cp] = thisCSet;
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         // m->ComboD[cp] = thisData;
+         // m->ComboC[cp] = thisCSet;
 
          if (type == 1)
             Waitframes(8);
       }
       else {
-         m->ComboD[cp] = thisData;
-         m->ComboC[cp] = thisCSet;
+         // m->ComboD[cp] = thisData;
+         // m->ComboC[cp] = thisCSet;
+         this->Flags[FFCF_SOLID] = true;
+         this->Data = thisData;
 
          if (type == 1)
             Waitframes(8);
@@ -133,10 +142,12 @@ ffc script Shutter {
             Waitframe();
       }
 
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+
       loop() {
          if (GB_Shutter_InShutter(this, Link->X, Link->Y, 3)) {
-            m->ComboD[cp] = underCombo;
-            m->ComboC[cp] = underCSet;
+            // m->ComboD[cp] = underCombo;
+            // m->ComboC[cp] = underCSet;
 
             if (Link->Y == 0)
                moveDir = DIR_DOWN;
@@ -163,11 +174,11 @@ ffc script Shutter {
             }
 
             Audio->PlaySound(SFX_SHUTTER_CLOSE);
-            m->ComboD[cp] = underCombo;
-            m->ComboC[cp] = underCSet;
-            Game->LoadComboData(thisData + 1)->Frame = 0;
+            // m->ComboD[cp] = underCombo;
+            // m->ComboC[cp] = underCSet;
+            // Game->LoadComboData(thisData + 1)->Frame = 0;
             this->Data = thisData + 1;
-            this->CSet = thisCSet;
+            // this->CSet = thisCSet;
 
             for (int i = 0; i < 4; i++) {
                if (moveDir == DIR_UP)
@@ -182,9 +193,10 @@ ffc script Shutter {
                Waitframe();
             }
 
-            this->Data = FFCS_INVISIBLE_COMBO;
-            m->ComboD[cp] = thisData;
-            m->ComboC[cp] = thisCSet;
+            this->Data = CMB_INVIS;
+            this->Flags[FFCF_SOLID] = false;
+            // m->ComboD[cp] = thisData;
+            // m->ComboC[cp] = thisCSet;
 
             if (moveDir == DIR_UP)
                Link->Y = Min(Link->Y, 144);
@@ -198,11 +210,14 @@ ffc script Shutter {
             Waitframes(8);
          }
 
+         this->Flags[FFCF_SOLID] = true;
+         this->Data = thisData;
+
          if (type == 0 && Screen->SecretsTriggered)
             break;
 
-         if (type == 1)
-            unless(GB_Shutter_CheckEnemies()) break;
+         if (type == 1 && !GB_Shutter_CheckEnemies()) break;
+            // unless(GB_Shutter_CheckEnemies()) break;
 
          Waitframe();
       }
@@ -212,14 +227,16 @@ ffc script Shutter {
       if (playSound)
          Audio->PlaySound(SFX_OOT_SECRET);
 
-      m->ComboD[cp] = underCombo;
-      m->ComboC[cp] = underCSet;
-      Game->LoadComboData(thisData + 1)->Frame = 0;
+      // m->ComboD[cp] = underCombo;
+      // m->ComboC[cp] = underCSet;
+      // Game->LoadComboData(thisData + 1)->Frame = 0;
       this->Data = thisData + 1;
-      this->CSet = thisCSet;
+      // this->CSet = thisCSet;
       Waitframes(4);
 
-      this->Data = FFCS_INVISIBLE_COMBO;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
       if (perm)
          Screen->State[ST_SECRET] = true;
    }
@@ -229,13 +246,113 @@ ffc script Shutter {
    }
 
    bool GB_Shutter_CheckEnemies() {
-      for (int i = Screen->NumNPCs; i >= 1; i--) {
-         npc n = Screen->LoadNPC(i);
-         if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-            if (!(n->MiscFlags & (1 << 3)))
-               return true;
+      return Screen->NumNPCs > 0;
+      // for (int i = Screen->NumNPCs; i >= 1; i--) {
+      //    npc n = Screen->LoadNPC(i);
+      //    if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
+      //       if (!(n->MiscFlags & (1 << 3)))
+      //          return true;
+      // }
+      // return false;
+   }
+}
+
+// clang-format off
+@Author("Moosh"),
+@InitD0("type"),
+@InitDHelp0("0 for secrets, 1 for enemy, -1 for never open"),
+@InitD1("perm"),
+@InitDHelp1("0 for temp, 1 for perm"),
+@InitD2("secretSound"),
+@InitDHelp2("0 to not, 1 to play")
+ffc script ImprovedShutter {
+   // clang-format on
+   void run(int type, bool perm, int playSecretSound) {
+      CONFIG OPEN_BY_SECRET = 0;
+      CONFIG OPEN_BY_ENEMY = 1;
+
+      int thisData = this->Data;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
+      // Game->LoadComboData(thisData)->Frame = 0;
+      // this->CSet = thisCSet;
+      // Waitframes(4);
+
+      int LinkX = Hero->X;
+      int LinkY = Hero->Y;
+
+      //Check whether the shutter should not close at all
+      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET]))
+         Quit();
+
+      if (type == OPEN_BY_ENEMY) {
+         Waitframes(8);
+
+         if (Screen->NumNPCs < 1)
+            Quit();
       }
-      return false;
+
+      //Flip Link's position to where he will be when completely on the screen with the shutter
+      if (LinkX <= 0)
+         LinkX = 240;
+      else if (LinkX >= 240)
+         LinkX = 0;
+
+      if (LinkY <= 0)
+         LinkY = 160;
+      else if (LinkY >= 160)
+         LinkY = 0;
+
+      //Handle moving link when he enters a screen through a shutter
+      if (inShutter(this, LinkX, LinkY)) {
+         Waitframe();
+         //Keep moving link until he is out of the shutter
+         while (inShutter(this, Hero->X, Hero->Y) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
+            NoAction();
+
+            if (LinkY == 160)
+               Hero->InputUp = true;
+            else if (LinkY == 0)
+               Hero->InputDown = true;
+            else if (LinkX == 240)
+               Hero->InputLeft = true;
+            else if (LinkX == 0)
+               Hero->InputRight = true;
+
+            Waitframe();
+         }
+      }
+
+      this->Flags[FFCF_SOLID] = true;
+      this->Data = thisData;
+
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+
+      //Shutter is locked, wait for it to be opened if it can be opened, otherwise stay shut
+      loop() {
+         if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
+               break;
+         if (type == OPEN_BY_ENEMY && Screen->NumNPCs < 1)
+               break;
+
+         Waitframe();
+      }
+
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
+
+      if (playSecretSound)
+         Audio->PlaySound(SFX_OOT_SECRET);
+
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
+      if (perm)
+         Screen->State[ST_SECRET] = true;
+   }
+
+   bool inShutter(ffc this, int LinkX, int LinkY) {
+      return Abs(LinkX - this->X) < 16 && LinkY > this->Y - 16 && LinkY < this->Y + 8;
    }
 }
 

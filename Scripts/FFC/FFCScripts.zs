@@ -741,7 +741,7 @@ ffc script OpenTheGates {
                if (mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7279 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7290 ||
                    mapDataLayer1->ComboD[i] == 7285 || mapDataLayer1->ComboD[i] == 7233 || mapDataLayer1->ComboD[i] == 7234 || mapDataLayer1->ComboD[i] == 7235 || mapDataLayer1->ComboD[i] == 7231 || mapDataLayer1->ComboD[i] == 7265 || mapDataLayer1->ComboD[i] == 7269 ||
                    mapDataLayer1->ComboD[i] == 7284)
-                  mapDataLayer1->ComboD[i] = COMBO_INVIS;
+                  mapDataLayer1->ComboD[i] = CMB_INVIS;
 
                if (mapDataLayer2->ComboD[i] == 4463) {
                   mapDataLayer2->ComboD[i] = 4362;
@@ -931,7 +931,7 @@ ffc script GBMinecart {
       if (GBMinecarts[MCI_INMINECART] && id == GBMinecarts[MCI_CURRENTID]) {
          int oldcmb = this->Data;
          // Failsafe to prevent a false positive while F6ing in a cart. Bleh.
-         this->Data = FFCS_INVISIBLE_COMBO;
+         this->Data = CMB_INVIS;
          Waitframe();
          if (GBMinecarts[MCI_INMINECART] && id == GBMinecarts[MCI_CURRENTID]) {
             this->Data = 0;
@@ -1090,7 +1090,7 @@ ffc script GBMinecart_Shutter {
       mapdata shutterLayer = Game->LoadTempScreen(IsBackgroundLayer(2) ? 1 : 2);
       int combo = this->Data;
       int pos = ComboAt(this->X + 8, this->Y + 8);
-      this->Data = FFCS_INVISIBLE_COMBO;
+      this->Data = CMB_INVIS;
       bool open;
       int x = Link->X;
       int y = Link->Y;

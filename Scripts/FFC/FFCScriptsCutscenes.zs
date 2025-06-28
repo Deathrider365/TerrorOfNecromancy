@@ -487,7 +487,7 @@ ffc script CapturedSequenceImprisioned {
 
    void run() {
       if (getScreenD(0)) {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          Quit();
       }
 
@@ -644,7 +644,7 @@ ffc script CapturedSequenceImprisioned {
          dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
          Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
 
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          npc soldier1 = Screen->CreateNPC(ENEMY_SOLDIER_LEVEL2_HALTED);
          soldier1->X = 176;
          soldier1->Y = 112;
@@ -678,11 +678,11 @@ ffc script CapturedSequenceImprisioned {
          }
 
          Audio->PlaySound(SFX_SHUTTER_OPEN);
-         mapDataLayer1->ComboD[102] = COMBO_INVIS;
-         mapDataLayer1->ComboD[105] = COMBO_INVIS;
-         mapDataLayer1->ComboD[109] = COMBO_INVIS;
-         mapDataLayer3->ComboD[86] = COMBO_INVIS;
-         mapDataLayer3->ComboD[93] = COMBO_INVIS;
+         mapDataLayer1->ComboD[102] = CMB_INVIS;
+         mapDataLayer1->ComboD[105] = CMB_INVIS;
+         mapDataLayer1->ComboD[109] = CMB_INVIS;
+         mapDataLayer3->ComboD[86] = CMB_INVIS;
+         mapDataLayer3->ComboD[93] = CMB_INVIS;
 
          this->Data = 7014;
          int solderCombo1Y = 112;
@@ -1007,11 +1007,11 @@ ffc script CapturedSequenceRightHand {
 
    void run() {
       if (getScreenD(0)) {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
          mapdata mapDataLayer1 = Game->LoadTempScreen(1);
          mapdata mapDataLayer2 = Game->LoadTempScreen(3);
-         mapDataLayer2->ComboD[50] = COMBO_INVIS;
-         mapDataLayer1->ComboD[66] = COMBO_INVIS;
+         mapDataLayer2->ComboD[50] = CMB_INVIS;
+         mapDataLayer1->ComboD[66] = CMB_INVIS;
 
          while (true) {
             unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1045,10 +1045,10 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[61] = COMBO_INVIS;
-      mapDataLayer2->ComboD[62] = COMBO_INVIS;
-      mapDataLayer1->ComboD[77] = COMBO_INVIS;
-      mapDataLayer1->ComboD[78] = COMBO_INVIS;
+      mapDataLayer2->ComboD[61] = CMB_INVIS;
+      mapDataLayer2->ComboD[62] = CMB_INVIS;
+      mapDataLayer1->ComboD[77] = CMB_INVIS;
+      mapDataLayer1->ComboD[78] = CMB_INVIS;
 
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1084,8 +1084,8 @@ ffc script CapturedSequenceRightHand {
       Waitframe();
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[50] = COMBO_INVIS;
-      mapDataLayer1->ComboD[66] = COMBO_INVIS;
+      mapDataLayer2->ComboD[50] = CMB_INVIS;
+      mapDataLayer1->ComboD[66] = CMB_INVIS;
 
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1114,10 +1114,10 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[61] = COMBO_INVIS;
-      mapDataLayer2->ComboD[62] = COMBO_INVIS;
-      mapDataLayer1->ComboD[77] = COMBO_INVIS;
-      mapDataLayer1->ComboD[78] = COMBO_INVIS;
+      mapDataLayer2->ComboD[61] = CMB_INVIS;
+      mapDataLayer2->ComboD[62] = CMB_INVIS;
+      mapDataLayer1->ComboD[77] = CMB_INVIS;
+      mapDataLayer1->ComboD[78] = CMB_INVIS;
 
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1148,11 +1148,11 @@ ffc script CapturedSequenceRightHand {
          Waitframe();
       }
 
-      this->Data = COMBO_INVIS;
+      this->Data = CMB_INVIS;
       setScreenD(0, true);
 
       if (getScreenD(0)) {
-         this->Data = COMBO_INVIS;
+         this->Data = CMB_INVIS;
 
          while (true) {
             unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1261,7 +1261,7 @@ ffc script GraveKeeperSequence {
             Screen->Message(messageMad);
             Waitframe();
 
-            this->Data = COMBO_INVIS;
+            this->Data = CMB_INVIS;
             this->Flags[FFCF_SOLID] = false;
 
             npc enemy = Screen->CreateNPC(ENEMY_GRAVE_KEEPER_GONE_APE);

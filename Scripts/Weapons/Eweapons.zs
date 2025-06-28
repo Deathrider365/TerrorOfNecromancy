@@ -112,7 +112,7 @@ eweapon script ArcingWeapon {
                   int comboType = mapData->ComboT[ComboAt(this->X + 8, this->Y + 8)];
 
                   if (comboType == CT_SCRIPT20)
-                     mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL;
+                     mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL; //this isnt setting the cset to 2 like it should be
                }
 
 
@@ -270,25 +270,25 @@ eweapon script StopperKiller {
    }
 }
 
-eweapon makeHitbox(int x, int y, int w, int h, int damage) {
+eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 1) {
    eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
    e->HitXOffset = x - e->X;
    e->HitYOffset = y - e->Y;
    e->DrawYOffset = -1000;
    e->HitWidth = w;
    e->HitHeight = h;
-   e->Timeout = 1;
+   e->Timeout = timeout;
 
    return e;
 }
 
-lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage) {
+lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeout = 1) {
    // lweapon FireLWeaponDir(int type, int x, int y, int dir, int step, int dmg, int sprite = -1, int sfx = 0, int scriptid = 0, untyped[] args = NULL)
    lweapon l = FireLWeaponDir(type, x, y, -1, 0, damage);
    l->DrawYOffset = -1000;
    l->HitWidth = w;
    l->HitHeight = h;
-   l->Timeout = 1;
+   l->Timeout = timeout;
 
    return l;
 }

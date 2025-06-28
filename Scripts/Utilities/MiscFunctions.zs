@@ -572,8 +572,8 @@ void hurtDatHero(int frequency, int damage) {
 }
 
 void hideSolidFFC(ffc this, mapdata template) {
-   this->Data = COMBO_INVIS;
-   template->ComboD[ComboAt(this->X, this->Y)] = COMBO_INVIS;
+   this->Data = CMB_INVIS;
+   template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
    this->Flags[FFCF_SOLID] = false;
    Quit();
 }

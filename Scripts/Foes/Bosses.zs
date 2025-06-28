@@ -1824,8 +1824,8 @@ namespace HazarondNamespace {
       Screen->Quake = 20;
 
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
-      mapDataLayer1->ComboD[94] = COMBO_INVIS;
-      mapDataLayer1->ComboD[95] = COMBO_INVIS;
+      mapDataLayer1->ComboD[94] = CMB_INVIS;
+      mapDataLayer1->ComboD[95] = CMB_INVIS;
 
       for (int i = 0; i < 60; ++i) {
          NoAction();
