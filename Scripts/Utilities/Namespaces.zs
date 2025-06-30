@@ -1571,27 +1571,29 @@ namespace BurningCombosNamespace {
                }
             }
             //EWeapon collision
-            for (int i = Screen->NumEWeapons; i > 0; --i) {
-               eweapon eWeapon = Screen->LoadEWeapon(i);
+            if (Game->LoadItemData(GetHighestLevelItemOwned(IC_CANDLE))->Level >= minLevelRequired) {
+               for (int i = Screen->NumEWeapons; i > 0; --i) {
+                  eweapon eWeapon = Screen->LoadEWeapon(i);
 
-               if (eWeapon->Type != EW_FIRE)
-                  continue;
+                  if (eWeapon->Type != EW_FIRE)
+                     continue;
 
-               int pos = ComboAt(CenterX(eWeapon), CenterY(eWeapon));
+                  int pos = ComboAt(CenterX(eWeapon), CenterY(eWeapon));
 
-               for (int layer = 0; layer <= 2; ++layer) {
-                  combodata comboData = Game->LoadComboData(Game->LoadTempScreen(layer)->ComboD[pos]);
+                  for (int layer = 0; layer <= 2; ++layer) {
+                     combodata comboData = Game->LoadComboData(Game->LoadTempScreen(layer)->ComboD[pos]);
 
-                  if (comboData->Script == slotBurnable) {
-                     if (burningCombos[pos] == null)
-                        burningCombos[pos] = new BurningCombo();
+                     if (comboData->Script == slotBurnable) {
+                        if (burningCombos[pos] == null)
+                           burningCombos[pos] = new BurningCombo();
 
-                     if (burningCombos[pos]->burnTimer == 0) {
-                        burningCombos[pos]->burnTimer = comboData->InitD[BURNABLE_INID_BURNTIME];
-                        burningCombos[pos]->spreadTimer = comboData->InitD[BURNABLE_INID_SPREADTIME];
-                        burningCombos[pos]->comboData = comboData;
-                        burningCombos[pos]->layer = layer;
-                        burningCombos[pos]->damage = eWeapon->Damage;
+                        if (burningCombos[pos]->burnTimer == 0) {
+                           burningCombos[pos]->burnTimer = comboData->InitD[BURNABLE_INID_BURNTIME];
+                           burningCombos[pos]->spreadTimer = comboData->InitD[BURNABLE_INID_SPREADTIME];
+                           burningCombos[pos]->comboData = comboData;
+                           burningCombos[pos]->layer = layer;
+                           burningCombos[pos]->damage = eWeapon->Damage;
+                        }
                      }
                   }
                }
