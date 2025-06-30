@@ -31,234 +31,8 @@ ffc script EnemiesChest {
    }
 }
 
-// // clang-format off
-// @Author("Moosh"),
-// @InitD0("type"),
-// @InitDHelp0("1 for enemy, 0 for secrets, -1 for never open"),
-// @InitD1("perm"),
-// @InitDHelp1("0 for temp, 1 for perm"),
-// @InitD2("playSound"),
-// @InitDHelp2("0 to not, 1 to play")
-// ffc script Shutter {
-//    // clang-format on
-//    void run(int type, int perm, bool playSound) {
-//       int thisData = this->Data;
-//       // int thisCSet = this->CSet;
-//       this->Data = CMB_INVIS;
-//       this->Flags[FFCF_SOLID] = false;
-
-//       // mapdata m = Game->LoadTempScreen(2);
-//       // int cp = ComboAt(this->X + 8, this->Y + 8);
-//       // int underCombo = m->ComboD[cp];
-//       // int underCSet = m->ComboC[cp];
-//       int LinkX = Link->X;
-
-//       if (perm && (Screen->State[ST_SECRET] && type == 0))
-//          Quit();
-
-//       if (type == 1) {
-//          Waitframes(8);
-
-//          if (Screen->NumNPCs < 1)
-//             Quit();
-//       }
-
-//       if (LinkX <= 0)
-//          LinkX = 240;
-//       else if (LinkX >= 240)
-//          LinkX = 0;
-
-//       int LinkY = Link->Y;
-
-//       if (LinkY <= 0)
-//          LinkY = 160;
-//       else if (LinkY >= 160)
-//          LinkY = 0;
-
-//       int moveDir = Link->Dir;
-
-//       if (GB_Shutter_InShutter(this, LinkX, LinkY, 0)) {
-//          if (LinkY == 0)
-//             moveDir = DIR_DOWN;
-//          else if (LinkY == 160)
-//             moveDir = DIR_UP;
-//          else if (LinkX == 0)
-//             moveDir = DIR_RIGHT;
-//          else if (LinkX == 240)
-//             moveDir = DIR_LEFT;
-
-//          Waitframe();
-
-//          while (GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false)) {
-//             NoAction();
-
-//             if (moveDir == DIR_UP)
-//                Link->InputUp = true;
-//             else if (moveDir == DIR_DOWN)
-//                Link->InputDown = true;
-//             else if (moveDir == DIR_LEFT)
-//                Link->InputLeft = true;
-//             else if (moveDir == DIR_RIGHT)
-//                Link->InputRight = true;
-
-//             Waitframe();
-//          }
-//          // m->ComboD[cp] = underCombo;
-//          // m->ComboC[cp] = underCSet;
-//          // this->Data = thisData + 1;
-//          // Game->LoadComboData(this->Data)->Frame = 0;
-//          // this->CSet = thisCSet;
-
-//          for (int i = 0; i < 4; i++) {
-//             if (moveDir == DIR_UP)
-//                Link->Y = Min(Link->Y, 144);
-//             else if (moveDir == DIR_DOWN)
-//                Link->Y = Max(Link->Y, 8);
-//             else if (moveDir == DIR_LEFT)
-//                Link->X = Min(Link->X, 224);
-//             else if (moveDir == DIR_RIGHT)
-//                Link->X = Max(Link->X, 16);
-
-//             Waitframe();
-//          }
-
-//          this->Data = CMB_INVIS;
-//          this->Flags[FFCF_SOLID] = false;
-//          // m->ComboD[cp] = thisData;
-//          // m->ComboC[cp] = thisCSet;
-
-//          if (type == 1)
-//             Waitframes(8);
-//       }
-//       else {
-//          // m->ComboD[cp] = thisData;
-//          // m->ComboC[cp] = thisCSet;
-//          this->Flags[FFCF_SOLID] = true;
-//          this->Data = thisData;
-
-//          if (type == 1)
-//             Waitframes(8);
-//          else
-//             Waitframe();
-//       }
-
-//       Audio->PlaySound(SFX_SHUTTER_CLOSE);
-
-//       loop() {
-//          if (GB_Shutter_InShutter(this, Link->X, Link->Y, 3)) {
-//             // m->ComboD[cp] = underCombo;
-//             // m->ComboC[cp] = underCSet;
-
-//             if (Link->Y == 0)
-//                moveDir = DIR_DOWN;
-//             else if (Link->Y == 160)
-//                moveDir = DIR_UP;
-//             else if (Link->X == 0)
-//                moveDir = DIR_RIGHT;
-//             else if (Link->X == 240)
-//                moveDir = DIR_LEFT;
-
-//             while (GB_Shutter_InShutter(this, Link->X, Link->Y, 0) && CanWalk(Link->X, Link->Y, moveDir, 1, false)) {
-//                NoAction();
-
-//                if (moveDir == DIR_UP)
-//                   Link->InputUp = true;
-//                else if (moveDir == DIR_DOWN)
-//                   Link->InputDown = true;
-//                else if (moveDir == DIR_LEFT)
-//                   Link->InputLeft = true;
-//                else if (moveDir == DIR_RIGHT)
-//                   Link->InputRight = true;
-
-//                Waitframe();
-//             }
-
-//             Audio->PlaySound(SFX_SHUTTER_CLOSE);
-//             // m->ComboD[cp] = underCombo;
-//             // m->ComboC[cp] = underCSet;
-//             // Game->LoadComboData(thisData + 1)->Frame = 0;
-//             this->Data = thisData + 1;
-//             // this->CSet = thisCSet;
-
-//             for (int i = 0; i < 4; i++) {
-//                if (moveDir == DIR_UP)
-//                   Link->Y = Min(Link->Y, 144);
-//                else if (moveDir == DIR_DOWN)
-//                   Link->Y = Max(Link->Y, 8);
-//                else if (moveDir == DIR_LEFT)
-//                   Link->X = Min(Link->X, 224);
-//                else if (moveDir == DIR_RIGHT)
-//                   Link->X = Max(Link->X, 16);
-
-//                Waitframe();
-//             }
-
-//             this->Data = CMB_INVIS;
-//             this->Flags[FFCF_SOLID] = false;
-//             // m->ComboD[cp] = thisData;
-//             // m->ComboC[cp] = thisCSet;
-
-//             if (moveDir == DIR_UP)
-//                Link->Y = Min(Link->Y, 144);
-//             else if (moveDir == DIR_DOWN)
-//                Link->Y = Max(Link->Y, 8);
-//             else if (moveDir == DIR_LEFT)
-//                Link->X = Min(Link->X, 224);
-//             else if (moveDir == DIR_RIGHT)
-//                Link->X = Max(Link->X, 16);
-
-//             Waitframes(8);
-//          }
-
-//          this->Flags[FFCF_SOLID] = true;
-//          this->Data = thisData;
-
-//          if (type == 0 && Screen->SecretsTriggered)
-//             break;
-
-//          if (type == 1 && !GB_Shutter_CheckEnemies()) break;
-//             // unless(GB_Shutter_CheckEnemies()) break;
-
-//          Waitframe();
-//       }
-
-//       Audio->PlaySound(SFX_SHUTTER_OPEN);
-
-//       if (playSound)
-//          Audio->PlaySound(SFX_OOT_SECRET);
-
-//       // m->ComboD[cp] = underCombo;
-//       // m->ComboC[cp] = underCSet;
-//       // Game->LoadComboData(thisData + 1)->Frame = 0;
-//       this->Data = thisData + 1;
-//       // this->CSet = thisCSet;
-//       Waitframes(4);
-
-//       this->Data = CMB_INVIS;
-//       this->Flags[FFCF_SOLID] = false;
-
-//       if (perm)
-//          Screen->State[ST_SECRET] = true;
-//    }
-
-//    bool GB_Shutter_InShutter(ffc this, int LinkX, int LinkY, int leeway) {
-//       return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
-//    }
-
-//    bool GB_Shutter_CheckEnemies() {
-//       return Screen->NumNPCs > 0;
-//       // for (int i = Screen->NumNPCs; i >= 1; i--) {
-//       //    npc n = Screen->LoadNPC(i);
-//       //    if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-//       //       if (!(n->MiscFlags & (1 << 3)))
-//       //          return true;
-//       // }
-//       // return false;
-//    }
-// }
-
 // clang-format off
-@Author("Moosh"),
+@Author("Moosh, Modified by Deathrider365"),
 @InitD0("type"),
 @InitDHelp0("0 for secrets, 1 for enemy, -1 for never open"),
 @InitD1("perm"),
@@ -275,10 +49,6 @@ ffc script Shutter {
       this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
 
-      // Game->LoadComboData(thisData)->Frame = 0;
-      // this->CSet = thisCSet;
-      // Waitframes(4);
-
       int LinkX = Hero->X;
       int LinkY = Hero->Y;
 
@@ -289,7 +59,7 @@ ffc script Shutter {
       if (type == OPEN_BY_ENEMY) {
          Waitframes(8);
 
-         if (Screen->NumNPCs < 1)
+         if (checkEnemies())
             Quit();
       }
 
@@ -322,39 +92,31 @@ ffc script Shutter {
 
             Waitframe();
          }
-      }
 
-      this->Flags[FFCF_SOLID] = true;
+      } else
+         while(HeroIsScrollingOrWarping())
+            Waitframe();
+
       this->Data = thisData;
-
+      this->Flags[FFCF_SOLID] = true;
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
-
-      // until (this->Data == thisData) { //TODO animate them
-      //    this->Data += 1;
-      //    Waitframes(4);
-      // }
 
       //Shutter is locked, wait for it to be opened if it can be opened, otherwise stay shut
       loop() {
          if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
                break;
-         if (type == OPEN_BY_ENEMY && Screen->NumNPCs < 1)
+         if (type == OPEN_BY_ENEMY && checkEnemies())
                break;
 
          Waitframe();
       }
 
+      ++this->Data;
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-
-      // until (this->Data == (thisData + 4)) { //TODO animate them
-      //    this->Data -= 1;
-      //    Waitframes(4);
-      // }
 
       if (playSecretSound)
          Audio->PlaySound(SFX_OOT_SECRET);
 
-      this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
 
       if (perm)
@@ -363,6 +125,17 @@ ffc script Shutter {
 
    bool inShutter(ffc this, int LinkX, int LinkY) {
       return Abs(LinkX - this->X) < 16 && LinkY > this->Y - 16 && LinkY < this->Y + 8;
+   }
+
+   bool checkEnemies() {
+      // return Screen->NumNPCs > 0;
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
+         npc n = Screen->LoadNPC(i);
+         if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
+            if (!(n->MiscFlags & (1 << 3)))
+               return false;
+      }
+      return true;
    }
 }
 
