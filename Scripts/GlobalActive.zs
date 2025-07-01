@@ -32,12 +32,12 @@ global script GlobalScripts {
 
       int footprintArray[3] = {1, 0, 0};
 
-      Hero->HurtSound = getHeroHitSound();
-
       int ocarinaIndex = 1;
 
       while (true) {
          gameframe = (gameframe + 1) % 3600;
+
+         Hero->HurtSound = getHeroHitSound();
 
          checkDungeon();
 

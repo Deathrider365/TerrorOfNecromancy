@@ -56,7 +56,7 @@ ffc script Shutter {
       if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET]))
          Quit();
 
-      if (type == OPEN_BY_ENEMY) {
+      else if (type == OPEN_BY_ENEMY) {
          Waitframes(8);
 
          if (checkEnemies())
