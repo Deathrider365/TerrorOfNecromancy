@@ -724,7 +724,8 @@ namespace Subscreen {
          bool hasCompass = Game->LItems[Game->CurLevel] & LI_COMPASS;
          bool killedBoss = Game->LItems[Game->CurLevel] & LI_BOSS;
 
-         hasCompass = currentDmap->Compass ? hasCompass : false;
+         if(currentDmap->Flagset[DMFS_NOCOMPASS])
+            hasCompass = false;
 
          originalX += 8;
          originalY += 8;
@@ -744,7 +745,7 @@ namespace Subscreen {
             int x = originalX + (8 * (q % 0x010));
             int y = originalY + (4 * Div(q, 0x010));
 
-            if ((gameframe & 100000b || killedBoss) && hasCompass && q + dmapOffset == currentDmap->Compass)
+            if ((gameframe & 100000b || killedBoss) && hasCompass && q == currentDmap->Compass)
                compassMarkerColor = killedBoss ? C_MINIMAP_COMPASS_DEFEATED : C_MINIMAP_COMPASS;
             else if (q == currentScreen)
                compassMarkerColor = C_MINIMAP_LINK;
@@ -919,8 +920,6 @@ namespace SubscreenWidgets {
    }
 
    dmapdata script ScriptedSubscreenComponents {
-      using namespace Subscreen;
-
       void run() {
          loop() {
             Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;

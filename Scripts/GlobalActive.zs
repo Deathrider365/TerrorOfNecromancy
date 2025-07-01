@@ -173,6 +173,11 @@ global script GlobalScripts {
    // 654321b
    int getTransLayers(int dmap, int screen) {
       switch (dmap) {
+         case 0:
+            switch (screen) {
+               case 0x22: return 011000b;
+            }
+
          case 4:
             switch (screen) {
                case 0x26: return 011000b;
