@@ -1369,9 +1369,12 @@ namespace HazarondNamespace {
             Screen->Message(804);
             firstRun = false;
          }
-         else
+         else {
+            mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+            mapDataLayer1->ComboD[94] = CMB_INVIS;
+            mapDataLayer1->ComboD[95] = CMB_INVIS;
             Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
-
+         }
          disableLink();
 
          while (this->HP > 0) {

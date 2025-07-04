@@ -40,10 +40,12 @@ ffc script EnemiesChest {
 @InitD2("secretSound"),
 @InitDHelp2("0 to not, 1 to play"),
 @InitD3("screenD"),
-@InitDHelp3("if screenD, this is the register")
+@InitDHelp3("if screenD, this is the register"),
+@InitD4("screenDForPermEnemies"),
+@InitDHelp4("if type is enemies and is perm, this is the screenD to set to never close after first triggering")
 ffc script Shutter {
    // clang-format on
-   void run(int type, bool perm, int playSecretSound, int screenD) {
+   void run(int type, bool perm, int playSecretSound, int screenD, int screenDForPermEnemies) {
       CONFIG OPEN_BY_SECRET = 0;
       CONFIG OPEN_BY_ENEMY = 1;
       CONFIG OPEN_BY_SCREEND = 2;
@@ -65,11 +67,8 @@ ffc script Shutter {
             Quit();
 
       }
-      else if (type == OPEN_BY_ENEMY) {
-         Waitframes(8);
-
-         if (checkEnemies())
-            Quit();
+      else if (type == OPEN_BY_ENEMY && perm && getScreenD(screenDForPermEnemies)) {
+         Quit();
       }
 
       //Flip Link's position to where he will be when completely on the screen with the shutter
@@ -211,8 +210,12 @@ ffc script Shutter {
 
       this->Flags[FFCF_SOLID] = false;
 
-      if (perm)
-         Screen->State[ST_SECRET] = true;
+      if (perm) {
+         if (type == OPEN_BY_ENEMY)
+            setScreenD(screenDForPermEnemies, 1);
+         else
+            Screen->State[ST_SECRET] = true;
+      }
    }
 
    bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
