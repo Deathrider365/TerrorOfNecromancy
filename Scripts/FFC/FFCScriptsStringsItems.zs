@@ -977,10 +977,11 @@ ffc script EgentemShrineSoldier {
       // if (!(Game->LItems[3] & LI_TRIFORCE) || m->State[ST_SECRET]) {
       if (!mBoss->State[ST_SECRET] || m->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
-         mapdata template = Game->LoadTempScreen(2);
-         template->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
          Quit();
       }
+
+      m->State[ST_SECRET] = true;
 
       while (true) {
          until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {

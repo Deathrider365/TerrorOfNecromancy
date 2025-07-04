@@ -9,7 +9,7 @@ CONFIGB DEBUG = true; // TODO disable for final release
 
 /*/~~~~~Global Variables~~~~~/*/
 bool disableTrans;
-int STUN_DURATION = 60;
+int STUN_DURATION = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Level * 60;
 
 bool levelEntries[512];
 

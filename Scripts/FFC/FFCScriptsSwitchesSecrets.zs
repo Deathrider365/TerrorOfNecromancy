@@ -34,16 +34,19 @@ ffc script EnemiesChest {
 // clang-format off
 @Author("Moosh, Modified by Deathrider365"),
 @InitD0("type"),
-@InitDHelp0("0 for secrets, 1 for enemy, -1 for never open"),
+@InitDHelp0("0 for secrets, 1 for enemy, 2 for screenD -1 for never open"),
 @InitD1("perm"),
 @InitDHelp1("0 for temp, 1 for perm"),
 @InitD2("secretSound"),
-@InitDHelp2("0 to not, 1 to play")
+@InitDHelp2("0 to not, 1 to play"),
+@InitD3("screenD"),
+@InitDHelp3("if screenD, this is the register")
 ffc script Shutter {
    // clang-format on
-   void run(int type, bool perm, int playSecretSound) {
+   void run(int type, bool perm, int playSecretSound, int screenD) {
       CONFIG OPEN_BY_SECRET = 0;
       CONFIG OPEN_BY_ENEMY = 1;
+      CONFIG OPEN_BY_SCREEND = 2;
 
       int thisData = this->Data;
       this->Data = CMB_INVIS;
@@ -55,7 +58,13 @@ ffc script Shutter {
       //Check whether the shutter should not close at all
       if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET]))
          Quit();
+      else if (type == OPEN_BY_SCREEND) {
+         Waitframe();
 
+         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
+            Quit();
+
+      }
       else if (type == OPEN_BY_ENEMY) {
          Waitframes(8);
 
@@ -74,11 +83,23 @@ ffc script Shutter {
       else if (LinkY >= 160)
          LinkY = 0;
 
+		int moveDir = Hero->Dir;
+
       //Handle moving link when he enters a screen through a shutter
-      if (inShutter(this, LinkX, LinkY)) {
-         Waitframe();
+      if (inShutter(this, LinkX, LinkY, 0)) {
+			if(LinkY == 0)
+				moveDir = DIR_DOWN;
+			else if(LinkY == 160)
+				moveDir = DIR_UP;
+			else if(LinkX == 0)
+				moveDir = DIR_RIGHT;
+			else if(LinkX == 240)
+				moveDir = DIR_LEFT;
+
+			Waitframe();
+
          //Keep moving link until he is out of the shutter
-         while (inShutter(this, Hero->X, Hero->Y) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
+         while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
             NoAction();
 
             if (LinkY == 160)
@@ -93,9 +114,28 @@ ffc script Shutter {
             Waitframe();
          }
 
-      } else
-         while(HeroIsScrollingOrWarping())
+         for(int i = 0; i < 4; i++) {
+            if(moveDir == DIR_UP)
+               Link->Y = Min(Link->Y, 144);
+            else if(moveDir == DIR_DOWN)
+               Link->Y = Max(Link->Y, 8);
+            else if(moveDir == DIR_LEFT)
+               Link->X = Min(Link->X, 224);
+            else if(moveDir == DIR_RIGHT)
+               Link->X = Max(Link->X, 16);
+
             Waitframe();
+         }
+      } else {
+
+      if (type != OPEN_BY_ENEMY)
+         Waitframe();
+         // while(HeroIsScrollingOrWarping())
+         //    Waitframe();
+      }
+
+      if (type == OPEN_BY_ENEMY)
+         Waitframes(8);
 
       this->Data = thisData;
       this->Flags[FFCF_SOLID] = true;
@@ -103,10 +143,62 @@ ffc script Shutter {
 
       //Shutter is locked, wait for it to be opened if it can be opened, otherwise stay shut
       loop() {
+         if (inShutter(this, LinkX, LinkY, 3)) {
+            if(Link->Y == 0)
+               moveDir = DIR_DOWN;
+            else if(Link->Y == 160)
+               moveDir = DIR_UP;
+            else if(Link->X == 0)
+               moveDir = DIR_RIGHT;
+            else if(Link->X == 240)
+               moveDir = DIR_LEFT;
+
+            while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
+               NoAction();
+
+               if (moveDir == 160)
+                  Hero->InputUp = true;
+               else if (moveDir == 0)
+                  Hero->InputDown = true;
+               else if (moveDir == 240)
+                  Hero->InputLeft = true;
+               else if (moveDir == 0)
+                  Hero->InputRight = true;
+
+               Waitframe();
+            }
+
+            for(int i = 0; i < 4; i++) {
+               if(moveDir == DIR_UP)
+                  Link->Y = Min(Link->Y, 144);
+               else if(moveDir == DIR_DOWN)
+                  Link->Y = Max(Link->Y, 8);
+               else if(moveDir == DIR_LEFT)
+                  Link->X = Min(Link->X, 224);
+               else if(moveDir == DIR_RIGHT)
+                  Link->X = Max(Link->X, 16);
+
+               Waitframe();
+            }
+
+				if(moveDir == DIR_UP)
+					Link->Y = Min(Link->Y, 144);
+				else if(moveDir == DIR_DOWN)
+					Link->Y = Max(Link->Y, 8);
+				else if(moveDir == DIR_LEFT)
+					Link->X = Min(Link->X, 224);
+				else if(moveDir == DIR_RIGHT)
+					Link->X = Max(Link->X, 16);
+
+				Waitframes(8);
+         }
+
          if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
                break;
          if (type == OPEN_BY_ENEMY && checkEnemies())
                break;
+         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
+            break;
 
          Waitframe();
       }
@@ -123,8 +215,8 @@ ffc script Shutter {
          Screen->State[ST_SECRET] = true;
    }
 
-   bool inShutter(ffc this, int LinkX, int LinkY) {
-      return Abs(LinkX - this->X) < 16 && LinkY > this->Y - 16 && LinkY < this->Y + 8;
+   bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
+		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
    }
 
    bool checkEnemies() {

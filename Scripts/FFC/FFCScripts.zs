@@ -66,13 +66,14 @@ ffc script ContinuePoint {
  ffc script BattleArena {
    // clang-format on
 
-   void run(int arenaListNum, int screenD, int map, int screen, int setScreenDOnOtherScreen) {
+   void run(int arenaListNum, int screenD, int map, int screen, int setScreenDOnOtherScreen, int screenDForShutter) {
       unless(Hero->Item[191]) {
          Screen->TriggerSecrets();
          setScreenD(screenD, true);
          Quit();
       }
 
+      setScreenD(screenDForShutter, true);
       setScreenD(screenD, false);
       Hero->Item[191] = false;
 
@@ -90,6 +91,7 @@ ffc script ContinuePoint {
 
       Screen->TriggerSecrets();
       setScreenD(screenD, true);
+      setScreenD(screenDForShutter, false);
 
       if (map && screen) {
          mapdata mapData = Game->LoadMapData(map, screen);
@@ -97,9 +99,8 @@ ffc script ContinuePoint {
          Audio->PlaySound(SFX_SECRET);
       }
 
-      if (setScreenDOnOtherScreen) {
+      if (setScreenDOnOtherScreen)
          setScreenD(map, screen, setScreenDOnOtherScreen, true);
-      }
 
       char32 areaMusic[256];
       Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
