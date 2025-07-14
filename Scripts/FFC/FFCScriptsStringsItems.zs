@@ -1004,7 +1004,7 @@ ffc script EgentemShrineSoldier {
 @Author("Deathrider365")
 ffc script BuyItem {
    // clang-format on
-   void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce) {
+   void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce, int buyOnceScreenD = 0) {
       if (buyOnce && getScreenD(0)) {
          this->Data = CMB_INVIS;
          Quit();
@@ -1023,7 +1023,7 @@ ffc script BuyItem {
 
       Waitframe();
 
-      while (!getScreenD(0)) {
+      while (!getScreenD(buyOnceScreenD)) {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (onTop(this->X, this->Y) && Game->Counter[CR_MONEY] >= price) {
@@ -1033,7 +1033,7 @@ ffc script BuyItem {
             itemToBuy->Pickup = IP_HOLDUP;
 
             if (buyOnce)
-               setScreenD(0, true);
+               setScreenD(buyOnceScreenD, true);
 
             switch (itemId) {
                case ITEM_BATTLE_ARENA_TICKET:

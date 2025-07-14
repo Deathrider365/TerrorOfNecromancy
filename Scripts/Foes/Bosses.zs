@@ -3733,10 +3733,10 @@ namespace EgentemNamespace {
       mapdata md = Game->LoadTempScreen(1);
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
 
-      md->ComboD[7] = 6974;
-      md->ComboD[8] = 6974;
-      md->ComboD[167] = 6972;
-      md->ComboD[168] = 6972;
+      md->ComboD[7] = 6957;
+      md->ComboD[8] = 6957;
+      md->ComboD[167] = 6953;
+      md->ComboD[168] = 6953;
    }
 
    void openShutters() {
