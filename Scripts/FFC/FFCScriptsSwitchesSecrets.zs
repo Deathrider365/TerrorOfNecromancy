@@ -58,8 +58,11 @@ ffc script Shutter {
       int LinkY = Hero->Y;
 
       //Check whether the shutter should not close at all
-      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET]))
+      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET])) {
+         this->Data = 0; //TODO this may not work in the future
          Quit();
+      }
+
       else if (type == OPEN_BY_SCREEND) {
          Waitframe();
 
@@ -193,9 +196,9 @@ ffc script Shutter {
          }
 
          if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
-               break;
+            break;
          if (type == OPEN_BY_ENEMY && checkEnemies())
-               break;
+            break;
          if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
             break;
 
@@ -216,6 +219,11 @@ ffc script Shutter {
          else
             Screen->State[ST_SECRET] = true;
       }
+
+      until(this->Data == 1)
+         Waitframe();
+
+      this->Data = 0; //TODO this may not work in the future
    }
 
    bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
