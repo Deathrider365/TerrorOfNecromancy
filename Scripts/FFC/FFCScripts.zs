@@ -79,6 +79,8 @@ ffc script ContinuePoint {
 
       int round = 0;
 
+      playBattleTheme(arenaListNum);
+
       until(spawnEnemies(arenaListNum, round++)) {
          while (EnemiesAlive())
             Waitframe();
@@ -107,7 +109,7 @@ ffc script ContinuePoint {
       Audio->PlayEnhancedMusic(areaMusic, 0);
    }
 
-   bool spawnEnemies(int arenaListNum, int round) {
+   bool spawnEnemies(int arenaListNum, int round) { //TODO make these enemy sets have some variability (chances to get different enemies)
       int enemyList[50];
       bool shouldReturn;
 
@@ -116,10 +118,7 @@ ffc script ContinuePoint {
             Screen->Pattern = PATTERN_CEILING;
 
             switch (round) {
-               case 0:
-                  playBattleTheme(arenaListNum);
-                  setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST});
-                  break;
+               case 0: setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST}); break;
                case 1: setEnemies({ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_ROPE_LV1, ENEMY_ROPE_LV1}); break;
                case 2: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
                case 3: setEnemies({ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE}); break;
@@ -136,14 +135,11 @@ ffc script ContinuePoint {
             Screen->Pattern = PATTERN_CEILING;
 
             switch (round) {
-               case 0:
-                  playBattleTheme(arenaListNum);
-                  setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2});
-                  break;
+               case 0: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2}); break;
                case 1: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_GORIYA_LV2, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
                case 2: setEnemies({ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT}); break;
                case 3: setEnemies({ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2}); break;
-               case 4: setEnemies({ENEMY_BUBBLE_TEMP_LV1, ENEMY_BUBBLE_TEMP_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1}); break;
+               case 4: setEnemies({ENEMY_BUBBLE_TEMP_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1}); break;
                case 5:
                   playBossTheme(arenaListNum);
                   setEnemies({ENEMY_THIEF_BOSS});
@@ -693,7 +689,7 @@ ffc script FaceLinkOnEntrance {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script UnlockMoltenFloodedForgeBoss {
+ffc script UnlockMoltenFloodedForgeBoss { //doesnt seem to trigger right away
    // clang-format on
 
    void run() {
