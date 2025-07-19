@@ -4536,6 +4536,9 @@ namespace LatrosNamespace {
             Hero->Item[Hero->ItemA] = false;
             Hero->Item[Hero->ItemB] = false;
 
+            // if (Game->LoadItemData(itemA)->Type < 0 || Game->LoadItemData(itemB)->Type < 0)
+            //    break;
+
             if (Game->LoadItemData(itemA)->Type == IC_BRANG)
                clearBoomerangs(itemA);
             if (Game->LoadItemData(itemB)->Type == IC_BRANG)
@@ -4560,6 +4563,11 @@ namespace LatrosNamespace {
                clearPotions(itemA);
             if (Game->LoadItemData(itemB)->Type == IC_POTION)
                clearPotions(itemB);
+
+            if (Game->LoadItemData(itemA)->Type == IC_WHISTLE)
+               clearOcarinas(itemA);
+            if (Game->LoadItemData(itemB)->Type == IC_WHISTLE)
+               clearOcarinas(itemB);
 
             stolen = true;
          }
@@ -4594,6 +4602,9 @@ namespace LatrosNamespace {
 
    void clearCandles(int itemId) {
       switch (itemId) {
+         case ITEM_CANDLE3: 
+            Hero->Item[ITEM_CANDLE2] = false;
+            Hero->Item[ITEM_CANDLE1] = false;
          case ITEM_CANDLE2: Hero->Item[ITEM_CANDLE1] = false;
       }
    }
@@ -4602,6 +4613,13 @@ namespace LatrosNamespace {
       switch (itemId) {
          case ITEM_POTION3: Hero->Item[ITEM_POTION2] = false;
          case I_POTION2: Hero->Item[ITEM_POTION1] = false;
+      }
+   }
+
+   void clearOcarinas(int itemId) {
+      switch (itemId) {
+         case ITEM_OCARINA2: Hero->Item[ITEM_OCARINA1] = false;
+         case ITEM_OCARINA1: Hero->Item[ITEM_OCARINA1] = false;
       }
    }
 
@@ -4736,6 +4754,24 @@ namespace LatrosNamespace {
 
             break;
          }
+         case ITEM_OCARINA2: {
+            bool droppedOcarina = false;
+
+            for (int i = 0; i < 180 && !droppedOcarina; ++i) {
+               unless(i) Audio->PlaySound(SFX_WHISTLE);
+
+               unless(latros->hasItem(ITEM_OCARINA2)) droppedOcarina = true;
+
+               this->Dir = Hero->X < this->X ? DIR_LEFT : DIR_RIGHT;
+               Screen->FastCombo(3, this->X + (this->Dir == DIR_LEFT ? -4 : 6), this->Y + 6, this->Dir == DIR_LEFT ? 6876 : 6877, 7, OP_OPAQUE);
+               LatrosWaitframe(this, latros);
+            }
+            unless(droppedOcarina) {
+               Audio->PlaySound(SFX_STALCHILD_ATTACK);
+               latros->dropItem(ITEM_OCARINA2);
+            }
+            break;
+         }
          case ITEM_OCARINA1: {
             bool droppedOcarina = false;
 
@@ -4750,7 +4786,7 @@ namespace LatrosNamespace {
             }
             unless(droppedOcarina) {
                Audio->PlaySound(SFX_STALCHILD_ATTACK);
-               latros->dropItem(I_WHISTLE);
+               latros->dropItem(ITEM_OCARINA1);
             }
             break;
          }

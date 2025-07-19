@@ -67,7 +67,7 @@ ffc script ContinuePoint {
    // clang-format on
 
    void run(int arenaListNum, int screenD, int map, int screen, int setScreenDOnOtherScreen, int screenDForShutter) {
-      unless(Hero->Item[191]) {
+      unless(Hero->Item[ITEM_BATTLE_ARENA_TICKET]) {
          Screen->TriggerSecrets();
          setScreenD(screenD, true);
          Quit();
@@ -75,15 +75,17 @@ ffc script ContinuePoint {
 
       setScreenD(screenDForShutter, true);
       setScreenD(screenD, false);
-      Hero->Item[191] = false;
+      Hero->Item[ITEM_BATTLE_ARENA_TICKET] = false;
 
-      int round = 0;
+      int round = 1;
 
       playBattleTheme(arenaListNum);
 
-      until(spawnEnemies(arenaListNum, round++)) {
+      until(spawnEnemies(arenaListNum, round)) {
          while (EnemiesAlive())
             Waitframe();
+
+         ++round;
 
          Waitframes(120);
       }
@@ -118,12 +120,12 @@ ffc script ContinuePoint {
             Screen->Pattern = PATTERN_CEILING;
 
             switch (round) {
-               case 0: setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST}); break;
-               case 1: setEnemies({ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_ROPE_LV1, ENEMY_ROPE_LV1}); break;
-               case 2: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
-               case 3: setEnemies({ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE}); break;
-               case 4: setEnemies({ENEMY_CANDLEHEAD_LV1, ENEMY_CANDLEHEAD_LV1, ENEMY_CANDLEHEAD_LV1}); break;
-               case 5:
+               case 1: setEnemies({ENEMY_OCTOROCK_LV1_SLOW, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV1_FAST, ENEMY_OCTOROCK_LV2_FAST}); break;
+               case 2: setEnemies({ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_MOBLIN_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_STALFOS_LV1, ENEMY_ROPE_LV1, ENEMY_ROPE_LV1}); break;
+               case 3: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_OCTOROCK_LV2_FAST, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
+               case 4: setEnemies({ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV1_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE, ENEMY_LEEVER_LV2_INSIDE}); break;
+               case 5: setEnemies({ENEMY_CANDLEHEAD_LV1, ENEMY_CANDLEHEAD_LV1, ENEMY_CANDLEHEAD_LV1}); break;
+               case 6:
                   playBossTheme(arenaListNum);
                   setEnemies({ENEMY_OVERGROWN_RACCOON});
                   shouldReturn = true;

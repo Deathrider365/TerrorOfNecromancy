@@ -519,7 +519,7 @@ bool againstFFC(int ffcX, int ffcY) {
    if (Hero->Z > 0)
       return false;
 
-   if (Abs((Hero->X) - (ffcX)) <= 16) {
+   if (Abs((Hero->X) - (ffcX)) <= 10) {
       if (Abs((Hero->Y) - (ffcY)) <= ((Hero->Y < ffcY) ? 16 : 8))
          // clang-format off
          if (
