@@ -515,7 +515,7 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
 }
 
 // Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) {
+bool againstFFC(int ffcX, int ffcY) { //TODO fix this
    if (Hero->Z > 0)
       return false;
 
