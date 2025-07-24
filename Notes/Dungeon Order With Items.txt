@@ -20,6 +20,7 @@ Minidungeon 2: Seized Guard Tower		         - Soldier's Boomerang (2)
 Level 3: Ancient Shrine				               - Cultist's Hammer (1)
 Battle Arena 2: Pirate Hideout			         - Soldier's Bow (2)
 Minidungeon 3: Molten Flooded Forge		         - Sword of Conflator
+Blue Mail
 
 ---Demo 5---
 
@@ -32,10 +33,12 @@ Optional Dungeon 1: Sealed Abyss	   	      	- Displelled Cane (1), Spectral Cane
 
 Level 6: Geothermal Plant			            	- Goron Gauntlet (2)
 
+Purchaseable - Incendiary Candle (3)
+
 ---Demo 6---
 
 Level 7: WATER DUNGEON IN TEH ARCHIPELAGO		   - Diver's Flippers (1)
-Battle Arena 3: Exiled Zora's Dwelling		 	   - Incendiary Candle (3)
+Battle Arena 3: Exiled Zora's Dwelling		 	   - Hurricane Spin
 Minidungeon 6: Seaside Output (soma's dungeon)	- Red Mail (3)
 
 Level 8: Marauder's Cove				            - Mage's Wand (1)
