@@ -880,7 +880,7 @@ ffc script Shop {
          // if ((itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
          //    Quit();
          // }
-         if ((boughtOnce && Hero->Item[itemId]) || (itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
+         if (boughtOnce && getScreenD(itemId)) { // (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE)) {
             this->Data = noStockCombo;
 
             while (Hero->Item[itemId] || getScreenD(itemId))
@@ -909,7 +909,7 @@ ffc script Shop {
          Screen->FastTile(7, this->X, this->Y, itemTile, itemCSet, OP_OPAQUE);
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
-         if (againstItem(this->X, this->Y)) {
+         if (againstFFC(this->X, this->Y)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
@@ -917,7 +917,7 @@ ffc script Shop {
                   Game->DCounter[CR_MONEY] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
 
-                  if (boughtOnce && (itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB))
+                  if (boughtOnce && (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE))
                      setScreenD(itemId, 1);
 
                   switch (itemId) {
@@ -933,7 +933,6 @@ ffc script Shop {
                      }
                   }
 
-
                   itemToBuy->Pickup = IP_HOLDUP;
                }
                else
@@ -945,24 +944,6 @@ ffc script Shop {
 
          Waitframe();
       }
-   }
-
-   bool againstItem(int ffcX, int ffcY) {
-      if (Hero->Z == 0) {
-         if (Abs((Hero->X) - (ffcX)) <= 8) {
-            if (Hero->Y > ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
-               return true;
-            else if (Hero->Y < ffcY && ffcY - Hero->Y <= 10 && Hero->Dir == DIR_DOWN)
-               return true;
-         }
-         else if (Abs((Hero->Y) - (ffcY)) <= 8) {
-            if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
-               return true;
-            else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-               return true;
-         }
-      }
-      return false;
    }
 }
 
