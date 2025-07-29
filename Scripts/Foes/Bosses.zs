@@ -814,18 +814,23 @@ ffc script Legionnaire {
    CONFIG ATTACK_SPRINT_SLASH = 2;
 
    void run(int enemyid) {
+      if (Screen->State[ST_SECRET]) {
+         this->Data = 0; //TODO sometimes the sprite is seen just sitting after death
+         Quit();
+      }
+
       npc ghost = Ghost_InitAutoGhost(this, enemyid);
 
-      int triggerOnSecret = ghost->Attributes[5];
+      int triggerOnProximity = ghost->Attributes[5];
 
       CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
       CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
       CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
 
-      if (triggerOnSecret == 0 && Screen->State[ST_SECRET]) {
-         ghost->Remove(); //TODO sometimes the sprite is seen just sitting after death
-         Quit();
-      }
+      // if (Screen->State[ST_SECRET]) {
+      //    ghost->Remove(); //TODO sometimes the sprite is seen just sitting after death
+      //    Quit();
+      // }
 
       Ghost_SetFlag(GHF_4WAY);
 
@@ -843,8 +848,8 @@ ffc script Legionnaire {
       int timeToSpawnAnother, enemyCount;
       int numEnemies = Screen->NumNPCs;
 
-      if (triggerOnSecret) {
-         while (!Screen->State[ST_SECRET]) {
+      if (triggerOnProximity && !getScreenD(screenD)) {
+         while (Abs(Hero->X - this->X) > triggerOnProximity) {
             Ghost_Y = -32;
             Ghost_X = 120;
             Ghost_Waitframe(this, ghost);
@@ -853,6 +858,7 @@ ffc script Legionnaire {
 
       // Intro Animation
       unless(getScreenD(screenD)) {
+
          Ghost_Y = -32;
          Ghost_X = startX;
 
@@ -4602,7 +4608,7 @@ namespace LatrosNamespace {
 
    void clearCandles(int itemId) {
       switch (itemId) {
-         case ITEM_CANDLE3: 
+         case ITEM_CANDLE3:
             Hero->Item[ITEM_CANDLE2] = false;
             Hero->Item[ITEM_CANDLE1] = false;
          case ITEM_CANDLE2: Hero->Item[ITEM_CANDLE1] = false;
