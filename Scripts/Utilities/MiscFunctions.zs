@@ -520,7 +520,7 @@ bool againstFFC(int ffcX, int ffcY) {
       if (Abs((Hero->X) - (ffcX)) <= 8) {
          if (Hero->Y >= ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
             return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 10 && Hero->Dir == DIR_DOWN)
+         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
             return true;
       }
       else if (Abs((Hero->Y) - (ffcY)) <= 8) {

@@ -916,6 +916,9 @@ ffc script Shop {
                if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
                   item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
+                  itemToBuy->Pickup = IP_HOLDUP;
+
+                  Waitframe();
 
                   if (boughtOnce && (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE))
                      setScreenD(itemId, 1);
@@ -932,8 +935,6 @@ ffc script Shop {
                            Screen->Message(725);
                      }
                   }
-
-                  itemToBuy->Pickup = IP_HOLDUP;
                }
                else
                   Screen->Message(noMoneyString);
