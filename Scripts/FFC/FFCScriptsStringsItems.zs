@@ -336,7 +336,7 @@ ffc script SignpostTriggerFromScreenD {
 @InitD2("screenD"),
 @InitDHelp2("ScreenD to set to play the second message"),
 @InitD3("isRemote"),
-@InitDHelp3("Flag indicating that the secrets are on another string"),
+@InitDHelp3("Flag indicating that the secrets are on another screen"),
 @InitD4("map"),
 @InitDHelp4("Map of the remote secret"),
 @InitD5("screen"),
@@ -349,6 +349,17 @@ ffc script SignpostTriggerFromSecret {
       int data = this->Data;
       this->Flags[FFCF_SOLID] = false;
       this->Data = CMB_INVIS;
+
+      if (isRemote && map < 1 && screen < 1) {
+         Trace("Invalid map and screen provided to the FFC, quitting script");
+         Quit();
+      }
+
+      if (map < 1)
+         map = 1;
+      if (screen < 1)
+         screen = 1;
+
       mapdata mapData = Game->LoadMapData(map, screen);
 
       loop() {

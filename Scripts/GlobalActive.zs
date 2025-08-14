@@ -50,22 +50,10 @@ global script GlobalScripts {
          setupTransparentLayers();
          Waitdraw();
 
-         //Pit warp constants
-         CONFIG WARPS_LINK = 1;
-         CONFIG DIRECT_WARP = 2;
-
          //What to do when you fall in a hole
          //Place in global after Waitdraw
          //Should not run if the subscreen is open
-         // void Fall(){
-            if (Hero->Falling == 1) {
-               combodata combo = Game->LoadComboData(Hero->FallCombo);
-               if (combo->UserFlags & WARPS_LINK) {
-                     if (combo->UserFlags & DIRECT_WARP)
-                        Hero->Z = Hero->Y;
-               }
-            }
-         // }
+         fall();
 
          Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
          Screen->DrawOriginTarget = Hero;
@@ -110,6 +98,19 @@ global script GlobalScripts {
          BoomerangNerf();
 
          Waitframe();
+      }
+   }
+   
+   void fall(){
+      //Pit warp constants
+      CONFIG WARPS_LINK = 1;
+      CONFIG DIRECT_WARP = 2;
+      if (Hero->Falling == 1) {
+         combodata combo = Game->LoadComboData(Hero->FallCombo);
+         if (combo->UserFlags & WARPS_LINK) {
+               if (combo->UserFlags & DIRECT_WARP)
+                  Hero->Z = Hero->Y;
+         }
       }
    }
 
@@ -467,10 +468,10 @@ global script OnLaunch {
       }
 
       // For debug purposes because test builds start you with nothing on a or b
-      // if (Debug->Testing) {
-      //    Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
-      //    Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
-      // }
+      if (Game->Testing) {
+         Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
+         Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+      }
 
       if (onContHP != 0) {
          Hero->HP = onContHP;
