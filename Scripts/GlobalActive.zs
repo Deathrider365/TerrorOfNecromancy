@@ -50,6 +50,23 @@ global script GlobalScripts {
          setupTransparentLayers();
          Waitdraw();
 
+         //Pit warp constants
+         CONFIG WARPS_LINK = 1;
+         CONFIG DIRECT_WARP = 2;
+
+         //What to do when you fall in a hole
+         //Place in global after Waitdraw
+         //Should not run if the subscreen is open
+         // void Fall(){
+            if (Hero->Falling == 1) {
+               combodata combo = Game->LoadComboData(Hero->FallCombo);
+               if (combo->UserFlags & WARPS_LINK) {
+                     if (combo->UserFlags & DIRECT_WARP)
+                        Hero->Z = Hero->Y;
+               }
+            }
+         // }
+
          Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
          Screen->DrawOriginTarget = Hero;
          // Put draws that I want at link's position here, the origin becomes his upper left pixel
