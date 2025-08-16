@@ -1234,9 +1234,9 @@ ffc script GraveKeeperSequence {
 
    void run(int messageImWarningYou, int messageMad, int messageDontKillMe, int messageLeavePls, int messageSad, int messageThankful) {
       int originalCombo = this->Data;
-      mapdata map = Game->LoadMapData(20, 0x37);
+      mapdata graveScreen = Game->LoadMapData(20, 0x37);
 
-      while (Hero->Item[17]) {
+      while (Hero->Item[ITEM_RING1]) {
          waitForTalking(this);
 
          Input->Button[CB_SIGNPOST] = false;
@@ -1246,7 +1246,7 @@ ffc script GraveKeeperSequence {
          Waitframe();
       }
 
-      until(map->State[ST_SECRET]) {
+      until(graveScreen->State[ST_SECRET]) {
          waitForTalking(this);
 
          Input->Button[CB_SIGNPOST] = false;
@@ -1256,7 +1256,7 @@ ffc script GraveKeeperSequence {
          Waitframe();
       }
       else {
-         unless(Hero->Item[155]) {
+         unless(Hero->Item[ITEM_STRANGE_COFFER]) {
             Screen->Message(messageMad);
             Waitframe();
 
@@ -1296,11 +1296,12 @@ ffc script GraveKeeperSequence {
             }
          }
          else {
+            Waitframes(60);
             Screen->Message(messageSad);
             Waitframe();
-            Hero->Item[155] = false;
+            Hero->Item[ITEM_STRANGE_COFFER] = false;
 
-            itemsprite it = CreateItemAt(17, Hero->X, Hero->Y);
+            itemsprite it = CreateItemAt(ITEM_RING1, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
 
             while (true) {

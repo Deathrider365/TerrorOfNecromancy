@@ -129,11 +129,8 @@ ffc script Shutter {
             Waitframe();
          }
       } else {
-
-      if (type != OPEN_BY_ENEMY)
-         Waitframe();
-         // while(HeroIsScrollingOrWarping())
-         //    Waitframe();
+         if (type != OPEN_BY_ENEMY)
+            Waitframe();
       }
 
       if (type == OPEN_BY_ENEMY)

@@ -5,6 +5,10 @@
 #option HEADER_GUARD on
 
 namespace EnemyNamespace {
+   CONFIG DOWALK_TWO_DIR = 0;
+   CONFIG DOWALK_FOUR_DIR = 1;
+   CONFIG DOWALK_EIGHT_DIR = 2;
+
    enum dataInd {
       DATA_AFRAMES,
       DATA_CLK,
@@ -153,8 +157,11 @@ namespace EnemyNamespace {
       return false;
    }
 
-   void doWalk(npc n, int rand, int homing, int step, bool flying = false, bool fourDir = true) {
-      const int ONE_IN_N = 1000;
+   void doWalk(npc n, int rand, int homing, int step, bool flying = false, int moveStyle = 1) {
+      if (n->HP <= 0)
+         return;
+
+      CONFIG ONE_IN_N = 1000;
 
       if (rand >= RandGen->Rand(ONE_IN_N - 1)) {
          int attemptCounter = 0;
@@ -165,10 +172,17 @@ namespace EnemyNamespace {
          until(n->CanMove(n->Dir, 1, flying ? SPW_FLOATER : SPW_NONE) || ++attemptCounter > 500);
       }
       else if (homing >= RandGen->Rand(ONE_IN_N - 1)) {
-         if (fourDir)
-            n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
-         else
-            n->Dir = RadianAngleDir8(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+         switch (moveStyle) {
+            case DOWALK_TWO_DIR:
+               n->Dir = (gameframe % 2 == 0) ? 1 : 3;
+               break;
+            case DOWALK_FOUR_DIR:
+               n->Dir = RadianAngleDir4(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+               break;
+            case DOWALK_EIGHT_DIR:
+               n->Dir = RadianAngleDir8(TurnTowards(n->X, n->Y, Hero->X, Hero->Y, 0, 1));
+               break;
+         }
       }
 
       unless(n->Move(n->Dir, step / 100, flying ? SPW_FLOATER : SPW_NONE)) {

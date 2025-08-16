@@ -1,7 +1,7 @@
 // NPCAnim.zh ver 1.2.0
 
 namespace NPCAnim {
-   CONFIG NPCM_ANIMPOINTER = 15;         // Index for storing the animation pointer in NPC->Misc[]
+   CONFIG NPCM_ANIMPOINTER = 14;         // Index for storing the animation pointer in NPC->Misc[]
    CONFIG ANIM_BUFFER_LENGTH = 1024;     // Arbitrary size for NPC animation array
    CONFIG ANIM_WALKABILITY_MAXLAYER = 2; // Max layer to check for combo types
 

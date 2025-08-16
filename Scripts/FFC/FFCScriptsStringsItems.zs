@@ -48,7 +48,11 @@ ffc script Signpost {
                else Screen->Message(secondMessage);
                break;
             case SMT_SECRETS:
-               mapdata mapData = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L);
+               mapdata mapData;
+
+               if (remoteSecrets) {
+                  mapData = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L);
+               }
 
                if ((!remoteSecrets && Screen->State[ST_SECRET]) || (remoteSecrets && mapData->State[ST_SECRET]))
                   Screen->Message(secondMessage);
@@ -954,40 +958,6 @@ ffc script Shop {
             }
          }
 
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script EgentemShrineSoldier {
-   // clang-format on
-   void run(int message) {
-      mapdata m = Game->LoadMapData(44, 0x33);
-      mapdata mBoss = Game->LoadMapData(48, 0x3B);
-
-      // if (!(Game->LItems[3] & LI_TRIFORCE) || m->State[ST_SECRET]) {
-      if (!mBoss->State[ST_SECRET] || m->State[ST_SECRET]) {
-         this->Data = CMB_INVIS;
-         this->Flags[FFCF_SOLID] = false;
-         Quit();
-      }
-
-      m->State[ST_SECRET] = true;
-
-      while (true) {
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Waitframe();
-         }
-
-         Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
-
-         Screen->Message(message);
-         Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
       }
    }

@@ -11,7 +11,6 @@
 @Author("Deathrider365")
 npc script Candlehead {
    // clang-format on
-
    using namespace EnemyNamespace;
 
    CONFIG NORMAL_RAND = 5;
@@ -116,7 +115,7 @@ npc script Candlehead {
             Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
          }
 
-         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step);
+         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step, DOWALK_EIGHT_DIR);
 
          Waitframe();
       }
@@ -437,7 +436,7 @@ npc script Bomber {
          this->Z = 1;
          this->FakeZ = 10;
          this->FakeJump = 10;
-         doWalk(this, 3, 1, 30, true, false);
+         doWalk(this, 3, 1, 30, true, DOWALK_EIGHT_DIR);
 
          unless(attackCooldown) {
             Waitframes(15);
