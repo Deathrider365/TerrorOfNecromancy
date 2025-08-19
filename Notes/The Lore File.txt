@@ -444,10 +444,41 @@ Gelido Shoal. He seems to believe that there is an old strong magical weapon hid
 with the Zoras there.
 
    Link will head west, however like before if he heads back to Zelda, she will once again congratulate Link for helping the people of Interitus, for a moment it looks like she is about to say something to Link,
-but waves it off as nothing. Link then heads north into the Shrouded Forest. Beyond the shrouded forest Link finds himself at the Carulem Archipelago.
+but waves it off as nothing. Link then heads north into the Shrouded Forest.
 
-   So Link heads into The North Western side of Interitus. He is met with a crossroads, one leading to Carulem Archipelago, the other through a wasteland and eventually to a village. Link is to head towards the
-archipelago and help the Zoras there with their plight, but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
+   So Link heads into The North Western side of Interitus. He is met with a crossroads, one leading to Carulem Archipelago, the other through more of the forest and a wasteland and eventually to a village.
+Link is to head towards the archipelago and help the Zoras there with their plight, but should he go the other way, he will find a small village known as Medius village. Talking to the residents they warn Link
+that the elder of Carulem has been acting strange. Usually the elder stays out of their business and has been a kind neighbor, but lately he has been acting more controlling, even building a wall between them
+and the rest of the island. To make matters worse, they warn Link that the wasteland to the north has become more treacherous. The villagers do what they can to help Link on his travels.
+
+After learning more about the area from the residents of Medius, Link heads west through the forest, and before he knows it he sees the light again and is in Carulem Archipelago.
+
+   Link, heading into the archipelago, will find the village of Zoras Zelda wanted him to aid. Upon talking to the inhabitants he discovers that their elder has not been acting right. He has been a lot more violent
+and angry towards those who want to go help the rest of the island against the necromancer. The necromancer's influence hasnt impacted the carulem archipelago much, so the zoras there have felt the obligation to
+help those less fortunate. It would appear it was the elder that ordered the construction of the wall between NWI and SWI to keep this side of the island protected. Link comes across the son of the elder
+who pleads with Link to go into the palace, which is the home of the elder, and talk to him and make sure he is ok. The elder's son hasnt seen the elder for awhile after the wall was built, so he doesnt even know
+if the elder is ok, also he pleads for Link to help him reconsider his stance on helping Interitus. Link then heads to the north eastern side of the archipelago to the elder's palace.
+
+<<Level 7: Palace of Waves>>
+~Frenzied Mutated Zora Elder ---Nemesis of Zora Natavora---~
+
+   He finds the inside of the palace full of monsters, and the elder is not in sight. Venturing deeper into the palace he finds the elder, he is frozen with fear as if he is in the face of a large monster...
+because he is. A great beast is on the other side of the undersea room, a giant fish. The elder tells you that it is apparently known as the Natavora (swim devourer), an ancient enemy of the Carulem zoras.
+Without much further ado Link battles the beast. Upon its defeat the Zora elder graciously thanks Link for saving him. He explains that he understands that he has been selfish (haha) for turning his back on the
+rest of the island. He built the wall to keep his people safe as well as Medias from the affects of the Necromancer, even more his paranoia caused him to lock himself in his palace. He regrets his choices as a
+result of Link's selflessness in helping him. As gift, he gives Link a key. He tells Link that he can have the Jewel of Marre, the crown jewel of the Carulem zoras, said to give the owner of the jewel the
+ability to breath underwater indefinitely. However, to get it he needs to go to the vault that they have on a small secluded island on the southwestern side of the archipelago.
+Upon returning to the Village, Link finds the residents jubilant to have their elder back.
+
+Now with the flippers, Link can go practically everywhere on Interitus, but first he should venture to the Carulem vault.
+
+   Entering the vault Link finds that the jewel was stolen CONTINUE HERE
+
+
+
+
+~~~Pacilux~~~
+   but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
 
    Once known as the Village of Pacilux, the village of peaceful light. The village got it's name as it was where Haeren spent her time with the people of Vita, spreading life and happiness. The village was a
 paradise, and it was also the home village of the once bright and brilliant Aemulor. Aemulor was born on this island and was immersed in the grace of Haeren, he has a happy childhood and upbringing, and saw
@@ -463,18 +494,10 @@ In time he learned its secrets, and started to lose himself to his new found abi
 their existance, being morphed and turned into undead thralls for some unknown threat. They went to Haeren only to find her temple empty, unable to communicate with the debilitated goddess. Eventually the village
 not only fell to ruin, but was the most potent in darkness. What was once considered paradise, was now a surging hell on earth.
 
-   Link will find Paculux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
+   Link will find Pacilux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
 to venture within. It is recommended Link wait until after level 9 before venturing within as he will encounter the strongest undead on the island of interitus, as Aemulor was very raw with his earlier usage of
 the triforce of haeren, so unrestrained and a complete lack of care of what he did that the depth of the darkness he unleashed was unparalleled.
-
-   Link, heading into the archipelago, will find the village of Zoras Zelda wanted him to aid. Upon talking to the inhabitants he discovers that their elder has not been acting right. He has been a lot more violent
-and angry towards those who want to go help the rest of the island against the necromancer. The necromancer's influence hasnt impacted the carulem archipelago much, so the zoras there have felt the obligation to
-help those less fortunate. It would appear it was the elder that ordered the construction of the wall between NWI and SWI to keep the carulem zoras from doing anything. Link comes across the son of the elder
-who pleads with Link to go into the palace, which is the home of the elder, and talk to him and make sure he is ok. The elder's son hasnt seen the elder for awhile after the wall was built, so he doesnt even know
-if the elder is ok. Link then heads to the north eastern side of the archipelago to the elder's palace.
-
-<<Level 7: Water Dungeon>
-~Frenzied Mutated Zora --- ---~
+~~~Pacilux~~~
 
 
 //TODO continue from here

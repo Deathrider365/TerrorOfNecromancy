@@ -37,7 +37,7 @@ Purchaseable - Incendiary Candle (3)
 
 ---Demo 6---
 
-Level 7: WATER DUNGEON IN TEH ARCHIPELAGO		   - Diver's Flippers (1)
+Level 7: Palace of Waves               		   - Diver's Flippers (1)
 Battle Arena 3: Exiled Zora's Dwelling		 	   - Hurricane Spin
 Minidungeon 6: Seaside Output (soma's dungeon)	- Red Mail (3)
 
@@ -68,8 +68,6 @@ Hero's Sword obtained from Zelda
 ~~~Post Game~~~
 
 Optional Dungeon 7: Chapel of Rumination:       - Hero's Tunic (4)
-
----Demo 9---
 
 
 
