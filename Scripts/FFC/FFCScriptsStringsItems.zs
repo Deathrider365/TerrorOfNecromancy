@@ -785,6 +785,34 @@ ffc script AuriElder {
 }
 
 // clang-format off
+@Author("Deathrider365")
+ffc script PalusElder {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         mapdata gamothRoom = Game->LoadMapData(75, 0x22);
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD) && !gamothRoom->State[ST_SECRET]) {
+            Screen->Message(secondaryMessage);
+         } else if (gamothRoom->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
+            Screen->Message(tertiaryMessage);
+            setScreenD(initialScreenD + 1, true);
+         } else {
+            Screen->Message(quartupleMessage);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
 @InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")

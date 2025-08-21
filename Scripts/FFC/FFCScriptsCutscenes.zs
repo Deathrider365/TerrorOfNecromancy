@@ -1326,18 +1326,20 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD4 = 4;
 
    void run() {
+      mapdata mapDataBeatQuickknife = Game->LoadMapData(66, 0x23);
+      mapdata mapDataBeatGamoth = Game->LoadMapData(75, 0x22);
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
 
-      while (true) {
+      loop () {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 1 && Game->Counter[CR_TRIFORCE_OF_POWER] < 2) //TODO change these checks
+         if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
             zeldaIntroDialogue(this);
-         else if (Game->Counter[CR_TRIFORCE_OF_POWER] == 2 && !mapDataBombRoom->State[ST_SECRET])
+         else if (mapDataBeatGamoth->State[ST_SECRET] && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue(this);
-         else if (mapDataBombRoom->State[ST_SECRET])
+         else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaGivesMagicOcarina(this);
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaInformsLinkAboutCarulemAndDuratu(this);
