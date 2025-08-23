@@ -2,22 +2,26 @@
 
 void giveStartingCrap() {
    // Have what the player would have at the beginning
+   // TODO do for demo 5
+   // removeAllItems();
 }
 
 void removeAllItems() {
+   Hero->ItemA = -1;
+   Hero->ItemB = -1;
+
    for (int i = 0; i < MAX_ITEMDATA; ++i)
-      unless(i == 3 || i == I_DIFF_NORMAL || i == 183 || i == 208)
-          Hero->Item[i] = false;
+      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;
 
    Game->Counter[CR_SBOMBS] = 0;
    Game->Counter[CR_BOMBS] = 0;
    Game->Counter[CR_ARROWS] = 0;
-   Game->Counter[CR_RUPEES] = 0;
+   Game->Counter[CR_MONEY] = 0;
 
    Game->MCounter[CR_SBOMBS] = 0;
    Game->MCounter[CR_BOMBS] = 0;
    Game->MCounter[CR_ARROWS] = 0;
-   Game->MCounter[CR_RUPEES] = 255;
+   Game->MCounter[CR_MONEY] = 255;
    Game->Generic[GEN_MAGICDRAINRATE] = 2;
 
    Game->Counter[CR_MAGIC_EXPANSIONS] = 0;
@@ -27,8 +31,8 @@ void removeAllItems() {
    Game->Counter[CR_BOMB_BAG_EXPANSIONS] = 0;
    Game->Counter[CR_QUIVER_EXPANSIONS] = 0;
 
-   Hero->MaxHP = 48;
-   Hero->MaxMP = 32;
+   Hero->MaxHP = 24;
+   Hero->MaxMP = 30;
 
    Hero->HP = Hero->MaxHP;
    Hero->MP = Hero->MaxMP;
@@ -42,7 +46,9 @@ void setScreenD(int reg, bool state) {
    if (state)
       Screen->D[d] |= 1Lb << reg;
    else
+      // clang-format off
       Screen->D[d] ~= 1Lb << reg;
+   // clang-format on
 }
 
 // Get Screen->D
@@ -57,7 +63,9 @@ void setScreenD(int d, long bit, bool state) {
    if (state)
       Screen->D[d] |= bit;
    else
+      // clang-format off
       Screen->D[d] ~= bit;
+   // clang-format on
 }
 
 // Get Screen->D
@@ -75,7 +83,9 @@ void setScreenD(int dmap, int scr, int reg, bool state) {
    if (state)
       val |= 1Lb << reg;
    else
+      // clang-format off
       val ~= 1Lb << reg;
+   // clang-format on
 
    Game->SetDMapScreenD(dmap, scr, d, val);
 }
@@ -94,7 +104,9 @@ void setScreenD(int dmap, int scr, int d, long bit, bool state) {
    if (state)
       val |= bit;
    else
+      // clang-format off
       val ~= bit;
+   // clang-format on
 
    Game->SetDMapScreenD(dmap, scr, d, val);
 }
@@ -127,108 +139,10 @@ float turnToAngle(float angle1, float angle2, float step) {
 // Calculates a jump length
 int getJumpLength(int jumpInput, bool inputFrames) {
    // Big ol table of rough jump values and their durations
-   int jumpTBL[] = {
-       0.0, 0,
-       0.1, 3,
-       0.2, 4,
-       0.3, 5,
-       0.4, 6,
-       0.5, 8,
-       0.6, 9,
-       0.7, 10,
-       0.8, 11,
-       0.9, 13,
-       1.0, 14,
-       1.1, 15,
-       1.2, 16,
-       1.3, 18,
-       1.4, 19,
-       1.5, 20,
-       1.6, 21,
-       1.7, 23,
-       1.8, 24,
-       1.9, 25,
-       2.0, 26,
-       2.1, 28,
-       2.2, 29,
-       2.3, 30,
-       2.4, 31,
-       2.5, 33,
-       2.6, 34,
-       2.7, 35,
-       2.8, 36,
-       2.9, 38,
-       3.0, 39,
-       3.1, 40,
-       3.2, 41,
-       3.3, 43,
-       3.4, 44,
-       3.5, 45,
-       3.6, 47,
-       3.7, 48,
-       3.8, 49,
-       3.9, 51,
-       4.0, 52,
-       4.1, 54,
-       4.2, 55,
-       4.3, 57,
-       4.4, 58,
-       4.5, 60,
-       4.6, 61,
-       4.7, 63,
-       4.8, 64,
-       4.9, 66,
-       5.0, 67,
-       5.1, 69,
-       5.2, 71,
-       5.3, 72,
-       5.4, 74,
-       5.5, 76,
-       5.6, 77,
-       5.7, 79,
-       5.8, 81,
-       5.9, 83,
-       6.0, 85,
-       6.1, 86,
-       6.2, 88,
-       6.3, 90,
-       6.4, 92,
-       6.5, 94,
-       6.6, 96,
-       6.7, 98,
-       6.8, 100,
-       6.9, 102,
-       7.0, 104,
-       7.1, 106,
-       7.2, 108,
-       7.3, 110,
-       7.4, 112,
-       7.5, 114,
-       7.6, 116,
-       7.7, 118,
-       7.8, 120,
-       7.9, 123,
-       8.0, 125,
-       8.1, 127,
-       8.2, 129,
-       8.3, 131,
-       8.4, 134,
-       8.5, 136,
-       8.6, 138,
-       8.7, 141,
-       8.8, 143,
-       8.9, 145,
-       9.0, 148,
-       9.1, 150,
-       9.2, 153,
-       9.3, 155,
-       9.4, 158,
-       9.5, 160,
-       9.6, 162,
-       9.7, 165,
-       9.8, 168,
-       9.9, 170,
-       10.0, 173};
+   int jumpTBL[] = {0.0, 0, 0.1, 3, 0.2, 4, 0.3, 5, 0.4, 6, 0.5, 8, 0.6, 9, 0.7, 10, 0.8, 11, 0.9, 13, 1.0, 14, 1.1, 15, 1.2, 16, 1.3, 18, 1.4, 19, 1.5, 20, 1.6, 21, 1.7, 23, 1.8, 24, 1.9, 25, 2.0, 26, 2.1, 28, 2.2, 29, 2.3, 30, 2.4, 31, 2.5, 33, 2.6, 34, 2.7, 35, 2.8, 36, 2.9, 38, 3.0, 39, 3.1, 40,
+       3.2, 41, 3.3, 43, 3.4, 44, 3.5, 45, 3.6, 47, 3.7, 48, 3.8, 49, 3.9, 51, 4.0, 52, 4.1, 54, 4.2, 55, 4.3, 57, 4.4, 58, 4.5, 60, 4.6, 61, 4.7, 63, 4.8, 64, 4.9, 66, 5.0, 67, 5.1, 69, 5.2, 71, 5.3, 72, 5.4, 74, 5.5, 76, 5.6, 77, 5.7, 79, 5.8, 81, 5.9, 83, 6.0, 85, 6.1, 86, 6.2, 88, 6.3, 90, 6.4,
+       92, 6.5, 94, 6.6, 96, 6.7, 98, 6.8, 100, 6.9, 102, 7.0, 104, 7.1, 106, 7.2, 108, 7.3, 110, 7.4, 112, 7.5, 114, 7.6, 116, 7.7, 118, 7.8, 120, 7.9, 123, 8.0, 125, 8.1, 127, 8.2, 129, 8.3, 131, 8.4, 134, 8.5, 136, 8.6, 138, 8.7, 141, 8.8, 143, 8.9, 145, 9.0, 148, 9.1, 150, 9.2, 153, 9.3, 155,
+       9.4, 158, 9.5, 160, 9.6, 162, 9.7, 165, 9.8, 168, 9.9, 170, 10.0, 173};
 
    // When getting a duration from a jump
    unless(inputFrames) {
@@ -272,7 +186,7 @@ ScreenType getScreenType(bool dmapOnly) {
          return DM_INTERIOR;
    }
 
-   dmapdata dm = Game->LoadDMapData(Game->GetCurDMap());
+   dmapdata dm = Game->LoadDMapData(Game->CurDMap);
    return <ScreenType>(dm->Type & 11b);
 }
 
@@ -280,8 +194,7 @@ ScreenType getScreenType(bool dmapOnly) {
 bool isOverworld(bool dmapOnly) {
    switch (getScreenType(dmapOnly)) {
       case DM_DUNGEON:
-      case DM_INTERIOR:
-         return false;
+      case DM_INTERIOR: return false;
    }
    return true;
 }
@@ -349,8 +262,7 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
 
    Screen->Quake = STUN;
 
-   for (int i = 0; i < STUN; ++i)
-   {
+   for (int i = 0; i < STUN; ++i) {
       Screen->DrawCombo(2, n->X - 16, n->Y - 16, SLAM_COMBO, 3, 3, SLAM_COMBO_CSET, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_OPAQUE);
       Waitframe();
    }
@@ -365,6 +277,7 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 
    if (sword->isValid())
       return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+   return false;
 }
 
 // sword1x1 but is 2 wide
@@ -419,7 +332,7 @@ void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
 }
 
 //	Calls an EWeapon script
-void runEWeaponScript(eweapon e, int scr, int args) {
+void runEWeaponScript(eweapon e, int scr, int[] args) {
    e->Script = scr;
    int numArgs = SizeOfArray(args);
 
@@ -447,6 +360,9 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) {
 void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
    Game->GameOverScreen[GOS_BACKGROUND] = bg;
 
+   //TODO find this
+   // Game->GameOverScreen[GOS_FONT] = 0;
+
    Game->GameOverScreen[GOS_TEXT_COLOUR] = text;
    Game->GameOverScreen[GOS_TEXT_CONTINUE_COLOUR] = text;
    Game->GameOverScreen[GOS_TEXT_SAVE_COLOUR] = text;
@@ -469,8 +385,7 @@ void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
 
 // Creates Bitmap again
 bitmap recreate(bitmap b, int w, int h) {
-   unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS])
-       b->Create(0, h, w);
+   unless(Game->FFRules[qr_OLDCREATEBITMAP_ARGS]) b->Create(0, h, w);
    else b->Create(0, w, h);
 
    return b;
@@ -495,50 +410,11 @@ int switchPressed(int x, int y, bool noLink) {
       if (Abs(Screen->MovingBlockX - x) <= 8 && Abs(Screen->MovingBlockY - y) <= 8)
          return 1;
 
-   if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) ||
-       Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12)) {
+   if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) || Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12)) {
       return 2;
    }
 
    return 0;
-}
-
-// Checks if link is against a combo and looking at it
-bool againstCombo(int loc) {
-   if (Hero->Z == 0) {
-      if (Abs((Hero->X + 8) - (ComboX(loc) + 8)) <= 8) {
-         if (Hero->Y > ComboY(loc) && Hero->Y - ComboY(loc) <= 8 && Hero->Dir == DIR_UP)
-            return true;
-         else if (Hero->Y < ComboY(loc) && ComboY(loc) - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
-      }
-      else if (Abs((Hero->Y + 8) - (ComboY(loc) + 8)) <= 8) {
-         if (Hero->X > ComboX(loc) && Hero->X - ComboX(loc) <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ComboX(loc) && ComboX(loc) - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
-      }
-   }
-   return false;
-}
-
-// Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) {
-   if (Hero->Z == 0) {
-      if (Abs((Hero->X) - (ffcX)) <= 8) {
-         if (Hero->Y > ffcY && Hero->Y - ffcY <= 8 && Hero->Dir == DIR_UP)
-            return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
-            return true;
-      }
-      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
-         if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
-            return true;
-         else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
-            return true;
-      }
-   }
-   return false;
 }
 
 // TODO not a misc function
@@ -589,7 +465,7 @@ void takeMapScreenshot() {
       if (PressControl())
          Emily::doAllMapScreenshots(DELAY);
       else
-         Emily::doMapScreenshot(Game->GetCurMap(), DELAY);
+         Emily::doMapScreenshot(Game->CurMap, DELAY);
    }
 }
 
@@ -608,22 +484,14 @@ bool wasTriggered(float trigger) {
    int triggerValue = (trigger % 1) / 1L;
 
    switch (triggerType) {
-   case TT_NO_TRIGGER_SET:
-      return false;
-   case TT_SCREEND_SET:
-      return getScreenD(triggerValue);
-   case TT_SCREEND_NOT_SET:
-      return !getScreenD(triggerValue);
-   case TT_SECRETS_TRIGGERED:
-      return Screen->State[ST_SECRET];
-   case TT_SECRETS_NOT_TRIGGERED:
-      return !Screen->State[ST_SECRET];
-   case TT_ITEM_ACQUIRED:
-      return Hero->Item[triggerValue];
-   case TT_ITEM_NOT_ACQUIRED:
-      return !Hero->Item[triggerValue];
-   default:
-      return false;
+      case TT_NO_TRIGGER_SET: return false;
+      case TT_SCREEND_SET: return getScreenD(triggerValue);
+      case TT_SCREEND_NOT_SET: return !getScreenD(triggerValue);
+      case TT_SECRETS_TRIGGERED: return Screen->State[ST_SECRET];
+      case TT_SECRETS_NOT_TRIGGERED: return !Screen->State[ST_SECRET];
+      case TT_ITEM_ACQUIRED: return Hero->Item[triggerValue];
+      case TT_ITEM_NOT_ACQUIRED: return !Hero->Item[triggerValue];
+      default: return false;
    }
 }
 
@@ -638,29 +506,39 @@ void notDuringCutsceneLink() {
 // CanWalk() that respects diagonals
 bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
    switch (dir) {
-   case DIR_LEFTUP:
-      return CanWalk(x, y, DIR_LEFT, step, full_tile) && CanWalk(x, y, DIR_UP, step, full_tile);
-      break;
-   case DIR_RIGHTUP:
-      return CanWalk(x, y, DIR_RIGHT, step, full_tile) && CanWalk(x, y, DIR_UP, step, full_tile);
-      break;
-   case DIR_LEFTDOWN:
-      return CanWalk(x, y, DIR_LEFT, step, full_tile) && CanWalk(x, y, DIR_DOWN, step, full_tile);
-      break;
-   case DIR_RIGHTDOWN:
-      return CanWalk(x, y, DIR_RIGHT, step, full_tile) && CanWalk(x, y, DIR_DOWN, step, full_tile);
-      break;
-   default:
-      return CanWalk(x, y, dir, step, full_tile);
-      break;
+      case DIR_LEFTUP: return CanWalk(x, y, DIR_LEFT, step, full_tile) && CanWalk(x, y, DIR_UP, step, full_tile); break;
+      case DIR_RIGHTUP: return CanWalk(x, y, DIR_RIGHT, step, full_tile) && CanWalk(x, y, DIR_UP, step, full_tile); break;
+      case DIR_LEFTDOWN: return CanWalk(x, y, DIR_LEFT, step, full_tile) && CanWalk(x, y, DIR_DOWN, step, full_tile); break;
+      case DIR_RIGHTDOWN: return CanWalk(x, y, DIR_RIGHT, step, full_tile) && CanWalk(x, y, DIR_DOWN, step, full_tile); break;
+      default: return CanWalk(x, y, dir, step, full_tile); break;
    }
 }
+
+// Checks if link is against a ffc and looking at it
+bool againstFFC(int ffcX, int ffcY) {
+   if (Hero->Z == 0) {
+      if (Abs((Hero->X) - (ffcX)) <= 8) {
+         if (Hero->Y >= ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
+            return true;
+         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+            return true;
+      }
+      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
+         if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
+            return true;
+         else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
+            return true;
+      }
+   }
+   return false;
+}
+
 
 void waitForTalking(ffc this) {
    until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
       if (againstFFC(this->X, this->Y))
          Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-      
+
       Waitframe();
    }
 }
@@ -682,4 +560,47 @@ void gridLockFFC(ffc this) {
       else
          this->Y += remainderY;
    }
+}
+
+void hurtDatHero(int frequency, int damage) {
+   if (gameframe % frequency == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
+      Hero->HP -= damage;
+      Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+   }
+}
+
+void hideSolidFFC(ffc this, mapdata template) {
+   this->Data = CMB_INVIS;
+   template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+   this->Flags[FFCF_SOLID] = false;
+   Quit();
+}
+
+void handleHeatOrCold(int armorLevel, int damage) {
+   while (true) {
+      int ringLevel = GetHighestLevelItemOwned(IC_RING);
+
+      if (ringLevel < 0)
+         hurtDatHero(60, damage);
+      else {
+         itemdata itemData = Game->LoadItemData(ringLevel);
+         int lvl = itemData->Level;
+
+         if (lvl < armorLevel)
+            hurtDatHero(60, damage);
+      }
+
+      Waitframe();
+   }
+}
+
+// Use this function to disable some items while in a minecart
+bool CanUseItemInMinecart(int itemid) {
+   if (itemid == ITEM_HOOKSHOT1 || itemid == ITEM_HOOKSHOT2)
+      return false;
+   return true;
+}
+
+int getHeroHitSound() {
+   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3);
 }

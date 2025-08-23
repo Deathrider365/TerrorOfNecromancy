@@ -9,11 +9,13 @@
 - - KoolAidWannaBe
 - - pig
 - - P-Tux7
+- - Sheik - Design
 
 - Advisors
-- - Moosh
-- - Dimi
-- - Emily
+- - Moosh - Scripting
+- - Dimi - Scripting, Design
+- - Emily - Scripting, engine additions and fixes
+- - Soma - Design anjd story concepts
 
 - Other Credits
 	- ZoriaRPG

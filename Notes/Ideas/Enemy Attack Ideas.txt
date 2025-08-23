@@ -4,4 +4,13 @@ get out of it
 An attack that freezes link, changes his tiles for x seconds, then when returns to normal has ice breaking sfx (if you
 have the level x candle you are immune) (think OoT ice cavern)
 
+For enemies or bosses like Lichdragon Fortissax an attack where a beam of something appears on link and will follow him 
+for so long then stop, and link needs to keep moving to avoid it
 
+ice attacks that do extra damage if you dont have the blue tunic
+
+frost spitter turret, as a turret or enemy attack
+
+like midir, an attack that is a lazer around the arena, and explodes fire after a second or so
+
+make an attack that sucks link in (like the great poe of 4swords) and slowly drains your health until you get out of it

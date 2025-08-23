@@ -1,25 +1,13 @@
 a dungeon where you raise and lower lava as opposed to water, and once lowered the lava could have
-eaten away at stuff that was weak before and now can be accessed. To deal with people being able 
-to do things they missed just make a trigger that they can only hit once they have everything 
+eaten away at stuff that was weak before and now can be accessed. To deal with people being able
+to do things they missed just make a trigger that they can only hit once they have everything
 creating a "point of safe no return"
 
 a dungeon where you dive through caverns and perhaps items that can be used during that like in OOT
 
 Have a tunnel leading to the hellish final dungeon, and have it play "The Dream of Jacob" or "Ne Natura Soronis No.1"
 
-Have a dungeon that is full of poison or something toxic, could say that it was a building or 
-something that had become corrupted by some toxin found in the ground or that it was a factory where 
-everyone inside died (and are now enemies because ya know, the necromancer) and there is a lot of toxic stuffs
-
-have a thing similar to the tower of wisdom from DtT+
-
-each of the temple of the goddesses are dungeons and upon beating the bosses of each of those 
-dungeons all of the enemies will be cleared (perhaps some of those enemies may drop a rare item 
-and if you beat the boss before obtaining it it will be unobtainable, heart rings perhaps since i 
-said i do not want any heart ring upgrades, this can be a way to have them but have them be rare) 
-and the theme of that temple will change, perhaps to "Final Fantasy II - Ancient Castle"
-
-a dungeon called dungeon of despair where there are woeful npc ghosts
+DONE - Have a dungeon that is full of poison or something toxic, could say that it was a building or something that had become corrupted by some toxin found in the ground or that it was a factory where everyone inside died (and are now enemies because ya know, the necromancer) and there is a lot of toxic stuffs
 
 Dungeon called: Ocean View Temple
 
@@ -30,50 +18,26 @@ attack one of them or step on a grave or some trigger, play OOT Ganon's tower th
 
 Dungeon similar to prismatic gate where there is a normal, fire, ice, and some fourth theme (maybe poison)
 
-A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into
-traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens.
-so you leave the triforce room only to find him in the room, he transforms into the boss)
-
-A secondsary idea to the previous one about the npc deceptively helping you through the dungeon, perhaps it can be like LTTP where
-they arent necessarily bad and they get corrupted and their dialogue gets messed up as you go through and he ends up the boss
+DONE - A dungeon where there is an npc that helps you along through the dungeon but is trying to kill you (luring you into traps when seeming like trying to help and when you get to the final room he isnt there, you grab the triforce, but nothing happens. so you leave the triforce room only to find him in the room, he transforms into the boss)
 
 A dungeon where there is a whole portion of the dungeon blocked by an impassable waterfall going through multiple floors (perhaps
 theme it like Sunken Basin) and you need to unlock level by level a thing that will block the water (maybe it will be a hydro dam
 or something). Side Idea: perhaps once all levels are blocked the pressure causes it to blow resulting in a hole somewhere from
 the force of the now rushing water causing a hole somewhere in the dungeon containing a path to a hidden area of the overworld
 
-Refer to my Region Ideas for the theme of level 1
-
-floating castle FF1 aesthetic and music
-
 Desert structure will be a dungeon called Level #: Mortuary of Corruption
 
 Level #: The Deep of Dwarrodelf will be an ancient lava filled goron city in a mountain where there is a
 notorious dragon inside
-
-Can lose dungeon map, and would need to reobtain it
 
 a dungeon that you have to drain it layer by layer and at the end of it you dive (optional) for something idk
 
 a mine that is in a town which has corrupted/destroyed the town (the monsters coming out of the town are
 why the down is decrepit)
 
-there are a bunch of tektites all over the dungeon, and a secret room in the dungeon features a deathrider character
-that is in absolute fear of them
-
-all necessary keys are in the corners of the dungeon, or a riddle where they are in the corners of something idk
-
-mystic manor glory squad
-
 Think the dungeon from DQVIII where you cannot see until you get an item (this can be the final bonus dungeon)
 
-much like the bonus dungeons from FF1 have a dungeon where each floor is styled off of each of the dungeons 
-
-a dungeon similar to the tower of winds and sunken basin where the side view 
-portion has a lot of verticality where there are paths to various floors
-
-2 sister towers, one fire and the other ice. each will have wizzrobes but there will also be elemental specific ones. Perhaps fire does DoT and
-ice slows yuou down
+DONE - 2 sister towers, one fire and the other ice. each will have wizzrobes but there will also be elemental specific ones. Perhaps fire does DoT and ice slows yuou down
 
 Have a sideview dungeon, you swap gravity and, or the dungeon
 
@@ -81,8 +45,24 @@ similar to falling sand in Super Metroid, have that in some sideview
 
 lava is the bottom floor, and you need to release water sources in a higher floor to make it so you can walk on the base floor
 
-a dungeon that is two towers and perhaps that is where you get the hook/longshot. falling could be a good hazard
-
-death glighted keep
+death blighted keep
 
 dungeon that plays lower norfair's theme called Riafron
+
+Citadel Bastion
+
+All keys are held by particular enemies (like the gerudo in OoT)
+
+boss room is small, and you can actually enter it (but not actually where the boss is) so you can see the boss before you fight it
+
+DONE - crashed ship in the south east waters of NEI similar to that of islands of zelda where you find the master sword
+
+DONE - similar to frozen enclave how you can navigate floors by wall stairs instead of always using normal stairs
+
+like nightmare from boab where you play as aemulor from the past (maybe not really a dungeon but a scripted sequence) and the boss is Haeren and the goddesses
+
+a dungeon where you have to use giant bombs to blow up pillars to bring down the top floor, revealing the boss
+
+a dungeon that is covered in webs and spider are the main enemy
+
+post game dungeon that warps link to a floating castle and make it related to path of the paladin (paladin mode only), and this castle is essentially the one from FF1

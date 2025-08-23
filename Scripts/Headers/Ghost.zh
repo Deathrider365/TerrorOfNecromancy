@@ -4,8 +4,8 @@
 
 // See ghost_zh_docs/index.html for documentation.
 
-//All User Settings
-// Standard settings -----------------------------------------------------------
+// All User Settings
+//  Standard settings -----------------------------------------------------------
 
 // Small (1x1) shadow settings
 const int GH_SHADOW_TILE = 900;
@@ -13,7 +13,7 @@ const int GH_SHADOW_CSET = 7;
 const int GH_SHADOW_FRAMES = 4;
 const int GH_SHADOW_ANIM_SPEED = 8;
 const int GH_SHADOW_TRANSLUCENT = 0; // 0 = No, 1 = Yes
-const int GH_SHADOW_FLICKER = 0; // 0 = No, 1 = Yes
+const int GH_SHADOW_FLICKER = 0;     // 0 = No, 1 = Yes
 
 // Large (2x2) shadow settings
 // If GH_LARGE_SHADOW_TILE is 0, large shadows will be disabled
@@ -25,19 +25,19 @@ const int GH_LARGE_SHADOW_MIN_WIDTH = 3;  // Enemies must be at least this wide
 const int GH_LARGE_SHADOW_MIN_HEIGHT = 3; // and this high to use large shadows
 
 // AutoGhost settings
-const int AUTOGHOST_MIN_FFC = 1; // Min: 1, Max: 32
-const int AUTOGHOST_MAX_FFC = 32; // Min: 1, Max: 32
-const int AUTOGHOST_MIN_ENEMY_ID = 20; // Min: 20, Max: 511
+const int AUTOGHOST_MIN_FFC = 1;        // Min: 1, Max: 32
+const int AUTOGHOST_MAX_FFC = 32;       // Min: 1, Max: 32
+const int AUTOGHOST_MIN_ENEMY_ID = 20;  // Min: 20, Max: 511
 const int AUTOGHOST_MAX_ENEMY_ID = 511; // Min: 20, Max: 511
 
 // Other settings
 const int GH_DRAW_OVER_THRESHOLD = 32;
 const float GH_GRAVITY = 0.16;
 const float GH_TERMINAL_VELOCITY = 3.2;
-const int GH_SPAWN_SPRITE = 22; // Min: 0, Max: 255, Default: 22
-const int GH_FAKE_Z = 0; // 0 = No, 1 = Yes
-const int __GH_FAKE_EWEAPON_Z = 0; // 0 = No, 1 = Yes
-const int GH_ENEMIES_FLICKER = 0; // 0 = No, 1 = Yes
+const int GH_SPAWN_SPRITE = 22;           // Min: 0, Max: 255, Default: 22
+const int GH_FAKE_Z = 0;                  // 0 = No, 1 = Yes
+const int __GH_FAKE_EWEAPON_Z = 0;        // 0 = No, 1 = Yes
+const int GH_ENEMIES_FLICKER = 0;         // 0 = No, 1 = Yes
 const int GH_PREFER_GHOST_ZH_SHADOWS = 1; // 0 = No, 1 = Yes
 
 // Top-left corner of a 4x4 block of blank tiles
@@ -51,8 +51,6 @@ const int GH_INVISIBLE_COMBO = 1; // Min: 1, Max: 65279
 const int __GH_ALWAYS_USE_NAME = 0;
 
 // End standard settings -------------------------------------------------------
-
-
 
 // Advanced settings -----------------------------------------------------------
 
@@ -100,7 +98,7 @@ const int __GH_DEFAULT_IMPRECISION = 2;
 // ZC version than 2.50.3 RC1.
 const int __GH_CLEAR_FFC_LINK = 0;
 
-// For ZC Versions where Animation Style (None) does not set ->Tile, enable this. 
+// For ZC Versions where Animation Style (None) does not set ->Tile, enable this.
 const int __GH_FIX_255_ANONE = 1;
 
 // Set to 1 to make ghost ffcs Ethereal so that they cannot block
@@ -128,68 +126,61 @@ const int __GH_FIX_EWM_THROW = 1;
 // Set this so it doesn't conflict with other scripts. Legal values are 0-15.
 const int __GHI_NPC_DATA = 15;
 
+const int __GH_AUTOGHOST_ATTRIBUTE_COMBO = 10;
+const int __GH_AUTOGHOST_ATTRIBUTE_SCRIPT = 11;
+
 // eweapon->Misc[] indices
 // These must be unique numbers between 0 and 15.
-const int __EWI_FLAGS          = 15; // Every index but this one can be used by non-ghost.zh EWeapons
-const int __EWI_ID             = 3;
-const int __EWI_XPOS           = 4;
-const int __EWI_YPOS           = 5;
-const int __EWI_WORK           = 6;
-const int __EWI_WORK_2         = 7; // Only used by a few movement types
-const int __EWI_MOVEMENT       = 8;
-const int __EWI_MOVEMENT_ARG   = 9;
+const int __EWI_FLAGS = 15; // Every index but this one can be used by non-ghost.zh EWeapons
+const int __EWI_ID = 3;
+const int __EWI_XPOS = 4;
+const int __EWI_YPOS = 5;
+const int __EWI_WORK = 6;
+const int __EWI_WORK_2 = 7; // Only used by a few movement types
+const int __EWI_MOVEMENT = 8;
+const int __EWI_MOVEMENT_ARG = 9;
 const int __EWI_MOVEMENT_ARG_2 = 10;
-const int __EWI_LIFESPAN       = 11;
-const int __EWI_LIFESPAN_ARG   = 12;
-const int __EWI_ON_DEATH       = 13;
-const int __EWI_ON_DEATH_ARG   = 14;
+const int __EWI_LIFESPAN = 11;
+const int __EWI_LIFESPAN_ARG = 12;
+const int __EWI_ON_DEATH = 13;
+const int __EWI_ON_DEATH_ARG = 14;
 
 // These are only used by dummy EWeapons;
 // they can use the same values as __EWI_XPOS and __EWI_YPOS
-const int __EWI_DUMMY_SOUND    = 2;
-const int __EWI_DUMMY_STEP     = 4;
-const int __EWI_DUMMY_SPRITE   = 5;
+const int __EWI_DUMMY_SOUND = 2;
+const int __EWI_DUMMY_STEP = 4;
+const int __EWI_DUMMY_SPRITE = 5;
 
 // Returns true if the given combo should be considered a pit.
-bool __IsPit(int combo)
-{
-    return IsPit(combo); // std.zh implementation by default
+bool __IsPit(int combo) {
+   return IsPit(combo); // std.zh implementation by default
 }
 
 // Returns true if enemies are visible on screens with the
 // "All Enemies Are Invisible" flag enabled
-bool __HaveAmulet()
-{
-    if ( Link->Item[I_AMULET1] )
-    {
-	return true;
-    }
-    if ( Link->Item[I_AMULET2] )
-    {
-	return true;
-    }
-    return false;
+bool __HaveAmulet() {
+   if (Link->Item[I_AMULET1]) {
+      return true;
+   }
+   if (Link->Item[I_AMULET2]) {
+      return true;
+   }
+   return false;
 }
 
-//Used to determine if a weapon hit a platform in sideview.
-bool ghost2__OnSidePlatform(int x, int y, int xOff, int yOff, int h, int w) 
-{
-	for(int i = 0; i <= (w-1); ++i)
-	{
-		if( Screen->isSolid( (x + xOff + i), (y + yOff) + h ) )
-		{
-			if( (Screen->Flags[SF_ROOMTYPE]&4) )
-			{
-				return true;
-			}
-		}
-           
-	}
-	return false;
+// Used to determine if a weapon hit a platform in sideview.
+bool ghost2__OnSidePlatform(int x, int y, int xOff, int yOff, int h, int w) {
+   for (int i = 0; i <= (w - 1); ++i) {
+      if (Screen->isSolid((x + xOff + i), (y + yOff) + h)) {
+         if ((Screen->Flag[SFL_SIDEVIEW])) {
+            return true;
+         }
+      }
+   }
+   return false;
 }
 
 // End advanced settings -------------------------------------------------------
-
 
 #include "ghost_zh/2.8/ghost2_common.zh"
 #include "ghost_zh/2.8/ghost2_deprecated.zh"
@@ -206,6 +197,3 @@ bool ghost2__OnSidePlatform(int x, int y, int xOff, int yOff, int h, int w)
 #include "ghost_zh/2.8/ghost2_update.zh"
 
 #include "ghost_zh/2.8/ghost2_scripts.zs"
-
-
-
