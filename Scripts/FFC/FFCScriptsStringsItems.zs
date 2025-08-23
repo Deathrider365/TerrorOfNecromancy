@@ -730,7 +730,7 @@ ffc script CeloElder {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (!getScreenD(initialScreenD)) {
+         if (!getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
             Screen->Message(initialMessage);
             Waitframe();
             setScreenD(initialScreenD, true);
@@ -738,17 +738,13 @@ ffc script CeloElder {
             Screen->Message(messageWaiting);
          } else if (quickknifeScreen->State[ST_SECRET] && !entranceToGoddessFaithfulScreen->State[ST_SECRET]) {
             Screen->Message(messageTriggering);
-
             Waitframe();
             entranceToGoddessFaithfulScreen->State[ST_SECRET] = true;
             Audio->PlaySound(SFX_SECRET);
-         } else if (entranceToGoddessFaithfulScreen->State[ST_SECRET] && !getScreenD(secondaryScreenD)) {
+         } else if (entranceToGoddessFaithfulScreen->State[ST_SECRET]) {
             Screen->Message(messageDoneAll);
             Waitframe();
-
-            setScreenD(secondaryScreenD, true);
          }
-
          Waitframe();
       }
    }
@@ -1202,26 +1198,58 @@ ffc script GettingGoddessJewels {
 @InitDHelp2("third message")
 ffc script GoronForemanDialogLvl6 {
    // clang-format on
-
    void run(int message, int secondMessage, int thirdMessage) {
       loop() {
          waitForTalking(this);
-
          Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
+         mapdata mapData = Game->LoadMapData(107, 0x48);
 
-         if (getScreenD(0))
+         if (mapData->State[ST_SECRET] == true)
             Screen->Message(thirdMessage);
          else if (getScreenD(1)) {
-            Screen->Message(secondMessage);
+            int savedGorons = getRemaingingGorons();
+
+            Trace(secondMessage + savedGorons);
+
+            Screen->Message(secondMessage + savedGorons);
          }
          else {
             Screen->Message(message);
             setScreenD(1, true);
          }
 
-         Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
       }
+   }
+
+   int getRemaingingGorons() {
+      int goronsSaved = 0;
+
+      if (getScreenD(67, 0x13, 0)) {
+         setScreenD(0, true);
+         ++goronsSaved;
+      }
+      if (getScreenD(67, 0x44, 1)) {
+         setScreenD(1, true);
+         ++goronsSaved;
+      }
+      if (getScreenD(68, 0x41, 2)) {
+         setScreenD(2, true);
+         ++goronsSaved;
+      }
+      if (getScreenD(68, 0x14, 3)) {
+         setScreenD(3, true);
+         ++goronsSaved;
+      }
+      if (getScreenD(69, 0x12, 4)) {
+         setScreenD(4, true);
+         ++goronsSaved;
+      }
+      if (getScreenD(69, 0x75, 5)) {
+         setScreenD(5, true);
+         ++goronsSaved;
+      }
+
+      return goronsSaved;
    }
 }

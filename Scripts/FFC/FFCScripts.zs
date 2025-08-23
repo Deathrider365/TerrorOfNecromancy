@@ -509,12 +509,15 @@ ffc script TriggerSavedGoronsLvl6 {
 ffc script SetScreenDIfSecretsInOtherRoom {
    // clang-format on
    void run(int map, int screen, int screenD) {
+      if (getScreenD(screenD))
+         Quit();
+
       mapdata mapData = Game->LoadMapData(map, screen);
 
       until(getScreenD(screenD)) {
-         if (mapData->State[ST_SECRET]) {
+         if (mapData->State[ST_SECRET])
             setScreenD(screenD, true);
-         }
+            
          Waitframe();
       }
    }

@@ -1322,6 +1322,7 @@ ffc script GraveKeeperSequence {
 @Author("Deathrider365")
 ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD0 = 0;
+   CONFIG screenD1 = 1;
    CONFIG screenD3 = 3;
    CONFIG screenD4 = 4;
 
@@ -1338,19 +1339,17 @@ ffc script GoddessFaithfulZeldaScenes {
          if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
             zeldaIntroDialogue(this);
          else if (mapDataBeatGamoth->State[ST_SECRET] && !mapDataBombRoom->State[ST_SECRET])
-            zeldaGetGiantBombsDialogue(this);
+            zeldaGetGiantBombsDialogue();
          else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
-            zeldaGivesMagicOcarina(this);
+            zeldaGivesMagicOcarina();
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
-            zeldaInformsLinkAboutCarulemAndDuratu(this);
+            zeldaInformsLinkAboutCarulemAndDuratu();
          else {
             const int zeldaIDontKnowYouMessage = 448;
 
             waitForTalking(this);
             Input->Button[CB_SIGNPOST] = false;
-            Game->Suspend[susptSCREENDRAW] = true;
             Screen->Message(zeldaIDontKnowYouMessage);
-            Game->Suspend[susptSCREENDRAW] = false;
 
             Waitframe();
          }
@@ -1363,53 +1362,36 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 395;
       const int zeldaPostIntroMessage = 390;
 
-      if (!Screen->State[ST_SECRET]) {
-         Game->Suspend[susptSCREENDRAW] = true;
+      if (!getScreenD(screenD1)) {
+         setScreenD(screenD1, 1);
          Screen->Message(zeldaIntroMessage);
-         Game->Suspend[susptSCREENDRAW] = false;
-
          Waitframe();
-
-         Screen->State[ST_SECRET] = true;
-         Screen->TriggerSecrets();
          Audio->PlaySound(SFX_SECRET);
       }
       else
          Screen->Message(zeldaPostIntroMessage);
-
-      Game->Suspend[susptSCREENDRAW] = false;
    }
 
-   void zeldaGetGiantBombsDialogue(ffc this) {
+   void zeldaGetGiantBombsDialogue() {
       const int zeldaIntroMessage = 404;
-      const int zeldaPostIntroMessage = 562; //TODO this seems wrong
+      const int zeldaPostIntroMessage = 562;
 
       if (!getScreenD(screenD0)) {
          setScreenD(screenD0, 1);
-
-         Game->Suspend[susptSCREENDRAW] = true;
          Screen->Message(zeldaIntroMessage);
-         Game->Suspend[susptSCREENDRAW] = false;
-
          Waitframe();
       }
       else
          Screen->Message(zeldaPostIntroMessage);
-
-      Game->Suspend[susptSCREENDRAW] = false;
    }
 
-   void zeldaGivesMagicOcarina(ffc this) {
+   void zeldaGivesMagicOcarina() {
       const int zeldaIntroMessage = 441;
       const int zeldaPostIntroMessage = 443;
 
       if (!getScreenD(screenD3)) {
          setScreenD(screenD3, 1);
-
-         Game->Suspend[susptSCREENDRAW] = true;
          Screen->Message(zeldaIntroMessage);
-         Game->Suspend[susptSCREENDRAW] = false;
-
          Waitframe();
 
          itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
@@ -1417,17 +1399,11 @@ ffc script GoddessFaithfulZeldaScenes {
       }
       else
          Screen->Message(zeldaPostIntroMessage);
-
-      Game->Suspend[susptSCREENDRAW] = false;
    }
 
-   void zeldaInformsLinkAboutCarulemAndDuratu(ffc this) {
+   void zeldaInformsLinkAboutCarulemAndDuratu() {
       const int zeldaIntroMessage = 521;
-
-      Game->Suspend[susptSCREENDRAW] = true;
       Screen->Message(zeldaIntroMessage);
-      Game->Suspend[susptSCREENDRAW] = false;
-
       Waitframe();
    }
 }
