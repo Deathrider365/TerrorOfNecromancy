@@ -934,20 +934,25 @@ ffc script Shop {
 
          int price = basePrice;
 
-         int wealthMedalId = Game->CurrentItemID(IC_WEALTHMEDAL);
+         if (!price == 0) {
+            int wealthMedalId = Game->CurrentItemID(IC_WEALTHMEDAL);
 
-         if (wealthMedalId > -1) {
-            itemdata wealthMedal = Game->LoadItemData(wealthMedalId);
+            if (wealthMedalId > -1) {
+               itemdata wealthMedal = Game->LoadItemData(wealthMedalId);
 
-            if (wealthMedal->Flags[0])
-               price *= wealthMedal->Attributes[0] / 100;
-            else
-               price += wealthMedal->Attributes[0];
+               if (wealthMedal->Flags[0])
+                  price *= wealthMedal->Attributes[0] / 100;
+               else
+                  price += wealthMedal->Attributes[0];
+            }
+
+            price = Max(1, Ceiling(price));
          }
 
-         price = Max(1, Ceiling(price));
-
-         sprintf(priceBuf, "%d", price);
+         if (price == 0)
+            sprintf(priceBuf, "Free");
+         else
+            sprintf(priceBuf, "%d", price);
 
          Screen->FastTile(7, this->X, this->Y, itemTile, itemCSet, OP_OPAQUE);
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
