@@ -641,7 +641,6 @@ ffc script GetItemOnScreenDHiddenBefore {
    }
 }
 
-
 @Author("Deathrider365")
 ffc script PhonogramMan {
    // clang-format on
@@ -1104,7 +1103,10 @@ ffc script InfoShop {
       sprintf(priceBuf, "%d", price);
 
       while (true) {
-         Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         if (getScreenD(this->ID))
+            Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Read", OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         else
+            Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
@@ -1113,7 +1115,9 @@ ffc script InfoShop {
                Hero->Action = LA_NONE;
                Hero->Stun = 15;
 
-               if (Game->Counter[CR_MONEY] >= price) {
+               if (getScreenD(this->ID))
+                  Screen->Message(boughtString);
+               else if (Game->Counter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
                   Input->Button[CB_SIGNPOST] = false;
 
@@ -1126,11 +1130,12 @@ ffc script InfoShop {
                   Hero->Stun = 15;
 
                   Screen->Message(boughtString);
+                  setScreenD(this->ID, 1);
                }
-               else {
-                  Input->Button[CB_SIGNPOST] = false;
+               else
                   Screen->Message(notBoughtMessage);
-               }
+
+               Input->Button[CB_SIGNPOST] = false;
             }
          }
          Waitframe();
