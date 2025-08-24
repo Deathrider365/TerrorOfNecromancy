@@ -447,16 +447,21 @@ ffc script GetItemOnScreenD {
 }
 
 // clang-format off
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("stringPreSecret"),
+@InitDHelp1("String that plays before secrets are triggered"),
+@InitD2("stringGettingItem"),
+@InitDHelp2("String for when you are getting the item"),
+@InitD3("stringGottenItem"),
+@InitDHelp3("String for when you already got the item"),
+@InitD4("screenD"),
+@InitDHelp4("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)"),
+
 @Author("Deathrider365")
 ffc script GetItemOnSecret {
    // clang-format on
-   // start Instructions
-   // D0: itemIdToReceive      - Item you will receive
-   // D1: stringPreSecret      - String that plays before secrets are triggered
-   // D2: stringGettingItem    - String for when you are getting the item
-   // D3: stringGottenItem     - String for when you are receiving the item
-   // D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
-   // end
    void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
@@ -632,6 +637,54 @@ ffc script GetItemOnScreenDHiddenBefore {
             }
          }
          Waitframe();
+      }
+   }
+}
+
+
+@Author("Deathrider365")
+ffc script PhonogramMan {
+   // clang-format on
+   void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
+      while (true) {
+         if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGottenItem);
+            Waitframe();
+         }
+         else {
+            until(Screen->State[ST_SECRET]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+                  if (Screen->State[ST_SECRET])
+                     break;
+
+                  if (againstFFC(this->X, this->Y))
+                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+                  Waitframe();
+               }
+
+               if (Screen->State[ST_SECRET])
+                  break;
+
+               Input->Button[CB_SIGNPOST] = false;
+               Screen->Message(stringPreSecret);
+               Waitframe();
+            }
+
+            waitForTalking(this);
+
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(stringGettingItem);
+            Waitframe();
+
+            itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(screenD, true);
+
+            Waitframe();
+         }
       }
    }
 }
