@@ -860,6 +860,142 @@ ffc script PalusElder {
    }
 }
 
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("itemIdRequired"),
+@InitDHelp1("A required item that can either kill the script or make the script wait until you have it"),
+@InitD2("requiredItemKills"),
+@InitDHelp2("0 - required item does not kill. 1 - Kill once it detects you have the item. 2 - Kill after getting the item"),
+@InitD3("gettingItemString"),
+@InitDHelp3("String for when you are getting the item"),
+@InitD4("gottenItemString"),
+@InitDHelp4("String for when you are receiving the item"),
+@InitD5("layer"),
+@InitDHelp5("Layer to handle solidity combo drawing for the FFC"),
+@InitD6("screenD"),
+@InitDHelp6("ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])"),
+@InitD7("doesntHaveItemString"),
+@InitDHelp7("String for when you do not have the required item")
+ffc script CarulemZora {
+   // clang-format on
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD, int doesntHaveItemString) { // TODO refactor
+      mapdata template = Game->LoadTempScreen(layer);
+
+      int prevData = this->Data;
+      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
+
+      //TODO check if the boss of level 7 was defeated, then this guy with give the charm
+      // mapdata gamothRoom = Game->LoadMapData(75, 0x22);
+
+      while (true) {
+         this->Data = CMB_INVIS;
+         template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+
+         if (itemIdRequired) {
+            if (requiredItemKills > 0) {
+               if (requiredItemKills == 1 && Hero->Item[itemIdRequired] && getScreenD(screenD)) {
+                  hideSolidFFC(this, template);
+               }
+               if (requiredItemKills == 2 && getScreenD(screenD)) {
+                  hideSolidFFC(this, template);
+               }
+            }
+            else {
+               this->Data = prevData;
+               template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+               int doesntHaveItemStringString = Floor(doesntHaveItemString);
+               int hideMe = (doesntHaveItemString % 1) / 1L;
+
+               while (!Hero->Item[itemIdRequired]) {
+                  if (hideMe) {
+                     this->Data = CMB_INVIS;
+                     template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+                     this->Flags[FFCF_SOLID] = false;
+                     Quit();
+                  }
+                  else {
+                     waitForTalking(this);
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(doesntHaveItemStringString);
+                  }
+
+                  Waitframe();
+               }
+            }
+         }
+
+         this->Data = prevData;
+         template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (Hero->Item[itemIdToReceive] || getScreenD(screenD)) {
+            Screen->Message(gottenItemString);
+            Waitframe();
+         }
+         else {
+            Screen->Message(gettingItemString);
+            Waitframe();
+
+            itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(screenD, true);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script EbrianZora {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int initialScreenD, int itemId) {
+      this->Flags[FFCF_SOLID] = false;
+      int thisData = this->Data;
+      this->Data = CMB_INVIS;
+
+      if (!Hero->Item[ITEM_MYSTERIOUS_ZORA_CHARM])
+         Quit();
+
+      int count = 240;
+
+      until(count)
+         Waitframe();
+
+      loop() {
+         for (int i = 0; i < 180; ++i) {
+            this->Data = CMB_INVIS;
+
+            if (i < 90 && i % 15)
+               this->Data = thisData;
+
+            if (i > 90 && i % 3)
+               this->Data = thisData;
+
+            Waitframe();
+         }
+
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+            CreateItemAt(itemId, Hero->X, Hero->Y)->Pickup = IP_HOLDUP;
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD))
+            Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
@@ -968,10 +1104,7 @@ ffc script Shop {
       char32 priceBuf[6];
 
       loop() {
-         // if ((itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
-         //    Quit();
-         // }
-         if (boughtOnce && getScreenD(itemId)) { // (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE)) {
+         if (boughtOnce && getScreenD(itemId)) {
             this->Data = noStockCombo;
 
             while (Hero->Item[itemId] || getScreenD(itemId))
