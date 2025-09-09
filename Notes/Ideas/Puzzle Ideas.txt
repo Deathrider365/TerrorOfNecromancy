@@ -25,3 +25,5 @@ a situation where the compass beeps but the key is in a pot and not the present 
 unmarked blocks block puzzle
 
 rotating beam of light from forewarned
+
+dusty caverns push the block to erase the floor to find the solution

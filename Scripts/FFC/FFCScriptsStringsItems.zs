@@ -1157,12 +1157,6 @@ ffc script Shop {
                         Screen->TriggerSecrets();
                         break;
                      }
-                     // case ITEM_POTION2: {
-                     //    if (Hero->Item[30] == true)
-                     //       Screen->Message(726);
-                     //    else
-                     //       Screen->Message(725);
-                     // }
                   }
                }
                else

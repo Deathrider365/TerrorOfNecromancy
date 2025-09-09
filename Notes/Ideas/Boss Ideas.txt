@@ -138,5 +138,6 @@ A boss who's stats increase by the amount of enemies on screen, say a wizzrobe t
 
 eternal banishment from forewarned style boss
 
+dark link fight that mimicks you by using your inputs
 
-
+helmrock king
