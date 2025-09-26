@@ -100,7 +100,7 @@ global script GlobalScripts {
          Waitframe();
       }
    }
-   
+
    void fall(){
       //Pit warp constants
       CONFIG WARPS_LINK = 1;
@@ -337,6 +337,12 @@ global script GlobalScripts {
                case 0x34: return 000100b;
                case 0x44: return 011000b;
                case 0x46: return 011100b;
+            }
+            break;
+         case 77:
+            switch (screen) {
+               case 0x42: return 000100b;
+               case 0x62: return 000100b;
             }
             break;
       }
