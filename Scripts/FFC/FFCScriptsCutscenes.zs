@@ -1363,7 +1363,7 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaPostIntroMessage = 390;
 
       if (!getScreenD(screenD1)) {
-         setScreenD(screenD1, 1);
+         setScreenD(screenD1, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
          Audio->PlaySound(SFX_SECRET);
@@ -1377,7 +1377,7 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaPostIntroMessage = 562;
 
       if (!getScreenD(screenD0)) {
-         setScreenD(screenD0, 1);
+         setScreenD(screenD0, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
       }
@@ -1390,7 +1390,7 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaPostIntroMessage = 443;
 
       if (!getScreenD(screenD3)) {
-         setScreenD(screenD3, 1);
+         setScreenD(screenD3, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
 

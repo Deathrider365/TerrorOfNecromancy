@@ -212,7 +212,7 @@ ffc script Shutter {
 
       if (perm) {
          if (type == OPEN_BY_ENEMY)
-            setScreenD(screenDForPermEnemies, 1);
+            setScreenD(screenDForPermEnemies, true);
          else
             Screen->State[ST_SECRET] = true;
       }

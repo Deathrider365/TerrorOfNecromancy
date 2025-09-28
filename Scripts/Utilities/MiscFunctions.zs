@@ -541,6 +541,8 @@ void waitForTalking(ffc this) {
 
       Waitframe();
    }
+   
+   Input->Button[CB_SIGNPOST] = false;
 }
 
 void gridLockFFC(ffc this) {
