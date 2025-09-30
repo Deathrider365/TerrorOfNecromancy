@@ -899,6 +899,38 @@ ffc script CarulemZora {
 
 // clang-format off
 @Author("Deathrider365")
+ffc script CarulemPrince {
+   // clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int initialScreenD) {
+      int prevData = this->Data;
+      mapdata lvl7BossRoom = Game->LoadMapData(132, 0x6B);
+
+      loop () {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (lvl7BossRoom->State[ST_SECRET]) {
+            if (!getScreenD(initialScreenD + 1)) {
+               Screen->Message(tertiaryMessage);
+               setScreenD(initialScreenD + 1, true);
+            } else if (getScreenD(initialScreenD + 1))
+               Screen->Message(fourthMessage);
+         } else {
+            if (!getScreenD(initialScreenD)) {
+               Screen->Message(initialMessage);
+               setScreenD(initialScreenD, true);
+            } else if (getScreenD(initialScreenD) && !lvl7BossRoom->State[ST_SECRET]) {
+               Screen->Message(secondaryMessage);
+            }
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
 ffc script EbrianZora {
 // clang-format on
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int initialScreenD, int itemId) {

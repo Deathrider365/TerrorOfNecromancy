@@ -34,6 +34,9 @@ global script GlobalScripts {
 
       int ocarinaIndex = 1;
 
+      int flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+      int breathCounter = flipperPower;
+
       while (true) {
          gameframe = (gameframe + 1) % 3600;
 
@@ -50,10 +53,19 @@ global script GlobalScripts {
          setupTransparentLayers();
          Waitdraw();
 
-         //What to do when you fall in a hole
-         //Place in global after Waitdraw
-         //Should not run if the subscreen is open
          fall();
+
+         unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
+            flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+
+            if (Hero->Action == LA_DIVING || Hero->Action == LA_SIDESWIM)
+               --breathCounter;
+            else
+               breathCounter = flipperPower;
+
+            if (breathCounter <= 0)
+               hurtDatHero(60, 2);
+         }
 
          Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
          Screen->DrawOriginTarget = Hero;
@@ -63,12 +75,10 @@ global script GlobalScripts {
          CONFIG GREY_BUBBLE_JINX_COMBO = 6896;
          CONFIG RED_BUBBLE_JINX_COMBO = 6897;
 
-         if (Hero->SwordJinx < 0) {
+         if (Hero->SwordJinx < 0)
             Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
-         else if (Hero->SwordJinx) {
+         else if (Hero->SwordJinx)
             Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
 
          Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT; // restore.
 
