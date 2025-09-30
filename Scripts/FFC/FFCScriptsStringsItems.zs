@@ -906,7 +906,7 @@ ffc script EbrianZora {
       int thisData = this->Data;
       this->Data = CMB_INVIS;
 
-      until (Hero->Item[ITEM_MYSTERIOUS_ZORA_CHARM])
+      until (Hero->Item[ITEM_MYSTERIOUS_ZORA_CHARM] || getScreenD(initialScreenD + 2))
          Waitframe();
 
       int count = 240;
@@ -937,16 +937,33 @@ ffc script EbrianZora {
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
-            setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !Hero->Item[ITEM_JEWEL_OF_MARRE]) {
-            Screen->Message(secondaryMessage);
-         } else if (Hero->Item[ITEM_JEWEL_OF_MARRE] && !getScreenD(initialScreenD + 1)) {
-            Screen->Message(tertiaryMessage);
             Waitframe();
             CreateItemAt(itemId, Hero->X, Hero->Y)->Pickup = IP_HOLDUP;
+            setScreenD(initialScreenD, true);
+         } else if (getScreenD(initialScreenD) && !getScreenD(initialScreenD + 1)) {
+            Screen->Message(secondaryMessage);
             setScreenD(initialScreenD + 1, true);
-         } else if (getScreenD(initialScreenD + 1)) {
+         } else if (getScreenD(initialScreenD + 1) && !Hero->Item[ITEM_JEWEL_OF_MARRE]) {
+            Screen->Message(tertiaryMessage);
+         } else if (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
             Screen->Message(fourthMessage);
+            Waitframe();
+            
+            for (int i = 0; i < 180; ++i) {
+               this->Data = CMB_INVIS;
+
+               if (i > 120 && (i % 3 == 0))
+                  this->Data = thisData;
+               else if (i < 120 && (i % 5 == 0))
+                  this->Data = thisData;
+               else if (i < 60 && (i % 10 == 0))
+                  this->Data = thisData;
+
+               Waitframe();
+            }
+            this->Flags[FFCF_SOLID] = false;
+            this->Data = CMB_INVIS;
+            setScreenD(initialScreenD + 2, true);
          }
 
          Waitframe();

@@ -365,7 +365,7 @@ it as a god. Link learns some of the truth within Ebria, he then goes to the ent
 Upon opening it he enters the Zora Temple of Gamoth.
 
 <<Level 5: Temple of Gamoth>>
-~Ancient Beast  ---Gamoth---~
+~Ancient Devourer ---Gamoth---~
 
    Upon defeating Gamoth, with the hookshot and raft Link returns to Zelda. Zelda tells him the he should talk to the engineer behind her as he has valuable information. The engineer mentions his brother
 in Auri village is working on an explosive strong enough to blast through the wall and the snow on Duratu. The only issue is how to return to the northern side of the island. They cannot access Auri Desert
@@ -478,9 +478,31 @@ ability to breath underwater indefinitely. The son bids Link farewell, and good 
 
 Now with the flippers, Link can go practically everywhere on Interitus, but first he should venture to the Carulem vault.
 
-   Entering the vault Link finds a pedestal at the center, however the pedestal is vacant of any jewel, it would appear it was stolen. Link does notice a hole in the wall behind the pedestal which takes him into
-some underwater caves. He eventually comes across and injured Zora. Talking to the Zora, Link learns that he was the guard of the prized Jewel of Marre, and was attacked by enemy zoras that stole the jewel.
-The only thing he knows is that they were praising the great Levaithan and said the jewel was his. and with that the guard passes on.
+   With the elder saved should Link talk with the villagers of Carulem village, he would find one plagued with dreams about a zora in the ruined village of Ebria calling to him to have an adventurer deliver a
+charm that the zora has had since childhood to her. Link talks to him, he explains the situation and Link heads to Ebria. Upon arriving to one of the houses there, the apparition of the zora appears. Link learns
+that this phantom zora was once the elder of the long dead Ebrian Tribe, Laruto. Laruto explains that she is the ancestor of the Carulem zora, and was pleading with him to have one of courage deliver his charm
+because with the uprising of the necromancer, an ancient blackguard named Ignav from her time could be revived. During the Calamity of Vita, there was a third party aside from Aemulor and the military of Vita 
+and the goddesses; Ignav and his fleet of pirates. Unlike typical pirates, these were magically enhanced, intelligent marauders. They utilized magical wands and lenses of obscurity, they came to Vita because
+Ignav heard of a jewel with the power to control the seas. He came to Vita seeking the Jewel of Marre, which was the primodial possession of the Ebrian zoras, giving them their abilities to live in nearly any
+aquatic biomeand the ability to be under water indefinitely. When Ignav announced his presence by dominating the Gelido region of Vita, Laruto knew she had to hide the Jewel of Marre,
+she sent her son and his family to the opposide side of the island towards the Archipelago of Carulem where they found the other tribe of Zoras. Luckily for them, they were friendly and felt no ill will towards
+their Ebrian brothers and sisters. Being zoras, they also felt reverence for he Jewel of Marre, so they agreed to build a stronghold for the Jewel, to prevent any chance of Ignav from pillaging it. Where the Jewel
+was now safe, and far from Ignav's grasp, unfortunately Ignav would lay siege on the lands of Ebria, leveling it all to the ground. To make matters worse, Ignav with his unprecedented strength with magic, conjured
+a beast from times long before the Calamity; Gamoth the devourer. Gamoth made Ebria it's home, releasing its toxins on the land. The Ebria region was then eventually known as Venenom, after the venemous air that
+pollutes the area.
+
+   At the end of the conversation with Laruto, she explains that the charm that her descendent had is actually half of the key needed to enter the vault holding the Jewel of Marre. She repairs it with the other half
+that she posses, granting Link access to the authentic Jewel of Marre. Should Link return to her with the jewel, she will express her gratitude and vanish at rest.
+
+   Link heads back to Carulem, enters the vault on one of the small islands in the archipelago. Inside the vault he find a long hallway, almost like a church, with an empty pedestal with a locked door behind it. The
+repaired key works. Going through Link needs to repeatedly dive deeper and deeper into the ancient structure. At the end he find a modest room with a small pedestal, atop rests the Jewel of Marre.
+
+
+
+
+
+
+
 
    From here Link can go anywhere he would have needed to swim to. One place he can go to in the NWI Wasteland. He cannot do much here as he needs magic to progress eastward of the wasteland.
 
