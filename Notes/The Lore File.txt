@@ -468,9 +468,9 @@ elder. Talking with the elder he finds him raving incoherently, eventually he no
 in a deep chamber. Confronting the elder, he informs like that it is his turn to inherit the great power of the Natavora (swim devourer) and there is nothing Link can do to stop him. There is an essence of fear to
 his voice, as if he doesn't want the power he has apparently inherited. He then transforms into a giant fish. The Great Fish Natavora, is an ancient beast that takes the form of a fish, and feasts on the denizens
 of the ocean. As the ages pass, it's spirit moves from being to being, morphing them into the likeness of the great fish. During the Calamity, Ignav conjured it up as commanded it to seek out the Jewel of Marre.
-Upon Ignav's defeat, the beast was left to its own devices, holding up in the Carulem region. Now, with the Necromancer's rise on the island, it appeared that the spirit of this great beast arose, and chose the elder 
-of the Carulem Zoras. Just before losing control of himself, the elder tells Link to not tell his son what happened to him, and that the he is now the elder. Also, he tells Link to tell his son that he loves him, 
-farewell. He then fully becomes the Navatora and they battle. Upon defeat the spirit of the Navatora can be seen leaving the elder and vanishing, just before the elder vanishes, a key falls to the bottom of the room. 
+Upon Ignav's defeat, the beast was left to its own devices, holding up in the Carulem region. Now, with the Necromancer's rise on the island, it appeared that the spirit of this great beast arose, and chose the elder
+of the Carulem Zoras. Just before losing control of himself, the elder tells Link to not tell his son what happened to him, and that the he is now the elder. Also, he tells Link to tell his son that he loves him,
+farewell. He then fully becomes the Navatora and they battle. Upon defeat the spirit of the Navatora can be seen leaving the elder and vanishing, just before the elder vanishes, a key falls to the bottom of the room.
 Without much explanation Link grabs the key and returns to the elder's son.
 
    Returning to the elder's son, Link tells him that his father was gone and that he is now the elder. The son is saddened, but can't be affected too much by his father's passing as he now needs to start being a leader.
@@ -480,13 +480,13 @@ ability to breath underwater indefinitely. The son bids Link farewell, and good 
    With the elder saved should Link talk with the villagers of Carulem village, he would find one plagued with dreams about a zora in the ruined village of Ebria calling to him to have an adventurer deliver a
 charm that the zora has had since childhood to her. Link talks to him, he explains the situation and Link heads to Ebria. Upon arriving to one of the houses there, the apparition of the zora appears. Link learns
 that this phantom zora was once the elder of the long dead Ebrian Tribe, Laruto. Laruto explains that she is the ancestor of the Carulem zora, and was pleading with him to have one of courage deliver his charm
-because with the uprising of the necromancer, an ancient blackguard named Ignav from her time could be revived. During the Calamity of Vita, there was a third party aside from Aemulor and the military of Vita 
+because with the uprising of the necromancer, an ancient blackguard named Ignav from her time could be revived. During the Calamity of Vita, there was a third party aside from Aemulor and the military of Vita
 and the goddesses; Ignav and his fleet of pirates. Unlike typical pirates, these were magically enhanced, intelligent marauders. They utilized magical wands and lenses of obscurity, they came to Vita because
 Ignav heard of a jewel with the power to control the seas. He came to Vita seeking the Jewel of Marre, which was the primodial possession of the Ebrian zoras, giving them their abilities to live in nearly any
-aquatic biomeand the ability to be under water indefinitely. When Ignav announced his presence by dominating the Gelido region of Vita, Laruto knew she had to hide the Jewel of Marre, she sent her son and his family 
-to the opposide side of the island towards the Archipelago of Carulem where they found the other tribe of Zoras. Luckily for them, they were friendly and felt no ill will towards their Ebrian brothers and sisters. 
-Being zoras, they also felt reverence for he Jewel of Marre, so they agreed to build a stronghold for the Jewel, to prevent any chance of Ignav from pillaging it. Where the Jewel was now safe, and far from Ignav's grasp, 
-unfortunately Ignav would lay siege on the lands of Ebria, leveling it all to the ground. To make matters worse, Ignav with his unprecedented strength with magic, conjured a beast from times long before the Calamity; 
+aquatic biomeand the ability to be under water indefinitely. When Ignav announced his presence by dominating the Gelido region of Vita, Laruto knew she had to hide the Jewel of Marre, she sent her son and his family
+to the opposide side of the island towards the Archipelago of Carulem where they found the other tribe of Zoras. Luckily for them, they were friendly and felt no ill will towards their Ebrian brothers and sisters.
+Being zoras, they also felt reverence for he Jewel of Marre, so they agreed to build a stronghold for the Jewel, to prevent any chance of Ignav from pillaging it. Where the Jewel was now safe, and far from Ignav's grasp,
+unfortunately Ignav would lay siege on the lands of Ebria, leveling it all to the ground. To make matters worse, Ignav with his unprecedented strength with magic, conjured a beast from times long before the Calamity;
 Gamoth the devourer. Gamoth made Ebria it's home, releasing its toxins on the land. The Ebria region was then eventually known as Venenom, after the venemous air that pollutes the area.
 
    At the end of the conversation with Laruto, she explains that the charm that her descendent had is actually half of the key needed to enter the vault holding the Jewel of Marre. She repairs it with the other half
@@ -496,19 +496,15 @@ that she posses, granting Link access to the authentic Jewel of Marre. Should Li
 repaired key works. Going through Link needs to repeatedly dive deeper and deeper into the ancient structure. At the end he find a modest room with a small pedestal, atop rests the Jewel of Marre.
 
 Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
-- (NWI) Nayru's Cleansing Temple ~Accessible~
 - (NWI) Venture Slightly into NWI Wasteland ~Accessible~
 - (NWI) Northern Mt. Summus (entrance to the depths of Summus Depths) ~Accessible~
-- (NWI) Secluded Tower ~Inaccessible~
 - (NEI) Sunken Ruins off the coast of Pacilux ~Inaccessible~
 - (NEI) Seaside Outpost ~Inaccessible~
 - (NEI) Hylian Wreak ~Accessible~
-- (SWI) Din's Cleansing Temple ~Accessible~
 - (SWI) Exiled Zora's Dwelling ~Accessible~
 - (SEI) Leviathan's Lair ~Accessible~
-- (SEI) Farore's Cleansing Temple ~Inaccessible~
 - (SEI) Ghost Ships of Gelido ~Accessible~
-- (SEI) Leel 7 - Marauder's Cove
+- (SEI) Level 7 - Marauder's Cove
 - (ToH) Forbidden Spire
 
 
