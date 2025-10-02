@@ -505,7 +505,7 @@ Now with the flippers, Link can go practically everywhere on Interitus. These ar
 - (SEI) Leviathan's Lair ~Accessible~
 - (SEI) Ghost Ships of Gelido ~Accessible~
 - (SEI) Level 7 - Marauder's Cove
-- (ToH) Forbidden Spire
+- (IoH) Forbidden Spire
 
 
 

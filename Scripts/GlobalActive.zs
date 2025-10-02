@@ -34,8 +34,13 @@ global script GlobalScripts {
 
       int ocarinaIndex = 1;
 
-      int flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
-      int breathCounter = flipperPower;
+      int flipperPower;
+      int breathCounter;
+
+      if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
+         flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+         breathCounter = flipperPower;
+      }
 
       while (true) {
          gameframe = (gameframe + 1) % 3600;
@@ -55,16 +60,18 @@ global script GlobalScripts {
 
          fall();
 
-         unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
-            flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+         if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
+            unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
+               flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
 
-            if (Hero->Action == LA_DIVING || Hero->Action == LA_SIDESWIM)
-               --breathCounter;
-            else
-               breathCounter = flipperPower;
+               if (Hero->Action == LA_DIVING || Hero->Action == LA_SIDESWIM)
+                  --breathCounter;
+               else
+                  breathCounter = flipperPower;
 
-            if (breathCounter <= 0)
-               hurtDatHero(60, 2);
+               if (breathCounter <= 0)
+                  hurtDatHero(60, 2);
+            }
          }
 
          Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
