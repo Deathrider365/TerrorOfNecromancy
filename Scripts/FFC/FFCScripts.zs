@@ -150,6 +150,21 @@ ffc script ContinuePoint {
             }
             break;
          }
+         case 2: {
+            Screen->Pattern = PATTERN_SIDES;
+
+            switch (round) {
+               case 0: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2}); break;
+               case 1: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3}); break;
+               case 2: setEnemies({ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3, ENEMY_ZOMBIE_LV3}); break;
+               case 5:
+                  playBossTheme(arenaListNum);
+                  setEnemies({ENEMY_ZOMBIE_LV3});
+                  shouldReturn = true;
+                  break;
+            }
+            break;
+         }
       }
 
       Screen->SpawnScreenEnemies();
@@ -170,6 +185,7 @@ ffc script ContinuePoint {
       switch (arenaListNum) {
          case 0: Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("Tales of Graces - Sword Drawing.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Tales of Graces - Sword Drawing.ogg", 0); break;
       }
    }
 
@@ -177,6 +193,7 @@ ffc script ContinuePoint {
       switch (arenaListNum) {
          case 0: Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("Otosan - Lord Rat Laureate Boss Battle.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Otosan - Lord Rat Laureate Boss Battle.ogg", 0); break;
       }
    }
 }
@@ -517,7 +534,7 @@ ffc script SetScreenDIfSecretsInOtherRoom {
       until(getScreenD(screenD)) {
          if (mapData->State[ST_SECRET])
             setScreenD(screenD, true);
-            
+
          Waitframe();
       }
    }

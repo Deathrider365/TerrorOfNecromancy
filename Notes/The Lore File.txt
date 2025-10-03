@@ -496,23 +496,15 @@ that she posses, granting Link access to the authentic Jewel of Marre. Should Li
 repaired key works. Going through Link needs to repeatedly dive deeper and deeper into the ancient structure. At the end he find a modest room with a small pedestal, atop rests the Jewel of Marre.
 
 Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
-- (NWI) Venture Slightly into NWI Wasteland ~Accessible~
-- (NWI) Northern Mt. Summus (entrance to the depths of Summus Depths) ~Accessible~
-- (NEI) Sunken Ruins off the coast of Pacilux ~Inaccessible~
-- (NEI) Seaside Outpost ~Inaccessible~
-- (NEI) Hylian Wreak ~Accessible~
-- (SWI) Exiled Zora's Dwelling ~Accessible~
 - (SEI) Leviathan's Lair ~Accessible~
 - (SEI) Ghost Ships of Gelido ~Accessible~
 - (SEI) Level 7 - Marauder's Cove
 - (IoH) Forbidden Spire
 
+   With the flippers, Link is able to access the eastern coast of NEI, of where he will find the wreck of his ship when he first arrived on Interitus. There is a crack in the hull that he can exploit with a powder keg.
+Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck. Upon entering the wreck, Link will find that the ship is barely traversable, but should he find himself to the lowest deck he will find his
+missing Master Sword, guarded behind som violent monsters.
 
-
-
-
-
-   From here Link can go anywhere he would have needed to swim to. One place he can go to in the NWI Wasteland. He cannot do much here as he needs magic to progress eastward of the wasteland.
 
 
 ~~~Pacilux~~~
@@ -537,8 +529,6 @@ to venture within. It is recommended Link wait until after level 9 before ventur
 the triforce of haeren, so unrestrained and a complete lack of care of what he did that the depth of the darkness he unleashed was unparalleled.
 ~~~Pacilux~~~
 
-
-//TODO continue from here
 
    Should Link return to Zelda, he will find her acting oddly. She thanks him for helping the zoras of Carulem, but she is dismissive towards Link, almost annoyed that he is there. She then retires to her room
 and locks the door. Speaking with those present in the room Link learns that she has not been herself. She has been less concerned with helping the peoples of Interitus like she was before, and more on not doing
