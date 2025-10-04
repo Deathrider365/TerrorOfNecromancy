@@ -64,11 +64,15 @@ Battle Arena 4: southern edge of SWI                             - Marksman's Bo
 
 Hero's Sword obtained from Zelda
 
----Demo 8---
-
-~~~Post Game~~~
-
+---Version 1.0.0---
 Optional Dungeon 7: Chapel of Rumination:                        - Light Arrow (4)
+- Main story fleshed out (cutscenes) and can beat the game
+- Some optional content, no post game
+
+--Version 2.0.0---
+- Post game
+- All Side content planned
+
 
 
 Unaccounted for items:
