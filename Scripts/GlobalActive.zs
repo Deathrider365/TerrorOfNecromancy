@@ -126,29 +126,25 @@ global script GlobalScripts {
          Waitframes(15);
          Screen->Message(773);
          Waitframe();
-         item it = CreateItemAt(ITEM_FARORES_WIND, Hero->X, Hero->Y);
-         it->Pickup = IP_HOLDUP;
+         CreateItemAt(ITEM_FARORES_WIND, Hero->X, Hero->Y);
       }
       if (Game->Counter[CR_TRIFORCE_OF_POWER] == 4 && !Hero->Item[ITEM_DINS_FIRE]) {
          Waitframes(15);
          Screen->Message(774);
          Waitframe();
-         item it = CreateItemAt(ITEM_DINS_FIRE, Hero->X, Hero->Y);
-         it->Pickup = IP_HOLDUP;
+         CreateItemAt(ITEM_DINS_FIRE, Hero->X, Hero->Y);
       }
       if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 4 && !Hero->Item[ITEM_NAYRUS_LOVE]) {
          Waitframes(15);
          Screen->Message(775);
          Waitframe();
-         item it = CreateItemAt(ITEM_NAYRUS_LOVE, Hero->X, Hero->Y);
-         it->Pickup = IP_HOLDUP;
+         CreateItemAt(ITEM_NAYRUS_LOVE, Hero->X, Hero->Y);
       }
       if (Game->Counter[CR_TRIFORCE_OF_DEATH] == 4 && !Hero->Item[ITEM_DEATHS_AURA]) {
          Waitframes(15);
          Screen->Message(776);
          Waitframe();
-         item it = CreateItemAt(ITEM_DEATHS_AURA, Hero->X, Hero->Y);
-         it->Pickup = IP_HOLDUP;
+         CreateItemAt(ITEM_DEATHS_AURA, Hero->X, Hero->Y);
       }
    }
 
