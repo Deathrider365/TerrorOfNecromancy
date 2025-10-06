@@ -126,6 +126,40 @@ item script HeartPieces {
 
 // clang-format off
 @Author ("Deathrider365")
+item script GoddessJewels {
+   //clang-format on
+
+	void run(int counterId, int itemId, int string) { //TODO make this work and add a pickup animation
+      if (Game->Counter[counterId] + 1 == 4) {
+         switch(counterId) {
+            case CR_TRIFORCE_OF_COURAGE:
+               Screen->Message(string);
+               Waitframe();
+               CreateItemAt(itemId, Hero->X, Hero->Y);
+               // it->Pickup = IP_HOLDUP;
+               break;
+            case CR_TRIFORCE_OF_POWER:
+               Screen->Message(string);
+               Waitframe();
+               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+               break;
+            case CR_TRIFORCE_OF_WISDOM:
+               Screen->Message(string);
+               Waitframe();
+               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+               break;
+            case CR_TRIFORCE_OF_DEATH:
+               Screen->Message(string);
+               Waitframe();
+               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
+               break;
+         }
+      }
+	}
+}
+
+// clang-format off
+@Author ("Deathrider365")
 item script MagicContainerExpansions {
    //clang-format on
 

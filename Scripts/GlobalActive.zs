@@ -211,8 +211,9 @@ global script GlobalScripts {
          case 0:
             switch (screen) {
                case 0x22: return 011000b;
+               case 0x16:
+               case 0x26: return 000100b;
             }
-
          case 4:
             switch (screen) {
                case 0x26: return 011000b;
