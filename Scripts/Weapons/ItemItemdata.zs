@@ -126,36 +126,33 @@ item script HeartPieces {
 
 // clang-format off
 @Author ("Deathrider365")
-item script GoddessJewels {
+item script TriforcePickup {
    //clang-format on
 
-	void run(int counterId, int itemId, int string) { //TODO make this work and add a pickup animation
-      if (Game->Counter[counterId] + 1 == 4) {
-         switch(counterId) {
-            case CR_TRIFORCE_OF_COURAGE:
-               Screen->Message(string);
-               Waitframe();
-               CreateItemAt(itemId, Hero->X, Hero->Y);
-               // it->Pickup = IP_HOLDUP;
-               break;
-            case CR_TRIFORCE_OF_POWER:
-               Screen->Message(string);
-               Waitframe();
-               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-               break;
-            case CR_TRIFORCE_OF_WISDOM:
-               Screen->Message(string);
-               Waitframe();
-               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-               break;
-            case CR_TRIFORCE_OF_DEATH:
-               Screen->Message(string);
-               Waitframe();
-               itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-               break;
-         }
+   //TODO pickup cutscene with music
+
+   CONFIG BASE_STRING = 777;
+
+	void run(int triforceType, int counterId) {
+      switch(counterId) {
+         case CR_TRIFORCE_OF_COURAGE:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_POWER:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_WISDOM:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_DEATH:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
       }
-	}
+   }
 }
 
 // clang-format off
