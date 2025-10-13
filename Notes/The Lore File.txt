@@ -502,10 +502,16 @@ Now with the flippers, Link can go practically everywhere on Interitus. These ar
 - (IoH) Forbidden Spire
 
    With the flippers, Link is able to access the eastern coast of NEI, of where he will find the wreck of his ship when he first arrived on Interitus. There is a crack in the hull that he can exploit with a powder keg.
-Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck. Upon entering the wreck, Link will find that the ship is barely traversable, but should he find himself to the lowest deck he will find his
-missing Master Sword, guarded behind som violent monsters.
+Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck. Upon entering the wreck, Link will find that the ship is barely intact, but should he find himself to what was the captain's quarters he
+will find a whrilpool that takes him to an undersea cave. Inside rests his missing Master Sword.
 
+   Throughout Link's exploration with his flippers, he could find himself in an unsuspecting cave on the southern edge of SWI. Upon swimming into the water, he finds himself in a very different, almost alien looking
+place.
 
+<Mysterious Reef: ????>
+~ ------~
+   Link stumbled upon an untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
+study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign.
 
 ~~~Pacilux~~~
    but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
