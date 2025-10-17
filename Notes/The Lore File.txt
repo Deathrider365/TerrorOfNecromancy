@@ -513,6 +513,11 @@ place.
    Link stumbled upon an untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
 study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign.
 
+   With Link's swimming around he can find, amongt the many whirlpools in SEI, one that takes him into the undercroft of what appears some kind of soldier's tower.
+
+<Minidungeon 8: Seaside Outpost>
+~Major of Darkness --- ---~
+
 ~~~Pacilux~~~
    but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
 
@@ -612,8 +617,6 @@ overgrown bat, but it is clear that it has consumed a lot of darkness and fester
 given it's own darkness appears to be identical to that imbuing the cane, but it will send him into a fury, fueled by the influx of dark energy. Ideally Link would not use the cane. Upon defeat Link will receive
 
 
-<Minidungeon 8: Seaside Outpost>
-~Major of Darkness --- ---~
 
 
 <<Level 9: Castle Interitus>

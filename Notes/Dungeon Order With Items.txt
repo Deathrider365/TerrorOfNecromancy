@@ -39,8 +39,8 @@ Purchaseable                                                     - Incendiary Ca
 
 (07) Level 7: Palace of Waves                                    - Zora's Flippers (1)
 Battle Arena 3: Exiled Zora's Dwelling		 	                    - Hurricane Spin
-(19) Minidungeon 6: Hylian Wreck			                          - Master Sword (3)
-(20) Minidungeon 7: Seaside Outpost (soma's dungeon)	           - Red Mail (3)
+(19) Minidungeon 6: Hylian Wreck			                          - Master Sword (3)    TECHNICALLY OPTIONAL
+(20) Minidungeon 7: Seaside Outpost (soma's dungeon)	           - Red Mail (3)        TECHNICALLY OPTIONAL
 (21) Optional Dungeon 2: Depths of The Flooded Forge	           - Smith's Hammer (2)
 
 (08) Level 8: Marauder's Cove				                          - Mage's Wand (1)
