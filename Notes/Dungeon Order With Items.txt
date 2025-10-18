@@ -19,13 +19,13 @@ Battle Arena 1: Raccoon Hollow			                          - Landscaper's Bracel
 
 (03) Level 3: Ancient Shrine				                          - Cultist's Hammer (1)
 Battle Arena 2: Pirate Hideout			                          - Soldier's Bow (2)
-(15) Minidungeon 3: Molten Flooded Forge		                    - Sword of Conflator
+(15) Optional Dungeon 1: Molten Flooded Forge		              - Sword of Conflator
 Blue Mail
 
 ---Demo 5---
 
 (04) Level 4: Pillaged Prison			                             - Lens of Truth
-(16) Minidungeon 4: Sweltering Iron Mine		                    - Iron Arrows (2)
+(16) Minidungeon 3: Sweltering Iron Mine		                    - Iron Arrows (2)
 
 (05) Level 5: Temple of Gamoth			                          - Hookshot (1)
 (17) Minidungeon 5: The Summus Pass:			                    - Merchant's Wallet (1)
@@ -41,12 +41,12 @@ Purchaseable                                                     - Incendiary Ca
 Battle Arena 3: Exiled Zora's Dwelling		 	                    - Hurricane Spin
 (19) Minidungeon 6: Hylian Wreck			                          - Master Sword (3)    TECHNICALLY OPTIONAL
 (20) Minidungeon 7: Seaside Outpost (soma's dungeon)	           - Red Mail (3)        TECHNICALLY OPTIONAL
-(21) Optional Dungeon 2: Depths of The Flooded Forge	           - Smith's Hammer (2)
 
 (08) Level 8: Marauder's Cove				                          - Mage's Wand (1)
-(22) Optional Dungeon 3: Summus Pass Depths                      - Hell's Candle (4)
+(21) Optional Dungeon 2: Depths of The Flooded Forge	           - Smith's Hammer (2)
 
 (09) Level 9: Castle Interitus				                       - Longshot (2)
+(22) Optional Dungeon 3: Summus Pass Depths                      - Hell's Candle (4)
 (23) Optional Dungeon 4: Forbidden Spire (IoH)		              - Mithril Arrow (3)
 
 ---Demo 7---
