@@ -729,7 +729,7 @@ ffc script EscapedEgentemCultist {
 @Author("Deathrider365")
 ffc script ConflatosElder {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD, int requiredItemForTertiary) {
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
