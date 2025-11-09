@@ -28,8 +28,8 @@ Blue Mail
 (16) Minidungeon 3: Sweltering Iron Mine		                    - Iron Arrows (2)
 
 (05) Level 5: Temple of Gamoth			                          - Hookshot (1)
-(17) Minidungeon 5: The Summus Pass:			                    - Merchant's Wallet (1)
-(18) Optional Dungeon 1: Sealed Abyss	   	                    - Displelled Cane (1), Spectral Cane (2)
+(17) Minidungeon 4: The Summus Pass:			                    - Merchant's Wallet (1)
+(18) Optional Dungeon 2: Sealed Abyss	   	                    - Displelled Cane (1), Spectral Cane (2)
 
 (06) Level 6: Geothermal Plant                                   - Goron Gauntlet (2)
 
@@ -39,28 +39,28 @@ Purchaseable                                                     - Incendiary Ca
 
 (07) Level 7: Palace of Waves                                    - Zora's Flippers (1)
 Battle Arena 3: Exiled Zora's Dwelling		 	                    - Hurricane Spin
-(19) Minidungeon 6: Hylian Wreck			                          - Master Sword (3)    TECHNICALLY OPTIONAL
-(20) Minidungeon 7: Seaside Outpost (soma's dungeon)	           - Red Mail (3)        TECHNICALLY OPTIONAL
+(19) Optional Dungeon 3: Hylian Wreck			                    - Master Sword (3)
+(20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)        - Red Mail (3)
 
 (08) Level 8: Marauder's Cove				                          - Mage's Wand (1)
-(21) Optional Dungeon 2: Depths of The Flooded Forge	           - Smith's Hammer (2)
+(21) Optional Dungeon 5: Depths of The Flooded Forge	           - Smith's Hammer (2)
 
 (09) Level 9: Castle Interitus				                       - Longshot (2)
-(22) Optional Dungeon 3: Summus Pass Depths                      - Hell's Candle (4)
-(23) Optional Dungeon 4: Forbidden Spire (IoH)		              - Mithril Arrow (3)
+(22) Optional Dungeon 6: Summus Pass Depths                      - Hell's Candle (4)
+(23) Optional Dungeon 7: Forbidden Spire (IoH)		              - Mithril Arrow (3)
 
 ---Demo 7---
 
 Shop: Thief's Wallet (2)
 (10) Level 10: Mt. Caldum					                          - Gale Boomerang (3)
-(24) Minidungeon 8: Secluded Tower       		                    - Giant's Bracer (3)
+(24) Optional Dungeon 8: Secluded Tower                          - Giant's Bracer (3)
 Battle Arena 4: southern edge of SWI                             - Marksman's Bow (3)
 
 (11) Level 11: Mortuary of Darkness			                       - Mirror Shield (3)
-(25) Optional Dungeon 5: Origin of Death (Pacilux)               - Portal Sphere
+(25) Optional Dungeon 9: Origin of Death (Pacilux)               - Portal Sphere
 
 (12) Level 12: Towers of Dichotomy				                    - Sorcerer's Wand (2)
-(26) Optional Dungeon 6: Banished Sanctuary			              - Diver's Flippers (2)
+(26) Optional Dungeon 10: Banished Sanctuary			              - Diver's Flippers (2)
 
 Hero's Sword obtained from Zelda
 

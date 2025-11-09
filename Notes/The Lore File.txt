@@ -495,28 +495,81 @@ that she posses, granting Link access to the authentic Jewel of Marre. Should Li
    Link heads back to Carulem, enters the vault on one of the small islands in the archipelago. Inside the vault he find a long hallway, almost like a church, with an empty pedestal and a locked door behind it. The
 repaired key works. Going through Link needs to repeatedly dive deeper and deeper into the ancient structure. At the end he find a modest room with a small pedestal, atop rests the Jewel of Marre.
 
-Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
-- (SEI) Leviathan's Lair ~Accessible~
-- (SEI) Ghost Ships of Gelido ~Accessible~
-- (SEI) Level 7 - Marauder's Cove
-- (IoH) Forbidden Spire
+                                    Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
+                                    - (SEI) Leviathan's Lair ~Accessible~
+                                    - (SEI) Ghost Ships of Gelido ~Accessible~
+                                    - (SEI) Level 7 - Marauder's Cove
+                                    - (IoH) Forbidden Spire
 
    With the flippers, Link is able to access the eastern coast of NEI, of where he will find the wreck of his ship when he first arrived on Interitus. There is a crack in the hull that he can exploit with a powder keg.
-Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck. Upon entering the wreck, Link will find that the ship is barely intact, but should he find himself to what was the captain's quarters he
+Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck.
+
+<Optional Dungeon 3: Hylian Wreck>
+   Upon entering the wreck, Link will find that the ship is barely intact, but should he find himself to what was the captain's quarters he
 will find a whrilpool that takes him to an undersea cave. Inside rests his missing Master Sword.
 
    Throughout Link's exploration with his flippers, he could find himself in an unsuspecting cave on the southern edge of SWI. Upon swimming into the water, he finds himself in a very different, almost alien looking
 place.
 
 <Mysterious Reef: ????>
-~ ------~
-   Link stumbled upon an untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
+~Mysterious Sea Serpent ---Serris---~
+   Link stumbled upon a seemingly untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
 study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign.
 
-   With Link's swimming around he can find, amongt the many whirlpools in SEI, one that takes him into the undercroft of what appears some kind of soldier's tower.
+   With Link's swimming around he can find, amongst the many whirlpools in SEI, one that takes him into the undercroft of what appears some kind of soldier's tower.
 
-<Minidungeon 8: Seaside Outpost>
-~Major of Darkness --- ---~
+<Optional Dungeon 4: Seaside Outpost>
+   A fortress erected by the Vita kingdom of old to defend the northern side of the island from Ignav's tyranny now lies in ruin, not even the Necromancer found value in it due to how dilapidated it is. The lower
+floors are flooded beyond traversal, and getting to the top is not worth much. All Link will find here is an old set of armor that has special properties to withstand extreme heat, as well as another legionnaire.
+
+<Abyssal Depths>
+~Mythical Sea Serpent ---Leviathan---~
+   Continuing with what Link can find while swimming around is the lair of the Leviathan. Should Link enter his whirlpool, he will drop into a deep undersea cave where he will eventually find the Leviathan in his
+main chamber. Link and the ancient beast exchange words then conduct battle, as the sea serpent isn't to happy to see that his "victim" once again survived. Should Link be successful, the Leviathan will be slain, and
+as reward, Link will obtain a second Leviathan scale as well as a shard of an ancient tablet.
+
+   Another curious thing that Link can find when venturing around with the flippers is the eastern range of Mt. Duratu which is much more brutal than the western range given it is more wild and far less inhabited.
+Within the mountain, he will encounter a surprising amount of pirates and other magical foes. Regardless, in some of the extremely hot caves Link will encounter some gorons that will support him with tips and
+maybe even some helpful upgrades. In addition to hto caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds some wrecks of ancient ships
+from when the pirates of old first arrived on Vita as a part of Ignav's fleet. Should Link venture into any of those shipwreaks he will encounter the revived fallen pirates. In addition to the pirates, he will
+find hordes of Wizzrobes. Wizzrobes, being known for their innate ability to sling magic blasts as well as control elements such as wind and fire, at some point joined with the pirates as they themselves learned
+new ways of magic. Link will find numerous structures amoung the shoals, a number of towers with one fairly large fort in the center of the moon shaped shoal. These structures were the stronghold and watch towers
+that Ignav erected when he first invaded Vita. When he faced the substantial forces of Aemulor, he knew it wouldnt be easy, so he created the fort as his protective home base. Being on the southeastern coast of
+the island with the massive Mt. Duratu separating him from the rest of the island, made it easy to fend off attackers. The watch towers are little more than spires to keep an eye on the surroundings, whereas the
+fort was meant to keep tresspassers out and is heavily fortified. Today though, the structure is all but waterlogged and abandonened. This portion of the island is more or less uninhabited, even before the
+uprising of the Necromancer since Duratu as an environment is extremely unforgiving, so not many make it to shoals aside from the courageous adventurers. To the north of the shoals are the southeastern coasts of
+Interitus. Unlike the northeastern side, this area of sea is treacherous.
+
+   So Link enters the fort that once was the primary fortification of the most feared pirated around.
+
+<<Level 8: Marauder's Cove>>
+~Dreaded Blackguard Conquerer ---Ignav---~
+
+   Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
+vacant of activity, but upon getting the Magic Wand the stronghold seems to awaken. Magical devices start turning on and defending the place, almost like a booby trap once Link took the wand. With the wand
+Link can venture downward into the stronghold where he will have to get past all of the traps that were put in place. It would appear that before his impending doom, Ignav must have rigged his fort with
+various traps to keep his treasure to himself, and it wasnt gold or valuables but rather his power.
+   Eventually Link finds himself at Ignav's chamber. Ignav is what appears to be a pirate but with robes not unlike a Wizzrobe. Initially, Ignav expresses his respect for Link, being able to even make it to
+his stronghold, let alone his chamber. Ignav is not arrogant, nor ignorant, he fully respects Link for his strength and determination and treats him nearly as an equal. He explains that he simply wants the
+Jewel of Marre, as well as to challenge the Necromancer which he referrs to as his Magmicus, his "Great Enemy". He explains the true value of the Jewel of Marre, that it would allow him to control the seas
+and augment his magical prowess. He even tells like that should he desire the ability to traverse the waves, if he had the jewel he would be able to breath under water and swim as much as he would like.
+To Link's surprise he even goes as far as to suggest that Link should join his crew, find the jewel, and conquer the Necromancer together. But then he reveals a bit of history between him and his quartermaster
+Quickknife. During their hunting of the Jewel of Marre, Quickknife did his own investigating without telling Ignav as he wanted the jewel for himself, and was aiming to commit mutiny on Ignav. Quickknife even
+at one point learned that the jewel was not in Celo, but rather in the Carulem Archipelago, but let Ignav believe it was still in Celo. Ignav expresses his anger from that and says to Link that he would not
+want to risk another of power attempting to overthrow him. He then declares that Link is too much of a risk to his grander plans and conducts battle with him.
+
+   Upon Ignav's defeat to Link, he makes Link promise him that he will defeat his Magmicus. He knows the danger of Aemulor and despite the fact that he is a selfish pirate, he acknowledges that a world where
+Aemulor is ruler is not a world at all, but rather a wasteland driven by an insatiable hunger for power, hatred of the goddesses, and even hatred for himself. With that Link acquires his triforce shard that
+was housed in the stronghold and makes his way north west.
+
+
+   Now with the wand, link has access to the northeastern side of NWI
+
+
+
+
+
+
 
 ~~~Pacilux~~~
    but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.
@@ -541,48 +594,6 @@ the triforce of haeren, so unrestrained and a complete lack of care of what he d
 ~~~Pacilux~~~
 
 
-   Should Link return to Zelda, he will find her acting oddly. She thanks him for helping the zoras of Carulem, but she is dismissive towards Link, almost annoyed that he is there. She then retires to her room
-and locks the door. Speaking with those present in the room Link learns that she has not been herself. She has been less concerned with helping the peoples of Interitus like she was before, and more on not doing
-anything. They are all very confused and wonder what is going on. What is unknown to everyone that was involved with her arrival on the island, is that before she was recovered by the Goddess Faithful, the
-Necromancer got to her first. The Necromancer, or rather Aemulor within, seeped some of his dark energy within her. Over time as the Necromancer has grown in strength and as a result Aemulor, she has been falling
-more under his control. At the point she is losing herself, she may have already forgotten much about she and Link's history, but now her fighting spirit for what is good is fading. Aemulor knew if he could control
-her, she could be a valable asset for getting to Link and controlling him. Also, her becoming the leader of the Goddess Faithful was a massive bonus, since he now has knowledge of what one of his biggest threats
-is doing.
-
-
-   Upon entering Southeast Interitus, he has to first traverse the eastern range of Duratu which is much more brutal than the western range given it is more wild and far less inhabited. Within the mountain, he will
-encounter a surprising amount of pirates and other magical foes. Regardless, in some of the warm caves Link will encounter some gorons that will support him with tips and maybe even some helpful upgrades. In
-addition to warm caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds some wrecks of ancient ships from when the pirates of old
-first arrived on Vita as a part of Ignav's fleet. Should Link venture into any of those shipwreaks he will encounter the revived fallen pirates. In addition to the pirates, he will find hordes of Wizzrobes.
-Wizzrobes, being known for their innate ability to sling magic blasts as well as control elements such as wind and fire, at some point joined with the pirates as they themselves learned new ways of magic.
-Link will find numerous structures amoung the shoals, a number of towers with one fairly large fort in the center of the moon shaped shoal. These structures were the stronghold and watch towers that Ignav erected
-when he first invaded Vita. When he faced the substantial forces of Aemulor, he knew it wouldnt be easy, so he created the fort as his protective home base. Being on the southeastern coast of the island with the
-massive Mt. Duratu separating him from the rest of the island, made it easy to fend off attackers. The watch towers are little more than spires to keep an eye on the surroundings, whereas the fort was meant to keep
-tresspassers out and is heavily fortified. Today though, the structure is all but waterlogged and abandonened. This portion of the island is more or less uninhabited, even before the uprising of the Necromancer
-since Duratu as an environment is extremely unforgiving, so not many make it to shoals aside from the courageous adventurers. To the north of the shoals are the southeastern coasts of Interitus. Unlike the
-northeastern side, this area of sea is treacherous.
-
-   So Link enters the fort that once was the primary fortification of the most feared pirated around.
-
-<<Level 8: Marauder's Cove>>
-~Dreaded Blackguard Conquerer ---Ignav---~
-
-   Entering the stronghold, Link will encounter more pirates, much tougher than the ones he encountered at the claimed Necromancer prison, as well as plenty of Wizzrobes. Immediately the stronghold appears
-vacant of activity, but upon getting the Magic Wand the stronghold seems to awaken. Magical devices start turning on and defending the place, almost like a booby trap once Link took the wand. With the wand
-Link can venture downward into the stronghold where he will have to get past all of the traps that were put in place. It would appear that before his impending doom, Ignav must have rigged his fort with
-various traps to keep his treasure to himself, and it wasnt gold or valuables but rather his power.
-   Eventually Link finds himself at Ignav's chamber. Ignav is what appears to be a pirate but with robes not unlike a Wizzrobe. Initially, Ignav expresses his respect for Link, being able to even make it to
-his stronghold, let alone his chamber. Ignav is not arrogant, nor ignorant, he fully respects Link for his strength and determination and treats him nearly as an equal. He explains that he simply wants the
-Jewel of Marre, as well as to challenge the Necromancer which he referrs to as his Magmicus, his "Great Enemy". He explains the true value of the Jewel of Marre, that it would allow him to control the seas
-and augment his magical prowess. He even tells like that should he desire the ability to traverse the waves, if he had the jewel he would be able to breath under water and swim as much as he would like.
-To Link's surprise he even goes as far as to suggest that Link should join his crew, find the jewel, and conquer the Necromancer together. But then he reveals a bit of history between him and his quartermaster
-Quickknife. During their hunting of the Jewel of Marre, Quickknife did his own investigating without telling Ignav as he wanted the jewel for himself, and was aiming to commit mutiny on Ignav. Quickknife even
-at one point learned that the jewel was not in Celo, but rather in the Carulem Archipelago, but let Ignav believe it was still in Celo. Ignav expresses his anger from that and says to Link that he would not
-want to risk another of power attempting to overthrow him. He then declares that Link is too much of a risk to his grander plans and conducts battle with him.
-
-   Upon Ignav's defeat to Link, he makes Link promise him that he will defeat his Magmicus. He knows the danger of Aemulor and despite the fact that he is a selfish pirate, he acknowledges that a world where
-Aemulor is ruler is not a world at all, but rather a wasteland driven by an insatiable hunger for power, hatred of the goddesses, and even hatred for himself. With that Link acquires his triforce shard that
-was housed in the stronghold and makes his way north west.
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TODO FINISH THIS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 

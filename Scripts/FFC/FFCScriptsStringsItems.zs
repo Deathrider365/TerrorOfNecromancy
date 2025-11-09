@@ -729,7 +729,7 @@ ffc script EscapedEgentemCultist {
 @Author("Deathrider365")
 ffc script ConflatosElder {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
@@ -758,7 +758,7 @@ ffc script ConflatosElder {
             forgeDepthsDoor->State[ST_SECRET] = true;
             setScreenD(initialScreenD + 1, true);
          } else if (getScreenD(initialScreenD + 1)) {
-            Screen->Message(tertiaryMessage + 2);
+            Screen->Message(fourthMessage);
             setScreenD(initialScreenD + 2, true);
          } else {
             Screen->Message(tertiaryMessage + 3);
@@ -980,7 +980,7 @@ ffc script EbrianZora {
          } else if (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
             Screen->Message(fourthMessage);
             Waitframe();
-            
+
             for (int i = 0; i < 180; ++i) {
                this->Data = CMB_INVIS;
 
