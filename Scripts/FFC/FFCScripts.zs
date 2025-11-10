@@ -372,6 +372,7 @@ ffc script PlayEnhancedMusic {
       switch (musicChoice) {
          case 0: Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("OoT - Potion Shop.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Metroid Prime 3 - Bryyo.ogg", 0); break;
       }
    }
 }

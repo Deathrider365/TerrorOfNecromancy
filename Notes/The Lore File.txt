@@ -495,12 +495,6 @@ that she posses, granting Link access to the authentic Jewel of Marre. Should Li
    Link heads back to Carulem, enters the vault on one of the small islands in the archipelago. Inside the vault he find a long hallway, almost like a church, with an empty pedestal and a locked door behind it. The
 repaired key works. Going through Link needs to repeatedly dive deeper and deeper into the ancient structure. At the end he find a modest room with a small pedestal, atop rests the Jewel of Marre.
 
-                                    Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
-                                    - (SEI) Leviathan's Lair ~Accessible~
-                                    - (SEI) Ghost Ships of Gelido ~Accessible~
-                                    - (SEI) Level 7 - Marauder's Cove
-                                    - (IoH) Forbidden Spire
-
    With the flippers, Link is able to access the eastern coast of NEI, of where he will find the wreck of his ship when he first arrived on Interitus. There is a crack in the hull that he can exploit with a powder keg.
 Doing so will crumble a lot of the ship but reveal a whirlpool into the wreck.
 
@@ -530,15 +524,18 @@ as reward, Link will obtain a second Leviathan scale as well as a shard of an an
 
    Another curious thing that Link can find when venturing around with the flippers is the eastern range of Mt. Duratu which is much more brutal than the western range given it is more wild and far less inhabited.
 Within the mountain, he will encounter a surprising amount of pirates and other magical foes. Regardless, in some of the extremely hot caves Link will encounter some gorons that will support him with tips and
-maybe even some helpful upgrades. In addition to hto caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds some wrecks of ancient ships
+maybe even some helpful upgrades. In addition to hot caves he does find freezing ones. Eventually Link will find himself at sea level and into the shallows of Gelido Shoal. He finds some wrecks of ancient ships
 from when the pirates of old first arrived on Vita as a part of Ignav's fleet. Should Link venture into any of those shipwreaks he will encounter the revived fallen pirates. In addition to the pirates, he will
 find hordes of Wizzrobes. Wizzrobes, being known for their innate ability to sling magic blasts as well as control elements such as wind and fire, at some point joined with the pirates as they themselves learned
-new ways of magic. Link will find numerous structures amoung the shoals, a number of towers with one fairly large fort in the center of the moon shaped shoal. These structures were the stronghold and watch towers
-that Ignav erected when he first invaded Vita. When he faced the substantial forces of Aemulor, he knew it wouldnt be easy, so he created the fort as his protective home base. Being on the southeastern coast of
-the island with the massive Mt. Duratu separating him from the rest of the island, made it easy to fend off attackers. The watch towers are little more than spires to keep an eye on the surroundings, whereas the
-fort was meant to keep tresspassers out and is heavily fortified. Today though, the structure is all but waterlogged and abandonened. This portion of the island is more or less uninhabited, even before the
-uprising of the Necromancer since Duratu as an environment is extremely unforgiving, so not many make it to shoals aside from the courageous adventurers. To the north of the shoals are the southeastern coasts of
-Interitus. Unlike the northeastern side, this area of sea is treacherous.
+new ways of magic. Link will find numerous structures amoung the shoals, namely three towers towers with one fairly large fort in the center of the moon shaped shoal. These structures were the stronghold and watch
+towers that Ignav erected when he first invaded Vita. When he faced the substantial forces of Aemulor, he knew it wouldnt be easy, so he created the fort as his protective home base as well as magic imbued towers.
+You see, these are not ordinary watch towers.
+
+To even breach the main keep, one would need to light a brazier on the top of all 3 towers, and the towers were made with special magics to prevent intruders from getting
+to the braziers. The special magic is that the towers will flip vertically, making traversal very dangerous for any opposition. Only one with the ability to spot the hidden switches to invert the towers could possibly
+get to the summit to ignite the braziers. The main keep was meant to keep tresspassers out and is heavily fortified. Today though, the structure is infested with the undead and magic dangers that are the pirates and
+wizzrobes. This portion of the island is more or less uninhabited, even before the uprising of the Necromancer since Duratu as an environment is extremely unforgiving, so not many make it to shoals aside from the
+courageous adventurers. To the north of the shoals are the southeastern coasts of Interitus. Unlike the northeastern side, this area of sea is treacherous.
 
    So Link enters the fort that once was the primary fortification of the most feared pirated around.
 
@@ -563,13 +560,13 @@ Aemulor is ruler is not a world at all, but rather a wasteland driven by an insa
 was housed in the stronghold and makes his way north west.
 
 
+
+                                    Now with the flippers, Link can go practically everywhere on Interitus. These are the things Link can now do:
+                                    - (IoH) Forbidden Spire
+
+
+
    Now with the wand, link has access to the northeastern side of NWI
-
-
-
-
-
-
 
 ~~~Pacilux~~~
    but should he go the other way, he will find himself in the darkest areas on Interitus; The site of Aemulors' treachery and fall.

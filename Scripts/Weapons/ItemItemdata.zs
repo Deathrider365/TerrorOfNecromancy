@@ -420,3 +420,9 @@ item script ExpansionPickup {
       }
    }
 }
+
+item script HalfMagicPickup {
+   void run() {
+      Game->Generic[GEN_MAGICDRAINRATE] /= 2;
+   }
+}

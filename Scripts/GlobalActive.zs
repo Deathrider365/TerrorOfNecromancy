@@ -336,7 +336,9 @@ global script GlobalScripts {
             break;
          case 39:
             switch (screen) {
+               case 0x6F: return 000100b;
                case 0x7C: return 011100b;
+               case 0x7F: return 001100b;
             }
             break;
          case 43:
@@ -356,6 +358,17 @@ global script GlobalScripts {
          case 50:
             switch (screen) {
                case 0x02: return 000100b;
+            }
+            break;
+         case 57:
+            switch (screen) {
+               case 0x6E: return 001000b;
+            }
+            break;
+         case 58:
+            switch (screen) {
+               case 0x70: return 000100b;
+               case 0x71: return 000100b;
             }
             break;
          case 59:
