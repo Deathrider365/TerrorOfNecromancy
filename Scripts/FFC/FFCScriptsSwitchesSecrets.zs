@@ -933,3 +933,13 @@ ffc script TriggerScreenDFromSecretsElsewhere {
       }
    }
 }
+
+ffc script MaraudersCoveOpens {
+   void run() {
+      if (Game->LoadMapData(89, 0x76)->State[ST_SECRET] && Game->LoadMapData(89, 0x45)->State[ST_SECRET] && Game->LoadMapData(89, 0x25)->State[ST_SECRET]) {
+         Screen->Quake = 20;
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+      }
+   }
+}

@@ -201,3 +201,45 @@ combodata script GBMinecart_Track {
       // Dummy script, used for its InitD[] values, see MinecartGeneric
    }
 }
+
+@Author("Emily")
+combodata script FlipDaPlace {
+   void run(int dmap, int screen, int layer) {
+      Screen->Quake = 60;
+
+      for(int i = 0; i < 60; ++i) {
+         NoAction();
+         Waitframe();
+      }
+
+      bitmap b = new bitmap(Viewport->Width, Viewport->Height);
+      b->BlitTo(layer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height);
+
+      int turnDegrees = 1;
+
+      int heroX = Hero->X;
+      int heroY = Hero->Y;
+      int heroDir;
+
+      for(int degrees = 0; degrees < 180; degrees += turnDegrees) {
+         NoAction();
+         Screen->Rectangle(layer, 0, 0, Viewport->Width, Viewport->Height, C_BLACK);
+         b->Blit(layer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, degrees, Viewport->Width / 2, Viewport->Height / 2);
+         Waitframe();
+      }
+
+      switch(Hero->Dir) {
+         case DIR_DOWN: heroDir = DIR_UP;
+         case DIR_UP: heroDir = DIR_DOWN;
+         case DIR_RIGHT: heroDir = DIR_LEFT;
+         case DIR_LEFT: heroDir = DIR_RIGHT;
+      }
+
+      int rotatedX = Abs(Viewport->Width - heroX) - 16;
+      int rotatedY = Abs(Viewport->Height - heroY) - 16;
+
+      // Hero->Warp(dmap, screen);
+      // Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARPEFFECT_NONE, 0, 0, heroDir});
+      Hero->WarpEx({WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, 0, heroDir});
+   }
+}
