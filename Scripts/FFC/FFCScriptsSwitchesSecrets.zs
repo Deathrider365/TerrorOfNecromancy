@@ -943,3 +943,29 @@ ffc script MaraudersCoveOpens {
       }
    }
 }
+
+ffc script MaraudersTowerStairs1 {
+   void run() {
+      mapdata mapData = Game->LoadTempScreen(1);
+
+      until(getScreenD(0)) {
+         if (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668)
+            setScreenD(0, true);
+
+         Waitframe();
+      }
+   }
+}
+
+ffc script MaraudersTowerStairsSecrets {
+   void run() {
+      mapdata mapData = Game->LoadTempScreen(1);
+
+      until (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668 && getScreenD(95, 0x45, 0))
+         Waitframe();
+
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+      Audio->PlaySound(SFX_OOT_SECRET);
+   }
+}
