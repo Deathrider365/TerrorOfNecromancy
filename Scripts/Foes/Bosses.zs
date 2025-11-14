@@ -2375,8 +2375,10 @@ namespace ServusMalusNamespace {
 
                cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
 
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, SFX_GOMESS_DIE);
+               }
 
                if (this->Z > 0 && !(gameframe % 2))
                   this->Z -= 1;
@@ -2421,8 +2423,10 @@ namespace ServusMalusNamespace {
             }
 
             while (Distance(this->X, this->Y, 128, 88) > 64) {
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, 148);
+               }
 
                int angle = Angle(Hero->X - 8, Hero->Y - 8, this->X - 12, this->Y - 12);
 
@@ -2460,8 +2464,10 @@ namespace ServusMalusNamespace {
             int multipler = 1;
 
             while (unlitTorchCount) {
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, 148);
+               }
 
                unlitTorchCount = 0;
 
@@ -2668,7 +2674,7 @@ namespace ServusMalusNamespace {
          Waitframe();
       }
 
-      Screen->Message(177);
+      Screen->Message(176);
 
       // Turns around
       for (int i = 0; i < 15; ++i) {
@@ -2948,8 +2954,10 @@ namespace ServusMalusNamespace {
 
    void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate, int damage) {
       for (int attackCount = 1; attackCount < (gettingDesperate ? 4 : 2); attackCount++) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
          this->OriginalTile = attackingTile;
@@ -2976,8 +2984,10 @@ namespace ServusMalusNamespace {
             Waitframe();
          }
          for (int i = 0; i < (gettingDesperate ? 8 : 15); ++i) {
-            if (this->HP <= 0)
-               deathAnimation(this, 148);
+            if (this->HP <= 0) {
+               Screen->Message(1236);
+               deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             this->OriginalTile = originalTile;
             Waitframe();
@@ -2989,8 +2999,10 @@ namespace ServusMalusNamespace {
       Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
 
       for (int i = 0; i < 30; ++i) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          this->OriginalTile = attackingTile;
          Waitframe();
@@ -2998,8 +3010,10 @@ namespace ServusMalusNamespace {
 
       if (int escr = CheckEWeaponScript("BoomerangThrow")) {
          for (int i = 0; i < (gettingDesperate ? 2 : 1); i++) {
-            if (this->HP <= 0)
+            if (this->HP <= 0) {
+               Screen->Message(1236);
                deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             if (i > 0)
                Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
@@ -3040,8 +3054,10 @@ namespace ServusMalusNamespace {
                Waitframe();
 
             for (int i = 0; i < 15; ++i) {
-               if (this->HP <= 0)
-                  deathAnimation(this, 148);
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
+                  deathAnimation(this, SFX_GOMESS_DIE);
+               }
 
                this->OriginalTile = attackingTile;
                Waitframe();
@@ -3050,8 +3066,10 @@ namespace ServusMalusNamespace {
       }
 
       for (int i = 0; i < 15; ++i) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          this->OriginalTile = originalTile;
          Waitframe();
@@ -3099,8 +3117,10 @@ namespace ServusMalusNamespace {
          WindHandler.init();
 
          for (int i = 0; i < wc; ++i) {
-            if (this->HP <= 0)
-               deathAnimation(this, 136);
+            if (this->HP <= 0) {
+               Screen->Message(1236);
+               deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, CenterX(this) - 8, CenterY(this) - 8);
             ewind->Angular = true;
