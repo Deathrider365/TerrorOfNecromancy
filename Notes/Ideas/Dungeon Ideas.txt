@@ -39,7 +39,7 @@ Think the dungeon from DQVIII where you cannot see until you get an item (this c
 
 DONE - 2 sister towers, one fire and the other ice. each will have wizzrobes but there will also be elemental specific ones. Perhaps fire does DoT and ice slows yuou down
 
-Have a sideview dungeon, you swap gravity and, or the dungeon
+DONE - Have a sideview dungeon, you swap gravity and, or the dungeon
 
 similar to falling sand in Super Metroid, have that in some sideview
 

@@ -940,6 +940,7 @@ ffc script MaraudersCoveOpens {
          Screen->Quake = 20;
          Screen->TriggerSecrets();
          Screen->State[ST_SECRET] = true;
+         Audio->PlaySound(SFX_OOT_SECRET);
       }
    }
 }
@@ -961,7 +962,7 @@ ffc script MaraudersTowerStairsSecrets {
    void run() {
       mapdata mapData = Game->LoadTempScreen(1);
 
-      until (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668 && getScreenD(95, 0x45, 0))
+      until (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668 && getScreenD(95, 70, 0))
          Waitframe();
 
       Screen->TriggerSecrets();
