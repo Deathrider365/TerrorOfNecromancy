@@ -190,12 +190,11 @@ dmapdata script PlaySFXByFrequency {
 // clang-format off
 dmapdata script LensTorches {
    // clang-format on
-
    void run() {
       int comboSlot = Game->GetComboScript("TorchMarker");
 
-      bitmap lenslayer = new bitmap(256, 176); //TODO refactor to handle showing multiple screens (if necessary)
-      bitmap lensmask = new bitmap(256, 176);
+      bitmap lenslayer = new bitmap(Viewport->Width, Viewport->Height); //TODO refactor to handle showing multiple screens (if necessary)
+      bitmap lensmask = new bitmap(Viewport->Width, Viewport->Height);
       int drawLayer;
 
       while (true) {
@@ -253,11 +252,11 @@ dmapdata script LensTorches {
 
             Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
             // Draw the mask over the layer
-            lensmask->Blit(0, lenslayer, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lensmask->Blit(0, lenslayer, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
             // Replace colors from the mask
             lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
 
-            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
 
             Waitframe();
          }
