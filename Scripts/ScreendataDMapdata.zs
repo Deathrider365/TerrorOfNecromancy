@@ -188,7 +188,7 @@ dmapdata script PlaySFXByFrequency {
 }
 
 // clang-format off
-dmapdata script LensTorches {
+dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance top work for hiding
    // clang-format on
    void run() {
       int comboSlot = Game->GetComboScript("TorchMarker");
