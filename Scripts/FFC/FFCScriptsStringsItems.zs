@@ -121,7 +121,6 @@ ffc script MessageOnce {
       }
       else {
          unless(getScreenD(screenD)) Screen->Message(message);
-
          setScreenD(screenD, true);
       }
    }

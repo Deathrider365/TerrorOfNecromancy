@@ -397,9 +397,9 @@ float PercentOfWhole(int part, int whole) {
 }
 
 // Checks if switch is pressed
-int switchPressed(int x, int y, bool noLink) {
+int switchPressed(int x, int y, bool noLink, bool sensitive) {
    int xOff = 0;
-   int yOff = 4;
+   int yOff = sensitive ? 0 : 4;
    int xDist = 8;
    int yDist = 8;
 
@@ -541,7 +541,7 @@ void waitForTalking(ffc this) {
 
       Waitframe();
    }
-   
+
    Input->Button[CB_SIGNPOST] = false;
 }
 

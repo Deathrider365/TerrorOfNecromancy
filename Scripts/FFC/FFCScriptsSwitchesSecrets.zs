@@ -304,22 +304,11 @@ ffc script ScreenQuakeOnSecret {
 ffc script TriggerOnceEnemiesKilled {
    // clang-format on
    void run(int flag) {
-      int comboD[176];
-
-      for (int i = 0; i < 176; i++)
-         if (Screen->ComboF[i] == flag) {
-            comboD[i] = Screen->ComboD[i];
-            Screen->ComboF[i] = 0;
-         }
-
       until(Screen->NumNPCs) Waitframe();
+      while (Screen->NumNPCs) Waitframe();
 
-      while (Screen->NumNPCs)
-         Waitframe();
-
-      for (int i = 0; i < 176; i++)
-         if (comboD[i] > 0)
-            Screen->ComboD[i] = comboD[i] + 1;
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET];
    }
 }
 
@@ -385,7 +374,7 @@ ffc script SwitchRemote {
 
       if (pressure) {
          while (true) {
-            until(switchPressed(this->X, this->Y, noLink)) Waitframe();
+            until(switchPressed(this->X, this->Y, noLink, false)) Waitframe();
 
             this->Data = data + 1;
 
@@ -405,7 +394,7 @@ ffc script SwitchRemote {
                if (comboD[i] > 0)
                   Screen->ComboD[i] = nextCombo >= 0 ? nextCombo : comboD[i] + 1;
 
-            while (switchPressed(this->X, this->Y, noLink))
+            while (switchPressed(this->X, this->Y, noLink, false))
                Waitframe();
 
             this->Data = data;
@@ -421,7 +410,7 @@ ffc script SwitchRemote {
          }
       }
       else {
-         until(switchPressed(this->X, this->Y, noLink)) Waitframe();
+         until(switchPressed(this->X, this->Y, noLink, false)) Waitframe();
 
          this->Data = data + 1;
 
@@ -451,8 +440,15 @@ ffc script SwitchRemote {
 @Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap {
    // clang-format on
-   void run(int enemyid, int count, int fallSpeed, int perm) {
-      until(switchPressed(this->X, this->Y, false)) Waitframe();
+   void run(int enemyid, int count, int fallSpeed, int perm, int sensitive) {
+      if (getScreenD(0)) {
+         this->Data++;
+         Quit();
+      }
+
+      until(switchPressed(this->X, this->Y, false, true)) Waitframe();
+
+      setScreenD(0, true);
 
       this->Data++;
       Audio->PlaySound(SFX_SWITCH_PRESS);
@@ -722,7 +718,7 @@ ffc script SwitchHitAll {
       for (int i = 0; i < switches[0]; i++) {
          int j = i + 2;
          int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), noLink);
+         int p = switchPressed(ComboX(k), ComboY(k), noLink, false);
 
          if (p) {
             if (p != 2)
@@ -860,7 +856,7 @@ ffc script SwitchSequential {
       for (int i = 0; i < switches[0]; i++) {
          int j = i + 2;
          int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false);
+         int p = switchPressed(ComboX(k), ComboY(k), false, false);
 
          if (p == 1)
             return true;
@@ -874,7 +870,7 @@ ffc script SwitchSequential {
       for (int i = 0; i < switches[0]; i++) {
          int j = i + 2;
          int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false);
+         int p = switchPressed(ComboX(k), ComboY(k), false, false);
 
          unless(switchesPressed[j]) {
             unless(p == 2) Screen->ComboD[k] = switchCmb[j];
@@ -908,7 +904,7 @@ ffc script SwitchSequential {
          for (int i = 0; i < switches[0]; i++) {
             int j = i + 2;
             int k = switches[j];
-            int p = switchPressed(ComboX(k), ComboY(k), false);
+            int p = switchPressed(ComboX(k), ComboY(k), false, false);
             switchesPressed[j] = false;
          }
       }
