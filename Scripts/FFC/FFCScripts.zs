@@ -479,27 +479,27 @@ ffc script TriggerSavedGoronsLvl6 {
       int goronsSaved = 0;
 
       while (true) {
-         if (getScreenD(67, 0x13, 0)) {
+         if (getScreenD(67, 0x13, 84)) {
             setScreenD(0, true);
             ++goronsSaved;
          }
-         if (getScreenD(67, 0x44, 1)) {
+         if (getScreenD(67, 0x44, 84)) {
             setScreenD(1, true);
             ++goronsSaved;
          }
-         if (getScreenD(68, 0x41, 2)) {
+         if (getScreenD(68, 0x41, 84)) {
             setScreenD(2, true);
             ++goronsSaved;
          }
-         if (getScreenD(68, 0x14, 3)) {
+         if (getScreenD(68, 0x14, 84)) {
             setScreenD(3, true);
             ++goronsSaved;
          }
-         if (getScreenD(69, 0x12, 4)) {
+         if (getScreenD(69, 0x12, 84)) {
             setScreenD(4, true);
             ++goronsSaved;
          }
-         if (getScreenD(69, 0x75, 5)) {
+         if (getScreenD(69, 0x75, 84)) {
             setScreenD(5, true);
             ++goronsSaved;
          }

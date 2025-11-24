@@ -1,0 +1,811 @@
+
+--- ActivateTorches --- DEPRICATE with combo triggers
+Lv1-PernGrotto     32:43 (Args: 3, 7, 10, 13, 0, 0, 0, 0)
+
+--- BattleArena --- KEEP
+
+--- BossMusic --- DEPRICATE with the deprication of Ghost and bosses controlling their music
+Temple of Haeren    7:12 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:22 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:3B (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:13 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1C (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:00 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:05 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:07 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:25 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:57 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:14 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+
+--- RecursiveFire --- KEEP
+
+--- BuyItem --- KEEP
+
+--- ComingFromIsleOfHaeren --- KEEP?
+NEI Coasts          9:2F (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- CompassBeep --- KEEP
+
+--- ContinuePoint --- DEPRICATE? are there continue point combos
+Isle of Haeren      6:07 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+NEI Plains          9:04 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Plains          9:07 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Cumpura Fore    9:0B (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Plains          9:25 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Coasts          9:3E (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+NEI Plains/Cumpu    9:48 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Plains/Cumpu    9:49 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Auri Village    9:62 (Args: 10, 62, 0, 0, 0, 0, 0, 0)
+NEI Auri Desert     9:76 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI/NWI Pla For    20:02 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         20:07 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Auri Desert    20:0E (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         20:36 (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI VenMarshAuDe   20:3D (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI Mt. Caldum     20:62 (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI Mt. Duratu     20:6F (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI Plains/Caldu   20:70 (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI mt duratu ba   20:78 (Args: 15, 2, 0, 0, 0, 0, 0, 0)
+SWI Mt. Duratu     20:7F (Args: 39, 127, 0, 0, 0, 0, 0, 0)
+SWI Plains         37:66 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Necro Dungeon      37:67 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         37:74 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:78 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:7B (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:7E (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:27 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:33 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SEI Gelido Shoal   89:25 (Args: 58, 112, 0, 0, 0, 0, 0, 0)
+SEI Gelido Shoal   89:36 (Args: 58, 112, 0, 0, 0, 0, 0, 0)
+SEI Gelido Shoal   89:45 (Args: 58, 112, 0, 0, 0, 0, 0, 0)
+SEI Mt. Duratu     89:70 (Args: 58, 112, 0, 0, 0, 0, 0, 0)
+SEI Gelido Shoal   89:76 (Args: 58, 112, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:39 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:69 (Args: 94, 105, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:6B (Args: 94, 107, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:6D (Args: 94, 109, 0, 0, 0, 0, 0, 0)
+
+--- DifficultyChoice --- KEEP
+
+--- DifficultySelectionScreen --- KEEP
+
+--- EquipItemsOnGameStart --- KEEP
+
+--- AuriElder --- KEEP
+
+--- GetItemFromSecretAtLocation --- KEEP
+
+--- GettingGoddessJewels --- KEEP
+
+--- InfoShop --- KEEP
+
+--- IntroAwaitingLeviathan --- KEEP
+
+--- IntroLeviathanFightFail --- KEEP
+
+--- IntroLeviathanFailDialogue --- KEEP
+
+--- IntroLeviathanEnding --- KEEP
+
+--- IntroEndOfOpeningScene --- KEEP
+
+--- IntroLeavingIoH --- KEEP
+
+--- IntroPreInteritusLeviathanScene --- KEEP
+
+--- IntroFinalMessageBeforeIoH --- KEEP
+
+--- MessageOnce --- KEEP
+
+--- OfficialIntroPresents --- KEEP
+
+--- OfficialIntroMovie --- DEPRICATE, just go to one screen and have the script draw the screens
+NEI Coasts          6:60 (Args: 12, 97, 0, 0, 0, 0, 0, 0)
+NEI Viridi Villa    6:61 (Args: 12, 98, 0, 0, 0, 0, 0, 0)
+NEI Plains          6:62 (Args: 12, 99, 0, 0, 0, 0, 0, 0)
+NEI Plains          6:63 (Args: 12, 100, 0, 0, 0, 0, 0, 0)
+NEI Cumpura Fore    6:64 (Args: 12, 101, 0, 0, 0, 0, 0, 0)
+NEI Plains          6:65 (Args: 12, 102, 0, 0, 0, 0, 0, 0)
+NEI Plains          6:66 (Args: 12, 103, 0, 0, 0, 0, 0, 0)
+NEI Plains          6:67 (Args: 12, 104, 0, 0, 0, 0, 0, 0)
+SWI Plains          6:68 (Args: 12, 105, 0, 0, 0, 0, 0, 0)
+SWI Plains          6:69 (Args: 12, 106, 0, 0, 0, 0, 0, 0)
+SWI Mt. Caldum      6:6A (Args: 12, 107, 0, 0, 0, 0, 0, 0)
+
+--- OfficialIntroFinalScene --- KEEP
+
+--- OpenForItemId --- KEEP?
+
+--- RemoveItem --- KEEP
+
+--- ScreenQuakeOnSecret --- KEEP
+
+--- SecretsTriggersWaterPaths --- DEPRICATE with combo triggers
+Lv1-PernGrotto     32:20 (Args: 4, 5, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:24 (Args: 9, 10, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:26 (Args: 8, 9, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:34 (Args: 10, 11, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:41 (Args: 5, 6, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:42 (Args: 6, 7, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:44 (Args: 13, 14, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:51 (Args: 2, 3, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:70 (Args: 1, 2, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:76 (Args: 12, 13, 0, 0, 0, 0, 0, 0)
+
+--- ServusFloatingAbout --- KEEP
+
+--- ServusSoldier --- KEEP
+
+--- OpenTheGates --- DEPRICATE with combo triggers
+Lv4-PillagedPris   70:02 (Args: 21, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:05 (Args: 21, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:12 (Args: 21, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:21 (Args: 32, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:32 (Args: 32, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:34 (Args: 39, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:35 (Args: 39, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:41 (Args: 32, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:42 (Args: 32, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:43 (Args: 32, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:44 (Args: 114, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:57 (Args: 39, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:62 (Args: 114, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:65 (Args: 114, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:72 (Args: 114, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:75 (Args: 114, 0, 0, 0, 0, 0, 0, 0)
+
+--- Shutter --- DEPRICATE?? with combo triggers
+Temple of Haeren    7:12 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:12 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:12 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:12 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:22 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:22 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:24 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:24 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:24 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:31 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:31 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:34 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:34 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:34 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:52 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Temple of Haeren    7:52 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+NEI Auri Village   16:43 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+NEI Caves          28:1A (Args: 0, 1, 7, 0, 0, 0, 0, 0)
+NEI Caves          28:1A (Args: 0, 1, 7, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:26 (Args: 1, 0, 7, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:26 (Args: 1, 0, 7, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:39 (Args: 1, 1, 7, 0, 1, 0, 0, 0)
+Lv1-PernGrotto     32:39 (Args: 1, 1, 7, 0, 1, 0, 0, 0)
+Lv1-PernGrotto     32:3B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:3B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:4B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:4B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     37:2B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     37:2B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+NWI Carulem Arch   37:44 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+NWI Carulem Arch   37:44 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+NWI Carulem Arch   37:54 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+NWI Carulem Arch   37:54 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+SWI Plains         37:55 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         37:55 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         37:55 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         37:56 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+SWI Plains         37:56 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+SWI Plains         37:56 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+Battle Arena 1     37:58 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+Battle Arena 1     37:58 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+Battle Arena 1     37:58 (Args: 2, 0, 0, 1, 0, 0, 0, 0)
+Battle Arena 1     37:68 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Battle Arena 1     37:68 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:13 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:13 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:5B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:5B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:5B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:33 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:35 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:35 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:14 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1C (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   47:27 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   47:27 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   47:28 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   47:28 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:0B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:0B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:2B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:2B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:53 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:53 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:53 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:54 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:5B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:5B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:60 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:60 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:63 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:63 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:66 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:66 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:01 (Args: 2, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:02 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:12 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+God Faith Camp     57:22 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:00 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:00 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:00 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:10 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:10 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:10 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:15 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:15 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:15 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:15 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:16 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:16 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:16 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:25 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:25 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:25 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:25 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:33 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:43 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:44 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:53 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:54 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:64 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:02 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:02 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:02 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:05 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:05 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:05 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:1B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:39 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3A (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3A (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3B (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:3E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:41 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:41 (Args: -1, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:41 (Args: -1, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:44 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:44 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:4A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:4A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:4A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:4A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:4A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:5A (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:5A (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:5A (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:63 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:63 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:63 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:63 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:64 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:64 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:74 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   66:74 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:07 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:07 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:07 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:0A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:0A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1A (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1D (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:1D (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:2E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:2E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:2E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:2E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:2E (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:56 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:56 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   75:25 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   75:25 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   75:26 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   75:26 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+SealedAbyss        84:44 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+SealedAbyss        84:44 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+SealedAbyss        84:44 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+SealedAbyss        84:44 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+SealedAbyss        84:44 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:2C (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:30 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:30 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:33 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:47 (Args: -1, 0, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:47 (Args: -1, 0, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:59 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      103:59 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:26 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:26 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2C (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2C (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2C (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2C (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:25 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:31 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:31 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:34 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:34 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:35 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:05 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:05 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:05 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:05 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:14 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:32 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Summus Pass       116:32 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:39 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:57 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:57 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:67 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:67 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:74 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv7-PalaceTides   132:7E (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:14 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:14 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:2C (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:2C (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:4B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:4B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   136:5B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   140:42 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   140:42 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Seaside Outpost   140:4B (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:20 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:20 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:38 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:38 (Args: 0, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:55 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:55 (Args: 1, 1, 0, 0, 0, 0, 0, 0)
+
+--- Signpost --- KEEP
+
+--- Shop --- KEEP
+
+--- SwitchHitAll ---
+Lv5-CorrupTemple   75:44 (Args: 6286, 2, 1, 1, 98, 7, 1, 0)
+
+--- SwitchRemote ---
+Temple of Haeren    7:01 (Args: 0, 1, 98, 0, 4410, 0, 0, 0)
+Temple of Haeren    7:13 (Args: 0, 1, 98, 0, 0, 0, 0, 0)
+Temple of Haeren    7:32 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Temple of Haeren    7:43 (Args: 0, 1, 98, 0, 0, 0, 0, 0)
+NEI Auri Desert     9:51 (Args: 0, 1, 99, -1, 1106, 0, 0, 0)
+SWI Plai Des Swa   20:1B (Args: 0, 1, 98, 0, 4683, 1, 0, 0)
+SWI Auri Desert    20:1E (Args: 0, 1, 98, 7, 333, 0, 0, 0)
+SWI Mt. Caldum     20:52 (Args: 0, 1, 98, 0, 1, 1, 0, 0)
+NEI Caves          28:06 (Args: 0, 1, 98, 0, 285, 0, 0, 0)
+NEI Caves          28:06 (Args: 0, 2, 99, 0, 285, 0, 0, 0)
+NEI Caves          28:06 (Args: 0, 3, 100, 0, 285, 0, 0, 0)
+NEI Caves          28:06 (Args: 0, 4, 101, 0, 285, 0, 0, 0)
+NEI Caves          28:06 (Args: 0, 5, 102, 0, 285, 0, 0, 0)
+Lv1-PernGrotto     32:4C (Args: 0, 1, 98, 0, 0, 0, 1, 0)
+Lv1-PernGrotto     32:52 (Args: 0, 1, 98, 0, 4333, 1, 0, 0)
+Lv1-PernGrotto     32:61 (Args: 0, 1, 98, 0, 5039, 1, 0, 0)
+Lv1-PernGrotto     32:64 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Seized Guard Twr   44:13 (Args: 0, 1, 98, 0, 4681, 0, 0, 0)
+Seized Guard Twr   44:1C (Args: 0, 1, 98, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:23 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Seized Guard Twr   44:2C (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Seized Guard Twr   44:33 (Args: 0, 1, 98, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:35 (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+Seized Guard Twr   46:22 (Args: 0, 1, 98, 0, 1, 1, 0, 0)
+Seized Guard Twr   46:23 (Args: 0, 2, 98, 0, 1, 1, 0, 0)
+Seized Guard Twr   46:23 (Args: 0, 1, 99, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:23 (Args: 0, 3, 100, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:0B (Args: 0, 3, 99, 0, 5066, 0, 0, 0)
+Lv3-AncientShrin   48:0B (Args: 0, 1, 98, 0, 5066, 0, 0, 0)
+Lv3-AncientShrin   48:1A (Args: 0, 3, 98, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:1B (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:1B (Args: 0, 3, 99, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:1C (Args: 0, 3, 98, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:2B (Args: 0, 3, 98, 0, 1, 1, 0, 0)
+Lv3-AncientShrin   48:5D (Args: 0, 2, 98, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:6B (Args: 0, 1, 99, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:6B (Args: 0, 2, 98, 0, 1, 0, 0, 0)
+Lv3-AncientShrin   48:73 (Args: 0, 1, 98, 0, 1, 1, 0, 0)
+Lv4-PillagedPris   66:1C (Args: 0, 2, 98, 0, 7442, 0, 0, 0)
+Lv4-PillagedPris   66:1C (Args: 0, 1, 99, 0, 7440, 0, 0, 0)
+Lv4-PillagedPris   66:21 (Args: 0, 2, 98, 0, 5489, 0, 0, 0)
+Lv4-PillagedPris   66:21 (Args: 0, 1, 99, 0, 5489, 0, 0, 0)
+Lv4-PillagedPris   66:2D (Args: 0, 2, 98, 0, 7441, 0, 0, 0)
+Lv4-PillagedPris   66:2D (Args: 0, 1, 99, 0, 7443, 0, 0, 0)
+Lv4-PillagedPris   66:4D (Args: 0, 1, 98, 0, 7442, 0, 0, 0)
+Lv4-PillagedPris   66:4D (Args: 0, 2, 99, 0, 7440, 0, 0, 0)
+Lv4-PillagedPris   66:64 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Lv4-PillagedPris   66:74 (Args: 0, 1, 98, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:15 (Args: 0, 1, 98, 0, 1, 1, 0, 0)
+Lv5-CorrupTemple   74:52 (Args: 0, 1, 98, 0, 2068, 0, 0, 0)
+Lv5-CorrupTemple   74:76 (Args: 0, 3, 98, 0, 1, 1, 0, 0)
+Lv5-CorrupTemple   75:32 (Args: 0, 1, 98, 0, 1193, 0, 0, 0)
+Lv5-CorrupTemple   75:32 (Args: 0, 2, 99, 0, 5489, 0, 0, 0)
+SealedAbyss        80:0C (Args: 0, 2, 98, 0, 0, 0, 0, 0)
+SealedAbyss        80:0C (Args: 0, 1, 99, 0, 0, 0, 0, 0)
+SealedAbyss        80:2C (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+SealedAbyss        80:41 (Args: 0, 1, 98, 0, 5066, 0, 0, 0)
+SealedAbyss        84:45 (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+SEI Mt. Duratu     89:51 (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+NWI Shrod Forest   96:77 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Lv6-GeoPlant      103:23 (Args: 0, 1, 98, 0, 5066, 1, 0, 0)
+Lv6-GeoPlant      103:32 (Args: 0, 1, 98, 0, 4683, 0, 0, 0)
+Lv6-GeoPlant      103:36 (Args: 0, 1, 99, -1, 1, 1, 0, 0)
+Lv6-GeoPlant      103:40 (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+Lv6-GeoPlant      103:48 (Args: 0, 1, 98, 0, 1, 0, 0, 0)
+Lv6-GeoPlant      103:56 (Args: 2, 1, 98, -1, 4680, 0, 0, 0)
+Lv6-GeoPlant      107:2B (Args: 0, 1, 99, 7, 8411, 1, 0, 0)
+Lv6-GeoPlant      107:2D (Args: 0, 1, 99, 7, 8411, 1, 0, 0)
+Lv6-GeoPlant      107:3B (Args: 0, 1, 99, 7, 8411, 1, 0, 0)
+Lv6-GeoPlant      107:4B (Args: 1, 0, 98, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:58 (Args: 0, 1, 99, 7, 8411, 1, 0, 0)
+Swelter IronMine  112:32 (Args: 0, 1, 99, -1, 1, 1, 0, 0)
+Swelter IronMine  112:45 (Args: 0, 1, 99, -1, 1, 1, 0, 0)
+Swelter IronMine  112:54 (Args: 0, 1, 99, -1, 1, 1, 0, 0)
+Summus Pass       116:53 (Args: 0, 1, 98, 7, 0, 1, 0, 0)
+Seaside Outpost   136:45 (Args: 0, 1, 98, 0, 0, 1, 0, 0)
+
+--- SwitchTrap ---
+Seized Guard Twr   44:12 (Args: 242, 6, 4, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 241, 6, 4, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:41 (Args: 241, 6, 4, 0, 0, 0, 0, 0)
+
+--- Thrower ---
+NEI Plains/Cumpu    9:38 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+NEI Plains/Cumpu    9:39 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+NEI Plains/Cumpu    9:39 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+NEI Plains/Cumpu    9:48 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+NEI Plains/Cumpu    9:49 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+NEI Plains/Cumpu    9:49 (Args: 240, 20, 6, 0, 204, 19, 1, 1)
+Battle Arena 1     37:58 (Args: 240, 40, 2, 1, 59, 0, 0, 0)
+Battle Arena 1     37:58 (Args: 240, 60, 2, 0, 195, 118, 1, 0)
+Battle Arena 1     37:58 (Args: 240, 40, 2, 1, 59, 0, 0, 0)
+
+--- TorchFirePaths ---
+Lv1-PernGrotto     32:20 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:26 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:70 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:76 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+
+--- TorchLight ---
+Lv1-PernGrotto     32:43 (Args: 6061, 3, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:43 (Args: 6061, 14, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:43 (Args: 6061, 11, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:43 (Args: 6061, 7, 0, 0, 0, 0, 0, 0)
+
+--- TriggerOnceEnemiesKilled ---
+Seized Guard Twr   44:12 (Args: 99, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1B (Args: 99, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:41 (Args: 99, 0, 0, 0, 0, 0, 0, 0)
+
+--- WarpCustomReturn ---
+NEI Plains         16:35 (Args: 29, -1, 1, 29, -1, 2, 1, 5)
+
+--- EgentemGotcha ---
+Lv3-AncientShrin   48:4B (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- EgentemShrineSoldier ---
+NEI Plains          9:25 (Args: 237, 0, 0, 0, 0, 0, 0, 0)
+
+--- PlayEnhancedMusic ---
+Isle of Haeren      6:07 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+NEI Plains         16:15 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+SWI Plains         53:46 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:09 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:0B (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     112:0D (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+NWI Shrod Forest  128:60 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+
+--- SignpostTriggerFromScreenD ---
+Lv6-GeoPlant      107:38 (Args: 473, 1, 6, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:38 (Args: 473, 2, 6, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:38 (Args: 473, 3, 6, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:38 (Args: 473, 4, 6, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:38 (Args: 473, 5, 6, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:38 (Args: 473, 0, 6, 0, 0, 0, 0, 0)
+
+--- CapturedSequenceImprisioned ---
+Seized Guard Twr   44:27 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- CapturedSequenceEscape ---
+Seized Guard Twr   44:28 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:37 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   44:38 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+
+--- CapturedSequenceNecromancer ---
+Seized Guard Twr   44:33 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- CapturedSequenceRightHand ---
+Necro Dungeon      37:67 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- GetItemOnItem --- KEEP
+NEI Plains          9:07 (Args: 198, 202, 1, 153, 155, 1, 0, 0)
+NEI Viridi Villa    9:4C (Args: 12, 5, 0, 86, 87, 0, 0, 1154)
+NEI Plains         16:05 (Args: 49, 0, 0, 190, 197, 0, 0, 0)
+NEI Plains         16:35 (Args: 187, 181, 0, 874, 875, 0, 0, 873)
+NEI Viridi Villa   16:3A (Args: 94, 5, 0, 106, 108, 0, 0, 0)
+NEI Viridi Villa   16:4B (Args: 184, 0, 0, 100, 104, 0, 0, 0)
+NEI Viridi Villa   16:4B (Args: 38, 206, 0, 239, 240, 2, 1, 1)
+NEI Auri Village   16:71 (Args: 192, 185, 0, 858, 859, 0, 0, 857)
+NEI Caves          28:07 (Args: 176, 175, 0, 506, 507, 0, 0, 505)
+NEI Caves          28:09 (Args: 203, 5, 0, 140, 142, 0, 0, 0)
+NEI Caves          28:4D (Args: 181, 180, 0, 865, 864, 0, 0, 863)
+NEI Caves          28:59 (Args: 557, 0, 0, 0, 0, 0, 0, 0)
+NWI Carulem Arch   37:45 (Args: 181, 180, 0, 865, 864, 0, 0, 863)
+Battle Arena 1     37:57 (Args: 107, 5, 0, 128, 129, 0, 0, 0)
+SWI Plains         37:65 (Args: 177, 171, 0, 879, 882, 0, 0, 877)
+Battle Arena 1     37:77 (Args: 193, 192, 0, 861, 862, 0, 0, 860)
+Lv2-DerelictQuar   40:5C (Args: 15, 202, 1, 156, 161, 1, 0, 0)
+Lv2-DerelictQuar   40:5E (Args: 15, 202, 1, 156, 161, 1, 0, 0)
+SWI Mt. Duratu     53:6E (Args: 5, 176, 0, 509, 510, 0, 0, 508)
+SWI Mt. Duratu     57:5E (Args: 194, 193, 0, 868, 869, 0, 0, 867)
+SWI Plains         57:76 (Args: 0, 88, 0, 0, 0, 0, 0, 565)
+NWI Carulem Arch   96:30 (Args: 180, 194, 0, 871, 872, 0, 0, 870)
+Lv6-GeoPlant      103:13 (Args: 84, 5, 2, 469, 0, 1, 0, 0)
+Lv6-GeoPlant      103:1C (Args: 84, 5, 2, 471, 0, 1, 3, 0)
+Lv6-GeoPlant      103:44 (Args: 84, 5, 2, 470, 0, 1, 1, 0)
+Lv6-GeoPlant      103:49 (Args: 84, 5, 2, 466, 0, 1, 2, 0)
+Lv6-GeoPlant      107:12 (Args: 84, 5, 2, 467, 0, 1, 4, 0)
+Lv6-GeoPlant      107:75 (Args: 84, 5, 2, 468, 0, 1, 5, 0)
+NWI Shrod Forest  128:52 (Args: 194, 193, 0, 1175, 1176, 0, 0, 1174)
+
+--- GetItemOnSecret ---
+NEI Caves          28:65 (Args: 31, 228, 229, 232, 1, 0, 0, 0)
+NWI Carulem Arch   37:44 (Args: 98, 595, 596, 597, 0, 0, 0, 0)
+SWI Plains         37:76 (Args: 68, 259, 260, 261, 0, 0, 0, 0)
+
+--- GetItemOnScreenD ---
+SWI Celo Village   53:20 (Args: 38, 276, 488, 489, 0, 2, 0, 0)
+
+--- SignpostTriggerFromItem ---
+NEI Plains          9:15 (Args: 12, 112, 113, 0, 0, 0, 1, 0)
+NEI Plains          9:26 (Args: 206, 205, 206, 207, 0, 0, 0, 0)
+NEI Plains/Cumpu    9:49 (Args: 184, 109, 110, 111, 0, 0, 0, 0)
+NEI Viridi/AuriD    9:5A (Args: 5, 0, 852, 856, 2, 185, 0, 0)
+NEI Auri Village   16:55 (Args: 52, 220, 433, 434, 0, 0, 0, 0)
+Seized Guard Twr   44:14 (Args: 5, 0, 198, 204, 2, 24, 1, 0)
+God Faith Camp     57:02 (Args: 52, 403, 438, 440, 1, 2, 0, 0)
+God Faith Camp     57:02 (Args: 52, 402, 435, 437, 1, 2, 0, 0)
+
+--- FallingStalagtites ---
+MoltenFloodForge   61:0E (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+MoltenFloodForge   61:0E (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2A (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2A (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2A (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:33 (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:33 (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+Lv6-GeoPlant      107:33 (Args: 0, 0, 120, 32, 0, 0, 0, 0)
+
+--- FaceLinkOnEntrance ---
+MoltenFloodForge   61:16 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:02 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Hylian Shipwreck   89:3B (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv8-MarauCove     144:30 (Args: 3, 0, 0, 0, 0, 0, 0, 0)
+
+--- UnlockMoltenFloodedForgeBoss ---
+MoltenFloodForge   61:44 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- GraveKeeperSequence ---
+SWI Plains         53:47 (Args: 287, 288, 289, 290, 291, 294, 0, 0)
+
+--- GoddessFaithfulZeldaScenes ---
+God Faith Camp     57:02 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- GetItemOnScreenDHiddenBefore ---
+SWI Celo Village   53:20 (Args: 49, 0, 485, 486, 1, 0, 0, 0)
+
+--- HeatedRoomFFC ---
+Lv6-GeoPlant      107:1D (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:1E (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2C (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2D (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:2E (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:3C (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:3D (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:3E (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:4D (Args: 2, 8, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:34 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:44 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:45 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:46 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:53 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:54 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:55 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:62 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:65 (Args: 3, 2, 0, 0, 0, 0, 0, 0)
+
+--- TriggerSavedGoronsLvl6 ---
+Lv6-GeoPlant      107:38 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- SetScreenDIfSecretsInOtherRoom ---
+Lv6-GeoPlant      107:38 (Args: 107, 72, 6, 0, 0, 0, 0, 0)
+
+--- GoronForemanDialogLvl6 ---
+Lv6-GeoPlant      103:47 (Args: 462, 1155, 472, 0, 0, 0, 0, 0)
+
+--- GBMinecart ---
+Swelter IronMine  112:22 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:35 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:54 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:65 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+
+--- GBMinecart_Shutter ---
+Swelter IronMine  112:23 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:24 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:25 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:32 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:33 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:33 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:33 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:34 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:35 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:35 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:36 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:43 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:45 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:46 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:52 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:53 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+Swelter IronMine  112:55 (Args: -1, 1, 0, 0, 0, 0, 0, 0)
+
+--- GBReset_Minecarts ---
+Swelter IronMine  112:36 (Args: 1, 0, 0, 0, 0, 0, 0, 0)
+
+--- EnemiesNeverReturn ---
+Temple of Haeren    7:22 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+SWI VenMarshAuDe   20:2F (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+NEI Caves          28:65 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv1-PernGrotto     32:3B (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv2-DerelictQuar   40:13 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   46:1C (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Seized Guard Twr   47:28 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv3-AncientShrin   48:33 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+MoltenFloodForge   61:00 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv4-PillagedPris   70:05 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv5-CorrupTemple   74:07 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+Lv6-GeoPlant      107:25 (Args: 2, 0, 0, 0, 0, 0, 0, 0)
+
+--- TriggerScreenDFromSecretsElsewhere ---
+SWI Celo Village   53:20 (Args: 20, 122, 0, 0, 0, 0, 0, 0)
+
+--- TriforceDeciples ---
+NEI Viridi Villa   16:7C (Args: 7, 490, 494, 497, 498, 7, 0, 0)
+NEI Viridi Villa   16:7C (Args: 8, 496, 493, 500, 498, 12, 0, 0)
+NEI Viridi Villa   16:7C (Args: 9, 495, 493, 499, 498, 2, 0, 0)
+
+--- EscapedEgentemCultist ---
+SWI Celo Village   53:11 (Args: 272, 159, 511, 175, 0, 1, 503, 174)
+
+--- ConflatosElder ---
+SWI Celo Village   53:62 (Args: 309, 314, 512, 1235, 0, 0, 0, 0)
+
+--- CeloElder ---
+SWI Celo Village   53:00 (Args: 278, 580, 360, 581, 1, 0, 0, 0)
+
+--- SignpostTriggerFromSecret ---
+NEI Auri Village    9:62 (Args: 538, 539, 0, 0, 0, 0, 0, 0)
+NEI Auri Village    9:62 (Args: 540, 541, 1, 0, 0, 0, 0, 0)
+NEI Auri Village    9:73 (Args: 542, 543, 1, 0, 0, 0, 0, 0)
+SWI VenMarshAuDe   20:3D (Args: 544, 545, 1, 1, 75, 34, 0, 0)
+SWI Venenom Mars   53:2C (Args: 552, 556, 1, 1, 75, 34, 0, 0)
+SWI Venenom Mars   53:5B (Args: 549, 551, 1, 1, 75, 34, 0, 0)
+SWI Mt. Duratu     53:5D (Args: 528, 548, 0, 1, 20, 122, 0, 0)
+SWI Venenom Mars   53:6A (Args: 547, 548, 1, 1, 75, 34, 0, 0)
+SWI Mt. Duratu     53:6B (Args: 529, 548, 0, 1, 20, 122, 0, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+Lv6-GeoPlant      103:47 (Args: 473, 472, 1, 1, 107, 72, 1, 0)
+NWI Carulem Arch  128:22 (Args: 1209, 1233, 0, 1, 132, 107, 0, 0)
+
+--- PalusElder ---
+SWI Venenom Mars   53:4B (Args: 426, 428, 520, 546, 0, 0, 0, 0)
+
+--- PhonogramMan ---
+NEI Viridi/AuriD    9:5C (Args: 38, 74, 75, 76, 1, 0, 0, 0)
+
+--- EbrianZora ---
+SWI Venenom Mars   53:2D (Args: 1197, 1203, 1226, 1227, 0, 179, 0, 0)
+
+--- CarulemZora ---
+NWI Carulem Arch   96:21 (Args: 1223, 1224, 1194, 1225, 1196, 0, 0, 0)
+
+--- CarulemPrince ---
+NWI Carulem Arch  128:03 (Args: 1217, 1221, 1228, 1232, 0, 0, 0, 0)
+
+--- MaraudersCoveOpens ---
+SEI Gelido Shoal   89:36 (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- MaraudersTowerStairs1 ---
+Lv8-MarauCove     112:4E (Args: 0, 0, 0, 0, 0, 0, 0, 0)
+
+--- MaraudersTowerStairsSecrets ---
+Lv8-MarauCove     112:5E (Args: 0, 0, 0, 0, 0, 0, 0, 0)

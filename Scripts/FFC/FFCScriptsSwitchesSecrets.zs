@@ -1,37 +1,6 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~ Switches & Secrets FFCs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("EmilyV99")
-ffc script EnemiesChest {
-   // clang-format on
-   void run(int flag, int newCombo, bool perm, int screenD, int cset, int sfx) {
-      if (perm && getScreenD(screenD)) {
-         for (int i = 0; i < 176; ++i)
-            if (ComboFI(i, flag)) {
-               Screen->ComboD[i] = newCombo;
-               Screen->ComboC[i] = cset;
-            }
-         return;
-      }
-
-      Waitframes(6);
-
-      while (EnemiesAlive())
-         Waitframe();
-
-      if (perm)
-         setScreenD(screenD, true);
-
-      for (int i = 0; i < 176; ++i)
-         if (ComboFI(i, flag)) {
-            Screen->ComboD[i] = newCombo;
-            Screen->ComboC[i] = cset;
-            Audio->PlaySound(sfx);
-         }
-   }
-}
-
-// clang-format off
 @Author("Moosh, Modified by Deathrider365"),
 @InitD0("type"),
 @InitDHelp0("0 for secrets, 1 for enemy, 2 for screenD -1 for never open"),

@@ -571,12 +571,12 @@ void hurtDatHero(int frequency, int damage) {
    }
 }
 
-void hideSolidFFC(ffc this, mapdata template) {
-   this->Data = CMB_INVIS;
-   template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
-   this->Flags[FFCF_SOLID] = false;
-   Quit();
-}
+// void hideSolidFFC(ffc this, mapdata template) {
+//    this->Data = CMB_INVIS;
+//    template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+//    this->Flags[FFCF_SOLID] = false;
+//    Quit();
+// }
 
 void handleHeatOrCold(int armorLevel, int damage) {
    while (true) {

@@ -511,57 +511,60 @@ ffc script GetItemOnSecret {
 @InitDHelp0("Item you will receive"),
 @InitD1("itemIdRequired"),
 @InitDHelp1("A required item that can either kill the script or make the script wait until you have it"),
-@InitD2("requiredItemKills"),
-@InitDHelp2("0 - required item does not kill. 1 - Kill once it detects you have the item. 2 - Kill after getting the item"),
+@InitD2("requiredItemBehavior"),
+@InitDHelp2("0 - required item does not kill.\n 1 - Kill once it detects you have the required item.\n 2 - Kill after getting their item.\n 3 - Hide until you get the required item"),
 @InitD3("gettingItemString"),
 @InitDHelp3("String for when you are getting the item"),
 @InitD4("gottenItemString"),
 @InitDHelp4("String for when you are receiving the item"),
-@InitD5("layer"),
-@InitDHelp5("Layer to handle solidity combo drawing for the FFC"),
-@InitD6("screenD"),
-@InitDHelp6("ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])"),
-@InitD7("doesntHaveItemString"),
-@InitDHelp7("String for when you do not have the required item")
+@InitD5("doesntHaveItemString"),
+@InitDHelp5("String for when you do not have the required item")
 ffc script GetItemOnItem {
    // clang-format on
 
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD, int doesntHaveItemString) { // TODO refactor
-      mapdata template = Game->LoadTempScreen(layer);
-
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString) {
       int prevData = this->Data;
-      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
 
       while (true) {
          this->Data = CMB_INVIS;
-         template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
 
          if (itemIdRequired) {
-            if (requiredItemKills > 0) {
-               if (requiredItemKills == 1 && Hero->Item[itemIdRequired] && getScreenD(screenD)) {
-                  hideSolidFFC(this, template);
-               }
-               if (requiredItemKills == 2 && getScreenD(screenD)) {
-                  hideSolidFFC(this, template);
+            if (requiredItemBehavior > 0) {
+               if (requiredItemBehavior == 1 && Hero->Item[itemIdRequired] && getScreenD(itemIdToReceive))
+                  Quit();
+               if (requiredItemBehavior == 2 && getScreenD(itemIdToReceive)) {
+                  if (itemIdToReceive == itemIdRequired && !getScreenD(gottenItemString)) {
+                     this->Data = prevData;
+                     this->Flags[FFCF_SOLID] = true;
+                     waitForTalking(this);
+                     Input->Button[CB_SIGNPOST] = false;
+                     Screen->Message(gottenItemString);
+                     Waitframe();
+
+                     setScreenD(gottenItemString, true);
+                  }
+
+                  this->Data = CMB_INVIS;
+                  this->Flags[FFCF_SOLID] = false;
+
+                  Quit();
                }
             }
             else {
                this->Data = prevData;
-               template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-               int doesntHaveItemStringString = Floor(doesntHaveItemString);
-               int hideMe = (doesntHaveItemString % 1) / 1L;
+               this->Flags[FFCF_SOLID] = true;
 
                while (!Hero->Item[itemIdRequired]) {
-                  if (hideMe) {
+                  if (!doesntHaveItemString) {
                      this->Data = CMB_INVIS;
-                     template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
                      this->Flags[FFCF_SOLID] = false;
                      Quit();
                   }
                   else {
                      waitForTalking(this);
                      Input->Button[CB_SIGNPOST] = false;
-                     Screen->Message(doesntHaveItemStringString);
+                     Screen->Message(doesntHaveItemString);
                   }
 
                   Waitframe();
@@ -569,13 +572,17 @@ ffc script GetItemOnItem {
             }
          }
 
+         if (requiredItemBehavior == 3)
+            until (Hero->Item[itemIdRequired])
+               Waitframe();
+
          this->Data = prevData;
-         template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+         this->Flags[FFCF_SOLID] = true;
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (Hero->Item[itemIdToReceive] || getScreenD(screenD)) {
+         if (getScreenD(itemIdToReceive)) {
             Screen->Message(gottenItemString);
             Waitframe();
          }
@@ -585,7 +592,7 @@ ffc script GetItemOnItem {
 
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
-            setScreenD(screenD, true);
+            setScreenD(itemIdToReceive, true);
          }
 
          Waitframe();
@@ -1280,18 +1287,17 @@ ffc script InfoShop {
 @Author("Deathrider365")
 ffc script ServusSoldier {
    // clang-format on
-   void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
-      if (Hero->Item[itemToCheckFor]) {
-         this->Data = 0;
+   void run(int itemId, int gettingItemString, int alreadyGotItemString) {
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
+      if (getScreenD(itemId)) {
          Quit();
       }
 
       // While waiting for the torches to be lit
-      until(getScreenD(253)) {
-         this->Data = 1;
-         this->Flags[FFCF_SOLID] = false;
+      until(getScreenD(253))
          Waitframe();
-      }
 
       this->Flags[FFCF_SOLID] = true;
       this->Data = 6709;
@@ -1309,14 +1315,14 @@ ffc script ServusSoldier {
 
          Input->Button[CB_SIGNPOST] = false;
 
-         unless(getScreenD(255)) {
+         unless(getScreenD(itemId)) {
             Screen->Message(gettingItemString);
             Waitframe();
             itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
 
             Input->Button[CB_SIGNPOST] = false;
-            setScreenD(255, true);
+            setScreenD(itemId, true);
          }
          else Screen->Message(alreadyGotItemString);
 
@@ -1399,9 +1405,6 @@ ffc script GoronForemanDialogLvl6 {
             Screen->Message(thirdMessage);
          else if (getScreenD(1)) {
             int savedGorons = getRemaingingGorons();
-
-            Trace(secondMessage + savedGorons);
-
             Screen->Message(secondMessage + savedGorons);
          }
          else {
@@ -1416,27 +1419,27 @@ ffc script GoronForemanDialogLvl6 {
    int getRemaingingGorons() {
       int goronsSaved = 0;
 
-      if (getScreenD(67, 0x13, 0)) {
+      if (getScreenD(67, 0x13, 84)) {
          setScreenD(0, true);
          ++goronsSaved;
       }
-      if (getScreenD(67, 0x44, 1)) {
+      if (getScreenD(67, 0x44, 84)) {
          setScreenD(1, true);
          ++goronsSaved;
       }
-      if (getScreenD(68, 0x41, 2)) {
+      if (getScreenD(68, 0x41, 84)) {
          setScreenD(2, true);
          ++goronsSaved;
       }
-      if (getScreenD(68, 0x14, 3)) {
+      if (getScreenD(68, 0x14, 84)) {
          setScreenD(3, true);
          ++goronsSaved;
       }
-      if (getScreenD(69, 0x12, 4)) {
+      if (getScreenD(69, 0x12, 84)) {
          setScreenD(4, true);
          ++goronsSaved;
       }
-      if (getScreenD(69, 0x75, 5)) {
+      if (getScreenD(69, 0x75, 84)) {
          setScreenD(5, true);
          ++goronsSaved;
       }
