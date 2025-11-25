@@ -515,7 +515,7 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
 }
 
 // Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) {
+bool againstFFC(int ffcX, int ffcY) { //TODO account for larger FFCs (use this->Width/Height and pass in the ffc to this function)
    if (Hero->Z == 0) {
       if (Abs((Hero->X) - (ffcX)) <= 8) {
          if (Hero->Y >= ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
