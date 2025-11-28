@@ -73,7 +73,7 @@ ffc script Signpost {
          if (warp) {
             int dmap = Floor(warp);
             int screen = (warp % 1) / 1L;
-            Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_DOWN); 
+            Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_DOWN);
          }
       }
    }
@@ -753,7 +753,7 @@ ffc script ConflatosElder {
             Screen->Message(secondaryMessage);
          } else if (forgeBossRoom->State[ST_SECRET] && !Hero->Item[ITEM_RING2]) {
             Screen->Message(tertiaryMessage);
-         } else if (Hero->Item[ITEM_RING2] && !getScreenD(initialScreenD + 1)) {
+         } else if (Hero->Item[ITEM_RING2]) {
             Screen->Message(tertiaryMessage + 1);
             Waitframe();
 
@@ -763,9 +763,10 @@ ffc script ConflatosElder {
             setScreenD(initialScreenD + 1, true);
          } else if (getScreenD(initialScreenD + 1)) {
             Screen->Message(fourthMessage);
-            setScreenD(initialScreenD + 2, true);
-         } else {
+         } else if (/*TODO finished the mines portion*/ true) {
             Screen->Message(tertiaryMessage + 3);
+         } else {
+            Screen->Message(0);
          }
 
          Waitframe();
