@@ -11,7 +11,8 @@ namespace NPCAnim {
    CONFIGB DEBUG_COLLISION_HITBOX = false; // If true, the enemy's collision hitbox will be drawn to the screen
 
    // User defined function for custom pixel collisions, accessed when moveStyle is negative
-   bool CanMovePixelCustom(int x, int y, int moveStyle) {
+   bool CanMovePixelCustom(npc n, int x, int y, int moveStyle) {
+      return false;
       // Define your own behavior here
    }
 
@@ -50,7 +51,8 @@ namespace NPCAnim {
       AM_DEEPWATERONLY,
       AM_PITONLY,
       AM_IGNOREALL,
-      AM_IGNOREALLOFFSCREEN
+      AM_IGNOREALLOFFSCREEN,
+      AM_ZQ // Tries to replicate ZQuest editor move flags
    };
 
    enum AnimFlags {
@@ -184,16 +186,16 @@ namespace NPCAnim {
                --CurFrame;
             else
                ++CurFrame;
-            bool loop;
+            bool isLoop;
             if (flags & ADF_REVERSE) {
                if (CurFrame < 0)
-                  loop = true;
+                  isLoop = true;
             }
             else {
                if (CurFrame >= maxFrame)
-                  loop = true;
+                  isLoop = true;
             }
-            if (loop) {
+            if (isLoop) {
                AnimFinished = true;
                // If not a looping animation, repeat the last frame on loop
                if (flags & ADF_NOLOOP) {
@@ -241,7 +243,7 @@ namespace NPCAnim {
       int GetAnimProperty(int animID, int prop) {
          return __Anims[ADI_END * animID + prop];
       }
-      int SetAnimProperty(int animID, int prop, int value) {
+      void SetAnimProperty(int animID, int prop, int value) {
          __Anims[ADI_END * animID + prop] = value;
       }
 
@@ -260,15 +262,16 @@ namespace NPCAnim {
       // Sets an enemy's tile width and height and shaves pixels off the edges of its hitbox
       // int w,h - The width and height of the enemy in tiles
       // int hitOffsets[] - An array of four hit offsets
-      void SetHitbox(int w, int h, int hitOffsets = 0, bool center = false) {
-         Owner->Extend = EXT_NORMAL;
+      void SetHitbox(int w, int h, int[] hitOffsets, bool center = false) {
+         if (Owner->Extend != EXT_NOSHADOW)
+            Owner->Extend = EXT_NORMAL;
          Owner->HitXOffset = 0;
          Owner->HitYOffset = 0;
          Owner->TileWidth = w;
          Owner->TileHeight = h;
          Owner->HitWidth = w * 16;
          Owner->HitHeight = h * 16;
-         if (hitOffsets > 0) {
+         if (SizeOfArray(hitOffsets) > 0) {
             if (SizeOfArray(hitOffsets) != 4)
                printf("[NPCANIM ERROR] SetHitbox() array hitOffsets[] should be size 4");
             else {
@@ -304,7 +307,7 @@ namespace NPCAnim {
       }
 
       // Sets the enemy's movement collision hitbox, based on its tile width and height
-      void SetMovementHitbox(int collOffsets, bool center = false) {
+      void SetMovementHitbox(int[] collOffsets, bool center = false) {
          CollXOff = 0;
          CollYOff = 0;
          CollWidth = Owner->TileWidth * 16;
@@ -388,12 +391,13 @@ namespace NPCAnim {
       // int collOffsets[] - An array of four collision offsets (for terrain). Same as above, 0 for none
       // int drawOffsets[] - An array of two draw offsets {x, y}. 0 for none
       // int posOffsets[] - An array of two position offsets {x, y}. 0 for none
-      void ExtendAnim(int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
+      void ExtendAnim(int animID, int tileW, int tileH, int[] hitOffsets, int[] collOffsets, int[] drawOffsets, int[] posOffsets) {
          if (animID > -1) {
             int exflags = 0;
             SetAnimProperty(animID, ADI_TILEW, tileW);
             SetAnimProperty(animID, ADI_TILEH, tileH);
-            if (hitOffsets > 0) {
+
+            if (SizeOfArray(hitOffsets) > 0) {
                if (SizeOfArray(hitOffsets) != 4)
                   printf("[NPCANIM ERROR] ExtendAnim() array hitOffsets[] should be size 4");
                else {
@@ -414,7 +418,7 @@ namespace NPCAnim {
                   exflags |= ADFX_HITOFF;
                }
             }
-            if (collOffsets > 0) {
+            if (SizeOfArray(collOffsets) > 0) {
                if (SizeOfArray(collOffsets) != 4)
                   printf("[NPCANIM ERROR] ExtendAnim() array collOffsets[] should be size 4");
                else {
@@ -436,14 +440,14 @@ namespace NPCAnim {
                }
             }
             // If hit offsets are set, also update terrain collision offsets to be safe
-            else if (hitOffsets != 0) {
+            else if (SizeOfArray(hitOffsets) != 0) {
                SetAnimProperty(animID, ADI_COLL_HITXOFF, GetAnimProperty(animID, ADI_HITXOFF));
                SetAnimProperty(animID, ADI_COLL_HITYOFF, GetAnimProperty(animID, ADI_HITYOFF));
                SetAnimProperty(animID, ADI_COLL_HITWIDTH, GetAnimProperty(animID, ADI_HITWIDTH));
                SetAnimProperty(animID, ADI_COLL_HITHEIGHT, GetAnimProperty(animID, ADI_HITHEIGHT));
                exflags |= ADFX_COLLOFF;
             }
-            if (drawOffsets > 0) {
+            if (SizeOfArray(drawOffsets) > 0) {
                if (SizeOfArray(drawOffsets) != 2)
                   printf("[NPCANIM ERROR] ExtendAnim() array drawOffsets[] should be size 2");
                else {
@@ -452,7 +456,7 @@ namespace NPCAnim {
                   exflags |= ADFX_DRAWOFF;
                }
             }
-            if (posOffsets > 0) {
+            if (SizeOfArray(posOffsets) > 0) {
                if (SizeOfArray(posOffsets) != 2)
                   printf("[NPCANIM ERROR] ExtendAnim() array posOffsets[] should be size 2");
                else {
@@ -617,7 +621,7 @@ namespace NPCAnim {
       }
 
       // Plays an exploding death animation
-      void PlayDeathAnim(int spr = 0, int w = 0, int h = 0, int sfx = 0, bool freeze = false) {
+      void PlayDeathAnim(int spr, int w = 1, int h = 1, int sfx = 0, bool freeze = false) {
          Owner->Immortal = true;
          Owner->CollDetection = false;
          npcdata nd = Game->LoadNPCData(Owner->ID);
@@ -670,6 +674,23 @@ namespace NPCAnim {
       }
       void PlayDeathAnim(bool freeze = false) {
          PlayDeathAnim(0, 0, 0, 0, freeze);
+      }
+
+      // Returns true if the playing animation has finished
+      bool AnimFinished() {
+         return AnimFinished;
+      }
+      // Returns the currently playing animation
+      int GetCurAnim() {
+         return CurAnim;
+      }
+      // Returns the current frame for the currently playing animation
+      int GetCurAnimFrame() {
+         return CurFrame;
+      }
+      // Sets the current animation speed multiplier
+      void SetAnimSpeedMultiplier(int mult) {
+         AnimSpeedMultiplier = mult;
       }
 
       npc Owner;
@@ -738,7 +759,7 @@ namespace NPCAnim {
    }
 
    // Waits for the enemy's engine spawn animation to play
-   void WaitSpawn(npc n) {
+   void Waitspawn(npc n) {
       if (Game->FFRules[qr_HARDCODED_ENEMY_ANIMS]) {
          while (n->Frame < 0) {
             Waitframe();
@@ -785,9 +806,9 @@ namespace NPCAnim {
    }
 
    // Returns true if an enemy can walk onto a pixel
-   bool CanMovePixel(int x, int y, int moveStyle) {
+   bool CanMovePixel(npc n, int x, int y, int moveStyle = AM_ZQ) {
       if (moveStyle < 0)
-         return CanMovePixelCustom(x, y, moveStyle);
+         return CanMovePixelCustom(n, x, y, moveStyle);
 
       int pos = ComboAt(x, y);
 
@@ -831,6 +852,60 @@ namespace NPCAnim {
       }
 
       switch (moveStyle) {
+         case AM_ZQ: {
+            // Pits
+            if (n->MoveFlags[NPCMV_ONLY_PIT_WALK]) {
+               if (!pitfall)
+                  return false;
+            }
+            else
+               unless(n->MoveFlags[NPCMV_CAN_PIT_WALK]) {
+                  if (pitfall)
+                     return false;
+               }
+
+            // Water
+            if (n->MoveFlags[NPCMV_ONLY_SHALLOW_WATER_WALK] && n->MoveFlags[NPCMV_ONLY_WATER_WALK]) {
+               unless(water || shallowwater) return false;
+            }
+            else if (n->MoveFlags[NPCMV_ONLY_SHALLOW_WATER_WALK]) {
+               unless(shallowwater) return false;
+            }
+            else if (n->MoveFlags[NPCMV_ONLY_WATER_WALK]) {
+               unless(water) return false;
+            }
+            else
+               unless(n->MoveFlags[NPCMV_CAN_WATER_WALK]) {
+                  if (water)
+                     return false;
+               }
+
+            // Solidity
+            unless(n->MoveFlags[NPCMV_IGNORE_SOLIDITY]) {
+               if (solid)
+                  return false;
+            }
+
+            // No Enemy
+            unless(n->MoveFlags[NPCMV_IGNORE_BLOCKFLAGS]) {
+               if (noenemy)
+                  return false;
+
+               if (n->Type == NPCT_OTHERFLOAT) {
+                  if (nofly)
+                     return false;
+               }
+               else if (warp || noground)
+                  return false;
+            }
+
+            // Offscreen
+            unless(n->MoveFlags[NPCMV_IGNORE_SCREENEDGE]) {
+               if (offscreen)
+                  return false;
+            }
+         }
+            return true;
          case AM_NONE: return !(solid || offscreen || water || pitfall || warp || noenemy || noground);
          case AM_FLIER: return !(offscreen || noenemy || nofly);
          case AM_WATERONLY: return !(solid || offscreen || noenemy || noground) && (water || shallowwater);
@@ -838,10 +913,11 @@ namespace NPCAnim {
          case AM_PITONLY: return !(solid || offscreen || noenemy || noground) && pitfall;
          case AM_IGNOREALL: return !offscreen;
          case AM_IGNOREALLOFFSCREEN: return true;
+         default: return 0;
       }
    }
    // Returns true if an enemy can move one pixel in the given direction
-   bool CanMove(npc n, int dir, int moveStyle) {
+   bool CanMove(npc n, int dir, int moveStyle = AM_ZQ) {
       AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
 
       int xOff = n->HitXOffset;
@@ -861,7 +937,7 @@ namespace NPCAnim {
       switch (dir) {
          case DIR_UP:
             for (int i = 0; i <= w; i = Min(i + 8, w)) {
-               if (!CanMovePixel(x + i, y - 1, moveStyle))
+               if (!CanMovePixel(n, x + i, y - 1, moveStyle))
                   return false;
                if (i == w)
                   break;
@@ -869,7 +945,7 @@ namespace NPCAnim {
             break;
          case DIR_DOWN:
             for (int i = 0; i <= w; i = Min(i + 8, w)) {
-               if (!CanMovePixel(x + i, y + h + 1, moveStyle))
+               if (!CanMovePixel(n, x + i, y + h + 1, moveStyle))
                   return false;
                if (i == w)
                   break;
@@ -877,7 +953,7 @@ namespace NPCAnim {
             break;
          case DIR_LEFT:
             for (int i = 0; i <= h; i = Min(i + 8, h)) {
-               if (!CanMovePixel(x - 1, y + i, moveStyle))
+               if (!CanMovePixel(n, x - 1, y + i, moveStyle))
                   return false;
                if (i == h)
                   break;
@@ -885,7 +961,7 @@ namespace NPCAnim {
             break;
          case DIR_RIGHT:
             for (int i = 0; i <= h; i = Min(i + 8, h)) {
-               if (!CanMovePixel(x + w + 1, y + i, moveStyle))
+               if (!CanMovePixel(n, x + w + 1, y + i, moveStyle))
                   return false;
                if (i == h)
                   break;
@@ -895,7 +971,7 @@ namespace NPCAnim {
       return true;
    }
    // Returns true if an enemy can move one pixel in the given direction (8-way)
-   bool CanMove8(npc n, int dir, int moveStyle, bool reqBoth = false) {
+   bool CanMove8(npc n, int dir, int moveStyle = AM_ZQ, bool reqBoth = false) {
       bool cond1;
       bool cond2;
       switch (dir) {
@@ -922,7 +998,7 @@ namespace NPCAnim {
       return !(cond1 || cond2);
    }
    // Returns true if an enemy can be placed at the target position
-   bool CanPlace(npc n, int x, int y, int moveStyle) {
+   bool CanPlace(npc n, int x, int y, int moveStyle = AM_ZQ) {
       AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
 
       int xOff = n->HitXOffset;
@@ -941,7 +1017,7 @@ namespace NPCAnim {
       int h = collHeight - 1;
       for (int xi = 0; xi <= w; xi = Min(xi + 8, w)) {
          for (int yi = 0; yi <= h; yi = Min(yi + 8, h)) {
-            if (!CanMovePixel(xx + xi, yy + yi, moveStyle))
+            if (!CanMovePixel(n, xx + xi, yy + yi, moveStyle))
                return false;
             if (yi == h)
                break;
@@ -952,7 +1028,7 @@ namespace NPCAnim {
       return true;
    }
    // Same as above but lets you define the hitbox size
-   bool CanPlace(npc n, int x, int y, int w, int h, int moveStyle) {
+   bool CanPlace(npc n, int x, int y, int w, int h, int moveStyle = AM_ZQ) {
       AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
 
       int xx = x;
@@ -961,7 +1037,7 @@ namespace NPCAnim {
       h -= 1;
       for (int xi = 0; xi <= w; xi = Min(xi + 8, w)) {
          for (int yi = 0; yi <= h; yi = Min(yi + 8, h)) {
-            if (!CanMovePixel(xx + xi, yy + yi, moveStyle))
+            if (!CanMovePixel(n, xx + xi, yy + yi, moveStyle))
                return false;
             if (yi == h)
                break;
@@ -972,7 +1048,7 @@ namespace NPCAnim {
       return true;
    }
    // Moves the enemy on the X and Y axis
-   void MoveXY(npc n, int vx, int vy, int moveStyle) {
+   void MoveXY(npc n, int vx, int vy, int moveStyle = AM_ZQ) {
       AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
 
       ah->__SubpixelX += vx;
@@ -1018,16 +1094,16 @@ namespace NPCAnim {
       }
    }
    // Moves the enemy at an angle
-   void MoveAtAngle(npc n, int angle, int step, int moveStyle) {
+   void MoveAtAngle(npc n, int angle, int step, int moveStyle = AM_ZQ) {
       MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
    }
    // Moves the enemy toward Link
-   void MoveTowardLink(npc n, int step, int moveStyle) {
+   void MoveTowardLink(npc n, int step, int moveStyle = AM_ZQ) {
       int angle = Angle(CenterX(n) - 8, CenterY(n) - 8, Link->X, Link->Y);
       MoveXY(n, VectorX(step, angle), VectorY(step, angle), moveStyle);
    }
    // Moves the enemy toward a point, returns true if it still has more to move
-   bool MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle) {
+   bool MoveTowardPoint(npc n, int tx, int ty, int step, int moveStyle = AM_ZQ) {
       int angle = Angle(n->X, n->Y, tx, ty);
       if (Distance(n->X, n->Y, tx, ty) < step) {
          n->X = tx;
@@ -1040,7 +1116,7 @@ namespace NPCAnim {
    }
 
    // Tries to get the hitbox unstuck when in a solid
-   void TryUnstickHitbox(npc n, int moveStyle) {
+   void TryUnstickHitbox(npc n, int moveStyle = AM_ZQ) {
       // First check if it's actually stuck
       if (!CanPlace(n, n->X, n->Y, moveStyle)) {
          AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
@@ -1117,9 +1193,8 @@ namespace NPCAnim {
    }
 
    // Sets the animation speed multiplier
-   int SetAnimSpeedMultiplier(npc n, int speed) {
+   void SetAnimSpeedMultiplier(npc n, int speed) {
       AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
-
       ah->AnimSpeedMultiplier = speed;
    }
 
@@ -1130,7 +1205,7 @@ namespace NPCAnim {
 
    namespace Legacy {
       // old name
-      int SetAnimSpeed(npc n, int speed) {
+      void SetAnimSpeed(npc n, int speed) {
          SetAnimSpeedMultiplier(n, speed);
       }
 
@@ -1168,7 +1243,7 @@ namespace NPCAnim {
          return ah->AddAnim(animID, tile, numFrames, aSpeed, 0, -1, flags);
       }
 
-      void ExtendAnim(AnimHandler ah, int animID, int tileW, int tileH, int hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
+      void ExtendAnim(AnimHandler ah, int animID, int tileW, int tileH, int[] hitOffsets, int collOffsets, int drawOffsets, int posOffsets) {
          ah->ExtendAnim(animID, tileW, tileH, hitOffsets, collOffsets, drawOffsets, posOffsets);
       }
 

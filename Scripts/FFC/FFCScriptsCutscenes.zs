@@ -48,7 +48,7 @@ ffc script IntroAwaitingLeviathan {
 
             disableLink();
             Screen->FastTile(2, 240, 80, 44276, 0, OP_OPAQUE);
-            Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
+            Hero->WarpEx(WT_IWARPOPENWIPE, dmap, scr, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_UP);
          }
 
          Waitframe();
@@ -87,7 +87,7 @@ ffc script IntroLeviathanFailDialogue {
          Waitframe();
       }
 
-      Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
+      Hero->WarpEx(WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_UP);
    }
 }
 
@@ -154,7 +154,7 @@ ffc script IntroLeviathanEnding {
       }
 
       removeAllItems();
-      Hero->WarpEx({WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_NONE, 0, 0, DIR_UP});
+      Hero->WarpEx(WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_UP);
    }
 }
 
@@ -174,7 +174,7 @@ ffc script IntroEndOfOpeningScene {
       disableLink();
       Screen->Message(msg);
       Waitframe();
-      Hero->WarpEx({WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WIPE_FADEBLACK, 0, 0, DIR_DOWN});
+      Hero->WarpEx(WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, WARP_FLAG_NONE, DIR_DOWN);
    }
 }
 
@@ -185,10 +185,10 @@ ffc script IntroLeavingIoH {
 
    void run() {
       loop() {
-         if (Hero->X == 5 && Hero->Y > 59) {
+         if (Hero->X == 5) {
             unless(getScreenD(0)) {
                setScreenD(0, true);
-               Hero->WarpEx({WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_UP});
+               Hero->WarpEx(WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_UP);
             }
          }
          else
@@ -207,7 +207,7 @@ ffc script IntroPreInteritusLeviathanScene {
    using namespace LeviathanNamespace;
 
    void run() {
-      Hero->Item[189] = false;
+      Hero->Item[ITEM_RAFT_ANCIENT_HERO] = false;
 
       Audio->PlayEnhancedMusic(NULL, 0);
 
@@ -472,7 +472,7 @@ ffc script DifficultyChoice {
 
             Waitframes(30);
             Hero->Stun = 0;
-            Hero->WarpEx({WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+            Hero->WarpEx(WT_IWARP, 5, 0x3E, -1, WARP_B, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
          }
 
          Waitframe();
@@ -771,7 +771,7 @@ ffc script CapturedSequenceImprisioned {
          Screen->Message(250);
          Waitframe();
 
-         Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+         Hero->WarpEx(WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
       }
    }
 }
@@ -988,7 +988,7 @@ ffc script CapturedSequenceNecromancer {
       Hero->Stun = 0;
       Input->DisableKey[KEY_F6] = false;
       setScreenD(0, true);
-      Hero->WarpEx({WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_RIGHT});
+      Hero->WarpEx(WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
    }
 }
 

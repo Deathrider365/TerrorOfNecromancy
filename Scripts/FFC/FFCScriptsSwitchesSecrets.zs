@@ -201,7 +201,7 @@ ffc script Shutter {
       for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-            if (!(n->MiscFlags & (1 << 3)))
+            if (!(SizeOfArray(n->Flags) & (1 << 3)))
                return false;
       }
       return true;
@@ -210,7 +210,7 @@ ffc script Shutter {
 
 // clang-format off
 @Author("Moosh")
-ffc script OpenForItemId {
+ffc script OpenForItemId { //TODO Delete? Unused
    // clang-format on
    void run(int itemId, bool perm) {
       if (Screen->State[ST_SECRET])
@@ -218,29 +218,6 @@ ffc script OpenForItemId {
 
       while (true) {
          if (Hero->Item[itemId]) {
-            Screen->TriggerSecrets();
-
-            if (perm)
-               Screen->State[ST_SECRET] = true;
-
-            Audio->PlaySound(SFX_SECRET);
-            return;
-         }
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script OpenForCounterCount {
-   // clang-format on
-   void run(int counterId, int counterValue, bool perm) {
-      if (Screen->State[ST_SECRET])
-         Quit();
-
-      while (true) {
-         if (Game->Counter[counterId] == counterValue) {
             Screen->TriggerSecrets();
 
             if (perm)
@@ -506,381 +483,6 @@ ffc script SwitchTrap {
 }
 
 // clang-format off
-@Author("Moosh"),
-@InitD0("switchCmb"),
-@InitDHelp0("Set this to the combo number used for the unpressed switches."),
-@InitD1("pressure"),
-@InitDHelp1("1 for link to stand on, 2 for a block"),
-@InitD2("perm"),
-@InitDHelp2("Set to 1 to make the secret that's triggered permanent"),
-@InitD3("id"),
-@InitDHelp3("Set to the controller's ID. Set to 0 if the switch is temporary or you're using screen secrets."),
-@InitD4("flag"),
-@InitDHelp4("Set to the flag that specifies the region for the remote secret. If you're using screen secrets instead of remote ones, this can be ignored."),
-@InitD5("sfx"),
-@InitDHelp5("If > 0, specifies a special secret sound. -1 for default, 0 for silent. 7 for secret sound"),
-@InitD6("switchID"),
-@InitDHelp6("If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0."),
-@InitD7("layer"),
-@InitDHelp7("Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.")
-ffc script SwitchHitAll {
-   // clang-format on
-
-   void run(int switchCmb, int pressure, int perm, int id, int flag, int sfx, int switchID) {
-      bool noLink;
-
-      if (pressure == 2) {
-         pressure = 1;
-         noLink = true;
-      }
-
-      int i;
-      int j;
-      int k;
-      int d;
-      long db;
-
-      if (flag == 0)
-         id = 0;
-
-      int comboD[176];
-
-      if (id > 0) {
-         d = Div((id - 1), 32);
-         db = 1bL << ((id - 1) % 32);
-
-         for (i = 0; i < 176; i++)
-            if (Screen->ComboF[i] == flag) {
-               comboD[i] = Screen->ComboD[i];
-               Screen->ComboF[i] = 0;
-            }
-      }
-
-      int switches[34];
-      int switchD[34];
-      long switchDB[34];
-      switchD[0] = switchID;
-      bool switchesPressed[34];
-      k = SizeOfArray(switches) - 2;
-
-      for (i = 0; i < 176 && switches[0] < k; i++)
-         if (Screen->ComboD[i] == switchCmb) {
-            j = 2 + switches[0];
-            switches[j] = i;
-
-            unless(pressure && switchID > 0) {
-               switchD[j] = Div((switchID + switches[0] - 1), 32);
-               switchDB[j] = 1bL << ((switchID + switches[0] - 1) % 32);
-
-               if (Screen->D[switchD[j]] & switchDB[j]) {
-                  switchesPressed[j] = true;
-                  Screen->ComboD[i] = switchCmb + 1;
-                  switches[1]++;
-               }
-            }
-
-            switches[0]++;
-         }
-
-      if (perm) {
-         if (id > 0) {
-            if (Screen->D[d] & db) {
-               for (i = 2; i < switches[0] + 2; i++) {
-                  Screen->ComboD[switches[i]] = switchCmb + 1;
-                  switchesPressed[i] = true;
-               }
-
-               for (i = 0; i < 176; i++)
-                  if (comboD[i] > 0)
-                     Screen->ComboD[i] = comboD[i] + 1;
-
-               while (true) {
-                  Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-                  Waitframe();
-               }
-            }
-         }
-         else if (Screen->State[ST_SECRET]) {
-            for (i = 2; i < switches[0] + 2; i++) {
-               Screen->ComboD[switches[i]] = switchCmb + 1;
-               switchesPressed[i] = true;
-            }
-
-            while (true) {
-               Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-               Waitframe();
-            }
-         }
-      }
-
-      if (pressure) {
-         while (switches[1] < switches[0]) {
-            Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, true, noLink);
-            Waitframe();
-         }
-
-         if (id > 0) {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            for (i = 0; i < 176; i++)
-               if (comboD[i] > 0)
-                  Screen->ComboD[i] = comboD[i] + 1;
-         }
-         else {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            Screen->TriggerSecrets();
-         }
-
-         if (perm) {
-            if (id > 0)
-               Screen->D[d] |= db;
-            else
-               Screen->State[ST_SECRET] = true;
-         }
-      }
-      else {
-         while (switches[1] < switches[0]) {
-            Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-            Waitframe();
-         }
-
-         if (id > 0) {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            for (i = 0; i < 176; i++)
-               if (comboD[i] > 0)
-                  Screen->ComboD[i] = comboD[i] + 1;
-         }
-         else {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else
-               Audio->PlaySound(SFX_SECRET);
-
-            Screen->TriggerSecrets();
-         }
-         if (perm) {
-            if (id > 0)
-               Screen->D[d] |= db;
-            else
-               Screen->State[ST_SECRET] = true;
-         }
-      }
-
-      while (true) {
-         Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-         Waitframe();
-      }
-   }
-
-   void Switches_Update(int[] switches, int[] switchD, int[] switchDB, bool[] switchesPressed, int switchCmb, bool pressure, bool noLink) {
-      if (pressure)
-         switches[1] = 0;
-
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), noLink, false);
-
-         if (p) {
-            if (p != 2)
-               Screen->ComboD[k] = switchCmb + 1;
-
-            unless(switchesPressed[j]) {
-               Audio->PlaySound(SFX_SWITCH_PRESS);
-
-               if (switchD[0] > 0)
-                  Screen->D[switchD[j]] |= switchDB[j];
-
-               switchesPressed[j] = true;
-
-               unless(pressure) switches[1]++;
-            }
-
-            if (pressure)
-               switches[1]++;
-         }
-         else {
-            if (switchesPressed[j]) {
-               if (pressure) {
-                  Audio->PlaySound(SFX_SWITCH_RELEASE);
-                  Screen->ComboD[k] = switchCmb;
-                  switchesPressed[j] = false;
-               }
-               else if (Screen->ComboD[k] != switchCmb + 1)
-                  Screen->ComboD[k] = switchCmb + 1;
-            }
-         }
-      }
-   }
-}
-
-// clang-format off
-@Author("Moosh")
-ffc script SwitchSequential {
-   // clang-format on
-   // start Instructions
-   //  D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
-   //  D1: Set to 1 to make the secret that's triggered permanent.
-   //  D2: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-   // end
-
-   void run(int flag, int perm, int sfx) {
-      int i;
-      int j;
-      int k;
-      int switches[34];
-      int switchCmb[34];
-      int switchMisc[8];
-      bool switchesPressed[34];
-      k = SizeOfArray(switches) - 2;
-
-      for (i = 0; i < 176 && switches[0] < k; i++)
-         if (Screen->ComboF[i] == flag) {
-            j = 2 + switches[0];
-            switches[j] = i;
-            switchCmb[j] = Screen->ComboD[i];
-            switches[0]++;
-         }
-
-      int switchOrder[34];
-      Switches_Organize(switches, switchOrder);
-
-      if (perm && Screen->State[ST_SECRET]) {
-         for (i = 0; i < switches[0]; i++)
-            switchesPressed[i + 2] = true;
-
-         while (true) {
-            Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-            Waitframe();
-         }
-      }
-
-      while (switches[1] < switches[0]) {
-         Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, true);
-
-         if (switchMisc[0] == 1) {
-            switchMisc[0] = 0;
-            for (i = 0; i < 30; i++) {
-               Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-               Waitframe();
-            }
-
-            while (Switches_LinkOn(switches)) {
-               Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-               Waitframe();
-            }
-         }
-
-         Waitframe();
-      }
-
-      if (sfx > 0)
-         Audio->PlaySound(sfx);
-      else if (sfx == -1)
-         Audio->PlaySound(SFX_SECRET);
-      Screen->TriggerSecrets();
-
-      if (perm)
-         Screen->State[ST_SECRET] = true;
-
-      for (i = 0; i < switches[0]; i++)
-         switchesPressed[i + 2] = true;
-
-      while (true) {
-         Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-         Waitframe();
-      }
-   }
-
-   void Switches_Organize(int[] switches, int[] switchOrder) {
-      bool banned[34];
-
-      for (int j = 0; j < switches[0]; j++) {
-         int lowest = -1;
-         int lowestIndex = -1;
-
-         for (int i = 0; i < switches[0]; i++) {
-            int c = Screen->ComboD[switches[i + 2]];
-
-            unless(c == -1 && banned[i + 2]) if (lowest == -1 || c < lowest) {
-               lowest = c;
-               lowestIndex = i + 2;
-            }
-         }
-
-         switchOrder[j] = lowestIndex;
-         banned[lowestIndex] = true;
-      }
-   }
-
-   bool Switches_LinkOn(int[] switches) {
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false, false);
-
-         if (p == 1)
-            return true;
-      }
-      return false;
-   }
-
-   void Switches_Update(int[] switches, bool[] switchesPressed, int[] switchOrder, int[] switchCmb, int[] switchMisc, bool canPress) {
-      bool reset;
-
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false, false);
-
-         unless(switchesPressed[j]) {
-            unless(p == 2) Screen->ComboD[k] = switchCmb[j];
-
-            if (p && canPress) {
-               if (j == switchOrder[switches[1]]) {
-                  switches[1]++;
-                  Audio->PlaySound(SFX_SWITCH_PRESS);
-                  switchesPressed[j] = true;
-               }
-               else {
-                  switches[1] = 0;
-                  Audio->PlaySound(SFX_SWITCH_ERROR);
-                  reset = true;
-               }
-            }
-         }
-
-         else {
-            unless(p == 2) Screen->ComboD[k] = switchCmb[j] + 1;
-
-            if (p == 0 && canPress) {
-               Audio->PlaySound(SFX_SWITCH_RELEASE);
-               switchesPressed[j] = false;
-            }
-         }
-      }
-
-      if (reset) {
-         switchMisc[0] = 1;
-         for (int i = 0; i < switches[0]; i++) {
-            int j = i + 2;
-            int k = switches[j];
-            int p = switchPressed(ComboX(k), ComboY(k), false, false);
-            switchesPressed[j] = false;
-         }
-      }
-   }
-}
-
-// clang-format off
 @Author("Deathrider365"),
 @InitD0("map"),
 @InitDHelp0("map to set screenD"),
@@ -899,7 +501,10 @@ ffc script TriggerScreenDFromSecretsElsewhere {
    }
 }
 
+// clang-format off
+@Author("Deathrider365")
 ffc script MaraudersCoveOpens {
+// clang-format on
    void run() {
       if (Game->LoadMapData(89, 0x76)->State[ST_SECRET] && Game->LoadMapData(89, 0x45)->State[ST_SECRET] && Game->LoadMapData(89, 0x25)->State[ST_SECRET]) {
          Screen->Quake = 20;
@@ -910,7 +515,10 @@ ffc script MaraudersCoveOpens {
    }
 }
 
+// clang-format off
+@Author("Deathrider365")
 ffc script MaraudersTowerStairs1 {
+// clang-format on
    void run() {
       mapdata mapData = Game->LoadTempScreen(1);
 
@@ -923,7 +531,10 @@ ffc script MaraudersTowerStairs1 {
    }
 }
 
+// clang-format off
+@Author("Deathrider365")
 ffc script MaraudersTowerStairsSecrets {
+// clang-format on
    void run() {
       mapdata mapData = Game->LoadTempScreen(1);
 

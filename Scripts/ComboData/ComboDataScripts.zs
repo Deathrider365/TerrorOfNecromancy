@@ -240,6 +240,6 @@ combodata script FlipDaPlace {
 
       // Hero->Warp(dmap, screen);
       // Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARPEFFECT_NONE, 0, 0, heroDir});
-      Hero->WarpEx({WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, 0, heroDir});
+      Hero->WarpEx(WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, heroDir);
    }
 }

@@ -665,7 +665,7 @@ namespace LeviathanNamespace {
 
       Waitframe();
 
-      Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_LEFT});
+      Hero->WarpEx(WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_LEFT);
 
       this->Immortal = false;
       this->Remove();

@@ -73,7 +73,7 @@ ffc script Signpost {
          if (warp) {
             int dmap = Floor(warp);
             int screen = (warp % 1) / 1L;
-            Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, 0, 0, 0, DIR_DOWN}); // TODO what is the constant for WARPFX_NONE
+            Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_DOWN); 
          }
       }
    }
@@ -457,7 +457,6 @@ ffc script GetItemOnScreenD {
 @InitDHelp3("String for when you already got the item"),
 @InitD4("screenD"),
 @InitDHelp4("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)"),
-
 @Author("Deathrider365")
 ffc script GetItemOnSecret {
    // clang-format on
@@ -599,7 +598,6 @@ ffc script GetItemOnItem {
       }
    }
 }
-
 
 // clang-format off
 @Author("Deathrider365"),

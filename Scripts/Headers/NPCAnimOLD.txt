@@ -1,4 +1,4 @@
-NPCAnim.zh ver 1.3.6
+NPCAnim.zh ver 1.2.0
 
 +---------------+
 | What and Why? |
@@ -54,30 +54,12 @@ aptr-> in front. If you need to access this pointer outside of the run function,
 for example in a custom waitframe, you can fetch it easily off the enemy:
 
 AnimHandler GetAnimHandler(npc n)
- * Gets a pointer to the AnimHandler object from one of the NPC's Misc[] indices.
+ * Gets a pointer to the animhandler object from one of the NPC's Misc[] indices.
  * Which index it's stored in is configurable with NPCM_ANIMPOINTER.
-
-PlayerMovementTracker GetPlayerMovementTracker(npc n)
- * Gets a pointer to an PlayerMovementTracker object if the npc has one. 
- * Set the npc's movement tracker with aptr->SetMovementTracking().
 
 +----------------+
 | Init Functions |
 +----------------+
-
-void aptr->SetFlags(int flags)
-void aptr->UnsetFlags(int flags)
- * Use this to add or remove the following flags controlling enemy behavior:
- *
- * AHF_NORMAL
- *     Combination of AHF_DOSLIDE, AHF_DOSTUN, and AHF_DOPITFALL
- * AHF_DOSLIDE
- *     The enemy does engine knockback
- * AHF_DOSTUN
- *     Waitframe will suspend while the enemy is stunned
- * AHF_DOPITFALL
- *     The script will quit out when the enemy falls in a pit
-
 
 void aptr->SetHitbox(int w, int h, int hitOffsets[], bool center=false)
  * Use this to quickly resize and adjust an enemy's damage hitbox.
@@ -141,14 +123,6 @@ void aptr->ExtendAnim(int animID, int tileW, int tileH, int hitOffsets[], int co
  *                  place it up and left from its position.
  * posOffsets[2] - These will offset the enemy's actual position when transformed.
 
-void aptr->AddAnimGroup(int animID, int type, int animGroup[], bool noreset=true)
- * Defines a special animation that's used as a group of other animations based on direction.
- * If animID is -1, will pick a new ID and return that, else pass it a unique animation ID constant.
- * type defines the number of directions and should be set to ANIMTYPE_4DIR or ANIMTYPE_8DIR
- * animGroup[] is an array of animation IDs for each direction and should be size 4 or 8.
- * If an index of the animGroup array is -1, that direction will not have an animation.
- * If noreset is true, the animations in the group won't reset when changing direction.
-
 void aptr->SetFakeShadow(int spr, int w=1, int h=1, int offset=0)
  * Sets up a fake shadow sprite to draw under the enemy. w and h let you 
  * expand the size of the shadow and offset moves it down or up on the Y axis.
@@ -157,17 +131,11 @@ void aptr->SetFakeShadow(int spr, int w=1, int h=1, int offset=0)
 | Animation Functions |
 +---------------------+
 
-void aptr->PlayAnim(int animID, bool noReset=false, float speed=-1)
+void aptr->PlayAnim(int animID, bool noReset=false)
  * This will play one of the NPC's animations. animID is a constant or variable
  * defined by the user. If noReset is true, the animation will not reset the frame
  * and animation clock on the new animation.
  * If animID is -1, this will instead render the enemy invisible and invulnerable.
- * If speed is 0 or higher, will set the enemy's animation speed multiplier to that number.
-
-void aptr->PlayAnimAndWait(int animID, int frames=0, bool noReset=false, float speed=-1)
- * Plays one of the NPC's animations and waits for it to finish.
- * If frames >0, will wait that duration instead of the animation's length.
- * If speed is 0 or higher, will set the enemy's animation speed multiplier to that number.
 
 void aptr->PlayDeathAnim(int spr, int w=1, int h=1, int sfx=0, bool freeze=false)
 void aptr->PlayDeathAnim(bool freeze=false)
@@ -190,9 +158,6 @@ bool aptr->AnimFinished()
 
 int aptr->GetCurAnim()
  * This will return the enemy's current playing animation.
-
-int aptr->GetCurSingleAnim()
- * This will return the enemy's current playing animation, not including animation groups.
 
 int aptr->GetCurAnimFrame()
  * This will return the current animation frame of the currently playing animation.
@@ -286,27 +251,6 @@ You can give the above functions whatever collision logic you want by modifying 
 CanMovePixelCustom function and using a negative moveStyle. All negative movestyles
 are reserved for user defined ones. I don't advise doing this for database scripts
 though, as it will require modifying the header. 
-
-+-----------------------------+
-| Movement Tracking Functions |
-+-----------------------------+
-
-The following functions relate to a movement tracking system that can be attached 
-to the animation handler for the purpose of predicting Link's movement.
-
-PlayerMovementTracker aptr->SetMovementTracking(int steps=8, int freq=1, int maxDist=512)
-* Attaches a new movement tracker to the animation handler, which will update during 
-* the NPCAnim custom waitframe function. 
-* It will update every 'freq' frames and collect a backlog of 'steps' changes in position.
-* Generally the longer the period of tracking, the less accurate the result will be.
-
-float aptr->PredictLinkX(int frames=1)
-float aptr->PredictLinkY(int frames=1)
-* Predicts Link's X/Y position within a number of frames.
-
-float aptr->PredictChangeX(int frames=1)
-float aptr->PredictChangeY(int frames=1)
-* Predicts a change in Link's X/Y position within a number of frames.
 
 +--------------------+
 | Internal Functions |

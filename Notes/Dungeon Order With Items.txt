@@ -43,10 +43,10 @@ Battle Arena 3: Exiled Zora's Dwelling		 	                    - Hurricane Spin
 (20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)        - Red Mail (3)
 
 (08) Level 8: Marauder's Cove				                          - Mage's Wand (1)
-(21) Optional Dungeon 5: Depths of The Flooded Forge	           - Smith's Hammer (2)
+(21) Optional Dungeon 5: Molten Flooded Forge mines	           - Smith's Hammer (2)
 
 (09) Level 9: Castle Interitus				                       - Longshot (2)
-(22) Optional Dungeon 6: Summus Pass Depths                      - Hell's Candle (4)
+(22) Optional Dungeon 6: Summus Catacombs                         - Hell's Candle (4)
 (23) Optional Dungeon 7: Forbidden Spire (IoH)		              - Mithril Arrow (3)
 
 ---Demo 7---
