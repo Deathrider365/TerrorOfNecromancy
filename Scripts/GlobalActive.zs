@@ -569,8 +569,23 @@ global script OnLaunch {
 }
 
 // clang-format off
+// @Author("Deathrider365")
+// global script onF6Menu {
+//    // clang-format off
+
+//    void run() {
+//       onContHP = Hero->HP;
+//       onContMP = Hero->MP;
+
+//       if (SizeOfArray(stolenLinkItems))
+//          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+//             Hero->Item[stolenLinkItems[i]] = true;
+//    }
+// }
+
+// clang-format off
 @Author("Deathrider365")
-global script onF6Menu {
+generic script onF6Menu {
    // clang-format off
 
    void run() {
