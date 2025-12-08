@@ -733,12 +733,13 @@ ffc script EscapedEgentemCultist {
 @Author("Deathrider365")
 ffc script ConflatosElder {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int initialScreenD) {
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int fifthMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
          mapdata forgeBossRoom = Game->LoadMapData(61, 0x43);
+         mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -753,7 +754,7 @@ ffc script ConflatosElder {
             Screen->Message(secondaryMessage);
          } else if (forgeBossRoom->State[ST_SECRET] && !Hero->Item[ITEM_RING2]) {
             Screen->Message(tertiaryMessage);
-         } else if (Hero->Item[ITEM_RING2]) {
+         } else if (Hero->Item[ITEM_RING2] && !getScreenD(initialScreenD + 1)) {
             Screen->Message(tertiaryMessage + 1);
             Waitframe();
 
@@ -761,12 +762,79 @@ ffc script ConflatosElder {
             mapdata forgeDepthsDoor = Game->LoadMapData(61, 0x16);
             forgeDepthsDoor->State[ST_SECRET] = true;
             setScreenD(initialScreenD + 1, true);
-         } else if (getScreenD(initialScreenD + 1)) {
+         } else if (getScreenD(initialScreenD + 1) && !forgeMinesBossRoom->State[ST_SECRET]) {
             Screen->Message(fourthMessage);
-         } else if (/*TODO finished the mines portion*/ true) {
-            Screen->Message(tertiaryMessage + 3);
+         } else if (forgeMinesBossRoom->State[ST_SECRET] && !getScreenD(initialScreenD + 2)) {
+            Screen->Message(fifthMessage);
+            setScreenD(initialScreenD + 2, true);
          } else {
-            Screen->Message(0);
+            Screen->Message(fifthMessage + 2);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script ConflatosNephew {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int initialScreenD) {
+      Trace(Screen->State[ST_SECRET]);
+
+      if (Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
+
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         
+         if (!forgeMinesBossRoom->State[ST_SECRET]) {
+            Screen->Message(initialMessage);
+         } else if (forgeMinesBossRoom->State[ST_SECRET]) {
+            Screen->Message(secondaryMessage);
+            Waitframe();
+
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+            Audio->PlaySound(SFX_SECRET);
+
+            this->Data = CMB_INVIS;
+            this->Flags[FFCF_SOLID] = false;
+            Quit();
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script PreSiegeNPC {
+// clang-format on
+   void run(int initialMessage, int map, int screen) {
+      mapdata screenThatTriggersThis = Game->LoadMapData(map, screen);
+      mapdata zeldaRoom = Game->LoadMapData(57, 0x02);
+
+      if (!screenThatTriggersThis->State[ST_SECRET] || zeldaRoom->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         
+         if (!zeldaRoom->State[ST_SECRET]) {
+            Screen->Message(initialMessage);
          }
 
          Waitframe();
