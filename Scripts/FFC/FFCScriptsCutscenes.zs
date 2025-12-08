@@ -1325,12 +1325,14 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD1 = 1;
    CONFIG screenD3 = 3;
    CONFIG screenD4 = 4;
+   CONFIG screenD5 = 5;
 
    void run() {
       mapdata mapDataBeatQuickknife = Game->LoadMapData(66, 0x23);
       mapdata mapDataBeatGamoth = Game->LoadMapData(75, 0x22);
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
+      mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
 
       loop () {
          waitForTalking(this);
@@ -1344,6 +1346,8 @@ ffc script GoddessFaithfulZeldaScenes {
             zeldaGivesMagicOcarina();
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaInformsLinkAboutCarulemAndDuratu();
+         else if (mapDataBeatLvl8->State[ST_SECRET])
+            zeldaInitiatesTheSiege();
          else {
             const int zeldaIDontKnowYouMessage = 448;
 
@@ -1405,5 +1409,13 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 521;
       Screen->Message(zeldaIntroMessage);
       Waitframe();
+   }
+
+   void zeldaInitiatesTheSiege() {
+      const int zeldaIntroMessage = 1244;
+      Screen->Message(zeldaIntroMessage);
+      Waitframe();
+
+      //Based on the amount of NPCs you have saved the dialog will vary
    }
 }
