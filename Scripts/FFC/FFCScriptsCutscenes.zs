@@ -1345,7 +1345,7 @@ ffc script GoddessFaithfulZeldaScenes {
          else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaGivesMagicOcarina();
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
-            zeldaInformsLinkAboutCarulemAndDuratu();
+            zeldaThanksLinkForHelpingAuri();
          else if (mapDataBeatLvl8->State[ST_SECRET])
             zeldaInitiatesTheSiege();
          else {
@@ -1405,9 +1405,16 @@ ffc script GoddessFaithfulZeldaScenes {
          Screen->Message(zeldaPostIntroMessage);
    }
 
-   void zeldaInformsLinkAboutCarulemAndDuratu() {
+   void zeldaThanksLinkForHelpingAuri() {
       const int zeldaIntroMessage = 521;
-      Screen->Message(zeldaIntroMessage);
+      const int zeldaPostIntroMessage = 465;
+
+      if (!getScreenD(screenD4)) {
+         Screen->Message(zeldaIntroMessage);
+         setScreenD(screenD4, true);
+      } else {
+         Screen->Message(zeldaIntroMessage);
+      }
       Waitframe();
    }
 

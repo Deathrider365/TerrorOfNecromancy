@@ -22,6 +22,7 @@
 
 #include "FFC/FFCScripts.zs"
 #include "FFC/FFCScriptsCutscenes.zs"
+#include "FFC/FFCScriptsNPCs.zs"
 #include "FFC/FFCScriptsStringsItems.zs"
 #include "FFC/FFCScriptsSwitchesSecrets.zs"
 
