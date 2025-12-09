@@ -50,6 +50,7 @@ Battle Arena 3: Exiled Zora's Dwelling		 	                    - Hurricane Spin
 (23) Optional Dungeon 7: Forbidden Spire (IoH)		              - Mithril Arrow (3)
 
 ---Demo 7---
+~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
 Shop: Thief's Wallet (2)
 (10) Level 10: Mt. Caldum					                          - Gale Boomerang (3)
@@ -59,24 +60,21 @@ Battle Arena 4: southern edge of SWI                             - Marksman's Bo
 (11) Level 11: Mortuary of Darkness			                       - Mirror Shield (3)
 (25) Optional Dungeon 9: Origin of Death (Pacilux)               - Portal Sphere
 
-(12) Level 12: Towers of Dichotomy				                    - Sorcerer's Wand (2)
+(12) Level 12: Towers of Dichotomy				                    - Obsidian Ring? (1) ~ NOTE: Final item obsidian ring? somethign else?
 (26) Optional Dungeon 10: Banished Sanctuary			              - Diver's Flippers (2)
 
-Hero's Sword obtained from Zelda
+Goddess Sword obtained once you have all shards to the golden triforces
+Goddess Mail is obtained by a side quest that merges with the events that occur once all 12 dungeons are done (the final approach to the final boss, maybe isnt super obvious)
 
 ---Version 1.0.0---
-Optional Dungeon 7: Chapel of Rumination:                        - Light Arrow (4)
+Optional Dungeon 11: Chapel of Rumination:                        - Light Arrow (4)
 - Main story fleshed out (cutscenes) and can beat the game
 - Some optional content, no post game
+- All bosses and scripted enemies implemented
 
 --Version 2.0.0---
 - Post game
 - All Side content planned
-
-
-
-Unaccounted for items:
-- The final primary item
-- Hero's Tunic
+- All bugs worked out the best of my ability
 
 
