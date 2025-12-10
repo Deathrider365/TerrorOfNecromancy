@@ -472,7 +472,7 @@ ffc script PreSiegeNPC {
       mapdata screenThatTriggersThis = Game->LoadMapData(map, screen);
       mapdata zeldaRoom = Game->LoadMapData(57, 0x02);
 
-      if (!screenThatTriggersThis->State[ST_SECRET] || getScreenD(48, 0x02, 5)) {
+      if (!screenThatTriggersThis->State[ST_SECRET] || zeldaRoom->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -482,7 +482,7 @@ ffc script PreSiegeNPC {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (!getScreenD(48, 0x02, 5)) {
+         if (!zeldaRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
          }
 

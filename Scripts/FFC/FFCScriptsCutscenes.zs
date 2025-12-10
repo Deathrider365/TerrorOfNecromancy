@@ -1336,13 +1336,19 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG CONFLATOS_NEPHEW = 5850;
 
    void run() {
+      if (Screen->State[ST_SECRET]) {
+         this->Flags[FFCF_SOLID] = false;
+         this->Data = CMB_INVIS;
+         Quit();
+      }
+
       mapdata mapDataBeatQuickknife = Game->LoadMapData(66, 0x23);
       mapdata mapDataBeatGamoth = Game->LoadMapData(75, 0x22);
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
       mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
 
-      zeldaInitiatesTheSiege();
+      zeldaInitiatesTheSiege(this);
 
       loop () {
          waitForTalking(this);
@@ -1357,7 +1363,7 @@ ffc script GoddessFaithfulZeldaScenes {
          else if (mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaThanksLinkForHelpingAuri();
          else if (mapDataBeatLvl8->State[ST_SECRET])
-            zeldaInitiatesTheSiege();
+            zeldaInitiatesTheSiege(this);
          else {
             const int zeldaIDontKnowYouMessage = 448;
 
@@ -1428,12 +1434,20 @@ ffc script GoddessFaithfulZeldaScenes {
       Waitframe();
    }
 
-   void zeldaInitiatesTheSiege() {
-      setScreenD(screenD5, true);
+   void zeldaInitiatesTheSiege(ffc this) {
       int zeldaIntroMessage = 1244;
       int zeldaOpeningMessage = 1258;
       int zeldaSideQuestMessage = 1260;
-      int zeldaClosingMessage = 1267;
+      int zeldaSideQuestMessageNonDone = 1272;
+      int zeldaBreakDownMessage = 1267;
+      int zeldaClosingMessage = 1271;
+      
+      bool hylianGeneralTriggered = Game->LoadMapData(16, 0x3A)->State[ST_SECRET];
+      bool servusSoldierTriggered = Game->LoadMapData(16, 0x05)->State[ST_SECRET];
+      bool seizedTowerSoldierTriggered = Game->LoadMapData(16, 0x4B)->State[ST_SECRET];
+      bool duratuElderTriggered = Game->LoadMapData(53, 0x3D)->State[ST_SECRET];
+      bool carulemZoraTriggered = Game->LoadMapData(96, 0x21)->State[ST_SECRET];
+      bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
 
       Screen->Message(zeldaIntroMessage);
       Waitframe();
@@ -1462,21 +1476,60 @@ ffc script GoddessFaithfulZeldaScenes {
 
       //play some music here
 
-      sendInThePeople();
+      sendInThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
 
       Screen->Message(zeldaOpeningMessage);
       Waitframe();
 
-      //special if you saved anyone \/
-      Screen->Message(zeldaSideQuestMessage);
-      Waitframe();
-      //after zelda's line, each of the side quest npcs will have dialog here
+      if (hylianGeneralTriggered || servusSoldierTriggered || seizedTowerSoldierTriggered || duratuElderTriggered || carulemZoraTriggered || conflatosNephewTriggered)
+         Screen->Message(zeldaSideQuestMessage);
 
-      Screen->Message(zeldaClosingMessage);
       Waitframe();
+
+      if (hylianGeneralTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 1);
+         Waitframe();
+      }
+      if (servusSoldierTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 2);
+         Waitframe();
+      }
+      if (seizedTowerSoldierTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 3);
+         Waitframe();
+      }
+      if (duratuElderTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 4);
+         Waitframe();
+      }
+      if (carulemZoraTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 5);
+         Waitframe();
+      }
+      if (conflatosNephewTriggered) {
+         Screen->Message(zeldaSideQuestMessage + 6);
+         Waitframe();
+      }
+
+      Screen->Message(zeldaBreakDownMessage);
+      Waitframe();
+
+      sendOutThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+      Audio->PlaySound(SFX_SECRET);
+
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         Screen->Message(zeldaClosingMessage);
+         Waitframe();
+      }
    }
 
-   void sendInThePeople() { //TODO the if(true) needs to check if you finished each of them
+   void sendInThePeople(bool hylianGeneralTriggered, bool servusSoldierTriggered, bool seizedTowerSoldierTriggered, bool duratuElderTriggered, bool carulemZoraTriggered, bool conflatosNephewTriggered) { //TODO the if(true) needs to check if you finished each of them
       int npcArrayIndex = 0;
       int moveNPCXOffset = 1;
       int moveNPCYOffset = 1;
@@ -1499,12 +1552,17 @@ ffc script GoddessFaithfulZeldaScenes {
       int conflatosNephewX = 128;
       int conflatosNephewY = 272;
 
-      loop() {
+      int timer = 330;
+      
+      mapdata mapData = Game->LoadTempScreen(2);
+      mapdata mapData3 = Game->LoadTempScreen(3);
+
+      while(timer) {
          disableLink();
 
-         if (true) {
+         if (hylianGeneralTriggered) {
             if (hylianGeneralX == 32 && hylianGeneralY == 64)
-               ;
+               mapData->ComboD[ComboAt(hylianGeneralX, hylianGeneralY)] = HYLIAN_GENERAL_COMBO;
             else if (hylianGeneralY > 64)
                hylianGeneralY -= 1;
             else
@@ -1513,9 +1571,9 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(2, hylianGeneralX, hylianGeneralY, HYLIAN_GENERAL_COMBO, 0, OP_OPAQUE);
          }
 
-         if (true) {
+         if (servusSoldierTriggered) {
             if (servusSoldierX == 178 && servusSoldierY == 96)
-               ;
+               mapData->ComboD[ComboAt(servusSoldierX, servusSoldierY)] = SERVUS_SOLDIER;
             else if (servusSoldierY > 96)
                servusSoldierY -= 1;
             else
@@ -1524,9 +1582,9 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(2, servusSoldierX, servusSoldierY, SERVUS_SOLDIER, 0, OP_OPAQUE);
          }
 
-         if (true) {
+         if (seizedTowerSoldierTriggered) {
             if (seizedTowerGuardX == 48 && seizedTowerGuardY == 32)
-               ;
+               mapData->ComboD[ComboAt(seizedTowerGuardX, seizedTowerGuardY)] = SEIZED_TOWER_GUARD;
             else if (seizedTowerGuardY > 64)
                seizedTowerGuardY -= 1;
             else {
@@ -1539,9 +1597,9 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(2, seizedTowerGuardX, seizedTowerGuardY, SEIZED_TOWER_GUARD, 0, OP_OPAQUE);
          }
 
-         if (true) {
+         if (carulemZoraTriggered) {
             if (carulemZoraX == 144 && carulemZoraY == 128)
-               ;
+               mapData->ComboD[ComboAt(carulemZoraX, carulemZoraY)] = CARULEM_ZORA;
             else if (carulemZoraY > 128)
                carulemZoraY -= 1;
             else {
@@ -1551,9 +1609,11 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(2, carulemZoraX, carulemZoraY, CARULEM_ZORA, 0, OP_OPAQUE);
          }
 
-         if (true) {
-            if (duratuGoronX == 32 && duratuGoronY == 80)
-               ;
+         if (duratuElderTriggered) {
+            if (duratuGoronX == 32 && duratuGoronY == 80) {
+               mapData->ComboD[ComboAt(duratuGoronX, duratuGoronY)] = DURATU_GORON;
+               mapData3->ComboD[ComboAt(duratuGoronX, duratuGoronY - 16)] = DURATU_GORON_HAIR;
+            }
             else if (duratuGoronY > 80)
                duratuGoronY -= 1;
             else {
@@ -1564,9 +1624,9 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(3, duratuGoronX, duratuGoronY - 16, DURATU_GORON_HAIR, 0, OP_OPAQUE);
          }
 
-         if (true) {
+         if (conflatosNephewTriggered) {
             if (conflatosNephewX == 178 && conflatosNephewY == 64)
-               ;
+               mapData->ComboD[ComboAt(conflatosNephewX, conflatosNephewY)] = CONFLATOS_NEPHEW;
             else if (conflatosNephewY > 64)
                conflatosNephewY -= 1;
             else
@@ -1575,8 +1635,35 @@ ffc script GoddessFaithfulZeldaScenes {
             Screen->FastCombo(2, conflatosNephewX, conflatosNephewY, CONFLATOS_NEPHEW, 0, OP_OPAQUE);
          }
 
+         timer--;
          Waitframe();
       }
+   }
+
+   void sendOutThePeople(bool hylianGeneralTriggered, bool servusSoldierTriggered, bool seizedTowerSoldierTriggered, bool duratuElderTriggered, bool carulemZoraTriggered, bool conflatosNephewTriggered) {
+      mapdata mapData = Game->LoadTempScreen(2);
+      mapdata mapData3 = Game->LoadTempScreen(3);
+
+      if (hylianGeneralTriggered && mapData->ComboD[ComboAt(32, 64)] == HYLIAN_GENERAL_COMBO)
+         mapData->ComboD[ComboAt(32, 64)] = CMB_INVIS;
+
+      if (servusSoldierTriggered && mapData->ComboD[ComboAt(178, 96)] == SERVUS_SOLDIER)
+         mapData->ComboD[ComboAt(178, 96)] = CMB_INVIS;
+
+      if (seizedTowerSoldierTriggered && mapData->ComboD[ComboAt(48, 32)] == SEIZED_TOWER_GUARD)
+         mapData->ComboD[ComboAt(48, 32)] = CMB_INVIS;
+
+      if (carulemZoraTriggered && mapData->ComboD[ComboAt(144, 128)] == CARULEM_ZORA)
+         mapData->ComboD[ComboAt(144, 128)] = CMB_INVIS;
+
+      if (duratuElderTriggered && mapData->ComboD[ComboAt(32, 80)] == DURATU_GORON) {
+         mapData->ComboD[ComboAt(32, 80)] = CMB_INVIS;
+         mapData3->ComboD[ComboAt(32, 80 - 16)] = CMB_INVIS;
+      }
+      
+      if (conflatosNephewTriggered && mapData->ComboD[ComboAt(178, 64)] == CONFLATOS_NEPHEW)
+         mapData->ComboD[ComboAt(178, 64)] = CMB_INVIS;
+
    }
 }
 
