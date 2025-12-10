@@ -533,7 +533,6 @@ bool againstFFC(int ffcX, int ffcY) { //TODO account for larger FFCs (use this->
    return false;
 }
 
-
 void waitForTalking(ffc this) {
    until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
       if (againstFFC(this->X, this->Y))
@@ -570,13 +569,6 @@ void hurtDatHero(int frequency, int damage) {
       Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
    }
 }
-
-// void hideSolidFFC(ffc this, mapdata template) {
-//    this->Data = CMB_INVIS;
-//    template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
-//    this->Flags[FFCF_SOLID] = false;
-//    Quit();
-// }
 
 void handleHeatOrCold(int armorLevel, int damage) {
    while (true) {

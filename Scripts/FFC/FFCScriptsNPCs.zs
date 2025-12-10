@@ -310,7 +310,7 @@ ffc script ConflatosNephew {
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
+
          if (!forgeMinesBossRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
          } else if (forgeMinesBossRoom->State[ST_SECRET]) {
@@ -347,7 +347,7 @@ ffc script DefectedHylianGeneral {
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
+
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!Hero->Item[ITEM_SCROLL_SPIN_ATTACK]) {
                Screen->Message(initialMessage);
@@ -390,7 +390,7 @@ ffc script ServusSoldier2 {
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
+
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
                Screen->Message(initialMessage);
@@ -435,7 +435,7 @@ ffc script SeizedTowerSoldier {
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
+
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
                Screen->Message(initialMessage);
@@ -472,7 +472,7 @@ ffc script PreSiegeNPC {
       mapdata screenThatTriggersThis = Game->LoadMapData(map, screen);
       mapdata zeldaRoom = Game->LoadMapData(57, 0x02);
 
-      if (!screenThatTriggersThis->State[ST_SECRET] || zeldaRoom->State[ST_SECRET]) {
+      if (!screenThatTriggersThis->State[ST_SECRET] || getScreenD(48, 0x02, 5)) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -481,8 +481,8 @@ ffc script PreSiegeNPC {
       loop() {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
-         if (!zeldaRoom->State[ST_SECRET]) {
+
+         if (!getScreenD(48, 0x02, 5)) {
             Screen->Message(initialMessage);
          }
 
@@ -598,7 +598,7 @@ ffc script DuratuElder {
 
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
-         
+
          if (!lvl6BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
                Screen->Message(initialMessage);

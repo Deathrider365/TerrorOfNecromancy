@@ -1327,6 +1327,14 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD4 = 4;
    CONFIG screenD5 = 5;
 
+   CONFIG HYLIAN_GENERAL_COMBO = 5507;
+   CONFIG SERVUS_SOLDIER = 5523;
+   CONFIG SEIZED_TOWER_GUARD = 5523;
+   CONFIG CARULEM_ZORA = 5809;
+   CONFIG DURATU_GORON = 5818;
+   CONFIG DURATU_GORON_HAIR = 5814;
+   CONFIG CONFLATOS_NEPHEW = 5850;
+
    void run() {
       mapdata mapDataBeatQuickknife = Game->LoadMapData(66, 0x23);
       mapdata mapDataBeatGamoth = Game->LoadMapData(75, 0x22);
@@ -1334,12 +1342,14 @@ ffc script GoddessFaithfulZeldaScenes {
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
       mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
 
+      zeldaInitiatesTheSiege();
+
       loop () {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
          if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
-            zeldaIntroDialogue(this);
+            zeldaIntroDialogue();
          else if (mapDataBeatGamoth->State[ST_SECRET] && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue();
          else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
@@ -1362,7 +1372,7 @@ ffc script GoddessFaithfulZeldaScenes {
       }
    }
 
-   void zeldaIntroDialogue(ffc this) {
+   void zeldaIntroDialogue() {
       const int zeldaIntroMessage = 395;
       const int zeldaPostIntroMessage = 390;
 
@@ -1419,10 +1429,154 @@ ffc script GoddessFaithfulZeldaScenes {
    }
 
    void zeldaInitiatesTheSiege() {
-      const int zeldaIntroMessage = 1244;
+      setScreenD(screenD5, true);
+      int zeldaIntroMessage = 1244;
+      int zeldaOpeningMessage = 1258;
+      int zeldaSideQuestMessage = 1260;
+      int zeldaClosingMessage = 1267;
+
       Screen->Message(zeldaIntroMessage);
       Waitframe();
 
-      //Based on the amount of NPCs you have saved the dialog will vary
+      //cut the music
+
+      while (Hero->Y <= 96) {
+         disableLink();
+
+         Hero->Y += 1;
+
+         if (Hero->X > 112)
+            Hero->X -= 1;
+         else if (Hero->X < 112)
+            Hero->X += 1;
+
+         Waitframe();
+      }
+
+      Hero->Dir = DIR_UP;
+
+      for (int i = 0; i < 60; ++i) {
+         disableLink();
+         Waitframe();
+      }
+
+      //play some music here
+
+      sendInThePeople();
+
+      Screen->Message(zeldaOpeningMessage);
+      Waitframe();
+
+      //special if you saved anyone \/
+      Screen->Message(zeldaSideQuestMessage);
+      Waitframe();
+      //after zelda's line, each of the side quest npcs will have dialog here
+
+      Screen->Message(zeldaClosingMessage);
+      Waitframe();
+   }
+
+   void sendInThePeople() { //TODO the if(true) needs to check if you finished each of them
+      int npcArrayIndex = 0;
+      int moveNPCXOffset = 1;
+      int moveNPCYOffset = 1;
+
+      int hylianGeneralX = 96;
+      int hylianGeneralY = 192;
+
+      int servusSoldierX = 128;
+      int servusSoldierY = 208;
+
+      int seizedTowerGuardX = 96;
+      int seizedTowerGuardY = 224;
+
+      int carulemZoraX = 128;
+      int carulemZoraY = 240;
+
+      int duratuGoronX = 96;
+      int duratuGoronY = 256;
+
+      int conflatosNephewX = 128;
+      int conflatosNephewY = 272;
+
+      loop() {
+         disableLink();
+
+         if (true) {
+            if (hylianGeneralX == 32 && hylianGeneralY == 64)
+               ;
+            else if (hylianGeneralY > 64)
+               hylianGeneralY -= 1;
+            else
+               hylianGeneralX -= 1;
+
+            Screen->FastCombo(2, hylianGeneralX, hylianGeneralY, HYLIAN_GENERAL_COMBO, 0, OP_OPAQUE);
+         }
+
+         if (true) {
+            if (servusSoldierX == 178 && servusSoldierY == 96)
+               ;
+            else if (servusSoldierY > 96)
+               servusSoldierY -= 1;
+            else
+               servusSoldierX += 1;
+
+            Screen->FastCombo(2, servusSoldierX, servusSoldierY, SERVUS_SOLDIER, 0, OP_OPAQUE);
+         }
+
+         if (true) {
+            if (seizedTowerGuardX == 48 && seizedTowerGuardY == 32)
+               ;
+            else if (seizedTowerGuardY > 64)
+               seizedTowerGuardY -= 1;
+            else {
+               if (seizedTowerGuardX > 48)
+                  seizedTowerGuardX -= 1;
+               else
+                  seizedTowerGuardY -= 1;
+            }
+
+            Screen->FastCombo(2, seizedTowerGuardX, seizedTowerGuardY, SEIZED_TOWER_GUARD, 0, OP_OPAQUE);
+         }
+
+         if (true) {
+            if (carulemZoraX == 144 && carulemZoraY == 128)
+               ;
+            else if (carulemZoraY > 128)
+               carulemZoraY -= 1;
+            else {
+               carulemZoraX += 1;
+            }
+
+            Screen->FastCombo(2, carulemZoraX, carulemZoraY, CARULEM_ZORA, 0, OP_OPAQUE);
+         }
+
+         if (true) {
+            if (duratuGoronX == 32 && duratuGoronY == 80)
+               ;
+            else if (duratuGoronY > 80)
+               duratuGoronY -= 1;
+            else {
+               duratuGoronX -= 1;
+            }
+
+            Screen->FastCombo(2, duratuGoronX, duratuGoronY, DURATU_GORON, 0, OP_OPAQUE);
+            Screen->FastCombo(3, duratuGoronX, duratuGoronY - 16, DURATU_GORON_HAIR, 0, OP_OPAQUE);
+         }
+
+         if (true) {
+            if (conflatosNephewX == 178 && conflatosNephewY == 64)
+               ;
+            else if (conflatosNephewY > 64)
+               conflatosNephewY -= 1;
+            else
+               conflatosNephewX += 1;
+
+            Screen->FastCombo(2, conflatosNephewX, conflatosNephewY, CONFLATOS_NEPHEW, 0, OP_OPAQUE);
+         }
+
+         Waitframe();
+      }
    }
 }
+
