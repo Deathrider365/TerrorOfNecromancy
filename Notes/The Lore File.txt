@@ -566,6 +566,9 @@ was housed in the stronghold and makes his way north west.
 
    
 
+<<Level 9: Castle Interitus>
+~ ---The Necromancer---~
+
 
 
 ~~~Pacilux~~~
@@ -664,9 +667,6 @@ given it's own darkness appears to be identical to that imbuing the cane, but it
 
 
 
-
-<<Level 9: Castle Interitus>
-~ ---The Necromancer---~
 
 
 
