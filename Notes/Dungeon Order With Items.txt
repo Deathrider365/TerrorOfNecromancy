@@ -68,6 +68,7 @@ Goddess Mail is obtained by a side quest that merges with the events that occur 
 
 ---Version 1.0.0---
 Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
+Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
 - Main story fleshed out (cutscenes) and can beat the game
 - Some optional content, no post game
 - All bosses and scripted enemies implemented
