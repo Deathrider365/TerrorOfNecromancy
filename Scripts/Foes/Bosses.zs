@@ -4293,39 +4293,6 @@ namespace EgentemNamespace {
          setScreenD(0, true);
       }
    }
-
-   // clang-format off
-   @Author("Deathrider365")
-   ffc script EgentemShrineSoldier {
-      // clang-format on
-      void run(int message) {
-         mapdata towerEntrance = Game->LoadMapData(44, 0x33);
-         mapdata egentemRoom = Game->LoadMapData(48, 0x3B);
-
-         if (!egentemRoom->State[ST_SECRET] || towerEntrance->State[ST_SECRET]) {
-            this->Data = CMB_INVIS;
-            this->Flags[FFCF_SOLID] = false;
-            Quit();
-         }
-
-         towerEntrance->State[ST_SECRET] = true;
-
-         while (true) {
-            until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-               if (againstFFC(this->X, this->Y))
-                  Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-               Waitframe();
-            }
-
-            Input->Button[CB_SIGNPOST] = false;
-            Game->Suspend[susptSCREENDRAW] = true;
-
-            Screen->Message(message);
-            Game->Suspend[susptSCREENDRAW] = false;
-            Waitframe();
-         }
-      }
-   }
 }
 
 namespace LatrosNamespace {

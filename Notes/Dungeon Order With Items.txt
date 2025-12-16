@@ -38,7 +38,7 @@ Purchaseable                                                     - Incendiary Ca
 ---Demo 6---
 
 (07) Level 7: Palace of Waves                                    - Zora's Flippers (1)
-Battle Arena 3: Exiled Zora's Dwelling		 	                     - Hurricane Spin
+Battle Arena 3: Exiled Zora's Domain		 	                     - Hurricane Spin
 (19) Optional Dungeon 3: Hylian Wreck			                       - Master Sword (3)
 (20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)        - Red Mail (3)
 
@@ -57,11 +57,11 @@ Shop: Thief's Wallet (2)
 (24) Optional Dungeon 8: Secluded Tower                          - Giant's Bracer (3)
 Battle Arena 4: southern edge of SWI                             - Marksman's Bow (3)
 
-(11) Level 11: Mortuary of Darkness			                         - Mirror Shield (3)
-(25) Optional Dungeon 9: Origin of Death (Pacilux)               - Portal Sphere
+(11) Level 11: Towers of Dichotomy				                       - Elemental Rod or Rod of Antithesis (1)
+(25) Optional Dungeon 9: Banished Sanctuary			               - Diver's Flippers (2)
 
-(12) Level 12: Towers of Dichotomy				                       - Elemental Rod or Rod of Antithesis (1)
-(26) Optional Dungeon 10: Banished Sanctuary			               - Diver's Flippers (2)
+(12) Level 12: Mortuary of Darkness			                         - Mirror Shield (3)
+(26) Optional Dungeon 10: Origin of Death (Pacilux)               - Portal Sphere
 
 Goddess Sword obtained once you have all shards to the golden triforces
 Goddess Mail is obtained by a side quest that merges with the events that occur once all 12 dungeons are done (the final approach to the final boss, maybe isnt super obvious)

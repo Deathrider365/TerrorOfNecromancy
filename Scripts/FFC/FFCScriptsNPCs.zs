@@ -466,6 +466,30 @@ ffc script SeizedTowerSoldier {
 
 // clang-format off
 @Author("Deathrider365")
+ffc script EgentemShrineSoldier {
+   // clang-format on
+   void run(int message) {
+      mapdata towerEntrance = Game->LoadMapData(44, 0x33);
+      mapdata egentemRoom = Game->LoadMapData(48, 0x3B);
+
+      if (!egentemRoom->State[ST_SECRET] || towerEntrance->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      towerEntrance->State[ST_SECRET] = true;
+
+      while (true) {
+         waitForTalking(this);
+         Screen->Message(message);
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
 ffc script PreSiegeNPC {
 // clang-format on
    void run(int initialMessage, int map, int screen) {
