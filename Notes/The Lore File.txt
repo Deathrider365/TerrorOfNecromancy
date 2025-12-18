@@ -121,8 +121,7 @@ if she is even alright.
 in a lair found deep within the Cumpura Forest. The ancient beast is known as the Hazarond, a monster that thrives in natural oils, and has the ability to breath fire to ignite the oils it
 excretes as a self defense mechanism.
 
-CONTINUE FROM HERE
-
+~~~~~~~~~~~~~~~~~~~CONTINUE HERE~~~~~~~~~~~~~~~~~~~
 
 <<Level 1 - Pernicious Grotto>>
 ~Source of Corruption: ---Hazarond---~
