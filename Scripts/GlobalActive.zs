@@ -312,7 +312,7 @@ global script GlobalScripts {
                case 0x5D: return 001000b;
             }
             break;
-         case 32:
+         case 32: //NEI Quarry
             switch (screen) {
                case 0x06: return 011000b;
                case 0x07: return 001100b;
