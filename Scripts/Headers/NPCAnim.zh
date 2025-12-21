@@ -1067,6 +1067,9 @@ namespace NPCAnim{
 			}
 			ah->__DrawCollisionDebugHitbox();
 			ah->Update();
+
+			Trace("Here1");
+
 			if(RESIZE_ON_DEATH&&n->HP<=0&&!n->Immortal){
 				n->X = CenterX(n)-8;
 				n->Y = CenterY(n)-8;
@@ -1075,6 +1078,8 @@ namespace NPCAnim{
 				if(QUIT_ON_DEATH)
 					Quit();
 			}
+
+			Trace("Here2");
 			Waitframe();
 		}
 	}

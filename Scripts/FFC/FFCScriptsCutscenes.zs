@@ -771,7 +771,7 @@ ffc script CapturedSequenceImprisioned {
          Screen->Message(250);
          Waitframe();
 
-         Hero->WarpEx(WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
+      Hero->WarpEx(WT_IWARP, 104, 0x12, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
       }
    }
 }
@@ -988,7 +988,7 @@ ffc script CapturedSequenceNecromancer {
       Hero->Stun = 0;
       Input->DisableKey[KEY_F6] = false;
       setScreenD(0, true);
-      Hero->WarpEx(WT_IWARP, 44, 0x66, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
+      Hero->WarpEx(WT_IWARP, 104, 0x12, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_RIGHT);
    }
 }
 
@@ -999,6 +999,9 @@ ffc script CapturedSequenceRightHand {
 
    CONFIG COMBO_UPPER_GATE = 7284;
    CONFIG COMBO_LOWER_GATE = 7288;
+   CONFIG COMBO_UPSIDE_DOWN_GATE_TOP = 7231;
+   CONFIG COMBO_UPSIDE_DOWN_GATE = 7234;
+
    CONFIG COMBO_RIGHT_HAND_UP = 6800;
    CONFIG COMBO_RIGHT_HAND_DOWN = 6801;
    CONFIG COMBO_RIGHT_HAND_LEFT = 6802;
@@ -1008,8 +1011,8 @@ ffc script CapturedSequenceRightHand {
       if (getScreenD(0)) {
          this->Data = CMB_INVIS;
          mapdata mapDataLayer1 = Game->LoadTempScreen(1);
-         mapdata mapDataLayer2 = Game->LoadTempScreen(3);
-         mapDataLayer2->ComboD[50] = CMB_INVIS;
+         mapdata mapDataLayer3 = Game->LoadTempScreen(3);
+         mapDataLayer3->ComboD[50] = CMB_INVIS;
          mapDataLayer1->ComboD[66] = CMB_INVIS;
 
          while (true) {
@@ -1020,7 +1023,7 @@ ffc script CapturedSequenceRightHand {
       }
 
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
-      mapdata mapDataLayer2 = Game->LoadTempScreen(3);
+      mapdata mapDataLayer3 = Game->LoadTempScreen(3);
       Audio->PlayEnhancedMusic(NULL, 0);
 
       for (int i = 0; i < 300; ++i) {
@@ -1029,12 +1032,13 @@ ffc script CapturedSequenceRightHand {
          Waitframe();
       }
 
-      this->Data = COMBO_RIGHT_HAND_DOWN;
+      this->Data = COMBO_RIGHT_HAND_UP;
+      this->Y = 176;
 
       for (int i = 0; i < 48; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
-         ++this->Y;
+         --this->Y;
          Waitframe();
       }
 
@@ -1044,19 +1048,19 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[61] = CMB_INVIS;
-      mapDataLayer2->ComboD[62] = CMB_INVIS;
-      mapDataLayer1->ComboD[77] = CMB_INVIS;
-      mapDataLayer1->ComboD[78] = CMB_INVIS;
+      mapDataLayer1->ComboD[125] = CMB_INVIS;
+      mapDataLayer1->ComboD[126] = CMB_INVIS;
+      mapDataLayer3->ComboD[141] = CMB_INVIS;
+      mapDataLayer3->ComboD[142] = CMB_INVIS;
 
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
-         ++this->Y;
+         --this->Y;
          Waitframe();
       }
 
-      this->Data = COMBO_RIGHT_HAND_UP;
+      this->Data = COMBO_RIGHT_HAND_DOWN;
 
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1064,14 +1068,24 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
-      mapDataLayer2->ComboD[61] = COMBO_UPPER_GATE;
-      mapDataLayer2->ComboD[62] = COMBO_UPPER_GATE;
-      mapDataLayer1->ComboD[77] = COMBO_LOWER_GATE;
-      mapDataLayer1->ComboD[78] = COMBO_LOWER_GATE;
+      mapDataLayer1->ComboD[125] = COMBO_UPSIDE_DOWN_GATE;
+      mapDataLayer1->ComboD[126] = COMBO_UPSIDE_DOWN_GATE;
+      mapDataLayer3->ComboD[141] = COMBO_UPSIDE_DOWN_GATE_TOP;
+      mapDataLayer3->ComboD[142] = COMBO_UPSIDE_DOWN_GATE_TOP;
+
+
+      this->Data = COMBO_RIGHT_HAND_UP;
+
+      for (int i = 0; i < 16; ++i) {
+         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
+
+         --this->Y;
+         Waitframe();
+      }
 
       this->Data = COMBO_RIGHT_HAND_LEFT;
 
-      for (int i = 0; i < 192; ++i) {
+      for (int i = 0; i < 184; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
          --this->X;
@@ -1083,8 +1097,8 @@ ffc script CapturedSequenceRightHand {
       Waitframe();
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[50] = CMB_INVIS;
       mapDataLayer1->ComboD[66] = CMB_INVIS;
+      mapDataLayer3->ComboD[50] = CMB_INVIS;
 
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1096,7 +1110,7 @@ ffc script CapturedSequenceRightHand {
 
       this->Data = COMBO_RIGHT_HAND_RIGHT;
 
-      for (int i = 0; i < 192; ++i) {
+      for (int i = 0; i < 184; ++i) {
          disableLink();
 
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1105,7 +1119,14 @@ ffc script CapturedSequenceRightHand {
          Waitframe();
       }
 
-      this->Data = COMBO_RIGHT_HAND_UP;
+      this->Data = COMBO_RIGHT_HAND_DOWN;
+
+      for (int i = 0; i < 16; ++i) {
+         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
+
+         ++this->Y;
+         Waitframe();
+      }
 
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1113,19 +1134,19 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_OPEN);
-      mapDataLayer2->ComboD[61] = CMB_INVIS;
-      mapDataLayer2->ComboD[62] = CMB_INVIS;
-      mapDataLayer1->ComboD[77] = CMB_INVIS;
-      mapDataLayer1->ComboD[78] = CMB_INVIS;
+      mapDataLayer3->ComboD[141] = CMB_INVIS;
+      mapDataLayer3->ComboD[142] = CMB_INVIS;
+      mapDataLayer1->ComboD[125] = CMB_INVIS;
+      mapDataLayer1->ComboD[126] = CMB_INVIS;
 
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
-         --this->Y;
+         ++this->Y;
          Waitframe();
       }
 
-      this->Data = COMBO_RIGHT_HAND_DOWN;
+      this->Data = COMBO_RIGHT_HAND_UP;
 
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
@@ -1133,17 +1154,17 @@ ffc script CapturedSequenceRightHand {
       }
 
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
-      mapDataLayer2->ComboD[61] = COMBO_UPPER_GATE;
-      mapDataLayer2->ComboD[62] = COMBO_UPPER_GATE;
-      mapDataLayer1->ComboD[77] = COMBO_LOWER_GATE;
-      mapDataLayer1->ComboD[78] = COMBO_LOWER_GATE;
+      mapDataLayer1->ComboD[125] = COMBO_UPSIDE_DOWN_GATE;
+      mapDataLayer1->ComboD[126] = COMBO_UPSIDE_DOWN_GATE;
+      mapDataLayer3->ComboD[141] = COMBO_UPSIDE_DOWN_GATE_TOP;
+      mapDataLayer3->ComboD[142] = COMBO_UPSIDE_DOWN_GATE_TOP;
 
-      this->Data = COMBO_RIGHT_HAND_UP;
+      this->Data = COMBO_RIGHT_HAND_DOWN;
 
       for (int i = 0; i < 48; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
-         --this->Y;
+         ++this->Y;
          Waitframe();
       }
 

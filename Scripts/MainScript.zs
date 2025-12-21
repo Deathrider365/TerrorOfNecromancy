@@ -10,12 +10,13 @@
 #include "Time.zh"
 #include "ffcscript.zh"
 #include "std.zh"
+#include "ghost.zh"
 #include "std_zh/ghostBasedMovement.zh"
 
 #includepath "../ToN Main Quest/Scripts/"
 
 #include "Headers/EmDebug.zs"
-#include "Headers/Ghost.zh"
+// #include "Headers/Ghost.zh"
 #include "Headers/LinkMovement.zh"
 #include "Headers/NPCAnim.zh"
 #include "Headers/TempLinkState3.0.zh"
