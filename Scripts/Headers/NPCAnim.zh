@@ -1052,6 +1052,7 @@ namespace NPCAnim{
 	
 	// Simple waitframe function that also calls the animation update
 	void Waitframe(npc n, int frames=1){
+		Trace("Here 1");
 		AnimHandler ah = n->Misc[NPCM_ANIMPOINTER];
 		
 		for(int i=0; i<frames||(ah->Flags&AHF_DOSTUN&&n->MovePaused()); ++i){
@@ -1068,8 +1069,6 @@ namespace NPCAnim{
 			ah->__DrawCollisionDebugHitbox();
 			ah->Update();
 
-			Trace("Here1");
-
 			if(RESIZE_ON_DEATH&&n->HP<=0&&!n->Immortal){
 				n->X = CenterX(n)-8;
 				n->Y = CenterY(n)-8;
@@ -1079,9 +1078,9 @@ namespace NPCAnim{
 					Quit();
 			}
 
-			Trace("Here2");
 			Waitframe();
 		}
+		Trace("Here 2");
 	}
 	// Wait for the current animation to finish
 	void Waitanim(npc n){

@@ -1015,6 +1015,11 @@ ffc script CapturedSequenceRightHand {
          mapDataLayer3->ComboD[50] = CMB_INVIS;
          mapDataLayer1->ComboD[66] = CMB_INVIS;
 
+         Game->LastEntranceDMap = Game->CurDMap;
+         Game->LastEntranceScreen = Game->CurScreen;
+         Game->ContinueDMap = Game->CurDMap;
+         Game->ContinueScreen = Game->CurScreen;
+
          while (true) {
             unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 

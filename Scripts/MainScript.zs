@@ -16,7 +16,6 @@
 #includepath "../ToN Main Quest/Scripts/"
 
 #include "Headers/EmDebug.zs"
-// #include "Headers/Ghost.zh"
 #include "Headers/LinkMovement.zh"
 #include "Headers/NPCAnim.zh"
 #include "Headers/TempLinkState3.0.zh"
