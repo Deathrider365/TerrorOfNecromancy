@@ -58,17 +58,17 @@ Shop: Thief's Wallet (2)
 Battle Arena 4: southern edge of SWI                             - Marksman's Bow (3)
 
 (11) Level 11: Towers of Dichotomy				                       - Elemental Rod or Rod of Antithesis (1)
-(25) Optional Dungeon 9: Banished Sanctuary			               - Diver's Flippers (2)
+can buy in carulem at some point Diver's Flippers (2)
 
 (12) Level 12: Mortuary of Darkness			                         - Mirror Shield (3)
-(26) Optional Dungeon 10: Origin of Death (Pacilux)               - Portal Sphere
+(25) Optional Dungeon 10: Origin of Death (Pacilux)               - Portal Sphere
 
 Goddess Sword obtained once you have all shards to the golden triforces
 Goddess Mail is obtained by a side quest that merges with the events that occur once all 12 dungeons are done (the final approach to the final boss, maybe isnt super obvious)
 
 ---Version 1.0.0---
-Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
-Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
+(26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
+(27) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
 - Main story fleshed out (cutscenes) and can beat the game
 - Some optional content, no post game
 - All bosses and scripted enemies implemented
