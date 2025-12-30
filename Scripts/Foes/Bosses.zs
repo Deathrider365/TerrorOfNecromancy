@@ -4239,16 +4239,13 @@ namespace EgentemNamespace {
             this->DegAngle = angle;
             this->Step = 450;
 
-            while (true) {
-               if (wallCollision(this)) {
-                  eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
-                  explosion->Damage = pillarExplosionDamage;
-               }
-
+            until (wallCollision(this)) {
                this->Rotation = this->DegAngle;
                rotatingHitbox(this);
                Waitframe();
             }
+            eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
+            explosion->Damage = pillarExplosionDamage;
          }
 
          this->Remove();
