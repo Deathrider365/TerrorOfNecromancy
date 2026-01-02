@@ -13,7 +13,9 @@
 @InitD4("vanishesOnSecondString"),
 @InitDHelp4("After the second string plays quit the script"),
 @InitD5("remoteSecrets"),
-@InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen")
+@InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen"),
+@InitD6("onlyBottom"),
+@InitDHelp6("Is talking to this signpost only from the bottom?")
 ffc script Signpost {
    // clang-format on
 
@@ -21,7 +23,7 @@ ffc script Signpost {
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets, bool onlyBottom) {
       int secondMessageTrigger, secondMessageTriggerValue;
 
       if (hasSecondMessage) {
@@ -34,7 +36,7 @@ ffc script Signpost {
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
          }
 
-         waitForTalking(this);
+         waitForTalking(this, onlyBottom);
 
          Input->Button[CB_SIGNPOST] = false;
          Game->Suspend[susptSCREENDRAW] = true;

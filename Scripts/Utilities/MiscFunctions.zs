@@ -515,15 +515,15 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
 }
 
 // Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) { //TODO account for larger FFCs (use this->Width/Height and pass in the ffc to this function)
+bool againstFFC(int ffcX, int ffcY, bool onlyBottom = false) { //TODO account for larger FFCs (use this->Width/Height and pass in the ffc to this function)
    if (Hero->Z == 0) {
       if (Abs((Hero->X) - (ffcX)) <= 8) {
          if (Hero->Y >= ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
             return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+         else if (!onlyBottom && Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
             return true;
       }
-      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
+      else if (!onlyBottom && Abs((Hero->Y) - (ffcY)) <= 8) {
          if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
             return true;
          else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
@@ -533,9 +533,9 @@ bool againstFFC(int ffcX, int ffcY) { //TODO account for larger FFCs (use this->
    return false;
 }
 
-void waitForTalking(ffc this) {
-   until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-      if (againstFFC(this->X, this->Y))
+void waitForTalking(ffc this, bool onlyBottom = false) {
+   until(againstFFC(this->X, this->Y, onlyBottom) && Input->Press[CB_SIGNPOST]) {
+      if (againstFFC(this->X, this->Y, onlyBottom))
          Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
       Waitframe();

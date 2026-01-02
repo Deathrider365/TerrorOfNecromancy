@@ -546,3 +546,47 @@ ffc script MaraudersTowerStairsSecrets {
       Audio->PlaySound(SFX_OOT_SECRET);
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script HiddenBooks {
+// clang-format on
+   void run(int triggerMessage, int doneMessage) {
+      loop() {
+         waitForTalking(this, true);
+
+         unless (Screen->State[ST_SECRET]) {
+            Screen->Message(triggerMessage);
+            Waitframe();
+
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+            Audio->PlaySound(SFX_SWITCH_PRESS);
+            Audio->PlaySound(SFX_SECRET);
+         } else
+            Screen->Message(doneMessage);
+         
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script HiddenBooksDone {
+// clang-format on
+   void run() {
+      bool screen1Triggered = Game->LoadMapData(171, 0x33)->State[ST_SECRET];
+      bool screen2Triggered = Game->LoadMapData(171, 0x34)->State[ST_SECRET];
+      bool screen3Triggered = Game->LoadMapData(171, 0x53)->State[ST_SECRET];
+      bool screen4Triggered = Game->LoadMapData(171, 0x54)->State[ST_SECRET];
+      
+      if (screen1Triggered && screen2Triggered && screen3Triggered && screen4Triggered) {
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+         
+         Screen->Quake = 60;
+         Audio->PlaySound(SFX_SECRET);
+      }
+   }
+}

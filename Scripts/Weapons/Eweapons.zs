@@ -567,3 +567,122 @@ eweapon script ShootingProjectile {
       this->UseSprite(sprite);
    }
 }
+
+
+@InitD0("Number of Units"),
+@InitDHelp0("The number of weapons to spawn in addition to the central pivot weapon"),
+@InitD1("Spacing"),
+@InitDHelp1("The spacing, in pixels, from one weapon to the next.\nSpacing is between their positions, so, from top-left corner to top-left corner - so '0' would make them all spawn on top of each other."),
+@InitD2("Speed (Degrees)"),
+@InitDHelp2("Rotation speed, in degrees per frame. Positive = clockwise, negative = counterclockwise."),
+@InitD3("Start Degrees"),
+@InitDHelp3("The starting angle of the bar when it spawns, in degrees. 0 = right."),
+@Author("EmilyV")
+eweapon script FireBar { //TODO Look back at this
+	/* Instructions: Attach this script to a `Shooter` combo.
+	 * Set up all the weapon stats on the shooter combo. Leave the 'rate's at 0.
+	 * Set up the combo trigger: 'Always Triggered' -> 'Combo Change: 1' + '->ComboType Effects'
+	 * This will spawn the fire bar as soon as you enter the screen, and only spawn it once.
+	 * Other triggers could be used to make the spawn conditional.
+	 * If 'Step' is nonzero, the entire bar will move together 
+	 */
+	void run(int num_units, int spacing, int rot_deg_speed, int start_degrees) {
+		if (num_units < 1) return;
+		this->Gravity = false;
+
+		eweapon units[0];
+
+		loop (0=..num_units)
+			ArrayPushBack(units, make_unit(this));
+
+		int degrees = WrapDegrees(start_degrees);
+
+		loop() {
+			this->DeadState = WDS_ALIVE;
+			int q = 1;
+			int dir = AngleDir8(degrees + Sign(rot_deg_speed) * 90); // dir is perpendicular to bar direction
+			for (ew : units) {
+				ew->X = this->X + VectorX(q * spacing, degrees);
+				ew->Y = this->Y + VectorY(q * spacing, degrees);
+				ew->DeadState = WDS_ALIVE;
+				ew->Dir = dir;
+				++q;
+			}
+			degrees = WrapDegrees(degrees + rot_deg_speed);
+			Waitframe();
+		}
+	}
+	// std_functions has a 'Duplicate' function for eweapons, but it hasn't been updated properly in a while
+	// I opened a bug report about that, and recommended that it be fixed and made internal so it won't just
+	// keep falling behind and not copying everything it should.
+	// Once that's added, most of this function can be removed, and use 'base->Duplicate()' instead.
+	// But, until then, we do this. -Emily
+	eweapon make_unit(eweapon base) {
+		eweapon ew = Screen->CreateEWeapon(base->Type);
+		ew->X = base->X;
+		ew->Y = base->Y;
+		ew->Z = base->Z;
+		ew->FakeZ = base->FakeZ;
+		ew->DrawXOffset = base->DrawXOffset;
+		ew->DrawYOffset = base->DrawYOffset;
+		ew->DrawZOffset = base->DrawZOffset;
+		ew->Rotation = base->Rotation;
+		ew->Dir = base->Dir;
+		ew->ScriptTile = base->ScriptTile;
+		ew->Extend = base->Extend;
+		ew->TileWidth = base->TileWidth;
+		ew->TileHeight = base->TileHeight;
+		ew->CSet = base->CSet;
+		ew->Scale = base->Scale;
+		ew->DrawStyle = base->DrawStyle;
+		ew->Jump = base->Jump;
+		ew->FakeJump = base->FakeJump;
+		ew->Gravity = base->Gravity;
+		ew->Flip = base->Flip;
+		ew->Animation = base->Animation;
+		ew->HitWidth = base->HitWidth;
+		ew->HitHeight = base->HitHeight;
+		ew->HitZHeight = base->HitZHeight;
+		ew->HitXOffset = base->HitXOffset;
+		ew->HitYOffset = base->HitYOffset;
+		ew->MoveFlags[MV_OBEYS_GRAVITY] = base->MoveFlags[MV_OBEYS_GRAVITY];
+		ew->MoveFlags[MV_CAN_PITFALL] = base->MoveFlags[MV_CAN_PITFALL];
+		ew->MoveFlags[MV_CAN_PIT_WALK] = base->MoveFlags[MV_CAN_PIT_WALK];
+		ew->MoveFlags[MV_CAN_WATERDROWN] = base->MoveFlags[MV_CAN_WATERDROWN];
+		ew->MoveFlags[MV_CAN_WATER_WALK] = base->MoveFlags[MV_CAN_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_WATER_WALK] = base->MoveFlags[MV_ONLY_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_SHALLOW_WATER_WALK] = base->MoveFlags[MV_ONLY_SHALLOW_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_PIT_WALK] = base->MoveFlags[MV_ONLY_PIT_WALK];
+		ew->MoveFlags[MV_NO_FAKE_Z] = base->MoveFlags[MV_NO_FAKE_Z];
+		ew->LightRadius = base->LightRadius;
+		ew->LightShape = base->LightShape;
+		ew->ShadowSprite = base->ShadowSprite;
+		ew->ShadowXOffset = base->ShadowXOffset;
+		ew->ShadowYOffset = base->ShadowYOffset;
+
+		loop(q : 0=..WPN_SPRITE_MAX) {
+			ew->Sprites[q] = base->Sprites[q];
+			ew->BurnLightRadius[q] = base->BurnLightRadius[q];
+		}
+      
+		ew->Flags[WFLAG_UPDATE_BURNSPR] = base->Flags[WFLAG_UPDATE_BURNSPR];
+		ew->AutoRotate = base->AutoRotate;
+		ew->Parent = base->Parent;
+		ew->OriginalTile = base->OriginalTile;
+		ew->OriginalCSet = base->OriginalCSet;
+		ew->Flash = base->Flash;
+		ew->FlashCSet = base->FlashCSet;
+		ew->ASpeed = base->ASpeed;
+		ew->Behind = base->Behind;
+		ew->NumFrames = base->NumFrames;
+		ew->Frame = base->Frame;
+		ew->Power = base->Power;
+		ew->Level = base->Level;
+
+		// Everything above here can be replaced by `eweapon->Duplicate()`, once that actually exists.
+		
+		ew->Step = 0;
+		
+		return ew;
+	}
+}
