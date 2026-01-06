@@ -34,3 +34,5 @@ particular circle light or such
 mimics ior
 
 enemy is a spider that has boomerang like attack that grabs link and pull him to them
+
+if I have patras make them weak to fire

@@ -108,7 +108,7 @@ ffc script Signpost {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script MessageOnce {
+ffc script MessageOnce { //TODO enhance to have a popup that shows the music playing
    // clang-format on
    void run(int message, bool dungeonString, int screenD) {
       while (Game->Suspend[susptGUYS])

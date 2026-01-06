@@ -828,7 +828,7 @@ ffc script CircularMotion {
         if (angle < 0) angle = Rand(360); //Random Start
         int cx = this->X;
         int cy = this->Y;
-        
+
         loop() {
             angle += speed;
             if (angle < -360) angle += 360; //Wrap if below -360.
