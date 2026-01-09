@@ -171,6 +171,14 @@ npc script Candlehead {
    }
 }
 
+@Author("Emily")
+npc script DisintegrateOnDeath {
+    void run() {
+        while(this->HP > 0) Waitframe();
+        this->Explode(0);
+    }
+}
+
 // clang-format off
 // @Author("EmilyV99")
 // npc script Mimic {
