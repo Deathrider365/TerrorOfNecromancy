@@ -844,7 +844,7 @@ namespace SubscreenWidgets {
          int rightArrowCombo = 7747;
          int LCombo = 7744;
          int RCombo = 7745;
-         int drawY = 94;
+         int drawY = 84;
 
          loop() {
             Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;

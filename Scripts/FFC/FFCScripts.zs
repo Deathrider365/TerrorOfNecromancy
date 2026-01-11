@@ -846,3 +846,136 @@ ffc script CircularMotion {
     }
 }
 
+@InitD0("dir"),
+@InitDHelp0("Up = 0,\n Down = 1,\n Left = 2,\n Right = 3"),
+@InitD1("Tolerance"),
+@InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
+@InitD2("eweaponIdAndRotate"),
+@InitDHelp2("Weapon type id . rotate"),
+@InitD3("damage"),
+@InitDHelp3("Damage"),
+@InitD4("sprite"),
+@InitDHelp4("The sprite to use for the weapon.\n 0 = Pull from weapon"),
+@InitD5("step"),
+@InitDHelp5("How fast is the weapon"),
+@InitD6("shotCooldown"),
+@InitDHelp6("Time in frames between each shot"),
+@InitD7("ignoreSolidity"),
+@InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
+@Author("Deathrider365")
+ffc script LoSShooter {
+   void run(int dir, int tolerance, int eweaponIdAndRotate, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+      int cooldown = 0;
+      int weaponId = Floor(eweaponIdAndRotate);
+      int rotate = ((eweaponIdAndRotate % 1) / 1L) ? EWF_ROTATE : 0;
+      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(weaponId);
+      int originalCombo = this->Data;
+      
+      loop () {
+         if (this->Data != originalCombo) Quit();
+
+         int angle = DegToRad(lineOfSightAngle(this, dir, tolerance));
+
+         if (angle > 0) {
+            if (cooldown == 0) {
+               eweapon weapon = FireEWeapon(weaponId, this->X, this->Y, angle, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE | rotate);
+               
+               switch (ignoreSolidity) {
+                  case 1:
+                     weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+                  case 2:
+                     weapon->Flags[WFLAG_BREAKS_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+               }
+                  
+               cooldown = shotCooldown;
+            }
+
+            cooldown--;
+         }
+
+         Waitframe();
+      }
+   }
+
+   int lineOfSightAngle(ffc this, int dir, int tolerance) {
+      switch(dir) {
+         case DIR_UP: {
+            if (Hero->Y < this->Y && Abs((Hero->X + 8) - (this->X + 8)) < tolerance)
+               return -90;
+            break;
+         }
+         case DIR_DOWN: {
+            if (Hero->Y > this->Y && Abs((Hero->X + 8) - (this->X + 8)) < tolerance)
+               return 90;
+            break;
+         }
+         case DIR_LEFT: {
+            if (Hero->X < this->X && Abs((Hero->Y + 8) - (this->Y + 8)) < tolerance)
+               return 180;
+            break;
+         }
+         case DIR_RIGHT: {
+            if (Hero->X > this->X && Abs((Hero->Y + 8) - (this->Y + 8)) < tolerance)
+               return 360;
+            break;
+         }
+      }
+
+      return 0;
+   }
+}
+
+@InitD0("proximity"),
+@InitDHelp0("Distance in pixels away Link will be from this to start shooting"),
+@InitD1("Tolerance"),
+@InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
+@InitD2("eweaponId"),
+@InitDHelp2("Weapon type id"),
+@InitD3("damage"),
+@InitDHelp3("Damage"),
+@InitD4("sprite"),
+@InitDHelp4("The sprite to use for the weapon.\n 0 = Pull from weapon"),
+@InitD5("step"),
+@InitDHelp5("How fast is the weapon"),
+@InitD6("shotCooldown"),
+@InitDHelp6("Time in frames between each shot"),
+@InitD7("ignoreSolidity"),
+@InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
+@Author("Deathrider365")
+ffc script Beamos {
+   void run(int proximity, int tolerance, int eweaponId, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+      int cooldown = shotCooldown;
+      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(eweaponId);
+      int originalCombo = this->Data;
+      
+      loop () {
+         if (this->Data != originalCombo) Quit();
+         if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
+            if (cooldown == 0) {
+               eweapon weapon = FireAimedEWeapon(eweaponId, this->X, this->Y, 0, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE);
+               
+               switch (ignoreSolidity) {
+                  case 1:
+                     weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+                  case 2:
+                     weapon->Flags[WFLAG_BREAKS_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+               }
+                  
+               cooldown = shotCooldown;
+            }
+
+            cooldown--;
+         }
+
+         Waitframe();
+      }
+   }
+}
