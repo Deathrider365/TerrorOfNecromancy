@@ -848,7 +848,7 @@ ffc script CircularMotion {
 
 @InitD0("dir"),
 @InitDHelp0("Up = 0,\n Down = 1,\n Left = 2,\n Right = 3"),
-@InitD1("Tolerance"),
+@InitD1("tolerance"),
 @InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
 @InitD2("eweaponIdAndRotate"),
 @InitDHelp2("Weapon type id . rotate"),
@@ -905,7 +905,7 @@ ffc script LoSShooter {
       switch(dir) {
          case DIR_UP: {
             if (Hero->Y < this->Y && Abs((Hero->X + 8) - (this->X + 8)) < tolerance)
-               return -90;
+               return 270;
             break;
          }
          case DIR_DOWN: {
@@ -925,13 +925,13 @@ ffc script LoSShooter {
          }
       }
 
-      return 0;
+      return -1;
    }
 }
 
 @InitD0("proximity"),
 @InitDHelp0("Distance in pixels away Link will be from this to start shooting"),
-@InitD1("Tolerance"),
+@InitD1("tolerance"),
 @InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
 @InitD2("eweaponId"),
 @InitDHelp2("Weapon type id"),
