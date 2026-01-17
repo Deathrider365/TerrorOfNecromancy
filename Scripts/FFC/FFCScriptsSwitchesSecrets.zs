@@ -565,27 +565,35 @@ ffc script HiddenBooks {
             Audio->PlaySound(SFX_SECRET);
          } else
             Screen->Message(doneMessage);
-         
+
          Waitframe();
       }
    }
 }
 
 // clang-format off
+@InitD0("mapScreen1"),
+@InitDHelp0("map.screen - same for all D#"),
 @Author("Deathrider365")
-ffc script HiddenBooksDone {
+ffc script TriggerSecretsFromSecretsElsewhere {
 // clang-format on
-   void run() {
-      bool screen1Triggered = Game->LoadMapData(171, 0x33)->State[ST_SECRET];
-      bool screen2Triggered = Game->LoadMapData(171, 0x34)->State[ST_SECRET];
-      bool screen3Triggered = Game->LoadMapData(171, 0x53)->State[ST_SECRET];
-      bool screen4Triggered = Game->LoadMapData(171, 0x54)->State[ST_SECRET];
-      
-      if (screen1Triggered && screen2Triggered && screen3Triggered && screen4Triggered) {
+   void run(int mapScreen1, int mapScreen2, int mapScreen3, int mapScreen4, int mapScreen5, int mapScreen6, int mapScreen7, int mapScreen8) {
+      int mapScreens[] = {mapScreen1, mapScreen2, mapScreen3, mapScreen4, mapScreen5, mapScreen6, mapScreen7, mapScreen8};
+      bool allSecretsTriggered = true;
+
+      for (int i = 0; i < 8; ++i) {
+         if (mapScreens[i] > 0) {
+            int map = Floor(mapScreens[i]);
+            int screen = (mapScreens[i] % 1) / 1L;
+
+            unless(Game->LoadMapData(map, screen)->State[ST_SECRET])
+               allSecretsTriggered = false;
+         }
+      }
+
+      if (allSecretsTriggered) {
          Screen->TriggerSecrets();
-         Screen->State[ST_SECRET] = true;
-         
-         Screen->Quake = 60;
+         Screen->State[ST_SECRET];
          Audio->PlaySound(SFX_SECRET);
       }
    }
