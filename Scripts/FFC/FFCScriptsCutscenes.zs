@@ -498,7 +498,7 @@ ffc script CapturedSequenceImprisioned {
       int soldierCombo2X = 224;
 
       if (getScreenD(1)) {
-         dmapData->SetMusic("Castlevania 64 - Setting.ogg");
+         dmapData->Music->SetPath("Castlevania 64 - Setting.ogg");
          Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0);
 
          soldierCombo1X = 176;
@@ -641,7 +641,8 @@ ffc script CapturedSequenceImprisioned {
          Screen->FastCombo(1, soldierCombo2X, 112, 7014, 7, OP_OPAQUE);
          Waitframe();
 
-         dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         
          Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
 
          this->Data = CMB_INVIS;
@@ -788,11 +789,11 @@ ffc script CapturedSequenceEscape {
       dmapdata dmapData = Game->LoadDMapData(Game->CurDMap);
 
       char32 curDmapMusic[256];
-      dmapData->GetMusic(curDmapMusic);
+      dmapData->Music->GetPath(curDmapMusic);
       char32 desiredMusic[256] = "Castlevania Lament of Innocence-Elemental Tactician.ogg";
 
       if (strcmp(curDmapMusic, desiredMusic) != 0) {
-         dmapData->SetMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
          Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
       }
 

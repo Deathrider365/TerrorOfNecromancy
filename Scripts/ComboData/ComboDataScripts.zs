@@ -11,8 +11,8 @@ combodata script SemiSensitiveSwitch {
    CONFIGB DEBUG = false;
 
    void run() {
-      int xSens = this->Attribytes[0];
-      int ySens = this->Attribytes[1];
+      int xSens = this->Attributes[0];
+      int ySens = this->Attributes[1];
       int xOff = (16 - xSens) / 2;
       int yOff = (16 - ySens) / 2;
 
@@ -39,7 +39,7 @@ combodata script ICanSeeYou {
    CONFIGB DEBUG = false;
 
    void run() {
-      int dir = this->Attribytes[0];
+      int dir = this->Attributes[0];
 
       while (true) {
          int sightDist = getSightDist(this, dir);

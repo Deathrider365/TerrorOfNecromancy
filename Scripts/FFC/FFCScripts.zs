@@ -54,7 +54,7 @@ ffc script ContinuePoint {
          Waitframe();
 
       char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic);
 
       Quit();
@@ -107,7 +107,7 @@ ffc script ContinuePoint {
          setScreenD(map, screen, setScreenDOnOtherScreen, true);
 
       char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
    }
 

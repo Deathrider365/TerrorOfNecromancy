@@ -2228,7 +2228,7 @@ namespace ServusMalusNamespace {
          int attackCooldown, timer;
 
          combodata cmbLitTorch = Game->LoadComboData(litTorch);
-         cmbLitTorch->Attribytes[0] = 32;
+         cmbLitTorch->Attributes[8] = 32;
 
          mapdata mapData, template;
 
@@ -2373,7 +2373,7 @@ namespace ServusMalusNamespace {
 
                float percent = timer / START_TIMER;
 
-               cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
+               cmbLitTorch->Attributes[8] = Lerp(24, 50, 1 - percent);
 
                if (this->HP <= 0) {
                   Screen->Message(1236);
@@ -2876,19 +2876,19 @@ namespace ServusMalusNamespace {
             switch (litTorchCount) {
                case 0:
                case 1: {
-                  cmbLitTorch->Attribytes[0] = 36;
+                  cmbLitTorch->Attributes[8] = 36;
                   return;
                }
                case 2: {
-                  cmbLitTorch->Attribytes[0] = 40;
+                  cmbLitTorch->Attributes[8] = 40;
                   return;
                }
                case 3: {
-                  cmbLitTorch->Attribytes[0] = 58;
+                  cmbLitTorch->Attributes[8] = 58;
                   return;
                }
                case 4: {
-                  cmbLitTorch->Attribytes[0] = 64;
+                  cmbLitTorch->Attributes[8] = 64;
                   return;
                }
             }
@@ -2897,19 +2897,19 @@ namespace ServusMalusNamespace {
             switch (litTorchCount) {
                case 0:
                case 1: {
-                  cmbLitTorch->Attribytes[0] = 12;
+                  cmbLitTorch->Attributes[8] = 12;
                   return;
                }
                case 2: {
-                  cmbLitTorch->Attribytes[0] = 16;
+                  cmbLitTorch->Attributes[8] = 16;
                   return;
                }
                case 3: {
-                  cmbLitTorch->Attribytes[0] = 20;
+                  cmbLitTorch->Attributes[8] = 20;
                   return;
                }
                case 4: {
-                  cmbLitTorch->Attribytes[0] = 24;
+                  cmbLitTorch->Attributes[8] = 24;
                   return;
                }
             }
@@ -3675,7 +3675,7 @@ namespace EgentemNamespace {
       openShutters();
 
       char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       for (int i = Screen->NumEWeapons; i >= 1; i--) {
@@ -5044,7 +5044,7 @@ namespace LatrosNamespace {
       }
 
       char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       for (int i = Screen->NumNPCs; i >= 1; i--) {
@@ -5177,7 +5177,7 @@ namespace Quickknife {
       }
 
       char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
+      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
       Audio->PlayEnhancedMusic(areaMusic, 0);
 
       // for (int i = Screen->NumNPCs; i >= 1; i--) {
@@ -5229,7 +5229,7 @@ npc script TheMorsa {
 
       auriVillageMusicSet = true;
       dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
-      dm->SetMusic("Final Fantasy VII - Desert Wasteland.ogg");
+      dm->Music->SetPath("Final Fantasy VII - Desert Wasteland.ogg");
 
       this->Immortal = false;
    }
