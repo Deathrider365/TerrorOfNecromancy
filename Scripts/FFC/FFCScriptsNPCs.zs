@@ -3,7 +3,8 @@
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
-@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")
+@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)"),
+@Author("Deathrider365")
 ffc script TriforceDeciples {
 // clang-format on
    void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange) {
@@ -59,7 +60,8 @@ ffc script TriforceDeciples {
 @InitD1("secondMessage"),
 @InitDHelp1("second message"),
 @InitD2("thirdMessage"),
-@InitDHelp2("third message")
+@InitDHelp2("third message"),
+@Author("Deathrider365")
 ffc script GoronForemanDialogLvl6 {
    // clang-format on
    void run(int message, int secondMessage, int thirdMessage) {
@@ -512,6 +514,122 @@ ffc script PreSiegeNPC {
 
          Waitframe();
       }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9ServusSoldier {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      if (!Game->LoadMapData(16, 0x05)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      Waitframes(60);
+
+      Screen->Message(initialMessage);
+      Waitframe();
+
+      for (int i = 1; i <= Screen->NumNPCs; ++i) {
+         npc enem = Screen->LoadNPC(i);
+         enem->HP = 0;
+      }
+
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9DuratuElder {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      if (!Game->LoadMapData(53, 0x3D)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      Waitframes(180);
+
+      Screen->Message(initialMessage);
+      Waitframe();
+
+      for (int i = 1; i <= Screen->NumNPCs; ++i) {
+         npc enem = Screen->LoadNPC(i);
+         enem->HP = 0;
+      }
+
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9NEXTNPC {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      /*
+      bool hylianGeneralTriggered = Game->LoadMapData(16, 0x3A)->State[ST_SECRET];
+      DONE bool servusSoldierTriggered = Game->LoadMapData(16, 0x05)->State[ST_SECRET];
+      bool seizedTowerSoldierTriggered = Game->LoadMapData(16, 0x4B)->State[ST_SECRET];
+      bool duratuElderTriggered = Game->LoadMapData(53, 0x3D)->State[ST_SECRET];
+      bool carulemZoraTriggered = Game->LoadMapData(96, 0x21)->State[ST_SECRET];
+      bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
+      */
+      int thisData = this->Data;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
+      if (!Game->LoadMapData(16, 0x05)->State[ST_SECRET] || Screen->State[ST_SECRET]) Quit();
+
+      this->Data = thisData;
+      this->Flags[FFCF_SOLID] = true;
+
+      // loop() {
+      //    Screen->Message(initialMessage);
+      //    Waitframe();
+
+      //    for (int i = 1; i <= Screen->NumNPCs; ++i) {
+      //       npc enem = Screen->LoadNPC(i);
+      //       enem->HP = 0;
+      //    }
+
+      //    waitForTalking(this);
+      //    Input->Button[CB_SIGNPOST] = false;
+      //    Screen->Message(initialMessage);
+
+      //    if (givesItem) {
+      //       itemsprite it = CreateItemAt(givesItem, Hero->X, Hero->Y);
+      //       it->Pickup = IP_HOLDUP;
+      //    }
+
+      //    if (killsAllEnemies)
+
+      //    if (secondaryMessage) 
+      //       Screen->Message(secondaryMessage);
+
+      //    Waitframe();
+      // }
    }
 }
 

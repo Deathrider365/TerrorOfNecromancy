@@ -249,7 +249,7 @@ ffc script ScreenQuakeOnSecret {
 @Author("Deathrider365")
 ffc script TriggerOnceEnemiesKilled {
    // clang-format on
-   void run(int flag) {
+   void run() {
       until(Screen->NumNPCs) Waitframe();
       while (Screen->NumNPCs) Waitframe();
 
