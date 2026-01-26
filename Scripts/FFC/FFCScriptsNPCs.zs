@@ -550,18 +550,66 @@ ffc script Lvl9ServusSoldier {
       }
    }
 }
+
 // clang-format off
 @Author("Deathrider365")
 ffc script Lvl9DuratuElder {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage) {
+   void run(int initialMessage, int secondaryMessage, int isHair) {
+      CONFIG CMB_CHIEF = 5818;
+      CONFIG CMB_RAGIN_CHIEF = 5835;
+
       if (!Game->LoadMapData(53, 0x3D)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      } else if (isHair > 0) {
+         loop() 
+            Waitframe();
+      } else {
+         Waitframes(180);
+
+         Screen->Message(initialMessage);
+         Waitframe();
+
+         this->Data = isHair ? CMB_RAGIN_CHIEF - 4 : CMB_RAGIN_CHIEF;
+
+         for (int i = 1; i <= Screen->NumNPCs; ++i)
+            Screen->LoadNPC(i)->HP = 0;
+
+         Waitframes(60);
+
+         this->Data = isHair ? CMB_CHIEF - 4 : CMB_CHIEF;
+
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+
+         loop() {
+            waitForTalking(this);
+            Input->Button[CB_SIGNPOST] = false;
+            Screen->Message(secondaryMessage);
+
+            Waitframe();
+         }
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9SeizedTowerGuard {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      if (!Game->LoadMapData(16, 0x4B)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
       }
 
-      Waitframes(180);
+      Waitframes(60);   
+      
+      // TODO instead of simply killing everything, have him throw his boomerang to all of the enemies, leaving them
+      // all stunned for you to kill (since he gave you the soldier's boomerang)
 
       Screen->Message(initialMessage);
       Waitframe();
@@ -583,53 +631,131 @@ ffc script Lvl9DuratuElder {
       }
    }
 }
+
 // clang-format off
 @Author("Deathrider365")
-ffc script Lvl9NEXTNPC {
+ffc script Lvl9ConflatosNephew {
 // clang-format on
    void run(int initialMessage, int secondaryMessage) {
-      /*
-      bool hylianGeneralTriggered = Game->LoadMapData(16, 0x3A)->State[ST_SECRET];
-      DONE bool servusSoldierTriggered = Game->LoadMapData(16, 0x05)->State[ST_SECRET];
-      bool seizedTowerSoldierTriggered = Game->LoadMapData(16, 0x4B)->State[ST_SECRET];
-      bool duratuElderTriggered = Game->LoadMapData(53, 0x3D)->State[ST_SECRET];
-      bool carulemZoraTriggered = Game->LoadMapData(96, 0x21)->State[ST_SECRET];
-      bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
-      */
-      int thisData = this->Data;
-      this->Data = CMB_INVIS;
-      this->Flags[FFCF_SOLID] = false;
+      if (!Game->LoadMapData(53, 0x75)->State[ST_SECRET] || getScreenD(0)) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
 
-      if (!Game->LoadMapData(16, 0x05)->State[ST_SECRET] || Screen->State[ST_SECRET]) Quit();
+      Waitframes(60);
+      
+      // TODO instead of simply killing everything, have him throw his boomerang to all of the enemies, leaving them
+      // all stunned for you to kill (since he gave you the soldier's boomerang)
+
+      Screen->Message(initialMessage);
+      Waitframe();
+
+      until (Screen->NumNPCs < 1) Waitframe();
+
+      setScreenD(0, true);
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9CarulemZora {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage) {
+      if (!Game->LoadMapData(96, 0x21)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      Waitframes(60);
+
+      Screen->Message(initialMessage);
+      Waitframe();
+
+      zoraSwims(this);
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(Hero->Item[ITEM_JEWEL_OF_MARRE] ? tertiaryMessage : secondaryMessage);
+
+         Waitframe();
+      }
+   }
+
+   void zoraSwims(ffc this) {
+      CONFIG CMB_DIVING = 11097;
+      CONFIG CMB_SWIMMING = 5808;
+      int thisData = this->Data;
+      this->Data = CMB_SWIMMING;
+
+      for (int i = 0; i < 104; ++i) {
+         this->Y++;
+
+         if (this->Y > 64 && this->Y < 112)
+            this->Data = CMB_DIVING;
+         else 
+            this->Data = CMB_SWIMMING;
+
+         Waitframe();
+      }
+      
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+      Audio->PlaySound(SFX_SECRET);
+
+      for (int i = 0; i < 16; ++i) {
+         this->X--;
+         Waitframe();
+      }
 
       this->Data = thisData;
-      this->Flags[FFCF_SOLID] = true;
+   }
+}
 
-      // loop() {
-      //    Screen->Message(initialMessage);
-      //    Waitframe();
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9HylianGeneral {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      if (false) {
+      // if (!Game->LoadMapData(16, 0x3A)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
 
-      //    for (int i = 1; i <= Screen->NumNPCs; ++i) {
-      //       npc enem = Screen->LoadNPC(i);
-      //       enem->HP = 0;
-      //    }
+      Waitframes(60);   
+      
+      // TODO instead of simply killing everything, have him hurricane spin at the enemies
 
-      //    waitForTalking(this);
-      //    Input->Button[CB_SIGNPOST] = false;
-      //    Screen->Message(initialMessage);
+      Screen->Message(initialMessage);
+      Waitframe();
 
-      //    if (givesItem) {
-      //       itemsprite it = CreateItemAt(givesItem, Hero->X, Hero->Y);
-      //       it->Pickup = IP_HOLDUP;
-      //    }
+      for (int i = 1; i <= Screen->NumNPCs; ++i) {
+         npc enem = Screen->LoadNPC(i);
+         enem->HP = 0;
+      }
 
-      //    if (killsAllEnemies)
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
 
-      //    if (secondaryMessage) 
-      //       Screen->Message(secondaryMessage);
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(secondaryMessage);
 
-      //    Waitframe();
-      // }
+         Waitframe();
+      }
    }
 }
 
