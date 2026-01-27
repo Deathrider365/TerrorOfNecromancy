@@ -727,14 +727,20 @@ ffc script Lvl9CarulemZora {
 ffc script Lvl9HylianGeneral {
 // clang-format on
    void run(int initialMessage, int secondaryMessage) {
-      if (false) {
-      // if (!Game->LoadMapData(16, 0x3A)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
+      if (!Game->LoadMapData(16, 0x3A)->State[ST_SECRET] || Screen->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
       }
 
-      Waitframes(60);   
+      for (int i = 0; i < 60; ++i) {
+         for (int i = 1; i <= Screen->NumNPCs; ++i) {
+            npc enemy = Screen->LoadNPC(i);
+            enemy->Step = 0;
+            enemy->Dir = i < 6 ? DIR_RIGHT : DIR_LEFT;
+         }   
+         Waitframe();
+      }
       
       // TODO instead of simply killing everything, have him hurricane spin at the enemies
 
@@ -755,6 +761,29 @@ ffc script Lvl9HylianGeneral {
          Screen->Message(secondaryMessage);
 
          Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9LobbyNpc {
+   // clang-format on
+   void run(int dmap, int screen, int initialMessage, int secondaryMessage) {
+      if (!Game->LoadMapData(dmap, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET])
+            Screen->Message(initialMessage);
+         else
+            Screen->Message(secondaryMessage);
       }
    }
 }
