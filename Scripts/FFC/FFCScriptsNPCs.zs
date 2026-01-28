@@ -769,7 +769,7 @@ ffc script Lvl9HylianGeneral {
 @Author("Deathrider365")
 ffc script Lvl9LobbyNpc {
    // clang-format on
-   void run(int dmap, int screen, int initialMessage, int secondaryMessage) {
+   void run(int dmap, int screen, int initialMessage, int secondaryMessage, int screenD, int isHair) {
       if (!Game->LoadMapData(dmap, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
@@ -777,6 +777,8 @@ ffc script Lvl9LobbyNpc {
       }
 
       loop() {
+         while (isHair) Waitframe();
+
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
