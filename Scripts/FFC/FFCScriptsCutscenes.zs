@@ -1350,9 +1350,8 @@ ffc script GraveKeeperSequence {
 ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD0 = 0;
    CONFIG screenD1 = 1;
+   CONFIG screenD2 = 2;
    CONFIG screenD3 = 3;
-   CONFIG screenD4 = 4;
-   CONFIG screenD5 = 5;
 
    CONFIG HYLIAN_GENERAL_COMBO = 5507;
    CONFIG SERVUS_SOLDIER = 5523;
@@ -1436,8 +1435,8 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 441;
       const int zeldaPostIntroMessage = 443;
 
-      if (!getScreenD(screenD3)) {
-         setScreenD(screenD3, true);
+      if (!getScreenD(screenD2)) {
+         setScreenD(screenD2, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
 
@@ -1452,9 +1451,9 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 521;
       const int zeldaPostIntroMessage = 465;
 
-      if (!getScreenD(screenD4)) {
+      if (!getScreenD(screenD3)) {
          Screen->Message(zeldaIntroMessage);
-         setScreenD(screenD4, true);
+         setScreenD(screenD3, true);
       } else {
          Screen->Message(zeldaIntroMessage);
       }
@@ -1556,7 +1555,7 @@ ffc script GoddessFaithfulZeldaScenes {
       }
    }
 
-   void sendInThePeople(bool hylianGeneralTriggered, bool servusSoldierTriggered, bool seizedTowerSoldierTriggered, bool duratuElderTriggered, bool carulemZoraTriggered, bool conflatosNephewTriggered) { //TODO the if(true) needs to check if you finished each of them
+   void sendInThePeople(bool hylianGeneralTriggered, bool servusSoldierTriggered, bool seizedTowerSoldierTriggered, bool duratuElderTriggered, bool carulemZoraTriggered, bool conflatosNephewTriggered) {
       int npcArrayIndex = 0;
       int moveNPCXOffset = 1;
       int moveNPCYOffset = 1;

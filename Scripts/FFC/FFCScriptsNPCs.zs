@@ -769,8 +769,9 @@ ffc script Lvl9HylianGeneral {
 @Author("Deathrider365")
 ffc script Lvl9LobbyNpc {
    // clang-format on
-   void run(int dmap, int screen, int initialMessage, int secondaryMessage, int screenD, int isHair) {
-      if (!Game->LoadMapData(dmap, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2]) {
+   void run(int map, int screen, int preBossMessage, int postBossMessage, int screenD, int isHair) {
+      //if this npc shouldnt appear
+      if (!Game->LoadMapData(map, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -782,10 +783,67 @@ ffc script Lvl9LobbyNpc {
          waitForTalking(this);
          Input->Button[CB_SIGNPOST] = false;
 
-         if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET])
-            Screen->Message(initialMessage);
+         if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) 
+            Screen->Message(preBossMessage);
          else
-            Screen->Message(secondaryMessage);
+            Screen->Message(postBossMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script Lvl9LobbyZelda {
+   // clang-format on
+   void run() {
+      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 0; //TODO write the dialog and set the variables
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 0;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 0;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 0;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 0;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 0;
+
+
+      int zeldaStage = 0;
+
+      for (int i = 0; i < 4; ++i)
+         if (getScreenD(48, 0x02, i))
+            zeldaStage = i;
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_SIGNPOST] = false;
+
+         //if the lvl 9 boss was beaten
+         if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) {
+            Screen->Message(MESSAGE_LVL9_BOSS_BEATEN);
+         }
+         //if you completed all of zelda's stages 
+         else if (Game->LoadMapData(57, 0x02)->State[ST_SECRET]) {
+            Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE);
+         }
+         else {
+            switch(zeldaStage) {
+               case 0:
+                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE);
+                  break;
+               
+               case 1:
+                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE);
+                  break;
+               case 2:
+                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE);
+                  break;
+               
+               case 3:
+                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE);
+                  break;
+            }
+         }
+
+         Waitframe();
       }
    }
 }
