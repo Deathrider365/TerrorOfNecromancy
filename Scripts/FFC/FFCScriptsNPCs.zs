@@ -798,19 +798,20 @@ ffc script Lvl9LobbyNpc {
 ffc script Lvl9LobbyZelda {
    // clang-format on
    void run() {
-      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 0; //TODO write the dialog and set the variables
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 0;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 0;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 0;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 0;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 0;
-
+      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1315; //TODO write the dialog and set the variables
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_NO_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 1315;
 
       int zeldaStage = 0;
 
-      for (int i = 0; i < 4; ++i)
+      for (int i = 0; i < 4; ++i) {
          if (getScreenD(48, 0x02, i))
             zeldaStage = i;
+      }
 
       loop() {
          waitForTalking(this);
@@ -840,6 +841,8 @@ ffc script Lvl9LobbyZelda {
                case 3:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE);
                   break;
+               default:
+                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_NO_STAGE);
             }
          }
 

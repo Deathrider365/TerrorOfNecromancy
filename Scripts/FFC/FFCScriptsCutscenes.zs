@@ -1408,8 +1408,8 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 395;
       const int zeldaPostIntroMessage = 390;
 
-      if (!getScreenD(screenD1)) {
-         setScreenD(screenD1, true);
+      if (!getScreenD(screenD0)) {
+         setScreenD(screenD0, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
          Audio->PlaySound(SFX_SECRET);
@@ -1422,8 +1422,8 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaIntroMessage = 404;
       const int zeldaPostIntroMessage = 562;
 
-      if (!getScreenD(screenD0)) {
-         setScreenD(screenD0, true);
+      if (!getScreenD(screenD1)) {
+         setScreenD(screenD1, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
       }
@@ -1544,7 +1544,6 @@ ffc script GoddessFaithfulZeldaScenes {
       Screen->TriggerSecrets();
       Screen->State[ST_SECRET] = true;
       Audio->PlaySound(SFX_SECRET);
-
 
       loop() {
          waitForTalking(this);
