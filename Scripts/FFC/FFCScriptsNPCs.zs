@@ -14,7 +14,7 @@ ffc script TriforceDeciples {
          }
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (getScreenD(triforceToCheck)) {
             Screen->Message(secondMessageComplete);
@@ -67,7 +67,7 @@ ffc script GoronForemanDialogLvl6 {
    void run(int message, int secondMessage, int thirdMessage) {
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          mapdata mapData = Game->LoadMapData(107, 0x48);
 
          if (mapData->State[ST_SECRET] == true)
@@ -172,7 +172,7 @@ ffc script PhonogramMan {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -198,7 +198,7 @@ ffc script PhonogramMan {
 
             waitForTalking(this);
 
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -219,7 +219,7 @@ ffc script EscapedEgentemCultist {
    void run(int initialMessage, int initialItemId, int secondaryMessage, int secondaryItem, int initialScreenD, int secondaryScreenD, int tertiaryMessage, int requiredItem) {
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -256,7 +256,7 @@ ffc script ConflatosElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int fifthMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          mapdata forgeBossRoom = Game->LoadMapData(61, 0x43);
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
@@ -311,7 +311,7 @@ ffc script ConflatosNephew {
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!forgeMinesBossRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -348,7 +348,7 @@ ffc script DefectedHylianGeneral {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!Hero->Item[ITEM_SCROLL_SPIN_ATTACK]) {
@@ -391,7 +391,7 @@ ffc script ServusSoldier2 {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -436,7 +436,7 @@ ffc script SeizedTowerSoldier {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -506,7 +506,7 @@ ffc script PreSiegeNPC {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!zeldaRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -543,7 +543,7 @@ ffc script Lvl9ServusSoldier {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -586,7 +586,7 @@ ffc script Lvl9DuratuElder {
 
          loop() {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(secondaryMessage);
 
             Waitframe();
@@ -624,7 +624,7 @@ ffc script Lvl9SeizedTowerGuard {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -657,7 +657,7 @@ ffc script Lvl9ConflatosNephew {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -685,7 +685,7 @@ ffc script Lvl9CarulemZora {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(Hero->Item[ITEM_JEWEL_OF_MARRE] ? tertiaryMessage : secondaryMessage);
 
          Waitframe();
@@ -757,7 +757,7 @@ ffc script Lvl9HylianGeneral {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -781,7 +781,7 @@ ffc script Lvl9LobbyNpc {
          while (isHair) Waitframe();
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) 
             Screen->Message(preBossMessage);
@@ -815,7 +815,7 @@ ffc script Lvl9LobbyZelda {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          //if the lvl 9 boss was beaten
          if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) {
@@ -862,7 +862,7 @@ ffc script CeloElder {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -891,7 +891,7 @@ ffc script AuriElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -921,7 +921,7 @@ ffc script PalusElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          mapdata gamothRoom = Game->LoadMapData(75, 0x22);
 
@@ -957,7 +957,7 @@ ffc script DuratuElder {
          mapdata lvl6BossRoom = Game->LoadMapData(107, 0x48);
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl6BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -1006,7 +1006,7 @@ ffc script CarulemZora {
          }
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (lvl7BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD + 1)) {
@@ -1050,7 +1050,7 @@ ffc script CarulemPrince {
 
       loop () {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (lvl7BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD + 1)) {
@@ -1108,7 +1108,7 @@ ffc script EbrianZora {
          this->Data = thisData;
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);

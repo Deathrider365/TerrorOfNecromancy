@@ -1266,20 +1266,20 @@ ffc script GraveKeeperSequence {
       while (Hero->Item[ITEM_RING1]) {
          waitForTalking(this);
 
-         Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
+         // Input->Button[CB_SIGNPOST] = false;
+         // Game->Suspend[susptSCREENDRAW] = true;
          Screen->Message(messageThankful);
-         Game->Suspend[susptSCREENDRAW] = false;
+         // Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
       }
 
       until(graveScreen->State[ST_SECRET]) {
          waitForTalking(this);
 
-         Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
+         // Input->Button[CB_SIGNPOST] = false;
+         // Game->Suspend[susptSCREENDRAW] = true;
          Screen->Message(messageImWarningYou);
-         Game->Suspend[susptSCREENDRAW] = false;
+         // Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
       }
       else {
@@ -1315,10 +1315,10 @@ ffc script GraveKeeperSequence {
             while (true) {
                waitForTalking(this);
 
-               Input->Button[CB_SIGNPOST] = false;
-               Game->Suspend[susptSCREENDRAW] = true;
+               // Input->Button[CB_SIGNPOST] = false;
+               // Game->Suspend[susptSCREENDRAW] = true;
                Screen->Message(messageLeavePls);
-               Game->Suspend[susptSCREENDRAW] = false;
+               // Game->Suspend[susptSCREENDRAW] = false;
                Waitframe();
             }
          }
@@ -1334,10 +1334,10 @@ ffc script GraveKeeperSequence {
             while (true) {
                waitForTalking(this);
 
-               Input->Button[CB_SIGNPOST] = false;
-               Game->Suspend[susptSCREENDRAW] = true;
+               // Input->Button[CB_SIGNPOST] = false;
+               // Game->Suspend[susptSCREENDRAW] = true;
                Screen->Message(messageThankful);
-               Game->Suspend[susptSCREENDRAW] = false;
+               // Game->Suspend[susptSCREENDRAW] = false;
                Waitframe();
             }
          }
@@ -1374,11 +1374,12 @@ ffc script GoddessFaithfulZeldaScenes {
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
       mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
 
+      //TODO remove
       zeldaInitiatesTheSiege(this);
 
       loop () {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
             zeldaIntroDialogue();
@@ -1394,7 +1395,7 @@ ffc script GoddessFaithfulZeldaScenes {
             const int zeldaIDontKnowYouMessage = 448;
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(zeldaIDontKnowYouMessage);
 
             Waitframe();
@@ -1474,21 +1475,22 @@ ffc script GoddessFaithfulZeldaScenes {
       bool duratuElderTriggered = Game->LoadMapData(53, 0x3D)->State[ST_SECRET];
       bool carulemZoraTriggered = Game->LoadMapData(96, 0x21)->State[ST_SECRET];
       bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
+      bool anySideCharacters = hylianGeneralTriggered && servusSoldierTriggered && seizedTowerSoldierTriggered && duratuElderTriggered && carulemZoraTriggered && conflatosNephewTriggered;
 
       Screen->Message(zeldaIntroMessage);
       Waitframe();
 
       //cut the music
 
-      while (Hero->Y <= 96) {
+      while (Hero->Y >= 96) {
          disableLink();
 
-         Hero->Y += 1;
+         Hero->InputUp = true;
 
-         if (Hero->X > 112)
-            Hero->X -= 1;
-         else if (Hero->X < 112)
-            Hero->X += 1;
+         if (Hero->X != 112 && Hero->X > 112)
+            Hero->InputLeft = true;
+         else if (Hero->X != 112 && Hero->X < 111)
+            Hero->InputRight = true;
 
          Waitframe();
       }
@@ -1502,7 +1504,8 @@ ffc script GoddessFaithfulZeldaScenes {
 
       //play some music here
 
-      sendInThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
+      if (anySideCharacters)
+         sendInThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
 
       Screen->Message(zeldaOpeningMessage);
       Waitframe();
@@ -1540,14 +1543,16 @@ ffc script GoddessFaithfulZeldaScenes {
       Screen->Message(zeldaBreakDownMessage);
       Waitframe();
 
-      sendOutThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
+      if (anySideCharacters)
+         sendOutThePeople(hylianGeneralTriggered, servusSoldierTriggered, seizedTowerSoldierTriggered, duratuElderTriggered, carulemZoraTriggered, conflatosNephewTriggered);
+      
       Screen->TriggerSecrets();
       Screen->State[ST_SECRET] = true;
       Audio->PlaySound(SFX_SECRET);
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          Screen->Message(zeldaClosingMessage);
          Waitframe();

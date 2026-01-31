@@ -38,8 +38,8 @@ ffc script Signpost {
 
          waitForTalking(this, onlyBottom);
 
-         Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
+         // Input->Button[CB_SIGNPOST] = false;
+         // Game->Suspend[susptSCREENDRAW] = true;
 
          switch (secondMessageTrigger) {
             case SMT_SCREEND:
@@ -69,7 +69,7 @@ ffc script Signpost {
             default: Screen->Message(message); break;
          }
 
-         Game->Suspend[susptSCREENDRAW] = false;
+         // Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
 
          if (warp) {
@@ -166,7 +166,7 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -178,7 +178,7 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -189,7 +189,7 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -211,7 +211,7 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -234,7 +234,7 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -256,7 +256,7 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -316,7 +316,7 @@ ffc script SignpostTriggerFromScreenD {
             this->X = x;
             this->Y = y;
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(message);
             Waitframe();
          }
@@ -373,7 +373,7 @@ ffc script SignpostTriggerFromSecret {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenD))
                Screen->Message(secondMessage);
@@ -382,6 +382,80 @@ ffc script SignpostTriggerFromSecret {
                setScreenD(screenD, true);
             }
          }
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SignpostRemoveOnSecret {
+   // clang-format on
+   void run(int initialMessage, int secondaryMessage, int screenDForSecondMessage, bool secretsAreRemote, int map, int screen) {
+      if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+            Waitframe();
+         }
+
+         if (!getScreenD(screenDForSecondMessage) || !secondaryMessage) {
+            Screen->Message(initialMessage);
+            setScreenD(screenDForSecondMessage, true);
+         }
+         else
+            Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SignpostTriggerOnItemAndVanishOnSecret {
+   // clang-format on
+   void run(int itemId, int noItemMessage, int gettingItemMessage, int gottenItemMessage, int screenDForSecondMessage, bool secretsAreRemote, int map, int screen) {
+      if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+            Waitframe();
+         }
+
+         if (!Hero->Item[itemId]) 
+            Screen->Message(noItemMessage);
+         else if (Hero->Item[itemId] && !getScreenD(screenDForSecondMessage))
+            Screen->Message(gettingItemMessage);
+         else if (getScreenD(screenDForSecondMessage))
+            Screen->Message(gottenItemMessage);
+
          Waitframe();
       }
    }
@@ -407,7 +481,7 @@ ffc script GetItemOnScreenD {
       while (true) {
          if (getScreenD(screenDFromExternal) && getScreenD(screenDForThis)) {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -433,7 +507,7 @@ ffc script GetItemOnScreenD {
 
             waitForTalking(this);
 
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -466,7 +540,7 @@ ffc script GetItemOnSecret {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -492,7 +566,7 @@ ffc script GetItemOnSecret {
 
             waitForTalking(this);
 
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -539,7 +613,7 @@ ffc script GetItemOnItem {
                      this->Data = prevData;
                      this->Flags[FFCF_SOLID] = true;
                      waitForTalking(this);
-                     Input->Button[CB_SIGNPOST] = false;
+                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(gottenItemString);
                      Waitframe();
 
@@ -564,7 +638,7 @@ ffc script GetItemOnItem {
                   }
                   else {
                      waitForTalking(this);
-                     Input->Button[CB_SIGNPOST] = false;
+                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(doesntHaveItemString);
                   }
 
@@ -581,7 +655,7 @@ ffc script GetItemOnItem {
          this->Flags[FFCF_SOLID] = true;
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
+         // Input->Button[CB_SIGNPOST] = false;
 
          if (getScreenD(itemIdToReceive)) {
             Screen->Message(gottenItemString);
@@ -627,7 +701,7 @@ ffc script GetItemOnScreenDHiddenBefore {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
+            // Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenDForThis)) {
                Screen->Message(gottenItemString);
