@@ -47,7 +47,7 @@ Battle Arena 3: Exiled Zora's Domain		 	                     - Hurricane Spin
 
 (09) Level 9: Castle Interitus				                           - Longshot (2)
 (22) Optional Dungeon 6: Summus Catacombs                        - Hell's Candle (4)
-(23) Optional Dungeon 7: Forbidden Spire (IoH)		               - Mithril Arrow (3)
+(23) Optional Dungeon 7: Zealot Stronghold (IoH)		               - Mithril Arrow (3)
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
