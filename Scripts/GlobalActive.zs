@@ -238,46 +238,44 @@ global script GlobalScripts {
    // 654321b
    int getTransLayers(int dmap, int screen) {
       switch (dmap) {
-         case 0:
+         case 0:  //Isle of Haeren
             switch (screen) {
                case 0x22: return 011000b;
-               case 0x16:
-               case 0x26: return 000100b;
             }
-         case 4:
+         case 4:  //NEI Plains
             switch (screen) {
                case 0x26: return 011000b;
                case 0x38:
                case 0x39: return 001000b;
             }
             break;
-         case 5:
+         case 5:  //NEI Residence
             switch (screen) {
                case 0x1c: return 000100;
                case 0x33: return 000100;
                case 0x63: return 000100;
             }
             break;
-         case 6:
+         case 6:  //NEI Caves
             switch (screen) {
                case 0x08:
                case 0x17: return 000100b;
             }
             break;
-         case 8:
+         case 8:  //NEI Cumpura Forest
             switch (screen) {
                case 0x0A: return 001000b;
             }
             break;
-         case 9:
+         case 9:  //NEI Auri Desert
             switch (screen) {
                case 0x76: return 001000b;
             }
-         case 10:
+         case 10: //NEI Coasts
             switch (screen) {
                case 0x6E: return 000100b;
             }
-         case 14:
+         case 14: //SWI Auri Desert
             switch (screen) {
                case 0x0E: return 001000b;
                case 0x0D: return 001000b;
@@ -286,13 +284,13 @@ global script GlobalScripts {
                case 0x2B: return 011000b;
             }
             break;
-         case 15:
+         case 15: //SWI Plains
             switch (screen) {
                case 0x04: return 011100;
                case 0x55: return 000100;
             }
             break;
-         case 19:
+         case 19: //Lv1 Pern Grotto B1
             switch (screen) {
                case 0x4C: return 010000;
                case 0x4D: return 001000;
@@ -300,12 +298,12 @@ global script GlobalScripts {
             }
             break;
 
-         case 21:
+         case 21: //Battle Arena 1
             switch (screen) {
                case 0x77: return 000100;
             }
             break;
-         case 31:
+         case 31: //Lv3 Ancient Shrine B1
             switch (screen) {
                case 0x4A:
                case 0x7C:
@@ -318,78 +316,78 @@ global script GlobalScripts {
                case 0x07: return 001100b;
             }
             break;
-         case 34:
+         case 34: //SWI Celo Village
             switch (screen) {
                case 0x20:
                case 0x21: return 011000b;
             }
             break;
-         case 35:
+         case 35: //SWI Residence
             switch (screen) {
                case 0x5B: return 000100;
             }
             break;
-         case 36:
+         case 36: //SWI Caves
             switch (screen) {
                case 0x76: return 001000b;
             }
             break;
-         case 39:
+         case 39: //SWI Mt Duratu
             switch (screen) {
                case 0x6F: return 000100b;
                case 0x7C: return 011100b;
                case 0x7F: return 001100b;
             }
             break;
-         case 43:
+         case 43: //Molten Flooded Forge B1
             switch (screen) {
                case 0x0F: return 001000b;
             }
             break;
-         case 47:
+         case 47: //Lv4 Pillaged Prison B2
             switch (screen) {
                case 0x35: return 000100b;
             }
             break;
-         case 49:
+         case 49: //SWI Palus Village
             switch (screen) {
                case 0x41: return 000100b;
             }
-         case 50:
+         case 50: //Lv5 Temple of Gamoth F1
             switch (screen) {
                case 0x02: return 000100b;
             }
             break;
-         case 57:
+         case 57: //SWI Duratu Village
             switch (screen) {
                case 0x6E: return 001000b;
             }
             break;
-         case 58:
+         case 58: //SEI Mt Duratu
             switch (screen) {
                case 0x70: return 000100b;
                case 0x71: return 000100b;
             }
             break;
-         case 59:
+         case 59: //NWI Shrouded Forest
             switch (screen) {
                case 0x76: return 000100b;
                case 0x77: return 001000b;
             }
             break;
-         case 62:
+         case 62: //SEI Gelido Shoal
             switch (screen) {
                case 0x25: return 010100b;
                case 0x35: return 010100b;
                case 0x76: return 010100b;
             }
             break;
-         case 69:
+         case 69: //Lv6 Geothermal Plant B1 West
             switch (screen) {
                case 0x22: return 000100b;
             }
             break;
-         case 70:
+         case 70: //Lv6 Geothermal Plant B1 East
             switch (screen) {
                case 0x4D: return 000100b;
                case 0x1E: return 001000b;
@@ -398,26 +396,26 @@ global script GlobalScripts {
                case 0x59: return 001000b;
             }
             break;
-         case 71:
+         case 71: //Sweltering Iron Mine
             switch (screen) {
                case 0x45: return 001000b;
                case 0x35: return 000100b;
             }
             break;
-         case 73:
+         case 73: //Summus Pass
             switch (screen) {
                case 0x34: return 000100b;
                case 0x44: return 011000b;
                case 0x46: return 011100b;
             }
             break;
-         case 77:
+         case 77: //Lv7 Palace of Tides F1
             switch (screen) {
                case 0x42: return 000100b;
                case 0x62: return 000100b;
             }
             break;
-         case 89:
+         case 89: //Seaside Outpost F2
             switch (screen) {
                case 0x76: return 011000b;
                case 0x45: return 011000b;
