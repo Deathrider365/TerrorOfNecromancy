@@ -6,12 +6,11 @@ latched and the only way off is with a light weapon (probably a bonus boss or en
 boss where there is a ray of light moving around the room which may be unlocked throughout the dungeon and the 
 only way to beat this boss is to wait for the light to hit a reflector which enlightens the room killing the boss
 
-
 a boss who's life is linked to a timer and the only way to kill him is to avoid him and not let him devour 
-\spawning enemies which give him health and if he does hit you or absorb the spawning enemies he is healed, 
+spawning enemies which give him health and if he does hit you or absorb the spawning enemies he is healed, 
 he is impervious to your attacks except maybe you can stun him or something
 
-a fast pased boss that does 3 fast warps around the room, and on the third appears right by link 
+a fast paced boss that does 3 fast warps around the room, and on the third appears right by link 
 and swings at him (with build up) and he does this constantly
 
 phantom from the messenger is in the game. In his search to revive Muse, his lover, he come across the necromancer whom
