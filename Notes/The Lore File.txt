@@ -625,17 +625,13 @@ an evil goddess, that haeren’s triforce is to blame. Right hand says the only 
    Zelda is skeptical that Haeren is an outright evil goddess, but she does not yet know what to believe since this is all news to her. She implores Link to find the remaining shards of dark, in addition to reclaim
 the shards of the golden triforces since she feels that they will need all the assistance that they can get.
 
-   From here, Link could meet Right Hand on IoH without completing the triforce of dark or even the golden triforce. However, to complete th triforce of dark he would need to complete Lv10, 11, and 12 in which case
-he would be completing the golden triforce
+   From here, Link could meet Right Hand on IoH without completing the triforce of dark or even the golden triforce. However, to complete the triforce of dark he would need to complete Lv10, 11, and 12 in which case
+he would be completing the golden triforce.
 
-
-
-
-   With the longshot, Link can now tackle the 3 final Main dungeons
+   With the this new information in addition to the longshot, Link can now tackle the 3 final main dungeons as well as some other areas that he otherwise could not reach.
 
    Should Link venture back to the Isle of Haeren, with his ability to swim he can now make it over to the eastern side of the island where he will find a mysterious tower built into the side of the promontory.
-Exploring the cave system of IoH, he can find himself there, entering the Zealot Bastion
-
+Exploring the cave system of IoH, he can find himself there, entering the Bastion of the Profaned Legion.
 
 <Bastion of the Profaned Legion>
 ~Colonel of Darkness ---Kaarszythe---~
@@ -673,9 +669,19 @@ Link unconcious, is spoken to by Haeren for the first time in a long time. She i
 and heals Link. Before leaving, Link finds a helmet left behind by Kaarszcythe after their fight. Unlike the rings of the soldiers here that were so aged that they dissolved, this helmet is fully intact. Link
 takes it feeling some importance with it.
 
-
 <Summus Catacombs>
 ~ ------~
+
+   Throughout Link's adventures, he may have come across some curious tablet shards, even hearing about one directly from the logs of a naturalist living in Cumpura Forest. No one alive would know anything about 
+Back in the kingdom of old during the time of the great kingdom of Vita, before the calamity, there was a place where the deceased would be buried where their spirit can move beyond the physical plane. With The
+grace of Haeren, being buried properly would guaranty eternal paradise for those who's time was up. There are multiple places where the deceased would be housed; the Cathedral of Grace (Cathedral of the Accursed), 
+Shrine of Rebirth (Shrine of Blasphemy), and Summus Catacombs. During the rise of Necromancy and the Calamity of Vita, those where the dead congregate became a brilliant recruitment spot for Aemulor's Necromancy.
+The revered places of worship to the goddesses and places of rest quickly became sources of darkness and chaos on Vita, obtaining new names that suited more for what purpose they served during the calamity and
+after. When it was discovered that thse locations were being abused, those that maintained the Summus Catacombs sealed the resting place with a magical tablet. So long as the tablet stayed in its place on the
+entrance of the catacombs, what was in could not leave and those outside could not enter. Despite this, during the chaos of the calamity the tablet was broken into 4 shards and lost to time. With the tablet
+not in its place, there was no way to enter the catacombs. No one knew where they went or even who it was that went through the effort to destroy and relocate such a powerful artifact.
+   Despite the mystery of this tablet, Link can find all 4 shards around Interitus and return them back to the Summus Catacombs. Should Link find all 4 shards, and venture into the deepest reaches of the Summus
+Tunnels to the long empty resting place of the Summus Tablet, he can reassemble the tablet and place it on tis pedestal. Doing so will open a door, leading down into the catacombs.
 
 <<Level 10: >
 ~ --- ---~
@@ -692,7 +698,7 @@ takes it feeling some importance with it.
 <Banished Sanctuary>
 ~ --- ---~
 
-<<Level 12: Mortuary of Death>
+<<Level 12: Cathedral of the Accursed>
 ~The Forgotten ---Oblitem---~
 
    Eventually Link encounters what can only be described as a giant bat in the deepest chamber, it immediately takes notice of Link and attacks him. This is Oblitem, the forgotton, nothing is known about this

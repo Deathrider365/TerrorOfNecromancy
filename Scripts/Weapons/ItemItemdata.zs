@@ -125,6 +125,32 @@ item script HeartPieces {
 }
 
 // clang-format off
+
+@Author ("Deathrider365"),
+@InitD0("curShar"),
+@InitDHelp0("The current shard being obtained (0 = A, 1 = B, 2 = C, 3 = D)")
+item script SummusTabletShards {
+   //clang-format on
+
+	void run(int curShard) {
+		switch(curShard) {
+			case 1:
+				Screen->Message(792);
+				break;
+			case 2:
+				Screen->Message(793);
+				break;
+			case 3:
+				Screen->Message(794);
+				break;
+			case 4:
+				Screen->Message(795);
+				break;
+		}
+	}
+}
+
+// clang-format off
 @Author ("Deathrider365")
 item script TriforcePickup {
    //clang-format on

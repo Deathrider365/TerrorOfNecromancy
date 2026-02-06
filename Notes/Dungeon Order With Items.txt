@@ -60,8 +60,8 @@ Battle Arena 4: Secluded Alcove                             - Marksman's Bow (3)
 (11) Level 11: Towers of Dichotomy				                       - Elemental Rod or Rod of Antithesis (1)
 can buy in carulem at some point Diver's Flippers (2)
 
-(12) Level 12: Accursed Mortuary			                         - Mirror Shield (3)
-(25) Optional Dungeon 10: Origin of Darkness               - Portal Sphere
+(12) Level 12: Cathedral of the Accursed			                         - Mirror Shield (3)
+(25) Optional Dungeon 10: Shrine of Blasphemy               - Portal Sphere
 
 Goddess Sword obtained once you have all shards to the golden triforces
 Goddess Mail is obtained by a side quest that merges with the events that occur once all 12 dungeons are done (the final approach to the final boss, maybe isnt super obvious)
