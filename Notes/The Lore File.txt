@@ -591,7 +591,8 @@ under spikes to disable them.
 
    It is now that Link can venture into Castle Interitus, what is likely the largest castle that Link has ever been in. Castle Interitus, originally built as Argentia Castle (Argentum gratia = Silver Grace) by
 the original kingdom of Vita. Long before the king of Vita that ruled in the time of Aemulor, a descendent of that king was granted the castle by Haeren for his honor and strong moral compass. This king is
-responsible for all that was good on Vita, his work with Haeren on Vita is what made it one of the best places to live on earth.
+responsible for all that was good on Vita, his work with Haeren on Vita is what made it one of the best places to live on earth. As a result the castle was made to be a grand castle fit for the kingdom, complete
+with multiple wings that give the people services that arent found anywhere else on the island.
 
    No matter who he helped, he will find Zelda in the Main Hall giving him encouragement for obtaining the Longshot and defeating the Necromancer. After obtaining the elusive longshot and gaining access to the
 deepest reaches of the castle, he will eventually find the Necromancer's study. Inside he will see many texts that discuss the goddesses and the power they hold, as well as the hypothesis that there is a fourth
@@ -676,9 +677,6 @@ Link unconcious, is spoken to by Haeren for the first time in a long time. She i
 and heals Link. Before leaving, Link finds a helmet left behind by Kaarszcythe after their fight. Unlike the rings of the soldiers here that were so aged that they dissolved, this helmet is fully intact. Link
 takes it feeling some importance with it.
 
-<Summus Catacombs>
-~ ------~
-
    Throughout Link's adventures, he may have come across some curious tablet shards, even hearing about one directly from the logs of a naturalist living in Cumpura Forest. No one alive would know anything about 
 Back in the kingdom of old during the time of the great kingdom of Vita, before the calamity, there was a place where the deceased would be buried where their spirit can move beyond the physical plane. With The
 grace of Haeren, being buried properly would guaranty eternal paradise for those who's time was up. There are multiple places where the deceased would be housed; the Cathedral of Grace (Cathedral of the Accursed), 
@@ -689,6 +687,9 @@ entrance of the catacombs, what was in could not leave and those outside could n
 not in its place, there was no way to enter the catacombs. No one knew where they went or even who it was that went through the effort to destroy and relocate such a powerful artifact.
    Despite the mystery of this tablet, Link can find all 4 shards around Interitus and return them back to the Summus Catacombs. Should Link find all 4 shards, and venture into the deepest reaches of the Summus
 Tunnels to the long empty resting place of the Summus Tablet, he can reassemble the tablet and place it on tis pedestal. Doing so will open a door, leading down into the catacombs.
+
+<Summus Catacombs>
+~ ------~
 
 <<Level 10: >
 ~ --- ---~
