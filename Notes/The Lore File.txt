@@ -508,7 +508,7 @@ study the strange sealife, both flora and fauna. It is completely submerged so w
 
    With Link's swimming around he can find, amongst the many whirlpools in SEI, one that takes him into the undercroft of what appears some kind of soldier's tower.
 
-<Optional Dungeon 4: Seaside Outpost>
+<Seaside Outpost>
    A fortress erected by the Vita kingdom of old to defend the northern side of the island from Ignav's tyranny now lies in ruin, not even the Necromancer found value in it due to how dilapidated it is. The lower
 floors are flooded beyond traversal, and getting to the top is not worth much. All Link will find here is an old set of armor that has special properties to withstand extreme heat, as well as another legionnaire.
 
@@ -689,7 +689,22 @@ not in its place, there was no way to enter the catacombs. No one knew where the
 Tunnels to the long empty resting place of the Summus Tablet, he can reassemble the tablet and place it on tis pedestal. Doing so will open a door, leading down into the catacombs.
 
 <Summus Catacombs>
-~ ------~
+~Bifurcated Revenant ---Duorum (of two)---~
+
+   Entering the Summus Tunnels Link finds how dark it is, even the tunnels have been sealed for an age without any intervention by external beings. The tunnels connect to many outward facing caves on the face of
+Mt. Summus creating a small labyrinthine structure with only one discrete path to the entrance to the catacombs. Back when the tunnels were used for their intended purpose they were used for the procession when
+someone would pass. They would process to the entrance of the catacombs and move to the cubiculum or ossuary where the desceased are to be laid. The catacombs are full of ossuraries led to via loculi galleries.
+When Aemulor began his conquest for Vita, all catacombs and burial hosts on Vita became festering grounds for countless undead running around terrorizing the innocent people. Not all undead were under the control
+of Aemulor, so many that were awakened without his direct control were left to roam. Aemulor was not perfect in his control of the power of Haeren's triforce so nearly all undead on the island arose without his
+direct control. As soon as it identified what was going on around Vita, various burial hosts were sealed off which if why they are all sealed off to this day. Luckily, the Summus Catacombs were sealed off early
+in the conquest by those that maintained it, so what ever got awakened was kept within the catacombs. When Aemulor was sealed in The Void, those that were awakened fell back in the dirt due to his influence
+waning from the physical plane. When he awakened through the Scholar and his influence returning to the island, those that rose ages ago returned to their feet, so those that rose in ages past are now returning
+today.
+
+   Back when Aemulor first rose to power, he did send his 20 legionnaire about the island to spread his influence, one of them did find themselves in the Summus Catacombs. It is unknown what exactly happened in
+the catacombs, but for some reason when the legionnaire fell from the fall of Aemulor, he seemed to have merged with the other undead down there becoming a sort of amalgamation of ancient undead. In addition to
+becoming an amalgamation, he split in two with each half going to each of the main crypts in the catacombs. At some point in his transformation he sealed his legionnaire ring in an embalming room in the center
+of the catacombs amist various books and supplies that are needed within the catacombs. Upon beating Duorum the way into the emnbalming is open and he can obtain his ring.
 
 <<Level 10: >
 ~ --- ---~
