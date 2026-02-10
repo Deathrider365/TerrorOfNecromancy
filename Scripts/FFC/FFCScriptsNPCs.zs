@@ -564,7 +564,7 @@ ffc script Lvl9DuratuElder {
          this->Flags[FFCF_SOLID] = false;
          Quit();
       } else if (isHair > 0) {
-         loop() 
+         loop()
             Waitframe();
       } else {
          Waitframes(180);
@@ -606,8 +606,8 @@ ffc script Lvl9SeizedTowerGuard {
          Quit();
       }
 
-      Waitframes(60);   
-      
+      Waitframes(60);
+
       // TODO instead of simply killing everything, have him throw his boomerang to all of the enemies, leaving them
       // all stunned for you to kill (since he gave you the soldier's boomerang)
 
@@ -644,7 +644,7 @@ ffc script Lvl9ConflatosNephew {
       }
 
       Waitframes(60);
-      
+
       // TODO instead of simply killing everything, have him throw his boomerang to all of the enemies, leaving them
       // all stunned for you to kill (since he gave you the soldier's boomerang)
 
@@ -703,12 +703,12 @@ ffc script Lvl9CarulemZora {
 
          if (this->Y > 64 && this->Y < 112)
             this->Data = CMB_DIVING;
-         else 
+         else
             this->Data = CMB_SWIMMING;
 
          Waitframe();
       }
-      
+
       Screen->TriggerSecrets();
       Screen->State[ST_SECRET] = true;
       Audio->PlaySound(SFX_SECRET);
@@ -738,10 +738,10 @@ ffc script Lvl9HylianGeneral {
             npc enemy = Screen->LoadNPC(i);
             enemy->Step = 0;
             enemy->Dir = i < 6 ? DIR_RIGHT : DIR_LEFT;
-         }   
+         }
          Waitframe();
       }
-      
+
       // TODO instead of simply killing everything, have him hurricane spin at the enemies
 
       Screen->Message(initialMessage);
@@ -783,7 +783,7 @@ ffc script Lvl9LobbyNpc {
          waitForTalking(this);
          // Input->Button[CB_SIGNPOST] = false;
 
-         if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) 
+         if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET])
             Screen->Message(preBossMessage);
          else
             Screen->Message(postBossMessage);
@@ -821,7 +821,7 @@ ffc script Lvl9LobbyZelda {
          if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) {
             Screen->Message(MESSAGE_LVL9_BOSS_BEATEN);
          }
-         //if you completed all of zelda's stages 
+         //if you completed all of zelda's stages
          else if (Game->LoadMapData(57, 0x02)->State[ST_SECRET]) {
             Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE);
          }
@@ -830,14 +830,14 @@ ffc script Lvl9LobbyZelda {
                case 0:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE);
                   break;
-               
+
                case 1:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE);
                   break;
                case 2:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE);
                   break;
-               
+
                case 3:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE);
                   break;
@@ -897,7 +897,7 @@ ffc script AuriElder {
             Screen->Message(initialMessage);
             Waitframe();
 
-            itemsprite it = CreateItemAt(207, Hero->X, Hero->Y);
+            itemsprite it = CreateItemAt(ITEM_MYSTERIOUS_KEY, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
             setScreenD(initialScreenD, true);
          } else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET]) {

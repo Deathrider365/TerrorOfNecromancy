@@ -502,9 +502,16 @@ will find a whrilpool that takes him to an undersea cave. Inside rests his missi
 place.
 
 <Mysterious Reef: ????>
-~Mysterious Sea Serpent ---Serris---~
+~Primordial Sea God ---Serris---~
    Link stumbled upon a seemingly untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
-study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign.
+study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign. He will find
+a strange sea serpent Known as Serris. Serris has the ability to swim extremely fast and when he does nothing can hurt him. It is not known where this primordial sea serpent came from other than it existed in the even then
+ancient texts of the Ebrian Zora people, perhaps predating the Leviathan. Such texts are scarecely found, but the few that are describe a sea serpent that despises anything that moves on land and seems to be peaceful with
+anything that lives in the ocean. As such the zoras that existed even before the Ebrian zoras worshiped Serris as their ocean god, keeping ill intentioned land dwellers away from their undersea utopia. It was said that what
+gave Serris his power was the Heart of Lorkhan. The tales say that the heart belonged to some unknown "missing god" where nothing is known about him besides that he had a hand in the creation of the universe, but supposedly
+this missing god somehow lost the heart and it fell into the ocean. What power this heart gives is as unknown as the origin of this mythos, but mysteriously should Link defeat the primoridal serpent, he finds a jewel in its
+nest. Holding the jewel Link could assume the jewel is living, with a heart beat and even a conciousness. With the heard Link can feel the power that Serris controlled, he can briefly swim with extreme speed destroying any
+living thing in his path.
 
    With Link's swimming around he can find, amongst the many whirlpools in SEI, one that takes him into the undercroft of what appears some kind of soldier's tower.
 
@@ -561,29 +568,29 @@ was housed in the stronghold and makes his way north west.
 ~Infernal Demon ---Camazotz---~
 
    Upon entering the first level of the deeper reaches of the forge he will see more water and lava paths similar to the top level. Going deeper however he will find his way into the tunnels infused with piping
-carrying the water and lava in, as well as the intense heat out. Despite carrying the heat out with some of the piping, it still remains very hot dow below. Once Link passes the piped tunnels he will find the 
+carrying the water and lava in, as well as the intense heat out. Despite carrying the heat out with some of the piping, it still remains very hot dow below. Once Link passes the piped tunnels he will find the
 actual mines. Minecarts everywhere either carrying ore out or going deeper in to carry more ore, Link can find himself even riding some of the carts to progress to otherwise unaccessible portions of the mines.
 Eventually Link will find himself in a chamber deep within the mines. Inside he will find what appears to be a very large bat. Upon further inspection he finds that it is a large demon known as a Vire, but it
 is far larger and stronger then a typical Vire. This beast is the Camazotz, a demon of unknown origin or age. All that is known about this demon is from the few rumors and rare examples of people escaping its
 grasp. Some miners recount seenig a demon amidst a swarm a bats, and any living thing that goes near it gets swarmed and devoured. Another account claims that not moving too much makes it harder to see those
 around it. The miner of this account mentions standing still and the demon did not notice him and eventually left him. Some theories of the Camazotz is that it is from the Caldum wastes due to its living in
 extreme heat and attacking with fire and even enflamed bats. Perhaps the miners dug into it's home and released it upon the mines and it is defending its home, considering it never left the mines for as long
-as it has been active. 
+as it has been active.
 
    Should Link go back to the Goddess Faithful hideout next, he will be met with an intervention hosted by Zelda. Each person that Link helped and pointed to the goddess faithful throughout his journey will
 arrive in the hideout. After each of them say their piece, Zelda will go into how the siege will go. Once done everyone will move out to Castle Interitus. Link will evenually find himself in the cave that takes
-him to the breach in the wall of the castle's dungeon. 
+him to the breach in the wall of the castle's dungeon.
 
 <<Level 9: Castle Interitus>
 ~ ---The Necromancer---~
 
    Besides Link's side quests to help cleanse Interitus of various evils, he will inevitably find himself at Castle Interitus to confront the Necromancer with the help of the Goddess Faithful. Depending on those
-around the island that he helped, he will find them around the castle providing help along his trek through the massive castle. 
-   If Link goes back to the defected Hylian General hiding out in Viridi Village, he will have the confidence to leave and join the faithful, ultimately helping Link obtain the Longshot by defeating multiple 
-enemies with his spin attack. 
-   If he returns back to the soldier looking for revenge against Servus in the Krahzen mines, the soldier will find his courage and defeat the enemies in the area Link finds him. 
+around the island that he helped, he will find them around the castle providing help along his trek through the massive castle.
+   If Link goes back to the defected Hylian General hiding out in Viridi Village, he will have the confidence to leave and join the faithful, ultimately helping Link obtain the Longshot by defeating multiple
+enemies with his spin attack.
+   If he returns back to the soldier looking for revenge against Servus in the Krahzen mines, the soldier will find his courage and defeat the enemies in the area Link finds him.
    If Link goes back to the soldier he helps in the Seized Guard Tower outside Viridi village, he will provide information about the Longshot and where to find it.
-   If Link fully helps Conflatos village by ridding their mines of the Camazotz, he will feel confident that Conflatos will resume production of arms and armor to protect themselves, allowing him to join the 
+   If Link fully helps Conflatos village by ridding their mines of the Camazotz, he will feel confident that Conflatos will resume production of arms and armor to protect themselves, allowing him to join the
 faithful. Ultimately Link will find him trapped by enemy guards. Upon saving him he will provide more information on where to find the Longshot
    If Link talks to the elder of Duratu village, he will inform Link that he wants to help the cause by joining the faithful, ultimately defeating enemies ambushing Link in the castle.
    If Link helps the Zora in Carulem village with his dreams, and returns to him after he obtains the Jewel of Marre, he will join the faithful. In Castle Interitus, he will assist link through a trap by diving
@@ -606,7 +613,7 @@ the enbodiment of life and creation, the silver triforce not only embodies light
 nullify the grace of the golden triforce. Now, he stands a chance against Link, however, he also knows Link and his unwavering courage to plow through any hurdle that he encounters. This is where the Necromancer's
 intelligence comes into play. He would try to be diplomatic with Link, explaining the situation reasonably. He claims that everything was a misunderstanding, that he was actually trying to contain the darkness of
 the trforce in his castle, and needs the combined powers of the 3 golden triforce to cleanse it. Stating that with the grace of the trinity, they could enter the Secred Realm and there, fully restore the light of
-the dark triforce. 
+the dark triforce.
    It is here that Right Hand calls the Necromancer out, that he was fully utilizing the triforce and not trying to contain it. Aemulor, through the Necromancer is enraged, not about to let the child
 that the scholar felt pity for is going to ruin his age old plans to be free, decides that Right Hand is and has been lying all along, that he is possessed by the darkness of haeren's triforce, that he wants the
 power for himself and is trying to manipulate the situation in his favor. Right Hand, distrought by the situation and his reverence for what the Scholar was, decides that to truely free the Scholar from the darkness
@@ -627,8 +634,8 @@ unlocking the path to The Void by victory of the Trial of the Goddesses with the
 does his best to tell Right Hand and Link to reassemble Haeren's triforce, cleanse it in the cleansing temple in Pacilux, and enter The Void to destroy Aemulor.
 
    Unfortunately, Aemulor still has power and influence despite being weakened by the splitting of the triforce, he still has enough power to take the mind of Right Hand. Aemulor, as Right Hand, misinforms Link and
-Zelda, that the reason the scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits (not exactly a lie). Lying by saying the triforce itself and haeren was 
-an evil goddess, that haeren’s triforce is to blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft. 
+Zelda, that the reason the scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits (not exactly a lie). Lying by saying the triforce itself and haeren was
+an evil goddess, that haeren’s triforce is to blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft.
 
    Zelda is skeptical that Haeren is an outright evil goddess, but she does not yet know what to believe since this is all news to her. She implores Link to find the remaining shards of dark, in addition to reclaim
 the shards of the golden triforces since she feels that they will need all the assistance that they can get.
@@ -677,9 +684,9 @@ Link unconcious, is spoken to by Haeren for the first time in a long time. She i
 and heals Link. Before leaving, Link finds a helmet left behind by Kaarszcythe after their fight. Unlike the rings of the soldiers here that were so aged that they dissolved, this helmet is fully intact. Link
 takes it feeling some importance with it.
 
-   Throughout Link's adventures, he may have come across some curious tablet shards, even hearing about one directly from the logs of a naturalist living in Cumpura Forest. No one alive would know anything about 
+   Throughout Link's adventures, he may have come across some curious tablet shards, even hearing about one directly from the logs of a naturalist living in Cumpura Forest. No one alive would know anything about
 Back in the kingdom of old during the time of the great kingdom of Vita, before the calamity, there was a place where the deceased would be buried where their spirit can move beyond the physical plane. With The
-grace of Haeren, being buried properly would guaranty eternal paradise for those who's time was up. There are multiple places where the deceased would be housed; the Cathedral of Grace (Cathedral of the Accursed), 
+grace of Haeren, being buried properly would guaranty eternal paradise for those who's time was up. There are multiple places where the deceased would be housed; the Cathedral of Grace (Cathedral of the Accursed),
 Shrine of Rebirth (Shrine of Blasphemy), and Summus Catacombs. During the rise of Necromancy and the Calamity of Vita, those where the dead congregate became a brilliant recruitment spot for Aemulor's Necromancy.
 The revered places of worship to the goddesses and places of rest quickly became sources of darkness and chaos on Vita, obtaining new names that suited more for what purpose they served during the calamity and
 after. When it was discovered that thse locations were being abused, those that maintained the Summus Catacombs sealed the resting place with a magical tablet. So long as the tablet stayed in its place on the
@@ -774,27 +781,27 @@ temple
 
 <Final boss stuff as well as endings>
 
-   In the confrontation in Lv9, you and right hand encounter the scholar. Right Hand kills him, haeren's triforce is scattered all but one shard which you obtain. Right hand talking to you and zelda says the reason the 
-scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits. Lying by saying the triforce itself and haeren was an evil goddess, that haeren’s triforce is to 
-blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft. 
+   In the confrontation in Lv9, you and right hand encounter the scholar. Right Hand kills him, haeren's triforce is scattered all but one shard which you obtain. Right hand talking to you and zelda says the reason the
+scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits. Lying by saying the triforce itself and haeren was an evil goddess, that haeren’s triforce is to
+blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft.
 
 ~~Bad Ending~~ (fully assemble triforce of dark and dont cleanse)
-Unbeknownst to link and zelda doing just that releases the final boss, the amalgamation of death or something. During the fight right hand (controlled still by aemulor) fuses with the amalgamation, entering a sort of 
-phase 2. Destroying the amalgamation and right hand, haeren is still supressed and aemulor is still within haeren’s spirit, so basically the game state here is where it was in the prologue where in time haeren’s 
+Unbeknownst to link and zelda doing just that releases the final boss, the amalgamation of death or something. During the fight right hand (controlled still by aemulor) fuses with the amalgamation, entering a sort of
+phase 2. Destroying the amalgamation and right hand, haeren is still supressed and aemulor is still within haeren’s spirit, so basically the game state here is where it was in the prologue where in time haeren’s
 triforce will grow dark again and someone else can find it and be posses by aemulor.
 
 ~~Neutral Ending~~ (dont fully assemble)
-Should you not assemble the whole triforce of dark and go to IoH, he will be found in the temple of haeren like in the bad ending where you will fight the amalgamation. You fight the amalgamation in a weaker state, 
-and right hand, with aemulor weakened with the triforce not being fully assembled, doesnt get involved. Once the amalgamation is defeated, right hand says all is well and he will rebuild vita, he urges zelda and link to go home to hyrule. 
-They do, and right hand, under the weakened aemulor, still can wreak havoc on interitus once aemulor’s power grows back. Haeren continues to be suppressed and interitus remains as is until aemulor regains his strength 
+Should you not assemble the whole triforce of dark and go to IoH, he will be found in the temple of haeren like in the bad ending where you will fight the amalgamation. You fight the amalgamation in a weaker state,
+and right hand, with aemulor weakened with the triforce not being fully assembled, doesnt get involved. Once the amalgamation is defeated, right hand says all is well and he will rebuild vita, he urges zelda and link to go home to hyrule.
+They do, and right hand, under the weakened aemulor, still can wreak havoc on interitus once aemulor’s power grows back. Haeren continues to be suppressed and interitus remains as is until aemulor regains his strength
 as the triforce of light starts to fade once again given aemulor is still poisoning haeren.
 
 ~~Good Ending~~ (fully assemble and cleanse)
-Rather we know it is actually Aemulor and his manipulation that caused everything, if you go against right hands wishes and actually cleanse her triforce, but go back to IoH and confront Right Hand, you ultimately 
-get the the neutral ending. However, if you cleanse it and go to the temple in Pacilux, on the main floor since the lower levels is a dungeon, use the portal sphere to open the portal to the Sacred Realm. Here you can 
-talk to the spirits of the golden goddesses who tell you the truth that haeren was sealed away because not only was her triforce corrupted, but aemulor corrupted her very spirit, hence why she isnt there. To free her 
-spirit and destroy Aemulor, link has to enter the Silent Realm and overcome their trial. Upon succeeding in that trial, the way to The Void will be open. Link goes into the void (perhaps styled like from one screen 
-gollab) and destroys aemulor forever, freeing haeren’s spirit. Link is banished from the void and back to the sacred realm where the goddesses thank Link for blah blah blah. All that would be left in the game is to 
+Rather we know it is actually Aemulor and his manipulation that caused everything, if you go against right hands wishes and actually cleanse her triforce, but go back to IoH and confront Right Hand, you ultimately
+get the the neutral ending. However, if you cleanse it and go to the temple in Pacilux, on the main floor since the lower levels is a dungeon, use the portal sphere to open the portal to the Sacred Realm. Here you can
+talk to the spirits of the golden goddesses who tell you the truth that haeren was sealed away because not only was her triforce corrupted, but aemulor corrupted her very spirit, hence why she isnt there. To free her
+spirit and destroy Aemulor, link has to enter the Silent Realm and overcome their trial. Upon succeeding in that trial, the way to The Void will be open. Link goes into the void (perhaps styled like from one screen
+gollab) and destroys aemulor forever, freeing haeren’s spirit. Link is banished from the void and back to the sacred realm where the goddesses thank Link for blah blah blah. All that would be left in the game is to
 find right hand, who isnt under the influence of the necromancer anymore. Link will find right hand standing on the eastern coast of NEI looking out into the sea. He is greatly saddened that the scholar (who was like a
 father to the orphaned soldier) was a victim of aemulor’s darkness. He apologizes to link for everything, then zelda speaks up and says all 3 of them will help rebuild Vita, right hand becomes the new king.
 

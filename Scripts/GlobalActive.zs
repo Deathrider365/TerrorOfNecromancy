@@ -326,6 +326,7 @@ global script GlobalScripts {
          case 35: //SWI Residence
             switch (screen) {
                case 0x5B: return 000100;
+               case 0x61: return 000100;
             }
             break;
          case 36: //SWI Caves
