@@ -2,66 +2,66 @@
 
 ---Demo 1---
 
-(13) Minidungeon 1: Temple of Haeren                             - Wooden Boomerang (1)
+(13) Minidungeon 1: Temple of Haeren                                    - Wooden Boomerang (1)
 ~~~Main Game~~~
 
 ---Demo 2---
 
-(01) Level 1: Pernicious Grotto				                           - Oil Candle (2)
-Battle Arena 1: Raccoon Hollow			                             - Landscaper's Bracelet (1)
+(01) Level 1: Pernicious Grotto				                            - Oil Candle (2)
+Battle Arena 1: Raccoon Hollow			                                - Landscaper's Bracelet (1)
 
 ---Demo 3---
 
-(02) Level 2: Derelict Quarry				                             - Ladder
-(14) Minidungeon 2: Seized Guard Tower		                       - Soldier's Boomerang (2)
+(02) Level 2: Derelict Quarry				                            - Ladder
+(14) Minidungeon 2: Seized Guard Tower		                            - Soldier's Boomerang (2)
 
 ---Demo 4---
 
-(03) Level 3: Ancient Shrine				                             - Cultist's Hammer (1)
-Battle Arena 2: Pirate Hideout			                             - Soldier's Bow (2)
-(15) Optional Dungeon 1: Molten Flooded Forge		                 - Sword of Conflator (2)
+(03) Level 3: Ancient Shrine				                            - Cultist's Hammer (1)
+Battle Arena 2: Pirate Hideout			                                - Soldier's Bow (2)
+(15) Optional Dungeon 1: Molten Flooded Forge		                    - Sword of Conflator (2)
 Blue Mail
 
 ---Demo 5---
 
-(04) Level 4: Pillaged Prison			                               - Lens of Truth
-(16) Minidungeon 3: Sweltering Iron Mine		                     - Iron Arrows (2)
+(04) Level 4: Pillaged Prison			                                - Lens of Truth
+(16) Minidungeon 3: Sweltering Iron Mine		                        - Iron Arrows (2)
 
-(05) Level 5: Temple of Gamoth			                             - Hookshot (1)
-(17) Minidungeon 4: The Summus Pass:			                       - Merchant's Wallet (1)
-(18) Optional Dungeon 2: Sealed Abyss	   	                       - Displelled Cane (1), Spectral Cane (2)
+(05) Level 5: Temple of Gamoth			                                - Hookshot (1)
+(17) Minidungeon 4: The Summus Pass:			                        - Merchant's Wallet (1)
+(18) Optional Dungeon 2: Sealed Abyss	   	                            - Displelled Cane (1), Spectral Cane (2)
 
-(06) Level 6: Geothermal Plant                                   - Goron Gauntlet (2)
+(06) Level 6: Geothermal Plant                                          - Goron Gauntlet (2)
 
-Purchaseable                                                     - Incendiary Candle (3)
+Purchaseable                                                            - Incendiary Candle (3)
 
 ---Demo 6---
 
-(07) Level 7: Palace of Waves                                    - Zora's Flippers (1)
-Battle Arena 3: Exiled Zora's Domain		 	                     - Hurricane Spin
-(19) Optional Dungeon 3: Hylian Wreck			                       - Master Sword (3)
-(20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)        - Red Mail (3)
+(07) Level 7: Palace of Waves                                           - Zora's Flippers (1)
+Battle Arena 3: Exiled Zora's Domain		 	                        - Hurricane Spin
+(19) Optional Dungeon 3: Hylian Wreck			                        - Master Sword (3)
+(20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)               - Red Mail (3)
 
-(08) Level 8: Marauder's Cove				                             - Mage's Wand (1)
-(21) Optional Dungeon 5: Molten Flooded Forge Mines	             - Smith's Hammer (2)
+(08) Level 8: Marauder's Cove				                            - Mage's Wand (1)
+(21) Optional Dungeon 5: Molten Flooded Forge Mines	                    - Smith's Hammer (2)
 
-(09) Level 9: Castle Interitus				                           - Longshot (2)
-(22) Optional Dungeon 6: Summus Catacombs                        - Hell's Candle (4)
-(23) Optional Dungeon 7: Bastion of the Profaned Legion	    - Mithril Arrow (3)
+(09) Level 9: Castle Interitus				                            - Longshot (2)
+(22) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
+(23) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
 Shop: Thief's Wallet (2)
-(10) Level 10: Infernal Caldera					                               - Gale Boomerang (3)
-(24) Optional Dungeon 8: Isolated Spire                          - Giant's Bracer (3)
-Battle Arena 4: Secluded Alcove                             - Marksman's Bow (3)
+(10) Level 10: Infernal Caldera					                        - Gale Boomerang (3)
+(24) Optional Dungeon 8: Isolated Spire                                 - Giant's Bracer (3)
+Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
 
-(11) Level 11: Towers of Dichotomy				                       - Elemental Rod or Rod of Antithesis (1)
+(11) Level 11: Towers of Dichotomy				                        - Elemental Rod or Rod of Antithesis (1)
 can buy in carulem at some point Diver's Flippers (2)
 
-(12) Level 12: Cathedral of the Accursed			                         - Mirror Shield (3)
-(25) Optional Dungeon 10: Shrine of Blasphemy               - Portal Sphere
+(12) Level 12: Cathedral of the Accursed			                    - Mirror Shield (3)
+(25) Optional Dungeon 10: Shrine of Blasphemy                           - Portal Sphere
 
 Goddess Sword obtained once you have all shards to the golden triforces
 Goddess Mail is obtained by a side quest that merges with the events that occur once all 12 dungeons are done (the final approach to the final boss, maybe isnt super obvious)

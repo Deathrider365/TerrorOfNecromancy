@@ -59,4 +59,4 @@
 
    - Leviathan Scale -
       - Scale 1                        Opening Sequence Leviathan       None + None
-      - Scale 2
+      - Scale 2                        Abyssal Depths                   None + None
