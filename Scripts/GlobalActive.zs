@@ -423,6 +423,11 @@ global script GlobalScripts {
                case 0x25: return 011000b;
             }
             break;
+         case 124: //NWI Mt. Summus
+            switch (screen) {
+               case 0x66: return 011000b;
+            }
+            break;
       }
       return 0;
    }
