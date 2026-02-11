@@ -60,3 +60,5 @@
    - Leviathan Scale -
       - Scale 1                        Opening Sequence Leviathan       None + None
       - Scale 2                        Abyssal Depths                   None + None
+
+Level 2 lens where? if at all?

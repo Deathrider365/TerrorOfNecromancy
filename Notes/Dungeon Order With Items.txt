@@ -46,8 +46,8 @@ Battle Arena 3: Exiled Zora's Domain		 	                        - Hurricane Spin
 (21) Optional Dungeon 5: Molten Flooded Forge Mines	                    - Smith's Hammer (2)
 
 (09) Level 9: Castle Interitus				                            - Longshot (2)
-(22) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
-(23) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
+(22) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
+(23) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
@@ -72,11 +72,11 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 (26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
 (27) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
 - Main story fleshed out (cutscenes) and can beat the game
+- Paladin Mode
 - Some optional content, no post game
 - All bosses and scripted enemies implemented
 
 --Version 2.0.0---
-- Post game
 - All Side content implemented
 - All bugs worked out the best of my ability
 - (Fully) Polished
