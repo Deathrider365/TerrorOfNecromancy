@@ -256,7 +256,6 @@ ffc script ConflatosElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int fifthMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          mapdata forgeBossRoom = Game->LoadMapData(61, 0x43);
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
