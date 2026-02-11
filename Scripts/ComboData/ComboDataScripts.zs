@@ -32,8 +32,8 @@ combodata script SemiSensitiveSwitch {
 
 // clang-format off
 @Author("Moosh"),
-@Attribyte0("Direction"),
-@AttribyteHelp0("0 = Up,\n 1 = Down,\n 2 = Left,\n 3 = Right")
+@Attribute0("Direction"),
+@AttributeHelp0("0 = Up,\n 1 = Down,\n 2 = Left,\n 3 = Right")
 combodata script ICanSeeYou {
    // clang-format on
    CONFIGB DEBUG = false;
