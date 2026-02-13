@@ -80,3 +80,23 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 - All Side content implemented
 - All bugs worked out the best of my ability
 - (Fully) Polished
+
+
+~~~ Triforce Shard Locations ~~~
+Lv1 - Courage (1)
+Lv2 - Power (1)
+Lv3 - Wisdom (1)
+Lv4 - Courage (2)
+Lv5 - Power (2)
+Lv6 - Courage (3)
+Lv7 - Power (3)
+Lv8 - Courage (4) COMPLETE
+Lv9 - Wisdom (2)
+Lv10 - Power (4) COMPLETE
+Lv11 - Wisdom (3)
+Lv12 - Wisdom (4) COMPLETE
+
+Haeren 1: Lv9
+Haeren 2: Trading Sequence
+Haerem 3: Bought (not necessarily from a shop)
+Haeren 4: Optional Dungeon
