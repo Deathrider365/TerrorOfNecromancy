@@ -1379,7 +1379,6 @@ ffc script GoddessFaithfulZeldaScenes {
 
       loop () {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
             zeldaIntroDialogue();
@@ -1697,3 +1696,140 @@ ffc script GoddessFaithfulZeldaScenes {
    }
 }
 
+// clang-format off
+@Author("Deathrider365")
+ffc script SummusTabletPedestal {
+// clang-format on
+
+   CONFIG CMB_SHARD_A = 11184;
+   CONFIG CMB_SHARD_B = 11185;
+   CONFIG CMB_SHARD_C = 11186;
+   CONFIG CMB_SHARD_D = 11187;
+
+   void run(int allShardsMessage, int shardAMessage, int shardBMessage, int shardCMessage, int shardDMessage, int noShardMessage, int completedMessage, int needMoreShardsMessage) {
+      loop() {
+         if (getScreenD(0)) {
+            Audio->PlaySound(SFX_SHUTTER_OPEN);
+            mapdata mapData1 = Game->LoadTempScreen(1);
+            mapData1->ComboD[28] = 11176;
+            mapData1->ComboD[195] = 11176;
+            
+            waitForReading(this);
+            drawAllNecessaryShards();
+
+            Screen->Message(completedMessage);
+            Waitframe();
+         } else {
+            Audio->PlaySound(SFX_SHUTTER_CLOSE);
+            int tabletShardCount = 0;
+
+            if (getScreenD(1))
+               tabletShardCount++;
+            if (getScreenD(2))
+               tabletShardCount++;
+            if (getScreenD(3))
+               tabletShardCount++;
+            if (getScreenD(4))
+               tabletShardCount++;
+
+            waitForReading(this);
+
+            bool noMoreShardsMessageShouldTrigger = true;
+
+            if (Hero->Item[ITEM_SUMMUS_TABLET_SHARD_A]) {
+               if (!getScreenD(1)) {
+                  setScreenD(1, true);
+                  drawAllNecessaryShards();
+                  Screen->Message(shardAMessage);
+                  tabletShardCount++;
+               } else if (noMoreShardsMessageShouldTrigger) {
+                  drawAllNecessaryShards();
+                  Screen->Message(needMoreShardsMessage);
+                  noMoreShardsMessageShouldTrigger = false;
+               }
+
+               Waitframe();
+            }
+            if (Hero->Item[ITEM_SUMMUS_TABLET_SHARD_B]) {
+               if (!getScreenD(2)) {
+                  setScreenD(2, true);
+                  drawAllNecessaryShards();
+                  Screen->Message(shardBMessage);
+                  tabletShardCount++;
+               } else if (noMoreShardsMessageShouldTrigger) {
+                  drawAllNecessaryShards();
+                  Screen->Message(needMoreShardsMessage);
+                  noMoreShardsMessageShouldTrigger = false;
+               }
+
+               Waitframe();
+            }
+            if (Hero->Item[ITEM_SUMMUS_TABLET_SHARD_C]) {
+               if (!getScreenD(3)) {
+                  setScreenD(3, true);
+                  drawAllNecessaryShards();
+                  Screen->Message(shardCMessage);
+                  tabletShardCount++;
+               } else if (noMoreShardsMessageShouldTrigger) {
+                  drawAllNecessaryShards();
+                  Screen->Message(needMoreShardsMessage);
+                  noMoreShardsMessageShouldTrigger = false;
+               }
+
+               Waitframe();
+            }
+            if (Hero->Item[ITEM_SUMMUS_TABLET_SHARD_D]) {
+               if (!getScreenD(4)) {
+                  setScreenD(4, true);
+                  drawAllNecessaryShards();
+                  Screen->Message(shardDMessage);
+                  tabletShardCount++;
+               } else if (noMoreShardsMessageShouldTrigger) {
+                  drawAllNecessaryShards();
+                  Screen->Message(needMoreShardsMessage);
+                  noMoreShardsMessageShouldTrigger = false;
+               }
+
+               Waitframe();
+            }
+
+            if (tabletShardCount == 4) {
+               drawAllNecessaryShards();
+               Screen->Message(allShardsMessage);
+               Screen->Quake = 120;
+               Audio->PlaySound(SFX_SECRET);
+               setScreenD(0, true);
+            } else if (tabletShardCount == 0) {
+               Screen->Message(noShardMessage);
+            }
+         }
+
+         drawAllNecessaryShards();
+         Waitframe();
+      }
+   }
+
+   void waitForReading(ffc this) {
+      until(againstFFC(this->X, this->Y, true) && Input->Press[CB_SIGNPOST]) {
+         if (againstFFC(this->X, this->Y, true))
+            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+
+         drawAllNecessaryShards();
+
+         Waitframe();
+         Input->Button[CB_SIGNPOST] = false;
+      }
+
+   }
+
+   void drawAllNecessaryShards() {
+      if (getScreenD(1)) 
+         Screen->FastCombo(1, 240, 32, CMB_SHARD_A, 0, OP_OPAQUE);
+      if (getScreenD(2)) 
+         Screen->FastCombo(1, 240, 32, CMB_SHARD_B, 0, OP_OPAQUE);
+      if (getScreenD(3)) 
+         Screen->FastCombo(1, 256, 32, CMB_SHARD_C, 0, OP_OPAQUE);
+      if (getScreenD(4)) 
+         Screen->FastCombo(1, 256, 32, CMB_SHARD_D, 0, OP_OPAQUE);
+   }
+}

@@ -31,13 +31,11 @@ ffc script Shutter {
          this->Data = 0; //TODO this may not work in the future
          Quit();
       }
-
       else if (type == OPEN_BY_SCREEND) {
          Waitframe();
 
          if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
             Quit();
-
       }
       else if (type == OPEN_BY_ENEMY && perm && getScreenD(screenDForPermEnemies)) {
          Quit();
