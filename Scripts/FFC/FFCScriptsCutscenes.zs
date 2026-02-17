@@ -1707,13 +1707,12 @@ ffc script SummusTabletPedestal {
    CONFIG CMB_SHARD_D = 11187;
 
    void run(int allShardsMessage, int shardAMessage, int shardBMessage, int shardCMessage, int shardDMessage, int noShardMessage, int completedMessage, int needMoreShardsMessage) {
+      mapdata mapData1 = Game->LoadTempScreen(1);
+
       loop() {
          if (getScreenD(0)) {
-            Audio->PlaySound(SFX_SHUTTER_OPEN);
-            mapdata mapData1 = Game->LoadTempScreen(1);
-            mapData1->ComboD[28] = 11176;
-            mapData1->ComboD[195] = 11176;
-            
+            mapData1->ComboD[28] = 0;
+            mapData1->ComboD[195] = 0;
             waitForReading(this);
             drawAllNecessaryShards();
 
@@ -1797,6 +1796,11 @@ ffc script SummusTabletPedestal {
                drawAllNecessaryShards();
                Screen->Message(allShardsMessage);
                Screen->Quake = 120;
+
+               mapData1->ComboD[28] = 11176;
+               mapData1->ComboD[195] = 11176;
+               Audio->PlaySound(SFX_SHUTTER_OPEN);
+
                Audio->PlaySound(SFX_SECRET);
                setScreenD(0, true);
             } else if (tabletShardCount == 0) {
