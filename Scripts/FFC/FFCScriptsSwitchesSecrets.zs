@@ -12,7 +12,7 @@
 @InitDHelp3("if screenD, this is the register"),
 @InitD4("screenDForPermEnemies"),
 @InitDHelp4("if type is enemies and is perm, this is the screenD to set to never close after first triggering")
-ffc script Shutter {
+ffc script OLDShutter {
    // clang-format on
    void run(int type, bool perm, int playSecretSound, int screenD, int screenDForPermEnemies) {
       CONFIG OPEN_BY_SECRET = 0;
@@ -192,6 +192,179 @@ ffc script Shutter {
 
    bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
 		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
+   }
+
+   bool checkEnemies() {
+      // return Screen->NumNPCs > 0;
+      for (int i = Screen->NumNPCs; i >= 1; i--) {
+         npc n = Screen->LoadNPC(i);
+         if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
+            if (!(SizeOfArray(n->Flags) & (1 << 3)))
+               return false;
+      }
+      return true;
+   }
+}
+
+// clang-format off
+@Author("Moosh, Modified by Deathrider365"),
+@InitD0("type"),
+@InitDHelp0("0 for secrets, 1 for enemy, 2 for screenD -1 for never open"),
+@InitD1("perm"),
+@InitDHelp1("0 for temp, 1 for perm"),
+@InitD2("secretSound"),
+@InitDHelp2("0 to not, 1 to play"),
+@InitD3("screenD"),
+@InitDHelp3("if screenD, this is the register"),
+@InitD4("screenDForPermEnemies"),
+@InitDHelp4("if type is enemies and is perm, this is the screenD to set to never close after first triggering")
+ffc script Shutter {
+   // clang-format on
+   void run(int type, bool perm, int playSecretSound, int screenD, int screenDForPermEnemies) {
+      CONFIG OPEN_BY_SECRET = 0;
+      CONFIG OPEN_BY_ENEMY = 1;
+      CONFIG OPEN_BY_SCREEND = 2;
+
+      if(!this->Flags[FFCF_PRELOAD])
+         printf("ERROR: Shutter script must run on screen init!\n");
+
+      int thisData = this->Data;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+
+      int LinkX = Hero->X;
+      int LinkY = Hero->Y;
+
+      if(Game->Scrolling[SCROLL_DIR] > -1) {
+         LinkX = Game->Scrolling[SCROLL_NEW_HERO_X];
+         LinkY = Game->Scrolling[SCROLL_NEW_HERO_Y];
+      }
+
+      int maxX = Region->Width - 16;
+      int maxY = Region->Height - 16;
+
+      //Check whether the shutter should not close at all
+      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET])) {
+         this->Data = 0;
+         Quit();
+      }
+      else if (type == OPEN_BY_SCREEND) {
+         Waitframe();
+
+         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
+            Quit();
+      }
+      else if (type == OPEN_BY_ENEMY && perm && getScreenD(screenDForPermEnemies)) {
+         Quit();
+      }
+
+      if (inShutter(this, LinkX, LinkY, 3)) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+      }
+      else {
+         this->Data = thisData + 1;
+         this->Flags[FFCF_SOLID] = true;
+      }
+      
+      int moveDir = Hero->Dir;
+      int enemySpawnFrames = 4; // Frames the script must wait before enemy shutters can open
+
+      Waitframe();
+
+      //Shutter is locked, wait for it to be opened if it can be opened, otherwise stay shut
+      loop() {
+         if (enemySpawnFrames)
+            --enemySpawnFrames;
+         if (inShutter(this, Link->X, Link->Y, 3)) {
+            this->Data = CMB_INVIS;
+            this->Flags[FFCF_SOLID] = false;
+
+            if(Link->Y < 8)
+               moveDir = DIR_DOWN;
+            else if(Link->Y > maxY - 16)
+               moveDir = DIR_UP;
+            else if(Link->X < 16)
+               moveDir = DIR_RIGHT;
+            else if(Link->X > maxX - 16)
+               moveDir = DIR_LEFT;
+
+            while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
+               NoAction();
+
+               if (moveDir == DIR_UP)
+                  Hero->InputUp = true;
+               else if (moveDir == DIR_DOWN)
+                  Hero->InputDown = true;
+               else if (moveDir == DIR_LEFT)
+                  Hero->InputLeft = true;
+               else if (moveDir == DIR_RIGHT)
+                  Hero->InputRight = true;
+
+               Waitframe();
+            }
+
+            if(moveDir == DIR_UP)
+                Link->Y = Min(Link->Y, maxY-16);
+            else if(moveDir == DIR_DOWN)
+                Link->Y = Max(Link->Y, 8);
+            else if(moveDir == DIR_LEFT)
+                Link->X = Min(Link->X, maxX-16);
+            else if(moveDir == DIR_RIGHT)
+                Link->X = Max(Link->X, 16);
+
+            Audio->PlaySound(SFX_SHUTTER_CLOSE);
+            playOpenCloseAnim(this, thisData, false);
+         }
+
+         if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
+            break;
+         if (type == OPEN_BY_ENEMY && checkEnemies() && !enemySpawnFrames)
+            break;
+         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
+            break;
+
+         Waitframe();
+      }
+
+      Audio->PlaySound(SFX_SHUTTER_OPEN);
+
+      if (playSecretSound)
+         Audio->PlaySound(SFX_OOT_SECRET);
+
+      playOpenCloseAnim(this, thisData + 2, true);
+
+      if (perm) {
+         if (type == OPEN_BY_ENEMY && perm)
+            setScreenD(screenDForPermEnemies, true);
+         else
+            Screen->State[ST_SECRET] = true;
+      }
+   }
+
+   void playOpenCloseAnim(ffc this, int combo, bool opening) {
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = true;
+      combodata cd = Game->LoadComboData(combo);
+      int aspeed = cd->ASpeed + 1;
+      int frames = Max(cd->Frames, 1) * aspeed;
+      
+      for(int i = 0; i < frames; ++i) {
+        Screen->DrawCombo(this->Layer, this->X, this->Y, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
+        Waitframe();
+      }
+
+      if (opening) {
+        this->Data = 0;
+        this->Flags[FFCF_SOLID] = false;
+        Quit();
+      }
+      else
+        this->Data = combo + 1;
+   }
+
+   bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
+      return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
    }
 
    bool checkEnemies() {
