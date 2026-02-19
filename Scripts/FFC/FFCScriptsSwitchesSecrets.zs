@@ -225,7 +225,10 @@ ffc script Shutter {
       CONFIG OPEN_BY_ENEMY = 1;
       CONFIG OPEN_BY_SCREEND = 2;
 
-      if(!this->Flags[FFCF_PRELOAD])
+      this->EffectWidth = this->TileWidth * 16;
+      this->EffectHeight = this->TileHeight * 16;
+
+      if (!this->Flags[FFCF_PRELOAD])
          printf("ERROR: Shutter script must run on screen init!\n");
 
       int thisData = this->Data;
@@ -235,7 +238,7 @@ ffc script Shutter {
       int LinkX = Hero->X;
       int LinkY = Hero->Y;
 
-      if(Game->Scrolling[SCROLL_DIR] > -1) {
+      if (Game->Scrolling[SCROLL_DIR] > -1) {
          LinkX = Game->Scrolling[SCROLL_NEW_HERO_X];
          LinkY = Game->Scrolling[SCROLL_NEW_HERO_Y];
       }
@@ -259,14 +262,14 @@ ffc script Shutter {
       }
 
       if (inShutter(this, LinkX, LinkY, 3)) {
-         this->Data = CMB_INVIS;
+         setFFCData(this, thisData, true);
          this->Flags[FFCF_SOLID] = false;
       }
       else {
-         this->Data = thisData + 1;
+         setFFCData(this, thisData, false);
          this->Flags[FFCF_SOLID] = true;
       }
-      
+
       int moveDir = Hero->Dir;
       int enemySpawnFrames = 4; // Frames the script must wait before enemy shutters can open
 
@@ -277,7 +280,7 @@ ffc script Shutter {
          if (enemySpawnFrames)
             --enemySpawnFrames;
          if (inShutter(this, Link->X, Link->Y, 3)) {
-            this->Data = CMB_INVIS;
+            setFFCData(this, thisData, true);
             this->Flags[FFCF_SOLID] = false;
 
             if(Link->Y < 8)
@@ -342,29 +345,78 @@ ffc script Shutter {
       }
    }
 
+   void setFFCData(ffc this, int combo, bool open) {
+      bool big = (this->TileWidth > 1 || this->TileHeight > 1);
+      if (open) {
+         if (big) {
+            mapdata lyr = Game->LoadTempScreen(this->Layer);
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for(int y=0; y<this->TileHeight; ++y) {
+                  int pos = ComboAt(this->X + 8 + x * 16, this->Y + 8 + y * 16);
+                  lyr->ComboD[pos] = 0;
+                  lyr->ComboC[pos] = this->CSet;
+               }
+            }
+         }
+         else {
+            this->Data = CMB_INVIS;
+         }
+      }
+      else {
+         if (big) {
+            mapdata lyr = Game->LoadTempScreen(this->Layer);
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for(int y = 0; y < this->TileHeight; ++y) {
+                  int pos = ComboAt(this->X + 8 + x * 16, this->Y + 8 + y * 16);
+                  lyr->ComboD[pos] = combo+1;
+                  lyr->ComboC[pos] = this->CSet;
+               }
+            }
+         }
+         else {
+            this->Data = combo + 1;
+         }
+      }
+   }
    void playOpenCloseAnim(ffc this, int combo, bool opening) {
-      this->Data = CMB_INVIS;
+      setFFCData(this, combo, true);
       this->Flags[FFCF_SOLID] = true;
       combodata cd = Game->LoadComboData(combo);
       int aspeed = cd->ASpeed + 1;
       int frames = Max(cd->Frames, 1) * aspeed;
-      
-      for(int i = 0; i < frames; ++i) {
-        Screen->DrawCombo(this->Layer, this->X, this->Y, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
-        Waitframe();
+
+      bool big = (this->TileWidth > 1 || this->TileHeight > 1);
+
+      for (int i = 0; i < frames; ++i) {
+         if (big) {
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for (int y=0; y<this->TileHeight; ++y) {
+                  Screen->DrawCombo(this->Layer, this->X + x * 16, this->Y + y * 16, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
+               }
+            }
+         }
+         else
+            Screen->DrawCombo(this->Layer, this->X, this->Y, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
+
+         Waitframe();
       }
 
       if (opening) {
-        this->Data = 0;
-        this->Flags[FFCF_SOLID] = false;
-        Quit();
+         setFFCData(this, combo, true);
+         this->Flags[FFCF_SOLID] = false;
       }
-      else
-        this->Data = combo + 1;
+      else {
+         setFFCData(this, combo, false);
+         this->Flags[FFCF_SOLID] = true;
+      }
    }
 
    bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
-      return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
+      int eL = this->X - 16 + leeway;
+      int eR = this->X + this->EffectWidth - leeway;
+      int eU = this->Y - 16 + leeway;
+      int eD = this->Y + this->EffectHeight - 8 - leeway;
+      return (LinkX > eL && LinkX < eR && LinkY > eU && LinkY < eD);
    }
 
    bool checkEnemies() {

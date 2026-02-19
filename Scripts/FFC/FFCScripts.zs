@@ -760,8 +760,8 @@ ffc script GBMinecart_Shutter {
 ffc script AssignAAndBForIntro {
    // clang-format on
    void run() {
-      Hero->ItemA = ITEM_SWORD3;
-      Hero->ItemB = ITEM_BRANG2;
+      // Hero->ItemA = ITEM_SWORD3;
+      // Hero->ItemB = ITEM_BRANG2;
    }
 }
 
@@ -870,7 +870,7 @@ ffc script LoSShooter {
       int rotate = ((eweaponIdAndRotate % 1) / 1L) ? EWF_ROTATE : 0;
       int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(weaponId);
       int originalCombo = this->Data;
-      
+
       loop () {
          if (this->Data != originalCombo) Quit();
 
@@ -879,7 +879,7 @@ ffc script LoSShooter {
          if (angle > 0) {
             if (cooldown == 0) {
                eweapon weapon = FireEWeapon(weaponId, this->X, this->Y, angle, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE | rotate);
-               
+
                switch (ignoreSolidity) {
                   case 1:
                      weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
@@ -890,7 +890,7 @@ ffc script LoSShooter {
                      weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
                      break;
                }
-                  
+
                cooldown = shotCooldown;
             }
 
@@ -951,13 +951,13 @@ ffc script Beamos {
       int cooldown = shotCooldown;
       int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(eweaponId);
       int originalCombo = this->Data;
-      
+
       loop () {
          if (this->Data != originalCombo) Quit();
          if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
             if (cooldown == 0) {
                eweapon weapon = FireAimedEWeapon(eweaponId, this->X, this->Y, 0, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE);
-               
+
                switch (ignoreSolidity) {
                   case 1:
                      weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
@@ -968,7 +968,7 @@ ffc script Beamos {
                      weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
                      break;
                }
-                  
+
                cooldown = shotCooldown;
             }
 

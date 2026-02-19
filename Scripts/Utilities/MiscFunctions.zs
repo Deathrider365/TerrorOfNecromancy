@@ -7,8 +7,8 @@ void giveStartingCrap() {
 }
 
 void removeAllItems() {
-   Hero->ItemA = -1;
-   Hero->ItemB = -1;
+   // Hero->ItemA = -1;
+   // Hero->ItemB = -1;
 
    for (int i = 0; i < MAX_ITEMDATA; ++i)
       unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;

@@ -611,7 +611,7 @@ global script onContGame {
    void run() {
       subscreenYOffset = -232;
 
-      if(onContHP != 0) {
+      if (onContHP != 0) {
          Hero->HP = onContHP;
          Hero->MP = onContMP;
       } else {
