@@ -335,7 +335,7 @@ ffc script Shutter {
       playOpenCloseAnim(this, thisData + 2, true);
 
       if (perm) {
-         if (type == OPEN_BY_ENEMY && perm)
+         if (type == OPEN_BY_ENEMY)
             setScreenD(screenDForPermEnemies, true);
          else
             Screen->State[ST_SECRET] = true;
