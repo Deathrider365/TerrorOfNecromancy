@@ -397,6 +397,11 @@ namespace BurningCombosNamespace {
    CONFIG BURNABLE_INID_SPREADTIME = 2;
    CONFIG BURNABLE_INID_INCLUDE_EWEAPONS = 3;
 
+   CONFIG BURNING_COMBO_LV1 = 6344;
+   CONFIG BURNING_COMBO_LV2 = 6345;
+   CONFIG BURNING_COMBO_LV3 = 6346;
+   CONFIG BURNING_COMBO_LV4 = 6347;
+
    class BurningCombo {
       combodata comboData;
       int burnTimer;
@@ -538,11 +543,11 @@ namespace BurningCombosNamespace {
 
    int getBurningCombo() {
       switch (GetHighestLevelItemOwned(IC_CANDLE)) {
-         case 158: return 6344;
-         case 10: return 6345;
-         case 11: return 6346;
-         case 150: return 6347;
-         default: return 6344;
+         case 158: return BURNING_COMBO_LV1;
+         case 10: return BURNING_COMBO_LV2;
+         case 11: return BURNING_COMBO_LV3;
+         case 150: return BURNING_COMBO_LV4;
+         default: return BURNING_COMBO_LV1;
       }
    }
 }

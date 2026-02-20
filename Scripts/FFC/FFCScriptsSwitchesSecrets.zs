@@ -254,8 +254,8 @@ ffc script Shutter {
       else if (type == OPEN_BY_SCREEND) {
          Waitframe();
 
-         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
-            Quit();
+         if (type == OPEN_BY_SCREEND)
+            until (getScreenD(screenD)) Waitframe();
       }
       else if (type == OPEN_BY_ENEMY && perm && getScreenD(screenDForPermEnemies)) {
          Quit();

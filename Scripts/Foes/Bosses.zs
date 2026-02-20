@@ -3415,6 +3415,12 @@ namespace EgentemNamespace {
    CONFIG SPR_RISE = 136;
    CONFIG SPR_CRACK = 137;
 
+   CONFIG SCREEND_EGENTEM_TRAP_TRIGGERED = 0;
+   CONFIG SCREEND_EGENTEM_BEATEN = 1;
+   CONFIG SCREEND_EGENTEM_INITIATE_INTRO = 2;
+   CONFIG SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS = 3;
+   CONFIG SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS = 4;
+
    enum ATTACKS {
       ATTACK_HAMMER_SPIN,
       ATTACK_HAMMER_ERUPTION,
@@ -3498,29 +3504,29 @@ namespace EgentemNamespace {
          int maxHp = this->HP;
          this->CollDetection = false;
 
-         // Not yet activated Egentem yet
-         until(getScreenD(31, 0x43, 0)) {
-            this->X = -32;
-            this->Y = -32;
+         until (getScreenD(SCREEND_EGENTEM_TRAP_TRIGGERED))
             Waitframe();
-         }
 
-         // You already triggered his trap and failed to defeat him once or F6'd
-         if (getScreenD(31, 0x23, 0) && getScreenD(31, 0x43, 0)) {
+         if (getScreenD(SCREEND_EGENTEM_INITIATE_INTRO) && getScreenD(SCREEND_EGENTEM_TRAP_TRIGGERED)) {
             Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
             this->X = 120;
             this->Y = 128;
             this->Dir = DIR_UP;
             aptr->PlayAnim(STANDING_SH);
-         }
 
-         // You activated his triforce trap, do intro
-         else if (!getScreenD(0)) {
+            setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+            setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+         }
+         else if (!getScreenD(SCREEND_EGENTEM_INITIATE_INTRO)) {
+            if (Hero->Y < 48)
+               setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+            else
+               setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+
             introCutscene(this);
-            setScreenD(0, true);
+            setScreenD(SCREEND_EGENTEM_INITIATE_INTRO, true);
          }
 
-         closeShutters(this);
          this->CollDetection = true;
 
          for (int i = 0; i < 20; ++i)
@@ -3653,6 +3659,10 @@ namespace EgentemNamespace {
    }
 
    void egentemDeathAnimation(npc n) {
+      setScreenD(SCREEND_EGENTEM_BEATEN, true);
+      setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, false);
+      setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, false);
+
       n->Immortal = true;
       n->CollDetection = false;
       n->Stun = 9999;
@@ -3671,8 +3681,6 @@ namespace EgentemNamespace {
          }
          Waitframes(5);
       }
-
-      openShutters();
 
       char32 areaMusic[256];
       Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
@@ -3749,34 +3757,6 @@ namespace EgentemNamespace {
       aptr->PlayAnim(anim);
    }
 
-   void closeShutters(npc this) {
-      while (Hero->Y < 16) {
-         disableLink();
-         Hero->InputDown = true;
-         Waitframe(this);
-      }
-
-      mapdata md = Game->LoadTempScreen(1);
-      Audio->PlaySound(SFX_SHUTTER_CLOSE);
-
-      md->ComboD[7] = 6957;
-      md->ComboD[8] = 6957;
-      md->ComboD[167] = 6953;
-      md->ComboD[168] = 6953;
-   }
-
-   void openShutters() {
-      mapdata md = Game->LoadTempScreen(1);
-      Audio->PlaySound(SFX_SHUTTER_OPEN);
-
-      md->ComboD[7] = 0;
-      md->ComboD[8] = 0;
-      md->ComboD[167] = 0;
-      md->ComboD[168] = 0;
-
-      setScreenD(1, true);
-   }
-
    void introCutscene(npc this) {
       Audio->PlayEnhancedMusic(NULL, 0);
 
@@ -3836,14 +3816,21 @@ namespace EgentemNamespace {
          Waitframe(this);
       }
 
+      if (Hero->Y < 48)
+         setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+      else
+         setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+
+      Waitframes(10);
+
       Screen->Message(337);
       Waitframe();
       hammerFrame(this, 0, 0, xy);
       Screen->Message(807);
       Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
       Waitframe();
-
-      setScreenD(31, 0x23, 0, true);
 
       aptr->PlayAnim(STANDING_SH);
    }
@@ -4278,7 +4265,7 @@ namespace EgentemNamespace {
 
    ffc script EgentemGotcha {
       void run() {
-         if (getScreenD(31, 0x33, 1)) {
+         if (getScreenD(31, 0x33, SCREEND_EGENTEM_BEATEN)) {
             mapdata mapData = Game->LoadTempScreen(0);
             mapData->ComboD[39] = 0;
             mapData->ComboD[40] = 0;
@@ -4287,7 +4274,7 @@ namespace EgentemNamespace {
          until(Screen->SecretsTriggered) Waitframe();
 
          Audio->PlayEnhancedMusic(NULL, 0);
-         setScreenD(0, true);
+         setScreenD(31, 0x33, SCREEND_EGENTEM_TRAP_TRIGGERED, true);
       }
    }
 }
