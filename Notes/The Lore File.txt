@@ -327,7 +327,7 @@ with a peculier entrance.
    At first glance Link can tell this is some sort of mine, and given the fact he is in the volcanic Caldum region, home of the western gorons that is unsurprising. Eventually Link will encounter a Goron
 miner. The miner is in distress, because all of his coworkers have been claimed by a dreadful dodongo that has taken up residence inside the mine. He does however, mention his best friend who he thinks is
 hiding somewhere because he is "sneaker than a pirate", and if Link saves him then he will give Link some Iron Arrows he made. So Linkl will venture into the Iron Mine, evading lava flows and spending as
-little time in heated rooms as possible, given he doesnt have much heat protection. He eventually find the goron's friend, as expected he was hiding pretty well. Link then obtains the Irons Arrows upon
+little time in heated rooms as possible, given he doesnt have much heat protection. He eventually find the goron's friend, as expected he was hiding pretty well. Link then obtains the Iron Arrows upon
 returning to the goron's friend. With the Iron Arrows, Link is able to open the way to the Dodongos' layer and vanquich it. This Dodongo isnt really anything spectacular, given dodongos are plentiful in
 the area, and it just decided to help itself to the mine.
 
@@ -336,9 +336,9 @@ the area, and it just decided to help itself to the mine.
    Once Zelda sees Link, she is excited, but only because she knows that there has been a powerful swordsman taking out the Necromancer's forces and even escaped capture. Not to mention he selflessly
 charged into the Pirate base just for the aid of the village. She expresses her gratitude for Link's actions. While trying to plan their next actions Zelda informs link that each of the major villages they
 would like to help are blocked by something;
-   - The Zora village in the Carulem archipeligo has a wall
+   - The Zora village of Palus is gated off by the elder
    - The village on Duratu has a snow wall blocking the road, plus it is too cold.
-   - The Goron village in Caldum as the lava wastes are too dangerous and hot
+   - The Zora village in the Carulem archipeligo has a wall
 
    Zelda asks Link to venture to Palus village in Venenom to assist them with the issues they are having. Their people are being put under what is known to the Venenom Zoras as the "swamp spell". It is a
 phenomena where only zoras native to that area are drawn into the temple and are ultimately fed to their patricarchal God, Gamoth. The zoras of the region are immune to the toxins of the swamp.
@@ -736,8 +736,6 @@ of the catacombs amist various books and supplies that are needed within the cat
 overgrown bat, but it is clear that it has consumed a lot of darkness and festered in it's dark secluded home. If Link has the Spectral Cane and chooses to use it on Oblitem, not only is he immune to the cane,
 given it's own darkness appears to be identical to that imbuing the cane, but it will send him into a fury, fueled by the influx of dark energy. Ideally Link would not use the cane. Upon defeat Link will receive
 
-
-
    With the mirror shield in hand, link can gain full access to Pacilux
 
    Should Link travel beyond the wasteland, he will find himself in the darkest area on Interitus; The site of Aemulors' treachery and fall.
@@ -746,7 +744,7 @@ given it's own darkness appears to be identical to that imbuing the cane, but it
 paradise, and it was also the home village of the once bright and brilliant Aemulor. Aemulor was born on this island and was immersed in the grace of Haeren, he has a happy childhood and upbringing, and saw
 no strife. It wasn't until he became of age that he wanted top venture out and explore the island of Vita to see what there is. Eventually he found himself joining the guard of the lord of the kingdom, this is
 where he was introduced to the world, and its corruption. The island as a whole was always at risk of various evils, and the lord of the kingdom spent a lot of his time fighting against those evils as well as
-the normal running of a kingdom. Anyway, he worked his way up in the chain of command and eventually made his way to the second in command, the general of the kingdom of Vita. Throughout his adventures for the
+the normal running of a kingdom. He worked his way up in the chain of command and eventually made his way to the second in command, the general of the kingdom of Vita. Throughout his adventures for the
 lord, he learned about many of the dark and dangerous beings on Vita, and swore to always keep the darkness at bay, to vanquish all of the demons he encounters. Unfortunalely, fate would not allow him to stop
 any of those evils, as a greed came over the lord of vita, a greed that would lead to Aemulor stealing the symbol of light in the world. Aemulor, tasked to steal her triforce, felt conflicted about the missions
 but he also felt he had to choice. So he went to Haeren's domain, within a temple in his old home of Pacilux where her triforce was on display. He took it, and fleed to a secluded structure on the outskirts of
