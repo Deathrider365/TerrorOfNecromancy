@@ -61,4 +61,5 @@
       - Scale 1                        Opening Sequence Leviathan       None + None
       - Scale 2                        Abyssal Depths                   None + None
 
-Level 2 lens where? if at all?
+
+The Magic ring will be obtained fairly early on, then progressivly be upgraded with magical shards
