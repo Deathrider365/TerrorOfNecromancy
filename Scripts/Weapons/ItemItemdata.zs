@@ -125,7 +125,6 @@ item script HeartPieces {
 }
 
 // clang-format off
-
 @Author ("Deathrider365"),
 @InitD0("curShar"),
 @InitDHelp0("The current shard being obtained (0 = A, 1 = B, 2 = C, 3 = D)")

@@ -48,6 +48,8 @@ global script GlobalScripts {
          Hero->HurtSound = getHeroHitSound();
 
          checkDungeon();
+         checkMagicCharge();
+         checkHeartCharge();
 
          LinkMovement_Update1();
          UpdateGhostZH1();
@@ -146,6 +148,20 @@ global script GlobalScripts {
          Waitframe();
          CreateItemAt(ITEM_DEATHS_AURA, Hero->X, Hero->Y);
       }
+   }
+
+   void checkMagicCharge() {
+      int[] magicRings = { ITEM_MAGIC_RING1, ITEM_MAGIC_RING2, ITEM_MAGIC_RING3, ITEM_MAGIC_RING4, ITEM_MAGIC_RING5 };
+
+      if (Hero->Item[ITEM_MAGIC_RING1])
+         Hero->Item[magicRings[Game->Counter[CR_MAGIC_RING_SHARDS]]] = true;
+   }
+
+   void checkHeartCharge() {
+      int[] heartRings = { ITEM_HEART_RING1, ITEM_HEART_RING2, ITEM_HEART_RING3, ITEM_HEART_RING4, ITEM_HEART_RING5 };
+
+      if (Hero->Item[ITEM_HEART_RING1])
+         Hero->Item[heartRings[Game->Counter[CR_HEART_RING_SHARDS]]] = true;
    }
 
    void fall() {

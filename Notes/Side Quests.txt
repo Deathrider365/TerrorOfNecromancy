@@ -61,5 +61,15 @@
       - Scale 1                        Opening Sequence Leviathan       None + None
       - Scale 2                        Abyssal Depths                   None + None
 
+~~ Other Sequences ~~~
+   - Magic Ring                        MFF Mines boss reward
+      - Shard 1                        Forest Shack
+      - Shard 2
+      - Shard 3
+      - Shard 4
 
-The Magic ring will be obtained fairly early on, then progressivly be upgraded with magical shards
+   - Heart Ring
+      - Shard 1
+      - Shard 2
+      - Shard 3
+      - Shard 4
