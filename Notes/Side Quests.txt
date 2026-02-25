@@ -39,7 +39,7 @@
       - Cultist Memoir                 Level 3                          Banished Cultist Chest Key + Powder Keg (Summus Pass)
       - Doggo Stick                    Celo Village                     Cultist Memoir + None
       - Toy Bird                       NEI Caves (Bush South of Lvl2)   Doggo Stick + Goron Gauntlet (Level 6)
-      - NOT YET IMPLEMENTED            Duratu Village                   Toy Bird + None
+      - Heart Ring                     Duratu Village                   Toy Bird + None
 
    - Trading C - Summus Tablet C
       - Bottle ol' Rum                 Wrecked Ship (SW of Level 8)     None + Flippers (Level 7)
@@ -62,14 +62,14 @@
       - Scale 2                        Abyssal Depths                   None + None
 
 ~~ Other Sequences ~~~
-   - Magic Ring                        MFF Mines boss reward
+   - Magic Ring                        MFF Mines boss reward            None + Wand (Level 8)
       - Shard 1                        Forest Shack
-      - Shard 2
+      - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)
       - Shard 3
       - Shard 4
 
-   - Heart Ring
-      - Shard 1
-      - Shard 2
+   - Heart Ring                        Duratu Village                   Toy Bird + None          
+      - Shard 1                        SEI Coasts                       None + Flippers (Level 7)
+      - Shard 2                        NWI Island Right of Lv7          None + Flippers (Level 7)
       - Shard 3
       - Shard 4

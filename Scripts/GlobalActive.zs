@@ -357,6 +357,12 @@ global script GlobalScripts {
                case 0x7F: return 001100b;
             }
             break;
+         case 40: //SEI Caves
+            switch (screen) {
+               case 0x21: return 000100b;
+               case 0x22: return 000100b;
+            }
+            break;
          case 43: //Molten Flooded Forge B1
             switch (screen) {
                case 0x0F: return 001000b;
