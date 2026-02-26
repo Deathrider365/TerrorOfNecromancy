@@ -11,7 +11,7 @@ void removeAllItems() {
    // Hero->ItemB = -1;
 
    for (int i = 0; i < MAX_ITEMDATA; ++i)
-      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;
+      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE1 || i == ITEM_LANTERN1) Hero->Item[i] = false;
 
    Game->Counter[CR_SBOMBS] = 0;
    Game->Counter[CR_BOMBS] = 0;
@@ -496,7 +496,7 @@ bool wasTriggered(float trigger) {
 }
 
 void notDuringCutsceneLink() {
-   Hero->Stun = 999;
+   Hero->Stun = 999; //TODO find a better solution
    Link->PressStart = false;
    Link->InputStart = false;
    Link->PressMap = false;

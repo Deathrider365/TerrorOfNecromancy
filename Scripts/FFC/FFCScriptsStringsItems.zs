@@ -38,9 +38,6 @@ ffc script Signpost {
 
          waitForTalking(this, onlyBottom);
 
-         // Input->Button[CB_SIGNPOST] = false;
-         // Game->Suspend[susptSCREENDRAW] = true;
-
          switch (secondMessageTrigger) {
             case SMT_SCREEND:
                unless(getScreenD(secondMessageTriggerValue)) {
@@ -166,7 +163,6 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -178,7 +174,6 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -189,7 +184,6 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -211,7 +205,6 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -234,7 +227,6 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -256,7 +248,6 @@ ffc script SignpostTriggerFromItem {
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -299,7 +290,7 @@ ffc script SignpostTriggerFromItem {
 @InitDHelp2("ScreenD register to check if this FFC is to vanish ")
 ffc script SignpostTriggerFromScreenD {
    // clang-format on
-   void run(int message, int screenD, int screenDToRemove) {
+   void run(int message, int screenD, int screenDToRemove) { //TODO refactor, why am I messing with the location of the ffc and not just removing solidity and hiding?
       int data = this->Data;
       int x = this->X;
       int y = this->Y;
@@ -316,7 +307,6 @@ ffc script SignpostTriggerFromScreenD {
             this->X = x;
             this->Y = y;
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(message);
             Waitframe();
          }
@@ -373,7 +363,6 @@ ffc script SignpostTriggerFromSecret {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenD))
                Screen->Message(secondMessage);
@@ -449,7 +438,7 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
             Waitframe();
          }
 
-         if (!Hero->Item[itemId]) 
+         if (!Hero->Item[itemId])
             Screen->Message(noItemMessage);
          else if (Hero->Item[itemId] && !getScreenD(screenDForSecondMessage))
             Screen->Message(gettingItemMessage);
@@ -481,7 +470,6 @@ ffc script GetItemOnScreenD {
       while (true) {
          if (getScreenD(screenDFromExternal) && getScreenD(screenDForThis)) {
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -507,7 +495,6 @@ ffc script GetItemOnScreenD {
 
             waitForTalking(this);
 
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -540,7 +527,6 @@ ffc script GetItemOnSecret {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -566,7 +552,6 @@ ffc script GetItemOnSecret {
 
             waitForTalking(this);
 
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -613,7 +598,6 @@ ffc script GetItemOnItem {
                      this->Data = prevData;
                      this->Flags[FFCF_SOLID] = true;
                      waitForTalking(this);
-                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(gottenItemString);
                      Waitframe();
 
@@ -638,7 +622,6 @@ ffc script GetItemOnItem {
                   }
                   else {
                      waitForTalking(this);
-                     // Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(doesntHaveItemString);
                   }
 
@@ -655,7 +638,6 @@ ffc script GetItemOnItem {
          this->Flags[FFCF_SOLID] = true;
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (getScreenD(itemIdToReceive)) {
             Screen->Message(gottenItemString);
@@ -701,7 +683,6 @@ ffc script GetItemOnScreenDHiddenBefore {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenDForThis)) {
                Screen->Message(gottenItemString);
@@ -751,7 +732,7 @@ ffc script Shop {
    void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets) {
       int originalCombo = this->Data;
 
-      if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET]) 
+      if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
          basePrice = newPriceOnSecrets;
 
       if (activateOnSecrets) {

@@ -1408,7 +1408,6 @@ ffc script GoddessFaithfulZeldaScenes {
             const int zeldaIDontKnowYouMessage = 448;
 
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(zeldaIDontKnowYouMessage);
 
             Waitframe();
@@ -1565,7 +1564,6 @@ ffc script GoddessFaithfulZeldaScenes {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          Screen->Message(zeldaClosingMessage);
          Waitframe();

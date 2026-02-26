@@ -14,7 +14,6 @@ ffc script TriforceDeciples {
          }
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (getScreenD(triforceToCheck)) {
             Screen->Message(secondMessageComplete);
@@ -67,7 +66,6 @@ ffc script GoronForemanDialogLvl6 {
    void run(int message, int secondMessage, int thirdMessage) {
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          mapdata mapData = Game->LoadMapData(107, 0x48);
 
          if (mapData->State[ST_SECRET] == true)
@@ -172,7 +170,6 @@ ffc script PhonogramMan {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -198,7 +195,6 @@ ffc script PhonogramMan {
 
             waitForTalking(this);
 
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -219,7 +215,6 @@ ffc script EscapedEgentemCultist {
    void run(int initialMessage, int initialItemId, int secondaryMessage, int secondaryItem, int initialScreenD, int secondaryScreenD, int tertiaryMessage, int requiredItem) {
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -310,7 +305,6 @@ ffc script ConflatosNephew {
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!forgeMinesBossRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -347,7 +341,6 @@ ffc script DefectedHylianGeneral {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!Hero->Item[ITEM_SCROLL_SPIN_ATTACK]) {
@@ -390,7 +383,6 @@ ffc script ServusSoldier2 {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -435,7 +427,6 @@ ffc script SeizedTowerSoldier {
          mapdata lvl5BossRoom = Game->LoadMapData(75, 0x22);
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -505,7 +496,6 @@ ffc script PreSiegeNPC {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!zeldaRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -542,7 +532,6 @@ ffc script Lvl9ServusSoldier {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -585,7 +574,6 @@ ffc script Lvl9DuratuElder {
 
          loop() {
             waitForTalking(this);
-            // Input->Button[CB_SIGNPOST] = false;
             Screen->Message(secondaryMessage);
 
             Waitframe();
@@ -623,7 +611,6 @@ ffc script Lvl9SeizedTowerGuard {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
 
          Waitframe();
@@ -656,9 +643,7 @@ ffc script Lvl9ConflatosNephew {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
-
          Waitframe();
       }
    }
@@ -684,9 +669,7 @@ ffc script Lvl9CarulemZora {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(Hero->Item[ITEM_JEWEL_OF_MARRE] ? tertiaryMessage : secondaryMessage);
-
          Waitframe();
       }
    }
@@ -756,9 +739,7 @@ ffc script Lvl9HylianGeneral {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
          Screen->Message(secondaryMessage);
-
          Waitframe();
       }
    }
@@ -780,7 +761,6 @@ ffc script Lvl9LobbyNpc {
          while (isHair) Waitframe();
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET])
             Screen->Message(preBossMessage);
@@ -814,7 +794,6 @@ ffc script Lvl9LobbyZelda {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          //if the lvl 9 boss was beaten
          if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) {
@@ -861,7 +840,6 @@ ffc script CeloElder {
 
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
             Screen->Message(initialMessage);
@@ -890,7 +868,6 @@ ffc script AuriElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -920,7 +897,6 @@ ffc script PalusElder {
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          mapdata gamothRoom = Game->LoadMapData(75, 0x22);
 
@@ -956,7 +932,6 @@ ffc script DuratuElder {
          mapdata lvl6BossRoom = Game->LoadMapData(107, 0x48);
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!lvl6BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
@@ -1005,7 +980,6 @@ ffc script CarulemZora {
          }
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (lvl7BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD + 1)) {
@@ -1049,7 +1023,6 @@ ffc script CarulemPrince {
 
       loop () {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (lvl7BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD + 1)) {
@@ -1107,7 +1080,6 @@ ffc script EbrianZora {
          this->Data = thisData;
 
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
@@ -1149,13 +1121,199 @@ ffc script EbrianZora {
 @Author("Deathrider365")
 ffc script LegendaryArmorer {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage) {
+
+   CONFIG SCREEND_DID_ONE_UPGRADE = 0;
+   CONFIG SCREEND_ALREADY_TALKED = 1;
+
+   void run() {
+      CONFIG MESSAGE_INITIAL = 900;
+      CONFIG MESSAGE_SECONDARY = 901;
+
+      CONFIG MESSAGE_UPGRADE_SWORD = 902;
+      CONFIG MESSAGE_SWORD_UPGRADED = 903;
+
+      CONFIG MESSAGE_UPGRADE_ARMOR = 904;
+      CONFIG MESSAGE_ARMOR_UPGRADED = 905;
+
+      CONFIG MESSAGE_ANOTHER_UPGRADE = 906;
+      CONFIG MESSAGE_DONATION = 907;
+
+      CONFIG MESSAGE_NOTHING_TO_UPGRADE = 908;
+      CONFIG MESSAGE_NOTHING_LEFT_TO_UPGRADE = 909;
+      CONFIG MESSAGE_GET_MORE_SCALES = 910;
+
       loop() {
          waitForTalking(this);
-         // Input->Button[CB_SIGNPOST] = false;
-         Screen->Message(initialMessage);
+
+         if (Hero->Item[ITEM_LEVIATHAN_SCALE1] || Hero->Item[ITEM_LEVIATHAN_SCALE2]) {
+            if (Hero->Item[ITEM_LEVIATHAN_SCALE1] && Hero->Item[ITEM_LEVIATHAN_SCALE2] && (Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_SWORD5]) && (Hero->Item[ITEM_RING3] && !Hero->Item[ITEM_RING4]))
+               Screen->Message(MESSAGE_INITIAL);
+
+            Waitframe();
+
+            if (!getScreenD(SCREEND_DID_ONE_UPGRADE))
+               Screen->Message(MESSAGE_SECONDARY);
+
+            Waitframe();
+
+            //SCENARIO - nothing to upgrade
+            if ((!Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_RING3]) || (Hero->Item[ITEM_SWORD4] && Hero->Item[ITEM_SWORD5] && !Hero->Item[ITEM_RING3]) || (Hero->Item[ITEM_RING3] && Hero->Item[ITEM_RING4] && !Hero->Item[ITEM_SWORD4])) {
+               Screen->Message(MESSAGE_NOTHING_TO_UPGRADE);
+            }
+            //SCENARIO - both things to upgrade
+            else if ((Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_SWORD5]) && (Hero->Item[ITEM_RING3] && !Hero->Item[ITEM_RING4])) {
+               if (Hero->Item[ITEM_LEVIATHAN_SCALE1] && Hero->Item[ITEM_LEVIATHAN_SCALE2]) {
+                  upgradeSword(MESSAGE_UPGRADE_SWORD, MESSAGE_SWORD_UPGRADED, MESSAGE_DONATION, 0, false);
+
+                  Screen->Message(MESSAGE_ANOTHER_UPGRADE);
+                  Waitframe();
+
+                  upgradeArmor(MESSAGE_UPGRADE_ARMOR, MESSAGE_ARMOR_UPGRADED, MESSAGE_DONATION, 50);
+               } else {
+                  bool choseSword = chooseUpgrade();
+
+                  if (choseSword)
+                     upgradeSword(MESSAGE_UPGRADE_SWORD, MESSAGE_SWORD_UPGRADED, MESSAGE_DONATION, 20);
+                  else
+                     upgradeArmor(MESSAGE_UPGRADE_ARMOR, MESSAGE_ARMOR_UPGRADED, MESSAGE_DONATION, 20);
+               }
+            }
+            //SCENARIO - only one thing to upgrade
+            else if ((Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_SWORD5]) || (Hero->Item[ITEM_RING3] && !Hero->Item[ITEM_RING4])) {
+               if (Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_SWORD5])
+                  upgradeSword(MESSAGE_UPGRADE_SWORD, MESSAGE_SWORD_UPGRADED, MESSAGE_DONATION, 20);
+               if (Hero->Item[ITEM_RING3] && !Hero->Item[ITEM_RING4])
+                  upgradeArmor(MESSAGE_UPGRADE_ARMOR, MESSAGE_ARMOR_UPGRADED, MESSAGE_DONATION, 20);
+            }
+         }
+         else if (Hero->Item[ITEM_SWORD5] && Hero->Item[ITEM_RING4])
+            Screen->Message(MESSAGE_NOTHING_LEFT_TO_UPGRADE);
+         else if (Hero->Item[ITEM_SWORD5] || Hero->Item[ITEM_RING4])
+            Screen->Message(MESSAGE_GET_MORE_SCALES);
+         else
+            Screen->Message(MESSAGE_INITIAL);
 
          Waitframe();
+      }
+   }
+
+   bool chooseUpgrade() {
+      CONFIG TILE_SELECTOR = 46675;
+
+      CONFIG TILE_SWORD_UNCONFIRM1 = 46893;
+      CONFIG TILE_SWORD_UNCONFIRM2 = 46894;
+      CONFIG TILE_SWORD_UNCONFIRM3 = 46895;
+
+      CONFIG TILE_SWORD_CONFIRM1 = 46913;
+      CONFIG TILE_SWORD_CONFIRM2 = 46914;
+      CONFIG TILE_SWORD_CONFIRM3 = 46915;
+
+      CONFIG TILE_ARMOR_UNCONFIRM1 = 46896;
+      CONFIG TILE_ARMOR_UNCONFIRM2 = 46897;
+      CONFIG TILE_ARMOR_UNCONFIRM3 = 46898;
+
+      CONFIG TILE_ARMOR_CONFIRM1 = 46916;
+      CONFIG TILE_ARMOR_CONFIRM2 = 46917;
+      CONFIG TILE_ARMOR_CONFIRM3 = 46918;
+
+      int message;
+      bool chose = false;
+      bool choosingSword = true;
+
+      until (chose) {
+         notDuringCutsceneLink();
+
+         Screen->FastTile(7, 80, choosingSword ? 16 : 32, TILE_SELECTOR, 0, OP_OPAQUE);
+
+         if (Input->Press[CB_UP] || Input->Press[CB_DOWN]) {
+            Audio->PlaySound(CURSOR_MOVEMENT_SFX);
+            choosingSword = !choosingSword;
+         }
+
+         if (Input->Press[CB_A]) {
+            Audio->PlaySound(choosingSword ? 139 : 140);
+
+            for (int i = 0; i < 30; ++i) {
+               Screen->FastTile(7, 96, 16, choosingSword ? TILE_SWORD_CONFIRM1 : TILE_SWORD_UNCONFIRM1, 0, OP_OPAQUE);
+               Screen->FastTile(7, 112, 16, choosingSword ? TILE_SWORD_CONFIRM2 : TILE_SWORD_UNCONFIRM2, 0, OP_OPAQUE);
+               Screen->FastTile(7, 128, 16, choosingSword ? TILE_SWORD_CONFIRM3 : TILE_SWORD_UNCONFIRM3, 0, OP_OPAQUE);
+
+               Screen->FastTile(7, 96, 32, choosingSword ? TILE_ARMOR_UNCONFIRM1 : TILE_ARMOR_CONFIRM1, 0, OP_OPAQUE);
+               Screen->FastTile(7, 112, 32, choosingSword ? TILE_ARMOR_UNCONFIRM2 : TILE_ARMOR_CONFIRM2, 0, OP_OPAQUE);
+               Screen->FastTile(7, 128, 32, choosingSword ? TILE_ARMOR_UNCONFIRM3 : TILE_ARMOR_CONFIRM3, 0, OP_OPAQUE);
+
+               Waitframe();
+            }
+            chose = true;
+         }
+
+         Screen->FastTile(7, 96, 16, choosingSword ? TILE_SWORD_CONFIRM1 : TILE_SWORD_UNCONFIRM1, 0, OP_OPAQUE);
+         Screen->FastTile(7, 112, 16, choosingSword ? TILE_SWORD_CONFIRM2 : TILE_SWORD_UNCONFIRM2, 0, OP_OPAQUE);
+         Screen->FastTile(7, 128, 16, choosingSword ? TILE_SWORD_CONFIRM3 : TILE_SWORD_UNCONFIRM3, 0, OP_OPAQUE);
+
+         Screen->FastTile(7, 96, 32, choosingSword ? TILE_ARMOR_UNCONFIRM1 : TILE_ARMOR_CONFIRM1, 0, OP_OPAQUE);
+         Screen->FastTile(7, 112, 32, choosingSword ? TILE_ARMOR_UNCONFIRM2 : TILE_ARMOR_CONFIRM2, 0, OP_OPAQUE);
+         Screen->FastTile(7, 128, 32, choosingSword ? TILE_ARMOR_UNCONFIRM3 : TILE_ARMOR_CONFIRM3, 0, OP_OPAQUE);
+
+         Waitframe();
+      }
+
+      return choosingSword;
+   }
+
+   void upgradeSword(int upgradeSwordMessage, int swordUpgradedMessage, int donationMessage, int donationCost, bool doTheDonationString = true) {
+      Screen->Message(upgradeSwordMessage);
+      Waitframe();
+
+      //TODO perhaps an animation of him turning around and upgrading like excalibur from FF1
+
+      Screen->Message(swordUpgradedMessage);
+      Waitframe();
+
+      item it = CreateItemAt(ITEM_SWORD5, Hero->X, Hero->Y);
+      it->Pickup = IP_HOLDUP;
+      Waitframe();
+
+      if (Hero->Item[ITEM_LEVIATHAN_SCALE1]) Hero->Item[ITEM_LEVIATHAN_SCALE1] = false;
+      else Hero->Item[ITEM_LEVIATHAN_SCALE2] = false;
+
+      if (!getScreenD(SCREEND_DID_ONE_UPGRADE))
+         setScreenD(SCREEND_DID_ONE_UPGRADE, true);
+
+      if (doTheDonationString) {
+         if (Game->Counter[CR_MONEY] >= donationCost) {
+            Screen->Message(donationMessage);
+            Waitframe();
+            Game->DCounter[CR_MONEY] -= donationCost;
+         }
+      }
+   }
+
+   void upgradeArmor(int upgradeArmorMessage, int armorUpgradedMessage, int donationMessage, int donationCost, bool doTheDonationString = true) {
+      Screen->Message(upgradeArmorMessage);
+      Waitframe();
+
+      //TODO perhaps an animation of him turning around and upgrading like excalibur from FF1
+
+      Screen->Message(armorUpgradedMessage);
+      Waitframe();
+
+      item it = CreateItemAt(ITEM_RING4, Hero->X, Hero->Y);
+      it->Pickup = IP_HOLDUP;
+      Waitframe();
+
+      if (Hero->Item[ITEM_LEVIATHAN_SCALE1]) Hero->Item[ITEM_LEVIATHAN_SCALE1] = false;
+      else Hero->Item[ITEM_LEVIATHAN_SCALE2] = false;
+
+      if (!getScreenD(SCREEND_DID_ONE_UPGRADE))
+         setScreenD(SCREEND_DID_ONE_UPGRADE, true);
+
+      if (doTheDonationString) {
+         if (Game->Counter[CR_MONEY] >= donationCost) {
+            Screen->Message(donationMessage);
+            Waitframe();
+            Game->DCounter[CR_MONEY] -= donationCost;
+         }
       }
    }
 }

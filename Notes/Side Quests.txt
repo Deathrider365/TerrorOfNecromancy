@@ -14,13 +14,14 @@
       -
 
    - Sequence C - Heart of Lorkhan
+      - Mysterious Key                 Auri Village Elder               None + Soldier's Boom (Seized Guard Tower)
       - Ebria Key                      Ebria Village Ruins              None + Level 4
       - Zora Charm                     Carulem Village                  None + Level 7
       - Carulem Vault Key              Ebria Village Elder              Zora Charm + None
       - Heart of Lorkhan               ????                             Jewel of Marre + None
 
    - Sequence D -
-      - Mysterious Key                 Auri Village Elder               None + Soldier's Boom (Seized Guard Tower)
+      -
       -
 
 ~~~ Trading Sequences ~~~
@@ -48,6 +49,11 @@
       - Bottle ol' Rum                 Wrecked Ship (SW of Level 8)     None + Flippers (Level 7)
       - Summus Tablet C                Concealed Pirate Hideout         Bottle ol' Rum + None
 
+   - Trading D - Heart Ring Shard
+      - Seared Steak                   NEI Caves (0x26)                 None + Ladder (Level 2)
+      - Goriya Boomerang               NEI Caves (0x59)                 None + Powder Keg (Summus Pass)
+      - Strange Key                    NEI Caves (0x53)                 None + Longshot (Level 9)
+      - Heart Ring Shard               Auri Library Forbidden Section   None + None
 
 ~~ Other Sequences ~~~
    - Half Magic - Pirates Tome (Half Magic)
@@ -71,8 +77,29 @@
       - Shard 3                        NWI Caves (0x23)                 None + Flippers (Level 7)
       - Shard 4
 
-   - Heart Ring                        Duratu Village                   Toy Bird + None          
+   - Heart Ring                        Duratu Village                   Toy Bird + None
       - Shard 1                        SEI Coasts                       None + Flippers (Level 7)
       - Shard 2                        NWI Island Right of Lv7          None + Flippers (Level 7)
-      - Shard 3
+      - Shard 3                        Auri Library Forbidden Section   None + None
       - Shard 4
+
+   - Legionnaire Rings
+      1 - Temple of Haeren
+      2 - Level 1
+      3 - Level 2
+      4 - Level 3
+      5 - Level 4
+      6 - Level 5
+      7 - Level 6
+      8 - Level 7
+      9 - Level 8
+      11 - Level 9
+      12 - Level 10
+      13 - Level 11
+      14 - Level 12
+      15 -
+      16 -
+      17 -
+      18 -
+      19 -
+      20 -
