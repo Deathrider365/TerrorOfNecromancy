@@ -32,9 +32,12 @@
       - Fully Intact Sea Shell         Carulem Arch (SW Island)         Goron Vase + Flippers (Level 7)
       - Moist Bread                    Exiled Zora Domain               Ful Int Sea Sh + None
       - Snake Egg                      NEI Residence (Silva Village)    Moise Bread + None
-      - NOT YET IMPLEMENTED            NEI Caves (Eastern Coast)        Snake Egg + Long Shot (Level 9)
+      - Carulem Fish                   NEI Caves (Eastern Coast)        Snake Egg + Long Shot (Level 9)
+      - Broken Sword                   Viridi Village                   Carulem Fish + NONE
+      - Ancient Sword Key              NEI Caves (Legendary Smiths)     Broken Sword + Wand (Level 8)
+      - UNIMPLEMENTED                  NEI Caves (Off of Silva Village) Ancient Sword Key + NONE
 
-   - Trading B - (INSERT END RESULT HERE)
+   - Trading B - Heart Ring
       - Banished Cultist Chest Key     Celo Village                     None + Soldier's Boom (Seized Guard Tower Scenario)
       - Cultist Memoir                 Level 3                          Banished Cultist Chest Key + Powder Keg (Summus Pass)
       - Doggo Stick                    Celo Village                     Cultist Memoir + None
@@ -65,7 +68,7 @@
    - Magic Ring                        MFF Mines boss reward            None + Wand (Level 8)
       - Shard 1                        Forest Shack
       - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)
-      - Shard 3
+      - Shard 3                        NWI Caves (0x23)                 None + Flippers (Level 7)
       - Shard 4
 
    - Heart Ring                        Duratu Village                   Toy Bird + None          

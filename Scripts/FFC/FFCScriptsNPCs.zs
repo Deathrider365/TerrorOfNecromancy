@@ -1144,3 +1144,18 @@ ffc script EbrianZora {
       }
    }
 }
+
+// clang-format off
+@Author("Deathrider365")
+ffc script LegendaryArmorer {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage) {
+      loop() {
+         waitForTalking(this);
+         // Input->Button[CB_SIGNPOST] = false;
+         Screen->Message(initialMessage);
+
+         Waitframe();
+      }
+   }
+}
