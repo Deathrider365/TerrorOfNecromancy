@@ -233,7 +233,8 @@ dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance 
                mapdata md = Game->LoadTempScreen(i);
                mapdata md2 = Game->LoadScrollingScreen(i);
 
-               for (int j = 0; j < 176; ++j) {
+               for (int j = 0; j < MAX_FFC; ++j) {
+               // for (int j = 0; j < 176; ++j) {
                   combodata cd = Game->LoadComboData(md->ComboD[j]);
                   if (cd->Script == comboSlot)
                      DrawLensCircle(lensmask, ComboX(j) + 8, ComboY(j) + 8, cd->InitD[0]);
@@ -243,6 +244,7 @@ dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance 
             // Draw circles for FFCs
             for (int i = 1; i <= MAX_FFC; ++i) {
                ffc f = Screen->LoadFFC(i);
+
                if (f->Data) {
                   combodata cd = Game->LoadComboData(f->Data);
                   if (cd->Script == comboSlot)
