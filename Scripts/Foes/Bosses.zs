@@ -1645,7 +1645,7 @@ namespace HazarondNamespace {
       Audio->PlayEnhancedMusic(null, 0);
       introSequenceBitmap->Clear(0);
 
-      CONFIG CMB_SHUTTER = 4632;
+      CONFIG CMB_SHUTTER = 6957;
       CONFIG CMB_LINK = 6731;
 
       CONFIG SFX_STEP = 121;

@@ -23,7 +23,7 @@ ffc script Signpost {
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets, bool onlyBottom) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets, bool onlyBottom, bool secondMessageOnScreenDSet = false) {
       int secondMessageTrigger, secondMessageTriggerValue;
 
       if (hasSecondMessage) {
@@ -40,11 +40,19 @@ ffc script Signpost {
 
          switch (secondMessageTrigger) {
             case SMT_SCREEND:
-               unless(getScreenD(secondMessageTriggerValue)) {
-                  Screen->Message(message);
-                  setScreenD(secondMessageTriggerValue, true);
+               if (secondMessageOnScreenDSet) {
+                  if (!getScreenD(secondMessageTriggerValue))
+                     Screen->Message(message);
+                  else Screen->Message(secondMessage);
                }
-               else Screen->Message(secondMessage);
+               else {
+                  unless(getScreenD(secondMessageTriggerValue)) {
+                     Screen->Message(message);
+                     setScreenD(secondMessageTriggerValue, true);
+                  }
+                  else Screen->Message(secondMessage);
+               }
+
                break;
             case SMT_SECRETS:
                mapdata mapData;
@@ -66,7 +74,6 @@ ffc script Signpost {
             default: Screen->Message(message); break;
          }
 
-         // Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
 
          if (warp) {
@@ -801,7 +808,13 @@ ffc script Shop {
             if (Input->Press[CB_SIGNPOST]) {
                if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
-                  item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
+
+                  int upgradedPotion = itemId;
+
+                  if (Hero->Item[ITEM_POTION1] && itemId == ITEM_POTION2)
+                     upgradedPotion = ITEM_POTION3;
+
+                  item itemToBuy = CreateItemAt(upgradedPotion, Hero->X, Hero->Y);
                   itemToBuy->Pickup = IP_HOLDUP;
 
                   Waitframe();
