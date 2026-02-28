@@ -480,6 +480,14 @@ void disableLink() {
 
 // Checks if a certain trigger went off
 bool wasTriggered(float trigger) {
+   CONFIG TT_NO_TRIGGER_SET = 1;
+   CONFIG TT_SCREEND_SET = 2;
+   CONFIG TT_SCREEND_NOT_SET = 3;
+   CONFIG TT_SECRETS_TRIGGERED = 4;
+   CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
+   CONFIG TT_ITEM_ACQUIRED = 6;
+   CONFIG TT_ITEM_NOT_ACQUIRED = 7;
+
    int triggerType = Floor(trigger);
    int triggerValue = (trigger % 1) / 1L;
 

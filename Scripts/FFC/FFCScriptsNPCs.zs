@@ -346,7 +346,8 @@ ffc script DefectedHylianGeneral {
             if (!Hero->Item[ITEM_SCROLL_SPIN_ATTACK]) {
                Screen->Message(initialMessage);
                Waitframe();
-               CreateItemAt(ITEM_SCROLL_SPIN_ATTACK, Hero->X, Hero->Y);
+               itemsprite it = CreateItemAt(ITEM_SCROLL_SPIN_ATTACK, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
             } else {
                Screen->Message(secondaryMessage);
             }
@@ -1226,7 +1227,7 @@ ffc script LegendaryArmorer {
          Screen->FastTile(7, 80, choosingSword ? 16 : 32, TILE_SELECTOR, 0, OP_OPAQUE);
 
          if (Input->Press[CB_UP] || Input->Press[CB_DOWN]) {
-            Audio->PlaySound(CURSOR_MOVEMENT_SFX);
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
             choosingSword = !choosingSword;
          }
 

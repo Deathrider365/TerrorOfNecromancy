@@ -1,9 +1,5 @@
 //~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Namespaces~~~~~~~~~~~~~~~~~~~//
 
-#option SHORT_CIRCUIT on
-#option BINARY_32BIT off
-#option HEADER_GUARD on
-
 namespace EnemyNamespace {
    CONFIG DOWALK_TWO_DIR = 0;
    CONFIG DOWALK_FOUR_DIR = 1;

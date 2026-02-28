@@ -736,7 +736,7 @@ ffc script GetItemFromSecretAtLocation {
 ffc script Shop {
    // clang-format on
 
-   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets) {
+   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1) {
       int originalCombo = this->Data;
 
       if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])

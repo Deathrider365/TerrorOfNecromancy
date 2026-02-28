@@ -228,11 +228,6 @@ itemdata script GanonRage {
          }
       }
 
-      statuses[ATTACK_BOOST] = durationSeconds * 60;
-
-      while (statuses[ATTACK_BOOST])
-         Waitframe();
-
       for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
          if (itemIds[i])
             itemIds[i]->Power = itemStrengths[i];
@@ -350,7 +345,6 @@ itemdata script LifeRing {
    }
 }
 
-   //clang-format on
 itemsprite script ArcingItemSprite {
    void run(int angle, int step, int initJump, int gravity) {
       int x = this->X;

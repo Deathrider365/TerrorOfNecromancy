@@ -185,7 +185,7 @@ ffc script IntroLeavingIoH {
 
    void run() {
       loop() {
-         if (Hero->X == 5) {
+         if (Hero->X < 5) {
             unless(getScreenD(0)) {
                setScreenD(0, true);
                Hero->WarpEx(WT_IWARPBLACKOUT, 0, 80, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_UP);
@@ -452,7 +452,7 @@ ffc script DifficultyChoice {
          Screen->FastTile(7, 96, !cursor ? 96 : 112, 46675, 0, OP_OPAQUE);
 
          if (Input->Press[CB_DOWN] || Input->Press[CB_UP]) {
-            Audio->PlaySound(CURSOR_MOVEMENT_SFX);
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
             cursor = !cursor;
          }
 
@@ -966,7 +966,7 @@ ffc script CapturedSequenceNecromancer {
          Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
 
          if (Input->Press[CB_LEFT] || Input->Press[CB_RIGHT]) {
-            Audio->PlaySound(CURSOR_MOVEMENT_SFX);
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
             cursorOnYes = !cursorOnYes;
          }
 

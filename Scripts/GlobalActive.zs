@@ -456,6 +456,7 @@ global script GlobalScripts {
    }
 
    void checkFootprints(int[] footprints) {
+      CONFIG CT_FOOTPRINT = CT_SCRIPT20;
       int fadeMult = getFadeMult();
 
       unless(fadeMult) fadeMult = 1;
@@ -569,8 +570,7 @@ global script OnLaunch {
 
    void run() {
       lastPal = -1;
-      subscreenYOffset = -232;
-      subscreenOpen = false;
+      CONFIG MIDI_GAMEOVER = 8;
 
       setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
 
@@ -613,9 +613,10 @@ generic script onF6Menu {
       onContHP = Hero->HP;
       onContMP = Hero->MP;
 
-      if (SizeOfArray(stolenLinkItems))
+      if (SizeOfArray(stolenLinkItems) > 0)
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            Hero->Item[stolenLinkItems[i]] = true;
+            if (stolenLinkItems[i] > 0)
+               Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
@@ -625,8 +626,6 @@ global script onContGame {
    // clang-format off
 
    void run() {
-      subscreenYOffset = -232;
-
       if (onContHP != 0) {
          Hero->HP = onContHP;
          Hero->MP = onContMP;
@@ -635,9 +634,10 @@ global script onContGame {
          Hero->MP = Hero->MaxMP;
       }
 
-      if (SizeOfArray(stolenLinkItems))
+      if (SizeOfArray(stolenLinkItems) > 0)
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            Hero->Item[stolenLinkItems[i]] = true;
+            if (stolenLinkItems[i] > 0)
+               Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
@@ -649,7 +649,8 @@ global script onSave {
    void run() {
       if (SizeOfArray(stolenLinkItems))
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            Hero->Item[stolenLinkItems[i]] = true;
+            if (stolenLinkItems[i] > 0)
+               Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
