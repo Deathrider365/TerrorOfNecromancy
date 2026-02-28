@@ -655,9 +655,7 @@ ffc script SwitchTrap {
       while (Screen->NumNPCs)
          Waitframe();
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
    }
 
    int getSpawnPos() {

@@ -3682,9 +3682,7 @@ namespace EgentemNamespace {
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       for (int i = Screen->NumEWeapons; i >= 1; i--) {
          eweapon e = Screen->LoadEWeapon(i);
@@ -5030,9 +5028,7 @@ namespace LatrosNamespace {
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
@@ -5163,9 +5159,7 @@ namespace Quickknife {
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       // for (int i = Screen->NumNPCs; i >= 1; i--) {
       //    npc n = Screen->LoadNPC(i);
@@ -5215,8 +5209,7 @@ npc script TheMorsa {
       //Death animation
 
       auriVillageMusicSet = true;
-      dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
-      dm->Music->SetPath("Final Fantasy VII - Desert Wasteland.ogg");
+      Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(93); //Dmap 7, NEI Auri Village
 
       this->Immortal = false;
    }

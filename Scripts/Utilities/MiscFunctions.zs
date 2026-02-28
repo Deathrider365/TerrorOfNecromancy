@@ -282,20 +282,20 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 
 // sword1x1 but is 2 wide
 void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
-   int hitX = x;
-   int hitY = y;
+   int hitX = x + VectorX(dist, angle);
+   int hitY = y + VectorY(dist, angle);
 
    x += VectorX(8 + dist, angle) - 8;
    y += VectorY(8 + dist, angle);
 
    Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
 
-   makeHitbox(x, y, 16, 16, dmg);
+   makeHitbox(hitX, hitY, 16, 16, dmg);
 
    hitX += VectorX(16, angle);
    hitY += VectorY(16, angle);
 
-   makeHitbox(x, y, 16, 16, dmg);
+   makeHitbox(hitX, hitY, 16, 16, dmg);
 }
 
 // Ghost enemees beh shakin
@@ -597,4 +597,17 @@ bool CanUseItemInMinecart(int itemid) {
 
 int getHeroHitSound() {
    return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3);
+}
+
+bool viewportContainsRect(int x, int y, int width, int height) {
+   if (Viewport->Contains(x, y))
+      return true;
+   if (Viewport->Contains(x + width - 1, y + height - 1))
+      return true;
+   if (Viewport->Contains(x, y + height - 1))
+      return true;
+   if (Viewport->Contains(x + width - 1, y))
+      return true;
+
+   return false;
 }

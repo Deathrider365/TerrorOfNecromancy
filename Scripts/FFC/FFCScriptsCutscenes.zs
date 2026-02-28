@@ -496,11 +496,8 @@ ffc script CapturedSequenceImprisioned {
       int thisData = this->Data;
       this->Data = CMB_INVIS;
 
-      if (getScreenD(24, 0x33, SCREEND_SEQUENCE_DONE)) {
-         // dmapData->Music->SetPath("Castlevania 64 - Setting.ogg");
-         // Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0);
+      if (getScreenD(24, 0x33, SCREEND_SEQUENCE_DONE))
          Quit();
-      }
       if (getScreenD(SCREEND_BEAT_FIRST_SCREEN_ENEMIES)) {
          dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
          Quit();

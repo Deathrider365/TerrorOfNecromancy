@@ -188,22 +188,22 @@ dmapdata script PlaySFXByFrequency {
 }
 
 // clang-format off
-dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance top work for hiding
+ffc script LensTorches {
    // clang-format on
    void run() {
       int comboSlot = Game->GetComboScript("TorchMarker");
 
-      bitmap lenslayer = new bitmap(Viewport->Width, Viewport->Height); //TODO refactor to handle showing multiple screens (if necessary)
+      bitmap lenslayer = new bitmap(Viewport->Width, Viewport->Height);
       bitmap lensmask = new bitmap(Viewport->Width, Viewport->Height);
       int drawLayer;
+      Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
 
       while (true) {
          int screen = Game->HeroScreen;
          int oldLayer = drawLayer;
 
          // Get the revealed lens layer
-         mapdata md = Game->LoadTempScreen(0, screen);
-         mapdata md2 = Game->LoadScrollingScreen(0);
+         mapdata md = Game->LoadTempScreen(0);
 
          for (int layer = 6; layer > 0; --layer) {
             if (!md->LensShows[layer])
@@ -214,6 +214,7 @@ dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance 
          }
 
          while(screen == Game->HeroScreen) {
+            Waitdraw();
             lenslayer->Clear(0);
 
             // lensmask gets cleared to a color because circles are erased from it rather than added
@@ -221,44 +222,50 @@ dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance 
 
             for (int i = 1; i <= 6; ++i) {
                if (md->LensShows[i] || i == drawLayer) {
-                  mapdata md = Game->LoadTempScreen(i, screen);
+                  mapdata md = Game->LoadTempScreen(i);
 
-                  for (int j = 0; j < 176; ++j)
-                     lenslayer->FastCombo(0, ComboX(j) + Region->WorldOffsetX(screen), ComboY(j) + Region->WorldOffsetY(screen), md->ComboD[j], md->ComboC[j]);
+                  for (int j = 0; j < NUM_COMBO_POS; ++j)
+                     if (viewportContainsRect(ComboX(j), ComboY(j), 16, 16))
+                        lenslayer->FastCombo(0, ComboX(j) - Viewport->X, ComboY(j) - Viewport->Y, md->ComboD[j], md->ComboC[j]);
                }
             }
 
             // Draw circles for combos on layers 0-4
             for (int i = 0; i <= 4; ++i) {
-               mapdata md = Game->LoadTempScreen(i, screen);
-               mapdata md2 = Game->LoadScrollingScreen(i);
+               mapdata md = Game->LoadTempScreen(i);
 
-               for (int j = 0; j < 176; ++j) {
+               for (int j = 0; j < NUM_COMBO_POS; ++j) {
                   combodata cd = Game->LoadComboData(md->ComboD[j]);
-                  if (cd->Script == comboSlot)
-                     drawLensCircle(lensmask, ComboX(j) + 8 + Region->WorldOffsetX(screen), ComboY(j) + 8 + Region->WorldOffsetY(screen), cd->InitD[0]);
+
+                  if (cd->Script == comboSlot) {
+                     int inScreenRadius = cd->InitD[0] + 8;
+                     int x = ComboX(j) + 8 - inScreenRadius;
+                     int y = ComboY(j) + 8 - inScreenRadius;
+
+                     if (viewportContainsRect(x, y, inScreenRadius * 2, inScreenRadius * 2))
+                        drawLensCircle(lensmask, ComboX(j) + 8 - Viewport->X, ComboY(j) + 8 - Viewport->Y, cd->InitD[0]);
+                  }
                }
             }
 
             // Draw circles for FFCs
-            for (int i = 1; i <= MAX_FFC; ++i) {
-               ffc f = Screen->LoadFFC(i);
+            // for (int i = 1; i <= MAX_FFC; ++i) { //TODO why cant I? because this
+            //    ffc f = Screen->LoadFFC(i);
 
-               if (f->Data) {
-                  combodata cd = Game->LoadComboData(f->Data);
-                  if (cd->Script == comboSlot)
-                     drawLensCircle(lensmask, (f->X + 8), (f->Y + 8), cd->InitD[0]);
-               }
-            }
+            //    if (f->Data) {
+            //       combodata cd = Game->LoadComboData(f->Data);
+            //       if (cd->Script == comboSlot)
+            //          drawLensCircle(lensmask, (f->X + 8), (f->Y + 8), cd->InitD[0]);
+            //    }
+            // }
 
-            // Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
-            Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
+            // Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
             // Draw the mask over the layer
-            lensmask->Blit(0, lenslayer, 0, 0, Region->Width, Region->Height, 0, 0, Region->Width, Region->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lensmask->Blit(0, lenslayer, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
             // Replace colors from the mask
             lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
 
-            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, Region->Width, Region->Height, 0, 0, Region->Width, Region->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
 
             Waitframe();
          }
@@ -273,3 +280,4 @@ dmapdata script LensTorches { //TODO only works when revealing, perhaps enhance 
       b->Circle(0, x, y, rad + 5, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
    }
 }
+

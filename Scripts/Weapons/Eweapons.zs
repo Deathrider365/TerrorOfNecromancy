@@ -270,7 +270,7 @@ eweapon script StopperKiller {
    }
 }
 
-eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 1) {
+eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 2) {
    eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
    e->HitXOffset = x - e->X;
    e->HitYOffset = y - e->Y;
@@ -282,7 +282,7 @@ eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 1) {
    return e;
 }
 
-lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeout = 1) {
+lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeout = 2) {
    // lweapon FireLWeaponDir(int type, int x, int y, int dir, int step, int dmg, int sprite = -1, int sfx = 0, int scriptid = 0, untyped[] args = NULL)
    lweapon l = FireLWeaponDir(type, x, y, -1, 0, damage);
    l->DrawYOffset = -1000;
@@ -584,7 +584,7 @@ eweapon script FireBar { //TODO Look back at this
 	 * Set up the combo trigger: 'Always Triggered' -> 'Combo Change: 1' + '->ComboType Effects'
 	 * This will spawn the fire bar as soon as you enter the screen, and only spawn it once.
 	 * Other triggers could be used to make the spawn conditional.
-	 * If 'Step' is nonzero, the entire bar will move together 
+	 * If 'Step' is nonzero, the entire bar will move together
 	 */
 	void run(int num_units, int spacing, int rot_deg_speed, int start_degrees) {
 		if (num_units < 1) return;
@@ -664,7 +664,7 @@ eweapon script FireBar { //TODO Look back at this
 			ew->Sprites[q] = base->Sprites[q];
 			ew->BurnLightRadius[q] = base->BurnLightRadius[q];
 		}
-      
+
 		ew->Flags[WFLAG_UPDATE_BURNSPR] = base->Flags[WFLAG_UPDATE_BURNSPR];
 		ew->AutoRotate = base->AutoRotate;
 		ew->Parent = base->Parent;
@@ -680,9 +680,9 @@ eweapon script FireBar { //TODO Look back at this
 		ew->Level = base->Level;
 
 		// Everything above here can be replaced by `eweapon->Duplicate()`, once that actually exists.
-		
+
 		ew->Step = 0;
-		
+
 		return ew;
 	}
 }

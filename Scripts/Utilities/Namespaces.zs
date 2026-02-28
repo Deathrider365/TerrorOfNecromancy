@@ -57,9 +57,7 @@ namespace EnemyNamespace {
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);

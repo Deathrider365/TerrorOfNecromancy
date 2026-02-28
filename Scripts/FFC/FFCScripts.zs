@@ -53,9 +53,7 @@ ffc script ContinuePoint {
       while (EnemiesAlive())
          Waitframe();
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic);
+      MUSIC_INHERIT->Play();
 
       Quit();
    }
@@ -106,9 +104,7 @@ ffc script ContinuePoint {
       if (setScreenDOnOtherScreen)
          setScreenD(map, screen, setScreenDOnOtherScreen, true);
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->Music->GetPath(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
    }
 
    bool spawnEnemies(int arenaListNum, int round) { //TODO make these enemy sets have some variability (chances to get different enemies)

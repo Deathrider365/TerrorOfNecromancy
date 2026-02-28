@@ -4,6 +4,8 @@ class Coordinates {
    int X, Y;
 
    Coordinates() {
+      this->X = 0;
+      this->Y = 0;
    }
 
    Coordinates(int x, int y) {
