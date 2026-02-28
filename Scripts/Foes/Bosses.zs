@@ -1645,9 +1645,6 @@ namespace HazarondNamespace {
       Audio->PlayEnhancedMusic(null, 0);
       introSequenceBitmap->Clear(0);
 
-      CONFIG CMB_SHUTTER = 6957;
-      CONFIG CMB_LINK = 6731;
-
       CONFIG SFX_STEP = 121;
       CONFIG SFX_ROAR = 142;
       CONFIG SFX_SPLASH = 26;
@@ -1656,12 +1653,7 @@ namespace HazarondNamespace {
       for (int i = 0; i < 60; ++i) {
          disableLink();
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, false, true, true, false, true);
          introSequenceBitmap->Blit(2, RT_SCREEN, 0, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1671,14 +1663,8 @@ namespace HazarondNamespace {
       until(panPosition >= 40) {
          disableLink();
          panPosition += 4;
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1689,13 +1675,7 @@ namespace HazarondNamespace {
          disableLink();
          panPosition += 6;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1712,14 +1692,7 @@ namespace HazarondNamespace {
          if (panPosition > 170)
             this->X -= 8;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1731,14 +1704,7 @@ namespace HazarondNamespace {
          panPosition += 5;
          this->X -= 5;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1750,14 +1716,7 @@ namespace HazarondNamespace {
          panPosition += 1;
          this->X -= 1;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1766,10 +1725,8 @@ namespace HazarondNamespace {
       // Pausing on him
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
+         introCutsceneDraws(introSequenceBitmap, false, true, false, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
          Waitframe();
       }
 
@@ -1797,13 +1754,7 @@ namespace HazarondNamespace {
 
          this->Y += yModifier;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
 
          if (!(panPosition % 16) || panPosition == 254)
             Audio->PlaySound(SFX_STEP);
@@ -1816,16 +1767,12 @@ namespace HazarondNamespace {
       // Wait and Roars
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, false, true, true, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
          Waitframe();
       }
+
+      introCutsceneDraws(introSequenceBitmap, true, false, true, true, true, true);
 
       Hero->Invisible = false;
 
@@ -1851,6 +1798,53 @@ namespace HazarondNamespace {
 
       Audio->PlaySound(SFX_ROAR);
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+   }
+
+   void introCutsceneDraws(bitmap introSequenceBitmap, bool doFirstScreen, bool doSecondScreen, bool doLink, bool doWaterfalls, bool redrawWaterfalls, bool redrawTopWaterfalls = false) {
+      CONFIG CMB_SHUTTER = 6957;
+      CONFIG CMB_LINK = 6731;
+      CONFIG CMB_WATERFALL = 1129;
+      CONFIG CMB_WATERFALL_BOTTOM = 1133;
+
+      if (doFirstScreen)
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+      if (doSecondScreen)
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
+      if (doLink) {
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+      }
+      if (doWaterfalls) {
+         mapdata bossRoom3 = Game->LoadTempScreen(3);
+         introSequenceBitmap->FastCombo(3, 112, 0, CMB_WATERFALL, 0, OP_TRANS);
+         introSequenceBitmap->FastCombo(3, 128, 0, CMB_WATERFALL, 0, OP_TRANS);
+      }
+      
+      mapdata bossRoom2 = Game->LoadTempScreen(2);
+      mapdata bossRoom3 = Game->LoadTempScreen(3);
+
+      bossRoom2->ComboD[71] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[72] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[87] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[88] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+
+      if (redrawTopWaterfalls) {
+         bossRoom3->ComboD[7] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+         bossRoom3->ComboD[8] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      }
+
+      bossRoom3->ComboD[23] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[24] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[39] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[40] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[55] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[56] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[71] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[72] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
    }
 
    void dropFlame(npc[] heads, int headOpenIndex, int eweaponStopper, int damage) {
