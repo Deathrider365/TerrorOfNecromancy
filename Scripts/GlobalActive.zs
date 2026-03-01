@@ -87,9 +87,9 @@ global script GlobalScripts {
          CONFIG RED_BUBBLE_JINX_COMBO = 6897;
 
          if (Hero->SwordJinx < 0)
-            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+            Screen->FastCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, OP_TRANS);
          else if (Hero->SwordJinx)
-            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
+            Screen->FastCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, OP_TRANS);
 
          Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT; // restore.
 

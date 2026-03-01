@@ -187,6 +187,7 @@ ffc script SignpostTriggerFromItem {
          else if (triggerToSetOff == TRIGGER_ITEM && Hero->Item[itemReceiving] && getScreenD(screenDToCheck)) {
             if (selfKill) {
                this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
                Quit();
             }
 
@@ -901,9 +902,9 @@ ffc script InfoShop {
 
       while (true) {
          if (getScreenD(this->ID))
-            Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Read", OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+            Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Read", OP_OPAQUE, SHD_SHADOWED, C_BLACK);
          else
-            Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+            Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
@@ -991,5 +992,20 @@ ffc script GettingGoddessJewels {
       it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
 
       setScreenD(254, true);
+   }
+}
+
+ffc script RemoveItemIfHasItem {
+   void run(int itemIdTocheck, int itemIdToRemove, int screenDToKill) {
+      if (screenDToKill && getScreenD(screenDToKill)) Quit();
+
+      loop() {
+         if (Hero->Item[itemIdTocheck]) {
+            Hero->Item[itemIdToRemove] = false;
+
+            if (screenDToKill) setScreenD(screenDToKill, true);
+         }
+         Waitframe();
+      }
    }
 }

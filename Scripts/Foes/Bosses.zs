@@ -827,11 +827,6 @@ ffc script Legionnaire {
       CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
       CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
 
-      // if (Screen->State[ST_SECRET]) {
-      //    ghost->Remove(); //TODO sometimes the sprite is seen just sitting after death
-      //    Quit();
-      // }
-
       Ghost_SetFlag(GHF_4WAY);
 
       int screenD = ghost->Attributes[6];
@@ -843,7 +838,6 @@ ffc script Legionnaire {
       int attackCoolDown = 0;
       int attack = -1;
       int startHP = Ghost_HP;
-      int movementDirection = Choose(90, -90);
 
       int timeToSpawnAnother, enemyCount;
       int numEnemies = Screen->NumNPCs;
@@ -895,7 +889,10 @@ ffc script Legionnaire {
          Ghost_Z = 0;
       }
 
+      int movementDirection = Choose(90, -90);
+
       loop() {
+         
          Ghost_Data = combo + 4;
          Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
          int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection; //TODO this isnt working, always going clockwise
@@ -961,6 +958,8 @@ ffc script Legionnaire {
                   break;
                }
             }
+
+            movementDirection = Choose(90, -90);
          }
 
          if (Ghost_HP <= startHP * .5)

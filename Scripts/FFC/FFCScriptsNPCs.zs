@@ -389,8 +389,8 @@ ffc script ServusSoldier2 {
             if (!getScreenD(initialScreenD)) {
                Screen->Message(initialMessage);
                Waitframe();
-
-               CreateItemAt(ITEM_HEART_PIECE, Hero->X, Hero->Y);
+               itemsprite it = CreateItemAt(ITEM_HEART_PIECE, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
                setScreenD(initialScreenD, true);
             } else {
                Screen->Message(secondaryMessage);
@@ -866,8 +866,10 @@ ffc script CeloElder {
 @Author("Deathrider365")
 ffc script AuriElder {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD, int additionalMessage) {
       loop() {
+         mapdata ocarinaGuyScreen = Game->LoadMapData(28, 0x65);
+
          waitForTalking(this);
 
          if (!getScreenD(initialScreenD)) {
@@ -877,14 +879,17 @@ ffc script AuriElder {
             itemsprite it = CreateItemAt(ITEM_MYSTERIOUS_KEY, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
             setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET]) {
+         } 
+         else if (Hero->Item[ITEM_OCARINA1] && getScreenD(6, 0x65, 1) && !Screen->State[ST_SECRET])
+            Screen->Message(additionalMessage);
+         else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET])
             Screen->Message(secondaryMessage);
-         } else if (Screen->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
+         else if (Screen->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
             setScreenD(initialScreenD + 1, true);
             Screen->Message(tertiaryMessage);
-         } else {
+         } 
+         else
             Screen->Message(quartupleMessage);
-         }
 
          Waitframe();
       }
