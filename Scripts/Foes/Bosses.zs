@@ -892,7 +892,6 @@ ffc script Legionnaire {
       int movementDirection = Choose(90, -90);
 
       loop() {
-         
          Ghost_Data = combo + 4;
          Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
          int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection; //TODO this isnt working, always going clockwise
@@ -3280,7 +3279,7 @@ npc script TurnedHylianElite {
       CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage;
 
       int maxHp = this->HP;
-      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
+      // Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 
       unless(getScreenD(0)) {
          Screen->Message(introMessage);
@@ -3379,6 +3378,7 @@ npc script TurnedHylianElite {
    void CustomWaitframe(npc n) {
       if (n->HP <= 0) {
          PlayDeathAnim(n);
+         // MUSIC_INHERIT->Play(); //didint work
          n->Immortal = false;
       }
 

@@ -303,7 +303,7 @@ global script GlobalScripts {
             break;
          case 15: //SWI Plains
             switch (screen) {
-               case 0x04: return 011100;
+               case 0x04: return 111100;
                case 0x55: return 000100;
             }
             break;
@@ -348,6 +348,7 @@ global script GlobalScripts {
          case 36: //SWI Caves
             switch (screen) {
                case 0x17: return 001100b;
+               case 0x76: return 000100b;
             }
             break;
          case 39: //SWI Mt Duratu
