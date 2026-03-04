@@ -1364,10 +1364,10 @@ ffc script GraveKeeperSequence {
 // clang-format off
 @Author("Deathrider365")
 ffc script GoddessFaithfulZeldaScenes {
-   CONFIG screenD0 = 0;
-   CONFIG screenD1 = 1;
-   CONFIG screenD2 = 2;
-   CONFIG screenD3 = 3;
+   CONFIG screenD0 = 1;
+   CONFIG screenD1 = 2;
+   CONFIG screenD2 = 3;
+   CONFIG screenD3 = 4;
 
    CONFIG HYLIAN_GENERAL_COMBO = 5507;
    CONFIG SERVUS_SOLDIER = 5523;
@@ -1389,9 +1389,6 @@ ffc script GoddessFaithfulZeldaScenes {
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
       mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
-
-      //TODO remove
-      zeldaInitiatesTheSiege(this);
 
       loop () {
          waitForTalking(this);
@@ -1424,9 +1421,9 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaPostIntroMessage = 390;
 
       if (!getScreenD(screenD0)) {
-         setScreenD(screenD0, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
+         setScreenD(screenD0, true);
          Audio->PlaySound(SFX_SECRET);
       }
       else

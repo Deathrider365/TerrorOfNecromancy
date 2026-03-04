@@ -43,14 +43,16 @@ ffc script Signpost {
                if (secondMessageOnScreenDSet) {
                   if (!getScreenD(secondMessageTriggerValue))
                      Screen->Message(message);
-                  else Screen->Message(secondMessage);
+                  else 
+                     Screen->Message(secondMessage);
                }
                else {
                   unless(getScreenD(secondMessageTriggerValue)) {
                      Screen->Message(message);
                      setScreenD(secondMessageTriggerValue, true);
                   }
-                  else Screen->Message(secondMessage);
+                  else 
+                     Screen->Message(secondMessage);
                }
 
                break;
@@ -408,6 +410,8 @@ ffc script SignpostRemoveOnSecret {
 
             Waitframe();
          }
+
+      Input->Button[CB_SIGNPOST] = false;
 
          if (!getScreenD(screenDForSecondMessage) || !secondaryMessage) {
             Screen->Message(initialMessage);
