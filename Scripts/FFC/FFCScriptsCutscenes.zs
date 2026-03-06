@@ -1364,10 +1364,10 @@ ffc script GraveKeeperSequence {
 // clang-format off
 @Author("Deathrider365")
 ffc script GoddessFaithfulZeldaScenes {
-   CONFIG screenD0 = 1;
-   CONFIG screenD1 = 2;
-   CONFIG screenD2 = 3;
-   CONFIG screenD3 = 4;
+   CONFIG screenD0 = 0;
+   CONFIG screenD1 = 1;
+   CONFIG screenD2 = 2;
+   CONFIG screenD3 = 3;
 
    CONFIG HYLIAN_GENERAL_COMBO = 5507;
    CONFIG SERVUS_SOLDIER = 5523;
@@ -1421,9 +1421,9 @@ ffc script GoddessFaithfulZeldaScenes {
       const int zeldaPostIntroMessage = 390;
 
       if (!getScreenD(screenD0)) {
+         setScreenD(screenD0, true);
          Screen->Message(zeldaIntroMessage);
          Waitframe();
-         setScreenD(screenD0, true);
          Audio->PlaySound(SFX_SECRET);
       }
       else
@@ -1436,6 +1436,10 @@ ffc script GoddessFaithfulZeldaScenes {
 
       if (!getScreenD(screenD1)) {
          setScreenD(screenD1, true);
+
+         setScreenD(7, true);
+         setScreenD(8, true);
+
          Screen->Message(zeldaIntroMessage);
          Waitframe();
       }
@@ -1462,8 +1466,16 @@ ffc script GoddessFaithfulZeldaScenes {
    void zeldaThanksLinkForHelpingAuri() {
       const int zeldaIntroMessage = 521;
       const int zeldaPostIntroMessage = 465;
+      const int zeldaGettingOcarinaMessage = 441;
 
       if (!getScreenD(screenD3)) {
+         if (!getScreenD(screenD2)) {
+            Screen->Message(zeldaGettingOcarinaMessage);
+            Waitframe();
+            itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            setScreenD(screenD2, true);
+         }
          Screen->Message(zeldaIntroMessage);
          setScreenD(screenD3, true);
       } else {

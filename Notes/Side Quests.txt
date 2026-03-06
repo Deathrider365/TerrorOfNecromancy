@@ -71,7 +71,7 @@
       - Scale 2                        Abyssal Depths                   None + None
 
 ~~ Other Sequences ~~~
-   - Magic Ring                        MFF Mines boss reward            None + Wand (Level 8)
+   - Magic Ring                        Level 6                          None + Level 6
       - Shard 1                        Forest Shack
       - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)
       - Shard 3                        NWI Caves (0x23)                 None + Flippers (Level 7)
