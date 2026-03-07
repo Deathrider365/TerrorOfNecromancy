@@ -592,14 +592,16 @@ ffc script GetItemOnSecret {
 @InitD4("gottenItemString"),
 @InitDHelp4("String for when you are receiving the item"),
 @InitD5("doesntHaveItemString"),
-@InitDHelp5("String for when you do not have the required item")
-ffc script GetItemOnItem {
+@InitDHelp5("String for when you do not have the required item"),
+@InitD6("removeItemId"),
+@InitDHelp6("When getting the new item, remove this item")
+ffc script GetItemOnItem { //TODO overhaul this script
    // clang-format on
 
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString) {
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString, int removeItemId = -1) {
       int prevData = this->Data;
 
-      while (true) {
+      loop () {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
 
@@ -629,15 +631,17 @@ ffc script GetItemOnItem {
                this->Flags[FFCF_SOLID] = true;
 
                while (!Hero->Item[itemIdRequired]) {
+                  waitForTalking(this);
+
                   if (!doesntHaveItemString) {
                      this->Data = CMB_INVIS;
                      this->Flags[FFCF_SOLID] = false;
                      Quit();
                   }
-                  else {
-                     waitForTalking(this);
+                  else if (getScreenD(itemIdToReceive))
+                     Screen->Message(gottenItemString);
+                  else
                      Screen->Message(doesntHaveItemString);
-                  }
 
                   Waitframe();
                }
@@ -663,6 +667,10 @@ ffc script GetItemOnItem {
 
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
+
+            if (removeItemId > -1)
+               Hero->Item[removeItemId] = false;
+
             setScreenD(itemIdToReceive, true);
          }
 

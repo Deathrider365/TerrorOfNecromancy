@@ -29,7 +29,7 @@
       - Special Mushroom               Viridi Village                   None + None
       - Perfect Leaf                   Auri Village                     Special Mushroom + Soldier's Boom (Seized Guard Tower)
       - Lady's Bow                     Raccoon Hollow                   Perfect Leaf + None
-      - Goron Vase                     SWI Caves (Goron Grotto)         Lady's Bow + Powder Kegs (Summus Pass)
+      - Goron Vase                     NWI Caves (Goron Grotto)         Lady's Bow + Powder Kegs (Summus Pass)
       - Fully Intact Sea Shell         Carulem Arch (SW Island)         Goron Vase + Flippers (Level 7)
       - Moist Bread                    Exiled Zora Domain               Ful Int Sea Sh + None
       - Snake Egg                      NEI Residence (Silva Village)    Moise Bread + None
