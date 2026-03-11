@@ -1073,6 +1073,7 @@ ffc script CapturedSequenceRightHand {
       this->Data = COMBO_RIGHT_HAND_UP;
       this->Y = 176;
 
+      //Entering the room
       for (int i = 0; i < 48; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
@@ -1080,17 +1081,20 @@ ffc script CapturedSequenceRightHand {
          Waitframe();
       }
 
+      //Pause at the gate
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
          Waitframe();
       }
 
+      //Open the gate
       Audio->PlaySound(SFX_SHUTTER_OPEN);
       mapDataLayer1->ComboD[125] = CMB_INVIS;
       mapDataLayer1->ComboD[126] = CMB_INVIS;
       mapDataLayer3->ComboD[141] = CMB_INVIS;
       mapDataLayer3->ComboD[142] = CMB_INVIS;
 
+      //Walking through the open gate
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
@@ -1100,6 +1104,7 @@ ffc script CapturedSequenceRightHand {
 
       this->Data = COMBO_RIGHT_HAND_DOWN;
 
+      //Close the gate
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
          Waitframe();
@@ -1111,18 +1116,9 @@ ffc script CapturedSequenceRightHand {
       mapDataLayer3->ComboD[141] = COMBO_UPSIDE_DOWN_GATE_TOP;
       mapDataLayer3->ComboD[142] = COMBO_UPSIDE_DOWN_GATE_TOP;
 
-
-      this->Data = COMBO_RIGHT_HAND_UP;
-
-      for (int i = 0; i < 16; ++i) {
-         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
-
-         --this->Y;
-         Waitframe();
-      }
-
       this->Data = COMBO_RIGHT_HAND_LEFT;
 
+      //Walking left
       for (int i = 0; i < 184; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
@@ -1131,13 +1127,24 @@ ffc script CapturedSequenceRightHand {
       }
 
       this->Data = COMBO_RIGHT_HAND_UP;
+
+      //Walk up to Link's cell
+      for (int i = 0; i < 16; ++i) {
+         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
+
+         --this->Y;
+         Waitframe();
+      }
+
       Screen->Message(253);
       Waitframe();
 
+      //Open Link's cell
       Audio->PlaySound(SFX_SHUTTER_OPEN);
       mapDataLayer1->ComboD[66] = CMB_INVIS;
       mapDataLayer3->ComboD[50] = CMB_INVIS;
 
+      //Pause after opening Link's cell
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
          Waitframe();
@@ -1146,8 +1153,19 @@ ffc script CapturedSequenceRightHand {
       Screen->Message(254);
       Waitframe();
 
+      this->Data = COMBO_RIGHT_HAND_DOWN;
+
+      //Walk down from Link's cell
+      for (int i = 0; i < 16; ++i) {
+         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
+
+         ++this->Y;
+         Waitframe();
+      }
+
       this->Data = COMBO_RIGHT_HAND_RIGHT;
 
+      //Walk to the right
       for (int i = 0; i < 184; ++i) {
          disableLink();
 
@@ -1159,24 +1177,20 @@ ffc script CapturedSequenceRightHand {
 
       this->Data = COMBO_RIGHT_HAND_DOWN;
 
-      for (int i = 0; i < 16; ++i) {
-         unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
-
-         ++this->Y;
-         Waitframe();
-      }
-
+      //Pause at the gate
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
          Waitframe();
       }
 
+      //Open the gate
       Audio->PlaySound(SFX_SHUTTER_OPEN);
       mapDataLayer3->ComboD[141] = CMB_INVIS;
       mapDataLayer3->ComboD[142] = CMB_INVIS;
       mapDataLayer1->ComboD[125] = CMB_INVIS;
       mapDataLayer1->ComboD[126] = CMB_INVIS;
 
+      //Walk through open gate
       for (int i = 0; i < 32; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
@@ -1186,11 +1200,13 @@ ffc script CapturedSequenceRightHand {
 
       this->Data = COMBO_RIGHT_HAND_UP;
 
+      //Pause at the gate
       for (int i = 0; i < 15; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
          Waitframe();
       }
 
+      //Close the gate
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
       mapDataLayer1->ComboD[125] = COMBO_UPSIDE_DOWN_GATE;
       mapDataLayer1->ComboD[126] = COMBO_UPSIDE_DOWN_GATE;
@@ -1199,6 +1215,7 @@ ffc script CapturedSequenceRightHand {
 
       this->Data = COMBO_RIGHT_HAND_DOWN;
 
+      //Leave the room
       for (int i = 0; i < 48; ++i) {
          unless(gameframe % 120) Audio->PlaySound(SFX_WATER_DRIPPING);
 
