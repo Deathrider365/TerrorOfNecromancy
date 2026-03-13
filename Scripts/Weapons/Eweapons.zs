@@ -115,7 +115,6 @@ eweapon script ArcingWeapon {
                      mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL; //this isnt setting the cset to 2 like it should be
                }
 
-
                //Working Implementation
                // int pos = ComboAt(this->X + 8, this->Y + 8);
                   // if (Screen->ComboT[pos] == CT_SCRIPT20)

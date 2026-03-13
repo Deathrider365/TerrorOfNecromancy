@@ -227,7 +227,7 @@ ffc script ContinuePoint {
  ffc script Thrower {
    // clang-format on
 
-   void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
+   void run(int coolDown, int variance, int trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
       const int COOLDOWN = !coolDown ? 120 : coolDown;
 
       int lowVariance = Floor(variance);
