@@ -236,7 +236,7 @@ ffc script ContinuePoint {
       int projectileId = Floor(projectile);
       int projectileType = (projectile % 1) / 1L;
 
-      while (true) {
+      loop () {
          if (wasTriggered(trigger))
             Quit();
 

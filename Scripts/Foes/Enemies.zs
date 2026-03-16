@@ -9,7 +9,7 @@
 
 // clang-format off
 @Author("Deathrider365")
-npc script Candlehead {
+npc script Candlehead { //TODO they do not seem to respect soliditiy, need enemy flags
    // clang-format on
    using namespace EnemyNamespace;
 
@@ -23,7 +23,7 @@ npc script Candlehead {
    void run(int chungo) {
       int knockbackDist = 4;
 
-      int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
+      // int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
 
       CONFIG DMG_FLAME = this->WeaponDamage;
       // CONFIG DMG_FLAME = (Game->LoadItemData(highestLevelCandle)->Damage * (chungo ? 2 : 1) * this->WeaponDamage) / 2;
@@ -36,6 +36,7 @@ npc script Candlehead {
          this->SlideSpeed = knockbackDist;
 
       while (true) {
+
          if (this->HP <= 0)
             this->Step = 0;
 
@@ -256,17 +257,18 @@ npc script HammerBoi {
    using namespace EnemyNamespace;
 
    void run() {
+      CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage * .5;
+      CONFIG DMG_SWING_HAMMER = this->WeaponDamage * 1.3;
+      CONFIG DMG_SMASH_HAMMER = this->WeaponDamage * 1.5;
+
       int counter = -1;
-      const int COOLDOWN = 60;
+      CONFIG COOLDOWN = 60;
       int timer;
 
       while (true) {
          if (this->HP <= 0)
             this->Step = 0;
 
-         CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage *= .5;
-         CONFIG DMG_SWING_HAMMER = this->WeaponDamage *= 1.3;
-         CONFIG DMG_SMASH_HAMMER = this->WeaponDamage *= 1.5;
 
          counter = ConstWalk4(this, counter);
 
@@ -277,9 +279,7 @@ npc script HammerBoi {
                int oldDir = this->Dir;
                this->Dir = faceLink(this);
                hammerAnim(this, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
-
                this->Dir = oldDir;
-
                timer = COOLDOWN;
             }
          }
