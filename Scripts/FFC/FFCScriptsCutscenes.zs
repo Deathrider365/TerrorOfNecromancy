@@ -62,7 +62,7 @@ ffc script IntroLeviathanFightFail {
    // clang-format on
 
    void run() {
-      while (true) {
+      loop () {
          if (Hero->HP <= 0) {
             Hero->HP = 1;
             Hero->Warp(2, 10);

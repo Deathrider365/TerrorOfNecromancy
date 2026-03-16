@@ -18,11 +18,10 @@ int onContMP = 0;
 int gameframe = 0;
 int lastPal = -1;
 
-// int statuses[NUM_STATUSES];
-// bitmap status_bmp;
+int breathCounter;
+
 bitmap waterfallBitmap;
 bitmap overheadBitmaps[7];
-// StatusPos statusPos = SP_TOP_RIGHT;
 
 int stolenLinkItems[255];
 

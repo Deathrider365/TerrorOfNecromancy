@@ -975,3 +975,23 @@ ffc script Beamos {
       }
    }
 }
+
+@Author("Deathrider365")
+ffc script HideEnemiesUntilSecrets {
+   void run(bool screenIsRemote, int map, int screen) {
+      if (screenIsRemote && map && screen) {
+         if (Game->LoadMapData(screen, map)->State[ST_SECRET])
+            Screen->Pattern = PATTERN_STANDARD;
+         else
+            Screen->Pattern = PATTERN_NO_SPAWNING;
+      }
+      else {
+         until (Screen->State[ST_SECRET]) Waitframe();
+
+         if (Screen->State[ST_SECRET])
+            Screen->Pattern = PATTERN_STANDARD;
+         else
+            Screen->Pattern = PATTERN_NO_SPAWNING;
+      }
+   }
+}

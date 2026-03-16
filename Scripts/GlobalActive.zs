@@ -32,10 +32,9 @@ global script GlobalScripts {
 
       int footprintArray[3] = {1, 0, 0};
 
-      int ocarinaIndex = 1;
+      // int ocarinaIndex = 1;
 
       int flipperPower;
-      int breathCounter;
 
       if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
          flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
@@ -66,7 +65,7 @@ global script GlobalScripts {
             unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
                flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
 
-               if (Hero->Action == LA_DIVING || Hero->Action == LA_SIDESWIM)
+               if (isUnderWater())
                   --breathCounter;
                else
                   breathCounter = flipperPower;
@@ -120,6 +119,23 @@ global script GlobalScripts {
 
          Waitframe();
       }
+   }
+
+   bool isUnderWater() {
+      switch(Hero->Action) {
+         case LA_DIVING:
+         case LA_SIDESWIM:
+         case LA_SIDESWIMHIT:
+         case LA_SIDESWIMATTACKING:
+         case LA_HOLD1SIDESWIM:
+         case LA_HOLD2SIDESWIM:
+         case LA_SIDESWIMCASTING:
+         case LA_SIDESWIMFROZEN:
+         case LA_SIDESWIMSPINNING:
+         case LA_SIDESWIMCHARGING:
+            return true;
+      }
+      return false;
    }
 
    void giveGoddessJewel() {
@@ -614,10 +630,9 @@ generic script onF6Menu {
       onContHP = Hero->HP;
       onContMP = Hero->MP;
 
-      if (SizeOfArray(stolenLinkItems) > 0)
-         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            if (stolenLinkItems[i] > 0)
-               Hero->Item[stolenLinkItems[i]] = true;
+      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+         if (stolenLinkItems[i] > 0)
+            Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
@@ -635,10 +650,9 @@ global script onContGame {
          Hero->MP = Hero->MaxMP;
       }
 
-      if (SizeOfArray(stolenLinkItems) > 0)
-         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            if (stolenLinkItems[i] > 0)
-               Hero->Item[stolenLinkItems[i]] = true;
+      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+         if (stolenLinkItems[i] > 0)
+            Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 
@@ -648,10 +662,9 @@ global script onSave {
    // clang-format off
 
    void run() {
-      if (SizeOfArray(stolenLinkItems))
-         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-            if (stolenLinkItems[i] > 0)
-               Hero->Item[stolenLinkItems[i]] = true;
+      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+         if (stolenLinkItems[i] > 0)
+            Hero->Item[stolenLinkItems[i]] = true;
    }
 }
 

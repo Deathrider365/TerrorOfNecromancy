@@ -866,6 +866,11 @@ ffc script BuyItem {
          Quit();
       }
 
+      if (itemId == Hero->Item[ITEM_BATTLE_ARENA_TICKET]) {
+         if (Hero->Item[ITEM_BATTLE_ARENA_TICKET])
+            Screen->State[ST_SECRET] = false;
+      }
+
       char32 priceBuf[6];
       sprintf(priceBuf, "%d", price);
 
@@ -915,7 +920,7 @@ ffc script InfoShop {
       sprintf(priceBuf, "%d", price);
 
       while (true) {
-         if (getScreenD(this->ID))
+         if (getScreenD(this->ID % 128)) //% 128 for regions
             Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Read", OP_OPAQUE, SHD_SHADOWED, C_BLACK);
          else
             Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
@@ -927,7 +932,7 @@ ffc script InfoShop {
                Hero->Action = LA_NONE;
                Hero->Stun = 15;
 
-               if (getScreenD(this->ID))
+               if (getScreenD(this->ID % 128)) //% 128 for regions
                   Screen->Message(boughtString);
                else if (Game->Counter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;

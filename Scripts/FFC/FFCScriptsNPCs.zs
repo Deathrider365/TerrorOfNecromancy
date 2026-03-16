@@ -164,18 +164,18 @@ ffc script ServusSoldier {
 }
 
 @Author("Deathrider365")
-ffc script PhonogramMan {
+ffc script PhonographMan {
    // clang-format on
    void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
-      while (true) {
+      loop () {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else {
-            until(Screen->State[ST_SECRET]) {
-               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+            until (Screen->State[ST_SECRET]) {
+               until (againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
                   if (Screen->State[ST_SECRET])
                      break;
 
