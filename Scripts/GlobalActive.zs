@@ -121,7 +121,7 @@ global script GlobalScripts {
       }
    }
 
-   bool isUnderWater() {
+   bool isUnderWater() { //TODO something still breaks link from drowning
       switch(Hero->Action) {
          case LA_DIVING:
          case LA_SIDESWIM:
@@ -135,6 +135,7 @@ global script GlobalScripts {
          case LA_SIDESWIMCHARGING:
             return true;
       }
+
       return false;
    }
 
