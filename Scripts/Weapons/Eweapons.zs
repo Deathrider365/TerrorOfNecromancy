@@ -122,12 +122,12 @@ eweapon script ArcingWeapon {
 
                break;
             }
-            case AE_OIL_DEATH_BLOB: {
+            case AE_OIL_DEATH_BLOB: { //sprite 118 is the spinning rock
                for (int i = 0; i < 4; ++i) {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon oilProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy}); //TODO why is secondary damage checked for primary damage?
                }
                break;
@@ -137,7 +137,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon pebbleProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, -1, shootingEnemy, damage, secondaryDamage, isEnemy});
                }
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -148,7 +148,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon rockProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy});
                }
 

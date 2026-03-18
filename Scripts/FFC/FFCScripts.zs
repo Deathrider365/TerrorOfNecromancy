@@ -224,11 +224,14 @@ ffc script ContinuePoint {
 
 // clang-format off
 @Author("Deathrider365")
- ffc script Thrower {
+ffc script Thrower {
    // clang-format on
 
-   void run(int coolDown, int variance, int trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
-      const int COOLDOWN = !coolDown ? 120 : coolDown;
+   void run(int cooldownAndDamage, int variance, int trigger, bool throwsItem, int projectile, int spriteId, int hasArc, int sfx) {
+      int cooldown = !Floor(cooldownAndDamage) ? 120 : Floor(cooldownAndDamage);
+      int damage = !((cooldownAndDamage % 1) / 1L) ? 120 : ((cooldownAndDamage % 1) / 1L);
+
+      CONFIG COOLDOWN = cooldown;
 
       int lowVariance = Floor(variance);
       int highVariance = -(variance % 1) / 1L;
@@ -240,7 +243,7 @@ ffc script ContinuePoint {
          if (wasTriggered(trigger))
             Quit();
 
-         unless(coolDown) {
+         unless(cooldown) {
             if (throwsItem) {
                if (int scr = CheckItemSpriteScript("ArcingItemSprite")) {
                   itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
@@ -252,7 +255,7 @@ ffc script ContinuePoint {
                if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
-               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, spriteId, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 
                if (hasArc) {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
@@ -263,10 +266,10 @@ ffc script ContinuePoint {
                }
             }
 
-            coolDown = COOLDOWN + Rand(lowVariance, highVariance);
+            cooldown = COOLDOWN + Rand(lowVariance, highVariance);
          }
 
-         coolDown--;
+         cooldown--;
          Waitframe();
       }
    }

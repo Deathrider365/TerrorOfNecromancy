@@ -70,6 +70,9 @@ Goddess Mail is obtained once you have all shards to the golden triforces and yo
 
 Upon getting the Goddess set, for every Leviathan scale you have go to the smith in NEI to enhance them to +1
 
+Max wallet where?
+Charge rings where?
+
 ---Version 1.0.0---
 (26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
 (27) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk

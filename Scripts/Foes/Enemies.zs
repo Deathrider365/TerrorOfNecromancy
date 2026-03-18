@@ -85,7 +85,7 @@ npc script Candlehead { //TODO they do not seem to respect soliditiy, need enemy
 
          n->Slide();
 
-         if (gameframe % 20 == 0) {
+         if (gameframe % 5 == 0) {
             eweapon flame = CreateEWeaponAt(EW_FIRE, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
             flame->Dir = n->Dir;
             flame->Script = Game->GetEWeaponScript("StopperKiller");

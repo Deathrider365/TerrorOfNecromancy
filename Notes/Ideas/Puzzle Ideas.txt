@@ -29,3 +29,5 @@ rotating beam of light from forewarned
 dusty caverns push the block to erase the floor to find the solution
 
 there is a clone of you and you need to navigate them to switches or something (think FFII)
+
+hit a switch then a timer starts to do something
