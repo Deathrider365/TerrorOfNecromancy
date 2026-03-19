@@ -15,7 +15,9 @@
 @InitD5("remoteSecrets"),
 @InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen"),
 @InitD6("onlyBottom"),
-@InitDHelp6("Is talking to this signpost only from the bottom?")
+@InitDHelp6("Is talking to this signpost only from the bottom?"),
+@InitD7("secondMessageOnScreenDSet"),
+@InitDHelp7("False - sets own screenD from first message then plays second\n True - doesnt set a screenD, relies on external setting")
 ffc script Signpost {
    // clang-format on
 
@@ -43,7 +45,7 @@ ffc script Signpost {
                if (secondMessageOnScreenDSet) {
                   if (!getScreenD(secondMessageTriggerValue))
                      Screen->Message(message);
-                  else 
+                  else
                      Screen->Message(secondMessage);
                }
                else {
@@ -51,7 +53,7 @@ ffc script Signpost {
                      Screen->Message(message);
                      setScreenD(secondMessageTriggerValue, true);
                   }
-                  else 
+                  else
                      Screen->Message(secondMessage);
                }
 
@@ -861,7 +863,7 @@ ffc script Shop {
 ffc script BuyItem {
    // clang-format on
    void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce, int buyOnceScreenD = 0) {
-      if (buyOnce && getScreenD(0)) {
+      if (buyOnce && getScreenD(buyOnceScreenD)) {
          this->Data = CMB_INVIS;
          Quit();
       }
