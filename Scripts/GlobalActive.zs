@@ -419,11 +419,17 @@ global script GlobalScripts {
             break;
          case 62: //SEI Gelido Shoal
             switch (screen) {
-               case 0x25: return 010100b;
-               case 0x35: return 010100b;
-               case 0x76: return 010100b;
+               case 0x25: return 011000b;
+               case 0x35: return 001000b;
+               case 0x45: return 011000b;
+               case 0x76: return 011000b;
             }
             break;
+         case 66: //NWI Carulem Village
+            switch (screen) {
+               case 0x21: return 000100b;
+            }
+         break;
          case 69: //Lv6 Geothermal Plant B1 West
             switch (screen) {
                case 0x22: return 000100b;

@@ -986,19 +986,45 @@ ffc script Beamos {
 @Author("Deathrider365")
 ffc script HideEnemiesUntilSecrets {
    void run(bool screenIsRemote, int map, int screen) {
-      if (screenIsRemote && map && screen) {
-         if (Game->LoadMapData(screen, map)->State[ST_SECRET])
-            Screen->Pattern = PATTERN_STANDARD;
-         else
-            Screen->Pattern = PATTERN_NO_SPAWNING;
-      }
+      if (screenIsRemote && (!map || !screen)) 
+         Trace("screenIsRemote but no map or screen was provided");
       else {
-         until (Screen->State[ST_SECRET]) Waitframe();
+         until (Screen->State[ST_SECRET] || !(screenIsRemote && Game->LoadMapData(map, screen)->State[ST_SECRET])) Waitframe();
 
          if (Screen->State[ST_SECRET])
             Screen->Pattern = PATTERN_STANDARD;
          else
             Screen->Pattern = PATTERN_NO_SPAWNING;
+      }
+   }
+}
+
+@Author("Deathrider365"),
+@InitD0("condition"),
+@InitDHelp0("condition to trigger"),
+@InitD1("conditionValue"),
+@InitDHelp1("where applicable, the value to check"),
+@InitD2("dmapId"),
+@InitDHelp2("dmap in question"),
+@InitD3("oldMusicId"),
+@InitDHelp3("old music id to check"),
+@InitD4("newMusicId"),
+@InitDHelp4("new music id to assign")
+ffc script SetLevel8Music { //TODO enhance to be used dynamically
+   void run (int condition, int conditionValue, int dmapId, int oldMusicData, int newMusicData) {
+      loop() {
+         if (Game->LevelStates[Game->CurLevel] & (1Lb << (conditionValue)) && Game->LoadDMapData(dmapId)->Music == Audio->LoadMusicData(oldMusicData)) {
+            Game->LoadDMapData(dmapId)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 1)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 2)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 3)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 4)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 5)->Music = Audio->LoadMusicData(newMusicData);
+
+            Quit();
+         }
+
+         Waitframe();
       }
    }
 }
