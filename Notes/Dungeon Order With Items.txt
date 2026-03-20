@@ -43,7 +43,7 @@ Battle Arena 3: Exiled Zora's Domain		 	                        - Hurricane Spin
 (20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)               - Red Mail (3)
 
 (08) Level 8: Marauder's Cove				                            - Mage's Wand (1)
-(21) Optional Dungeon 5: Molten Flooded Forge Mines	                    - Smith's Hammer (2)
+(21) Optional Dungeon 5: Molten Flooded Forge Mines	                    - Smith's Hammer (2), Defense Ring
 
 (09) Level 9: Castle Interitus				                            - Longshot (2)
 (22) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
@@ -72,7 +72,6 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 
 Max wallet where?
 Charge rings where?
-a ring that give you better defense and damage or something at and below 3 hearts
 
 ---Version 1.0.0---
 (26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)

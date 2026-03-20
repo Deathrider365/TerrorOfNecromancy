@@ -34,7 +34,7 @@
       - Moist Bread                    Exiled Zora Domain               Ful Int Sea Sh + None
       - Snake Egg                      NEI Residence (Silva Village)    Moise Bread + None
       - Fresh Coconut                  NEI Caves (0x4D)                 Snake Egg + None
-      - Carulem Fish                   NWI Caves 0x07)                  Fresh Coconut + Long Shot (Level 9)
+      - Carulem Fish                   NWI Caves (0x07)                 Fresh Coconut + Long Shot (Level 9)
       - Broken Sword                   Viridi Village                   Carulem Fish + NONE
       - Ancient Sword Key              NEI Caves (Legendary Smiths)     Broken Sword + Wand (Level 8)
       - UNIMPLEMENTED                  NEI Caves (Off of Silva Village) Ancient Sword Key + NONE

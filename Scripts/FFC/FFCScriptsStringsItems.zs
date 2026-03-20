@@ -596,11 +596,13 @@ ffc script GetItemOnSecret {
 @InitD5("doesntHaveItemString"),
 @InitDHelp5("String for when you do not have the required item"),
 @InitD6("removeItemId"),
-@InitDHelp6("When getting the new item, remove this item")
+@InitDHelp6("When getting the new item, remove this item"),
+@InitD7("setItemState"),
+@InitDHelp7("Whether this script should set item state once item is obtained")
 ffc script GetItemOnItem { //TODO overhaul this script
    // clang-format on
 
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString, int removeItemId = -1) {
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString, int removeItemId, bool setItemState) {
       int prevData = this->Data;
 
       loop () {
@@ -670,7 +672,10 @@ ffc script GetItemOnItem { //TODO overhaul this script
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
 
-            if (removeItemId > -1)
+            if (setItemState)
+               Screen->State[ST_ITEM] = true;
+
+            if (removeItemId > 0)
                Hero->Item[removeItemId] = false;
 
             setScreenD(itemIdToReceive, true);
