@@ -72,7 +72,7 @@ npc script Candlehead { //TODO they do not seem to respect soliditiy, need enemy
       n->LightRadius = 24;
       n->LightShape = LIGHT_CIRCLE;
 
-      until(n->HP <= 0) {
+      until (n->HP <= 0) {
          int x = chungo ? n->X + 8 : n->X;
          int y = chungo ? n->Y + 8 : n->Y;
 
@@ -116,7 +116,7 @@ npc script Candlehead { //TODO they do not seem to respect soliditiy, need enemy
             Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
          }
 
-         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step, DOWALK_EIGHT_DIR);
+         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step, false, DOWALK_EIGHT_DIR);
 
          Waitframe();
       }

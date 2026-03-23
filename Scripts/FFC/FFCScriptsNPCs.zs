@@ -417,8 +417,8 @@ ffc script ServusSoldier2 {
 @Author("Deathrider365")
 ffc script SeizedTowerSoldier {
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
-      if (Screen->State[ST_SECRET]) {
+   void run(int signetMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
+      if (Screen->State[ST_SECRET] || !Hero->Item[ITEM_SIGNET_OF_ALLEGIANCE]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -431,10 +431,10 @@ ffc script SeizedTowerSoldier {
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
             if (!getScreenD(initialScreenD)) {
-               Screen->Message(initialMessage);
+               Screen->Message(signetMessage);
                Waitframe();
-
-               CreateItemAt(ITEM_HEART_PIECE, Hero->X, Hero->Y);
+               itemsprite it = CreateItemAt(ITEM_RUPEE_20, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
                setScreenD(initialScreenD, true);
             } else {
                Screen->Message(secondaryMessage);
@@ -1130,6 +1130,7 @@ ffc script LegendaryArmorer {
 
    CONFIG SCREEND_DID_ONE_UPGRADE = 0;
    CONFIG SCREEND_ALREADY_TALKED = 1;
+   CONFIG SCREEND_INITIAL_MESSAGE = 2;
 
    void run() {
       CONFIG MESSAGE_INITIAL = 900;
@@ -1151,12 +1152,12 @@ ffc script LegendaryArmorer {
       loop() {
          waitForTalking(this);
 
+         if (!getScreenD(SCREEND_INITIAL_MESSAGE)) {
+            Screen->Message(MESSAGE_INITIAL);
+            setScreenD(SCREEND_INITIAL_MESSAGE, true);
+         }
+
          if (Hero->Item[ITEM_LEVIATHAN_SCALE1] || Hero->Item[ITEM_LEVIATHAN_SCALE2]) {
-            if (Hero->Item[ITEM_LEVIATHAN_SCALE1] && Hero->Item[ITEM_LEVIATHAN_SCALE2] && (Hero->Item[ITEM_SWORD4] && !Hero->Item[ITEM_SWORD5]) && (Hero->Item[ITEM_RING3] && !Hero->Item[ITEM_RING4]))
-               Screen->Message(MESSAGE_INITIAL);
-
-            Waitframe();
-
             if (!getScreenD(SCREEND_DID_ONE_UPGRADE))
                Screen->Message(MESSAGE_SECONDARY);
 
@@ -1196,8 +1197,7 @@ ffc script LegendaryArmorer {
             Screen->Message(MESSAGE_NOTHING_LEFT_TO_UPGRADE);
          else if (Hero->Item[ITEM_SWORD5] || Hero->Item[ITEM_RING4])
             Screen->Message(MESSAGE_GET_MORE_SCALES);
-         else
-            Screen->Message(MESSAGE_INITIAL);
+
 
          Waitframe();
       }

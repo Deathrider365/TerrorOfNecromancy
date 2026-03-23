@@ -1416,7 +1416,7 @@ ffc script GoddessFaithfulZeldaScenes {
             zeldaGetGiantBombsDialogue();
          else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
             zeldaGivesMagicOcarina();
-         else if (mapDataAuriVillageSaved->State[ST_SECRET])
+         else if (mapDataAuriVillageSaved->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET])
             zeldaThanksLinkForHelpingAuri();
          else if (mapDataBeatLvl8->State[ST_SECRET])
             zeldaInitiatesTheSiege(this);
