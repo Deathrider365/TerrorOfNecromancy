@@ -1414,19 +1414,19 @@ ffc script GoddessFaithfulZeldaScenes {
             zeldaIntroDialogue();
          else if (mapDataBeatGamoth->State[ST_SECRET] && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue();
-         else if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
+         else if (mapDataBombRoom->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET])
             zeldaGivesMagicOcarina();
-         else if (mapDataAuriVillageSaved->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET])
+         else if (mapDataAuriVillageSaved->State[ST_SECRET]) {
             zeldaThanksLinkForHelpingAuri();
+
+            if (mapDataBeatLvl8->State[ST_SECRET])
+               zeldaInitiatesTheSiege(this);
+         }
          else if (mapDataBeatLvl8->State[ST_SECRET])
             zeldaInitiatesTheSiege(this);
          else {
-            const int zeldaIDontKnowYouMessage = 448;
-
-            waitForTalking(this);
+            int zeldaIDontKnowYouMessage = 448;
             Screen->Message(zeldaIDontKnowYouMessage);
-
-            Waitframe();
          }
 
          Waitframe();
@@ -1516,6 +1516,15 @@ ffc script GoddessFaithfulZeldaScenes {
       bool carulemZoraTriggered = Game->LoadMapData(96, 0x21)->State[ST_SECRET];
       bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
       bool anySideCharacters = hylianGeneralTriggered && servusSoldierTriggered && seizedTowerSoldierTriggered && duratuElderTriggered && carulemZoraTriggered && conflatosNephewTriggered;
+
+      if (!getScreenD(screenD2)) {
+         const int zeldaGettingOcarinaMessage = 441;
+         Screen->Message(zeldaGettingOcarinaMessage);
+         Waitframe();
+         itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
+         it->Pickup = IP_HOLDUP;
+         setScreenD(screenD2, true);
+      }
 
       Screen->Message(zeldaIntroMessage);
       Waitframe();

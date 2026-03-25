@@ -778,17 +778,17 @@ ffc script Lvl9LobbyNpc {
 ffc script Lvl9LobbyZelda {
    // clang-format on
    void run() {
-      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1315; //TODO write the dialog and set the variables
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_NO_STAGE = 1315;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 1315;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 1315;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 1315;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 1315;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 1315;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_NO_STAGE = 1400;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 1401;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 1402;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 1403;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 1404;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 1405;
+      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1406; //TODO write the dialog and set the variables
 
       int zeldaStage = 0;
 
-      for (int i = 0; i < 4; ++i) {
+      for (int i = 0; i < 4; ++i) { //TODO what sets these stages?
          if (getScreenD(48, 0x02, i))
             zeldaStage = i;
       }
@@ -809,7 +809,6 @@ ffc script Lvl9LobbyZelda {
                case 0:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE);
                   break;
-
                case 1:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE);
                   break;
@@ -879,7 +878,7 @@ ffc script AuriElder {
             itemsprite it = CreateItemAt(ITEM_MYSTERIOUS_KEY, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
             setScreenD(initialScreenD, true);
-         } 
+         }
          else if (Hero->Item[ITEM_OCARINA1] && getScreenD(6, 0x65, 1) && !Screen->State[ST_SECRET])
             Screen->Message(additionalMessage);
          else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET])
@@ -887,7 +886,7 @@ ffc script AuriElder {
          else if (Screen->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
             setScreenD(initialScreenD + 1, true);
             Screen->Message(tertiaryMessage);
-         } 
+         }
          else
             Screen->Message(quartupleMessage);
 
