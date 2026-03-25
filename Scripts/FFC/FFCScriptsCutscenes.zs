@@ -1855,13 +1855,14 @@ ffc script SummusTabletPedestal {
 
    void waitForReading(ffc this) {
       until(againstFFC(this->X, this->Y, true) && Input->Press[CB_SIGNPOST]) {
-         if (againstFFC(this->X, this->Y, true))
+         if (againstFFC(this->X, this->Y, true)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Input->Button[CB_SIGNPOST] = false;
+         }
 
          drawAllNecessaryShards();
 
          Waitframe();
-         Input->Button[CB_SIGNPOST] = false;
       }
 
    }

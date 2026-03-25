@@ -367,6 +367,11 @@ global script GlobalScripts {
                case 0x17: return 001100b;
                case 0x76: return 000100b;
             }
+            break; 
+         case 38: //SWI Mt. Caldum
+            switch (screen) {
+               case 0x60: return 001000b;
+            }
             break;
          case 39: //SWI Mt Duratu
             switch (screen) {
