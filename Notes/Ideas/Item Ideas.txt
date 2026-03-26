@@ -49,3 +49,5 @@ combination small magic jar and 3 hearts
 the death triforce's non extra ability will be the ability to instantly kill an enemy, it will have a cooldown obviously and does 25% damage to bosses (instantly takes 1/4 of their health
 
 have the mirror shield reflect only magic and light, and have the holy shield reflect all things
+
+boomerang can cut grass

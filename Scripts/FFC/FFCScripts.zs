@@ -986,7 +986,7 @@ ffc script Beamos {
 @Author("Deathrider365")
 ffc script HideEnemiesUntilSecrets {
    void run(bool screenIsRemote, int map, int screen) {
-      if (screenIsRemote && (!map || !screen)) 
+      if (screenIsRemote && (!map || !screen))
          Trace("screenIsRemote but no map or screen was provided");
       else {
          until (Screen->State[ST_SECRET] || !(screenIsRemote && Game->LoadMapData(map, screen)->State[ST_SECRET])) Waitframe();
@@ -1026,5 +1026,28 @@ ffc script SetLevel8Music { //TODO enhance to be used dynamically
 
          Waitframe();
       }
+   }
+}
+
+@Author("Deathrider365")
+ffc script ForceLinkInLv9Boss {
+   void run() {
+      while (HeroIsScrollingOrWarping()) Waitframe();
+
+      if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) Quit();
+
+      while (Hero->Y > 224) {
+         NoAction();
+         Hero->InputUp = true;
+         Waitframe();
+      }
+
+      //Shutter closes
+      setScreenD(1, true);
+
+      while (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) Waitframe();
+
+      //Shutters open
+      setScreenD(1, false);
    }
 }

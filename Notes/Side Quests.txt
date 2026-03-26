@@ -87,14 +87,14 @@
    - Bomb Expansions (Starts at 10 and with Max = 5, total is 30)
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
       - 180 Rupees                     NWI Caves (0x61)                 None + Goron Gauntlet (Level 6)
-      - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8) 
+      - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8)
       - 280
       - 330
 
    - Arrow Expansions (Starts at 10 and with Max = 5, total is 6)
       - 130 Rupees                     Viridi Village (Shop)            None + Oil Candle (Level 1)
       - 180 Rupees                     NEI Caves (0x15)                 None + Solider's Boom (Seized Guard Tower)
-      - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5) 
+      - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5)
       - 280
       - 330
 
@@ -118,16 +118,16 @@
       8 - Level 7                      (Lv3)
       9 - Level 8                      (Lv3)
       10 - Level 9                     (Lv3)
-      11 - Level 10
-      12 - Level 11
-      13 - Level 12
-      14 - Guarding Haeren Triforce 1
-      15 - Guarding Haeren Triforce 2
-      16 - Guarding Haeren Triforce 3
-      17 - Guarding Haeren Triforce 4
-      18 - Elite boi doing good work
-      19 - Elite boi doing good work
-      20 - Elite boi doing good work
+      11 - Level 10                    (Lv4)
+      12 - Level 11                    (Lv4)
+      13 - Level 12                    (Lv4)
+      14 - Guarding Haeren Triforce 1  (Lv5)
+      15 - Guarding Haeren Triforce 2  (Lv5)
+      16 - Guarding Haeren Triforce 3  (Lv5)
+      17 - Guarding Haeren Triforce 4  (Lv5)
+      18 - Summus Catacombs            (Lv6) Elite
+      19 -                             (Lv6) Elite
+      20 -                             (Lv6) Elite
 
    - Heart Pieces
       1 -

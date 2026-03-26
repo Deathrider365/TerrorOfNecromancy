@@ -1818,7 +1818,7 @@ namespace HazarondNamespace {
          introSequenceBitmap->FastCombo(3, 112, 0, CMB_WATERFALL, 0, OP_TRANS);
          introSequenceBitmap->FastCombo(3, 128, 0, CMB_WATERFALL, 0, OP_TRANS);
       }
-      
+
       mapdata bossRoom2 = Game->LoadTempScreen(2);
       mapdata bossRoom3 = Game->LoadTempScreen(3);
 

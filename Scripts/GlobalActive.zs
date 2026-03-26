@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
 
 	void run() {
-      Trace("Hellow from Init world!");
+      Trace("Hello from Init world!");
 	}
 }
 
@@ -367,7 +367,7 @@ global script GlobalScripts {
                case 0x17: return 001100b;
                case 0x76: return 000100b;
             }
-            break; 
+            break;
          case 38: //SWI Mt. Caldum
             switch (screen) {
                case 0x60: return 001000b;
