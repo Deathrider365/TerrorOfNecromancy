@@ -84,26 +84,50 @@
       - Shard 3                        Auri Library Forbidden Section   None + None
       - Shard 4
 
+   - Bomb Expansions (Starts at 10 and with Max = 5, total is 30)
+      - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
+      - 180 Rupees                     NWI Caves (0x61)                 None + Goron Gauntlet (Level 6)
+      - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8) 
+      - 280
+      - 330
+
+   - Arrow Expansions (Starts at 10 and with Max = 5, total is 6)
+      - 130 Rupees                     Viridi Village (Shop)            None + Oil Candle (Level 1)
+      - 180 Rupees                     NEI Caves (0x15)                 None + Solider's Boom (Seized Guard Tower)
+      - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5) 
+      - 280
+      - 330
+
+   - Magic Containers (Starts at 30MP and with Max = 7, total is 142MP)
+      - 1                              NEI Cumpura Forest House         None + None
+      - 2                              SWI Coasts (0x0F)                None + Ladder (Level 2)
+      - 3                              Venenom Bog (0x4F)               None + Raft (Pre Level 5)
+      - 4                              SWI Mt. Duratu (0x7F)            None + Longshot (Level 9)
+      - 5
+      - 6
+      - 7
+
    - Legionnaire Rings
-      1 - Temple of Haeren
-      2 - Level 1
-      3 - Level 2
-      4 - Level 3
-      5 - Level 4
-      6 - Level 5
-      7 - Level 6
-      8 - Level 7
-      9 - Level 8
-      11 - Level 9
-      12 - Level 10
-      13 - Level 11
-      14 - Level 12
-      15 -
-      16 -
-      17 -
-      18 -
-      19 -
-      20 -
+      1 - Temple of Haeren             (Lv1)
+      2 - Level 1                      (Lv1)
+      3 - Level 2                      (Lv1)
+      4 - Level 3                      (Lv2)
+      5 - Level 4                      (Lv2)
+      6 - Level 5                      (Lv2)
+      7 - Level 6                      (Lv2)
+      8 - Level 7                      (Lv3)
+      9 - Level 8                      (Lv3)
+      10 - Level 9                     (Lv3)
+      11 - Level 10
+      12 - Level 11
+      13 - Level 12
+      14 - Guarding Haeren Triforce 1
+      15 - Guarding Haeren Triforce 2
+      16 - Guarding Haeren Triforce 3
+      17 - Guarding Haeren Triforce 4
+      18 - Elite boi doing good work
+      19 - Elite boi doing good work
+      20 - Elite boi doing good work
 
    - Heart Pieces
       1 -

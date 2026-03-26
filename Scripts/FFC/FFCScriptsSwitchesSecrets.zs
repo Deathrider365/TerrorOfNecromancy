@@ -311,9 +311,6 @@ ffc script SwitchRemote {
 
       int comboD[176];
 
-      // TODO enhance to enable checking on all layers
-      // mapdata mapData = Game->CurScreen;
-
       for (i = 0; i < 176; i++)
          if (Screen->ComboF[i] == flag) {
             comboD[i] = Screen->ComboD[i];

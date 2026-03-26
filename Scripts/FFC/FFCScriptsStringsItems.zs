@@ -431,8 +431,8 @@ ffc script SignpostRemoveOnSecret {
 @Author("Deathrider365")
 ffc script SignpostTriggerOnItemAndVanishOnSecret {
    // clang-format on
-   void run(int itemId, int noItemMessage, int hasItemMesssage, int lastMessage, int screenDForSecondMessage, bool secretsAreRemote, int map, int screen) {
-      if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+   void run(int itemId, int noItemMessage, int hasItemMesssage, int lastMessage, int screenDForSecondMessage, int screenDForLastMessage) {
+      if (Screen->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -440,7 +440,7 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
 
       loop() {
          until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+            if (Screen->State[ST_SECRET]) {
                this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
@@ -456,10 +456,14 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
 
          if (!Hero->Item[itemId])
             Screen->Message(noItemMessage);
-         else if (Hero->Item[itemId] && !getScreenD(screenDForSecondMessage))
+         else if (getScreenD(screenDForSecondMessage) && !getScreenD(screenDForLastMessage)) {
             Screen->Message(hasItemMesssage);
-         else if (getScreenD(screenDForSecondMessage))
+            setScreenD(screenDForLastMessage, true);
+         }
+         else if (getScreenD(screenDForLastMessage))
             Screen->Message(lastMessage);
+         else
+            Screen->Message(noItemMessage);
 
          Waitframe();
       }

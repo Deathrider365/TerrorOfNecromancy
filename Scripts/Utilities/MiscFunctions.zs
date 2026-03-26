@@ -1,11 +1,5 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-void giveStartingCrap() {
-   // Have what the player would have at the beginning
-   // TODO do for demo 5
-   // removeAllItems();
-}
-
 void removeAllItems() {
    // Hero->ItemA = -1;
    // Hero->ItemB = -1;

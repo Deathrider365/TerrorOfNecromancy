@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
 
 	void run() {
-      giveStartingCrap();
+      Trace("Hellow from Init world!");
 	}
 }
 
