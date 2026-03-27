@@ -47,14 +47,13 @@ Battle Arena 3: Exiled Zora's Domain		 	                        - Hurricane Spin
 
 (09) Level 9: Castle Interitus				                            - Longshot (2)
 (22) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
+Shop: Thief's Wallet (2)
+Shop: Merchant's Membership (2)
 (23) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
-
-Level 2 lens where
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
-Shop: Thief's Wallet (2)
 (10) Level 10: Infernal Caldera					                        - Gale Boomerang (3)
 (24) Optional Dungeon 8: Isolated Spire                                 - Giant's Bracer (3)
 Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
@@ -70,8 +69,11 @@ Goddess Mail is obtained once you have all shards to the golden triforces and yo
 
 Upon getting the Goddess set, for every Leviathan scale you have go to the smith in NEI to enhance them to +1
 
-Max wallet where?
-Charge rings where?
+~~~TODO Items Unaccounted For TODO~~~
+Charge Clock Lv1 and 2
+Swindler's Medal
+Lens of Unveiling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---
 (26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)

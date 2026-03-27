@@ -86,7 +86,7 @@
 
    - Bomb Expansions (Starts at 10 and with Max = 5, total is 30)
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
-      - 180 Rupees                     NWI Caves (0x61)                 None + Goron Gauntlet (Level 6)
+      - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
       - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8)
       - 280
       - 330
@@ -95,7 +95,7 @@
       - 130 Rupees                     Viridi Village (Shop)            None + Oil Candle (Level 1)
       - 180 Rupees                     NEI Caves (0x15)                 None + Solider's Boom (Seized Guard Tower)
       - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5)
-      - 280
+      - 280 Rupees                     SEI Caves (0x00)                 None + Mithil Arrow (Bastion of the Profaned Legion)
       - 330
 
    - Magic Containers (Starts at 30MP and with Max = 7, total is 142MP)
@@ -130,123 +130,128 @@
       20 -                             (Lv6) Elite
 
    - Heart Pieces
-      1 -
-      2 -
-      3 -
-      4 -
-      5 -
-      6 -
-      7 -
-      8 -
-      9 -
-      11 -
-      12 -
-      13 -
-      14 -
-      15 -
-      16 -
-      17 -
-      18 -
-      19 -
-      20 -
-      21 -
-      22 -
-      23 -
-      24 -
-      25 -
-      26 -
-      27 -
-      28 -
-      29 -
-      30 -
-      31 -
-      32 -
-      33 -
-      34 -
-      35 -
-      36 -
-      37 -
-      38 -
-      39 -
-      40 -
-      41 -
-      42 -
-      43 -
-      44 -
-      45 -
-      46 -
-      47 -
-      48 -
-      49 -
-      50 -
-      51 -
-      52 -
-      53 -
-      54 -
-      55 -
-      56 -
-      57 -
-      58 -
-      59 -
-      60 -
+      1 - Isle of Haeren               1:1D                             None + Longshot (Level 9)
+      2 - Isle of Haeren               1:22                             None + None
+      3 - Temple of Haeren             7:12                             None + None
+      4 - NEI Quarry                   9:08                             None + Goron Gauntlet (Level 6)
+      5 - NEI Plains                   9:14                             None + Ladder (Level 2)
+      6 - NEI Cumpura Forest           9:1A                             None + Ocarina (Seized Guard Tower)
+      7 - NEI Coasts                   9:22                             None + Gale Rang (Level 10)
+      8 - NEI Cumpura Forest           9:2B                             Cumpura Forest Key + None
+      9 - NEI Coasts                   9:4F                             None + Flippers (Level 7)
+      11 - NEI Auri Desert             9:52                             None + Wand (Level 8)
+      12 - NEI Plains                  9:5A                             None + Soldier's Rang (Seized Guard Tower)
+      13 - NEI Viridi Village          9:6B                             None + Hammer (Level 3)
+      14 - NEI Coasts                  9:6E                             None + Bow and Arrow (Pre Level 2)
+      15 - NEI Auri Desert             9:75                             None + Hookshot (Level 5)
+      16 - NEI Coasts                  9:7D                             None + None
+      17 - NEI Viridi Village          16:4D                            None + Oil Candle (level 1)
+      18 - SWI Plains                  20:05                            None + Iron Arrow (Sweltering Iron Mine)
+      19 - SWI Plains                  20:22                            None + Wand (Level 8)
+      20 - SWI Auri Desert             20:2B                            None + Hookshot (Level 5)
+      21 - SWI Plains                  20:34                            None + Ocarina (Pre Seized Guard Tower)
+      22 - SWI Plains                  20:38                            None + Flippers (Level 7)
+      23 - SWI Mt. Caldum              20:51                            None + Longshot (level 9)
+      24 - SWI Plains                  20:55                            None + Flippers (Level 7)
+      25 - SWI Palus Village           20:5A                            None + Powder Keg (Summus Pass)
+      26 - SWI Venenom Bog             20:5C                            None + Flippers (Level 7)
+      27 - SWI Mt. Duratu              20:5F                            None + Flippers (Level 7)
+      28 - SWI Plains                  20:64                            None + Wooden Rang (Temple of Haeren)
+      29 - NEI Caves                   28:05                            None + Bow and Arrow (Pre Level 2)
+      30 - NEI Caves                   28:16                            None + Ladder (Level 2)
+      31 - NEI Caves                   28:37                            None + Bow and Arrow (Pre Level 2)
+      32 - NEI Caves                   28:39                            Cumpura Forest Key + None
+      33 - NEI Caves                   28:47                            None + Ladder (Level 2)
+      34 - NEI Caves                   28:56                            None + None (Lantern)
+      35 - Concealed Pirate Hideout    37:66                            None + Wand (Level 8)
+      36 - SWI Venenom Bog Residence   53:3B                            None + Raft (Pre Level 5)
+      37 - SWI Caves                   57:06                            None + Flippers (level 7)
+      38 - SWI Caves                   57:28                            None + Wand (Level 8)
+      39 - SWI Caves                   57:29                            None + Goron Gauntlet (Level 6)
+      40 - SWI Caves                   57:38                            None + Raft (Pre Level 5)
+      41 - SWI Caves                   57:46                            None + None (Hammer)
+      42 - SWI Caves                   57:53                            None + Powder Keg (Summus Pass)
+      43 - SWI Caves                   57:7A                            None + Portal Sphere (Shrine of Blasphemy)
+      44 - SEI Coast                   89:04                            None + Ladder (Level 2)
+      45 - SEI Coast                   89:33                            None + Flipper (Level 7)
+      46 - SEI Gelido Shoal            89:57                            None + Flipper (Level 7)
+      47 - NWI Medius Village          96:64                            None + Flipper (Level 7)
+      48 - SEI Caves                   120:05                           None + Portal Sphere (Shrine of Blasphemy)
+      49 - SEI Caves                   120:07                           None + Gale Rang (Level 10)                      
+      50 - NWI Caves                   124:23                           None + Wand (Level 8)
+      51 - NWI Caves                   124:31                           None + Flipper (Level 7)
+      52 - NWI Caves                   124:33                           None + Mirror Shield (Level 12)
+      53 - NWI Caves                   124:36                           None + Portal Sphere (Shrine of Blasphemy)                           
+      54 - NEI Pacilux Village         9:23                             None + Spectral Cane (Sealed Abyss)
+      55 - NEI Caves                   28:27                            None + Mirror Shield (Level 12)
+      56 - NEI Caves                   28:4D                            None + Hammer (Level 3)
+      57 - SWI Caves                   57:45                            None + Flipper (Level 7)
+      58 - NEI Residence               16:35                            None + 700 Rupees, Theif's Wallet/Merhant's Membership (IDK yet)
+      59 - SWI Celo Village            53:20                            None + Powder Keg (Summus Pass)
+      60 - 
 
 Current HP locations to work out:
 
 --- Heart Piece ---
-Isle of Haeren      1:1D (room item, enemies -> item)
-Isle of Haeren      1:22 (room item)
-Temple of Haeren    7:12 (room item, enemies -> item)
-NEI Plains          9:08 (room item)
-NEI Plains          9:14 (room item)
-NEI Cumpura Fore    9:1A (room item)
-NEI Pacilux Vill    9:22 (room item)
-NEI Viridi/Cumpu    9:2B (room item, enemies -> item)
-NEI Coasts          9:4F (room item)
-NEI Auri Village    9:52 (room item)
-NEI Viridi/AuriD    9:5A (room item)
-NEI Viridi/AuriD    9:6B (room item)
-NEI Coasts          9:6E (room item)
-NEI Auri Desert     9:75 (room item)
-NEI Coasts          9:7D (room item, enemies -> item)
-NEI Viridi Villa   16:4D (room item)
-SWI Plains         20:05 (room item)
-SWI Plains         20:22 (room item)
-SWI Plai Des Swa   20:2B (room item)
-SWI Plains         20:34 (room item)
-SWI Plains         20:38 (room item, enemies -> item)
-SWI Plains/Caldu   20:55 (room item)
-SWI Plains Swamp   20:5A (room item)
-SWI Mt. Duratu     20:5C (room item)
-SWI Mt. Duratu     20:5F (room item)
-SWI Plains/Caldu   20:64 (room item)
-NEI Caves          28:05 (room item)
-NEI Caves          28:16 (room item)
-NEI Caves          28:37 (room item, enemies -> item)
-NEI Caves          28:39 (room item, enemies -> item)
-NEI Caves          28:47 (room item)
-NEI Caves          28:56 (room item, enemies -> item)
-SWI Plains         37:66 (room item)
-SWI Venenom Bog    53:3B (room item)
-SWI Plains         57:06 (room item)
-SWI Plains         57:29 (room item, enemies -> item)
-SWI Plains         57:38 (room item, enemies -> item)
-SWI Plains         57:46 (room item, enemies -> item)
-SWI Plains         57:53 (room item, enemies -> item)
-SWI Mt. Duratu     57:7A (room item, enemies -> item)
-SEI Coast          89:04 (room item)
-SEI Coast          89:33 (room item, enemies -> item)
-SEI Gelido Shoal   89:57 (room item, enemies -> item)
-NWI Shrod Forest   96:64 (room item)
-SEI Caves         120:05 (room item)
-SEI Caves         120:07 (room item)
-NWI Carulem Arch  124:23 (room item)
-NWI Carulem Arch  124:31 (room item)
-NWI Shrod Forest  124:33 (room item)
-NWI Shrod Forest  124:36 (room item, enemies -> item)
-NEI Pacilux Vill    9:23 (special item)
-NEI Caves          28:27 (special item)
-NEI Caves          28:4D (special item)
-SWI Plains         57:45 (special item)
+   Isle of Haeren      1:1D (room item, enemies -> item)
+   Isle of Haeren      1:22 (room item)
+   Temple of Haeren    7:12 (room item, enemies -> item)
+   NEI Plains          9:08 (room item)
+   NEI Plains          9:14 (room item)
+   NEI Cumpura Fore    9:1A (room item)
+   NEI Pacilux Vill    9:22 (room item)
+   NEI Viridi/Cumpu    9:2B (room item, enemies -> item)
+   NEI Coasts          9:4F (room item)
+   NEI Auri Village    9:52 (room item)
+   NEI Viridi/AuriD    9:5A (room item)
+   NEI Viridi/AuriD    9:6B (room item)
+   NEI Coasts          9:6E (room item)
+   NEI Auri Desert     9:75 (room item)
+   NEI Coasts          9:7D (room item, enemies -> item)
+   NEI Viridi Villa   16:4D (room item)
+   SWI Plains         20:05 (room item)
+   SWI Plains         20:22 (room item)
+   SWI Plai Des Swa   20:2B (room item)
+   SWI Plains         20:34 (room item)
+   SWI Plains         20:38 (room item, enemies -> item)
+   SWI Mt. Caldum     20:51 (room item)
+   SWI Plains/Caldu   20:55 (room item)
+   SWI Plains Swamp   20:5A (room item)
+   SWI Mt. Duratu     20:5C (room item)
+   SWI Mt. Duratu     20:5F (room item)
+   SWI Plains/Caldu   20:64 (room item)
+   NEI Caves          28:05 (room item)
+   NEI Caves          28:16 (room item)
+   NEI Caves          28:37 (room item, enemies -> item)
+   NEI Caves          28:39 (room item, enemies -> item)
+   NEI Caves          28:47 (room item)
+   NEI Caves          28:56 (room item, enemies -> item)
+   SWI Plains         37:66 (room item)
+   SWI Venenom Bog    53:3B (room item)
+   SWI Plains         57:06 (room item)
+   SWI Plains         57:28 (room item)
+   SWI Plains         57:29 (room item, enemies -> item)
+   SWI Plains         57:38 (room item, enemies -> item)
+   SWI Plains         57:46 (room item, enemies -> item)
+   SWI Plains         57:53 (room item, enemies -> item)
+   SWI Mt. Duratu     57:7A (room item, enemies -> item)
+   SEI Coast          89:04 (room item)
+   SEI Coast          89:33 (room item, enemies -> item)
+   SEI Gelido Shoal   89:57 (room item, enemies -> item)
+   NWI Shrod Forest   96:64 (room item)
+   SEI Caves         120:05 (room item)
+   SEI Caves         120:07 (room item)
+   NWI Carulem Arch  124:23 (room item)
+   NWI Carulem Arch  124:31 (room item)
+   NWI Shrod Forest  124:33 (room item)
+   NWI Shrod Forest  124:36 (room item, enemies -> item)
+   NEI Pacilux Vill    9:23 (special item)
+   NEI Caves          28:27 (special item)
+   NEI Caves          28:4D (special item)
+   SWI Plains         57:45 (special item)
 
-In shop here:
-NEI Plains         16:35 (Args: 49, 700, 1, 121, 0, 0, 0, 0)
+--- Shop ---
+   NEI Plains         16:35 (Args: 49, 700, 1, 121, 0, 0, 0, 0)
+
+--- GetItemOnScreenDHiddenBefore ---
+   SWI Celo Village   53:20 (Args: 49, 0, 485, 486, 1, 0, 0, 0)
