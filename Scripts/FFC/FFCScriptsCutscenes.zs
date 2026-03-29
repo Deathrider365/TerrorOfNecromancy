@@ -220,11 +220,8 @@ ffc script IntroPreInteritusLeviathanScene {
       }
 
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
-
       waterfallBitmap = new bitmap(32, 176);
-
       UpdateWaterfallBitmap();
-
       Hero->Dir = DIR_UP;
 
       // Rising
