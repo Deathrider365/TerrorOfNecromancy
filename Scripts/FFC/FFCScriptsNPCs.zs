@@ -471,9 +471,7 @@ ffc script EgentemShrineSoldier {
          Quit();
       }
 
-      towerEntrance->State[ST_SECRET] = true;
-
-      while (true) {
+      loop () {
          waitForTalking(this);
          Screen->Message(message);
          Waitframe();

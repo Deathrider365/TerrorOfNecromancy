@@ -2048,7 +2048,8 @@ namespace OvergrownRaccoonNamespace {
          }
 
          Hero->CollDetection = true;
-         while (true) {
+
+         loop () {
             if (this->HP <= 0)
                deathAnimation(this, 136);
 
@@ -2089,9 +2090,11 @@ namespace OvergrownRaccoonNamespace {
                case STATE_LARGE_ROCK_THROW: {
                   previousState = state;
 
+                  this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
+
                   Waitframes(60);
 
-                  eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+                  eweapon rockProjectile = FireBigAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
                   runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true});
                   state = STATE_NORMAL;
@@ -2099,6 +2102,7 @@ namespace OvergrownRaccoonNamespace {
                }
                case STATE_SMALL_ROCKS_THROW: {
                   previousState = state;
+
 
                   Waitframes(30);
 
@@ -2109,7 +2113,7 @@ namespace OvergrownRaccoonNamespace {
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
                      unless(i % 20) {
-                        eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                        eweapon rockProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
                         runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0, true});
                      }
@@ -2123,15 +2127,18 @@ namespace OvergrownRaccoonNamespace {
                case STATE_RACCOON_THROW: {
                   previousState = state;
 
+
                   Waitframes(60);
 
                   for (int i = 0; i < 2; ++i) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
 
+                     this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
+                     
                      Waitframes(5);
 
-                     eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
+                     eweapon raccoonProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
                      runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, true});
                   }
@@ -2954,6 +2961,9 @@ namespace ServusMalusNamespace {
          int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
          this->OriginalTile = attackingTile;
          Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR2);
+
+         int attackBuffer = gettingDesperate ? 15 : 30;
+         Waitframes(attackCount == 1 ? attackBuffer + 5 : attackBuffer);
 
          for (int i = 0; i < (gettingDesperate ? 5 : 15); ++i)
             Waitframe();

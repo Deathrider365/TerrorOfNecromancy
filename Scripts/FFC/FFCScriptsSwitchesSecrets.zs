@@ -605,7 +605,7 @@ ffc script TriggerSecretsFromSecretsElsewhere {
 
       if (allSecretsTriggered) {
          Screen->TriggerSecrets();
-         Screen->State[ST_SECRET];
+         Screen->State[ST_SECRET] = true;
          Audio->PlaySound(SFX_SECRET);
       }
    }
