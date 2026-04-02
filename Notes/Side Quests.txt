@@ -14,7 +14,7 @@
       -
 
    - Sequence C - Heart of Lorkhan
-      - Mysterious Key                 Auri Village Elder               None + Soldier's Boom (Seized Guard Tower)
+      - Mysterious Auri Key            Auri Village Elder               None + Soldier's Boom (Seized Guard Tower)
       - Ebria Key                      Ebria Village Ruins              None + Level 4
       - Zora Charm                     Carulem Village                  None + Level 7
       - Carulem Vault Key              Ebria Village Elder              Zora Charm + None

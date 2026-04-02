@@ -44,6 +44,9 @@ global script GlobalScripts {
       while (true) {
          gameframe = (gameframe + 1) % 3600;
 
+         onContHP = Hero->HP;
+         onContMP = Hero->MP;
+
          Hero->HurtSound = getHeroHitSound();
 
          checkDungeon();
