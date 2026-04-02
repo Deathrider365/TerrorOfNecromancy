@@ -32,8 +32,6 @@ global script GlobalScripts {
 
       int footprintArray[3] = {1, 0, 0};
 
-      // int ocarinaIndex = 1;
-
       int flipperPower;
 
       if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
@@ -263,12 +261,13 @@ global script GlobalScripts {
          mapData[l] = Game->LoadTempScreen(l);
       }
 
-      if (Screen->Palette != lastPal) {
-         lastPal = Screen->Palette;
+      //TODO remove this and clean up palettes
+      // if (Screen->Palette != lastPal) {
+      //    lastPal = Screen->Palette;
 
-         for (int i = 0; i <= MAX_USED_DMAP; ++i)
-            Game->LoadDMapData(i)->Palette = Screen->Palette;
-      }
+      //    for (int i = 0; i <= MAX_USED_DMAP; ++i)
+      //       Game->LoadDMapData(i)->Palette = Screen->Palette;
+      // }
    }
 
    // 654321b

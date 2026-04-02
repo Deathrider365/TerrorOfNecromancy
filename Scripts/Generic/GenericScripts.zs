@@ -54,24 +54,6 @@ void yeetHero(int angle, int step, int duration, bool noAction, bool stopAtSolid
 }
 
 // clang-format off
-// @Author("EmilyV")
-// generic script screenPalette {
-//    // clang-format on
-//    void run() {
-//       this->EventListen[GENSCR_EVENT_CHANGE_SCREEN] = true;
-//       int palette = -1;
-//       while (true) {
-//          if (Screen->Palette != palette) {
-//             palette = Screen->Palette;
-//             for (int q = 0; q < MAX_DMAPS; ++q)
-//                Game->LoadDMapData(q)->Palette = palette;
-//          }
-//          WaitEvent();
-//       }
-//    }
-// }
-
-// clang-format off
 @Author("Moosh")
 generic script MinecartGeneric {
    // clang-format on
