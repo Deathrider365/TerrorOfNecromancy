@@ -260,14 +260,6 @@ global script GlobalScripts {
 
          mapData[l] = Game->LoadTempScreen(l);
       }
-
-      //TODO remove this and clean up palettes
-      // if (Screen->Palette != lastPal) {
-      //    lastPal = Screen->Palette;
-
-      //    for (int i = 0; i <= MAX_USED_DMAP; ++i)
-      //       Game->LoadDMapData(i)->Palette = Screen->Palette;
-      // }
    }
 
    // 654321b
