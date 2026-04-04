@@ -119,24 +119,33 @@ ffc script GoronForemanDialogLvl6 {
 @Author("Deathrider365")
 ffc script ServusSoldier {
    // clang-format on
-   void run(int itemId, int gettingItemString, int alreadyGotItemString) {
+
+   CONFIG CMB_SOLDIER_OOF = 6709;
+   CONFIG CMB_SOLDIER_WALKING = 6755;
+
+   CONFIG SCREEND_GOT_TOWER_KEY = 1;
+   CONFIG SCREEND_FOR_SECOND_STRING = 2;
+   CONFIG SCREEND_SOLDIER_IS_OOF = 253;
+   
+   void run(int gettingItemString, int alreadyGotItemString) {
       this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
 
-      if (getScreenD(itemId)) {
+      //This ffc in lvl2 should not appear since you entered the house
+      if (getScreenD(SCREEND_GOT_TOWER_KEY))
          Quit();
-      }
 
-      // While waiting for the torches to be lit
-      until(getScreenD(253))
+      // While waiting for soldier to be oof'd
+      until(getScreenD(SCREEND_SOLDIER_IS_OOF))
          Waitframe();
 
       this->Flags[FFCF_SOLID] = true;
-      this->Data = 6709;
+      this->Data = CMB_SOLDIER_OOF;
 
+      //Until servus is oof'd, be sad on the ground
       until(Screen->State[ST_SECRET]) Waitframe();
 
-      this->Data = 6755;
+      this->Data = CMB_SOLDIER_WALKING;
 
       loop() {
          until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
@@ -147,14 +156,12 @@ ffc script ServusSoldier {
 
          Input->Button[CB_SIGNPOST] = false;
 
-         unless(getScreenD(itemId)) {
+         unless(getScreenD(SCREEND_FOR_SECOND_STRING)) {
             Screen->Message(gettingItemString);
             Waitframe();
-            itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
 
             Input->Button[CB_SIGNPOST] = false;
-            setScreenD(itemId, true);
+            setScreenD(SCREEND_FOR_SECOND_STRING, true);
          }
          else Screen->Message(alreadyGotItemString);
 
@@ -373,7 +380,12 @@ ffc script DefectedHylianGeneral {
 @Author("Deathrider365")
 ffc script ServusSoldier2 {
 // clang-format on
+      
+   CONFIG SCREEND_GOT_TOWER_KEY = 1;
+
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
+      setScreenD(23, 0x53, SCREEND_GOT_TOWER_KEY, true);
+
       if (Screen->State[ST_SECRET]) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
@@ -386,6 +398,7 @@ ffc script ServusSoldier2 {
          waitForTalking(this);
 
          if (!lvl5BossRoom->State[ST_SECRET]) {
+
             if (!getScreenD(initialScreenD)) {
                Screen->Message(initialMessage);
                Waitframe();

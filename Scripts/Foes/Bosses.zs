@@ -2195,6 +2195,9 @@ namespace OvergrownRaccoonNamespace {
 namespace ServusMalusNamespace {
    using namespace EnemyNamespace;
 
+   CONFIG SCREEND_DID_CUTSCENE = 254;
+   CONFIG SCREEND_SOLDIER_IS_OOF = 253;
+
    // clang-format off
    @Author("EmilyV99, Moosh, Deathrider365")
    npc script ServusMalus {
@@ -2231,17 +2234,26 @@ namespace ServusMalusNamespace {
 
          mapdata mapData, template;
 
-         this->X = -32;
-         this->Y = -32;
+         // this->X = -32;
+         // this->Y = -32;
+         
+         this->X = 112;
+         this->Y = 32;
+         this->Dir = DIR_DOWN;
+         this->OriginalTile = TILE_INVIS;
+
          int maxHp = this->HP;
          this->Immortal = true;
 
          Audio->PlayEnhancedMusic(NULL);
 
-         if (getScreenD(254))
+         //If already went through the cutscene, bypass it
+         if (getScreenD(SCREEND_DID_CUTSCENE))
             Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg");
 
-         until(getScreenD(254)) {
+         //If didnt do cutscene, just dew it!
+         until(getScreenD(SCREEND_DID_CUTSCENE)) {
+            this->CollDetection = false;
             int litTorchCount = 0;
 
             template = Game->LoadTempScreen(1);
@@ -2255,7 +2267,7 @@ namespace ServusMalusNamespace {
 
             if (litTorchCount == 4) {
                torchesLit = true;
-               setScreenD(254, true);
+               setScreenD(SCREEND_DID_CUTSCENE, true);
                commenceIntroCutscene(this, template, unlitTorch, cmbLitTorch, bigSummerBlowout, upperLeftTorchLoc, upperRightTorchLoc, lowerLeftTorchLoc, lowerRightTorchLoc, originalTile, attackingTile);
 
                Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
@@ -2264,11 +2276,10 @@ namespace ServusMalusNamespace {
 
             Waitframe();
          }
+         
+         this->CollDetection = false;
 
-         this->X = 128;
-         this->Y = 32;
-
-         while (true) {
+         loop () {
             this->Z = 20;
             this->CollDetection = false;
             this->OriginalTile = invisibleTile;
@@ -2490,6 +2501,7 @@ namespace ServusMalusNamespace {
       }
    }
 
+   //TODO do this cutscene with servus's actual NPC instead of combos
    void commenceIntroCutscene(npc this, mapdata template, int unlitTorch, combodata cmbLitTorch, int bigSummerBlowout, int upperLeftTorchLoc, int upperRightTorchLoc, int lowerLeftTorchLoc, int lowerRightTorchLoc, int originalTile, int attackingTile) {
       int soldierLeftFast = 6715;
       int soldierUpStunned = 6714;
@@ -2498,7 +2510,13 @@ namespace ServusMalusNamespace {
       int soldierDown = 6723;
       int soldierLeft = 6726;
       int soldierRight = 6727;
-      int servusFullStartingCombo = 6916;
+
+      CONFIG TILE_SERVUS_FACE_UP = 49140;
+      CONFIG TILE_SERVUS_FACE_DOWN = 49148;
+      CONFIG TILE_SERVUS_FACE_LEFT = 49156;
+      CONFIG TILE_SERVUS_ATTACK_DOWN = 49272;
+      CONFIG TILE_SERVUS_SPECRAL = 49220;
+      int servusFullStartingCombo = 6916; //TODO if NPCs are able to animate during a string, get rid of all of these combo draws
       int servusTransStartingCombo = 6920;
       int servusAttackingStartingCombo = 6924;
       int servusMovingUpStartingCombo = 6932;
@@ -2508,6 +2526,23 @@ namespace ServusMalusNamespace {
       // Buffer
       for (int i = 0; i < 120; ++i) {
          disableLink();
+         Waitframe();
+      }
+
+      Screen->Message(36);
+      Hero->Dir = DIR_RIGHT;
+      Waitframe();
+
+      //Link walks back to the entrance for the soldier to enter
+      until (Abs(Hero->X - 32) < 2 && Abs(Hero->Y - 80) < 2) {
+
+         if (Hero->Y >= 81) Hero->InputUp = true;
+         else if (Hero->Y <= 79) Hero->InputDown = true;
+
+
+         if (Hero->X >= 33) Hero->InputLeft = true;
+         else if (Hero->X <= 31) Hero->InputRight = true;
+
          Waitframe();
       }
 
@@ -2566,12 +2601,11 @@ namespace ServusMalusNamespace {
       // Turns up and buffer
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         if (i % 4) {
-            Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+
+         if (i % 4)
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
+         else
+            this->OriginalTile = TILE_INVIS;
 
          Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
@@ -2597,18 +2631,10 @@ namespace ServusMalusNamespace {
             alternate = !alternate;
          }
 
-         if (alternate) {
-            Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (alternate)
+            this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+         else
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
@@ -2616,81 +2642,100 @@ namespace ServusMalusNamespace {
          Waitframe();
       }
 
+      this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(170);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+      
+      this->X = 112;
+      this->Y = 32;
 
       // Servus fully appears
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(172);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 32;
 
       // Buffer
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-
-         if (i == 59)
-            Screen->Message(174);
-
          Waitframe();
       }
+      
+      this->X = -32;
+      this->Y = -32;
+      Screen->Message(174);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+      
+      this->X = 112;
+      this->Y = 32;
 
       // Turns around
       for (int i = 0; i < 15; ++i) {
          disableLink();
 
-         if (i < 8) {
-            Screen->FastCombo(2, 112, 32, servusTurningStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTurningStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTurningStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTurningStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 8)
+            this->Dir = DIR_LEFT;
+         else
+            this->Dir = DIR_UP;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(176);
+      this->Dir = DIR_UP;
+      Screen->FastCombo(3, 112, 32, servusMovingUpStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusMovingUpStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusMovingUpStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusMovingUpStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
-      // Turns around
+      Waitframe();
+      
+      this->X = 112;
+      this->Y = 32;
+
+      // Turns back around
       for (int i = 0; i < 15; ++i) {
          disableLink();
 
-         if (i < 8) {
-            Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 8)
+            this->Dir = DIR_LEFT;
+         else
+            this->Dir = DIR_DOWN;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
@@ -2701,11 +2746,6 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 30; ++i) {
          disableLink();
 
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
       }
@@ -2713,29 +2753,25 @@ namespace ServusMalusNamespace {
       // Servus charges at soldier
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32 + i, servusAttackingStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32 + i, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48 + i, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48 + i, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
+         this->OriginalTile = TILE_SERVUS_ATTACK_DOWN - 8;
+         this->Y += 1;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
       }
 
+      //Soldier drops key when yeeted
       Audio->PlaySound(144);
+      this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+      itemsprite it = CreateItemAt(ITEM_GUARD_TOWER_KEY, 120, 96);
+      it->Pickup = IP_HOLDUP;
+      it->Z = 6;
 
       // Soldier flies back
       int distanceTraveled = 2;
 
       until(distanceTraveled == 64) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80 + distanceTraveled, soldierUpStunned, 0, OP_OPAQUE);
 
          distanceTraveled += 2;
@@ -2744,21 +2780,27 @@ namespace ServusMalusNamespace {
 
       Audio->PlaySound(121);
       Screen->Quake = 20;
-      setScreenD(253, true);
+      setScreenD(SCREEND_SOLDIER_IS_OOF, true);
 
       // Buffer as soldier is against the wall
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(179);
+      this->Dir = DIR_LEFT;
+      Screen->FastCombo(3, 112, 62, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 62, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 78, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+
+      Waitframe();
+      
+      this->X = 112;
+      this->Y = 62;
 
       // Link intervenes
       until(Hero->X >= 120) {
@@ -2771,74 +2813,59 @@ namespace ServusMalusNamespace {
          else
             Hero->InputRight = true;
 
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->Dir = DIR_DOWN;
       Hero->Dir = DIR_UP;
 
       // Buffer as link just got in front of Servus
       for (int i = 0; i < 30; ++i) {
          disableLink();
 
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(180);
+      this->Dir = DIR_LEFT;
+      Screen->FastCombo(3, 112, 62, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 62, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 78, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+
+      Waitframe();
+      
+      this->X = 112;
+      this->Y = 62;
 
       // Buffer before Big Summer Blowout
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
+
+      this->Dir = DIR_UP;
 
       // Servus moves up for the Big Summer Blowout
       for (int i = 0; i < 48; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62 - i, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62 - i, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-
+         this->Y -= 1;
          Waitframe();
       }
+
+      this->Dir = DIR_DOWN;
 
       // Buffer before Big Summer Blowout
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 16, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 16, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 14, servusAttackingStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 14, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
-
+         this->OriginalTile = TILE_SERVUS_ATTACK_DOWN - 8;
          Waitframe();
       }
 
@@ -2852,18 +2879,10 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 20; ++i) {
          disableLink();
 
-         if (i < 10) {
-            Screen->FastCombo(2, 112, 14, servusVanishingStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 14, servusVanishingStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 30, servusVanishingStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 30, servusVanishingStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 14, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 14, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 30, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 10)
+            this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+         else
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
 
          Waitframe();
       }
