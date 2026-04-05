@@ -155,6 +155,7 @@ item script TriforcePickup {
    //clang-format on
 
    //TODO pickup cutscene with music
+   //Also refill health and magic
 
    CONFIG BASE_STRING = 777;
 
