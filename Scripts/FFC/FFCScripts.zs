@@ -350,7 +350,7 @@ ffc script OpenTheGates {
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer2 = Game->LoadTempScreen(2);
 
-      while (true) {
+      loop () {
          if (map->State[ST_SECRET]) {
             for (int i = 0; i < 176; i++) {
                if (mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7279 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7290 ||
@@ -1049,5 +1049,12 @@ ffc script ForceLinkInLv9Boss {
 
       //Shutters open
       setScreenD(1, false);
+   }
+}
+
+ffc script DrawF4Palette {
+   void run() {
+      for (int i = 0; i <= MAX_USED_DMAP; ++i)
+         Game->LoadDMapData(i)->Palette = Screen->Palette;
    }
 }

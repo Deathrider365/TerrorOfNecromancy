@@ -78,7 +78,7 @@ namespace SubscreenWidgets {
                Audio->PlaySound(TRIFORCE_CYCLE_SFX);
                ++currTriforceIndex;
             }
-            unless(Game->CurDMap <= 2) {
+            if (Game->CurDMap != 2) {
                if (currTriforceIndex == -1)
                   currTriforceIndex = 3;
                else if (currTriforceIndex == 4)
@@ -109,7 +109,7 @@ namespace SubscreenWidgets {
             if (currTriforceIndex == 3 && Game->CurDMap != 2)
                Emily::DrawStrings(4, stringDrawX, stringDrawY, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Triforce of Death", OP_OPAQUE, SHD_SHADOWED, C_BLACK, 0, 120);
 
-            Screen->DrawTile(0, 10, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+            Screen->DrawTile(0, 10, drawY + yOff - 8, triforceFrames[currTriforceIndex], 6, 3, currTriforceIndex == 3 ? 13 : 0, -1, -1, 0, 0, 0, 0, 1, 128);
 
             switch (currTriforceIndex) {
                case 0:
@@ -126,7 +126,7 @@ namespace SubscreenWidgets {
                   break;
                case 3:
                   for (int i = 0; i < Game->Counter[CR_TRIFORCE_OF_DEATH]; ++i)
-                     Screen->DrawTile(0, 10, drawY + yOff - 8, deathShards[i], 6, 3, 0, -1, -1, 0, 0, 0, 0, 1, 128);
+                     Screen->DrawTile(0, 10, drawY + yOff - 8, deathShards[i], 6, 3, 13, -1, -1, 0, 0, 0, 0, 1, 128);
                   break;
             }
 
