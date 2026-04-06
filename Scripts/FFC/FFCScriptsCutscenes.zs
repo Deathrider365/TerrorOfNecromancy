@@ -61,11 +61,11 @@ ffc script IntroAwaitingLeviathan {
 ffc script IntroLeviathanFightFail {
    // clang-format on
 
-   void run() {
+   void run(int dmap, int screen) {
       loop () {
          if (Hero->HP <= 0) {
             Hero->HP = 1;
-            Hero->Warp(2, 10);
+            Hero->Warp(dmap, screen);
          }
          Waitframe();
       }
@@ -154,6 +154,9 @@ ffc script IntroLeviathanEnding {
       }
 
       removeAllItems();
+
+      Waitframes(12);
+
       Hero->WarpEx(WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_UP);
    }
 }
@@ -173,7 +176,7 @@ ffc script IntroEndOfOpeningScene {
       // disableLink();
       // Screen->Message(message);
       // Waitframe();
-      Hero->WarpEx(WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, WARP_FLAG_NONE, DIR_DOWN);
+      Hero->WarpEx(WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_DOWN);
    }
 }
 

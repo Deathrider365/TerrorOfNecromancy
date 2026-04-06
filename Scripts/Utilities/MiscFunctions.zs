@@ -814,3 +814,24 @@ void runCredits(int fadespeed, int font, int fontheight) {
 			Waitframe();
 	}
 }
+
+void introSequenceSceneTransitions(int dmap, int screen) {
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+
+      for (int i = 0; i < 180; ++i) {
+         disableLink();
+         Waitframe();
+      }
+
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+
+      Hero->Warp(dmap, screen);
+}

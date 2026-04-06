@@ -545,3 +545,323 @@ namespace BurningCombosNamespace {
       }
    }
 }
+
+namespace IntroMovie {
+   void introSequenceIntro() {
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+   }
+
+   void introSequenceOutro(int dmap, int screen) {
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+
+      for (int i = 0; i < 60; ++i) {
+         Screen->Rectangle(7, 0, 0, 256, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         disableLink();
+         Waitframe();
+      }
+
+      Hero->Warp(dmap, screen);
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene1 {
+      CONFIG COMBO_SCHOLAR_FACE_UP = 6744;
+      CONFIG COMBO_SCHOLAR_FACE_RIGHT = 6795;
+
+      void run(int dmap, int screen, int message1, int message2) {
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+
+         for (int i = 0; Screen->ShowingMessage; ++i) {
+            WaitTo(SCR_TIMING_POST_DRAW);
+            NoAction();
+
+            if (i == 120)
+               Input->Button[CB_A] = true;
+            
+            Waitframe();
+         }
+
+         this->Data = COMBO_SCHOLAR_FACE_UP;
+
+         for (int i = 0; i < 16; ++i) {
+            this->Y -= 1;
+            NoAction();
+            Waitframe();
+         }
+
+         this->Data = COMBO_SCHOLAR_FACE_RIGHT;
+
+         for (int i = 0; i < 60; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         Screen->Message(message2);
+
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene2 {
+      CONFIG COMBO_SCHOLAR_FACE_UP = 6744;
+      CONFIG COMBO_SCHOLAR_FACE_RIGHT = 6795;
+
+      void run(int dmap, int screen, int message1) {
+         int thisData = this->Data;
+         this->Data = CMB_INVIS;
+
+         introSequenceIntro();
+
+         this->Data = thisData;
+         this->Y = 192;
+
+         for (int i = 0; i < 60; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         for (int i = 0; i < 64; ++i) {
+            this->Y -= 1;
+            NoAction();
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene3 {
+      CONFIG COMBO_SCHOLAR_FACE_UP = 6744;
+      CONFIG COMBO_SCHOLAR_FACE_RIGHT = 6795;
+
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene4 {
+      CONFIG COMBO_SCHOLAR_FACE_UP = 6744;
+      CONFIG COMBO_SCHOLAR_FACE_RIGHT = 6795;
+
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         int thisData = this->Data;
+         this->Data = CMB_INVIS;
+
+         for (int i = 0; i < 180; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         this->Data =  thisData;
+
+         for (int i = 0; i < 32; ++i) {
+            this->Y += (i % 2) ? 1 : 0;
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene5 {
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         // this->X = 304;
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         for (int i = 0; i < 64; ++i) {
+            NoAction();
+            // this->X -= 1;
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene5ShipPieces { //TODO better way of doing this
+      void run(int startingX, int startingY) {
+         // this->X = startingX;
+         // this->Y = startingY;
+
+         // for (int i = 0; i < 120; ++i) {
+         //    NoAction();
+         //    Waitframe();
+         // }
+
+         // for (int i = 0; i < 64; ++i) {
+         //    NoAction();
+         //    this->X -= 1;
+         //    Waitframe();
+         // }
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene6 {
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         for (int i = 0; i < 48; ++i) {
+            NoAction();
+            this->Y -= (i & 3) ? 1 : 0;
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene7 {
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+         
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene8 {
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         for (int i = 0; i < 144; ++i) {
+            NoAction();
+            this->Y -= (i & 3) ? 1 : 0;
+            Waitframe();
+         }
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene9 {
+      void run(int dmap, int screen, int message1) {
+         introSequenceIntro();
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         Screen->Message(message1);
+         
+         for (int i = 0; i < 120; ++i) {
+            NoAction();
+            Waitframe();
+         }
+
+         introSequenceOutro(dmap, screen);
+      }
+   }
+
+   @Author("Deathrider365")
+   ffc script IntroSequenceScene10 {
+      void run() {
+         unless (getScreenD(0)) {
+            introSequenceIntro();
+            setScreenD(0, true);
+         }
+      }
+   }
+}
