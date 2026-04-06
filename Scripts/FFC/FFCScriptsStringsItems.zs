@@ -18,7 +18,7 @@
 @InitDHelp6("Is talking to this signpost only from the bottom?"),
 @InitD7("secondMessageOnScreenDSet"),
 @InitDHelp7("False - sets own screenD from first message then plays second\n True - doesnt set a screenD, relies on external setting")
-ffc script Signpost {
+ffc script Signpost { //TODO bugged, the vanishOnSecondScreen doesnt work, the ffc vanishes BEFORE the second message
    // clang-format on
 
    CONFIG SMT_SCREEND = 1;
@@ -33,7 +33,7 @@ ffc script Signpost {
          secondMessageTriggerValue = (hasSecondMessage % 1) / 1L;
       }
 
-      while (true) {
+      loop () {
          if (vanishesOnSecondString) {
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
          }
@@ -79,12 +79,6 @@ ffc script Signpost {
          }
 
          Waitframe();
-
-         if (warp) {
-            int dmap = Floor(warp);
-            int screen = (warp % 1) / 1L;
-            Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_DOWN);
-         }
       }
    }
 

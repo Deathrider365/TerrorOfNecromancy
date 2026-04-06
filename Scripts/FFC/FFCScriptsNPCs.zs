@@ -1333,3 +1333,51 @@ ffc script LegendaryArmorer {
       }
    }
 }
+
+@Author("Deathrider365")
+ffc script TeePeeDude {
+   void run(int openingMessage, int repeatingMessage, int paladinMessage) {
+      loop () {
+         waitForTalking(this);
+
+         if (getScreenD(0) && Hero->Item[ITEM_DIFFICULTY_VERY_HARD])
+            Screen->Message(paladinMessage);
+         else if (!getScreenD(0)) {
+            Screen->Message(openingMessage);
+            setScreenD(0, true);
+         } 
+         else
+            Screen->Message(repeatingMessage);
+            
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script CumpuraKeySoldier {
+   void run(int preKeyMessage, int postKeyMessage, int postKeyDidntTalkMessage, int prekeySecondMessage) {
+      loop () {
+         waitForTalking(this);
+
+         if (Hero->Item[ITEM_CUMPURA_KEY]) {
+            if (getScreenD(0))
+               Screen->Message(postKeyMessage);
+            else {
+               Screen->Message(postKeyDidntTalkMessage);
+               setScreenD(0, true);
+            }
+         }
+         else {
+            if (getScreenD(0))
+               Screen->Message(prekeySecondMessage);
+            else {
+               Screen->Message(preKeyMessage);
+               setScreenD(0, true);
+            }
+         }
+
+         Waitframe();
+      }
+   }
+}

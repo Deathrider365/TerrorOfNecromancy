@@ -77,8 +77,8 @@ ffc script IntroLeviathanFightFail {
 ffc script IntroLeviathanFailDialogue {
    // clang-format on
 
-   void run(int dmap, int scrn) {
-      Screen->Message(24);
+   void run(int dmap, int scrn, int message) {
+      Screen->Message(message);
       Audio->PlayEnhancedMusic(NULL, 0);
 
       for (int i = 0; i < 120; ++i) {
@@ -98,7 +98,7 @@ ffc script IntroLeviathanEnding {
 
    using namespace LeviathanNamespace;
 
-   void run(int dmap, int scrn) {
+   void run(int dmap, int scrn, int initialMessage, int secondaryMessage) {
       Audio->PlayEnhancedMusic("Final Fantasy IV - Bomb Ring.ogg", 0);
 
       waterfallBitmap = new bitmap(32, 176);
@@ -107,7 +107,7 @@ ffc script IntroLeviathanEnding {
       Hero->Dir = DIR_UP;
       disableLink();
 
-      Screen->Message(25);
+      Screen->Message(initialMessage);
 
       // Buffer
       for (int i = 0; i < 60; ++i) {
@@ -123,7 +123,7 @@ ffc script IntroLeviathanEnding {
          Waitframe();
       }
 
-      Screen->Message(26);
+      Screen->Message(secondaryMessage);
 
       // Buffer
       for (int i = 0; i < 30; ++i) {
@@ -163,17 +163,16 @@ ffc script IntroLeviathanEnding {
 ffc script IntroEndOfOpeningScene {
    // clang-format on
 
-   void run(int msg, int dmap, int scr) {
-
+   void run(int dmap, int scr, int message) {
       for (int i = 0; i < 120; ++i) {
          Audio->PlayEnhancedMusic(NULL, 0);
          disableLink();
          Waitframe();
       }
 
-      disableLink();
-      Screen->Message(msg);
-      Waitframe();
+      // disableLink();
+      // Screen->Message(message);
+      // Waitframe();
       Hero->WarpEx(WT_IWARPBLACKOUT, dmap, scr, -1, WARP_A, WARPEFFECT_OPENWIPE, 0, WARP_FLAG_NONE, DIR_DOWN);
    }
 }
@@ -328,7 +327,7 @@ ffc script IntroFinalMessageBeforeIoH {
 
    void run(int message) {
       Audio->PlayEnhancedMusic(NULL, 0);
-      Screen->Message(message);
+      // Screen->Message(message);
       leavingTransition(12, 80, 0);
    }
 }

@@ -160,6 +160,15 @@ item script TriforcePickup {
    CONFIG BASE_STRING = 777;
 
 	void run(int triforceType, int counterId) {
+      //TODO cutscene? cannot get this gradual incrememnting to work
+
+      loop () {
+         if (Hero->HP == Hero->MaxHP && Hero->MP == Hero->MaxMP) break;
+
+         if (Hero->HP < Hero->MaxHP) Hero->HP++;
+         if (Hero->MP < Hero->MaxMP) Hero->MP++;
+      }
+
       switch(counterId) {
          case CR_TRIFORCE_OF_COURAGE:
             Screen->Message(BASE_STRING + triforceType);
