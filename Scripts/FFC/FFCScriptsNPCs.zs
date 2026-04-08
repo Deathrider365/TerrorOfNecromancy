@@ -475,16 +475,19 @@ ffc script SeizedTowerSoldier {
 ffc script EgentemShrineSoldier {
    // clang-format on
    void run(int message) {
+      int thisData = this->Data;
+      this->Data = CMB_INVIS;
+      this->Flags[FFCF_SOLID] = false;
+         
       mapdata towerEntrance = Game->LoadMapData(44, 0x33);
       mapdata egentemRoom = Game->LoadMapData(48, 0x3B);
 
-      if (!egentemRoom->State[ST_SECRET] || towerEntrance->State[ST_SECRET]) {
-         this->Data = CMB_INVIS;
-         this->Flags[FFCF_SOLID] = false;
+      if (!egentemRoom->State[ST_SECRET] || towerEntrance->State[ST_SECRET])
          Quit();
-      }
 
       loop () {
+         this->Data = thisData;
+         this->Flags[FFCF_SOLID] = true;
          waitForTalking(this);
          Screen->Message(message);
          Waitframe();
@@ -885,9 +888,6 @@ ffc script AuriElder {
          if (!getScreenD(initialScreenD)) {
             Screen->Message(initialMessage);
             Waitframe();
-
-            itemsprite it = CreateItemAt(ITEM_MYSTERIOUS_KEY, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
             setScreenD(initialScreenD, true);
          }
          else if (Hero->Item[ITEM_OCARINA1] && getScreenD(6, 0x65, 1) && !Screen->State[ST_SECRET])

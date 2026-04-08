@@ -227,10 +227,25 @@ ffc script ContinuePoint {
 } // end
 
 // clang-format off
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("cooldownAndDamage"),
+@InitDHelp0("Time in frames between shots . damage"),
+@InitD1("variance"),
+@InitDHelp1("modifier on the cooldown, high.low"),
+@InitD2("trigger"),
+@InitDHelp2("trigger to stop this thrower type.value"),
+@InitD3("throwsItem"),
+@InitDHelp3("if what is thrown is an item"),
+@InitD4("projectile"),
+@InitDHelp4("EWeapon (use EW_*) EWeapon.weapon type (weapon type is the custom one I have AE_*)"),
+@InitD5("spriteId"),
+@InitDHelp5("Custom sprite to use"),
+@InitD6("hasArc"),
+@InitDHelp6("Whether the projectile travels straight to the player or is lobbed"),
+@InitD6("sfx"),
+@InitDHelp6("sound effect played when shot")
 ffc script Thrower {
    // clang-format on
-
    void run(int cooldownAndDamage, int variance, int trigger, bool throwsItem, int projectile, int spriteId, int hasArc, int sfx) {
       int cooldown = !Floor(cooldownAndDamage) ? 120 : Floor(cooldownAndDamage);
       int damage = !((cooldownAndDamage % 1) / 1L) ? 120 : ((cooldownAndDamage % 1) / 1L);
@@ -265,6 +280,7 @@ ffc script Thrower {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
                      if (sfx)
                         Audio->PlaySound(sfx);
+
                      runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0, false});
                   }
                }
