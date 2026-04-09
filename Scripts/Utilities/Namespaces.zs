@@ -585,7 +585,7 @@ namespace IntroMovie {
          Screen->Message(message1);
 
          for (int i = 0; Screen->ShowingMessage; ++i) {
-            WaitTo(SCR_TIMING_POST_DRAW);
+            // WaitTo(SCR_TIMING_POST_DRAW);
             NoAction();
 
             if (i == 120)
@@ -686,10 +686,10 @@ namespace IntroMovie {
       CONFIG COMBO_SCHOLAR_FACE_RIGHT = 6795;
 
       void run(int dmap, int screen, int message1) {
-         introSequenceIntro();
-         
          int thisData = this->Data;
          this->Data = CMB_INVIS;
+
+         introSequenceIntro();
 
          for (int i = 0; i < 180; ++i) {
             NoAction();

@@ -396,7 +396,7 @@ ffc script OfficialIntroMovie {
 ffc script OfficialIntroFinalScene {
    // clang-format on
 
-   void run() {
+   void run(int dmap, int screen) {
       enteringTransition();
 
       for (int i = 0; i < 180; ++i) {
@@ -410,7 +410,7 @@ ffc script OfficialIntroFinalScene {
          Waitframe();
       }
 
-      Hero->Warp(12, 13);
+      Hero->Warp(dmap, screen);
    }
 }
 
@@ -445,7 +445,7 @@ ffc script DifficultyChoice {
 
       bool cursor = false;
 
-      while (true) {
+      loop () {
          notDuringCutsceneLink();
 
          Screen->FastTile(7, 96, !cursor ? 96 : 112, 46675, 0, OP_OPAQUE);

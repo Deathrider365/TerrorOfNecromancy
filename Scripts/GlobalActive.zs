@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
 
 	void run() {
-      Trace("Hello from Init world!");
+      
 	}
 }
 
@@ -613,34 +613,34 @@ global script OnLaunch {
 }
 
 // clang-format off
-// @Author("Deathrider365")
-// global script onF6Menu {
-//    // clang-format off
-
-//    void run() {
-//       onContHP = Hero->HP;
-//       onContMP = Hero->MP;
-
-//       if (SizeOfArray(stolenLinkItems))
-//          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-//             Hero->Item[stolenLinkItems[i]] = true;
-//    }
-// }
-
-// clang-format off
 @Author("Deathrider365")
-generic script onF6Menu {
+global script onF6Menu {
    // clang-format off
 
    void run() {
       onContHP = Hero->HP;
       onContMP = Hero->MP;
 
-      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-         if (stolenLinkItems[i] > 0)
+      if (SizeOfArray(stolenLinkItems))
+         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
             Hero->Item[stolenLinkItems[i]] = true;
    }
 }
+
+// clang-format off
+// @Author("Deathrider365")
+// generic script onF6Menu {
+//    // clang-format off
+
+//    void run() {
+//       onContHP = Hero->HP;
+//       onContMP = Hero->MP;
+
+//       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+//          if (stolenLinkItems[i] > 0)
+//             Hero->Item[stolenLinkItems[i]] = true;
+//    }
+// }
 
 // clang-format off
 @Author("Deathrider365")

@@ -111,7 +111,7 @@ namespace LeviathanNamespace {
          Audio->PlaySound(SFX_SPLASH);
          splash(this->X + 64, 100);
 
-         while (true) {
+         loop () {
             attack = attackChoice(this, vars);
 
             int riseAnim = 120;
@@ -138,7 +138,7 @@ namespace LeviathanNamespace {
 
             switch (attack) {
                case ATTACK_WATERFALL: {
-                  vars[VARS_FLIP] = Hero->X + 8 < 128 ? 0 : 1;
+                  vars[VARS_FLIP] = Hero->X + 8 <= 128 ? 0 : 1;
                   int difficultyLevel = changeInDifficulty(this, vars);
                   int flipModifier;
                   int centerOnLinkX;
@@ -159,7 +159,7 @@ namespace LeviathanNamespace {
                   if (difficultyLevel >= DIFFICULTY_STAGE_2)
                      flipModifier = 16;
 
-                  centerOnLinkX += Hero->X - (vars[VARS_FLIP] ? 48 : 80) - flipModifier;
+                  centerOnLinkX += Hero->X - (vars[VARS_FLIP] ? 48 : 64) - flipModifier;
 
                   int xModifier = centerOnLinkX;
 
@@ -193,7 +193,7 @@ namespace LeviathanNamespace {
                   break;
                }
                case ATTACK_WATERBEAM: {
-                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 80);
+                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 64);
                   int xModifier = risingX + Choose(-8, 8);
 
                   if (risingX < 49) {
@@ -262,7 +262,7 @@ namespace LeviathanNamespace {
                   break;
                }
                case ATTACK_WATERCANNON: {
-                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 80);
+                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 64);
                   int xModifier = risingX + Choose(-8, 8);
 
                   if (risingX < 49) {

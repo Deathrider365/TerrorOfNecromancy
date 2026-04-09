@@ -821,13 +821,6 @@ ffc script EnemiesNeverReturn {
    }
 }
 
-ffc script EquipItemsOnGameStart {
-   void run() {
-      Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
-      Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
-   }
-}
-
 // clang-format off
 @InitD0("radius"),
 @InitDHelp0("radius in pixels"),
