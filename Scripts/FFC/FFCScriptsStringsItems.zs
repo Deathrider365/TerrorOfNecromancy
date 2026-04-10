@@ -756,8 +756,11 @@ ffc script GetItemFromSecretAtLocation {
 ffc script Shop {
    // clang-format on
 
-   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1) {
-      int originalCombo = this->Data;
+   CONFIG COMBO_A_BUTTON = 48;
+   CONFIG COMBO_B_BUTTON = 49;
+
+   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1, int itemInfoMessage = -1) {
+      int thisData = this->Data;
 
       if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
          basePrice = newPriceOnSecrets;
@@ -768,7 +771,7 @@ ffc script Shop {
             Waitframe();
          }
 
-         this->Data = originalCombo;
+         this->Data = thisData;
       }
 
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER
@@ -823,10 +826,15 @@ ffc script Shop {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, COMBO_A_BUTTON, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
                if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
+                  this->Data = CMB_INVIS;
+                  
+                  Waitframe();
+
                   Game->DCounter[CR_MONEY] -= price;
 
                   int upgradedPotion = itemId;
@@ -853,6 +861,11 @@ ffc script Shop {
                   Screen->Message(noMoneyString);
 
                Input->Button[CB_SIGNPOST] = false;
+               this->Data = thisData;
+            }
+            else if (Input->Press[CB_B] && itemInfoMessage > -1) {
+               Screen->Message(itemInfoMessage);
+               Input->Button[CB_B] = false;
             }
          }
 

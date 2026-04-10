@@ -39,7 +39,7 @@ global script GlobalScripts {
          breathCounter = flipperPower;
       }
 
-      while (true) {
+      loop () {
          gameframe = (gameframe + 1) % 3600;
 
          onContHP = Hero->HP;
