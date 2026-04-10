@@ -157,7 +157,7 @@ ffc script IntroLeviathanEnding {
 
       Waitframes(12);
 
-      Hero->WarpEx(WT_IWARPOPENWIPE, dmap, scrn, -1, WARP_A, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, DIR_UP);
+      Hero->Warp(dmap, scrn);
    }
 }
 
@@ -167,9 +167,10 @@ ffc script IntroEndOfOpeningScene {
    // clang-format on
 
    void run(int dmap, int scr, int message) {
+
       for (int i = 0; i < 120; ++i) {
-         Audio->PlayEnhancedMusic(NULL, 0);
          disableLink();
+         Audio->PlayEnhancedMusic(NULL, 0);
          Waitframe();
       }
 
@@ -340,7 +341,10 @@ ffc script IntroFinalMessageBeforeIoH {
 ffc script OfficialIntroPresents {
    // clang-format on
 
+   CONFIG TILE_INTRO_PLAQUE = 42406;
+
    void run() {
+      //void Rectangle(int layer, int x, int y, int x2, int y2, int color, int scale = 1, int rx = 0, int ry = 0, int rot_degrees = 0, bool fill = true, int opacity = OP_OPAQUE)
       for (int i = 0; i < 120; ++i) {
          disableLink();
          Screen->Rectangle(7, 24, 24, 232, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
@@ -350,13 +354,13 @@ ffc script OfficialIntroPresents {
       for (int i = 0; i < 45; ++i) {
          disableLink();
          Screen->Rectangle(7, 24 - i * 5, 24, 232 - i * 5, 71, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
-         Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+         Screen->DrawTile(6, 24, 24, TILE_INTRO_PLAQUE, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
          Waitframe();
       }
 
       for (int i = 0; i < 120; ++i) {
          disableLink();
-         Screen->DrawTile(6, 24, 24, 42406, 13, 3, 0, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+         Screen->DrawTile(6, 24, 24, TILE_INTRO_PLAQUE, 13, 3, 0, -1, -1, 1, 0, 0, 0, true, OP_OPAQUE);
          Waitframe();
       }
 
