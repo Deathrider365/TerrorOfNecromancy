@@ -1061,6 +1061,7 @@ ffc script ForceLinkInLv9Boss {
    }
 }
 
+//TODO Remove
 ffc script DrawF4Palette {
    void run() {
       for (int i = 0; i <= MAX_USED_DMAP; ++i)
