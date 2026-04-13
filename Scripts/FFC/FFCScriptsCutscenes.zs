@@ -1398,7 +1398,12 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG CONFLATOS_NEPHEW = 5850;
 
    void run() {
-      if (Screen->State[ST_SECRET]) {
+      if (Screen->State[ST_SECRET] || Game->LoadMapData(36, 0x26)) {
+         unless (Screen->State[ST_SECRET]) {
+            Screen->State[ST_SECRET] = true;
+            Screen->TriggerSecrets();
+         }
+         
          this->Flags[FFCF_SOLID] = false;
          this->Data = CMB_INVIS;
          Quit();

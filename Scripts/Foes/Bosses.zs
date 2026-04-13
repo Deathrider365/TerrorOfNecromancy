@@ -2031,6 +2031,10 @@ namespace OvergrownRaccoonNamespace {
 
          until(this->Z == 0) {
             disableLink();
+
+            if (this->HP <= 0)
+               deathAnimation(this, 136);
+
             Waitframe();
          }
 
@@ -2039,6 +2043,10 @@ namespace OvergrownRaccoonNamespace {
 
          for (int i = 0; i < 30; ++i) {
             disableLink();
+
+            if (this->HP <= 0)
+               deathAnimation(this, 136);
+
             Waitframe();
          }
 
@@ -2092,7 +2100,12 @@ namespace OvergrownRaccoonNamespace {
 
                   this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
-                  Waitframes(60);
+                  for (int i = 0; i < 60; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     Waitframe();
+                  }
 
                   eweapon rockProjectile = FireBigAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
@@ -2103,8 +2116,12 @@ namespace OvergrownRaccoonNamespace {
                case STATE_SMALL_ROCKS_THROW: {
                   previousState = state;
 
-
-                  Waitframes(30);
+                  for (int i = 0; i < 30; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+                        
+                     Waitframe();
+                  }
 
                   for (int i = 0; i < 60; ++i) {
                      if (this->HP <= 0)
@@ -2127,8 +2144,12 @@ namespace OvergrownRaccoonNamespace {
                case STATE_RACCOON_THROW: {
                   previousState = state;
 
-
-                  Waitframes(60);
+                  for (int i = 0; i < 60; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+                        
+                     Waitframe();
+                  }
 
                   for (int i = 0; i < 2; ++i) {
                      if (this->HP <= 0)
@@ -2136,7 +2157,12 @@ namespace OvergrownRaccoonNamespace {
 
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
                      
-                     Waitframes(5);
+                     for (int i = 0; i < 5; i++) {
+                        if (this->HP <= 0)
+                           deathAnimation(this, 136);
+                           
+                        Waitframe();
+                     }
 
                      eweapon raccoonProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
@@ -2155,21 +2181,38 @@ namespace OvergrownRaccoonNamespace {
 
                   this->Jump = 2.5;
 
-                  do
-                     Waitframe();
-                  while (this->Z);
+                  Waitframe();
 
-                  while (this->MoveAtAngle(angle, 4, SPW_NONE))
+                  while (this->Z) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+                        
                      Waitframe();
+                  }
+
+                  while (this->MoveAtAngle(angle, 4, SPW_NONE)) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+                        
+                     this->ASpeed = 200;
+
+                     Waitframe();
+                  }
 
                   this->Jump = 2;
                   Screen->Quake = 30;
                   Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
-                  do
-                     Waitframe();
-                  while (this->Z);
+                  Waitframe();
 
+                  while (this->Z) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+                        
+                     Waitframe();
+                  }
+
+                  this->ASpeed = 100;
                   state = STATE_NORMAL;
                   break;
                }

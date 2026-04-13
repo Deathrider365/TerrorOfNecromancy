@@ -1019,16 +1019,20 @@ ffc script HideEnemiesUntilSecrets {
 @InitDHelp3("old music id to check"),
 @InitD4("newMusicId"),
 @InitDHelp4("new music id to assign")
-ffc script SetLevel8Music { //TODO enhance to be used dynamically
+ffc script SetLevel8Music {
    void run (int condition, int conditionValue, int dmapId, int oldMusicData, int newMusicData) {
       loop() {
          if (Game->LevelStates[Game->CurLevel] & (1Lb << (conditionValue)) && Game->LoadDMapData(dmapId)->Music == Audio->LoadMusicData(oldMusicData)) {
+            until (Hero->Z == 0) Waitframe();
+
             Game->LoadDMapData(dmapId)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 1)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 2)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 3)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 4)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 5)->Music = Audio->LoadMusicData(newMusicData);
+
+            Screen->Message(1017);
 
             Quit();
          }

@@ -759,7 +759,7 @@ ffc script Shop {
    CONFIG COMBO_A_BUTTON = 48;
    CONFIG COMBO_B_BUTTON = 49;
 
-   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1, int itemInfoMessage = -1) {
+   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1, int itemInfoMessage = 0) {
       int thisData = this->Data;
 
       if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
@@ -827,7 +827,9 @@ ffc script Shop {
 
          if (againstFFC(this->X, this->Y)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, COMBO_A_BUTTON, 0, OP_OPAQUE);
-            Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
+
+            if (itemInfoMessage > 0)
+               Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
                if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
