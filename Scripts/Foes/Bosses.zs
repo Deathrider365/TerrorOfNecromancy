@@ -821,7 +821,7 @@ ffc script Legionnaire {
 
       npc ghost = Ghost_InitAutoGhost(this, enemyid);
 
-      int triggerOnProximity = ghost->Attributes[5];
+      int triggerOnProximity = ghost->Attributes[5]; //+1 to each attribute to correalate with the editor
 
       CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
       CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
@@ -852,7 +852,6 @@ ffc script Legionnaire {
 
       // Intro Animation
       unless(getScreenD(screenD)) {
-
          Ghost_Y = -32;
          Ghost_X = startX;
 
@@ -2119,7 +2118,7 @@ namespace OvergrownRaccoonNamespace {
                   for (int i = 0; i < 30; i++) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
-                        
+
                      Waitframe();
                   }
 
@@ -2147,7 +2146,7 @@ namespace OvergrownRaccoonNamespace {
                   for (int i = 0; i < 60; i++) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
-                        
+
                      Waitframe();
                   }
 
@@ -2156,11 +2155,11 @@ namespace OvergrownRaccoonNamespace {
                         deathAnimation(this, 136);
 
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
-                     
+
                      for (int i = 0; i < 5; i++) {
                         if (this->HP <= 0)
                            deathAnimation(this, 136);
-                           
+
                         Waitframe();
                      }
 
@@ -2186,14 +2185,14 @@ namespace OvergrownRaccoonNamespace {
                   while (this->Z) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
-                        
+
                      Waitframe();
                   }
 
                   while (this->MoveAtAngle(angle, 4, SPW_NONE)) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
-                        
+
                      this->ASpeed = 200;
 
                      Waitframe();
@@ -2208,7 +2207,7 @@ namespace OvergrownRaccoonNamespace {
                   while (this->Z) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
-                        
+
                      Waitframe();
                   }
 
@@ -2279,7 +2278,7 @@ namespace ServusMalusNamespace {
 
          // this->X = -32;
          // this->Y = -32;
-         
+
          this->X = 112;
          this->Y = 32;
          this->Dir = DIR_DOWN;
@@ -2319,7 +2318,7 @@ namespace ServusMalusNamespace {
 
             Waitframe();
          }
-         
+
          this->CollDetection = false;
 
          loop () {
@@ -2696,7 +2695,7 @@ namespace ServusMalusNamespace {
       Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
       Waitframe();
-      
+
       this->X = 112;
       this->Y = 32;
 
@@ -2727,7 +2726,7 @@ namespace ServusMalusNamespace {
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
       }
-      
+
       this->X = -32;
       this->Y = -32;
       Screen->Message(174);
@@ -2738,7 +2737,7 @@ namespace ServusMalusNamespace {
       Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
       Waitframe();
-      
+
       this->X = 112;
       this->Y = 32;
 
@@ -2767,7 +2766,7 @@ namespace ServusMalusNamespace {
       Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
       Waitframe();
-      
+
       this->X = 112;
       this->Y = 32;
 
@@ -2841,7 +2840,7 @@ namespace ServusMalusNamespace {
       Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
 
       Waitframe();
-      
+
       this->X = 112;
       this->Y = 62;
 
@@ -2879,7 +2878,7 @@ namespace ServusMalusNamespace {
       Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
 
       Waitframe();
-      
+
       this->X = 112;
       this->Y = 62;
 

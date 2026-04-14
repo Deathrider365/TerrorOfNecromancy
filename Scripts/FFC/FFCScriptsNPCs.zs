@@ -126,7 +126,7 @@ ffc script ServusSoldier {
    CONFIG SCREEND_GOT_TOWER_KEY = 1;
    CONFIG SCREEND_FOR_SECOND_STRING = 2;
    CONFIG SCREEND_SOLDIER_IS_OOF = 253;
-   
+
    void run(int gettingItemString, int alreadyGotItemString) {
       this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
@@ -380,7 +380,7 @@ ffc script DefectedHylianGeneral {
 @Author("Deathrider365")
 ffc script ServusSoldier2 {
 // clang-format on
-      
+
    CONFIG SCREEND_GOT_TOWER_KEY = 1;
 
    void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
@@ -478,7 +478,7 @@ ffc script EgentemShrineSoldier {
       int thisData = this->Data;
       this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
-         
+
       mapdata towerEntrance = Game->LoadMapData(44, 0x33);
       mapdata egentemRoom = Game->LoadMapData(48, 0x3B);
 
@@ -802,7 +802,11 @@ ffc script Lvl9LobbyZelda {
 
       int zeldaStage = 0;
 
-      for (int i = 0; i < 4; ++i) { //TODO what sets these stages?
+      // The way the stages work is each of these indicies correlates to how far you got in the goddess faithful dialog pre lv9
+      // so the first stage represents that you only talked to zelda once, so her dialog would vary based on if you never talked
+      // to her pre lv9, or if you talked to her completely
+
+      for (int i = 0; i < 4; ++i) { //TODO update these stages
          if (getScreenD(48, 0x02, i))
             zeldaStage = i;
       }
@@ -820,17 +824,16 @@ ffc script Lvl9LobbyZelda {
          }
          else {
             switch(zeldaStage) {
-               case 0:
+               case 1:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE);
                   break;
-               case 1:
+               case 2:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE);
                   break;
-               case 2:
+               case 3:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE);
                   break;
-
-               case 3:
+               case 4:
                   Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE);
                   break;
                default:
@@ -978,7 +981,7 @@ ffc script DuratuElder {
 @Author("Deathrider365")
 ffc script CarulemZora {
    // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int finalMessage, int initialScreenD) {
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int fourthMessage, int finalMessage, int goddessFaithfulMessage, int initialScreenD) {
       int prevData = this->Data;
       mapdata lvl7BossRoom = Game->LoadMapData(132, 0x6B);
 
@@ -1004,12 +1007,16 @@ ffc script CarulemZora {
 
                CreateItemAt(ITEM_MYSTERIOUS_ZORA_CHARM, Hero->X, Hero->Y)->Pickup = IP_HOLDUP;
                setScreenD(initialScreenD + 1, true);
-            } else if (!Hero->Item[ITEM_JEWEL_OF_MARRE])
+            }
+            else if (!Hero->Item[ITEM_JEWEL_OF_MARRE])
                Screen->Message(fourthMessage);
-            else if (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
+            else if (Hero->Item[ITEM_JEWEL_OF_MARRE] && !getScreenD(48, 0x02, 0)) {
                Screen->Message(finalMessage);
                Waitframe();
-
+            }
+            else if (Hero->Item[ITEM_JEWEL_OF_MARRE] && getScreenD(48, 0x02, 0)) {
+               Screen->Message(goddessFaithfulMessage);
+               Waitframe();
                Screen->TriggerSecrets();
                Screen->State[ST_SECRET] = true;
                this->Flags[FFCF_SOLID] = false;
@@ -1345,10 +1352,10 @@ ffc script TeePeeDude {
          else if (!getScreenD(0)) {
             Screen->Message(openingMessage);
             setScreenD(0, true);
-         } 
+         }
          else
             Screen->Message(repeatingMessage);
-            
+
          Waitframe();
       }
    }

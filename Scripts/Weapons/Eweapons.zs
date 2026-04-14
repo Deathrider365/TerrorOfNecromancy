@@ -255,9 +255,8 @@ eweapon script Stopper {
 @Author("EmilyV99")
 eweapon script StopperKiller {
    // clang-format on
-
    void run(int stopTime, int killTime) {
-      while (true) {
+      loop () {
          if (stopTime > 0)
             unless(--stopTime) this->Step = 0;
 

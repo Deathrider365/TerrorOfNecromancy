@@ -34,10 +34,13 @@ ffc script ContinuePoint {
  ffc script BossMusic {
    // clang-format on
 
-   void run(int musicChoice) {
+   void run(int musicChoice, int triggerOnScreenD, int invertTriggerOnScreenD) {
       unless(musicChoice) Quit();
 
-      if (Screen->State[ST_SECRET])
+      if (triggerOnScreenD == 0 && Screen->State[ST_SECRET]
+         || (triggerOnScreenD > 0 && (!getScreenD(triggerOnScreenD)
+         || invertTriggerOnScreenD > 0 && getScreenD(triggerOnScreenD)))
+      )
          Quit();
 
       until(EnemiesAlive()) Waitframe();
@@ -969,6 +972,7 @@ ffc script Beamos {
          if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
             if (cooldown == 0) {
                eweapon weapon = FireAimedEWeapon(eweaponId, this->X, this->Y, 0, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE);
+               this->MoveFlags[NPCMV_CAN_PITFALL] = false;
 
                switch (ignoreSolidity) {
                   case 1:
