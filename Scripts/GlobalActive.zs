@@ -637,7 +637,7 @@ global script onF6Menu {
 //       onContMP = Hero->MP;
 
 //       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-//          if (stolenLinkItems[i] > 0)
+//          if (stolenLinkItems[i] > 1)
 //             Hero->Item[stolenLinkItems[i]] = true;
 //    }
 // }
@@ -657,7 +657,7 @@ global script onContGame {
       }
 
       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-         if (stolenLinkItems[i] > 0)
+         if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
    }
 }
@@ -669,7 +669,7 @@ global script onSave {
 
    void run() {
       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
-         if (stolenLinkItems[i] > 0)
+         if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
    }
 }
