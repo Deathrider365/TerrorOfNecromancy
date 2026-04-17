@@ -873,9 +873,10 @@ ffc script CapturedSequenceNecromancer {
       if (getScreenD(SCREEND_SEQUENCE_DONE) || !getScreenD(33, 0x33, SCREEND_BEAT_ENEMIES_ON_LAST_SCREEN)) {
          dmapdata dmapDataForThis = Game->LoadDMapData(Game->CurDMap);
          dmapDataForThis->Music->SetPath("FFIV - Baron Castle.ogg");
+         
          //Setting the neutral music for the dungeons now if the whole necromancer sequence is already done
          dmapdata dmapData = Game->LoadDMapData(33);
-         dmapData->Music->SetPath("Castlevania 64 - Setting.ogg");
+         dmapData->Music = Audio->LoadMusicData(32);
          Quit();
       }
 
