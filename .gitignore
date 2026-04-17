@@ -13,4 +13,4 @@
 *.qt7
 *.qt8
 *.qt9
-*.qst.backups/
+*[backups]/
