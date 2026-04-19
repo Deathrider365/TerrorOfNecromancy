@@ -832,7 +832,7 @@ ffc script Shop {
                Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
 
             if (Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
+               if ((Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY]) >= price) {
                   this->Data = CMB_INVIS;
                   
                   Waitframe();

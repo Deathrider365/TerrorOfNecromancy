@@ -85,6 +85,7 @@
       - Shard 4
 
    - Bomb Expansions (Starts at 10 and with Max = 5, total is 30)
+      - frequency                      IoH                              None + Raft (Level 5)
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
       - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
       - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8)
