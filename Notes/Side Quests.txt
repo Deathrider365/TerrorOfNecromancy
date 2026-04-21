@@ -69,7 +69,7 @@
 
    - Leviathan Scale -
       - Scale 1                        Opening Sequence Leviathan       None + None
-      - Scale 2                        Abyssal Depths                   None + None
+      - Scale 2                        Abyssal Depths                   None + Flippers (Level 7)
 
 ~~ Other Sequences ~~~
    - Magic Ring                        Level 6                          None + Level 6
@@ -85,7 +85,7 @@
       - Shard 4
 
    - Bomb Expansions (Starts at 10 and with Max = 5, total is 30)
-      - frequency                      IoH                              None + Raft (Level 5)
+      - Free                           IoH                              None + Raft (Level 5)
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
       - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
       - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8)
@@ -166,8 +166,7 @@
       33 - Concealed Pirate Hideout    37:66                            None + Wand (Level 8)
       34 - SWI Venenom Bog Residence   53:3B                            None + Raft (Pre Level 5)
       35 - SWI Caves                   57:06                            None + Flippers (level 7)
-      36 - SWI Caves                   57:28                            None + Wand (Level 8)
-      37 - SWI Caves                   57:29                            None + Goron Gauntlet (Level 6)
+      36 - SWI Caves                   57:28                            None + Wand (Level 8)c
       38 - SWI Caves                   57:38                            None + Raft (Pre Level 5)
       39 - SWI Caves                   57:46                            None + None (Hammer)
       40 - SWI Caves                   57:53                            None + Powder Keg (Summus Pass)
@@ -256,3 +255,13 @@ Current HP locations to work out:
 
 --- GetItemOnScreenDHiddenBefore ---
    SWI Celo Village   53:20 (Args: 49, 0, 485, 486, 1, 0, 0, 0)
+
+
+   
+      - Cultist Memoir                 Level 3                          Banished Cultist Chest Key + Powder Keg (Summus Pass)
+      - Doggo Stick                    Celo Village                     Cultist Memoir + None
+      - Toy Bird                       NEI Caves (Bush South of Lvl2)   Doggo Stick + Goron Gauntlet (Level 6)
+      - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
+      - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5)
+      3 - NEI Quarry                   9:08                             None + Goron Gauntlet (Level 6)
+      37 - SWI Caves                   57:29                            None + Goron Gauntlet (Level 6)
