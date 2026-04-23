@@ -788,43 +788,6 @@ ffc script AssignAAndBForIntro {
 }
 
 // clang-format off
-@InitD0("condition"),
-@InitDHelp0("The condition in which enemies vanish: 1 - screenD set, 2 - secrets triggered, 3 - based on item"),
-@InitD1("conditionValue"),
-@InitDHelp1("screenD value, N/A, itemId"),
-@Author("Deathrider365")
-ffc script EnemiesNeverReturn {
-   // clang-format on
-
-   CONFIG SMT_SCREEND = 1;
-   CONFIG SMT_SECRETS = 2;
-   CONFIG SMT_HAS_ITEM = 3;
-
-   void run(int condition, int conditionValue) {
-      switch(condition) {
-         case SMT_SCREEND:
-            if (getScreenD(conditionValue))
-               removeEnemies();
-            break;
-         case SMT_SECRETS:
-            if (Screen->State[ST_SECRET])
-               removeEnemies();
-            break;
-         case SMT_HAS_ITEM:
-            if (Hero->Item[conditionValue])
-               removeEnemies();
-            break;
-         default: break;
-      }
-   }
-
-   void removeEnemies() {
-      for (int q = 0; q < 10; ++q)
-         Screen->Enemy[q] = 0;
-   }
-}
-
-// clang-format off
 @InitD0("radius"),
 @InitDHelp0("radius in pixels"),
 @InitD1("speed"),
