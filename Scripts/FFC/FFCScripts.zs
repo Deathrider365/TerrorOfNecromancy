@@ -699,7 +699,7 @@ ffc script GBReset_Minecarts {
    using namespace MinecartNamespace;
 
    void run(int onlyThisMap) {
-      if (Abs(Link->X - this->X) <= 8 && Abs(Link->Y - this->Y) <= 8) {
+      // if (Abs(Link->X - this->X) <= 8 && Abs(Link->Y - this->Y) <= 8) {
          for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
             if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
                if (!GetMinecartVar(i, MCII_NORESET)) {
@@ -710,7 +710,7 @@ ffc script GBReset_Minecarts {
                }
             }
          }
-      }
+      // }
    }
 }
 
