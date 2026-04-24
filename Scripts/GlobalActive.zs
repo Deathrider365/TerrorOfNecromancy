@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
 
 	void run() {
-      
+
 	}
 }
 
@@ -29,10 +29,12 @@ global script GlobalScripts {
       Game->MaxEWeapons(1024);
 
       mapdata mapData[6];
+      bitmap overheadBitmaps[7];
 
       int footprintArray[3] = {1, 0, 0};
 
       int flipperPower;
+      int breathCounter;
 
       if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
          flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
@@ -93,14 +95,14 @@ global script GlobalScripts {
 
          Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT; // restore.
 
-         drawRadialTransparency(mapData);
+         drawRadialTransparency(mapData, overheadBitmaps);
 
          checkFootprints(footprintArray);
 
          if (map != Game->CurMap || screen != Game->CurScreen) {
             map = Game->CurMap;
             screen = Game->CurScreen;
-            onScreenChange(mapData);
+            onScreenChange(mapData, overheadBitmaps);
          }
 
          if (dmap != Game->CurDMap) {
@@ -206,7 +208,7 @@ global script GlobalScripts {
       return;
    }
 
-   void drawRadialTransparency(mapdata[] mapData) {
+   void drawRadialTransparency(mapdata[] mapData, bitmap[] overheadBitmaps) {
       CONFIG TRANS_RADIUS = 36;
 
       unless(IsValidArray(mapData)) return;
@@ -245,7 +247,7 @@ global script GlobalScripts {
       }
    }
 
-   void onScreenChange(mapdata[] mapData) {
+   void onScreenChange(mapdata[] mapData, bitmap[] overheadBitmaps) {
       disableTrans = false;
       int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
@@ -573,11 +575,13 @@ global script GlobalScripts {
 
    // Author - Jamien
    void BoomerangNerf() {
+      int stunDuration = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Level * 60;
+
       for (int i = 1; i <= Screen->NumNPCs; ++i) {
          npc enem = Screen->LoadNPC(i);
 
-         if (STUN_DURATION > 0 && enem->Stun > STUN_DURATION)
-            enem->Stun = STUN_DURATION;
+         if (stunDuration > 0 && enem->Stun > stunDuration)
+            enem->Stun = stunDuration;
       }
    }
 

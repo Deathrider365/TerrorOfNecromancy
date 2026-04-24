@@ -25,7 +25,7 @@ ffc script ContinuePoint {
 
    void run() {
       if (!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->CurLevel] & LI_COMPASS))
-         Audio->PlaySound(COMPASS_BEEP);
+         Audio->PlaySound(SFX_COMPASS_BEEP);
    }
 }
 
@@ -1033,8 +1033,6 @@ ffc script ForceLinkInLv9Boss {
 //TODO Remove
 ffc script DrawF4Palette {
    void run() {
-      // for (int i = 0; i <= MAX_USED_DMAP; ++i)
-      //TODO cannot use CurDMapScreen? It didnt work but compiled
       Game->LoadDMapData(Game->CurDMap)->Palette = Screen->Palette;
    }
 }

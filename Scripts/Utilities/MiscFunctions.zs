@@ -536,14 +536,14 @@ bool againstFFC(int ffcX, int ffcY, bool onlyBottom = false) { //TODO account fo
 }
 
 void waitForTalking(ffc this, bool onlyBottom = false) {
-   until(againstFFC(this->X, this->Y, onlyBottom) && Input->Press[CB_SIGNPOST]) {
+   until(againstFFC(this->X, this->Y, onlyBottom) && Input->Press[CB_A]) {
       if (againstFFC(this->X, this->Y, onlyBottom))
          Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
       Waitframe();
    }
 
-   Input->Button[CB_SIGNPOST] = false;
+   Input->Button[CB_A] = false;
 }
 
 void gridLockFFC(ffc this) {
@@ -623,7 +623,7 @@ void runCredits(int fadespeed, int font, int fontheight) {
 
 	int bossMusic[] = "AAA Ninja's Respite (Past) - The Messenger.ogg";
    Audio->PlayEnhancedMusic(bossMusic, 0);
-	
+
    for(int q = 0; q < 129; ++q) {
 		for(int timer = 0; timer < fadespeed; ++timer) {
 			Screen->Rectangle(7, 0, -56, q, 168, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
@@ -636,7 +636,7 @@ void runCredits(int fadespeed, int font, int fontheight) {
 	Game->Save();
 	int authorHeader[] = "Author:";
 	int authorName[] = "Deathrider365";
-	
+
 	int specialThanksHeader[] = "Advisors and General Help:";
 	int specialThanks1[] = "Venrob";
 	int specialThanks2[] = "ZoriaRPG";
@@ -644,28 +644,28 @@ void runCredits(int fadespeed, int font, int fontheight) {
 	int specialThanks4[] = "Lut";
 	int specialThanks5[] = "Mitsukara";
 	int specialThanks6[] = "Moosh";
-	
+
 	int betaTestersHeader[] = "Beta Testers:";
 	int betaTester1[] = "ZachAttack20192001";
 	int betaTester2[] = "a30502355";
 	int betaTester3[] = "P-Tux7";
 	int betaTester4[] = "Weirddud101";
 	int betaTester5[] = "Soma C.";
-	
+
 	int musicHeader[] = "Music Used (in order of use):";
 	int track1[] = "mp2d_TallonOverworld2D";
-	int track2[] = "Dark Cave (Future) - The Messenger";	
+	int track2[] = "Dark Cave (Future) - The Messenger";
 	int track3[] = "Dark Cave (Past) - The Messenger";
 	int track4[] = "Beneath the Tides (Past) - The Messenger";
 	int track5[] = "Beneath the Tides (Future) - The Messenger";
-	int track6[] = "Phantom of Yore (Past) - The Messenger";	
+	int track6[] = "Phantom of Yore (Past) - The Messenger";
 	int track7[] = "Ninja's Respite (Past) - The Messenger";
-	
+
 	int tilesetHeader[] = "Tileset Used (never use this hot garbage):";
 	int tileset[] = "ezgbz 1.92";
-	
+
 	int end[] = "THE END";
-	
+
 	int gametime[32];
 	int minutes = (Game->Time / (3600)) * 10000;
 	int seconds = ((Game->Time % .3600) / 60) * 10000;
@@ -715,7 +715,7 @@ void runCredits(int fadespeed, int font, int fontheight) {
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester5, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
-			
+
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, musicHeader, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track1, OP_OPAQUE);
@@ -732,13 +732,13 @@ void runCredits(int fadespeed, int font, int fontheight) {
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track7, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
-			
-			
+
+
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tilesetHeader, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tileset, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
-			
+
 			y += 224;
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, end, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
@@ -783,7 +783,7 @@ void runCredits(int fadespeed, int font, int fontheight) {
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester5, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
-			
+
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, musicHeader, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track1, OP_OPAQUE);
@@ -800,12 +800,12 @@ void runCredits(int fadespeed, int font, int fontheight) {
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track7, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
-			
+
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tilesetHeader, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tileset, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);
-			
+
 			y += 224;
 			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, end, OP_OPAQUE);
 			y += (fontheight + TEXT_SPACING);

@@ -873,7 +873,7 @@ ffc script CapturedSequenceNecromancer {
       if (getScreenD(SCREEND_SEQUENCE_DONE) || !getScreenD(33, 0x33, SCREEND_BEAT_ENEMIES_ON_LAST_SCREEN)) {
          dmapdata dmapDataForThis = Game->LoadDMapData(Game->CurDMap);
          dmapDataForThis->Music->SetPath("FFIV - Baron Castle.ogg");
-         
+
          //Setting the neutral music for the dungeons now if the whole necromancer sequence is already done
          dmapdata dmapData = Game->LoadDMapData(33);
          dmapData->Music = Audio->LoadMusicData(32);
@@ -1851,10 +1851,10 @@ ffc script SummusTabletPedestal {
    }
 
    void waitForReading(ffc this) {
-      until(againstFFC(this->X, this->Y, true) && Input->Press[CB_SIGNPOST]) {
+      until(againstFFC(this->X, this->Y, true) && Input->Press[CB_A]) {
          if (againstFFC(this->X, this->Y, true)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Input->Button[CB_SIGNPOST] = false;
+            Input->Button[CB_A] = false;
          }
 
          drawAllNecessaryShards();

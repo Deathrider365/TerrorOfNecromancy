@@ -29,9 +29,9 @@ lweapon script GaleBoomerang {
    CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
 
    void run(int turnRate, int wind_drop_rate) {
-      Game->FFRules[qr_WEAPONS_EXTRA_FRAME] = true;
-      Game->FFRules[qr_OLDSPRITEDRAWS] = false;
-      Game->FFRules[qr_CHECKSCRIPTWEAPONOFFSCREENCLIP] = true;
+      // Game->FFRules[qr_WEAPONS_EXTRA_FRAME] = true;
+      // Game->FFRules[qr_OLDSPRITEDRAWS] = false;
+      // Game->FFRules[qr_CHECKSCRIPTWEAPONOFFSCREENCLIP] = true;
 
       itemdata parent;
       int wind_sprite;

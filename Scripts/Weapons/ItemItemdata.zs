@@ -15,6 +15,104 @@ item script LegionRings {
 }
 
 // clang-format off
+@Author ("Deathrider365")
+item script HeartPieces {
+   //clang-format on
+
+	void run() {
+		switch(Game->Generic[GEN_HEARTPIECES] + 1) {
+			case 1:
+				Screen->Message(712);
+				break;
+			case 2:
+				Screen->Message(713);
+				break;
+			case 3:
+				Screen->Message(714);
+				break;
+			case 4:
+				Screen->Message(715);
+				break;
+		}
+	}
+}
+
+// clang-format off
+@Author ("Deathrider365"),
+@InitD0("curShar"),
+@InitDHelp0("The current shard being obtained (0 = A, 1 = B, 2 = C, 3 = D)")
+item script SummusTabletShards {
+   //clang-format on
+
+	void run(int curShard) {
+		switch(curShard) {
+			case 1:
+				Screen->Message(792);
+				break;
+			case 2:
+				Screen->Message(793);
+				break;
+			case 3:
+				Screen->Message(794);
+				break;
+			case 4:
+				Screen->Message(795);
+				break;
+		}
+	}
+}
+
+// clang-format off
+@Author ("Deathrider365")
+item script TriforcePickup {
+   //clang-format on
+
+   //TODO pickup cutscene with music
+
+   CONFIG BASE_STRING = 777;
+
+	void run(int triforceType, int counterId) {
+      //TODO cutscene? cannot get this gradual incrememnting to work
+
+      loop () {
+         if (Hero->HP == Hero->MaxHP && Hero->MP == Hero->MaxMP) break;
+
+         if (Hero->HP < Hero->MaxHP) Hero->HP++;
+         if (Hero->MP < Hero->MaxMP) Hero->MP++;
+      }
+
+      switch(counterId) {
+         case CR_TRIFORCE_OF_COURAGE:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_POWER:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_WISDOM:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+         case CR_TRIFORCE_OF_DEATH:
+            Screen->Message(BASE_STRING + triforceType);
+            Waitframe();
+            break;
+      }
+   }
+}
+
+// clang-format off
+@Author ("Deathrider365")
+item script MagicContainerExpansions {
+   //clang-format on
+
+   void run() {
+      Game->Counter[CR_MAGIC_EXPANSIONS]++;
+   }
+}
+
+// clang-format off
 @Author("Moosh")
 item script HaerenGrace {
    //clang-format on
@@ -71,6 +169,7 @@ item script HaerenGrace {
          }
          else
             Audio->PlaySound(errsfx);
+
       } else if (hpPercent < 100) {
          if (Hero->MP >= 50) {
             currentMP = 50;
@@ -102,126 +201,31 @@ item script HaerenGrace {
 }
 
 // clang-format off
-@Author ("Deathrider365")
-item script HeartPieces {
-   //clang-format on
-
-	void run() {
-		switch(Game->Generic[GEN_HEARTPIECES] + 1) {
-			case 1:
-				Screen->Message(712);
-				break;
-			case 2:
-				Screen->Message(713);
-				break;
-			case 3:
-				Screen->Message(714);
-				break;
-			case 4:
-				Screen->Message(715);
-				break;
-		}
-	}
-}
-
-// clang-format off
-@Author ("Deathrider365"),
-@InitD0("curShar"),
-@InitDHelp0("The current shard being obtained (0 = A, 1 = B, 2 = C, 3 = D)")
-item script SummusTabletShards {
-   //clang-format on
-
-	void run(int curShard) {
-		switch(curShard) {
-			case 1:
-				Screen->Message(792);
-				break;
-			case 2:
-				Screen->Message(793);
-				break;
-			case 3:
-				Screen->Message(794);
-				break;
-			case 4:
-				Screen->Message(795);
-				break;
-		}
-	}
-}
-
-// clang-format off
-@Author ("Deathrider365")
-item script TriforcePickup {
-   //clang-format on
-
-   //TODO pickup cutscene with music
-   //Also refill health and magic
-
-   CONFIG BASE_STRING = 777;
-
-	void run(int triforceType, int counterId) {
-      //TODO cutscene? cannot get this gradual incrememnting to work
-
-      loop () {
-         if (Hero->HP == Hero->MaxHP && Hero->MP == Hero->MaxMP) break;
-
-         if (Hero->HP < Hero->MaxHP) Hero->HP++;
-         if (Hero->MP < Hero->MaxMP) Hero->MP++;
-      }
-
-      switch(counterId) {
-         case CR_TRIFORCE_OF_COURAGE:
-            Screen->Message(BASE_STRING + triforceType);
-            Waitframe();
-            break;
-         case CR_TRIFORCE_OF_POWER:
-            Screen->Message(BASE_STRING + triforceType);
-            Waitframe();
-            break;
-         case CR_TRIFORCE_OF_WISDOM:
-            Screen->Message(BASE_STRING + triforceType);
-            Waitframe();
-            break;
-         case CR_TRIFORCE_OF_DEATH:
-            Screen->Message(BASE_STRING + triforceType);
-            Waitframe();
-            break;
-      }
-   }
-}
-
-// clang-format off
-@Author ("Deathrider365")
-item script MagicContainerExpansions {
-   //clang-format on
-
-   void run() {
-      Game->Counter[CR_MAGIC_EXPANSIONS]++;
-   }
-}
-
-// clang-format off
 @Author("EmilyV99")
-itemdata script GanonRage {
+itemdata script DinRage {
    //clang-format on
 
-   //start
-   // D0: Duration of ability
-   // D1: Duration of cooldown
-   // D2: Damage multiplier
-   // D3: Cost to use
-   //end
    void run(int durationSeconds, int cooldownSeconds, int damageMultiplier, int cost) {
+      CONFIG COMBO_GANONS_RAGE = 16;
+
+      unless (Hero->MP >= cost)
+         Quit();
+
+      Hero->MP = Hero->MP - cost;
+
       int itemClasses[] = {
+         IC_SWORD,
+         IC_BRANG,
          IC_ARROW,
          IC_BOW,
          IC_HAMMER,
-         IC_BRANG,
-         IC_SWORD,
+         IC_SPINSCROLL,
+         IC_CROSSSCROLL,
+         IC_QUAKESCROLL,
+         IC_PERILSCROLL,
+         IC_HURRICANESCROLL,
+         IC_QUAKESCROLL,
          IC_GALEBRANG,
-         IC_BRACELET,
-         IC_ROCS,
-         IC_STOMPBOOTS
       };
 
       itemdata itemIds[9];
@@ -230,99 +234,81 @@ itemdata script GanonRage {
       for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i) {
          int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
 
-         if (highestItem >= 0 && Hero->MP >= cost) {
+         if (highestItem >= 0) {
             itemIds[i] = Game->LoadItemData(highestItem);
             itemStrengths[i] = itemIds[i]->Power;
+
             itemIds[i]->Power *= damageMultiplier;
-            Hero->MP = Hero->MP - cost;
          }
+      }
+
+      for (int i = cooldownSeconds * 60; i > 0; --i) {
+         Screen->FastCombo(SPLAYER_PLAYER_DRAW, Hero->X, Hero->Y, COMBO_GANONS_RAGE, 0, OP_TRANS);
+         // Instead of the old archaic status system, just have a graphical representation (like nayrus love), perhaps Link flashes red slowly or has an outline
+
+         Waitframe();
       }
 
       for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
          if (itemIds[i])
             itemIds[i]->Power = itemStrengths[i];
-
-      for (int i = cooldownSeconds * 60; i > 0; --i) {
-         char32 buf[8];
-         itoa(buf, Ceiling(i / 60));
-
-         if (Hero->ItemB == this->ID) {
-            Screen->DrawString(7, SUB_B_X, SUB_B_Y, FONT_LA, C_BLACK, -1, TF_CENTERED, buf, OP_OPAQUE);
-            Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, FONT_LA) / 2) - SUB_COOLDOWN_TILE_WIDTH, SUB_B_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-         } else if (Hero->ItemA == this->ID) {
-            Screen->DrawString(7, SUB_A_X, SUB_A_Y, FONT_LA, C_BLACK, -1, TF_CENTERED, buf, OP_OPAQUE);
-            Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, FONT_LA) / 2) - SUB_COOLDOWN_TILE_WIDTH, SUB_A_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-         }
-
-         Waitframe();
-      }
    }
 }
 
 // clang-format off
 @Author("EmilyV99")
-itemdata script ScholarsMind {
+itemdata script NayruVengeance {
    //clang-format on
 
-   //start Instructions
-   // D0: Duration of ability
-   // D1: Duration of cooldown
-   // D2: Damage multiplier
-   // D3: Cost to use
-   //end
 	void run(int durationSeconds, int cooldownSeconds, int damageMultiplier, int cost) {
-		// int itemClasses[] = {/*magic related items*/};
-		// itemdata itemIds[9];
-		// int itemStrengths[9];
+      int itemClasses[] = { //TODO doesnt seem to apply to the want magic
+         IC_CANDLE,
+         IC_WAND,
+         IC_DINSFIRE,
+         IC_FARORESWIND,
+         IC_NAYRUSLOVE,
+         IC_CBYRNA,
+         IC_HEARTRING,
+         IC_MAGICRING
+      };
 
-		// for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
-		// {
-			// int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
+		itemdata itemIds[9];
+		int itemStrengths[9];
 
-			// if (highestItem >= 0 && Hero->MP >= cost)
-			// {
-				// itemIds[i] = Game->LoadItemData(highestItem);
-				// itemStrengths[i] = itemIds[i]->Power;
-				// itemIds[i]->Power *= damageMultiplier;
-				// Hero->MP = Hero->MP - cost;
-			// }
-		// }
+      CONFIG COMBO_NAYRUS_VENGEANCE = 16;
 
-		// statuses[ATTACK_BOOST] = durationSeconds * 60;
+      unless (Hero->MP >= cost)
+         Quit();
 
-		// while (statuses[ATTACK_BOOST])
-			// Waitframe();
+      Hero->MP = Hero->MP - cost;
 
-		// for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
-			// if (itemIds[i])
-				// itemIds[i]->Power = itemStrengths[i];
+		for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i) {
+			int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
 
-		// for (int i = cooldownSeconds * 60; i > 0; --i)
-		// {
-			// char32 buf[8];
-			// itoa(buf, Ceiling(i / 60));
+			if (highestItem >= 0 && Hero->MP >= cost) {
+				itemIds[i] = Game->LoadItemData(highestItem);
+				itemStrengths[i] = itemIds[i]->Power;
 
-			// if (Hero->ItemB == this->ID)
-			// {
-				// Screen->DrawString(7, SUB_B_X, SUB_B_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-				// Screen->FastTile(7, SUB_B_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH,
-					// SUB_B_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-			// }
-			// else if (Hero->ItemA == this->ID)
-			// {
-				// Screen->DrawString(7, SUB_A_X, SUB_A_Y, SUB_TEXT_FONT, SUB_TEXT_COLOR, -1, TF_CENTERED, buf, OP_OPAQUE);
-				// Screen->FastTile(7, SUB_A_X - (Text->StringWidth(buf, SUB_TEXT_FONT) / 2) - SUB_COOLDOWN_TILE_WIDTH,
-					// SUB_A_Y, SUB_COOLDOWN_TILE, 0, OP_OPAQUE);
-			// }
+				itemIds[i]->Power *= damageMultiplier;
+			}
+		}
 
-			// Waitframe();
-		// }
+      for (int i = cooldownSeconds * 60; i > 0; --i) {
+         Screen->FastCombo(SPLAYER_PLAYER_DRAW, Hero->X, Hero->Y, COMBO_NAYRUS_VENGEANCE, 7, OP_TRANS);
+         // Instead of the old archaic status system, just have a graphical representation (like nayrus love), perhaps Link flashes red slowly or has an outline
+
+         Waitframe();
+      }
+
+      for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i)
+         if (itemIds[i])
+            itemIds[i]->Power = itemStrengths[i];
 	}
 }
 
 // clang-format off
 @Author("EmilyV99")
-itemdata script LifeRing {
+itemdata script LifeRing { //TODO keep?
    //clang-format on
 
    //start Instructions

@@ -204,7 +204,7 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
@@ -226,7 +226,7 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
@@ -247,7 +247,7 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
@@ -270,7 +270,7 @@ ffc script SignpostTriggerFromItem {
    }
 
    bool waitForTalkingJustGotItem(ffc this, int itemId, int isItemCounter) {
-      until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+      until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
          if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
             break;
 
@@ -394,7 +394,7 @@ ffc script SignpostRemoveOnSecret {
       }
 
       loop() {
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
             if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
                this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
@@ -407,7 +407,7 @@ ffc script SignpostRemoveOnSecret {
             Waitframe();
          }
 
-         Input->Button[CB_SIGNPOST] = false;
+         Input->Button[CB_A] = false;
 
          if (!getScreenD(screenDForSecondMessage) || !secondaryMessage) {
             Screen->Message(initialMessage);
@@ -433,7 +433,7 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
       }
 
       loop() {
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
             if (Screen->State[ST_SECRET]) {
                this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
@@ -446,7 +446,7 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
             Waitframe();
          }
 
-         Input->Button[CB_SIGNPOST] = false;
+         Input->Button[CB_A] = false;
 
          if (!Hero->Item[itemId])
             Screen->Message(noItemMessage);
@@ -489,7 +489,7 @@ ffc script GetItemOnScreenD {
          }
          else {
             until(getScreenD(screenDFromExternal)) {
-               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
                   if (getScreenD(screenDFromExternal))
                      break;
 
@@ -502,7 +502,7 @@ ffc script GetItemOnScreenD {
                if (getScreenD(screenDFromExternal))
                   break;
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                Screen->Message(stringPreScreenDSet);
                Waitframe();
             }
@@ -546,7 +546,7 @@ ffc script GetItemOnSecret {
          }
          else {
             until(Screen->State[ST_SECRET]) {
-               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
                   if (Screen->State[ST_SECRET])
                      break;
 
@@ -559,7 +559,7 @@ ffc script GetItemOnSecret {
                if (Screen->State[ST_SECRET])
                   break;
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                Screen->Message(stringPreSecret);
                Waitframe();
             }
@@ -831,10 +831,10 @@ ffc script Shop {
             if (itemInfoMessage > 0)
                Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
 
-            if (Input->Press[CB_SIGNPOST]) {
+            if (Input->Press[CB_A]) {
                if ((Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY]) >= price) {
                   this->Data = CMB_INVIS;
-                  
+
                   Waitframe();
 
                   Game->DCounter[CR_MONEY] -= price;
@@ -862,7 +862,7 @@ ffc script Shop {
                else
                   Screen->Message(noMoneyString);
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                this->Data = thisData;
             }
             else if (Input->Press[CB_B] && itemInfoMessage > -1) {
@@ -948,7 +948,7 @@ ffc script InfoShop {
          if (againstFFC(this->X, this->Y)) {
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
 
-            if (Input->Press[CB_SIGNPOST]) {
+            if (Input->Press[CB_A]) {
                Hero->Action = LA_NONE;
                Hero->Stun = 15;
 
@@ -956,7 +956,7 @@ ffc script InfoShop {
                   Screen->Message(boughtString);
                else if (Game->Counter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
-                  Input->Button[CB_SIGNPOST] = false;
+                  Input->Button[CB_A] = false;
 
                   for (int i = 0; i < price * 2; ++i) {
                      NoAction();
@@ -972,7 +972,7 @@ ffc script InfoShop {
                else
                   Screen->Message(notBoughtMessage);
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
             }
          }
          Waitframe();

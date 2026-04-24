@@ -148,19 +148,19 @@ ffc script ServusSoldier {
       this->Data = CMB_SOLDIER_WALKING;
 
       loop() {
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
             if (againstFFC(this->X, this->Y))
                Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
             Waitframe();
          }
 
-         Input->Button[CB_SIGNPOST] = false;
+         Input->Button[CB_A] = false;
 
          unless(getScreenD(SCREEND_FOR_SECOND_STRING)) {
             Screen->Message(gettingItemString);
             Waitframe();
 
-            Input->Button[CB_SIGNPOST] = false;
+            Input->Button[CB_A] = false;
             setScreenD(SCREEND_FOR_SECOND_STRING, true);
          }
          else Screen->Message(alreadyGotItemString);
@@ -182,7 +182,7 @@ ffc script PhonographMan {
          }
          else {
             until (Screen->State[ST_SECRET]) {
-               until (againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+               until (againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
                   if (Screen->State[ST_SECRET])
                      break;
 
@@ -195,7 +195,7 @@ ffc script PhonographMan {
                if (Screen->State[ST_SECRET])
                   break;
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                Screen->Message(stringPreSecret);
                Waitframe();
             }

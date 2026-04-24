@@ -9,7 +9,6 @@ CONFIGB DEBUG = true; // TODO disable for final release
 
 /*/~~~~~Global Variables~~~~~/*/
 bool disableTrans;
-int STUN_DURATION = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Level * 60;
 
 bool levelEntries[512];
 
@@ -18,10 +17,7 @@ int onContMP = 0;
 int gameframe = 0;
 int lastPal = -1;
 
-int breathCounter;
-
 bitmap waterfallBitmap;
-bitmap overheadBitmaps[7];
 
 int stolenLinkItems[255];
 
@@ -31,25 +27,10 @@ bool auriVillageMusicSet = false;
 CONFIG INTRO_SCENE_TRANSITION_MULT = 8;
 CONFIG INTRO_SCENE_TRANSITION_FRAMES = 32;
 
-CONFIG MAX_USED_DMAP = 511;
-
 CONFIG SUB_COOLDOWN_TILE_WIDTH = 9;
 
 /*/~~~~~Item Classes~~~~~/*/
-DEFINE IC_GALEBRANG = 256;
-
-/*/~~~~~FFC~~~~~/*/
-CONFIG COMPASS_BEEP = 69;
-
-CONFIG CB_SIGNPOST = CB_A;
-
-/*/~~~~~Itemdata~~~~~/*/
-CONFIG SUB_B_X = 94;
-CONFIG SUB_B_Y = -10;
-CONFIG SUB_A_X = 118;
-CONFIG SUB_A_Y = -10;
-
-/*/~~~~~SFX~~~~~/*/
+DEFINE IC_GALEBRANG = IC_CUSTOM1;
 
 /*/~~~~~Combo~~~~~/*/
 CONFIG CMB_INVIS = 1;
@@ -237,12 +218,12 @@ enum Item {
    ITEM_DIFFICULTY_EASY = 160,
    ITEM_DIFFICULTY_NORMAL = 161,
    ITEM_DIFFICULTY_HARD = 162,
-   ITEM_DIFFICULTY_VERY_HARD = 164 
+   ITEM_DIFFICULTY_VERY_HARD = 164
 };
 
 enum Sfx {
    SFX_SWITCH_RELEASE = 0, // SFX when a switch is released
-   SFX_SUPER_JUMP = 0,
+   SFX_SUPER_JUMP = 0, //TODO set these
    SFX_SLAM = 0,
 
    SFX_BOMB_BLAST = 3,
@@ -250,12 +231,13 @@ enum Sfx {
    SFX_OOT_SECRET = 7,
    SFX_ROCKINGSHIP = 9,
    SFX_FLAMMING_ARROW = 13,
-   SFX_SWITCH_PRESS = 17, // SFX when a switch is pressed
+   SFX_SWITCH_PRESS = 17,
    SFX_MIRROR_SHIELD_ABSORB_LOOP = 60,
    SFX_POWDER_KEG_BLAST = 61,
-   SFX_SWITCH_ERROR = 62, // SFX when the wrong switch is pressed
+   SFX_SWITCH_ERROR = 62,
    SFX_SUMMON_MINE = 64,
    SFX_ONOX_TORNADO = 63,
+   SFX_COMPASS_BEEP = 69,
    SFX_OOT_ARMOS_DIE = 73,
    SFX_OOT_BIG_DEKU_BABA_LUNGE = 75,
    SFX_IRON_KNUCKLE_STEP = 79,
