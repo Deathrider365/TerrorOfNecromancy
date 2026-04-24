@@ -699,18 +699,16 @@ ffc script GBReset_Minecarts {
    using namespace MinecartNamespace;
 
    void run(int onlyThisMap) {
-      // if (Abs(Link->X - this->X) <= 8 && Abs(Link->Y - this->Y) <= 8) {
-         for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
-            if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
-               if (!GetMinecartVar(i, MCII_NORESET)) {
-                  SetMinecartVar(i, MCII_MAP, GetMinecartVar(i, MCII_ORIGINALMAP));
-                  SetMinecartVar(i, MCII_SCREEN, GetMinecartVar(i, MCII_ORIGINALSCREEN));
-                  SetMinecartVar(i, MCII_X, GetMinecartVar(i, MCII_ORIGINALX));
-                  SetMinecartVar(i, MCII_Y, GetMinecartVar(i, MCII_ORIGINALY));
-               }
+      for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
+         if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
+            if (!GetMinecartVar(i, MCII_NORESET)) {
+               SetMinecartVar(i, MCII_MAP, GetMinecartVar(i, MCII_ORIGINALMAP));
+               SetMinecartVar(i, MCII_SCREEN, GetMinecartVar(i, MCII_ORIGINALSCREEN));
+               SetMinecartVar(i, MCII_X, GetMinecartVar(i, MCII_ORIGINALX));
+               SetMinecartVar(i, MCII_Y, GetMinecartVar(i, MCII_ORIGINALY));
             }
          }
-      // }
+      }
    }
 }
 
