@@ -14,3 +14,5 @@
 *.qt8
 *.qt9
 *[backups]/
+!/SFX
+!/SFX OLD
