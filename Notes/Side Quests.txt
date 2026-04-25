@@ -63,8 +63,8 @@
 
    - Summus Catacombs Tablet
       - Tablet A                       Aeren's House (Cumpura Forest)   None + Wand (Level 8)
-      - Tablet B                       Sunken Redoubt                   None + Flippers (Level 7)
-      - Tablet C                       Concealed Pirate Hideout         Bottle ol' Rum + Flippers (Level 7)
+      - Tablet B                       Sunken Redoubt                   None + Flippers (Level 8)
+      - Tablet C                       Concealed Pirate Hideout         None + None
       - Tablet D                       Conflatos Elder Basement         None + Longshot (Level 9)
 
    - Leviathan Scale -
@@ -177,17 +177,17 @@
       44 - SEI Gelido Shoal            89:57                            None + Flipper (Level 7)
       45 - NWI Medius Village          96:64                            None + Flipper (Level 7)
       46 - SEI Caves                   120:05                           None + Portal Sphere (Shrine of Blasphemy)
-      47 - SEI Caves                   120:07                           None + Gale Rang (Level 10)                      
+      47 - SEI Caves                   120:07                           None + Gale Rang (Level 10)
       48 - NWI Caves                   124:23                           None + Wand (Level 8)
       49 - NWI Caves                   124:31                           None + Flipper (Level 7)
       50 - NWI Caves                   124:33                           None + Mirror Shield (Level 12)
-      51 - NWI Caves                   124:36                           None + Portal Sphere (Shrine of Blasphemy)                           
+      51 - NWI Caves                   124:36                           None + Portal Sphere (Shrine of Blasphemy)
       52 - NEI Pacilux Village         9:23                             None + Spectral Cane (Sealed Abyss)
       53 - NEI Caves                   28:27                            None + Mirror Shield (Level 12)
       54 - NEI Caves                   28:4D                            None + Hammer (Level 3)
       55 - SWI Caves                   57:45                            None + Flipper (Level 7)
       56 - NEI Residence               16:35                            None + 700 Rupees, Theif's Wallet/Merhant's Membership (IDK yet)
       57 - SWI Celo Village            53:20                            None + Powder Keg (Summus Pass)
-      58 - 
-      59 - 
-      60 - 
+      58 -
+      59 -
+      60 -
