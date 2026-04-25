@@ -598,7 +598,7 @@ bool CanUseItemInMinecart(int itemid) {
 }
 
 int getHeroHitSound() {
-   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3);
+   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3, SFX_HERO_HURT_4, SFX_HERO_HURT_5, SFX_HERO_HURT_6);
 }
 
 bool viewportContainsRect(int x, int y, int width, int height) {

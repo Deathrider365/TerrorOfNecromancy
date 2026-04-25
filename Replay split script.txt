@@ -1,0 +1,1 @@
+python ./scripts/split_replay.py --replay "/Users/connorclark/Downloads/Replay Crash/replays/Terror-of-Necromancy-Demo6.zplay" --output-folder .tmp/ToN_split
