@@ -315,12 +315,15 @@ ffc script PlayEnhancedMusic {
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("dir"),
-@InitDHelp0("0 - up, 1 - down, 2 - left, 3 - right")
+@InitDHelp0("0: Up\n 1: Down\n 2: Left\n 3: Right"),
+@InitD1("side"),
+@InitDHelp1("0: Top\n 1: Bottom\n 2: Left\n 3: Right")
 ffc script FaceLinkOnEntrance {
    // clang-format on
 
-   void run(int dir) {
-      Hero->Dir = dir;
+   void run(int dir, int side) {
+      // if ((HeroIsScrollingOrWarping() && Hero->Y >= 168 || Hero->Y < 16 && !HeroIsScrollingOrWarping()) && dir == DIR_DOWN) //TODO make this smarter
+         Hero->Dir = dir;
    }
 }
 
