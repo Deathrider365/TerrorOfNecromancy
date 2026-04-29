@@ -34,7 +34,7 @@
       - Moist Bread                    Exiled Zora Domain               Fully Intact Sea Shell + None
       - Snake Egg                      NEI Residence (Silva Village)    Moise Bread + None
       - Fresh Coconut                  NEI Caves (0x4D)                 Snake Egg + None
-      - Carulem Fish                   NWI Caves (0x07)                 Fresh Coconut + Long Shot (Level 9)
+      - Carulem Fish                   NWI Caves (0x07)                 Fresh Coconut + Long Shot (Level 9) THIS IS NOT CORRECT
       - Broken Sword                   Viridi Village                   Carulem Fish + NONE
       - Ancient Sword Key              NEI Caves (Legendary Smiths)     Broken Sword + Wand (Level 8)
       - UNIMPLEMENTED                  NEI Caves (Off of Silva Village) Ancient Sword Key + NONE
@@ -52,9 +52,9 @@
 
    - Trading D - Heart Ring Shard
       - Seared Steak                   NEI Caves (0x26)                 None + Ladder (Level 2)
-      - Goriya Boomerang               NEI Caves (0x59)                 None + Ladder (Level 2)
-      - Strange Key                    NEI Caves (0x53)                 None + Longshot (Level 9)
-      - Heart Ring Shard               Auri Library Forbidden Section   None + None
+      - Goriya Boomerang               NEI Caves (0x59)                 Seared Steak + Ladder (Level 2)
+      - Strange Key                    NEI Caves (0x53)                 Goriya Boomerang + Longshot (Level 9)
+      - Heart Ring Shard               Auri Library Forbidden Section   Strange Key + None
 
 ~~ Other Sequences ~~~
    - Half Magic - Pirates Tome (Half Magic)

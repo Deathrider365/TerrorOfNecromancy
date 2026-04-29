@@ -1172,6 +1172,7 @@ ffc script LegendaryArmorer {
          if (!getScreenD(SCREEND_INITIAL_MESSAGE)) {
             Screen->Message(MESSAGE_INITIAL);
             setScreenD(SCREEND_INITIAL_MESSAGE, true);
+            Waitframe();
          }
 
          if (Hero->Item[ITEM_LEVIATHAN_SCALE1] || Hero->Item[ITEM_LEVIATHAN_SCALE2]) {

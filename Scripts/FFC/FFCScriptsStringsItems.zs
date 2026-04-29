@@ -863,7 +863,7 @@ ffc script Shop {
                   Screen->Message(noMoneyString);
 
                Input->Button[CB_A] = false;
-               this->Data = thisData;
+               // this->Data = thisData;
             }
             else if (Input->Press[CB_B] && itemInfoMessage > -1) {
                Screen->Message(itemInfoMessage);

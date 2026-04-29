@@ -1000,8 +1000,11 @@ ffc script SetLevel8Music {
             Game->LoadDMapData(dmapId + 4)->Music = Audio->LoadMusicData(newMusicData);
             Game->LoadDMapData(dmapId + 5)->Music = Audio->LoadMusicData(newMusicData);
 
-            Screen->Message(1017);
-
+            if (!getScreenD(0)) {
+               Screen->Message(1017);
+               setScreenD(0, true);
+            }
+      
             Quit();
          }
 
