@@ -8,7 +8,7 @@ ffc script ContinuePoint {
    void run(int dmap, int scrn) {
       unless(dmap || scrn) {
          dmap = Game->CurDMap;
-         scrn = Game->CurScreen;
+         scrn = Game->HeroScreen;
       }
 
       Game->LastEntranceDMap = dmap;
