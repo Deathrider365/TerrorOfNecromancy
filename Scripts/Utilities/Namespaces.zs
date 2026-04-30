@@ -772,7 +772,9 @@ namespace IntroMovie {
          }
          
          Screen->Message(message1);
-         
+         Waitframe();
+         Screen->TriggerSecrets();
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
