@@ -84,7 +84,7 @@
       - Shard 3                        Auri Library Forbidden Section   None + None
       - Shard 4
 
-   - Bomb Expansions (Starts at 10 and with Max = 6, total is 34)
+   - Bomb Expansions (Starts at 10 and with Max = 6, total is 34) I HAD 5 IN MY PLAYTHROUGH??
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
       - Free                           IoH                              None + Raft (Level 5)
       - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
