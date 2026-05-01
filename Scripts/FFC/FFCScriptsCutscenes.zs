@@ -1831,6 +1831,12 @@ ffc script SummusTabletPedestal {
 
             if (tabletShardCount == 4) {
                drawAllNecessaryShards();
+
+               Hero->Item[ITEM_SUMMUS_TABLET_SHARD_A] = false;
+               Hero->Item[ITEM_SUMMUS_TABLET_SHARD_B] = false;
+               Hero->Item[ITEM_SUMMUS_TABLET_SHARD_C] = false;
+               Hero->Item[ITEM_SUMMUS_TABLET_SHARD_D] = false;
+
                Screen->Message(allShardsMessage);
                Screen->Quake = 120;
 
@@ -1852,15 +1858,16 @@ ffc script SummusTabletPedestal {
 
    void waitForReading(ffc this) {
       until(againstFFC(this->X, this->Y, true) && Input->Press[CB_A]) {
-         if (againstFFC(this->X, this->Y, true)) {
+         if (againstFFC(this->X, this->Y, true))
             Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Input->Button[CB_A] = false;
-         }
 
+         Input->Button[CB_A] = false;
          drawAllNecessaryShards();
 
          Waitframe();
       }
+
+      Input->Button[CB_A] = false;
 
    }
 

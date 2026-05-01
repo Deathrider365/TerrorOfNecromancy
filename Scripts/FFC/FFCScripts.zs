@@ -1004,7 +1004,7 @@ ffc script SetLevel8Music {
                Screen->Message(1017);
                setScreenD(0, true);
             }
-      
+
             Quit();
          }
 

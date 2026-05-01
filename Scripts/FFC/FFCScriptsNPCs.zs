@@ -1389,3 +1389,29 @@ ffc script CumpuraKeySoldier {
       }
    }
 }
+
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SoTranquilLady {
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
+      loop() {
+         waitForTalking(this);
+
+         if (!getScreenD(initialScreenD)) {
+            Screen->Message(initialMessage);
+
+            Waitframes(60);
+
+            setScreenD(initialScreenD, true);
+            this->Data++;
+            Screen->Message(secondaryMessage);
+         }
+         else
+            Screen->Message(tertiaryMessage);
+
+         Waitframe();
+      }
+   }
+}
