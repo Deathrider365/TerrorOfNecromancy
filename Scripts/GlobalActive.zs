@@ -270,6 +270,7 @@ global script GlobalScripts {
          case 0:  //Isle of Haeren
             switch (screen) {
                case 0x22: return 011000b;
+               case 0x16: return 011100b;
             }
          case 4:  //NEI Plains
             switch (screen) {
