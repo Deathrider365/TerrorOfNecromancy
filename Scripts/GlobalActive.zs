@@ -576,13 +576,17 @@ global script GlobalScripts {
 
    // Author - Jamien
    void BoomerangNerf() {
-      int stunDuration = Game->LoadItemData(GetHighestLevelItemOwned(IC_BRANG))->Level * 60;
+      int curBoom = GetHighestLevelItemOwned(IC_BRANG);
 
-      for (int i = 1; i <= Screen->NumNPCs; ++i) {
-         npc enem = Screen->LoadNPC(i);
+      if (curBoom > -1) {
+         int stunDuration = Game->LoadItemData(curBoom)->Level * 60;
 
-         if (stunDuration > 0 && enem->Stun > stunDuration)
-            enem->Stun = stunDuration;
+         for (int i = 1; i <= Screen->NumNPCs; ++i) {
+            npc enem = Screen->LoadNPC(i);
+
+            if (stunDuration > 0 && enem->Stun > stunDuration)
+               enem->Stun = stunDuration;
+         }
       }
    }
 
