@@ -5,7 +5,6 @@
 *.ogg
 *.qt*
 
-!Quest+Music
-*[backups]/
-Quest+Music/*[backups]/
 !SFX*/*
+!Quest+Music
+Quest+Music/*[backups]*/
