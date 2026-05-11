@@ -28,8 +28,7 @@ npc script Candlehead {
       else
          this->SlideSpeed = knockbackDist;
 
-      while (true) {
-
+      loop () {
          if (this->HP <= 0)
             this->Step = 0;
 
@@ -46,6 +45,7 @@ npc script Candlehead {
                   burnToDeath(this, chungo, DMG_FLAME);
 
                doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
+               
                Waitframe();
             }
          }
@@ -66,6 +66,9 @@ npc script Candlehead {
       n->LightShape = LIGHT_CIRCLE;
 
       until (n->HP <= 0) {
+         if (n->HP <= 0)
+            n->Step = 0;
+
          int x = chungo ? n->X + 8 : n->X;
          int y = chungo ? n->Y + 8 : n->Y;
 

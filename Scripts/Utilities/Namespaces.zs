@@ -152,7 +152,7 @@ namespace EnemyNamespace {
    }
 
    void doWalk(npc n, int rand, int homing, int step, bool flying = false, int moveStyle = 1) {
-      if (n->HP <= 0)
+      if (n->HP <= 0 || n->MovePaused())
          return;
 
       CONFIG ONE_IN_N = 1000;
