@@ -886,10 +886,9 @@ ffc script BuyItem {
          Quit();
       }
 
-      if (itemId == Hero->Item[ITEM_BATTLE_ARENA_TICKET]) {
+      if (itemId == Hero->Item[ITEM_BATTLE_ARENA_TICKET])
          if (Hero->Item[ITEM_BATTLE_ARENA_TICKET])
             Screen->State[ST_SECRET] = false;
-      }
 
       char32 priceBuf[6];
       sprintf(priceBuf, "%d", price);
@@ -898,15 +897,12 @@ ffc script BuyItem {
 
       unless(getScreenD(entryMessageOnce)) Screen->Message(entryMessage);
 
-      if (entryMessageOnce) {
+      if (entryMessageOnce)
          setScreenD(entryMessageOnce, true);
-      }
 
       Waitframe();
 
       while (!getScreenD(buyOnceScreenD)) {
-         Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-
          if (onTop(this->X, this->Y) && Game->Counter[CR_MONEY] >= price) {
             Game->DCounter[CR_MONEY] -= price;
 
@@ -925,7 +921,10 @@ ffc script BuyItem {
             }
 
             this->Data = CMB_INVIS;
-         }
+         } 
+         else
+            Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+            
          Waitframe();
       }
    }
