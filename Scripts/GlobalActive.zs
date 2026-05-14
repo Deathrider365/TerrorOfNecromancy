@@ -125,6 +125,24 @@ global script GlobalScripts {
    }
 
    bool isUnderWater() { //TODO something still breaks link from drowning
+      // int pos = ComboAt(Link->X + 4, Link->Y + 4);
+      // int comboT = Screen->ComboT[pos];
+
+      // for (int i = 1; i < 3; ++i)
+      //    if (Screen->LayerMap[i]) {
+      //       mapdata mapData = Game->LoadTempScreen(i);
+
+      //       if (mapData->ComboD[pos])
+      //          comboT = mapData->ComboT[pos];
+      //    }
+
+      // if (comboT == CT_FOOTPRINT)
+      //    createFootprint(fadeMult);
+
+      // footprints[0] = 12;
+
+
+
       switch(Hero->Action) {
          case LA_DIVING:
          case LA_SIDESWIM:
@@ -136,7 +154,11 @@ global script GlobalScripts {
          case LA_SIDESWIMFROZEN:
          case LA_SIDESWIMSPINNING:
          case LA_SIDESWIMCHARGING:
+         case LA_ATTACKING:
             return true;
+         // default:
+         //    if (HeroIsScrollingOrWarping())
+         //       return true;
       }
 
       return false;
