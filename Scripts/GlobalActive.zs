@@ -35,6 +35,9 @@ global script GlobalScripts {
 
       int flipperPower;
       int breathCounter;
+      int noBreathDamage = 0;
+      int drownDamageFrequency = 60;
+      int timeWithNoBreath = 0;
 
       if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
          flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
@@ -68,13 +71,26 @@ global script GlobalScripts {
             unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
                flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
 
-               if (isUnderWater())
-                  --breathCounter;
-               else
-                  breathCounter = flipperPower;
+               if (isUnderWater() || HeroIsScrollingOrWarping()) {
+                  if (breathCounter == 0 && timeWithNoBreath % 180 == 0) {
+                     drownDamageFrequency -= 5;
+                     noBreathDamage++;
+                  }
 
-               if (breathCounter <= 0)
-                  hurtDatHero(60, 2);
+                  if (breathCounter == 0)
+                     timeWithNoBreath++;
+                  else
+                     --breathCounter;
+               }
+               else {
+                  noBreathDamage = 0;
+                  timeWithNoBreath = 0;
+                  drownDamageFrequency = 60;
+                  breathCounter = flipperPower;
+               }
+
+               if (breathCounter == 0)
+                  hurtDatHero(drownDamageFrequency, noBreathDamage);
             }
          }
 
@@ -125,7 +141,7 @@ global script GlobalScripts {
    }
 
    bool isUnderWater() {
-      int pos = ComboAt(Link->X + 4, Link->Y + 2);
+      int pos = ComboAt(Link->X + 4, Link->Y + 8);
       int comboT = Screen->ComboT[pos];
 
       for (int i = 1; i < 3; ++i) {
