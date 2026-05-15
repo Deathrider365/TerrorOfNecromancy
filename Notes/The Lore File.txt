@@ -827,6 +827,10 @@ Write lore around paladins and their influence on Vita
 
 update lore about the scholar in the prologue and say he read that there was a power on interitus
 
+add lore to pacilux for why there isnt undead there
+
+take inspiration from Flow of Time Remastered village ruins for Pacilux
+
 
 Ending Stuff:
 - Bad Ending: alright music (not my favorite) you see screens from the game but things are worse, more ruined and dark

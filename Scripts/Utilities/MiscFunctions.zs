@@ -566,9 +566,9 @@ void gridLockFFC(ffc this) {
 }
 
 void hurtDatHero(int frequency, int damage) {
-   if (gameframe % frequency == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
+   if (gameframe % frequency == 0 && !HeroIsScrollingOrWarping()) {
       Hero->HP -= damage;
-      Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+      Audio->PlaySound(getHeroHitSound());
    }
 }
 

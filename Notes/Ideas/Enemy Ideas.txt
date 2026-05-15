@@ -38,3 +38,5 @@ enemy is a spider that has boomerang like attack that grabs link and pull him to
 if I have patras make them weak to fire
 
 Enemy (perhaps wizzrobe) that spams you when you turn your back only (kinda like a boo)
+
+walking bomb enemy from FoTR
