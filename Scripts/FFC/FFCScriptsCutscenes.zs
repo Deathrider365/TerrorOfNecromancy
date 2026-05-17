@@ -1396,7 +1396,7 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG CARULEM_ZORA = 5809;
    CONFIG DURATU_GORON = 5818;
    CONFIG DURATU_GORON_HAIR = 5814;
-   CONFIG CONFLATOS_NEPHEW = 5850;
+   CONFIG CONFLATOS_NEPHEW = 5545;
 
    void run() {
       if (Screen->State[ST_SECRET] || Game->LoadMapData(57, 0x26)->State[ST_SECRET]) {

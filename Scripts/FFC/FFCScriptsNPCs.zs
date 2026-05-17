@@ -308,6 +308,9 @@ ffc script ConflatosNephew {
          Quit();
       }
 
+      CONFIG COMBO_NEPHEW_NOT_SMITHING = 5545;
+      CONFIG COMBO_LONELY_ANVIL = 5545;
+
       loop() {
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
 
@@ -316,6 +319,11 @@ ffc script ConflatosNephew {
          if (!forgeMinesBossRoom->State[ST_SECRET]) {
             Screen->Message(initialMessage);
          } else if (forgeMinesBossRoom->State[ST_SECRET]) {
+            Game->LoadTempScreen(3)->ComboD[100] = CMB_INVIS;
+            Game->LoadTempScreen(1)->ComboD[117] = COMBO_LONELY_ANVIL;
+
+            this->Data = COMBO_NEPHEW_NOT_SMITHING;
+            Waitframes(5);
             Screen->Message(secondaryMessage);
             Waitframe();
 

@@ -480,6 +480,35 @@ ffc script SetScreenDIfSecretsInOtherRoom {
 }
 
 // clang-format off
+@Author("Deathrider365"),
+@InitD0("itemId"),
+@InitDHelp0("ItemId to check"),
+@InitD1("screenD"),
+@InitDHelp1("screenD to set on THIS screen"),
+@InitD2("invert"),
+@InitDHelp2("whether to UNSET if you have the item")
+ffc script SetScreenDIfHasItem {
+   // clang-format on
+   void run(int itemId, int screenD, int invert) {
+      loop() {
+         if (Hero->Item[itemId]) {
+            if (invert > -1)
+               setScreenD(screenD, false);
+            else
+               setScreenD(screenD, true);
+         } 
+         else 
+            if (invert > -1)
+               setScreenD(screenD, true);
+            else
+               setScreenD(screenD, false);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
 @Author("kifstopher")
 ffc script BossCam { // clang-format on
 

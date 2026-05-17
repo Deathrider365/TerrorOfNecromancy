@@ -400,51 +400,50 @@ ffc script SwitchRemote {
 @Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap {
    // clang-format on
-   void run(int enemyid, int count, int fallSpeed, int perm, int sensitive) {
-      if (getScreenD(0)) {
+   void run(int enemyCount, int perm, int enemy1, int enemy2, int enemy3, int screenD, int fallSpeed) {
+      if (getScreenD(screenD)) {
          this->Data++;
          Quit();
       }
 
-      until(switchPressed(this->X, this->Y, false, true)) Waitframe();
-
-      setScreenD(0, true);
+      until (switchPressed(this->X, this->Y, false, true)) Waitframe();
 
       this->Data++;
-      Audio->PlaySound(SFX_SWITCH_PRESS);
-      Audio->PlaySound(SFX_SWITCH_ERROR);
 
+      Audio->PlaySound(SFX_SWITCH_PRESS);
       Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
 
       npc npcs[255];
 
-      for (int i = 0; i < count; i++) {
+      for (int i = 0; i < enemyCount; i++) {
          int pos = getSpawnPos();
-         npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
+         npc n = CreateNPCAt(Choose(enemy1, enemy2, enemy3), ComboX(pos), ComboY(pos));
          npcs[i] = n;
+
          Audio->PlaySound(SFX_FALL);
          n->Z = 176;
 
          for (int j = 0; j < 20; j++) {
-            for (int k = 0; k < count; k++) {
+            for (int k = 0; k < enemyCount; k++) {
                if (npcs[k])
                   npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
             }
             Waitframe();
          }
+
          Waitframe();
       }
 
-      unless(fallSpeed) fallSpeed = 5;
-
       for (int i = 0; i < 60; ++i) {
-         for (int j = 0; j < count; j++)
+         for (int j = 0; j < enemyCount; j++)
             npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
          Waitframe();
       }
 
       while (Screen->NumNPCs)
          Waitframe();
+
+      setScreenD(screenD, true);
 
       MUSIC_INHERIT->Play();
    }
