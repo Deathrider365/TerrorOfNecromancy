@@ -55,7 +55,7 @@ Shop: Merchant's Membership (2)
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
 (10) Level 10: Infernal Caldera					                        - Gale Boomerang (3)
-(24) Optional Dungeon 8: Isolated Spire                                 - Giant's Bracer (3)
+(24) Optional Dungeon 8: Isolated Spire                                 - Giant's Bracer (3) OR ELDER WAND??
 Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
 
 (11) Level 11: Towers of Dichotomy				                        - Elemental Rod or Rod of Antithesis (1)
@@ -73,6 +73,8 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 Charge Clock Lv1 and 2
 Swindler's Medal
 Lens of Unveiling
+Elder Wand
+Theif's Wallet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---

@@ -202,8 +202,10 @@ global script GlobalScripts {
       //Pit warp constants
       CONFIG WARPS_LINK = 1;
       CONFIG DIRECT_WARP = 2;
+
       if (Hero->Falling == 1) {
          combodata combo = Game->LoadComboData(Hero->FallCombo);
+         
          if (combo->UserFlags & WARPS_LINK) {
                if (combo->UserFlags & DIRECT_WARP)
                   Hero->Z = Hero->Y;
