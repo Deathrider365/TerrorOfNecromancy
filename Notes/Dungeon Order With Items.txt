@@ -7,62 +7,165 @@
 
 ---Demo 2---
 
-(01) Level 1: Pernicious Grotto				                            - Oil Candle (2)
-Battle Arena 1: Raccoon Hollow			                                - Landscaper's Bracelet (1)
+   - Viridi Hiding Kid
+      - Medicinal Herb
+
+   - Viridi Shop:
+      - Wax Candle (1)                                                     - 100
+      - Small Magic                                                        - 15
+      - 8 Bombs                                                            - 50
+      - 10 Arrows                                                          - 30
+
+   - Viridi Market:
+      - 30 Arrows                                                          - 75
+      - Magic Shield (2)                                                   - 90
+      - Wooden Shield (1)                                                  - 30
+      - Map of Interitus                                                   - 200
+      - 3 Hearts and Small Magic                                           - 50
+      - Arrow Expansion (listed in sidequests)                             - 130
+
+   - NEI Potion Shop:
+      - Blue Potion (1)                                                    - 50
+      - Red Potion (2)                                                     - 90
+      - Large Magic                                                        - 60
+
+(01) Level 1: Pernicious Grotto				                              - Oil Candle (2)
+Battle Arena 1: Raccoon Hollow			                                 - Landscaper's Bracelet (1)
+
+   - Raccoon Hollow Shop:
+      - 8 Bombs                                                            - 55
+      - 10 Arrows                                                          - 45
 
 ---Demo 3---
 
-(02) Level 2: Derelict Quarry				                            - Ladder
-(14) Minidungeon 2: Seized Guard Tower		                            - Soldier's Boomerang (2)
+(02) Level 2: Derelict Quarry				                                 - Ladder
+
+   NEI Cave (0x26)
+      - Seared Steak
+
+(14) Minidungeon 2: Seized Guard Tower		                              - Soldier's Boomerang (2)
+
+   - Silva Shop:
+      - Heart Piece (listed in side quests)                                - 700
+      - Magic Shield (2)                                                   - 130
+      - Blue Potion (1)                                                    - 75
 
 ---Demo 4---
 
-(03) Level 3: Ancient Shrine				                            - Cultist's Hammer (1)
-Battle Arena 2: Pirate Hideout			                                - Soldier's Bow (2)
-(15) Optional Dungeon 1: Molten Flooded Forge		                    - Sword of Conflator (2)
-Blue Mail
+(03) Level 3: Ancient Shrine				                                 - Cultist's Hammer (1)
+Battle Arena 2: Pirate Hideout			                                 - Soldier's Bow (2)
+
+   - Celo Shop:
+      - Magic Shield (2)                                                   - 90
+      - Seared Steak                                                       - 120
+      - 4 Bombs                                                            - 25
+
+   - Grave Tender:
+      - Blue Mail
+
+   - SWI Potion Shop:
+      - Blue Potion (1)                                                    - 80
+      - Red Potion (2)                                                     - 150
+      - Purple Potion (2)                                                  - 225
+      - Large Magic                                                        - 80
+
+   - Conflatos Shop:
+      - 30 Arrows                                                          - 80
+      - Magic Shield (2)                                                   - 130
+      - Clock of Swiftness (2)                                             - 255
+      - Oil Lantern (2)                                                    - 150
+      - 30 Bombs                                                           - 80
+
+(15) Optional Dungeon 1: Molten Flooded Forge		                     - Sword of Conflator (2)
 
 ---Demo 5---
 
-(04) Level 4: Pillaged Prison			                                - Lens of Truth
-(16) Minidungeon 3: Sweltering Iron Mine		                        - Iron Arrows (2)
+(04) Level 4: Pillaged Prison			                                    - Lens of Truth
 
-(05) Level 5: Temple of Gamoth			                                - Hookshot (1)
-(17) Minidungeon 4: The Summus Pass:			                        - Merchant's Wallet (1)
-(18) Optional Dungeon 2: Sealed Abyss	   	                            - Displelled Cane (1), Spectral Cane (2)
+   - Palus Shop:
+      - 30 Arrows                                                          - 85
+      - 8 Bombs                                                            - 65
+      - 5 Hearts                                                           - 50
+
+(16) Minidungeon 3: Sweltering Iron Mine		                           - Iron Arrows (2)
+
+(05) Level 5: Temple of Gamoth			                                 - Hookshot (1)
+(17) Minidungeon 4: The Summus Pass:			                           - Merchant's Wallet (1)
+
+   - Auri Bomb Shop
+      - Powder Keg                                                         - 100
+
+   - Duratu Shop:
+      - Incendiary Candle (3)                                              - 550
+      - 10 Arrows                                                          - 50
+      - 3 Hearts and Small Magic                                           - 60
+
+   - Medius Shop:
+      - Super Quake                                                        - 600
+      - 30 Arrows                                                          - 90
+      - Magic Ocarina (2)                                                  - 500
+      - 30 Bombs                                                           - 75
 
 (06) Level 6: Geothermal Plant                                          - Goron Gauntlet (2)
 
-Purchaseable                                                            - Incendiary Candle (3)
+   - Goron Foreman Bomb Shop
+      - Powder Keg                                                         - 120
+      - 8 Bombs                                                            - 80
+
+   - Carulem Shop:
+      - Magic Shield (2)                                                   - 160
+      - Diver's Flippers (2)                                               - 750
+      - 4 Bombs                                                            - 30
+      - Powder Keg                                                         - 150
+
+(18) Optional Dungeon 2: Sealed Abyss	   	                           - Displelled Cane (1), Spectral Cane (2)
+
+   - Auri Shop:
+      - 8 Bombs                                                            - 60
+      - Large Magic                                                        - 80
+      - Magic Ocarina (2)                                                  - 300
+      - Shopper's Membership (1)                                           - 0
+
 
 ---Demo 6---
 
 (07) Level 7: Palace of Waves                                           - Zora's Flippers (1)
-Battle Arena 3: Exiled Zora's Domain		 	                        - Hurricane Spin
-(19) Optional Dungeon 3: Hylian Wreck			                        - Master Sword (3)
+Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane Spin
+(19) Optional Dungeon 3: Hylian Wreck			                           - Master Sword (3)
 (20) Optioanl Dungeon 4: Seaside Outpost (soma's dungeon)               - Red Mail (3)
 
-(08) Level 8: Marauder's Cove				                            - Mage's Wand (1)
-(21) Optional Dungeon 5: Molten Flooded Forge Mines	                    - Smith's Hammer (2), Defense Ring
+(08) Level 8: Marauder's Cove				                                 - Mage's Wand (1)
+(21) Optional Dungeon 5: Molten Flooded Forge Mines	                  - Smith's Hammer (2), Defense Ring
 
-(09) Level 9: Castle Interitus				                            - Longshot (2)
-(22) Optional Dungeon 7: Bastion of the Profaned Legion	                - Mithril Arrow (3)
-Shop: Thief's Wallet (2)
-Shop: Merchant's Membership (2)
+(09) Level 9: Castle Interitus				                              - Longshot (2)
+(22) Optional Dungeon 7: Bastion of the Profaned Legion	               - Mithril Arrow (3)
+
+   - SEI Curios Shop
+      - Lens of Unveiling (2)                                           - 1750
+      - Arrow Expansion (listed in side quests)                         - 280
+      - Merchant's Membership (2)                                       - 575
+
 (23) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
-(10) Level 10: Infernal Caldera					                        - Gale Boomerang (3)
-(24) Optional Dungeon 8: Isolated Spire                                 - Giant's Bracer (3) OR ELDER WAND??
+(10) Level 10: Infernal Caldera					                           - Gale Boomerang (3)
+
+   - NWI Curios Shop
+      - Thief's Wallet (3)                                              - 660
+      - Clock of Agility (3)                                            - 1500
+      - Swindler's Guide (3)                                            - 1325
+
+(24) Optional Dungeon 8: Isolated Spire                                 - Elder Wand (2)
 Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
 
-(11) Level 11: Towers of Dichotomy				                        - Elemental Rod or Rod of Antithesis (1)
+(11) Level 11: Towers of Dichotomy				                           - Elemental Rod or Rod of Antithesis (1)
 can buy in carulem at some point Diver's Flippers (2)
 
-(12) Level 12: Cathedral of the Accursed			                    - Mirror Shield (3)
+(12) Level 12: Cathedral of the Accursed			                        - Mirror Shield (3)
 (25) Optional Dungeon 10: Shrine of Blasphemy                           - Portal Sphere
+
 
 Goddess Sword is obtained once you have all shards to the golden triforces and you go to a Golden Link statue
 Goddess Mail is obtained once you have all shards to the golden triforces and you go to a different Golden Link statue
@@ -70,11 +173,7 @@ Goddess Mail is obtained once you have all shards to the golden triforces and yo
 Upon getting the Goddess set, for every Leviathan scale you have go to the smith in NEI to enhance them to +1
 
 ~~~TODO Items Unaccounted For TODO~~~
-Charge Clock Lv1 and 2
-Swindler's Medal
-Lens of Unveiling
-Elder Wand
-Theif's Wallet
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---

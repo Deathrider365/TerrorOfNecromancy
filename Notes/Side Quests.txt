@@ -1,6 +1,18 @@
 ~~~~~ Side Quests + Other Items and Events ~~~~~
      -Category and Name-              -Obtain Location-                         -Prerequisite-
 
+~~~ Curios Shop ~~~
+   - SEI                                                                (Mithril Arrows Required (Bastion))
+      - Lens of Unveiling              SEI Curios                       Swindler's Guide and Thief's Wallet
+      - Arrow Expansion (listed below) SEI Curios                       None
+      - Merchant's Membership          SEI Curios                       Shopper's Membership and Merchant's Wallet
+
+   - NWI                                                                (Gale Boomerang Required (Lv10))
+      - Thief's Wallet                 NWI Curios                       Merchant's Membership and Merchant's Wallet
+      - Clock of Agility               NWI Curios                       Swindler's Guide and Thief's Wallet
+      - Swindler's Guide               NWI Curios                       Thief's Wallet and Merchant's Guide
+
+
 ~~~ Item Sequences ~~~
    - Sequence A
       - Cumpura Key                    Viridi Village                   None + None
@@ -96,7 +108,7 @@
       - 130 Rupees                     Viridi Village (Shop)            None + Oil Candle (Level 1)
       - 180 Rupees                     NEI Caves (0x15)                 None + Solider's Boom (Seized Guard Tower)
       - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5)
-      - 280 Rupees                     SEI Caves (0x00)                 None + Mithil Arrow (Bastion of the Profaned Legion)
+      - 280 Rupees                     SEI Curios (0x00)                None + Mithil Arrow (Profaned Bastion)
       - 330
       - 380
 
