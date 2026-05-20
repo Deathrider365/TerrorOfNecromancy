@@ -70,6 +70,7 @@ item script TriforcePickup {
    //TODO pickup cutscene with music
 
    CONFIG BASE_STRING = 777;
+   CONFIG STRING_COMPLETED_TRIFORCE = 919;
 
 	void run(int triforceType, int counterId) {
       //TODO cutscene? cannot get this gradual incrememnting to work
@@ -83,19 +84,19 @@ item script TriforcePickup {
 
       switch(counterId) {
          case CR_TRIFORCE_OF_COURAGE:
-            Screen->Message(BASE_STRING + triforceType);
+            Screen->Message(Game->Counter[CR_TRIFORCE_OF_COURAGE] == 4 ? STRING_COMPLETED_TRIFORCE + triforceType : BASE_STRING + triforceType);
             Waitframe();
             break;
          case CR_TRIFORCE_OF_POWER:
-            Screen->Message(BASE_STRING + triforceType);
+            Screen->Message(Game->Counter[CR_TRIFORCE_OF_POWER] == 4 ? STRING_COMPLETED_TRIFORCE + triforceType : BASE_STRING + triforceType);
             Waitframe();
             break;
          case CR_TRIFORCE_OF_WISDOM:
-            Screen->Message(BASE_STRING + triforceType);
+            Screen->Message(Game->Counter[CR_TRIFORCE_OF_WISDOM] == 4 ? STRING_COMPLETED_TRIFORCE + triforceType : BASE_STRING + triforceType);
             Waitframe();
             break;
          case CR_TRIFORCE_OF_DEATH:
-            Screen->Message(BASE_STRING + triforceType);
+            Screen->Message(Game->Counter[CR_TRIFORCE_OF_DEATH] == 4 ? STRING_COMPLETED_TRIFORCE + triforceType : BASE_STRING + triforceType);
             Waitframe();
             break;
       }

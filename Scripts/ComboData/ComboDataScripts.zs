@@ -202,9 +202,11 @@ combodata script GBMinecart_Track {
    }
 }
 
-@Author("Emily")
+@Author("Emily, Modified by Deathrider365")
 combodata script FlipDaPlace {
    void run(int dmap, int screen, int layer) {
+      Hero->NoCollisionTimer = 300;
+
       Screen->Quake = 60;
 
       for(int i = 0; i < 60; ++i) {
@@ -238,8 +240,6 @@ combodata script FlipDaPlace {
       int rotatedX = Abs(Viewport->Width - heroX) - 16;
       int rotatedY = Abs(Viewport->Height - heroY) - 16;
 
-      // Hero->Warp(dmap, screen);
-      // Hero->WarpEx({WT_IWARP, dmap, screen, -1, WARPEFFECT_NONE, 0, 0, heroDir});
       Hero->WarpEx(WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, heroDir);
    }
 }

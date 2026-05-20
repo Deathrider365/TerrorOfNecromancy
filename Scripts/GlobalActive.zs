@@ -388,6 +388,7 @@ global script GlobalScripts {
             break;
          case 39: //SWI Mt Duratu
             switch (screen) {
+               case 0x5F: return 011100b;
                case 0x6F: return 000100b;
                case 0x7C: return 011100b;
                case 0x7F: return 001100b;
