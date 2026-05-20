@@ -208,17 +208,17 @@ ffc script ContinuePoint {
 
    void run() {
       while (true) {
-         until(Link->Action == LA_SWIMMING && Link->Action == LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER) Waitframe();
+         until(Hero->Action == LA_SWIMMING && Hero->Action == LA_DIVING && Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER) Waitframe();
 
          int maxDamageTimer = 120;
          int damageTimer = maxDamageTimer;
 
-         while (Link->Action == LA_SWIMMING || Link->Action == LA_DIVING || (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER)) {
+         while (Hero->Action == LA_SWIMMING || Hero->Action == LA_DIVING || (Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER)) {
             damageTimer--;
 
             if (damageTimer <= 0)
-               if (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER || Link->Action == LA_SWIMMING) {
-                  Link->HP -= 8;
+               if (Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER || Hero->Action == LA_SWIMMING) {
+                  Hero->HP -= 8;
                   Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
                   damageTimer = maxDamageTimer;
                }
@@ -614,26 +614,26 @@ ffc script GBMinecart {
       if (jumpOut) {
          // Link is launched out in the opposite direction because
          // the cart turns around on reaching the platform
-         Link->Dir = OppositeDir(dir);
-         Link->Jump = 2;
+         Hero->Dir = OppositeDir(dir);
+         Hero->Jump = 2;
          Audio->PlaySound(SFX_JUMP);
          int tx = this->X + DirX(OppositeDir(dir)) * 16;
          int ty = this->Y + DirY(OppositeDir(dir)) * 16;
          int angle = Angle(this->X, this->Y, tx, ty);
          int dist = Distance(this->X, this->Y, tx, ty);
-         int linkX = Link->X;
-         int linkY = Link->Y;
+         int linkX = Hero->X;
+         int linkY = Hero->Y;
          for (int i = 0; i < 26; i++) {
             linkX += VectorX(dist / 26, angle);
             linkY += VectorY(dist / 26, angle);
             NoAction();
             Waitdraw();
-            Link->X = linkX;
-            Link->Y = linkY;
+            Hero->X = linkX;
+            Hero->Y = linkY;
             Waitframe();
          }
-         Link->X = tx;
-         Link->Y = ty;
+         Hero->X = tx;
+         Hero->Y = ty;
          this->Data = Floor(this->Data / 4) * 4 + dir;
       }
       this->Flags[FFCF_SOLID] = true;
@@ -645,26 +645,26 @@ ffc script GBMinecart {
       while (true) {
          if (PressAgainstCart(this, timer)) {
             this->Flags[FFCF_SOLID] = false;
-            Link->Dir = AngleDir4(Angle(Link->X, Link->Y, this->X, this->Y - MINECART_LINKYOFFSET));
-            Link->Jump = 2;
+            Hero->Dir = AngleDir4(Angle(Hero->X, Hero->Y, this->X, this->Y - MINECART_LINKYOFFSET));
+            Hero->Jump = 2;
             Audio->PlaySound(SFX_JUMP);
             int tx = this->X;
             int ty = this->Y - MINECART_LINKYOFFSET;
-            int angle = Angle(Link->X, Link->Y, tx, ty);
-            int dist = Distance(Link->X, Link->Y, tx, ty);
-            int linkX = Link->X;
-            int linkY = Link->Y;
+            int angle = Angle(Hero->X, Hero->Y, tx, ty);
+            int dist = Distance(Hero->X, Hero->Y, tx, ty);
+            int linkX = Hero->X;
+            int linkY = Hero->Y;
             for (int i = 0; i < 26; i++) {
                linkX += VectorX(dist / 26, angle);
                linkY += VectorY(dist / 26, angle);
                NoAction();
                Waitdraw();
-               Link->X = linkX;
-               Link->Y = linkY;
+               Hero->X = linkX;
+               Hero->Y = linkY;
                Waitframe();
             }
-            Link->X = tx;
-            Link->Y = ty;
+            Hero->X = tx;
+            Hero->Y = ty;
 
             // Set global variables for carting based on the FFC
             GBMinecarts[MCI_INMINECART] = true;
@@ -700,16 +700,16 @@ ffc script GBMinecart {
       return GBMinecarts[MCI_ACTIVEMINECARTS];
    }
    bool PressAgainstCart(ffc this, int[] timer) {
-      if (Link->Z > 0 || Link->FakeZ > 0)
+      if (Hero->Z > 0 || Hero->FakeZ > 0)
          return false;
       bool pressing;
-      if (Abs(Link->X - this->X) <= 8 && Link->Y > this->Y && Link->Y <= this->Y + 8 && Link->InputUp)
+      if (Abs(Hero->X - this->X) <= 8 && Hero->Y > this->Y && Hero->Y <= this->Y + 8 && Hero->InputUp)
          pressing = true;
-      if (Abs(Link->X - this->X) <= 8 && Link->Y >= this->Y - 16 && Link->Y < this->Y && Link->InputDown)
+      if (Abs(Hero->X - this->X) <= 8 && Hero->Y >= this->Y - 16 && Hero->Y < this->Y && Hero->InputDown)
          pressing = true;
-      if (Link->X <= this->X + 16 && Link->X > this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputLeft)
+      if (Hero->X <= this->X + 16 && Hero->X > this->X && Hero->Y >= this->Y - 8 && Hero->Y <= this->Y && Hero->InputLeft)
          pressing = true;
-      if (Link->X >= this->X - 16 && Link->X < this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputRight)
+      if (Hero->X >= this->X - 16 && Hero->X < this->X && Hero->Y >= this->Y - 8 && Hero->Y <= this->Y && Hero->InputRight)
          pressing = true;
       if (pressing) {
          ++timer[0];
@@ -759,8 +759,8 @@ ffc script GBMinecart_Shutter {
       int pos = ComboAt(this->X + 8, this->Y + 8);
       this->Data = CMB_INVIS;
       bool open;
-      int x = Link->X;
-      int y = Link->Y;
+      int x = Hero->X;
+      int y = Hero->Y;
 
       if (this->Flags[FFCF_PRELOAD]) {
          if (x <= 0)
@@ -782,8 +782,8 @@ ffc script GBMinecart_Shutter {
       if (this->Flags[FFCF_PRELOAD])
          Waitframe();
       while (true) {
-         x = Link->X;
-         y = Link->Y;
+         x = Hero->X;
+         y = Hero->Y;
          if (open) {
             if (!(Abs(x - this->X) < triggerDist && Abs(y - this->Y) < triggerDist)) {
                Audio->PlaySound(SFX_SHUTTER);

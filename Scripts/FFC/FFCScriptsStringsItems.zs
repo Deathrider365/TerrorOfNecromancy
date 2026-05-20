@@ -275,7 +275,7 @@ ffc script SignpostTriggerFromItem {
             break;
 
          if (againstFFC(this->X, this->Y))
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
          Waitframe();
       }
@@ -402,7 +402,7 @@ ffc script SignpostRemoveOnSecret {
             }
 
             if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
             Waitframe();
          }
@@ -441,7 +441,7 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
             }
 
             if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
             Waitframe();
          }
@@ -494,7 +494,7 @@ ffc script GetItemOnScreenD {
                      break;
 
                   if (againstFFC(this->X, this->Y))
-                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
                   Waitframe();
                }
@@ -551,7 +551,7 @@ ffc script GetItemOnSecret {
                      break;
 
                   if (againstFFC(this->X, this->Y))
-                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
                   Waitframe();
                }
@@ -826,10 +826,10 @@ ffc script Shop {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, COMBO_A_BUTTON, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, COMBO_A_BUTTON, 0, OP_OPAQUE);
 
             if (itemInfoMessage > 0)
-               Screen->FastCombo(7, Link->X + 10, Link->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
+               Screen->FastCombo(7, Hero->X + 10, Hero->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
 
             if (Input->Press[CB_A]) {
                if ((Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY]) >= price) {
@@ -945,7 +945,7 @@ ffc script InfoShop {
             Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
             if (Input->Press[CB_A]) {
                Hero->Action = LA_NONE;
@@ -994,18 +994,20 @@ ffc script RemoveItem {
 ffc script GettingGoddessJewels {
    // clang-format on
    void run(int message, int x, int y, int itemId, int triforceCounter) {
-      if (getScreenD(254))
+      if (getScreenD(0))
          Quit();
 
       unless(Game->Counter[triforceCounter] == 4) Quit();
 
       Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
 
-      NoAction();
-      Link->PressStart = false;
-      Link->InputStart = false;
-      Link->PressMap = false;
-      Link->InputMap = false;
+      for (int i = 0; i < 60; ++i) {
+         NoAction();
+         Hero->PressStart = false;
+         Hero->InputStart = false;
+         Hero->PressMap = false;
+         Hero->InputMap = false;
+      }
 
       for (int i = 120; i > 0; --i) {
          disableLink();
@@ -1029,7 +1031,7 @@ ffc script GettingGoddessJewels {
       itemsprite it = CreateItemAt(itemId, x, y);
       it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
 
-      setScreenD(254, true);
+      setScreenD(0, true);
    }
 }
 

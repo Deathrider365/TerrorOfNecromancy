@@ -35,7 +35,7 @@ namespace EnemyNamespace {
 
    void deathAnimation(npc n, int deathSound) {
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
       int baseX = n->X + n->DrawXOffset;
@@ -48,7 +48,7 @@ namespace EnemyNamespace {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
          Waitframes(5);
       }

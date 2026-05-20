@@ -686,7 +686,7 @@ namespace NPCAnim{
 			// If set to ID -1, make invisible and quit
 			if(animID==-1){
 				Owner->DrawXOffset = -1000;
-				Owner->CollDetection = false;
+				Owner->NoCollisionTimer = -1;
 				CurAnim = -1;
 				return;
 			}
@@ -723,7 +723,7 @@ namespace NPCAnim{
 			// If it was invisible, turn visibility and collision back on
 			if(CurAnim==-1){
 				Owner->DrawXOffset = 0;
-				Owner->CollDetection = true;
+				Owner->NoCollisionTimer = 0;
 			}
 			else
 				old_flags = GetAnimProperty(CurAnim, ADI_FLAGS);
@@ -817,7 +817,7 @@ namespace NPCAnim{
 		//Plays an exploding death animation
 		void PlayDeathAnim(int spr, int w=1, int h=1, int sfx=0, bool freeze=false){
 			Owner->Immortal = true;
-			Owner->CollDetection = false;
+			Owner->NoCollisionTimer = -1;
 			npcdata nd = Game->LoadNPCData(Owner->ID);
 			Audio->PlaySound(nd->DeathSFX);
 			if(freeze)
@@ -847,7 +847,7 @@ namespace NPCAnim{
 				}
 				else{
 					lweapon l = CreateLWeaponAt(LW_BOMBBLAST, x, y);
-					l->CollDetection = false;
+					l->NoCollisionTimer = -1;
 					l->DrawStyle = DS_LINK;
 				}
 				for(int j=0; j<16; ++j){

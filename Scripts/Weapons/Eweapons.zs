@@ -37,7 +37,7 @@ eweapon script ArcingWeapon {
       }
 
       this->DrawYOffset = -1000;
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
 
       if (effect) {
          switch (effect) {
@@ -231,7 +231,7 @@ eweapon script SignWave {
          this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
 
          if (unBlockable)
-            this->Dir = Link->Dir;
+            this->Dir = Hero->Dir;
 
          Waitframe();
       }
@@ -359,7 +359,7 @@ eweapon script HammerImpact {
       }
 
       this->Step = 0;
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->ScriptTile = TILE_HAMMER_IMPACT + this->Dir;
 
       for (int i = 0; i < 60; ++i) {
@@ -373,7 +373,7 @@ eweapon script HammerImpact {
 
 eweapon script HammerImpactEffect {
    void run(int tile) {
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->ScriptTile = TILE_INVIS;
       this->Unblockable = UNBLOCK_ALL;
 
@@ -403,7 +403,7 @@ eweapon script ShockWave {
       CONFIG D_ERUPT = 7;
       int x = this->X + VectorX(16, angle);
       int y = this->Y + VectorY(16, angle);
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->UseSprite(spr);
       this->Behind = true;
       Audio->PlaySound(sfx);
@@ -425,7 +425,7 @@ eweapon script ShockWave {
       this->DrawYOffset = -16;
       this->HitYOffset = -16;
       this->HitHeight = 32;
-      this->CollDetection = true;
+      this->NoCollisionTimer = 0;
       this->UseSprite(detonateSpr);
       Audio->PlaySound(detonateSfx);
 
@@ -452,7 +452,7 @@ eweapon script Boomerang {
 
       for (int i = 0; i < travelTime; ++i) {
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
             bounced = true;
@@ -476,7 +476,7 @@ eweapon script Boomerang {
       for (int i = 0; i < slowTime && !bounced; ++i) {
          this->Step = Lerp(step, 0, i / slowTime);
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
             bounced = true;
@@ -505,7 +505,7 @@ eweapon script Boomerang {
 
          this->Step = Lerp(0, step, i / slowTime);
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(gameframe % brangSfxTiming) Audio->PlaySound(SFX_BRANG);
 
@@ -535,7 +535,7 @@ eweapon script Boomerang {
 
          unless(gameframe % brangSfxTiming) Audio->PlaySound(SFX_BRANG);
 
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
             eweapon e = Screen->LoadEWeapon(hitId);

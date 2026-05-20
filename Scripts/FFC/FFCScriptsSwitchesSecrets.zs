@@ -73,17 +73,17 @@ ffc script Shutter {
       loop() {
          if (enemySpawnFrames)
             --enemySpawnFrames;
-         if (inShutter(this, Link->X, Link->Y, 3)) {
+         if (inShutter(this, Hero->X, Hero->Y, 3)) {
             setFFCData(this, thisData, true);
             this->Flags[FFCF_SOLID] = false;
 
-            if(Link->Y < 8)
+            if(Hero->Y < 8)
                moveDir = DIR_DOWN;
-            else if(Link->Y > maxY - 16)
+            else if(Hero->Y > maxY - 16)
                moveDir = DIR_UP;
-            else if(Link->X < 16)
+            else if(Hero->X < 16)
                moveDir = DIR_RIGHT;
-            else if(Link->X > maxX - 16)
+            else if(Hero->X > maxX - 16)
                moveDir = DIR_LEFT;
 
             while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
@@ -102,13 +102,13 @@ ffc script Shutter {
             }
 
             if(moveDir == DIR_UP)
-                Link->Y = Min(Link->Y, maxY-16);
+                Hero->Y = Min(Hero->Y, maxY-16);
             else if(moveDir == DIR_DOWN)
-                Link->Y = Max(Link->Y, 8);
+                Hero->Y = Max(Hero->Y, 8);
             else if(moveDir == DIR_LEFT)
-                Link->X = Min(Link->X, maxX-16);
+                Hero->X = Min(Hero->X, maxX-16);
             else if(moveDir == DIR_RIGHT)
-                Link->X = Max(Link->X, 16);
+                Hero->X = Max(Hero->X, 16);
 
             Audio->PlaySound(SFX_SHUTTER_CLOSE);
             playOpenCloseAnim(this, thisData, false);

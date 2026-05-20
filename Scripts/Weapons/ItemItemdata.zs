@@ -393,7 +393,7 @@ itemsprite script ArcingItemSprite2 {
 
       lweapon l = Screen->CreateLWeapon(LW_SCRIPT1);
       l->Flags[WFLAG_BREAKS_ON_SOLID] = true;
-      l->CollDetection = false;
+      l->NoCollisionTimer = -1;
       l->DrawXOffset = 9999;
 
       while(jump > 0 || this->Z > 0) {

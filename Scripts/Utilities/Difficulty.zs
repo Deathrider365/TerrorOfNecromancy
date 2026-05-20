@@ -149,7 +149,7 @@ void DifficultyGlobal_Init(bool resetOverride) {
       DifficultyGlobal[__DI_ENEMYTABLES_START + i] = 0;
 
    DifficultyGlobal[__DI_CURDIFFICULTY] = Difficulty_GetDifficulty();
-   DifficultyGlobal[__DI_LINKLASTHP] = Link->HP;
+   DifficultyGlobal[__DI_LINKLASTHP] = Hero->HP;
    if (resetOverride)
       DifficultyGlobal[__DITEM_DIFFICULTYOVERRIDE] = 0;
 
@@ -174,18 +174,18 @@ void DifficultyGlobal_Update() {
    }
 
    // Remember Link's last HP and apply damage modifiers
-   if (Link->HP != DifficultyGlobal[__DI_LINKLASTHP]) {
-      if (Link->HP < DifficultyGlobal[__DI_LINKLASTHP]) {
+   if (Hero->HP != DifficultyGlobal[__DI_LINKLASTHP]) {
+      if (Hero->HP < DifficultyGlobal[__DI_LINKLASTHP]) {
          int mult = Difficulty_GetGlobalDamageMultiplier();
          // Multipliers of <1 subtract the remainder of the damage Link has taken, leaving only the amount represented by the multiplier
          //(this does not actually work as intended at <1 HP, but this is how IoR did it and it)
          if (mult < 1)
-            Link->HP -= Abs(DifficultyGlobal[__DI_LINKLASTHP] - Link->HP) * (1 - mult);
+            Hero->HP -= Abs(DifficultyGlobal[__DI_LINKLASTHP] - Hero->HP) * (1 - mult);
          // Multipliers of >1 subtract the multiplier-1, assuming the damage Link took is 1x damage
          else if (mult > 1)
-            Link->HP -= Abs(DifficultyGlobal[__DI_LINKLASTHP] - Link->HP) * (mult - 1);
+            Hero->HP -= Abs(DifficultyGlobal[__DI_LINKLASTHP] - Hero->HP) * (mult - 1);
       }
-      DifficultyGlobal[__DI_LINKLASTHP] = Link->HP;
+      DifficultyGlobal[__DI_LINKLASTHP] = Hero->HP;
    }
 }
 
@@ -364,29 +364,29 @@ bool __DifficultyGlobal_HPExceptions(npc n, int targetHP) {
 void DifficultyGlobal_SetDifficulty(int diffLevel) {
    // Remove items for all active levels of difficulty
    if (ITEM_DIFF_VERYEASY)
-      Link->Item[ITEM_DIFF_VERYEASY] = false;
+      Hero->Item[ITEM_DIFF_VERYEASY] = false;
    if (ITEM_DIFF_EASY)
-      Link->Item[ITEM_DIFF_EASY] = false;
+      Hero->Item[ITEM_DIFF_EASY] = false;
    if (ITEM_DIFF_NORMAL)
-      Link->Item[ITEM_DIFF_NORMAL] = false;
+      Hero->Item[ITEM_DIFF_NORMAL] = false;
    if (ITEM_DIFF_HARD)
-      Link->Item[ITEM_DIFF_HARD] = false;
+      Hero->Item[ITEM_DIFF_HARD] = false;
    if (ITEM_DIFF_VERYHARD)
-      Link->Item[ITEM_DIFF_VERYHARD] = false;
+      Hero->Item[ITEM_DIFF_VERYHARD] = false;
 
    // Give the item for the current difficulty level
    if (diffLevel == 0)
-      Link->Item[ITEM_DIFF_VERYEASY] = true;
+      Hero->Item[ITEM_DIFF_VERYEASY] = true;
    else if (diffLevel == 1)
-      Link->Item[ITEM_DIFF_EASY] = true;
+      Hero->Item[ITEM_DIFF_EASY] = true;
    else if (diffLevel == 2)
-      Link->Item[ITEM_DIFF_NORMAL] = true;
+      Hero->Item[ITEM_DIFF_NORMAL] = true;
    else if (diffLevel == 3)
-      Link->Item[ITEM_DIFF_HARD] = true;
+      Hero->Item[ITEM_DIFF_HARD] = true;
    else if (diffLevel == 4)
-      Link->Item[ITEM_DIFF_VERYHARD] = true;
+      Hero->Item[ITEM_DIFF_VERYHARD] = true;
    else
-      Link->Item[ITEM_DIFF_NORMAL] = true;
+      Hero->Item[ITEM_DIFF_NORMAL] = true;
 }
 
 // Returns a numbered value for the current difficulty level
@@ -403,23 +403,23 @@ int Difficulty_GetDifficulty() {
    }
 
    if (ITEM_DIFF_VERYHARD)
-      if (Link->Item[ITEM_DIFF_VERYHARD])
+      if (Hero->Item[ITEM_DIFF_VERYHARD])
          return DIFF_VERYHARD;
 
    if (ITEM_DIFF_HARD)
-      if (Link->Item[ITEM_DIFF_HARD])
+      if (Hero->Item[ITEM_DIFF_HARD])
          return DIFF_HARD;
 
    if (ITEM_DIFF_NORMAL)
-      if (Link->Item[ITEM_DIFF_NORMAL])
+      if (Hero->Item[ITEM_DIFF_NORMAL])
          return DIFF_NORMAL;
 
    if (ITEM_DIFF_EASY)
-      if (Link->Item[ITEM_DIFF_EASY])
+      if (Hero->Item[ITEM_DIFF_EASY])
          return DIFF_EASY;
 
    if (ITEM_DIFF_VERYEASY)
-      if (Link->Item[ITEM_DIFF_VERYEASY])
+      if (Hero->Item[ITEM_DIFF_VERYEASY])
          return DIFF_VERYEASY;
 
    return 0;
@@ -506,18 +506,18 @@ item script Difficulty_PickupItem {
    void run(int itemID) {
       // Remove items for all active levels of difficulty
       if (ITEM_DIFF_VERYEASY)
-         Link->Item[ITEM_DIFF_VERYEASY] = false;
+         Hero->Item[ITEM_DIFF_VERYEASY] = false;
       if (ITEM_DIFF_EASY)
-         Link->Item[ITEM_DIFF_EASY] = false;
+         Hero->Item[ITEM_DIFF_EASY] = false;
       if (ITEM_DIFF_NORMAL)
-         Link->Item[ITEM_DIFF_NORMAL] = false;
+         Hero->Item[ITEM_DIFF_NORMAL] = false;
       if (ITEM_DIFF_HARD)
-         Link->Item[ITEM_DIFF_HARD] = false;
+         Hero->Item[ITEM_DIFF_HARD] = false;
       if (ITEM_DIFF_VERYHARD)
-         Link->Item[ITEM_DIFF_VERYHARD] = false;
+         Hero->Item[ITEM_DIFF_VERYHARD] = false;
 
       // Give Link the item for the currently selected difficulty
-      Link->Item[itemID] = true;
+      Hero->Item[itemID] = true;
 
       DifficultyGlobal_Init();
    }
@@ -667,13 +667,13 @@ ffc script DifficultySelectionScreen {
                while (true) {
                   DiffMenu_DrawString(6, 128, 32, FONT_GBLA, C_WHITE, C_BLACK, TF_CENTERED, sSelect, 128);
 
-                  if (Link->PressUp) {
+                  if (Hero->PressUp) {
                      Audio->PlaySound(SFX_DIFFICULTY_SELECT);
                      --selection;
                      if (selection < 0)
                         selection = numOptions - 1;
                   }
-                  else if (Link->PressDown) {
+                  else if (Hero->PressDown) {
                      Audio->PlaySound(SFX_DIFFICULTY_SELECT);
                      ++selection;
                      if (selection > numOptions - 1)
@@ -687,19 +687,19 @@ ffc script DifficultySelectionScreen {
                         DiffMenu_DrawString(6, 128, 64 + 12 * i, FONT_GBLA, C_GRAY, C_BLACK, TF_CENTERED, options[i], 128);
                   }
 
-                  if (Link->PressA) {
+                  if (Hero->PressA) {
                      DifficultyGlobal_SetDifficulty(optionValues[selection]);
                      chosen = true;
                      Audio->PlaySound(20);
                      // this->Data = CMB_AUTOWARPA;
                   }
-                  else if (Link->PressB)
+                  else if (Hero->PressB)
                      Quit();
 
-                  Link->PressStart = false;
-                  Link->InputStart = false;
-                  Link->PressMap = false;
-                  Link->InputMap = false;
+                  Hero->PressStart = false;
+                  Hero->InputStart = false;
+                  Hero->PressMap = false;
+                  Hero->InputMap = false;
                   NoAction();
                   Waitframe();
                }

@@ -518,7 +518,7 @@ namespace LeviathanNamespace {
             waterSplash->Step = Rand(100, 200) * j * 0.5;
             waterSplash->Angular = true;
             waterSplash->Angle = DegtoRad(-90 - 5 - 15 * i + Rand(-5, 5));
-            waterSplash->CollDetection = false;
+            waterSplash->NoCollisionTimer = -1;
 
             waterSplash = CreateLWeaponAt(LW_SPARKLE, x + 4 + 4 * i, y);
             waterSplash->UseSprite(SPR_SPLASH);
@@ -526,7 +526,7 @@ namespace LeviathanNamespace {
             waterSplash->Step = Rand(100, 200) * j * 0.5;
             waterSplash->Angular = true;
             waterSplash->Angle = DegtoRad(-90 + 5 + 15 * i + Rand(-5, 5));
-            waterSplash->CollDetection = false;
+            waterSplash->NoCollisionTimer = -1;
             waterSplash->Flip = 1;
          }
       }
@@ -548,17 +548,17 @@ namespace LeviathanNamespace {
          this->HitXOffset = 64;
 
       if (this->Y + this->HitYOffset + this->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
       else
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
       npc head = vars[VARS_HEADNPC];
 
       if (head->isValid()) {
          if (head->Y + head->HitYOffset + head->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
-            head->CollDetection = true;
+            head->NoCollisionTimer = 0;
          else
-            head->CollDetection = false;
+            head->NoCollisionTimer = -1;
 
          head->DrawYOffset = -1000;
          head->Stun = 10;
@@ -634,7 +634,7 @@ namespace LeviathanNamespace {
    void DeathAnim(npc this, untyped vars) {
       npc head = vars[VARS_HEADNPC];
       Remove(head);
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
 
       int i;
       int x = this->X;
@@ -683,7 +683,7 @@ namespace LeviathanNamespace {
          eweapon hitbox = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
          hitbox->Damage = this->Damage;
          hitbox->DrawYOffset = -1000;
-         hitbox->CollDetection = false;
+         hitbox->NoCollisionTimer = -1;
 
          int startX = this->X;
 
@@ -691,7 +691,7 @@ namespace LeviathanNamespace {
          int waterfallBottom = this->Y;
          int bgHeight;
          int fgHeight;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          while (waterfallTop > peakHeight) {
             waterfallTop = Max(waterfallTop - 1.5, peakHeight);
@@ -708,7 +708,7 @@ namespace LeviathanNamespace {
          bgHeight = waterfallBottom - waterfallTop;
          waterfallTop = peakHeight;
          waterfallBottom = peakHeight;
-         hitbox->CollDetection = true;
+         hitbox->NoCollisionTimer = 0;
 
          while (waterfallBottom < 176) {
             if (!hitbox->isValid()) {
@@ -1252,7 +1252,7 @@ namespace ShamblesNamespace {
 
    void emerge(ffc this, npc ghost, int frames) {
       int combo = ghost->Attributes[10];
-      ghost->CollDetection = true;
+      ghost->NoCollisionTimer = 0;
       ghost->DrawYOffset = -2;
 
       Ghost_Data = combo + 4;
@@ -1281,7 +1281,7 @@ namespace ShamblesNamespace {
       Ghost_Data = combo + 4;
       ShamblesWaitframe(this, ghost, frames);
 
-      ghost->CollDetection = false;
+      ghost->NoCollisionTimer = -1;
       ghost->DrawYOffset = -1000;
    }
 
@@ -1398,7 +1398,7 @@ namespace HazarondNamespace {
 
                for (int i = 0; i < 4; ++i)
                   if (heads[i])
-                     heads[i]->CollDetection = true;
+                     heads[i]->NoCollisionTimer = 0;
 
                if (headOpen == 20) {
                   headOpenIndex = RandGen->Rand(3);
@@ -1470,7 +1470,7 @@ namespace HazarondNamespace {
                EnemyWaitframe(this, data);
             }
 
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
             int originalCSet = this->CSet;
             this->CSet = hurtCSet;
 
@@ -1524,7 +1524,7 @@ namespace HazarondNamespace {
                while (MoveTowardsPoint(this, centerX, centerY, 2, SPW_FLOATER, true))
                   EnemyWaitframe(this, data, 2);
 
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
 
             for (int i = 0; i < 20; ++i)
                this->Defense[i] == NPCDT_IGNORE;
@@ -1549,7 +1549,7 @@ namespace HazarondNamespace {
                heads[headIndex]->InitD[0] = this;
                heads[headIndex]->Dir = headIndex + 4;
                heads[headIndex]->DrawXOffset = 1000;
-               heads[headIndex]->CollDetection = false;
+               heads[headIndex]->NoCollisionTimer = -1;
                heads[headIndex]->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
             }
 
@@ -1574,13 +1574,13 @@ namespace HazarondNamespace {
 
             this->HP += 6;
             data[DATA_INVIS] = false;
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
 
             for (int headIndex = 0; headIndex < 4; ++headIndex)
                heads[headIndex]->DrawXOffset = 0;
          }
 
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
          deathAnimation(this, 142);
       }
    }
@@ -1636,7 +1636,7 @@ namespace HazarondNamespace {
       this->X = -64;
       this->Y = -64;
       Hero->Dir = DIR_RIGHT;
-      Hero->Invisible = true;
+      Hero->InvisibleTimer = -2;
 
       // Silent Pause
       Audio->PlayEnhancedMusic(null, 0);
@@ -1771,7 +1771,7 @@ namespace HazarondNamespace {
 
       introCutsceneDraws(introSequenceBitmap, true, false, true, true, true, true);
 
-      Hero->Invisible = false;
+      Hero->InvisibleTimer = 0;
 
       this->Jump = 4;
       this->Z = 12.5;
@@ -2026,7 +2026,7 @@ namespace OvergrownRaccoonNamespace {
          int timer;
 
          this->Dir = faceLink(this);
-         Hero->CollDetection = false;
+         Hero->NoCollisionTimer = -1;
 
          until(this->Z == 0) {
             disableLink();
@@ -2054,7 +2054,7 @@ namespace OvergrownRaccoonNamespace {
             setScreenD(255, true);
          }
 
-         Hero->CollDetection = true;
+         Hero->NoCollisionTimer = 0;
 
          loop () {
             if (this->HP <= 0)
@@ -2295,7 +2295,7 @@ namespace ServusMalusNamespace {
 
          //If didnt do cutscene, just dew it!
          until(getScreenD(SCREEND_DID_CUTSCENE)) {
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
             int litTorchCount = 0;
 
             template = Game->LoadTempScreen(1);
@@ -2319,11 +2319,11 @@ namespace ServusMalusNamespace {
             Waitframe();
          }
 
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          loop () {
             this->Z = 20;
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
             this->OriginalTile = invisibleTile;
 
             int blowOutRandomTorchTimer = 180;
@@ -2405,7 +2405,7 @@ namespace ServusMalusNamespace {
 
             Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR2);
 
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
             this->OriginalTile = originalTile;
 
             for (int i = 0; i < 90; ++i)
@@ -3566,7 +3566,7 @@ namespace EgentemNamespace {
          this->X = -32;
          this->Y = -32;
          int maxHp = this->HP;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          until (getScreenD(SCREEND_EGENTEM_TRAP_TRIGGERED))
             Waitframe();
@@ -3591,7 +3591,7 @@ namespace EgentemNamespace {
             setScreenD(SCREEND_EGENTEM_INITIATE_INTRO, true);
          }
 
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
 
          for (int i = 0; i < 20; ++i)
             this->Defense[i] = NPCDT_QUARTERDAMAGE;
@@ -3728,7 +3728,7 @@ namespace EgentemNamespace {
       setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, false);
 
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
       int baseX = n->X + n->DrawXOffset;
@@ -3741,7 +3741,7 @@ namespace EgentemNamespace {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
          Waitframes(5);
       }
@@ -3994,7 +3994,7 @@ namespace EgentemNamespace {
          hammer->Timeout = 2;
 
          if (frame < 2)
-            hammer->CollDetection = false;
+            hammer->NoCollisionTimer = -1;
       }
 
       xy->X = x;
@@ -4033,9 +4033,9 @@ namespace EgentemNamespace {
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
-            eweapon hitLink = Screen->LoadEWeapon(hitId);
+            eweapon hitHero = Screen->LoadEWeapon(hitId);
 
-            if (hitLink->isValid() && hitbox == hitLink) {
+            if (hitHero->isValid() && hitbox == hitHero) {
                linkGotHit = true;
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                break;
@@ -4196,7 +4196,7 @@ namespace EgentemNamespace {
       for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
-         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection)
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && !e->NoCollisionTimer)
             ++count;
       }
 
@@ -4211,7 +4211,7 @@ namespace EgentemNamespace {
       for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
-         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection) {
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && !e->NoCollisionTimer) {
             int distEnemy = Distance(e->X, e->Y, this->X, this->Y);
             int distLink = Distance(e->X, e->Y, Hero->X, Hero->Y);
 
@@ -4233,7 +4233,7 @@ namespace EgentemNamespace {
             this->Remove();
 
          this->Behind = true;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
          this->UseSprite(SPR_CRACK);
 
          Waitframes(delay);
@@ -4244,7 +4244,7 @@ namespace EgentemNamespace {
          this->DrawYOffset = -16;
          this->HitYOffset = -16;
          this->HitHeight = 32;
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
          this->UseSprite(SPR_RISE);
          Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
@@ -4271,7 +4271,7 @@ namespace EgentemNamespace {
             this->DrawYOffset = -8;
             this->TileWidth = 2;
             this->TileHeight = 2;
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
             this->UseSprite(SPR_ROTATING_PILLAR);
             this->Angular = true;
             this->Damage = pillarDamage;
@@ -4564,7 +4564,7 @@ namespace LatrosNamespace {
       int chargingCounter = 60;
 
       until(stolen) {
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          unless(chargingCounter) break;
 
@@ -4648,7 +4648,7 @@ namespace LatrosNamespace {
          LatrosWaitframe(this, latros);
       }
 
-      this->CollDetection = true;
+      this->NoCollisionTimer = 0;
    }
 
    void clearBoomerangs(int itemId) {
@@ -4900,11 +4900,11 @@ namespace LatrosNamespace {
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
-            eweapon hitLink = Screen->LoadEWeapon(hitId);
+            eweapon hitHero = Screen->LoadEWeapon(hitId);
 
             int stunDur = boomerangLevel * 50;
 
-            if (hitLink->isValid()) {
+            if (hitHero->isValid()) {
                Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
                Hero->Stun = stunDur;
                break;
@@ -5067,7 +5067,7 @@ namespace LatrosNamespace {
 
    void latrosDeathAnimation(npc n, int deathSound, Latros latros) {
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
 		Screen->Message(349);
@@ -5084,7 +5084,7 @@ namespace LatrosNamespace {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
 
          unless(i % 9) latros->dropItem(latros->stolenItems[dropCount++]);
@@ -5200,7 +5200,7 @@ namespace Quickknife {
 
    void quickknifeDeathAnimation(npc n, int deathSound) {
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
 		Screen->Message(359);
@@ -5217,7 +5217,7 @@ namespace Quickknife {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
 
          Waitframes(5);

@@ -141,7 +141,7 @@ global script GlobalScripts {
    }
 
    bool isUnderWater() {
-      int pos = ComboAt(Link->X + 4, Link->Y + 8);
+      int pos = ComboAt(Hero->X + 4, Hero->Y + 8);
       int comboT = Screen->ComboT[pos];
 
       for (int i = 1; i < 3; ++i) {
@@ -508,7 +508,7 @@ global script GlobalScripts {
          footprints[2] = Hero->Y;
 
          unless(--footprints[0]) {
-            int pos = ComboAt(Link->X + 4, Link->Y + 4);
+            int pos = ComboAt(Hero->X + 4, Hero->Y + 4);
             int comboT = Screen->ComboT[pos];
 
             for (int i = 1; i < 3; ++i)
@@ -575,7 +575,7 @@ global script GlobalScripts {
          footprint->Behind = true;
          footprint->Dir = Hero->Dir;
          footprint->ScriptTile = TILE_INVIS;
-         footprint->CollDetection = false;
+         footprint->NoCollisionTimer = -1;
       }
    }
 
@@ -585,8 +585,8 @@ global script GlobalScripts {
    void checkDungeon() {
       int level = Game->CurLevel;
       unless(Game->LItems[level] & LI_MAP) {
-         Link->InputMap = false;
-         Link->PressMap = false;
+         Hero->InputMap = false;
+         Hero->PressMap = false;
       }
    }
 

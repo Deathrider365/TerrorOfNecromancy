@@ -214,7 +214,7 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
    Audio->PlaySound(SFX_SUPER_JUMP);
 
    n->Gravity = false;
-   n->CollDetection = false;
+   n->NoCollisionTimer = -1;
    n->ScriptTile = upTile;
 
    while (n->Z < 256) {
@@ -251,7 +251,7 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
 
    Remove(weap);
 
-   n->CollDetection = true;
+   n->NoCollisionTimer = 0;
    n->Gravity = grav;
 
    Screen->Quake = STUN;
@@ -320,7 +320,7 @@ void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
    trail->Extend = 3;
    trail->TileWidth = w;
    trail->TileHeight = h;
-   trail->CollDetection = false;
+   trail->NoCollisionTimer = -1;
    trail->DeadState = duration;
    trail->DrawStyle = DS_PHANTOM;
 }
@@ -397,7 +397,7 @@ int switchPressed(int x, int y, bool noLink, bool sensitive) {
    int xDist = 8;
    int yDist = 8;
 
-   if (Abs(Link->X + xOff - x) <= xDist && Abs(Link->Y + yOff - y) <= yDist && Link->Z == 0 && !noLink)
+   if (Abs(Hero->X + xOff - x) <= xDist && Abs(Hero->Y + yOff - y) <= yDist && Hero->Z == 0 && !noLink)
       return 1;
 
    if (Screen->MovingBlockX > -1)
@@ -466,10 +466,10 @@ void takeMapScreenshot() {
 // Disables Link
 void disableLink() {
    NoAction();
-   Link->PressStart = false;
-   Link->InputStart = false;
-   Link->PressMap = false;
-   Link->InputMap = false;
+   Hero->PressStart = false;
+   Hero->InputStart = false;
+   Hero->PressMap = false;
+   Hero->InputMap = false;
 }
 
 // Checks if a certain trigger went off
@@ -499,10 +499,10 @@ bool wasTriggered(float trigger) {
 
 void notDuringCutsceneLink() {
    Hero->Stun = 999; //TODO find a better solution
-   Link->PressStart = false;
-   Link->InputStart = false;
-   Link->PressMap = false;
-   Link->InputMap = false;
+   Hero->PressStart = false;
+   Hero->InputStart = false;
+   Hero->PressMap = false;
+   Hero->InputMap = false;
 }
 
 // CanWalk() that respects diagonals
@@ -538,7 +538,7 @@ bool againstFFC(int ffcX, int ffcY, bool onlyBottom = false) { //TODO account fo
 void waitForTalking(ffc this, bool onlyBottom = false) {
    until(againstFFC(this->X, this->Y, onlyBottom) && Input->Press[CB_A]) {
       if (againstFFC(this->X, this->Y, onlyBottom))
-         Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+         Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
       Waitframe();
    }
@@ -748,7 +748,7 @@ void runCredits(int fadespeed, int font, int fontheight) {
 		}
 	}
 	--q;
-	while(!Link->InputStart)
+	while(!Hero->InputStart)
 	{
 			Screen->Rectangle(7, 0, -56, 256, 176, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
 			int y = 0;

@@ -303,7 +303,7 @@ lweapon script FlamingArrow {
 
                switch (weapon->ID) {
                   case LW_FIRE:
-                     if (weapon->CollDetection && Collision(this, weapon)) {
+                     if (!weapon->NoCollisionTimer && Collision(this, weapon)) {
                         collided = true;
                      }
                      break;
@@ -316,7 +316,7 @@ lweapon script FlamingArrow {
                   case EW_FIRE:
                   case EW_FIRE2:
                   case EW_FIRETRAIL:
-                     if (weapon->CollDetection && Collision(this, weapon)) {
+                     if (!weapon->NoCollisionTimer && Collision(this, weapon)) {
                         collided = true;
                      }
                      break;
@@ -399,7 +399,7 @@ lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight
    weapon->TileWidth = tileWidth ? tileWidth : 1;
    weapon->TileHeight = tileHeight ? tileHeight : 1;
    weapon->Script = Game->GetLWeaponScript("TimedEffect");
-   weapon->CollDetection = false;
+   weapon->NoCollisionTimer = -1;
    weapon->InitD[0] = frames;
 
    return weapon;

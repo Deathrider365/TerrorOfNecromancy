@@ -150,7 +150,7 @@ ffc script ServusSoldier {
       loop() {
          until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
             if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
             Waitframe();
          }
 
@@ -187,7 +187,7 @@ ffc script PhonographMan {
                      break;
 
                   if (againstFFC(this->X, this->Y))
-                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
                   Waitframe();
                }
