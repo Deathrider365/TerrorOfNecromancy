@@ -7,21 +7,20 @@
 #include "include/std.zh"
 
 #include "EmilyMisc.zh"
-#include "Time.zh"
-#include "ffcscript.zh"
 #include "std.zh"
+#include "ghost.zh"
 #include "std_zh/ghostBasedMovement.zh"
 
 #includepath "../ToN Main Quest/Scripts/"
 
 #include "Headers/EmDebug.zs"
-#include "Headers/Ghost.zh"
 #include "Headers/LinkMovement.zh"
 #include "Headers/NPCAnim.zh"
 #include "Headers/TempLinkState3.0.zh"
 
 #include "FFC/FFCScripts.zs"
 #include "FFC/FFCScriptsCutscenes.zs"
+#include "FFC/FFCScriptsNPCs.zs"
 #include "FFC/FFCScriptsStringsItems.zs"
 #include "FFC/FFCScriptsSwitchesSecrets.zs"
 

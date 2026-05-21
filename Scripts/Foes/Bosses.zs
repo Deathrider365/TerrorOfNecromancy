@@ -111,7 +111,7 @@ namespace LeviathanNamespace {
          Audio->PlaySound(SFX_SPLASH);
          splash(this->X + 64, 100);
 
-         while (true) {
+         loop () {
             attack = attackChoice(this, vars);
 
             int riseAnim = 120;
@@ -138,7 +138,7 @@ namespace LeviathanNamespace {
 
             switch (attack) {
                case ATTACK_WATERFALL: {
-                  vars[VARS_FLIP] = Hero->X + 8 < 128 ? 0 : 1;
+                  vars[VARS_FLIP] = Hero->X + 8 <= 128 ? 0 : 1;
                   int difficultyLevel = changeInDifficulty(this, vars);
                   int flipModifier;
                   int centerOnLinkX;
@@ -159,7 +159,7 @@ namespace LeviathanNamespace {
                   if (difficultyLevel >= DIFFICULTY_STAGE_2)
                      flipModifier = 16;
 
-                  centerOnLinkX += Hero->X - (vars[VARS_FLIP] ? 48 : 80) - flipModifier;
+                  centerOnLinkX += Hero->X - (vars[VARS_FLIP] ? 48 : 64) - flipModifier;
 
                   int xModifier = centerOnLinkX;
 
@@ -193,7 +193,7 @@ namespace LeviathanNamespace {
                   break;
                }
                case ATTACK_WATERBEAM: {
-                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 80);
+                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 64);
                   int xModifier = risingX + Choose(-8, 8);
 
                   if (risingX < 49) {
@@ -262,7 +262,7 @@ namespace LeviathanNamespace {
                   break;
                }
                case ATTACK_WATERCANNON: {
-                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 80);
+                  int risingX = Hero->X <= 64 ? Rand(32, 144) : Rand(-48, 64);
                   int xModifier = risingX + Choose(-8, 8);
 
                   if (risingX < 49) {
@@ -518,7 +518,7 @@ namespace LeviathanNamespace {
             waterSplash->Step = Rand(100, 200) * j * 0.5;
             waterSplash->Angular = true;
             waterSplash->Angle = DegtoRad(-90 - 5 - 15 * i + Rand(-5, 5));
-            waterSplash->CollDetection = false;
+            waterSplash->NoCollisionTimer = -1;
 
             waterSplash = CreateLWeaponAt(LW_SPARKLE, x + 4 + 4 * i, y);
             waterSplash->UseSprite(SPR_SPLASH);
@@ -526,7 +526,7 @@ namespace LeviathanNamespace {
             waterSplash->Step = Rand(100, 200) * j * 0.5;
             waterSplash->Angular = true;
             waterSplash->Angle = DegtoRad(-90 + 5 + 15 * i + Rand(-5, 5));
-            waterSplash->CollDetection = false;
+            waterSplash->NoCollisionTimer = -1;
             waterSplash->Flip = 1;
          }
       }
@@ -548,17 +548,17 @@ namespace LeviathanNamespace {
          this->HitXOffset = 64;
 
       if (this->Y + this->HitYOffset + this->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
       else
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
       npc head = vars[VARS_HEADNPC];
 
       if (head->isValid()) {
          if (head->Y + head->HitYOffset + head->HitHeight - 1 <= 112 && vars[VARS_FLASHTIMER] == 0)
-            head->CollDetection = true;
+            head->NoCollisionTimer = 0;
          else
-            head->CollDetection = false;
+            head->NoCollisionTimer = -1;
 
          head->DrawYOffset = -1000;
          head->Stun = 10;
@@ -634,7 +634,7 @@ namespace LeviathanNamespace {
    void DeathAnim(npc this, untyped vars) {
       npc head = vars[VARS_HEADNPC];
       Remove(head);
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
 
       int i;
       int x = this->X;
@@ -665,7 +665,7 @@ namespace LeviathanNamespace {
 
       Waitframe();
 
-      Hero->WarpEx({WT_IWARPOPENWIPE, 2, 11, -1, WARP_A, WARPEFFECT_WAVE, 0, 0, DIR_LEFT});
+      Hero->WarpEx(WT_IWARPOPENWIPE, 2, 13, -1, WARP_A, WARPEFFECT_WAVE, 0, WARP_FLAG_NONE, DIR_LEFT);
 
       this->Immortal = false;
       this->Remove();
@@ -683,7 +683,7 @@ namespace LeviathanNamespace {
          eweapon hitbox = CreateEWeaponAt(EW_SCRIPT1, this->X, this->Y);
          hitbox->Damage = this->Damage;
          hitbox->DrawYOffset = -1000;
-         hitbox->CollDetection = false;
+         hitbox->NoCollisionTimer = -1;
 
          int startX = this->X;
 
@@ -691,7 +691,7 @@ namespace LeviathanNamespace {
          int waterfallBottom = this->Y;
          int bgHeight;
          int fgHeight;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          while (waterfallTop > peakHeight) {
             waterfallTop = Max(waterfallTop - 1.5, peakHeight);
@@ -708,7 +708,7 @@ namespace LeviathanNamespace {
          bgHeight = waterfallBottom - waterfallTop;
          waterfallTop = peakHeight;
          waterfallBottom = peakHeight;
-         hitbox->CollDetection = true;
+         hitbox->NoCollisionTimer = 0;
 
          while (waterfallBottom < 176) {
             if (!hitbox->isValid()) {
@@ -821,16 +821,11 @@ ffc script Legionnaire {
 
       npc ghost = Ghost_InitAutoGhost(this, enemyid);
 
-      int triggerOnProximity = ghost->Attributes[5];
+      int triggerOnProximity = ghost->Attributes[5]; //+1 to each attribute to correalate with the editor
 
       CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
       CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
       CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
-
-      // if (Screen->State[ST_SECRET]) {
-      //    ghost->Remove(); //TODO sometimes the sprite is seen just sitting after death
-      //    Quit();
-      // }
 
       Ghost_SetFlag(GHF_4WAY);
 
@@ -843,7 +838,6 @@ ffc script Legionnaire {
       int attackCoolDown = 0;
       int attack = -1;
       int startHP = Ghost_HP;
-      int movementDirection = Choose(90, -90);
 
       int timeToSpawnAnother, enemyCount;
       int numEnemies = Screen->NumNPCs;
@@ -858,7 +852,6 @@ ffc script Legionnaire {
 
       // Intro Animation
       unless(getScreenD(screenD)) {
-
          Ghost_Y = -32;
          Ghost_X = startX;
 
@@ -894,6 +887,8 @@ ffc script Legionnaire {
          Ghost_Y = startY;
          Ghost_Z = 0;
       }
+
+      int movementDirection = Choose(90, -90);
 
       loop() {
          Ghost_Data = combo + 4;
@@ -961,6 +956,8 @@ ffc script Legionnaire {
                   break;
                }
             }
+
+            movementDirection = Choose(90, -90);
          }
 
          if (Ghost_HP <= startHP * .5)
@@ -1255,7 +1252,7 @@ namespace ShamblesNamespace {
 
    void emerge(ffc this, npc ghost, int frames) {
       int combo = ghost->Attributes[10];
-      ghost->CollDetection = true;
+      ghost->NoCollisionTimer = 0;
       ghost->DrawYOffset = -2;
 
       Ghost_Data = combo + 4;
@@ -1284,7 +1281,7 @@ namespace ShamblesNamespace {
       Ghost_Data = combo + 4;
       ShamblesWaitframe(this, ghost, frames);
 
-      ghost->CollDetection = false;
+      ghost->NoCollisionTimer = -1;
       ghost->DrawYOffset = -1000;
    }
 
@@ -1401,7 +1398,7 @@ namespace HazarondNamespace {
 
                for (int i = 0; i < 4; ++i)
                   if (heads[i])
-                     heads[i]->CollDetection = true;
+                     heads[i]->NoCollisionTimer = 0;
 
                if (headOpen == 20) {
                   headOpenIndex = RandGen->Rand(3);
@@ -1473,7 +1470,7 @@ namespace HazarondNamespace {
                EnemyWaitframe(this, data);
             }
 
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
             int originalCSet = this->CSet;
             this->CSet = hurtCSet;
 
@@ -1527,7 +1524,7 @@ namespace HazarondNamespace {
                while (MoveTowardsPoint(this, centerX, centerY, 2, SPW_FLOATER, true))
                   EnemyWaitframe(this, data, 2);
 
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
 
             for (int i = 0; i < 20; ++i)
                this->Defense[i] == NPCDT_IGNORE;
@@ -1552,7 +1549,7 @@ namespace HazarondNamespace {
                heads[headIndex]->InitD[0] = this;
                heads[headIndex]->Dir = headIndex + 4;
                heads[headIndex]->DrawXOffset = 1000;
-               heads[headIndex]->CollDetection = false;
+               heads[headIndex]->NoCollisionTimer = -1;
                heads[headIndex]->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
             }
 
@@ -1577,13 +1574,13 @@ namespace HazarondNamespace {
 
             this->HP += 6;
             data[DATA_INVIS] = false;
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
 
             for (int headIndex = 0; headIndex < 4; ++headIndex)
                heads[headIndex]->DrawXOffset = 0;
          }
 
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
          deathAnimation(this, 142);
       }
    }
@@ -1639,14 +1636,11 @@ namespace HazarondNamespace {
       this->X = -64;
       this->Y = -64;
       Hero->Dir = DIR_RIGHT;
-      Hero->Invisible = true;
+      Hero->InvisibleTimer = -2;
 
       // Silent Pause
       Audio->PlayEnhancedMusic(null, 0);
       introSequenceBitmap->Clear(0);
-
-      CONFIG CMB_SHUTTER = 4632;
-      CONFIG CMB_LINK = 6731;
 
       CONFIG SFX_STEP = 121;
       CONFIG SFX_ROAR = 142;
@@ -1656,12 +1650,7 @@ namespace HazarondNamespace {
       for (int i = 0; i < 60; ++i) {
          disableLink();
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, false, true, true, false, true);
          introSequenceBitmap->Blit(2, RT_SCREEN, 0, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1671,14 +1660,8 @@ namespace HazarondNamespace {
       until(panPosition >= 40) {
          disableLink();
          panPosition += 4;
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
 
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1689,13 +1672,7 @@ namespace HazarondNamespace {
          disableLink();
          panPosition += 6;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1712,14 +1689,7 @@ namespace HazarondNamespace {
          if (panPosition > 170)
             this->X -= 8;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1731,14 +1701,7 @@ namespace HazarondNamespace {
          panPosition += 5;
          this->X -= 5;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1750,14 +1713,7 @@ namespace HazarondNamespace {
          panPosition += 1;
          this->X -= 1;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
 
          Waitframe();
@@ -1766,10 +1722,8 @@ namespace HazarondNamespace {
       // Pausing on him
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
+         introCutsceneDraws(introSequenceBitmap, false, true, false, false, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
          Waitframe();
       }
 
@@ -1797,13 +1751,7 @@ namespace HazarondNamespace {
 
          this->Y += yModifier;
 
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, true, true, false, false);
 
          if (!(panPosition % 16) || panPosition == 254)
             Audio->PlaySound(SFX_STEP);
@@ -1816,18 +1764,14 @@ namespace HazarondNamespace {
       // Wait and Roars
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
-
-         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
-         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
-
+         introCutsceneDraws(introSequenceBitmap, true, false, true, true, false);
          introSequenceBitmap->Blit(2, RT_SCREEN, panPosition, 0, 512, 176, 0, 0, 512, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
          Waitframe();
       }
 
-      Hero->Invisible = false;
+      introCutsceneDraws(introSequenceBitmap, true, false, true, true, true, true);
+
+      Hero->InvisibleTimer = 0;
 
       this->Jump = 4;
       this->Z = 12.5;
@@ -1851,6 +1795,53 @@ namespace HazarondNamespace {
 
       Audio->PlaySound(SFX_ROAR);
       Audio->PlayEnhancedMusic("The Binding of Isaac - Divine Combat.ogg", 0);
+   }
+
+   void introCutsceneDraws(bitmap introSequenceBitmap, bool doFirstScreen, bool doSecondScreen, bool doLink, bool doWaterfalls, bool redrawWaterfalls, bool redrawTopWaterfalls = false) {
+      CONFIG CMB_SHUTTER = 6957;
+      CONFIG CMB_LINK = 6731;
+      CONFIG CMB_WATERFALL = 1129;
+      CONFIG CMB_WATERFALL_BOTTOM = 1133;
+
+      if (doFirstScreen)
+         introSequenceBitmap->DrawScreen(2, 37, 43, 0, 0);
+      if (doSecondScreen)
+         introSequenceBitmap->DrawScreen(2, 37, 44, 256, 0);
+      if (doLink) {
+         introSequenceBitmap->FastCombo(2, 112, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 128, 0, CMB_SHUTTER, 2, OP_OPAQUE);
+         introSequenceBitmap->FastCombo(2, 120, 120, CMB_LINK, 0, OP_OPAQUE);
+      }
+      if (doWaterfalls) {
+         mapdata bossRoom3 = Game->LoadTempScreen(3);
+         introSequenceBitmap->FastCombo(3, 112, 0, CMB_WATERFALL, 0, OP_TRANS);
+         introSequenceBitmap->FastCombo(3, 128, 0, CMB_WATERFALL, 0, OP_TRANS);
+      }
+
+      mapdata bossRoom2 = Game->LoadTempScreen(2);
+      mapdata bossRoom3 = Game->LoadTempScreen(3);
+
+      bossRoom2->ComboD[71] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[72] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[87] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+      bossRoom2->ComboD[88] = redrawWaterfalls ? CMB_WATERFALL_BOTTOM : CMB_INVIS;
+
+      if (redrawTopWaterfalls) {
+         bossRoom3->ComboD[7] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+         bossRoom3->ComboD[8] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      }
+
+      bossRoom3->ComboD[23] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[24] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[39] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[40] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[55] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[56] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+
+      bossRoom3->ComboD[71] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
+      bossRoom3->ComboD[72] = redrawWaterfalls ? CMB_WATERFALL : CMB_INVIS;
    }
 
    void dropFlame(npc[] heads, int headOpenIndex, int eweaponStopper, int damage) {
@@ -2035,10 +2026,14 @@ namespace OvergrownRaccoonNamespace {
          int timer;
 
          this->Dir = faceLink(this);
-         Hero->CollDetection = false;
+         Hero->NoCollisionTimer = -1;
 
          until(this->Z == 0) {
             disableLink();
+
+            if (this->HP <= 0)
+               deathAnimation(this, 136);
+
             Waitframe();
          }
 
@@ -2047,6 +2042,10 @@ namespace OvergrownRaccoonNamespace {
 
          for (int i = 0; i < 30; ++i) {
             disableLink();
+
+            if (this->HP <= 0)
+               deathAnimation(this, 136);
+
             Waitframe();
          }
 
@@ -2055,8 +2054,9 @@ namespace OvergrownRaccoonNamespace {
             setScreenD(255, true);
          }
 
-         Hero->CollDetection = true;
-         while (true) {
+         Hero->NoCollisionTimer = 0;
+
+         loop () {
             if (this->HP <= 0)
                deathAnimation(this, 136);
 
@@ -2097,9 +2097,16 @@ namespace OvergrownRaccoonNamespace {
                case STATE_LARGE_ROCK_THROW: {
                   previousState = state;
 
-                  Waitframes(60);
+                  this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
-                  eweapon rockProjectile = FireBigAimedEWeapon(196, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+                  for (int i = 0; i < 60; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     Waitframe();
+                  }
+
+                  eweapon rockProjectile = FireBigAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
                   runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true});
                   state = STATE_NORMAL;
@@ -2108,7 +2115,12 @@ namespace OvergrownRaccoonNamespace {
                case STATE_SMALL_ROCKS_THROW: {
                   previousState = state;
 
-                  Waitframes(30);
+                  for (int i = 0; i < 30; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     Waitframe();
+                  }
 
                   for (int i = 0; i < 60; ++i) {
                      if (this->HP <= 0)
@@ -2117,7 +2129,7 @@ namespace OvergrownRaccoonNamespace {
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
                      unless(i % 20) {
-                        eweapon rockProjectile = FireAimedEWeapon(195, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                        eweapon rockProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
                         runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0, true});
                      }
@@ -2131,15 +2143,27 @@ namespace OvergrownRaccoonNamespace {
                case STATE_RACCOON_THROW: {
                   previousState = state;
 
-                  Waitframes(60);
+                  for (int i = 0; i < 60; i++) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     Waitframe();
+                  }
 
                   for (int i = 0; i < 2; ++i) {
                      if (this->HP <= 0)
                         deathAnimation(this, 136);
 
-                     Waitframes(5);
+                     this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
-                     eweapon raccoonProjectile = FireAimedEWeapon(197, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
+                     for (int i = 0; i < 5; i++) {
+                        if (this->HP <= 0)
+                           deathAnimation(this, 136);
+
+                        Waitframe();
+                     }
+
+                     eweapon raccoonProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
                      runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, true});
                   }
@@ -2156,21 +2180,38 @@ namespace OvergrownRaccoonNamespace {
 
                   this->Jump = 2.5;
 
-                  do
-                     Waitframe();
-                  while (this->Z);
+                  Waitframe();
 
-                  while (this->MoveAtAngle(angle, 4, SPW_NONE))
+                  while (this->Z) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
                      Waitframe();
+                  }
+
+                  while (this->MoveAtAngle(angle, 4, SPW_NONE)) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     this->ASpeed = 200;
+
+                     Waitframe();
+                  }
 
                   this->Jump = 2;
                   Screen->Quake = 30;
                   Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
-                  do
-                     Waitframe();
-                  while (this->Z);
+                  Waitframe();
 
+                  while (this->Z) {
+                     if (this->HP <= 0)
+                        deathAnimation(this, 136);
+
+                     Waitframe();
+                  }
+
+                  this->ASpeed = 100;
                   state = STATE_NORMAL;
                   break;
                }
@@ -2195,6 +2236,9 @@ namespace OvergrownRaccoonNamespace {
 
 namespace ServusMalusNamespace {
    using namespace EnemyNamespace;
+
+   CONFIG SCREEND_DID_CUTSCENE = 254;
+   CONFIG SCREEND_SOLDIER_IS_OOF = 253;
 
    // clang-format off
    @Author("EmilyV99, Moosh, Deathrider365")
@@ -2228,21 +2272,30 @@ namespace ServusMalusNamespace {
          int attackCooldown, timer;
 
          combodata cmbLitTorch = Game->LoadComboData(litTorch);
-         cmbLitTorch->Attribytes[0] = 32;
+         cmbLitTorch->Attributes[8] = 32;
 
          mapdata mapData, template;
 
-         this->X = -32;
-         this->Y = -32;
+         // this->X = -32;
+         // this->Y = -32;
+
+         this->X = 112;
+         this->Y = 32;
+         this->Dir = DIR_DOWN;
+         this->OriginalTile = TILE_INVIS;
+
          int maxHp = this->HP;
          this->Immortal = true;
 
          Audio->PlayEnhancedMusic(NULL);
 
-         if (getScreenD(254))
+         //If already went through the cutscene, bypass it
+         if (getScreenD(SCREEND_DID_CUTSCENE))
             Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg");
 
-         until(getScreenD(254)) {
+         //If didnt do cutscene, just dew it!
+         until(getScreenD(SCREEND_DID_CUTSCENE)) {
+            this->NoCollisionTimer = -1;
             int litTorchCount = 0;
 
             template = Game->LoadTempScreen(1);
@@ -2256,7 +2309,7 @@ namespace ServusMalusNamespace {
 
             if (litTorchCount == 4) {
                torchesLit = true;
-               setScreenD(254, true);
+               setScreenD(SCREEND_DID_CUTSCENE, true);
                commenceIntroCutscene(this, template, unlitTorch, cmbLitTorch, bigSummerBlowout, upperLeftTorchLoc, upperRightTorchLoc, lowerLeftTorchLoc, lowerRightTorchLoc, originalTile, attackingTile);
 
                Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg", 0);
@@ -2266,12 +2319,11 @@ namespace ServusMalusNamespace {
             Waitframe();
          }
 
-         this->X = 128;
-         this->Y = 32;
+         this->NoCollisionTimer = -1;
 
-         while (true) {
+         loop () {
             this->Z = 20;
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
             this->OriginalTile = invisibleTile;
 
             int blowOutRandomTorchTimer = 180;
@@ -2353,7 +2405,7 @@ namespace ServusMalusNamespace {
 
             Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR2);
 
-            this->CollDetection = true;
+            this->NoCollisionTimer = 0;
             this->OriginalTile = originalTile;
 
             for (int i = 0; i < 90; ++i)
@@ -2373,10 +2425,12 @@ namespace ServusMalusNamespace {
 
                float percent = timer / START_TIMER;
 
-               cmbLitTorch->Attribytes[0] = Lerp(24, 50, 1 - percent);
+               cmbLitTorch->Attributes[8] = Lerp(24, 50, 1 - percent);
 
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, SFX_GOMESS_DIE);
+               }
 
                if (this->Z > 0 && !(gameframe % 2))
                   this->Z -= 1;
@@ -2421,8 +2475,10 @@ namespace ServusMalusNamespace {
             }
 
             while (Distance(this->X, this->Y, 128, 88) > 64) {
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, 148);
+               }
 
                int angle = Angle(Hero->X - 8, Hero->Y - 8, this->X - 12, this->Y - 12);
 
@@ -2460,8 +2516,10 @@ namespace ServusMalusNamespace {
             int multipler = 1;
 
             while (unlitTorchCount) {
-               if (this->HP <= 0)
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
                   deathAnimation(this, 148);
+               }
 
                unlitTorchCount = 0;
 
@@ -2485,6 +2543,7 @@ namespace ServusMalusNamespace {
       }
    }
 
+   //TODO do this cutscene with servus's actual NPC instead of combos
    void commenceIntroCutscene(npc this, mapdata template, int unlitTorch, combodata cmbLitTorch, int bigSummerBlowout, int upperLeftTorchLoc, int upperRightTorchLoc, int lowerLeftTorchLoc, int lowerRightTorchLoc, int originalTile, int attackingTile) {
       int soldierLeftFast = 6715;
       int soldierUpStunned = 6714;
@@ -2493,7 +2552,13 @@ namespace ServusMalusNamespace {
       int soldierDown = 6723;
       int soldierLeft = 6726;
       int soldierRight = 6727;
-      int servusFullStartingCombo = 6916;
+
+      CONFIG TILE_SERVUS_FACE_UP = 49140;
+      CONFIG TILE_SERVUS_FACE_DOWN = 49148;
+      CONFIG TILE_SERVUS_FACE_LEFT = 49156;
+      CONFIG TILE_SERVUS_ATTACK_DOWN = 49272;
+      CONFIG TILE_SERVUS_SPECRAL = 49220;
+      int servusFullStartingCombo = 6916; //TODO if NPCs are able to animate during a string, get rid of all of these combo draws
       int servusTransStartingCombo = 6920;
       int servusAttackingStartingCombo = 6924;
       int servusMovingUpStartingCombo = 6932;
@@ -2503,6 +2568,23 @@ namespace ServusMalusNamespace {
       // Buffer
       for (int i = 0; i < 120; ++i) {
          disableLink();
+         Waitframe();
+      }
+
+      Screen->Message(36);
+      Hero->Dir = DIR_RIGHT;
+      Waitframe();
+
+      //Link walks back to the entrance for the soldier to enter
+      until (Abs(Hero->X - 32) < 2 && Abs(Hero->Y - 80) < 2) {
+
+         if (Hero->Y >= 81) Hero->InputUp = true;
+         else if (Hero->Y <= 79) Hero->InputDown = true;
+
+
+         if (Hero->X >= 33) Hero->InputLeft = true;
+         else if (Hero->X <= 31) Hero->InputRight = true;
+
          Waitframe();
       }
 
@@ -2561,12 +2643,11 @@ namespace ServusMalusNamespace {
       // Turns up and buffer
       for (int i = 0; i < 60; ++i) {
          disableLink();
-         if (i % 4) {
-            Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+
+         if (i % 4)
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
+         else
+            this->OriginalTile = TILE_INVIS;
 
          Screen->FastCombo(1, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
@@ -2592,18 +2673,10 @@ namespace ServusMalusNamespace {
             alternate = !alternate;
          }
 
-         if (alternate) {
-            Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (alternate)
+            this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+         else
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
@@ -2611,81 +2684,100 @@ namespace ServusMalusNamespace {
          Waitframe();
       }
 
+      this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(170);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 32;
 
       // Servus fully appears
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(172);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 32;
 
       // Buffer
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
-
-         if (i == 59)
-            Screen->Message(174);
-
          Waitframe();
       }
+
+      this->X = -32;
+      this->Y = -32;
+      Screen->Message(174);
+      Screen->FastCombo(3, 112, 32, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 32;
 
       // Turns around
       for (int i = 0; i < 15; ++i) {
          disableLink();
 
-         if (i < 8) {
-            Screen->FastCombo(2, 112, 32, servusTurningStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusTurningStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusTurningStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusTurningStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 8)
+            this->Dir = DIR_LEFT;
+         else
+            this->Dir = DIR_UP;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
          Waitframe();
       }
 
-      Screen->Message(177);
+      this->X = -32;
+      this->Y = -32;
+      Screen->Message(176);
+      this->Dir = DIR_UP;
+      Screen->FastCombo(3, 112, 32, servusMovingUpStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 32, servusMovingUpStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 48, servusMovingUpStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 48, servusMovingUpStartingCombo + 3, 11, OP_OPAQUE);
+      Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
-      // Turns around
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 32;
+
+      // Turns back around
       for (int i = 0; i < 15; ++i) {
          disableLink();
 
-         if (i < 8) {
-            Screen->FastCombo(2, 112, 32, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 8)
+            this->Dir = DIR_LEFT;
+         else
+            this->Dir = DIR_DOWN;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
 
@@ -2696,11 +2788,6 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 30; ++i) {
          disableLink();
 
-         Screen->FastCombo(2, 112, 32, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
       }
@@ -2708,29 +2795,25 @@ namespace ServusMalusNamespace {
       // Servus charges at soldier
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 32 + i, servusAttackingStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 32 + i, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 48 + i, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 48 + i, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
+         this->OriginalTile = TILE_SERVUS_ATTACK_DOWN - 8;
+         this->Y += 1;
 
          Screen->FastCombo(2, 120, 80, soldierUp, 0, OP_OPAQUE);
          Waitframe();
       }
 
+      //Soldier drops key when yeeted
       Audio->PlaySound(144);
+      this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+      itemsprite it = CreateItemAt(ITEM_GUARD_TOWER_KEY, 120, 96);
+      it->Pickup = IP_HOLDUP;
+      it->Z = 6;
 
       // Soldier flies back
       int distanceTraveled = 2;
 
       until(distanceTraveled == 64) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Screen->FastCombo(2, 120, 80 + distanceTraveled, soldierUpStunned, 0, OP_OPAQUE);
 
          distanceTraveled += 2;
@@ -2739,21 +2822,27 @@ namespace ServusMalusNamespace {
 
       Audio->PlaySound(121);
       Screen->Quake = 20;
-      setScreenD(253, true);
+      setScreenD(SCREEND_SOLDIER_IS_OOF, true);
 
       // Buffer as soldier is against the wall
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(179);
+      this->Dir = DIR_LEFT;
+      Screen->FastCombo(3, 112, 62, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 62, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 78, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 62;
 
       // Link intervenes
       until(Hero->X >= 120) {
@@ -2766,74 +2855,59 @@ namespace ServusMalusNamespace {
          else
             Hero->InputRight = true;
 
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->Dir = DIR_DOWN;
       Hero->Dir = DIR_UP;
 
       // Buffer as link just got in front of Servus
       for (int i = 0; i < 30; ++i) {
          disableLink();
 
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
+      this->X = -32;
+      this->Y = -32;
       Screen->Message(180);
+      this->Dir = DIR_LEFT;
+      Screen->FastCombo(3, 112, 62, servusFullStartingCombo, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 62, servusFullStartingCombo + 1, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 112, 78, servusFullStartingCombo + 2, 11, OP_OPAQUE);
+      Screen->FastCombo(3, 128, 78, servusFullStartingCombo + 3, 11, OP_OPAQUE);
+
+      Waitframe();
+
+      this->X = 112;
+      this->Y = 62;
 
       // Buffer before Big Summer Blowout
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
+
+      this->Dir = DIR_UP;
 
       // Servus moves up for the Big Summer Blowout
       for (int i = 0; i < 48; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 62 - i, servusMovingUpStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 62 - i, servusMovingUpStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 78 - i, servusMovingUpStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 78 - i, servusMovingUpStartingCombo + 3, 3, OP_OPAQUE);
-
+         this->Y -= 1;
          Waitframe();
       }
+
+      this->Dir = DIR_DOWN;
 
       // Buffer before Big Summer Blowout
       for (int i = 0; i < 30; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 16, servusFullStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 16, servusFullStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 30, servusFullStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 30, servusFullStartingCombo + 3, 3, OP_OPAQUE);
-
          Waitframe();
       }
 
       for (int i = 0; i < 60; ++i) {
          disableLink();
-
-         Screen->FastCombo(2, 112, 14, servusAttackingStartingCombo, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 14, servusAttackingStartingCombo + 1, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 112, 30, servusAttackingStartingCombo + 2, 3, OP_OPAQUE);
-         Screen->FastCombo(2, 128, 30, servusAttackingStartingCombo + 3, 3, OP_OPAQUE);
-
+         this->OriginalTile = TILE_SERVUS_ATTACK_DOWN - 8;
          Waitframe();
       }
 
@@ -2847,18 +2921,10 @@ namespace ServusMalusNamespace {
       for (int i = 0; i < 20; ++i) {
          disableLink();
 
-         if (i < 10) {
-            Screen->FastCombo(2, 112, 14, servusVanishingStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 14, servusVanishingStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 30, servusVanishingStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 30, servusVanishingStartingCombo + 3, 3, OP_OPAQUE);
-         }
-         else {
-            Screen->FastCombo(2, 112, 14, servusTransStartingCombo, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 14, servusTransStartingCombo + 1, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 112, 30, servusTransStartingCombo + 2, 3, OP_OPAQUE);
-            Screen->FastCombo(2, 128, 30, servusTransStartingCombo + 3, 3, OP_OPAQUE);
-         }
+         if (i < 10)
+            this->OriginalTile = TILE_SERVUS_FACE_DOWN - 8;
+         else
+            this->OriginalTile = TILE_SERVUS_SPECRAL;
 
          Waitframe();
       }
@@ -2870,19 +2936,19 @@ namespace ServusMalusNamespace {
             switch (litTorchCount) {
                case 0:
                case 1: {
-                  cmbLitTorch->Attribytes[0] = 36;
+                  cmbLitTorch->Attributes[8] = 36;
                   return;
                }
                case 2: {
-                  cmbLitTorch->Attribytes[0] = 40;
+                  cmbLitTorch->Attributes[8] = 40;
                   return;
                }
                case 3: {
-                  cmbLitTorch->Attribytes[0] = 58;
+                  cmbLitTorch->Attributes[8] = 58;
                   return;
                }
                case 4: {
-                  cmbLitTorch->Attribytes[0] = 64;
+                  cmbLitTorch->Attributes[8] = 64;
                   return;
                }
             }
@@ -2891,19 +2957,19 @@ namespace ServusMalusNamespace {
             switch (litTorchCount) {
                case 0:
                case 1: {
-                  cmbLitTorch->Attribytes[0] = 12;
+                  cmbLitTorch->Attributes[8] = 12;
                   return;
                }
                case 2: {
-                  cmbLitTorch->Attribytes[0] = 16;
+                  cmbLitTorch->Attributes[8] = 16;
                   return;
                }
                case 3: {
-                  cmbLitTorch->Attribytes[0] = 20;
+                  cmbLitTorch->Attributes[8] = 20;
                   return;
                }
                case 4: {
-                  cmbLitTorch->Attribytes[0] = 24;
+                  cmbLitTorch->Attributes[8] = 24;
                   return;
                }
             }
@@ -2948,12 +3014,17 @@ namespace ServusMalusNamespace {
 
    void scytheSlash(npc this, int originalTile, int attackingTile, int unarmedTile, bool gettingDesperate, int damage) {
       for (int attackCount = 1; attackCount < (gettingDesperate ? 4 : 2); attackCount++) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          int angle = Angle(this->X + 8, this->Y + 8, Hero->X, Hero->Y);
          this->OriginalTile = attackingTile;
          Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR2);
+
+         int attackBuffer = gettingDesperate ? 15 : 30;
+         Waitframes(attackCount == 1 ? attackBuffer + 5 : attackBuffer);
 
          for (int i = 0; i < (gettingDesperate ? 5 : 15); ++i)
             Waitframe();
@@ -2976,8 +3047,10 @@ namespace ServusMalusNamespace {
             Waitframe();
          }
          for (int i = 0; i < (gettingDesperate ? 8 : 15); ++i) {
-            if (this->HP <= 0)
-               deathAnimation(this, 148);
+            if (this->HP <= 0) {
+               Screen->Message(1236);
+               deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             this->OriginalTile = originalTile;
             Waitframe();
@@ -2989,8 +3062,10 @@ namespace ServusMalusNamespace {
       Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
 
       for (int i = 0; i < 30; ++i) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          this->OriginalTile = attackingTile;
          Waitframe();
@@ -2998,8 +3073,10 @@ namespace ServusMalusNamespace {
 
       if (int escr = CheckEWeaponScript("BoomerangThrow")) {
          for (int i = 0; i < (gettingDesperate ? 2 : 1); i++) {
-            if (this->HP <= 0)
+            if (this->HP <= 0) {
+               Screen->Message(1236);
                deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             if (i > 0)
                Audio->PlaySound(SFX_MC_BOUNDCHEST_ROAR1);
@@ -3040,8 +3117,10 @@ namespace ServusMalusNamespace {
                Waitframe();
 
             for (int i = 0; i < 15; ++i) {
-               if (this->HP <= 0)
-                  deathAnimation(this, 148);
+               if (this->HP <= 0) {
+                  Screen->Message(1236);
+                  deathAnimation(this, SFX_GOMESS_DIE);
+               }
 
                this->OriginalTile = attackingTile;
                Waitframe();
@@ -3050,8 +3129,10 @@ namespace ServusMalusNamespace {
       }
 
       for (int i = 0; i < 15; ++i) {
-         if (this->HP <= 0)
+         if (this->HP <= 0) {
+            Screen->Message(1236);
             deathAnimation(this, SFX_GOMESS_DIE);
+         }
 
          this->OriginalTile = originalTile;
          Waitframe();
@@ -3099,8 +3180,10 @@ namespace ServusMalusNamespace {
          WindHandler.init();
 
          for (int i = 0; i < wc; ++i) {
-            if (this->HP <= 0)
-               deathAnimation(this, 136);
+            if (this->HP <= 0) {
+               Screen->Message(1236);
+               deathAnimation(this, SFX_GOMESS_DIE);
+            }
 
             eweapon ewind = RunEWeaponScriptAt(EW_SCRIPT2, escr, CenterX(this) - 8, CenterY(this) - 8);
             ewind->Angular = true;
@@ -3267,7 +3350,7 @@ npc script TurnedHylianElite {
       CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage;
 
       int maxHp = this->HP;
-      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
+      // Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
 
       unless(getScreenD(0)) {
          Screen->Message(introMessage);
@@ -3366,6 +3449,7 @@ npc script TurnedHylianElite {
    void CustomWaitframe(npc n) {
       if (n->HP <= 0) {
          PlayDeathAnim(n);
+         // MUSIC_INHERIT->Play(); //didint work
          n->Immortal = false;
       }
 
@@ -3394,6 +3478,12 @@ namespace EgentemNamespace {
    CONFIG D_NO_DIE = 3;
    CONFIG SPR_RISE = 136;
    CONFIG SPR_CRACK = 137;
+
+   CONFIG SCREEND_EGENTEM_TRAP_TRIGGERED = 0;
+   CONFIG SCREEND_EGENTEM_BEATEN = 1;
+   CONFIG SCREEND_EGENTEM_INITIATE_INTRO = 2;
+   CONFIG SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS = 3;
+   CONFIG SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS = 4;
 
    enum ATTACKS {
       ATTACK_HAMMER_SPIN,
@@ -3476,32 +3566,32 @@ namespace EgentemNamespace {
          this->X = -32;
          this->Y = -32;
          int maxHp = this->HP;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
-         // Not yet activated Egentem yet
-         until(getScreenD(31, 0x43, 0)) {
-            this->X = -32;
-            this->Y = -32;
+         until (getScreenD(SCREEND_EGENTEM_TRAP_TRIGGERED))
             Waitframe();
-         }
 
-         // You already triggered his trap and failed to defeat him once or F6'd
-         if (getScreenD(31, 0x23, 0) && getScreenD(31, 0x43, 0)) {
+         if (getScreenD(SCREEND_EGENTEM_INITIATE_INTRO) && getScreenD(SCREEND_EGENTEM_TRAP_TRIGGERED)) {
             Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
             this->X = 120;
             this->Y = 128;
             this->Dir = DIR_UP;
             aptr->PlayAnim(STANDING_SH);
-         }
 
-         // You activated his triforce trap, do intro
-         else if (!getScreenD(0)) {
+            setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+            setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+         }
+         else if (!getScreenD(SCREEND_EGENTEM_INITIATE_INTRO)) {
+            if (Hero->Y < 48)
+               setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+            else
+               setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+
             introCutscene(this);
-            setScreenD(0, true);
+            setScreenD(SCREEND_EGENTEM_INITIATE_INTRO, true);
          }
 
-         closeShutters(this);
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
 
          for (int i = 0; i < 20; ++i)
             this->Defense[i] = NPCDT_QUARTERDAMAGE;
@@ -3633,8 +3723,12 @@ namespace EgentemNamespace {
    }
 
    void egentemDeathAnimation(npc n) {
+      setScreenD(SCREEND_EGENTEM_BEATEN, true);
+      setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, false);
+      setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, false);
+
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
       int baseX = n->X + n->DrawXOffset;
@@ -3647,16 +3741,12 @@ namespace EgentemNamespace {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
          Waitframes(5);
       }
 
-      openShutters();
-
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       for (int i = Screen->NumEWeapons; i >= 1; i--) {
          eweapon e = Screen->LoadEWeapon(i);
@@ -3729,34 +3819,6 @@ namespace EgentemNamespace {
       aptr->PlayAnim(anim);
    }
 
-   void closeShutters(npc this) {
-      while (Hero->Y < 16) {
-         disableLink();
-         Hero->InputDown = true;
-         Waitframe(this);
-      }
-
-      mapdata md = Game->LoadTempScreen(1);
-      Audio->PlaySound(SFX_SHUTTER_CLOSE);
-
-      md->ComboD[7] = 6957;
-      md->ComboD[8] = 6957;
-      md->ComboD[167] = 6953;
-      md->ComboD[168] = 6953;
-   }
-
-   void openShutters() {
-      mapdata md = Game->LoadTempScreen(1);
-      Audio->PlaySound(SFX_SHUTTER_OPEN);
-
-      md->ComboD[7] = 0;
-      md->ComboD[8] = 0;
-      md->ComboD[167] = 0;
-      md->ComboD[168] = 0;
-
-      setScreenD(1, true);
-   }
-
    void introCutscene(npc this) {
       Audio->PlayEnhancedMusic(NULL, 0);
 
@@ -3816,14 +3878,21 @@ namespace EgentemNamespace {
          Waitframe(this);
       }
 
+      if (Hero->Y < 48)
+         setScreenD(SCREEND_EGENTEM_FIGHT_BOTTOM_SHUTTERS, true);
+      else
+         setScreenD(SCREEND_EGENTEM_FIGHT_TOP_SHUTTERS, true);
+
+      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+
+      Waitframes(10);
+
       Screen->Message(337);
       Waitframe();
       hammerFrame(this, 0, 0, xy);
       Screen->Message(807);
       Audio->PlayEnhancedMusic("Dragon Quest IV - Boss Battle.ogg", 0);
       Waitframe();
-
-      setScreenD(31, 0x23, 0, true);
 
       aptr->PlayAnim(STANDING_SH);
    }
@@ -3925,7 +3994,7 @@ namespace EgentemNamespace {
          hammer->Timeout = 2;
 
          if (frame < 2)
-            hammer->CollDetection = false;
+            hammer->NoCollisionTimer = -1;
       }
 
       xy->X = x;
@@ -3964,9 +4033,9 @@ namespace EgentemNamespace {
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
-            eweapon hitLink = Screen->LoadEWeapon(hitId);
+            eweapon hitHero = Screen->LoadEWeapon(hitId);
 
-            if (hitLink->isValid() && hitbox == hitLink) {
+            if (hitHero->isValid() && hitbox == hitHero) {
                linkGotHit = true;
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                break;
@@ -4127,7 +4196,7 @@ namespace EgentemNamespace {
       for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
-         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection)
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && !e->NoCollisionTimer)
             ++count;
       }
 
@@ -4142,7 +4211,7 @@ namespace EgentemNamespace {
       for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
-         if (e->Script == slot && !e->InitD[D_LAUNCHED] && e->CollDetection) {
+         if (e->Script == slot && !e->InitD[D_LAUNCHED] && !e->NoCollisionTimer) {
             int distEnemy = Distance(e->X, e->Y, this->X, this->Y);
             int distLink = Distance(e->X, e->Y, Hero->X, Hero->Y);
 
@@ -4164,7 +4233,7 @@ namespace EgentemNamespace {
             this->Remove();
 
          this->Behind = true;
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
          this->UseSprite(SPR_CRACK);
 
          Waitframes(delay);
@@ -4175,7 +4244,7 @@ namespace EgentemNamespace {
          this->DrawYOffset = -16;
          this->HitYOffset = -16;
          this->HitHeight = 32;
-         this->CollDetection = true;
+         this->NoCollisionTimer = 0;
          this->UseSprite(SPR_RISE);
          Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
@@ -4202,7 +4271,7 @@ namespace EgentemNamespace {
             this->DrawYOffset = -8;
             this->TileWidth = 2;
             this->TileHeight = 2;
-            this->CollDetection = false;
+            this->NoCollisionTimer = -1;
             this->UseSprite(SPR_ROTATING_PILLAR);
             this->Angular = true;
             this->Damage = pillarDamage;
@@ -4219,16 +4288,13 @@ namespace EgentemNamespace {
             this->DegAngle = angle;
             this->Step = 450;
 
-            while (true) {
-               if (wallCollision(this)) {
-                  eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
-                  explosion->Damage = pillarExplosionDamage;
-               }
-
+            until (wallCollision(this)) {
                this->Rotation = this->DegAngle;
                rotatingHitbox(this);
                Waitframe();
             }
+            eweapon explosion = CreateEWeaponAt(EW_BOMBBLAST, this->X, this->Y);
+            explosion->Damage = pillarExplosionDamage;
          }
 
          this->Remove();
@@ -4261,7 +4327,7 @@ namespace EgentemNamespace {
 
    ffc script EgentemGotcha {
       void run() {
-         if (getScreenD(31, 0x33, 1)) {
+         if (getScreenD(31, 0x33, SCREEND_EGENTEM_BEATEN)) {
             mapdata mapData = Game->LoadTempScreen(0);
             mapData->ComboD[39] = 0;
             mapData->ComboD[40] = 0;
@@ -4270,40 +4336,7 @@ namespace EgentemNamespace {
          until(Screen->SecretsTriggered) Waitframe();
 
          Audio->PlayEnhancedMusic(NULL, 0);
-         setScreenD(0, true);
-      }
-   }
-
-   // clang-format off
-   @Author("Deathrider365")
-   ffc script EgentemShrineSoldier {
-      // clang-format on
-      void run(int message) {
-         mapdata towerEntrance = Game->LoadMapData(44, 0x33);
-         mapdata egentemRoom = Game->LoadMapData(48, 0x3B);
-
-         if (!egentemRoom->State[ST_SECRET] || towerEntrance->State[ST_SECRET]) {
-            this->Data = CMB_INVIS;
-            this->Flags[FFCF_SOLID] = false;
-            Quit();
-         }
-
-         towerEntrance->State[ST_SECRET] = true;
-
-         while (true) {
-            until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-               if (againstFFC(this->X, this->Y))
-                  Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-               Waitframe();
-            }
-
-            Input->Button[CB_SIGNPOST] = false;
-            Game->Suspend[susptSCREENDRAW] = true;
-
-            Screen->Message(message);
-            Game->Suspend[susptSCREENDRAW] = false;
-            Waitframe();
-         }
+         setScreenD(31, 0x33, SCREEND_EGENTEM_TRAP_TRIGGERED, true);
       }
    }
 }
@@ -4531,7 +4564,7 @@ namespace LatrosNamespace {
       int chargingCounter = 60;
 
       until(stolen) {
-         this->CollDetection = false;
+         this->NoCollisionTimer = -1;
 
          unless(chargingCounter) break;
 
@@ -4615,7 +4648,7 @@ namespace LatrosNamespace {
          LatrosWaitframe(this, latros);
       }
 
-      this->CollDetection = true;
+      this->NoCollisionTimer = 0;
    }
 
    void clearBoomerangs(int itemId) {
@@ -4867,11 +4900,11 @@ namespace LatrosNamespace {
          int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
-            eweapon hitLink = Screen->LoadEWeapon(hitId);
+            eweapon hitHero = Screen->LoadEWeapon(hitId);
 
             int stunDur = boomerangLevel * 50;
 
-            if (hitLink->isValid()) {
+            if (hitHero->isValid()) {
                Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
                Hero->Stun = stunDur;
                break;
@@ -5034,7 +5067,7 @@ namespace LatrosNamespace {
 
    void latrosDeathAnimation(npc n, int deathSound, Latros latros) {
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
 		Screen->Message(349);
@@ -5051,7 +5084,7 @@ namespace LatrosNamespace {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
 
          unless(i % 9) latros->dropItem(latros->stolenItems[dropCount++]);
@@ -5059,9 +5092,7 @@ namespace LatrosNamespace {
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
@@ -5169,7 +5200,7 @@ namespace Quickknife {
 
    void quickknifeDeathAnimation(npc n, int deathSound) {
       n->Immortal = true;
-      n->CollDetection = false;
+      n->NoCollisionTimer = -1;
       n->Stun = 9999;
 
 		Screen->Message(359);
@@ -5186,15 +5217,13 @@ namespace Quickknife {
             lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
             explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
             explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->CollDetection = false;
+            explosion->NoCollisionTimer = -1;
          }
 
          Waitframes(5);
       }
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
 
       // for (int i = Screen->NumNPCs; i >= 1; i--) {
       //    npc n = Screen->LoadNPC(i);
@@ -5244,8 +5273,7 @@ npc script TheMorsa {
       //Death animation
 
       auriVillageMusicSet = true;
-      dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
-      dm->SetMusic("Final Fantasy VII - Desert Wasteland.ogg");
+      Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(93); //Dmap 7, NEI Auri Village
 
       this->Immortal = false;
    }

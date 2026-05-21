@@ -6,3 +6,5 @@ have something like from GS where there is that room with 3 torches that an npc 
 
 game generic value to pull the dither of dark rooms and change them in global script
 
+old fashioned demo screen showing some gameplay on the title screen (also have a title screen)
+

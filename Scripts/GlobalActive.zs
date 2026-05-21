@@ -6,7 +6,7 @@ global script Init {
    // clang-format off
 
 	void run() {
-      giveStartingCrap();
+
 	}
 }
 
@@ -29,17 +29,32 @@ global script GlobalScripts {
       Game->MaxEWeapons(1024);
 
       mapdata mapData[6];
+      bitmap overheadBitmaps[7];
 
       int footprintArray[3] = {1, 0, 0};
 
-      int ocarinaIndex = 1;
+      int flipperPower;
+      int breathCounter;
+      int noBreathDamage = 0;
+      int drownDamageFrequency = 60;
+      int timeWithNoBreath = 0;
 
-      while (true) {
+      if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
+         flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+         breathCounter = flipperPower;
+      }
+
+      loop () {
          gameframe = (gameframe + 1) % 3600;
+
+         onContHP = Hero->HP;
+         onContMP = Hero->MP;
 
          Hero->HurtSound = getHeroHitSound();
 
          checkDungeon();
+         checkMagicCharge();
+         checkHeartCharge();
 
          LinkMovement_Update1();
          UpdateGhostZH1();
@@ -50,10 +65,36 @@ global script GlobalScripts {
          setupTransparentLayers();
          Waitdraw();
 
-         //What to do when you fall in a hole
-         //Place in global after Waitdraw
-         //Should not run if the subscreen is open
          fall();
+
+         if (Hero->Item[ITEM_FLIPPERS1] || Hero->Item[ITEM_FLIPPERS2]) {
+            unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
+               flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
+
+               if (isUnderWater() || HeroIsScrollingOrWarping()) {
+                  if (breathCounter == 0 && timeWithNoBreath % 180 == 0) {
+                     drownDamageFrequency -= 5;
+                     noBreathDamage++;
+                  }
+
+                  if (breathCounter == 0)
+                     timeWithNoBreath++;
+                  else
+                     --breathCounter;
+               }
+               else {
+                  noBreathDamage = 0;
+                  timeWithNoBreath = 0;
+                  drownDamageFrequency = 60;
+                  breathCounter = flipperPower;
+               }
+
+               if (breathCounter == 0)
+                  hurtDatHero(drownDamageFrequency, noBreathDamage);
+            }
+         }
+
+         giveGoddessJewel();
 
          Screen->DrawOrigin = DRAW_ORIGIN_SPRITE;
          Screen->DrawOriginTarget = Hero;
@@ -63,23 +104,21 @@ global script GlobalScripts {
          CONFIG GREY_BUBBLE_JINX_COMBO = 6896;
          CONFIG RED_BUBBLE_JINX_COMBO = 6897;
 
-         if (Hero->SwordJinx < 0) {
-            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
-         else if (Hero->SwordJinx) {
-            Screen->DrawCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, 1, 0, -1, -1, 0, 0, 0, 0, FLIP_NONE, true, OP_TRANS);
-         }
+         if (Hero->SwordJinx < 0)
+            Screen->FastCombo(SPLAYER_PLAYER_DRAW, 0, 0, RED_BUBBLE_JINX_COMBO, 1, OP_TRANS);
+         else if (Hero->SwordJinx)
+            Screen->FastCombo(SPLAYER_PLAYER_DRAW, 0, 0, GREY_BUBBLE_JINX_COMBO, 1, OP_TRANS);
 
          Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT; // restore.
 
-         drawRadialTransparency(mapData);
+         drawRadialTransparency(mapData, overheadBitmaps);
 
          checkFootprints(footprintArray);
 
          if (map != Game->CurMap || screen != Game->CurScreen) {
             map = Game->CurMap;
             screen = Game->CurScreen;
-            onScreenChange(mapData);
+            onScreenChange(mapData, overheadBitmaps);
          }
 
          if (dmap != Game->CurDMap) {
@@ -100,13 +139,73 @@ global script GlobalScripts {
          Waitframe();
       }
    }
-   
-   void fall(){
+
+   bool isUnderWater() {
+      int pos = ComboAt(Hero->X + 4, Hero->Y + 8);
+      int comboT = Screen->ComboT[pos];
+
+      for (int i = 1; i < 3; ++i) {
+         if (Screen->LayerMap[i]) {
+            mapdata mapData = Game->LoadTempScreen(i);
+
+            if (mapData->ComboT[pos] == CT_WATER)
+               return true;
+         }
+      }
+
+      return false;
+   }
+
+   void giveGoddessJewel() {
+      //TODO add cutscene to this
+      if (Game->Counter[CR_TRIFORCE_OF_COURAGE] == 4 && !Hero->Item[ITEM_FARORES_WIND]) {
+         Waitframes(15);
+         Screen->Message(773);
+         Waitframe();
+         CreateItemAt(ITEM_FARORES_WIND, Hero->X, Hero->Y);
+      }
+      if (Game->Counter[CR_TRIFORCE_OF_POWER] == 4 && !Hero->Item[ITEM_DINS_FIRE]) {
+         Waitframes(15);
+         Screen->Message(774);
+         Waitframe();
+         CreateItemAt(ITEM_DINS_FIRE, Hero->X, Hero->Y);
+      }
+      if (Game->Counter[CR_TRIFORCE_OF_WISDOM] == 4 && !Hero->Item[ITEM_NAYRUS_LOVE]) {
+         Waitframes(15);
+         Screen->Message(775);
+         Waitframe();
+         CreateItemAt(ITEM_NAYRUS_LOVE, Hero->X, Hero->Y);
+      }
+      if (Game->Counter[CR_TRIFORCE_OF_DEATH] == 4 && !Hero->Item[ITEM_DEATHS_AURA]) {
+         Waitframes(15);
+         Screen->Message(776);
+         Waitframe();
+         CreateItemAt(ITEM_DEATHS_AURA, Hero->X, Hero->Y);
+      }
+   }
+
+   void checkMagicCharge() {
+      int[] magicRings = { ITEM_MAGIC_RING1, ITEM_MAGIC_RING2, ITEM_MAGIC_RING3, ITEM_MAGIC_RING4, ITEM_MAGIC_RING5 };
+
+      if (Hero->Item[ITEM_MAGIC_RING1])
+         Hero->Item[magicRings[Game->Counter[CR_MAGIC_RING_SHARDS]]] = true;
+   }
+
+   void checkHeartCharge() {
+      int[] heartRings = { ITEM_HEART_RING1, ITEM_HEART_RING2, ITEM_HEART_RING3, ITEM_HEART_RING4, ITEM_HEART_RING5 };
+
+      if (Hero->Item[ITEM_HEART_RING1])
+         Hero->Item[heartRings[Game->Counter[CR_HEART_RING_SHARDS]]] = true;
+   }
+
+   void fall() {
       //Pit warp constants
       CONFIG WARPS_LINK = 1;
       CONFIG DIRECT_WARP = 2;
+
       if (Hero->Falling == 1) {
          combodata combo = Game->LoadComboData(Hero->FallCombo);
+         
          if (combo->UserFlags & WARPS_LINK) {
                if (combo->UserFlags & DIRECT_WARP)
                   Hero->Z = Hero->Y;
@@ -125,7 +224,7 @@ global script GlobalScripts {
       return;
    }
 
-   void drawRadialTransparency(mapdata[] mapData) {
+   void drawRadialTransparency(mapdata[] mapData, bitmap[] overheadBitmaps) {
       CONFIG TRANS_RADIUS = 36;
 
       unless(IsValidArray(mapData)) return;
@@ -164,7 +263,7 @@ global script GlobalScripts {
       }
    }
 
-   void onScreenChange(mapdata[] mapData) {
+   void onScreenChange(mapdata[] mapData, bitmap[] overheadBitmaps) {
       disableTrans = false;
       int layers = getTransLayers(Game->CurDMap, Game->CurScreen);
 
@@ -179,53 +278,51 @@ global script GlobalScripts {
 
          mapData[l] = Game->LoadTempScreen(l);
       }
-
-      if (Screen->Palette != lastPal) {
-         lastPal = Screen->Palette;
-
-         for (int i = 0; i <= MAX_USED_DMAP; ++i)
-            Game->LoadDMapData(i)->Palette = Screen->Palette;
-      }
    }
 
    // 654321b
    int getTransLayers(int dmap, int screen) {
       switch (dmap) {
-         case 0:
+         case 0:  //Isle of Haeren
             switch (screen) {
                case 0x22: return 011000b;
+               case 0x16: return 011100b;
             }
-
-         case 4:
+         case 4:  //NEI Plains
             switch (screen) {
                case 0x26: return 011000b;
                case 0x38:
                case 0x39: return 001000b;
             }
             break;
-         case 5:
+         case 5:  //NEI Residence
             switch (screen) {
                case 0x1c: return 000100;
                case 0x33: return 000100;
                case 0x63: return 000100;
             }
             break;
-         case 6:
+         case 6:  //NEI Caves
             switch (screen) {
                case 0x08:
                case 0x17: return 000100b;
             }
             break;
-         case 8:
+         case 8:  //NEI Cumpura Forest
             switch (screen) {
                case 0x0A: return 001000b;
             }
             break;
-         case 9:
+         case 9:  //NEI Auri Desert
             switch (screen) {
                case 0x76: return 001000b;
             }
-         case 14:
+         case 10: //NEI Coasts
+            switch (screen) {
+               case 0x6E: return 000100b;
+               case 0x32: return 001100b;
+            }
+         case 14: //SWI Auri Desert
             switch (screen) {
                case 0x0E: return 001000b;
                case 0x0D: return 001000b;
@@ -234,13 +331,13 @@ global script GlobalScripts {
                case 0x2B: return 011000b;
             }
             break;
-         case 15:
+         case 15: //SWI Plains
             switch (screen) {
-               case 0x04: return 011100;
-               case 0x55: return 000100;
+               case 0x04: return 111100;
+               case 0x55: return 001100;
             }
             break;
-         case 19:
+         case 19: //Lv1 Pern Grotto B1
             switch (screen) {
                case 0x4C: return 010000;
                case 0x4D: return 001000;
@@ -248,76 +345,116 @@ global script GlobalScripts {
             }
             break;
 
-         case 21:
+         case 21: //Battle Arena 1
             switch (screen) {
                case 0x77: return 000100;
             }
             break;
-         case 31:
+         case 31: //Lv3 Ancient Shrine B1
             switch (screen) {
                case 0x4A:
                case 0x7C:
                case 0x5D: return 001000b;
             }
             break;
-         case 32:
+         case 32: //NEI Quarry
             switch (screen) {
                case 0x06: return 011000b;
                case 0x07: return 001100b;
             }
             break;
-         case 34:
+         case 34: //SWI Celo Village
             switch (screen) {
                case 0x20:
                case 0x21: return 011000b;
             }
             break;
-         case 35:
+         case 35: //SWI Residence
             switch (screen) {
                case 0x5B: return 000100;
+               case 0x61: return 000100;
             }
             break;
-         case 36:
+         case 36: //SWI Caves
             switch (screen) {
-               case 0x76: return 001000b;
+               case 0x17: return 001100b;
+               case 0x76: return 000100b;
             }
             break;
-         case 39:
+         case 38: //SWI Mt. Caldum
             switch (screen) {
+               case 0x60: return 001000b;
+            }
+            break;
+         case 39: //SWI Mt Duratu
+            switch (screen) {
+               case 0x5F: return 011100b;
+               case 0x6F: return 000100b;
                case 0x7C: return 011100b;
+               case 0x7F: return 001100b;
             }
             break;
-         case 43:
+         case 40: //SEI Caves
+            switch (screen) {
+               case 0x21: return 000100b;
+               case 0x22: return 000100b;
+            }
+            break;
+         case 43: //Molten Flooded Forge B1
             switch (screen) {
                case 0x0F: return 001000b;
             }
             break;
-         case 47:
+         case 47: //Lv4 Pillaged Prison B2
             switch (screen) {
                case 0x35: return 000100b;
             }
             break;
-         case 49:
+         case 49: //SWI Palus Village
             switch (screen) {
                case 0x41: return 000100b;
             }
-         case 50:
+         case 50: //Lv5 Temple of Gamoth F1
             switch (screen) {
                case 0x02: return 000100b;
             }
             break;
-         case 59:
+         case 57: //SWI Duratu Village
+            switch (screen) {
+               case 0x6E: return 001000b;
+            }
+            break;
+         case 58: //SEI Mt Duratu
+            switch (screen) {
+               case 0x70: return 000100b;
+               case 0x71: return 000100b;
+            }
+            break;
+         case 59: //NWI Shrouded Forest
             switch (screen) {
                case 0x76: return 000100b;
                case 0x77: return 001000b;
             }
             break;
-         case 69:
+         case 62: //SEI Gelido Shoal
+            switch (screen) {
+               case 0x25: return 011000b;
+               case 0x35: return 001000b;
+               case 0x45: return 011000b;
+               case 0x76: return 011000b;
+            }
+            break;
+         case 66: //NWI Carulem Village
+            switch (screen) {
+               case 0x21: return 000100b;
+            }
+         break;
+         case 69: //Lv6 Geothermal Plant B1 West
             switch (screen) {
                case 0x22: return 000100b;
             }
             break;
-         case 70:
+         case 70: //Lv6 Geothermal Plant B1 East
             switch (screen) {
                case 0x4D: return 000100b;
                case 0x1E: return 001000b;
@@ -326,17 +463,35 @@ global script GlobalScripts {
                case 0x59: return 001000b;
             }
             break;
-         case 71:
+         case 71: //Sweltering Iron Mine
             switch (screen) {
                case 0x45: return 001000b;
                case 0x35: return 000100b;
             }
             break;
-         case 73:
+         case 73: //Summus Pass
             switch (screen) {
                case 0x34: return 000100b;
                case 0x44: return 011000b;
                case 0x46: return 011100b;
+            }
+            break;
+         case 77: //Lv7 Palace of Tides F1
+            switch (screen) {
+               case 0x42: return 000100b;
+               case 0x62: return 000100b;
+            }
+            break;
+         case 89: //Seaside Outpost F2
+            switch (screen) {
+               case 0x76: return 011000b;
+               case 0x45: return 011000b;
+               case 0x25: return 011000b;
+            }
+            break;
+         case 124: //NWI Mt. Summus
+            switch (screen) {
+               case 0x66: return 011000b;
             }
             break;
       }
@@ -344,6 +499,7 @@ global script GlobalScripts {
    }
 
    void checkFootprints(int[] footprints) {
+      CONFIG CT_FOOTPRINT = CT_SCRIPT20;
       int fadeMult = getFadeMult();
 
       unless(fadeMult) fadeMult = 1;
@@ -353,7 +509,7 @@ global script GlobalScripts {
          footprints[2] = Hero->Y;
 
          unless(--footprints[0]) {
-            int pos = ComboAt(Link->X + 4, Link->Y + 4);
+            int pos = ComboAt(Hero->X + 4, Hero->Y + 4);
             int comboT = Screen->ComboT[pos];
 
             for (int i = 1; i < 3; ++i)
@@ -420,7 +576,7 @@ global script GlobalScripts {
          footprint->Behind = true;
          footprint->Dir = Hero->Dir;
          footprint->ScriptTile = TILE_INVIS;
-         footprint->CollDetection = false;
+         footprint->NoCollisionTimer = -1;
       }
    }
 
@@ -430,18 +586,24 @@ global script GlobalScripts {
    void checkDungeon() {
       int level = Game->CurLevel;
       unless(Game->LItems[level] & LI_MAP) {
-         Link->InputMap = false;
-         Link->PressMap = false;
+         Hero->InputMap = false;
+         Hero->PressMap = false;
       }
    }
 
    // Author - Jamien
    void BoomerangNerf() {
-      for (int i = 1; i <= Screen->NumNPCs; ++i) {
-         npc enem = Screen->LoadNPC(i);
+      int curBoom = GetHighestLevelItemOwned(IC_BRANG);
 
-         if (STUN_DURATION > 0 && enem->Stun > STUN_DURATION)
-            enem->Stun = STUN_DURATION;
+      if (curBoom > -1) {
+         int stunDuration = Game->LoadItemData(curBoom)->Level * 60;
+
+         for (int i = 1; i <= Screen->NumNPCs; ++i) {
+            npc enem = Screen->LoadNPC(i);
+
+            if (stunDuration > 0 && enem->Stun > stunDuration)
+               enem->Stun = stunDuration;
+         }
       }
    }
 
@@ -457,20 +619,13 @@ global script OnLaunch {
 
    void run() {
       lastPal = -1;
-      subscreenYOffset = -232;
-      subscreenOpen = false;
+      CONFIG MIDI_GAMEOVER = 8;
 
       setGameOverMenu(C_TAN, C_BLACK, C_RED, MIDI_GAMEOVER);
 
       // Makes these combos' invisible (dont make these combos animate)
       for (cid : { 7302 }) {
          Game->LoadComboData(cid)->OriginalTile = TILE_INVIS;
-      }
-
-      // For debug purposes because test builds start you with nothing on a or b
-      if (Game->Testing) {
-         Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
-         Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
       }
 
       if (onContHP != 0) {
@@ -499,14 +654,27 @@ global script onF6Menu {
 }
 
 // clang-format off
+// @Author("Deathrider365")
+// generic script onF6Menu {
+//    // clang-format off
+
+//    void run() {
+//       onContHP = Hero->HP;
+//       onContMP = Hero->MP;
+
+//       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+//          if (stolenLinkItems[i] > 1)
+//             Hero->Item[stolenLinkItems[i]] = true;
+//    }
+// }
+
+// clang-format off
 @Author("Deathrider365")
 global script onContGame {
    // clang-format off
 
    void run() {
-      subscreenYOffset = -232;
-
-      if(onContHP != 0) {
+      if (onContHP != 0) {
          Hero->HP = onContHP;
          Hero->MP = onContMP;
       } else {
@@ -514,8 +682,8 @@ global script onContGame {
          Hero->MP = Hero->MaxMP;
       }
 
-      if (SizeOfArray(stolenLinkItems))
-         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+         if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
    }
 }
@@ -526,8 +694,8 @@ global script onSave {
    // clang-format off
 
    void run() {
-      if (SizeOfArray(stolenLinkItems))
-         for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+      for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
+         if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
    }
 }
@@ -538,10 +706,8 @@ global script onSaveLoad {
    // clang-format off
 
    void run() {
-      if (auriVillageMusicSet) {
-         dmapdata dm = Game->LoadDMapData(Game->GetDMap("NEI Auri Village"));
-         dm->SetMusic("Final Fantasy VII - Desert Wasteland.ogg");
-      }
+      if (auriVillageMusicSet)
+         Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(93); //Dmap 7, NEI Auri Village TODO use this not audio file names
    }
 }
 

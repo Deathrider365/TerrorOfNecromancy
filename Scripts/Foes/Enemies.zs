@@ -1,12 +1,5 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Enemies ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-// TODO remove when fakez is toggleable in the enemy editor
-// npc script FakeZEnemy {
-//    void run() {
-//       this->MoveFlags[NPCMV_USE_FAKE_Z] = true;
-//    }
-// }
-
 // clang-format off
 @Author("Deathrider365")
 npc script Candlehead {
@@ -23,7 +16,7 @@ npc script Candlehead {
    void run(int chungo) {
       int knockbackDist = 4;
 
-      int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
+      // int highestLevelCandle = GetHighestLevelItemOwned(IC_CANDLE) < 0 ? 1 : GetHighestLevelItemOwned(IC_CANDLE);
 
       CONFIG DMG_FLAME = this->WeaponDamage;
       // CONFIG DMG_FLAME = (Game->LoadItemData(highestLevelCandle)->Damage * (chungo ? 2 : 1) * this->WeaponDamage) / 2;
@@ -35,7 +28,7 @@ npc script Candlehead {
       else
          this->SlideSpeed = knockbackDist;
 
-      while (true) {
+      loop () {
          if (this->HP <= 0)
             this->Step = 0;
 
@@ -52,6 +45,7 @@ npc script Candlehead {
                   burnToDeath(this, chungo, DMG_FLAME);
 
                doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
+               
                Waitframe();
             }
          }
@@ -71,7 +65,10 @@ npc script Candlehead {
       n->LightRadius = 24;
       n->LightShape = LIGHT_CIRCLE;
 
-      until(n->HP <= 0) {
+      until (n->HP <= 0) {
+         if (n->HP <= 0)
+            n->Step = 0;
+
          int x = chungo ? n->X + 8 : n->X;
          int y = chungo ? n->Y + 8 : n->Y;
 
@@ -84,7 +81,7 @@ npc script Candlehead {
 
          n->Slide();
 
-         if (gameframe % 20 == 0) {
+         if (gameframe % 5 == 0) {
             eweapon flame = CreateEWeaponAt(EW_FIRE, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
             flame->Dir = n->Dir;
             flame->Script = Game->GetEWeaponScript("StopperKiller");
@@ -115,7 +112,7 @@ npc script Candlehead {
             Screen->FastCombo(7, n->X + 16, n->Y + 16, burningCombo + 3, 0, OP_OPAQUE);
          }
 
-         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step, DOWALK_EIGHT_DIR);
+         doWalk(n, linkClose(n, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(n, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, n->Step, false, DOWALK_EIGHT_DIR);
 
          Waitframe();
       }
@@ -169,6 +166,14 @@ npc script Candlehead {
          default: return 0;
       }
    }
+}
+
+@Author("Emily")
+npc script DisintegrateOnDeath {
+    void run() {
+        while(this->HP > 0) Waitframe();
+        this->Explode(0);
+    }
 }
 
 // clang-format off
@@ -248,17 +253,18 @@ npc script HammerBoi {
    using namespace EnemyNamespace;
 
    void run() {
+      CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage * .5;
+      CONFIG DMG_SWING_HAMMER = this->WeaponDamage * 1.3;
+      CONFIG DMG_SMASH_HAMMER = this->WeaponDamage * 1.5;
+
       int counter = -1;
-      const int COOLDOWN = 60;
+      CONFIG COOLDOWN = 60;
       int timer;
 
       while (true) {
          if (this->HP <= 0)
             this->Step = 0;
 
-         CONFIG DMG_HOLD_UP_HAMMER = this->WeaponDamage *= .5;
-         CONFIG DMG_SWING_HAMMER = this->WeaponDamage *= 1.3;
-         CONFIG DMG_SMASH_HAMMER = this->WeaponDamage *= 1.5;
 
          counter = ConstWalk4(this, counter);
 
@@ -269,9 +275,7 @@ npc script HammerBoi {
                int oldDir = this->Dir;
                this->Dir = faceLink(this);
                hammerAnim(this, DMG_HOLD_UP_HAMMER, DMG_SWING_HAMMER, DMG_SMASH_HAMMER);
-
                this->Dir = oldDir;
-
                timer = COOLDOWN;
             }
          }
@@ -386,7 +390,7 @@ npc script HammerBoi {
          hammer->Timeout = 2;
 
          if (frame < 2)
-            hammer->CollDetection = false;
+            hammer->NoCollisionTimer = -1;
       }
 
       xy->X = x;
@@ -652,7 +656,7 @@ ffc script MaceEnemy {
 //             pos = targetPos[i - 16];
 //          x = ComboX(pos);
 //          y = ComboY(pos);
-//          if (Distance(x + 8, y + 8, Link->X, Link->Y) >= 96)
+//          if (Distance(x + 8, y + 8, Hero->X, Hero->Y) >= 96)
 //             break;
 //       }
 //       this->X = x;
@@ -694,8 +698,8 @@ ffc script MaceEnemy {
 //       bitmap dissolve = Game->CreateBitmap(96, 32);
 //       dissolve->Clear(0);
 
-//       this->CollDetection = false;
-//       while (Link->X < 32 || Link->X > 208 || Link->Y < 32 || Link->Y > 128) {
+//       this->NoCollisionTimer = -1;
+//       while (Hero->X < 32 || Hero->X > 208 || Hero->Y < 32 || Hero->Y > 128) {
 //          Waitframe();
 //       }
 
@@ -746,7 +750,7 @@ ffc script MaceEnemy {
 //          Game->GetMessage(Abs(MIDI_BS_GANON), str);
 //          Game->PlayEnhancedMusic(str, TRACK_BS_GANON);
 //       }
-//       this->CollDetection = true;
+//       this->NoCollisionTimer = 0;
 //       this->Immortal = true;
 //       this->NoSlide = true;
 //       int startHP = this->HP;
@@ -758,8 +762,8 @@ ffc script MaceEnemy {
 //          else {
 //             eweapon e = CreateEWeaponAt(EW_FIREBALL, this->X, this->Y);
 //             e->Angular = true;
-//             e->Dir = AngleDir4(Angle(e->X, e->Y, Link->X, Link->Y));
-//             e->Angle = DegtoRad(Angle(e->X, e->Y, Link->X, Link->Y));
+//             e->Dir = AngleDir4(Angle(e->X, e->Y, Hero->X, Hero->Y));
+//             e->Angle = DegtoRad(Angle(e->X, e->Y, Hero->X, Hero->Y));
 //             e->Step = 150;
 //             e->Damage = this->WeaponDamage;
 //             e->UseSprite(17);
@@ -856,7 +860,7 @@ ffc script MaceEnemy {
 //                      pixelOrder[whichB] = pixelOrder[whichA];
 //                      pixelOrder[whichA] = backup;
 //                   }
-//                   this->CollDetection = false;
+//                   this->NoCollisionTimer = -1;
 //                   flashTiles->Clear(0);
 //                   flashTiles->DrawTile(0, 0, 0, this->ScriptTile, 2, 2, this->CSet, -1, -1, 0, 0, 0, 0, true, 128);
 //                   Audio->PlaySound(SFX_BS_GANON_DEATH);
@@ -1011,8 +1015,8 @@ ffc script MaceEnemy {
 //             }
 //          }
 //          // If Link is within 40 pixels of the home distance, do a charge
-//          if (Distance(Link->X, Link->Y, homeX, homeY) < maxDist + 40) {
-//             chompAngle = Angle(this->X, this->Y, Link->X, Link->Y);
+//          if (Distance(Hero->X, Hero->Y, homeX, homeY) < maxDist + 40) {
+//             chompAngle = Angle(this->X, this->Y, Hero->X, Hero->Y);
 //             bool cancharge = true;
 //             int X = this->X;
 //             int Y = this->Y;
@@ -1068,7 +1072,7 @@ ffc script MaceEnemy {
 //       for (int i = 1; i < numLinks; i++) {
 //          chainX[i] += vX[i];
 //          chainY[i] += vY[i];
-//          if (Link->HP > 0)
+//          if (Hero->HP > 0)
 //             Screen->FastTile(SPLAYER_EWEAP_BEHIND_DRAW, chainX[i], chainY[i], til, this->CSet, OP_OPAQUE);
 //       }
 //    }
@@ -1177,7 +1181,7 @@ ffc script MaceEnemy {
 
 //       // Give the keese a chance to go after Link
 //       if (Rand(100) < ghost->Homing)
-//          movingDir = RadianAngleDir8(RadianAngle(this->X, this->Y, Link->X, Link->Y));
+//          movingDir = RadianAngleDir8(RadianAngle(this->X, this->Y, Hero->X, Hero->Y));
 
 //       // Continue while the keese is still alive
 //       while (Ghost_HP > 0) {
@@ -1193,7 +1197,7 @@ ffc script MaceEnemy {
 
 //             // Give a chance for the keese to attack Link
 //             if (ghost->Homing > 0 && Rand(100) < ghost->Homing)
-//                newDir = RadianAngleDir8(RadianAngle(this->X, this->Y, Link->X, Link->Y));
+//                newDir = RadianAngleDir8(RadianAngle(this->X, this->Y, Hero->X, Hero->Y));
 
 //             // If the new direction doesn't work, increment and try again
 //             for (int i = 1; i < 8 && !Ghost_CanMove(newDir, 8, 0); i++)
@@ -1217,9 +1221,9 @@ ffc script MaceEnemy {
 //          if ((temp->ID == LW_SWORD || temp->ID == LW_HAMMER || temp->ID == LW_WAND) && Collision(temp, ghost)) {
 //             // Create an eweapon to damage Link
 //             linkDamager = Screen->CreateEWeapon(EW_FIREBALL);
-//             linkDamager->Dir = RadianAngleDir4(Angle(temp->X, temp->Y, Link->X, Link->Y)) + 8;
-//             linkDamager->X = Link->X;
-//             linkDamager->Y = Link->Y;
+//             linkDamager->Dir = RadianAngleDir4(Angle(temp->X, temp->Y, Hero->X, Hero->Y)) + 8;
+//             linkDamager->X = Hero->X;
+//             linkDamager->Y = Hero->Y;
 //             linkDamager->Tile = GH_BLANK_TILE;
 //             linkDamager->OriginalTile = GH_BLANK_TILE;
 //             linkDamager->NumFrames = 0;
@@ -1229,8 +1233,8 @@ ffc script MaceEnemy {
 
 //       // Wait to remove the damager so that it doesn't staw on the screen forever
 //       for (int i = 0; linkDamager->isValid() && i < 20; i++) {
-//          linkDamager->X = Link->X;
-//          linkDamager->Y = Link->Y;
+//          linkDamager->X = Hero->X;
+//          linkDamager->Y = Hero->Y;
 //          Waitframe();
 //       }
 //       if (linkDamager->isValid())
@@ -1272,11 +1276,11 @@ ffc script MaceEnemy {
 //       do {
 //          // Knockback
 //          if (Ghost_GotHit()) {
-//             int xDiff = Abs(Link->X - Ghost_X) << 0;
-//             int yDiff = Abs(Link->Y - Ghost_Y) << 0;
+//             int xDiff = Abs(Hero->X - Ghost_X) << 0;
+//             int yDiff = Abs(Hero->Y - Ghost_Y) << 0;
 //             if (xDiff < (Ghost_TileWidth + 1) * 16 && yDiff < (Ghost_TileHeight + 1) * 16) {
 //                knockbackCounter = __GH_KNOCKBACK_TIME;
-//                knockbackAngle = Angle(Link->X, Link->Y, Ghost_X, Ghost_Y);
+//                knockbackAngle = Angle(Hero->X, Hero->Y, Ghost_X, Ghost_Y);
 //             }
 //             ss = minStep;
 //          }
@@ -1296,9 +1300,9 @@ ffc script MaceEnemy {
 //                if (counter == 0)
 //                   ss = Clamp(ss + (maxStep - minStep) / 24, minStep, maxStep);
 //             }
-//             int angle = Angle(Ghost_X, Ghost_Y, Link->X, Link->Y);
-//             if (Link->Action == LA_GOTHURTLAND && LinkCollision(ghost))
-//                Link->HitDir = AngleDir4(angle);
+//             int angle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+//             if (Hero->Action == LA_GOTHURTLAND && LinkCollision(ghost))
+//                Hero->HitDir = AngleDir4(angle);
 //             if (!Ghost_CanMove(AngleDir8(angle), ss / 100, 2))
 //                ss = minStep;
 //             Ghost_MoveTowardLink(ss / 100, 2);
@@ -1336,7 +1340,7 @@ ffc script MaceEnemy {
 //                   eweapon icemagic = FireNonAngularEWeapon(EW_SCRIPT1, e->X, e->Y, e->Dir, e->Step, e->Damage, 83, SFX_ICE, EWF_ROTATE);
 //                   SetEWeaponLifespan(icemagic, EWL_NEAR_LINK, 12);
 //                   SetEWeaponDeathEffect(icemagic, EWD_RUN_SCRIPT, scriptNum);
-//                   icemagic->CollDetection = false;
+//                   icemagic->NoCollisionTimer = -1;
 //                   e->DeadState = WDS_DEAD;
 //                }
 //             }
@@ -1368,17 +1372,17 @@ ffc script MaceEnemy {
 //       wpn->DeadState = WDS_DEAD;
 //       if (!LinkCollision(wpn))
 //          Quit();
-//       if (Link->Item[I_STUNRING])
+//       if (Hero->Item[I_STUNRING])
 //          Quit();
-//       Link->Item[I_STUNRING] = true;
+//       Hero->Item[I_STUNRING] = true;
 //       int stuntime = FROZEN_TIME;
-//       Link->HP -= wpn->Damage;
+//       Hero->HP -= wpn->Damage;
 //       Audio->PlaySound(SFX_OUCH);
 //       while (stuntime > 0) {
 //          stuntime--;
 //          WaitNoAction();
 //       }
-//       Link->Item[I_STUNRING] = false;
+//       Hero->Item[I_STUNRING] = false;
 //    }
 // }
 
@@ -1438,13 +1442,13 @@ ffc script MaceEnemy {
 
 //                if (Rand(16) < laserChance) {
 //                   Ghost_Data = baseCombo + 8;
-//                   dir = RadianAngleDir8(ArcTan(Link->X - Ghost_X + 8, Link->Y - Ghost_Y + 4));
+//                   dir = RadianAngleDir8(ArcTan(Hero->X - Ghost_X + 8, Hero->Y - Ghost_Y + 4));
 //                   laser = true;
 //                }
 //                else {
 //                   Ghost_Data = baseCombo + 4;
-//                   dir = RadianAngleDir4(ArcTan(Link->X - Ghost_X, Link->Y - Ghost_Y));
-//                   Link->PitWarp(Game->CurDMap, Game->GetCurDMapScreen());
+//                   dir = RadianAngleDir4(ArcTan(Hero->X - Ghost_X, Hero->Y - Ghost_Y));
+//                   Hero->PitWarp(Game->CurDMap, Game->GetCurDMapScreen());
 //                }
 //             }
 //             else if (counter == halttime / 2) {

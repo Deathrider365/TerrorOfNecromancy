@@ -11,8 +11,8 @@ combodata script SemiSensitiveSwitch {
    CONFIGB DEBUG = false;
 
    void run() {
-      int xSens = this->Attribytes[0];
-      int ySens = this->Attribytes[1];
+      int xSens = this->Attributes[0];
+      int ySens = this->Attributes[1];
       int xOff = (16 - xSens) / 2;
       int yOff = (16 - ySens) / 2;
 
@@ -32,14 +32,14 @@ combodata script SemiSensitiveSwitch {
 
 // clang-format off
 @Author("Moosh"),
-@Attribyte0("Direction"),
-@AttribyteHelp0("0 = Up,\n 1 = Down,\n 2 = Left,\n 3 = Right")
+@Attribute0("Direction"),
+@AttributeHelp0("0 = Up,\n 1 = Down,\n 2 = Left,\n 3 = Right")
 combodata script ICanSeeYou {
    // clang-format on
    CONFIGB DEBUG = false;
 
    void run() {
-      int dir = this->Attribytes[0];
+      int dir = this->Attributes[0];
 
       while (true) {
          int sightDist = getSightDist(this, dir);
@@ -199,5 +199,47 @@ combodata script GBMinecart_Track {
    // clang-format on
    void run(int trackType, int canTurn, int biasDir) {
       // Dummy script, used for its InitD[] values, see MinecartGeneric
+   }
+}
+
+@Author("Emily, Modified by Deathrider365")
+combodata script FlipDaPlace {
+   void run(int dmap, int screen, int layer) {
+      Hero->NoCollisionTimer = 300;
+
+      Screen->Quake = 60;
+
+      for(int i = 0; i < 60; ++i) {
+         NoAction();
+         Waitframe();
+      }
+
+      bitmap b = new bitmap(Viewport->Width, Viewport->Height);
+      b->BlitTo(layer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height);
+
+      int turnDegrees = 1;
+
+      int heroX = Hero->X;
+      int heroY = Hero->Y;
+      int heroDir;
+
+      for(int degrees = 0; degrees < 180; degrees += turnDegrees) {
+         NoAction();
+         Screen->Rectangle(layer, 0, 0, Viewport->Width, Viewport->Height, C_BLACK);
+         b->Blit(layer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, degrees, Viewport->Width / 2, Viewport->Height / 2);
+         Waitframe();
+      }
+
+      switch(Hero->Dir) {
+         case DIR_DOWN: heroDir = DIR_UP;
+         case DIR_UP: heroDir = DIR_DOWN;
+         case DIR_RIGHT: heroDir = DIR_LEFT;
+         case DIR_LEFT: heroDir = DIR_RIGHT;
+      }
+
+      int rotatedX = Abs(Viewport->Width - heroX) - 16;
+      int rotatedY = Abs(Viewport->Height - heroY) - 16;
+
+      Hero->WarpEx(WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, heroDir);
    }
 }

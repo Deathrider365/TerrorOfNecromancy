@@ -13,15 +13,19 @@
 @InitD4("vanishesOnSecondString"),
 @InitDHelp4("After the second string plays quit the script"),
 @InitD5("remoteSecrets"),
-@InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen")
-ffc script Signpost {
+@InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen"),
+@InitD6("onlyBottom"),
+@InitDHelp6("Is talking to this signpost only from the bottom?"),
+@InitD7("secondMessageOnScreenDSet"),
+@InitDHelp7("False - sets own screenD from first message then plays second\n True - doesnt set a screenD, relies on external setting")
+ffc script Signpost { //TODO bugged, the vanishOnSecondScreen doesnt work, the ffc vanishes BEFORE the second message
    // clang-format on
 
    CONFIG SMT_SCREEND = 1;
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets, bool onlyBottom, bool secondMessageOnScreenDSet = false) {
       int secondMessageTrigger, secondMessageTriggerValue;
 
       if (hasSecondMessage) {
@@ -29,23 +33,30 @@ ffc script Signpost {
          secondMessageTriggerValue = (hasSecondMessage % 1) / 1L;
       }
 
-      while (true) {
+      loop () {
          if (vanishesOnSecondString) {
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
          }
 
-         waitForTalking(this);
-
-         Input->Button[CB_SIGNPOST] = false;
-         Game->Suspend[susptSCREENDRAW] = true;
+         waitForTalking(this, onlyBottom);
 
          switch (secondMessageTrigger) {
             case SMT_SCREEND:
-               unless(getScreenD(secondMessageTriggerValue)) {
-                  Screen->Message(message);
-                  setScreenD(secondMessageTriggerValue, true);
+               if (secondMessageOnScreenDSet) {
+                  if (!getScreenD(secondMessageTriggerValue))
+                     Screen->Message(message);
+                  else
+                     Screen->Message(secondMessage);
                }
-               else Screen->Message(secondMessage);
+               else {
+                  unless(getScreenD(secondMessageTriggerValue)) {
+                     Screen->Message(message);
+                     setScreenD(secondMessageTriggerValue, true);
+                  }
+                  else
+                     Screen->Message(secondMessage);
+               }
+
                break;
             case SMT_SECRETS:
                mapdata mapData;
@@ -67,14 +78,7 @@ ffc script Signpost {
             default: Screen->Message(message); break;
          }
 
-         Game->Suspend[susptSCREENDRAW] = false;
          Waitframe();
-
-         if (warp) {
-            int dmap = Floor(warp);
-            int screen = (warp % 1) / 1L;
-            Hero->WarpEx({WT_IWARPBLACKOUT, dmap, screen, -1, WARP_A, 0, 0, 0, DIR_DOWN}); // TODO what is the constant for WARPFX_NONE
-         }
       }
    }
 
@@ -106,7 +110,7 @@ ffc script Signpost {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script MessageOnce {
+ffc script MessageOnce { //TODO enhance to have a popup that shows the music playing
    // clang-format on
    void run(int message, bool dungeonString, int screenD) {
       while (Game->Suspend[susptGUYS])
@@ -121,7 +125,6 @@ ffc script MessageOnce {
       }
       else {
          unless(getScreenD(screenD)) Screen->Message(message);
-
          setScreenD(screenD, true);
       }
    }
@@ -165,7 +168,6 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -177,18 +179,17 @@ ffc script SignpostTriggerFromItem {
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else if (triggerToSetOff == TRIGGER_ITEM && Hero->Item[itemReceiving] && getScreenD(screenDToCheck)) {
             if (selfKill) {
                this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
                Quit();
             }
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
@@ -203,14 +204,13 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -226,14 +226,13 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -248,14 +247,13 @@ ffc script SignpostTriggerFromItem {
                      if (justGotItem)
                         break;
 
-                     Input->Button[CB_SIGNPOST] = false;
+                     Input->Button[CB_A] = false;
                      Screen->Message(stringNoItem);
                      Waitframe();
                   }
                   else {
                      unless(justGotItem) waitForTalking(this);
 
-                     Input->Button[CB_SIGNPOST] = false;
                      Screen->Message(stringHasItem);
                      Waitframe();
 
@@ -272,12 +270,12 @@ ffc script SignpostTriggerFromItem {
    }
 
    bool waitForTalkingJustGotItem(ffc this, int itemId, int isItemCounter) {
-      until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+      until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
          if (isItemCounter ? Game->Counter[itemId] == isItemCounter : Hero->Item[itemId])
             break;
 
          if (againstFFC(this->X, this->Y))
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
          Waitframe();
       }
@@ -298,7 +296,7 @@ ffc script SignpostTriggerFromItem {
 @InitDHelp2("ScreenD register to check if this FFC is to vanish ")
 ffc script SignpostTriggerFromScreenD {
    // clang-format on
-   void run(int message, int screenD, int screenDToRemove) {
+   void run(int message, int screenD, int screenDToRemove) { //TODO refactor, why am I messing with the location of the ffc and not just removing solidity and hiding?
       int data = this->Data;
       int x = this->X;
       int y = this->Y;
@@ -315,7 +313,6 @@ ffc script SignpostTriggerFromScreenD {
             this->X = x;
             this->Y = y;
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(message);
             Waitframe();
          }
@@ -372,15 +369,96 @@ ffc script SignpostTriggerFromSecret {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenD))
                Screen->Message(secondMessage);
             else {
                Screen->Message(message);
-               setScreenD(screenD, 1);
+               setScreenD(screenD, true);
             }
          }
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SignpostRemoveOnSecret {
+   // clang-format on
+   void run(int initialMessage, int secondaryMessage, int screenDForSecondMessage, bool secretsAreRemote, int map, int screen) {
+      if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
+            if ((secretsAreRemote && Game->LoadMapData(map, screen)->State[ST_SECRET]) || Screen->State[ST_SECRET]) {
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+            Waitframe();
+         }
+
+         Input->Button[CB_A] = false;
+
+         if (!getScreenD(screenDForSecondMessage) || !secondaryMessage) {
+            Screen->Message(initialMessage);
+            setScreenD(screenDForSecondMessage, true);
+         }
+         else
+            Screen->Message(secondaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SignpostTriggerOnItemAndVanishOnSecret {
+   // clang-format on
+   void run(int itemId, int noItemMessage, int hasItemMesssage, int lastMessage, int screenDForSecondMessage, int screenDForLastMessage) {
+      if (Screen->State[ST_SECRET]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
+            if (Screen->State[ST_SECRET]) {
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+            Waitframe();
+         }
+
+         Input->Button[CB_A] = false;
+
+         if (!Hero->Item[itemId])
+            Screen->Message(noItemMessage);
+         else if (getScreenD(screenDForSecondMessage) && !getScreenD(screenDForLastMessage)) {
+            Screen->Message(hasItemMesssage);
+            setScreenD(screenDForLastMessage, true);
+         }
+         else if (getScreenD(screenDForLastMessage))
+            Screen->Message(lastMessage);
+         else
+            Screen->Message(noItemMessage);
+
          Waitframe();
       }
    }
@@ -406,18 +484,17 @@ ffc script GetItemOnScreenD {
       while (true) {
          if (getScreenD(screenDFromExternal) && getScreenD(screenDForThis)) {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else {
             until(getScreenD(screenDFromExternal)) {
-               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
                   if (getScreenD(screenDFromExternal))
                      break;
 
                   if (againstFFC(this->X, this->Y))
-                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
                   Waitframe();
                }
@@ -425,14 +502,13 @@ ffc script GetItemOnScreenD {
                if (getScreenD(screenDFromExternal))
                   break;
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                Screen->Message(stringPreScreenDSet);
                Waitframe();
             }
 
             waitForTalking(this);
 
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -447,32 +523,35 @@ ffc script GetItemOnScreenD {
 }
 
 // clang-format off
+@Author("Deathrider365"),
+@InitD0("itemIdToReceive"),
+@InitDHelp0("Item you will receive"),
+@InitD1("stringPreSecret"),
+@InitDHelp1("String that plays before secrets are triggered"),
+@InitD2("stringGettingItem"),
+@InitDHelp2("String for when you are getting the item"),
+@InitD3("stringGottenItem"),
+@InitDHelp3("String for when you already got the item"),
+@InitD4("screenD"),
+@InitDHelp4("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)"),
 @Author("Deathrider365")
 ffc script GetItemOnSecret {
    // clang-format on
-   // start Instructions
-   // D0: itemIdToReceive      - Item you will receive
-   // D1: stringPreSecret      - String that plays before secrets are triggered
-   // D2: stringGettingItem    - String for when you are getting the item
-   // D3: stringGottenItem     - String for when you are receiving the item
-   // D4: screenD              - ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)
-   // end
    void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {
       while (true) {
          if ((Screen->State[ST_SECRET] && Hero->Item[itemIdToReceive]) || getScreenD(screenD)) {
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGottenItem);
             Waitframe();
          }
          else {
             until(Screen->State[ST_SECRET]) {
-               until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
+               until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
                   if (Screen->State[ST_SECRET])
                      break;
 
                   if (againstFFC(this->X, this->Y))
-                     Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+                     Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
                   Waitframe();
                }
@@ -480,14 +559,13 @@ ffc script GetItemOnSecret {
                if (Screen->State[ST_SECRET])
                   break;
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
                Screen->Message(stringPreSecret);
                Waitframe();
             }
 
             waitForTalking(this);
 
-            Input->Button[CB_SIGNPOST] = false;
             Screen->Message(stringGettingItem);
             Waitframe();
 
@@ -507,71 +585,81 @@ ffc script GetItemOnSecret {
 @InitDHelp0("Item you will receive"),
 @InitD1("itemIdRequired"),
 @InitDHelp1("A required item that can either kill the script or make the script wait until you have it"),
-@InitD2("requiredItemKills"),
-@InitDHelp2("0 - required item does not kill. 1 - Kill once it detects you have the item. 2 - Kill after getting the item"),
+@InitD2("requiredItemBehavior"),
+@InitDHelp2("0 - required item does not kill.\n 1 - Kill once it detects you have the required item.\n 2 - Kill after getting their item.\n 3 - Hide until you get the required item"),
 @InitD3("gettingItemString"),
 @InitDHelp3("String for when you are getting the item"),
 @InitD4("gottenItemString"),
 @InitDHelp4("String for when you are receiving the item"),
-@InitD5("layer"),
-@InitDHelp5("Layer to handle solidity combo drawing for the FFC"),
-@InitD6("screenD"),
-@InitDHelp6("ScreenD set once got item (needed if the ffc give a rupee and cannot be checked with Hero->Item[])"),
-@InitD7("doesntHaveItemString"),
-@InitDHelp7("String for when you do not have the required item")
-ffc script GetItemOnItem {
+@InitD5("doesntHaveItemString"),
+@InitDHelp5("String for when you do not have the required item"),
+@InitD6("removeItemId"),
+@InitDHelp6("When getting the new item, remove this item"),
+@InitD7("setItemState"),
+@InitDHelp7("Whether this script should set item state once item is obtained")
+ffc script GetItemOnItem { //TODO overhaul this script
    // clang-format on
 
-   void run(int itemIdToReceive, int itemIdRequired, int requiredItemKills, int gettingItemString, int gottenItemString, int layer, int screenD, int doesntHaveItemString) { // TODO refactor
-      mapdata template = Game->LoadTempScreen(layer);
-
+   void run(int itemIdToReceive, int itemIdRequired, int requiredItemBehavior, int gettingItemString, int gottenItemString, int doesntHaveItemString, int removeItemId, bool setItemState) {
       int prevData = this->Data;
-      int prevCombo = template->ComboD[ComboAt(this->X, this->Y)];
 
-      while (true) {
+      loop () {
          this->Data = CMB_INVIS;
-         template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
 
          if (itemIdRequired) {
-            if (requiredItemKills > 0) {
-               if (requiredItemKills == 1 && Hero->Item[itemIdRequired] && getScreenD(screenD)) {
-                  hideSolidFFC(this, template);
-               }
-               if (requiredItemKills == 2 && getScreenD(screenD)) {
-                  hideSolidFFC(this, template);
+            if (requiredItemBehavior > 0) {
+               if (requiredItemBehavior == 1 && Hero->Item[itemIdRequired] && getScreenD(itemIdToReceive))
+                  Quit();
+               if (requiredItemBehavior == 2 && getScreenD(itemIdToReceive)) {
+                  if (itemIdToReceive == itemIdRequired && !getScreenD(gottenItemString)) {
+                     this->Data = prevData;
+                     this->Flags[FFCF_SOLID] = true;
+                     waitForTalking(this);
+                     Screen->Message(gottenItemString);
+                     Waitframe();
+
+                     setScreenD(gottenItemString, true);
+                  }
+
+                  this->Data = CMB_INVIS;
+                  this->Flags[FFCF_SOLID] = false;
+
+                  Quit();
                }
             }
             else {
                this->Data = prevData;
-               template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
-               int doesntHaveItemStringString = Floor(doesntHaveItemString);
-               int hideMe = (doesntHaveItemString % 1) / 1L;
+               this->Flags[FFCF_SOLID] = true;
 
                while (!Hero->Item[itemIdRequired]) {
-                  if (hideMe) {
+                  waitForTalking(this);
+
+                  if (!doesntHaveItemString) {
                      this->Data = CMB_INVIS;
-                     template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
                      this->Flags[FFCF_SOLID] = false;
                      Quit();
                   }
-                  else {
-                     waitForTalking(this);
-                     Input->Button[CB_SIGNPOST] = false;
-                     Screen->Message(doesntHaveItemStringString);
-                  }
+                  else if (getScreenD(itemIdToReceive))
+                     Screen->Message(gottenItemString);
+                  else
+                     Screen->Message(doesntHaveItemString);
 
                   Waitframe();
                }
             }
          }
 
+         if (requiredItemBehavior == 3)
+            until (Hero->Item[itemIdRequired])
+               Waitframe();
+
          this->Data = prevData;
-         template->ComboD[ComboAt(this->X, this->Y)] = prevCombo;
+         this->Flags[FFCF_SOLID] = true;
 
          waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
 
-         if (Hero->Item[itemIdToReceive] || getScreenD(screenD)) {
+         if (getScreenD(itemIdToReceive)) {
             Screen->Message(gottenItemString);
             Waitframe();
          }
@@ -581,14 +669,20 @@ ffc script GetItemOnItem {
 
             itemsprite it = CreateItemAt(itemIdToReceive, Hero->X, Hero->Y);
             it->Pickup = IP_HOLDUP;
-            setScreenD(screenD, true);
+
+            if (setItemState)
+               Screen->State[ST_ITEM] = true;
+
+            if (removeItemId > 0)
+               Hero->Item[removeItemId] = false;
+
+            setScreenD(itemIdToReceive, true);
          }
 
          Waitframe();
       }
    }
 }
-
 
 // clang-format off
 @Author("Deathrider365"),
@@ -616,7 +710,6 @@ ffc script GetItemOnScreenDHiddenBefore {
             this->Flags[FFCF_SOLID] = true;
 
             waitForTalking(this);
-            Input->Button[CB_SIGNPOST] = false;
 
             if (getScreenD(screenDForThis)) {
                Screen->Message(gottenItemString);
@@ -633,230 +726,6 @@ ffc script GetItemOnScreenDHiddenBefore {
          }
          Waitframe();
       }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script EscapedEgentemCultist {
-// clang-format on
-   void run(int initialMessage, int initialItemId, int secondaryMessage, int secondaryItem, int initialScreenD, int secondaryScreenD, int tertiaryMessage, int requiredItem) {
-      loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         if (!getScreenD(initialScreenD)) {
-            Screen->Message(initialMessage);
-            Waitframe();
-
-            itemsprite it = CreateItemAt(initialItemId, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-            setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !Hero->Item[requiredItem] && !getScreenD(secondaryScreenD)) {
-            Screen->Message(secondaryMessage);
-         } else if (Hero->Item[requiredItem]) {
-            Screen->Message(tertiaryMessage);
-
-            Waitframe();
-
-            itemsprite it = CreateItemAt(secondaryItem, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-
-            setScreenD(secondaryScreenD, true);
-            Hero->Item[requiredItem] = false;
-         } else {
-            Screen->Message(tertiaryMessage + 1);
-         }
-
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script ConflatosElder {
-// clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD, int requiredItemForTertiary) {
-      loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         mapdata forgeBossRoom = Game->LoadMapData(61, 0x43);
-
-         if (!getScreenD(initialScreenD)) {
-            Screen->Message(initialMessage);
-            Waitframe();
-            setScreenD(initialScreenD, true);
-
-            Audio->PlaySound(SFX_SECRET);
-            mapdata forgeEntrance = Game->LoadMapData(20, 0x70);
-            forgeEntrance->State[ST_SECRET] = true;
-
-         } else if (getScreenD(initialScreenD) && !forgeBossRoom->State[ST_SECRET]) {
-            Screen->Message(secondaryMessage);
-         } else if (forgeBossRoom->State[ST_SECRET] && !Hero->Item[ITEM_RING2]) {
-            Screen->Message(tertiaryMessage);
-         } else if (Hero->Item[ITEM_RING2] && !getScreenD(initialScreenD + 1)) {
-            Screen->Message(tertiaryMessage + 1);
-            Waitframe();
-
-            Audio->PlaySound(SFX_SECRET);
-            mapdata forgeDepthsDoor = Game->LoadMapData(61, 0x16);
-            forgeDepthsDoor->State[ST_SECRET] = true;
-            setScreenD(initialScreenD + 1, true);
-         } else if (getScreenD(initialScreenD + 1)) {
-            Screen->Message(tertiaryMessage + 2);
-            setScreenD(initialScreenD + 2, true);
-         } else {
-            Screen->Message(tertiaryMessage + 3);
-         }
-
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script CeloElder {
-// clang-format on
-   void run(int initialMessage, int messageWaiting, int messageTriggering, int messageDoneAll, int initialScreenD, int secondaryScreenD) {
-
-      mapdata quickknifeScreen = Game->LoadMapData(66, 0x23);
-      mapdata entranceToGoddessFaithfulScreen = Game->LoadMapData(20, 0x00);
-
-      loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         if (!getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
-            Screen->Message(initialMessage);
-            Waitframe();
-            setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !quickknifeScreen->State[ST_SECRET]) {
-            Screen->Message(messageWaiting);
-         } else if (quickknifeScreen->State[ST_SECRET] && !entranceToGoddessFaithfulScreen->State[ST_SECRET]) {
-            Screen->Message(messageTriggering);
-            Waitframe();
-            entranceToGoddessFaithfulScreen->State[ST_SECRET] = true;
-            Audio->PlaySound(SFX_SECRET);
-         } else if (entranceToGoddessFaithfulScreen->State[ST_SECRET]) {
-            Screen->Message(messageDoneAll);
-            Waitframe();
-         }
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script AuriElder {
-// clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
-      loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         if (!getScreenD(initialScreenD)) {
-            Screen->Message(initialMessage);
-            Waitframe();
-
-            itemsprite it = CreateItemAt(207, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-            setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !Screen->State[ST_SECRET]) {
-            Screen->Message(secondaryMessage);
-         } else if (Screen->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
-            setScreenD(initialScreenD + 1, true);
-            Screen->Message(tertiaryMessage);
-         } else {
-            Screen->Message(quartupleMessage);
-         }
-
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script PalusElder {
-// clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int quartupleMessage, int initialScreenD) {
-      loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         mapdata gamothRoom = Game->LoadMapData(75, 0x22);
-
-         if (!getScreenD(initialScreenD)) {
-            Screen->Message(initialMessage);
-            setScreenD(initialScreenD, true);
-         } else if (getScreenD(initialScreenD) && !gamothRoom->State[ST_SECRET]) {
-            Screen->Message(secondaryMessage);
-         } else if (gamothRoom->State[ST_SECRET] && !getScreenD(initialScreenD + 1)) {
-            Screen->Message(tertiaryMessage);
-            setScreenD(initialScreenD + 1, true);
-         } else {
-            Screen->Message(quartupleMessage);
-         }
-
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365"),
-@InitD0("triforceToCheck"),
-@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")
-ffc script TriforceDeciples {
-// clang-format on
-   void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange) {
-      loop() {
-         if (getScreenD(triforceToCheck)) {
-            triggerDoor(comboPosToChange);
-         }
-
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-
-         if (getScreenD(triforceToCheck)) {
-            Screen->Message(secondMessageComplete);
-         } else {
-            if (!getScreenD(triforceToCheck + 10) && Game->Counter[triforceToCheck] < 4) {
-               Screen->Message(messageNotComplete);
-               setScreenD(triforceToCheck + 10, true);
-            } else if (Game->Counter[triforceToCheck] < 4) {
-               Screen->Message(secondMessageNotComplete);
-               //TODO enhance to say how many shards are missing and the area where they are
-               // Waitframe();
-               // Screen->Message(getRemainingTriforceString(triforceToCheck));
-            } else if (Game->Counter[triforceToCheck] == 4 && !getScreenD(triforceToCheck)) {
-               Screen->Message(messageComplete);
-
-               Waitframe();
-
-               setScreenD(triforceToCheck, true);
-               triggerDoor(comboPosToChange);
-               Audio->PlaySound(SFX_SHUTTER_OPEN);
-            }
-         }
-         Waitframe();
-      }
-   }
-
-   // char32[] getRemainingTriforceString(int triforceToCheck) {
-   //    char32 buf[16] = "hello";
-   //    return buf;
-   // }
-
-   void triggerDoor(int pos) {
-      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
-      mapDataLayer1->ComboD[pos] = 1;
-      mapDataLayer1->ComboD[pos + 1] = 1;
    }
 }
 
@@ -887,8 +756,14 @@ ffc script GetItemFromSecretAtLocation {
 ffc script Shop {
    // clang-format on
 
-   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets) {
-      int originalCombo = this->Data;
+   CONFIG COMBO_A_BUTTON = 48;
+   CONFIG COMBO_B_BUTTON = 49;
+
+   void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1, int itemInfoMessage = 0) {
+      int thisData = this->Data;
+
+      if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
+         basePrice = newPriceOnSecrets;
 
       if (activateOnSecrets) {
          until(Screen->State[ST_SECRET]) {
@@ -896,7 +771,7 @@ ffc script Shop {
             Waitframe();
          }
 
-         this->Data = originalCombo;
+         this->Data = thisData;
       }
 
       if (!Hero->Item[ITEM_QUIVER1_SMALL] && itemId == ITEM_EXPANSION_QUIVER
@@ -916,10 +791,7 @@ ffc script Shop {
       char32 priceBuf[6];
 
       loop() {
-         // if ((itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB) && getScreenD(itemId)) {
-         //    Quit();
-         // }
-         if (boughtOnce && getScreenD(itemId)) { // (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE)) {
+         if (boughtOnce && getScreenD(itemId)) {
             this->Data = noStockCombo;
 
             while (Hero->Item[itemId] || getScreenD(itemId))
@@ -954,36 +826,48 @@ ffc script Shop {
          Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, COMBO_A_BUTTON, 0, OP_OPAQUE);
 
-            if (Input->Press[CB_SIGNPOST]) {
-               if (Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY] >= price) {
+            if (itemInfoMessage > 0)
+               Screen->FastCombo(7, Hero->X + 10, Hero->Y - 15, COMBO_B_BUTTON, 0, OP_OPAQUE);
+
+            if (Input->Press[CB_A]) {
+               if ((Game->Counter[CR_MONEY] + Game->DCounter[CR_MONEY]) >= price) {
+                  this->Data = CMB_INVIS;
+
+                  Waitframe();
+
                   Game->DCounter[CR_MONEY] -= price;
-                  item itemToBuy = CreateItemAt(itemId, Hero->X, Hero->Y);
+
+                  int upgradedPotion = itemId;
+
+                  if (Hero->Item[ITEM_POTION1] && itemId == ITEM_POTION2)
+                     upgradedPotion = ITEM_POTION3;
+
+                  item itemToBuy = CreateItemAt(upgradedPotion, Hero->X, Hero->Y);
                   itemToBuy->Pickup = IP_HOLDUP;
 
                   Waitframe();
 
                   if (boughtOnce && (Hero->Item[itemId] || itemId == ITEM_EXPANSION_QUIVER || itemId == ITEM_EXPANSION_BOMB || itemId == ITEM_HEART_PIECE))
-                     setScreenD(itemId, 1);
+                     setScreenD(itemId, true);
 
                   switch (itemId) {
                      case ITEM_BATTLE_ARENA_TICKET: {
                         Screen->TriggerSecrets();
                         break;
                      }
-                     case ITEM_POTION2: {
-                        if (Hero->Item[30] == true)
-                           Screen->Message(726);
-                        else
-                           Screen->Message(725);
-                     }
                   }
                }
                else
                   Screen->Message(noMoneyString);
 
-               Input->Button[CB_SIGNPOST] = false;
+               Input->Button[CB_A] = false;
+               // this->Data = thisData;
+            }
+            else if (Input->Press[CB_B] && itemInfoMessage > -1) {
+               Screen->Message(itemInfoMessage);
+               Input->Button[CB_B] = false;
             }
          }
 
@@ -997,10 +881,14 @@ ffc script Shop {
 ffc script BuyItem {
    // clang-format on
    void run(int entryMessage, int price, int itemId, bool buyOnce, int entryMessageOnce, int buyOnceScreenD = 0) {
-      if (buyOnce && getScreenD(0)) {
+      if (buyOnce && getScreenD(buyOnceScreenD)) {
          this->Data = CMB_INVIS;
          Quit();
       }
+
+      if (itemId == Hero->Item[ITEM_BATTLE_ARENA_TICKET])
+         if (Hero->Item[ITEM_BATTLE_ARENA_TICKET])
+            Screen->State[ST_SECRET] = false;
 
       char32 priceBuf[6];
       sprintf(priceBuf, "%d", price);
@@ -1009,15 +897,12 @@ ffc script BuyItem {
 
       unless(getScreenD(entryMessageOnce)) Screen->Message(entryMessage);
 
-      if (entryMessageOnce) {
+      if (entryMessageOnce)
          setScreenD(entryMessageOnce, true);
-      }
 
       Waitframe();
 
       while (!getScreenD(buyOnceScreenD)) {
-         Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-
          if (onTop(this->X, this->Y) && Game->Counter[CR_MONEY] >= price) {
             Game->DCounter[CR_MONEY] -= price;
 
@@ -1036,7 +921,10 @@ ffc script BuyItem {
             }
 
             this->Data = CMB_INVIS;
-         }
+         } 
+         else
+            Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+            
          Waitframe();
       }
    }
@@ -1051,18 +939,23 @@ ffc script InfoShop {
       sprintf(priceBuf, "%d", price);
 
       while (true) {
-         Screen->DrawString(2, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         if (getScreenD(this->ID % 128)) //% 128 for regions
+            Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, "Read", OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         else
+            Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
 
          if (againstFFC(this->X, this->Y)) {
-            Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+            Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
-            if (Input->Press[CB_SIGNPOST]) {
+            if (Input->Press[CB_A]) {
                Hero->Action = LA_NONE;
                Hero->Stun = 15;
 
-               if (Game->Counter[CR_MONEY] >= price) {
+               if (getScreenD(this->ID % 128)) //% 128 for regions
+                  Screen->Message(boughtString);
+               else if (Game->Counter[CR_MONEY] >= price) {
                   Game->DCounter[CR_MONEY] -= price;
-                  Input->Button[CB_SIGNPOST] = false;
+                  Input->Button[CB_A] = false;
 
                   for (int i = 0; i < price * 2; ++i) {
                      NoAction();
@@ -1073,62 +966,14 @@ ffc script InfoShop {
                   Hero->Stun = 15;
 
                   Screen->Message(boughtString);
+                  setScreenD(this->ID, true);
                }
-               else {
-                  Input->Button[CB_SIGNPOST] = false;
+               else
                   Screen->Message(notBoughtMessage);
-               }
+
+               Input->Button[CB_A] = false;
             }
          }
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-ffc script ServusSoldier {
-   // clang-format on
-   void run(int itemId, int gettingItemString, int alreadyGotItemString, int itemToCheckFor) {
-      if (Hero->Item[itemToCheckFor]) {
-         this->Data = 0;
-         Quit();
-      }
-
-      // While waiting for the torches to be lit
-      until(getScreenD(253)) {
-         this->Data = 1;
-         this->Flags[FFCF_SOLID] = false;
-         Waitframe();
-      }
-
-      this->Flags[FFCF_SOLID] = true;
-      this->Data = 6709;
-
-      until(Screen->State[ST_SECRET]) Waitframe();
-
-      this->Data = 6755;
-
-      loop() {
-         until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-            if (againstFFC(this->X, this->Y))
-               Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
-            Waitframe();
-         }
-
-         Input->Button[CB_SIGNPOST] = false;
-
-         unless(getScreenD(255)) {
-            Screen->Message(gettingItemString);
-            Waitframe();
-            itemsprite it = CreateItemAt(itemId, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-
-            Input->Button[CB_SIGNPOST] = false;
-            setScreenD(255, true);
-         }
-         else Screen->Message(alreadyGotItemString);
-
          Waitframe();
       }
    }
@@ -1149,18 +994,20 @@ ffc script RemoveItem {
 ffc script GettingGoddessJewels {
    // clang-format on
    void run(int message, int x, int y, int itemId, int triforceCounter) {
-      if (getScreenD(254))
+      if (getScreenD(0))
          Quit();
 
       unless(Game->Counter[triforceCounter] == 4) Quit();
 
       Audio->PlayEnhancedMusic("Majora's Mask - Giant's Theme.ogg", 0);
 
-      NoAction();
-      Link->PressStart = false;
-      Link->InputStart = false;
-      Link->PressMap = false;
-      Link->InputMap = false;
+      for (int i = 0; i < 60; ++i) {
+         NoAction();
+         Hero->PressStart = false;
+         Hero->InputStart = false;
+         Hero->PressMap = false;
+         Hero->InputMap = false;
+      }
 
       for (int i = 120; i > 0; --i) {
          disableLink();
@@ -1184,72 +1031,21 @@ ffc script GettingGoddessJewels {
       itemsprite it = CreateItemAt(itemId, x, y);
       it->Pickup = IP_HOLDUP | IP_ST_SPECIALITEM;
 
-      setScreenD(254, true);
+      setScreenD(0, true);
    }
 }
 
-// clang-format off
-@Author("Deathrider365"),
-@InitD0("message"),
-@InitDHelp0("first message"),
-@InitD1("secondMessage"),
-@InitDHelp1("second message"),
-@InitD2("thirdMessage"),
-@InitDHelp2("third message")
-ffc script GoronForemanDialogLvl6 {
-   // clang-format on
-   void run(int message, int secondMessage, int thirdMessage) {
+ffc script RemoveItemIfHasItem {
+   void run(int itemIdTocheck, int itemIdToRemove, int screenDToKill) {
+      if (screenDToKill && getScreenD(screenDToKill)) Quit();
+
       loop() {
-         waitForTalking(this);
-         Input->Button[CB_SIGNPOST] = false;
-         mapdata mapData = Game->LoadMapData(107, 0x48);
+         if (Hero->Item[itemIdTocheck]) {
+            Hero->Item[itemIdToRemove] = false;
 
-         if (mapData->State[ST_SECRET] == true)
-            Screen->Message(thirdMessage);
-         else if (getScreenD(1)) {
-            int savedGorons = getRemaingingGorons();
-
-            Trace(secondMessage + savedGorons);
-
-            Screen->Message(secondMessage + savedGorons);
+            if (screenDToKill) setScreenD(screenDToKill, true);
          }
-         else {
-            Screen->Message(message);
-            setScreenD(1, true);
-         }
-
          Waitframe();
       }
-   }
-
-   int getRemaingingGorons() {
-      int goronsSaved = 0;
-
-      if (getScreenD(67, 0x13, 0)) {
-         setScreenD(0, true);
-         ++goronsSaved;
-      }
-      if (getScreenD(67, 0x44, 1)) {
-         setScreenD(1, true);
-         ++goronsSaved;
-      }
-      if (getScreenD(68, 0x41, 2)) {
-         setScreenD(2, true);
-         ++goronsSaved;
-      }
-      if (getScreenD(68, 0x14, 3)) {
-         setScreenD(3, true);
-         ++goronsSaved;
-      }
-      if (getScreenD(69, 0x12, 4)) {
-         setScreenD(4, true);
-         ++goronsSaved;
-      }
-      if (getScreenD(69, 0x75, 5)) {
-         setScreenD(5, true);
-         ++goronsSaved;
-      }
-
-      return goronsSaved;
    }
 }

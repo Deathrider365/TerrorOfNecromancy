@@ -1,0 +1,205 @@
+~~~~~ Side Quests + Other Items and Events ~~~~~
+     -Category and Name-              -Obtain Location-                         -Prerequisite-
+
+~~~ Curios Shop ~~~
+   - SEI                                                                (Mithril Arrows Required (Bastion))
+      - Lens of Unveiling              SEI Curios                       Swindler's Guide and Thief's Wallet
+      - Arrow Expansion (listed below) SEI Curios                       None
+      - Merchant's Membership          SEI Curios                       Shopper's Membership and Merchant's Wallet
+
+   - NWI                                                                (Gale Boomerang Required (Lv10))
+      - Thief's Wallet                 NWI Curios                       Merchant's Membership and Merchant's Wallet
+      - Clock of Agility               NWI Curios                       Swindler's Guide and Thief's Wallet
+      - Swindler's Guide               NWI Curios                       Thief's Wallet and Merchant's Guide
+
+
+~~~ Item Sequences ~~~
+   - Sequence A
+      - Cumpura Key                    Viridi Village                   None + None
+      - Guard Tower Key                Level 2 Guard                    Ladder + (Level 2)
+      - Signet of Allegiance           Legatus                          Soldier's Boom (Seized Guard Tower)
+      -
+
+   - Sequence B
+      - Really Small Key               Conflatos Village                Seized Tower Sequence
+      - Engagement Ring                Conflatos Village                Really Small Key
+      -
+
+   - Sequence C - Heart of Lorkhan
+      - Mysterious Auri Key            Auri Village Elder               None + Soldier's Boom (Seized Guard Tower)
+      - Ebria Key                      Ebria Village Ruins              None + Level 4
+      - Zora Charm                     Carulem Village                  None + Level 7
+      - Carulem Vault Key              Ebria Village Elder              Zora Charm + None
+      - Heart of Lorkhan               ????                             Jewel of Marre + None
+
+   - Sequence D -
+      -
+      -
+
+~~~ Trading Sequences ~~~
+   - Trading A - (INSERT END RESULT HERE)
+      - Special Mushroom               Viridi Village                   None + None
+      - Perfect Leaf                   Auri Village                     Special Mushroom + Soldier's Boom (Seized Guard Tower)
+      - Lady's Bow                     Raccoon Hollow                   Perfect Leaf + None
+      - Goron Vase                     NWI Caves (Goron Grotto)         Lady's Bow + Powder Kegs (Summus Pass)
+      - Fully Intact Sea Shell         Carulem Arch (SW Island)         Goron Vase + Flippers (Level 7)
+      - Moist Bread                    Exiled Zora Domain               Fully Intact Sea Shell + None
+      - Snake Egg                      NEI Residence (Silva Village)    Moise Bread + None
+      - Fresh Coconut                  NEI Caves (0x4D)                 Snake Egg + None
+      - Carulem Fish                   NWI Caves (0x07)                 Fresh Coconut + Long Shot (Level 9) THIS IS NOT CORRECT
+      - Broken Sword                   Viridi Village                   Carulem Fish + NONE
+      - Ancient Sword Key              NEI Caves (Legendary Smiths)     Broken Sword + Wand (Level 8)
+      - UNIMPLEMENTED                  NEI Caves (Off of Silva Village) Ancient Sword Key + NONE
+
+   - Trading B - Heart Ring
+      - Banished Cultist Chest Key     Celo Village                     None + Soldier's Boom (Seized Guard Tower Scenario)
+      - Cultist Memoir                 Level 3                          Banished Cultist Chest Key + Powder Keg (Summus Pass)
+      - Doggo Stick                    Celo Village                     Cultist Memoir + None
+      - Toy Bird                       NEI Caves (Bush South of Lvl2)   Doggo Stick + Goron Gauntlet (Level 6)
+      - Heart Ring                     Duratu Village                   Toy Bird + None
+
+   - Trading C - Summus Tablet C
+      - Bottle ol' Rum                 Wrecked Ship (SW of Level 8)     None + Flippers (Level 7)
+      - Summus Tablet C                Concealed Pirate Hideout         Bottle ol' Rum + None
+
+   - Trading D - Heart Ring Shard
+      - Seared Steak                   NEI Caves (0x26)                 None + Ladder (Level 2)
+      - Goriya Boomerang               NEI Caves (0x59)                 Seared Steak + Ladder (Level 2)
+      - Strange Key                    NEI Caves (0x53)                 Goriya Boomerang + Longshot (Level 9)
+      - Heart Ring Shard               Auri Library Forbidden Section   Strange Key + None
+
+~~ Other Sequences ~~~
+   - Half Magic - Pirates Tome (Half Magic)
+      - Jewel of Marre                 Vault of Carulem                 None + Flippers (Level 7)
+      - Pirate's Tome                  Concealed Pirate Hideout         Jewel of Marre + None
+
+   - Summus Catacombs Tablet
+      - Tablet A                       Aeren's House (Cumpura Forest)   None + Wand (Level 8)
+      - Tablet B                       Sunken Redoubt                   None + Flippers (Level 8)
+      - Tablet C                       Concealed Pirate Hideout         None + None
+      - Tablet D                       Conflatos Elder Basement         None + Longshot (Level 9)
+
+   - Leviathan Scale -
+      - Scale 1                        Opening Sequence Leviathan       None + None
+      - Scale 2                        Abyssal Depths                   None + Flippers (Level 7)
+
+~~ Other Sequences ~~~
+   - Magic Ring                        Level 6                          None + Level 6
+      - Shard 1                        Forest Shack                     None + Flippers (Level 7)
+      - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)
+      - Shard 3                        NWI Caves (0x23)                 None + Flippers (Level 7) WHERE IS THIS??? it isnt on NWI caves 0x23...
+      - Shard 4
+
+   - Heart Ring                        Duratu Village                   Toy Bird + None
+      - Shard 1                        SEI Coasts                       None + Flippers (Level 7)
+      - Shard 2                        NWI Island Right of Lv7          None + Flippers (Level 7)
+      - Shard 3                        Auri Library Forbidden Section   None + None
+      - Shard 4
+
+   - Bomb Expansions (Starts at 10 and with Max = 6, total is 34) I HAD 5 IN MY PLAYTHROUGH??
+      - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)
+      - Free                           IoH                              None + Raft (Level 5)
+      - 180 Rupees                     NWI Caves (0x42)                 None + Goron Gauntlet (Level 6)
+      - 230 Rupees                     SWI Caves (0x44)                 None + Wand (Level 8)
+      - 280
+      - 330
+
+   - Arrow Expansions (Starts at 10 and with Max = 6, total is 70)
+      - 130 Rupees                     Viridi Village (Shop)            None + Oil Candle (Level 1)
+      - 180 Rupees                     NEI Caves (0x15)                 None + Solider's Boom (Seized Guard Tower)
+      - 230 Rupees                     SWI Caves (0x77)                 None + Hookshot (Level 5)
+      - 280 Rupees                     SEI Curios (0x00)                None + Mithil Arrow (Profaned Bastion)
+      - 330
+      - 380
+
+   - Magic Containers (Starts at 30MP and with Max = 7, total is 142MP)
+      - 1                              NEI Cumpura Forest House         None + None
+      - 2                              SWI Coasts (0x0F)                None + Ladder (Level 2)
+      - 3                              Venenom Bog (0x4F)               None + Raft (Pre Level 5)
+      - 4                              SWI Mt. Duratu (0x7F)            None + Longshot (Level 9)
+      - 5
+      - 6
+      - 7
+
+   - Legionnaire Rings
+      1 - Temple of Haeren             (Lv1)
+      2 - Level 1                      (Lv1)
+      3 - Level 2                      (Lv1)
+      4 - Level 3                      (Lv2)
+      5 - Level 4                      (Lv2)
+      6 - Level 5                      (Lv2)
+      7 - Level 6                      (Lv2)
+      8 - Level 7                      (Lv3)
+      9 - Level 8                      (Lv3)
+      10 - Level 9                     (Lv3)
+      11 - Level 10                    (Lv4)
+      12 - Level 11                    (Lv4)
+      13 - Level 12                    (Lv4)
+      14 - Guarding Haeren Triforce 1  (Lv5)
+      15 - Guarding Haeren Triforce 2  (Lv5)
+      16 - Guarding Haeren Triforce 3  (Lv5)
+      17 - Guarding Haeren Triforce 4  (Lv5)
+      18 - Summus Catacombs            (Lv6) Elite
+      19 -                             (Lv6) Elite
+      20 -                             (Lv6) Elite
+
+   - Heart Pieces
+      1 - Isle of Haeren               1:1D                             None + Longshot (Level 9)
+      2 - Isle of Haeren               1:22                             None + None
+      3 - NEI Quarry                   9:08                             None + Goron Gauntlet (Level 6)
+      4 - NEI Plains                   9:14                             None + Ladder (Level 2)
+      5 - NEI Cumpura Forest           9:1A                             None + Ocarina (Seized Guard Tower)
+      6 - NEI Coasts                   9:22                             None + Gale Rang (Level 10)
+      7 - NEI Cumpura Forest           9:2B                             Cumpura Forest Key + None
+      8 - NEI Coasts                   9:4F                             None + Wand (Level 8)
+      9 - NEI Auri Desert              9:52                             None + Wand (Level 8)
+      10 - NEI Plains                  9:5A                             None + Soldier's Rang (Seized Guard Tower)
+      11 - NEI Viridi Village          9:6B                             None + Hammer (Level 3)
+      12 - NEI Coasts                  9:6E                             None + Bow and Arrow (Pre Level 2)
+      13 - NEI Auri Desert             9:75                             None + Hookshot (Level 5)
+      14 - NEI Coasts                  9:7D                             None + None
+      15 - NEI Viridi Village          16:4D                            None + Oil Candle (level 1)
+      16 - SWI Plains                  20:05                            None + Iron Arrow (Sweltering Iron Mine)
+      17 - SWI Plains                  20:22                            None + Wand (Level 8)
+      18 - SWI Auri Desert             20:2B                            None + Hookshot (Level 5)
+      19 - SWI Plains                  20:34                            None + Ocarina (Pre Seized Guard Tower)
+      20 - SWI Plains                  20:38                            None + Flippers (Level 7)
+      21 - SWI Mt. Caldum              20:51                            None + Longshot (level 9)
+      22 - SWI Plains                  20:55                            None + Flippers (Level 7)
+      23 - SWI Palus Village           20:5A                            None + Powder Keg (Summus Pass)
+      24 - SWI Venenom Bog             20:5C                            None + Flippers (Level 7)
+      25 - SWI Mt. Duratu              20:5F                            None + Smith's Hammer (MFF Mines, Post Lv7)
+      26 - SWI Plains                  20:64                            None + Wooden Rang (Temple of Haeren)
+      27 - NEI Caves                   28:05                            None + Bow and Arrow (Pre Level 2)
+      28 - NEI Caves                   28:16                            None + Ladder (Level 2)
+      29 - NEI Caves                   28:37                            None + Bow and Arrow (Pre Level 2)
+      30 - NEI Caves                   28:39                            Cumpura Forest Key + None
+      31 - NEI Caves                   28:47                            None + Ladder (Level 2)
+      32 - NEI Caves                   28:56                            None + None (Lantern)
+      33 - Concealed Pirate Hideout    37:66                            None + Wand (Level 8)
+      34 - SWI Venenom Bog Residence   53:3B                            None + Raft (Pre Level 5)
+      35 - SWI Caves                   57:06                            None + Flippers (level 7)
+      36 - SWI Caves                   57:28                            None + Wand (Level 8)
+      38 - SWI Caves                   57:38                            None + Hookshot (Level 5)
+      39 - SWI Caves                   57:46                            None + None (Hammer)
+      40 - SWI Caves                   57:53                            None + Powder Keg (Summus Pass)
+      41 - SWI Caves                   57:7A                            None + Portal Sphere (Shrine of Blasphemy)
+      42 - SEI Coast                   89:04                            None + Ladder (Level 2)
+      43 - SEI Coast                   89:33                            None + Flipper (Level 7)
+      44 - SEI Gelido Shoal            89:57                            None + Flipper (Level 7)
+      45 - NWI Medius Village          96:64                            None + Flipper (Level 7)
+      46 - SEI Caves                   120:05                           None + Portal Sphere (Shrine of Blasphemy)
+      47 - SEI Caves                   120:07                           None + Gale Rang (Level 10)
+      48 - NWI Caves                   124:23                           None + Wand (Level 8)
+      49 - NWI Caves                   124:31                           None + Flipper (Level 7)
+      50 - NWI Caves                   124:33                           None + Mirror Shield (Level 12)
+      51 - NWI Caves                   124:36                           None + Portal Sphere (Shrine of Blasphemy)
+      52 - NEI Pacilux Village         9:23                             None + Spectral Cane (Sealed Abyss)
+      53 - NEI Caves                   28:27                            None + Mirror Shield (Level 12)
+      54 - NEI Caves                   28:4D                            None + Hammer (Level 3)
+      55 - SWI Caves                   57:45                            None + Flipper (Level 7)
+      56 - NEI Residence               16:35                            None + 700 Rupees, Theif's Wallet/Merhant's Membership (IDK yet)
+      57 - SWI Celo Village            53:20                            None + Powder Keg (Summus Pass)
+      58 -
+      59 -
+      60 -

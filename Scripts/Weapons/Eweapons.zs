@@ -37,7 +37,7 @@ eweapon script ArcingWeapon {
       }
 
       this->DrawYOffset = -1000;
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
 
       if (effect) {
          switch (effect) {
@@ -115,7 +115,6 @@ eweapon script ArcingWeapon {
                      mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL; //this isnt setting the cset to 2 like it should be
                }
 
-
                //Working Implementation
                // int pos = ComboAt(this->X + 8, this->Y + 8);
                   // if (Screen->ComboT[pos] == CT_SCRIPT20)
@@ -123,12 +122,12 @@ eweapon script ArcingWeapon {
 
                break;
             }
-            case AE_OIL_DEATH_BLOB: {
+            case AE_OIL_DEATH_BLOB: { //sprite 118 is the spinning rock
                for (int i = 0; i < 4; ++i) {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon oilProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon oilProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy}); //TODO why is secondary damage checked for primary damage?
                }
                break;
@@ -138,7 +137,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon pebbleProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon pebbleProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, -1, shootingEnemy, damage, secondaryDamage, isEnemy});
                }
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -149,7 +148,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon rockProjectile = FireEWeapon(195, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                  eweapon rockProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
                   runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy});
                }
 
@@ -232,7 +231,7 @@ eweapon script SignWave {
          this->Y = y + VectorY(dist, RadtoDeg(this->Angle) - 90);
 
          if (unBlockable)
-            this->Dir = Link->Dir;
+            this->Dir = Hero->Dir;
 
          Waitframe();
       }
@@ -256,9 +255,8 @@ eweapon script Stopper {
 @Author("EmilyV99")
 eweapon script StopperKiller {
    // clang-format on
-
    void run(int stopTime, int killTime) {
-      while (true) {
+      loop () {
          if (stopTime > 0)
             unless(--stopTime) this->Step = 0;
 
@@ -270,7 +268,7 @@ eweapon script StopperKiller {
    }
 }
 
-eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 1) {
+eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 2) {
    eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
    e->HitXOffset = x - e->X;
    e->HitYOffset = y - e->Y;
@@ -282,7 +280,7 @@ eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 1) {
    return e;
 }
 
-lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeout = 1) {
+lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeout = 2) {
    // lweapon FireLWeaponDir(int type, int x, int y, int dir, int step, int dmg, int sprite = -1, int sfx = 0, int scriptid = 0, untyped[] args = NULL)
    lweapon l = FireLWeaponDir(type, x, y, -1, 0, damage);
    l->DrawYOffset = -1000;
@@ -361,7 +359,7 @@ eweapon script HammerImpact {
       }
 
       this->Step = 0;
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->ScriptTile = TILE_HAMMER_IMPACT + this->Dir;
 
       for (int i = 0; i < 60; ++i) {
@@ -375,7 +373,7 @@ eweapon script HammerImpact {
 
 eweapon script HammerImpactEffect {
    void run(int tile) {
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->ScriptTile = TILE_INVIS;
       this->Unblockable = UNBLOCK_ALL;
 
@@ -405,7 +403,7 @@ eweapon script ShockWave {
       CONFIG D_ERUPT = 7;
       int x = this->X + VectorX(16, angle);
       int y = this->Y + VectorY(16, angle);
-      this->CollDetection = false;
+      this->NoCollisionTimer = -1;
       this->UseSprite(spr);
       this->Behind = true;
       Audio->PlaySound(sfx);
@@ -427,7 +425,7 @@ eweapon script ShockWave {
       this->DrawYOffset = -16;
       this->HitYOffset = -16;
       this->HitHeight = 32;
-      this->CollDetection = true;
+      this->NoCollisionTimer = 0;
       this->UseSprite(detonateSpr);
       Audio->PlaySound(detonateSfx);
 
@@ -454,7 +452,7 @@ eweapon script Boomerang {
 
       for (int i = 0; i < travelTime; ++i) {
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
             bounced = true;
@@ -478,7 +476,7 @@ eweapon script Boomerang {
       for (int i = 0; i < slowTime && !bounced; ++i) {
          this->Step = Lerp(step, 0, i / slowTime);
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(this->X > 0 && this->X < 240 && this->Y > 0 && this->Y < 160) {
             bounced = true;
@@ -507,7 +505,7 @@ eweapon script Boomerang {
 
          this->Step = Lerp(0, step, i / slowTime);
          this->DeadState = WDS_ALIVE;
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          unless(gameframe % brangSfxTiming) Audio->PlaySound(SFX_BRANG);
 
@@ -537,7 +535,7 @@ eweapon script Boomerang {
 
          unless(gameframe % brangSfxTiming) Audio->PlaySound(SFX_BRANG);
 
-         int hitId = Link->HitBy[HIT_BY_EWEAPON];
+         int hitId = Hero->HitBy[HIT_BY_EWEAPON];
 
          if (hitId) {
             eweapon e = Screen->LoadEWeapon(hitId);
@@ -554,10 +552,10 @@ eweapon script Boomerang {
 @Author("Deathrider365"),
 @InitD0("Damage"),
 @InitDHelp0("damage"),
-@InitD0("sprite"),
-@InitDHelp0("sprite"),
-@InitD0("step"),
-@InitDHelp0("stepSpeed")
+@InitD1("sprite"),
+@InitDHelp1("sprite"),
+@InitD2("step"),
+@InitDHelp2("stepSpeed")
 eweapon script ShootingProjectile {
    void run(int damage, int sprite, int step) {
       this->Damage = damage;
@@ -566,4 +564,123 @@ eweapon script ShootingProjectile {
       this->AutoRotate = true;
       this->UseSprite(sprite);
    }
+}
+
+
+@InitD0("Number of Units"),
+@InitDHelp0("The number of weapons to spawn in addition to the central pivot weapon"),
+@InitD1("Spacing"),
+@InitDHelp1("The spacing, in pixels, from one weapon to the next.\nSpacing is between their positions, so, from top-left corner to top-left corner - so '0' would make them all spawn on top of each other."),
+@InitD2("Speed (Degrees)"),
+@InitDHelp2("Rotation speed, in degrees per frame. Positive = clockwise, negative = counterclockwise."),
+@InitD3("Start Degrees"),
+@InitDHelp3("The starting angle of the bar when it spawns, in degrees. 0 = right."),
+@Author("EmilyV")
+eweapon script FireBar { //TODO Look back at this
+	/* Instructions: Attach this script to a `Shooter` combo.
+	 * Set up all the weapon stats on the shooter combo. Leave the 'rate's at 0.
+	 * Set up the combo trigger: 'Always Triggered' -> 'Combo Change: 1' + '->ComboType Effects'
+	 * This will spawn the fire bar as soon as you enter the screen, and only spawn it once.
+	 * Other triggers could be used to make the spawn conditional.
+	 * If 'Step' is nonzero, the entire bar will move together
+	 */
+	void run(int num_units, int spacing, int rot_deg_speed, int start_degrees) {
+		if (num_units < 1) return;
+		this->Gravity = false;
+
+		eweapon units[0];
+
+		loop (0=..num_units)
+			ArrayPushBack(units, make_unit(this));
+
+		int degrees = WrapDegrees(start_degrees);
+
+		loop() {
+			this->DeadState = WDS_ALIVE;
+			int q = 1;
+			int dir = AngleDir8(degrees + Sign(rot_deg_speed) * 90); // dir is perpendicular to bar direction
+			for (ew : units) {
+				ew->X = this->X + VectorX(q * spacing, degrees);
+				ew->Y = this->Y + VectorY(q * spacing, degrees);
+				ew->DeadState = WDS_ALIVE;
+				ew->Dir = dir;
+				++q;
+			}
+			degrees = WrapDegrees(degrees + rot_deg_speed);
+			Waitframe();
+		}
+	}
+	// std_functions has a 'Duplicate' function for eweapons, but it hasn't been updated properly in a while
+	// I opened a bug report about that, and recommended that it be fixed and made internal so it won't just
+	// keep falling behind and not copying everything it should.
+	// Once that's added, most of this function can be removed, and use 'base->Duplicate()' instead.
+	// But, until then, we do this. -Emily
+	eweapon make_unit(eweapon base) {
+		eweapon ew = Screen->CreateEWeapon(base->Type);
+		ew->X = base->X;
+		ew->Y = base->Y;
+		ew->Z = base->Z;
+		ew->FakeZ = base->FakeZ;
+		ew->DrawXOffset = base->DrawXOffset;
+		ew->DrawYOffset = base->DrawYOffset;
+		ew->DrawZOffset = base->DrawZOffset;
+		ew->Rotation = base->Rotation;
+		ew->Dir = base->Dir;
+		ew->ScriptTile = base->ScriptTile;
+		ew->Extend = base->Extend;
+		ew->TileWidth = base->TileWidth;
+		ew->TileHeight = base->TileHeight;
+		ew->CSet = base->CSet;
+		ew->Scale = base->Scale;
+		ew->DrawStyle = base->DrawStyle;
+		ew->Jump = base->Jump;
+		ew->FakeJump = base->FakeJump;
+		ew->Gravity = base->Gravity;
+		ew->Flip = base->Flip;
+		ew->Animation = base->Animation;
+		ew->HitWidth = base->HitWidth;
+		ew->HitHeight = base->HitHeight;
+		ew->HitZHeight = base->HitZHeight;
+		ew->HitXOffset = base->HitXOffset;
+		ew->HitYOffset = base->HitYOffset;
+		ew->MoveFlags[MV_OBEYS_GRAVITY] = base->MoveFlags[MV_OBEYS_GRAVITY];
+		ew->MoveFlags[MV_CAN_PITFALL] = base->MoveFlags[MV_CAN_PITFALL];
+		ew->MoveFlags[MV_CAN_PIT_WALK] = base->MoveFlags[MV_CAN_PIT_WALK];
+		ew->MoveFlags[MV_CAN_WATERDROWN] = base->MoveFlags[MV_CAN_WATERDROWN];
+		ew->MoveFlags[MV_CAN_WATER_WALK] = base->MoveFlags[MV_CAN_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_WATER_WALK] = base->MoveFlags[MV_ONLY_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_SHALLOW_WATER_WALK] = base->MoveFlags[MV_ONLY_SHALLOW_WATER_WALK];
+		ew->MoveFlags[MV_ONLY_PIT_WALK] = base->MoveFlags[MV_ONLY_PIT_WALK];
+		ew->MoveFlags[MV_NO_FAKE_Z] = base->MoveFlags[MV_NO_FAKE_Z];
+		ew->LightRadius = base->LightRadius;
+		ew->LightShape = base->LightShape;
+		ew->ShadowSprite = base->ShadowSprite;
+		ew->ShadowXOffset = base->ShadowXOffset;
+		ew->ShadowYOffset = base->ShadowYOffset;
+
+		loop(q : 0=..WPN_SPRITE_MAX) {
+			ew->Sprites[q] = base->Sprites[q];
+			ew->BurnLightRadius[q] = base->BurnLightRadius[q];
+		}
+
+		ew->Flags[WFLAG_UPDATE_BURNSPR] = base->Flags[WFLAG_UPDATE_BURNSPR];
+		ew->AutoRotate = base->AutoRotate;
+		ew->Parent = base->Parent;
+		ew->OriginalTile = base->OriginalTile;
+		ew->OriginalCSet = base->OriginalCSet;
+		ew->Flash = base->Flash;
+		ew->FlashCSet = base->FlashCSet;
+		ew->ASpeed = base->ASpeed;
+		ew->Behind = base->Behind;
+		ew->NumFrames = base->NumFrames;
+		ew->Frame = base->Frame;
+		ew->Power = base->Power;
+		ew->Level = base->Level;
+
+		// Everything above here can be replaced by `eweapon->Duplicate()`, once that actually exists.
+
+		ew->Step = 0;
+
+		return ew;
+	}
 }

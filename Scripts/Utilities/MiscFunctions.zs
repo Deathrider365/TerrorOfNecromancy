@@ -1,17 +1,11 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Misc Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-void giveStartingCrap() {
-   // Have what the player would have at the beginning
-   // TODO do for demo 5
-   // removeAllItems();
-}
-
 void removeAllItems() {
-   Hero->ItemA = -1;
-   Hero->ItemB = -1;
+   // Hero->ItemA = -1;
+   // Hero->ItemB = -1;
 
    for (int i = 0; i < MAX_ITEMDATA; ++i)
-      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE || i == ITEM_LANTERN1) Hero->Item[i] = false;
+      unless(i == ITEM_BOMB1 || i == ITEM_DIFF_NORMAL || i == ITEM_LEVIATHAN_SCALE1 || i == ITEM_LANTERN1) Hero->Item[i] = false;
 
    Game->Counter[CR_SBOMBS] = 0;
    Game->Counter[CR_BOMBS] = 0;
@@ -220,7 +214,7 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
    Audio->PlaySound(SFX_SUPER_JUMP);
 
    n->Gravity = false;
-   n->CollDetection = false;
+   n->NoCollisionTimer = -1;
    n->ScriptTile = upTile;
 
    while (n->Z < 256) {
@@ -257,7 +251,7 @@ void jumpOffScreenAttack(npc n, int upTile, int downTile) {
 
    Remove(weap);
 
-   n->CollDetection = true;
+   n->NoCollisionTimer = 0;
    n->Gravity = grav;
 
    Screen->Quake = STUN;
@@ -282,20 +276,20 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 
 // sword1x1 but is 2 wide
 void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
-   int hitX = x;
-   int hitY = y;
+   int hitX = x + VectorX(dist, angle);
+   int hitY = y + VectorY(dist, angle);
 
    x += VectorX(8 + dist, angle) - 8;
    y += VectorY(8 + dist, angle);
 
    Screen->DrawCombo(2, x, y, cmb, 2, 1, cset, -1, -1, x, y, angle, -1, 0, true, OP_OPAQUE);
 
-   makeHitbox(x, y, 16, 16, dmg);
+   makeHitbox(hitX, hitY, 16, 16, dmg);
 
    hitX += VectorX(16, angle);
    hitY += VectorY(16, angle);
 
-   makeHitbox(x, y, 16, 16, dmg);
+   makeHitbox(hitX, hitY, 16, 16, dmg);
 }
 
 // Ghost enemees beh shakin
@@ -326,7 +320,7 @@ void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
    trail->Extend = 3;
    trail->TileWidth = w;
    trail->TileHeight = h;
-   trail->CollDetection = false;
+   trail->NoCollisionTimer = -1;
    trail->DeadState = duration;
    trail->DrawStyle = DS_PHANTOM;
 }
@@ -397,13 +391,13 @@ float PercentOfWhole(int part, int whole) {
 }
 
 // Checks if switch is pressed
-int switchPressed(int x, int y, bool noLink) {
+int switchPressed(int x, int y, bool noLink, bool sensitive) {
    int xOff = 0;
-   int yOff = 4;
+   int yOff = sensitive ? 0 : 4;
    int xDist = 8;
    int yDist = 8;
 
-   if (Abs(Link->X + xOff - x) <= xDist && Abs(Link->Y + yOff - y) <= yDist && Link->Z == 0 && !noLink)
+   if (Abs(Hero->X + xOff - x) <= xDist && Abs(Hero->Y + yOff - y) <= yDist && Hero->Z == 0 && !noLink)
       return 1;
 
    if (Screen->MovingBlockX > -1)
@@ -472,14 +466,22 @@ void takeMapScreenshot() {
 // Disables Link
 void disableLink() {
    NoAction();
-   Link->PressStart = false;
-   Link->InputStart = false;
-   Link->PressMap = false;
-   Link->InputMap = false;
+   Hero->PressStart = false;
+   Hero->InputStart = false;
+   Hero->PressMap = false;
+   Hero->InputMap = false;
 }
 
 // Checks if a certain trigger went off
 bool wasTriggered(float trigger) {
+   CONFIG TT_NO_TRIGGER_SET = 1;
+   CONFIG TT_SCREEND_SET = 2;
+   CONFIG TT_SCREEND_NOT_SET = 3;
+   CONFIG TT_SECRETS_TRIGGERED = 4;
+   CONFIG TT_SECRETS_NOT_TRIGGERED = 5;
+   CONFIG TT_ITEM_ACQUIRED = 6;
+   CONFIG TT_ITEM_NOT_ACQUIRED = 7;
+
    int triggerType = Floor(trigger);
    int triggerValue = (trigger % 1) / 1L;
 
@@ -496,11 +498,11 @@ bool wasTriggered(float trigger) {
 }
 
 void notDuringCutsceneLink() {
-   Hero->Stun = 999;
-   Link->PressStart = false;
-   Link->InputStart = false;
-   Link->PressMap = false;
-   Link->InputMap = false;
+   Hero->Stun = 999; //TODO find a better solution
+   Hero->PressStart = false;
+   Hero->InputStart = false;
+   Hero->PressMap = false;
+   Hero->InputMap = false;
 }
 
 // CanWalk() that respects diagonals
@@ -515,15 +517,15 @@ bool CanWalk8(int x, int y, int dir, int step, bool full_tile) {
 }
 
 // Checks if link is against a ffc and looking at it
-bool againstFFC(int ffcX, int ffcY) {
+bool againstFFC(int ffcX, int ffcY, bool onlyBottom = false) { //TODO account for larger FFCs (use this->Width/Height and pass in the ffc to this function)
    if (Hero->Z == 0) {
       if (Abs((Hero->X) - (ffcX)) <= 8) {
          if (Hero->Y >= ffcY && Hero->Y - ffcY <= 14 && Hero->Dir == DIR_UP)
             return true;
-         else if (Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
+         else if (!onlyBottom && Hero->Y < ffcY && ffcY - Hero->Y <= 16 && Hero->Dir == DIR_DOWN)
             return true;
       }
-      else if (Abs((Hero->Y) - (ffcY)) <= 8) {
+      else if (!onlyBottom && Abs((Hero->Y) - (ffcY)) <= 8) {
          if (Hero->X > ffcX && Hero->X - ffcX <= 16 && Hero->Dir == DIR_LEFT)
             return true;
          else if (Hero->X < ffcX && ffcX - Hero->X <= 16 && Hero->Dir == DIR_RIGHT)
@@ -533,14 +535,15 @@ bool againstFFC(int ffcX, int ffcY) {
    return false;
 }
 
-
-void waitForTalking(ffc this) {
-   until(againstFFC(this->X, this->Y) && Input->Press[CB_SIGNPOST]) {
-      if (againstFFC(this->X, this->Y))
-         Screen->FastCombo(7, Link->X - 10, Link->Y - 15, 48, 0, OP_OPAQUE);
+void waitForTalking(ffc this, bool onlyBottom = false) {
+   until(againstFFC(this->X, this->Y, onlyBottom) && Input->Press[CB_A]) {
+      if (againstFFC(this->X, this->Y, onlyBottom))
+         Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
       Waitframe();
    }
+
+   Input->Button[CB_A] = false;
 }
 
 void gridLockFFC(ffc this) {
@@ -563,17 +566,10 @@ void gridLockFFC(ffc this) {
 }
 
 void hurtDatHero(int frequency, int damage) {
-   if (gameframe % frequency == 0 && Hero->X > 0 && Hero->Y > 0 && Hero->X < 256 && Hero->Y < 176) {
+   if (gameframe % frequency == 0 && !HeroIsScrollingOrWarping()) {
       Hero->HP -= damage;
-      Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
+      Audio->PlaySound(getHeroHitSound());
    }
-}
-
-void hideSolidFFC(ffc this, mapdata template) {
-   this->Data = CMB_INVIS;
-   template->ComboD[ComboAt(this->X, this->Y)] = CMB_INVIS;
-   this->Flags[FFCF_SOLID] = false;
-   Quit();
 }
 
 void handleHeatOrCold(int armorLevel, int damage) {
@@ -602,5 +598,240 @@ bool CanUseItemInMinecart(int itemid) {
 }
 
 int getHeroHitSound() {
-   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3);
+   return Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3, SFX_HERO_HURT_4, SFX_HERO_HURT_5, SFX_HERO_HURT_6);
+}
+
+bool viewportContainsRect(int x, int y, int width, int height) {
+   if (Viewport->Contains(x, y))
+      return true;
+   if (Viewport->Contains(x + width - 1, y + height - 1))
+      return true;
+   if (Viewport->Contains(x, y + height - 1))
+      return true;
+   if (Viewport->Contains(x + width - 1, y))
+      return true;
+
+   return false;
+}
+
+void runCredits(int fadespeed, int font, int fontheight) {
+   const int BLACK = 0x08;
+   const int WHITE = 0x0C;
+   const int SCROLL_SPEED = 2;
+   const int TEXT_SPACING = 6;	//was 4
+   const int HEADER_SPACING = 8;
+
+	int bossMusic[] = "AAA Ninja's Respite (Past) - The Messenger.ogg";
+   Audio->PlayEnhancedMusic(bossMusic, 0);
+
+   for(int q = 0; q < 129; ++q) {
+		for(int timer = 0; timer < fadespeed; ++timer) {
+			Screen->Rectangle(7, 0, -56, q, 168, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			Screen->Rectangle(7, 256-q, -56, 256, 168, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			disableLink();
+			Waitframe();
+		}
+	}
+
+	Game->Save();
+	int authorHeader[] = "Author:";
+	int authorName[] = "Deathrider365";
+
+	int specialThanksHeader[] = "Advisors and General Help:";
+	int specialThanks1[] = "Venrob";
+	int specialThanks2[] = "ZoriaRPG";
+	int specialThanks3[] = "Dimentio";
+	int specialThanks4[] = "Lut";
+	int specialThanks5[] = "Mitsukara";
+	int specialThanks6[] = "Moosh";
+
+	int betaTestersHeader[] = "Beta Testers:";
+	int betaTester1[] = "ZachAttack20192001";
+	int betaTester2[] = "a30502355";
+	int betaTester3[] = "P-Tux7";
+	int betaTester4[] = "Weirddud101";
+	int betaTester5[] = "Soma C.";
+
+	int musicHeader[] = "Music Used (in order of use):";
+	int track1[] = "mp2d_TallonOverworld2D";
+	int track2[] = "Dark Cave (Future) - The Messenger";
+	int track3[] = "Dark Cave (Past) - The Messenger";
+	int track4[] = "Beneath the Tides (Past) - The Messenger";
+	int track5[] = "Beneath the Tides (Future) - The Messenger";
+	int track6[] = "Phantom of Yore (Past) - The Messenger";
+	int track7[] = "Ninja's Respite (Past) - The Messenger";
+
+	int tilesetHeader[] = "Tileset Used (never use this hot garbage):";
+	int tileset[] = "ezgbz 1.92";
+
+	int end[] = "THE END";
+
+	int gametime[32];
+	int minutes = (Game->Time / (3600)) * 10000;
+	int seconds = ((Game->Time % .3600) / 60) * 10000;
+	int frames = (Game->Time % .0060) * 10000;
+	int pos = itoa(gametime, 0, minutes);
+	gametime[pos] = ':';
+	pos += 1 + itoa(gametime, pos+1, seconds);
+	gametime[pos] = '.';
+	itoa(gametime, pos+1, frames);
+
+	int numText = 23;		//when adding more lines add more to this
+	int numHeader = 4;		// if there are to be more headers add more to this
+	int VERTICAL_HEIGHT = Max(((fontheight+TEXT_SPACING) * (numText)) + (numHeader*HEADER_SPACING) + (224), 0);
+	int q = -168;
+	for (; q < VERTICAL_HEIGHT; ++q) {
+		for (int timer = 0; timer < SCROLL_SPEED; ++timer) {
+			Screen->Rectangle(7, 0, -56, 256, 176, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			int y = 0;
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, authorHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, authorName, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanksHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks6, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTestersHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, musicHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track6, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track7, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tilesetHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tileset, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+
+			y += 224;
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, end, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, gametime, OP_OPAQUE);
+			disableLink();
+			Waitframe();
+		}
+	}
+	--q;
+	while(!Hero->InputStart)
+	{
+			Screen->Rectangle(7, 0, -56, 256, 176, BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+			int y = 0;
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, authorHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, authorName, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanksHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, specialThanks6, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTestersHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, betaTester5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, musicHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track1, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track2, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track3, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track4, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track5, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track6, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, track7, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING + HEADER_SPACING);
+
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tilesetHeader, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, tileset, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+
+			y += 224;
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, end, OP_OPAQUE);
+			y += (fontheight + TEXT_SPACING);
+			Screen->DrawString(7, 128, y-q, font, WHITE, -1, TF_CENTERED, gametime, OP_OPAQUE);
+			disableLink();
+			Waitframe();
+	}
+}
+
+void introSequenceSceneTransitions(int dmap, int screen) {
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 0 - i * INTRO_SCENE_TRANSITION_MULT, 0, 256 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+
+      for (int i = 0; i < 180; ++i) {
+         disableLink();
+         Waitframe();
+      }
+
+      for (int i = 0; i < INTRO_SCENE_TRANSITION_FRAMES; ++i) {
+         disableLink();
+         Screen->Rectangle(7, 256 - i * INTRO_SCENE_TRANSITION_MULT, 0, 512 - i * INTRO_SCENE_TRANSITION_MULT, 176, C_BLACK, 1, 0, 0, 0, true, OP_OPAQUE);
+         Waitframe();
+      }
+
+      Hero->Warp(dmap, screen);
 }

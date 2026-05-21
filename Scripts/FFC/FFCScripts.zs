@@ -8,7 +8,7 @@ ffc script ContinuePoint {
    void run(int dmap, int scrn) {
       unless(dmap || scrn) {
          dmap = Game->CurDMap;
-         scrn = Game->CurScreen;
+         scrn = Game->HeroScreen;
       }
 
       Game->LastEntranceDMap = dmap;
@@ -25,7 +25,7 @@ ffc script ContinuePoint {
 
    void run() {
       if (!Screen->State[ST_ITEM] && !Screen->State[ST_CHEST] && !Screen->State[ST_LOCKEDCHEST] && !Screen->State[ST_BOSSCHEST] && !Screen->State[ST_SPECIALITEM] && (Game->LItems[Game->CurLevel] & LI_COMPASS))
-         Audio->PlaySound(COMPASS_BEEP);
+         Audio->PlaySound(SFX_COMPASS_BEEP);
    }
 }
 
@@ -34,10 +34,13 @@ ffc script ContinuePoint {
  ffc script BossMusic {
    // clang-format on
 
-   void run(int musicChoice) {
+   void run(int musicChoice, int triggerOnScreenD, int invertTriggerOnScreenD) {
       unless(musicChoice) Quit();
 
-      if (Screen->State[ST_SECRET])
+      if (triggerOnScreenD == 0 && Screen->State[ST_SECRET]
+         || (triggerOnScreenD > 0 && (!getScreenD(triggerOnScreenD)
+         || invertTriggerOnScreenD > 0 && getScreenD(triggerOnScreenD)))
+      )
          Quit();
 
       until(EnemiesAlive()) Waitframe();
@@ -53,9 +56,7 @@ ffc script ContinuePoint {
       while (EnemiesAlive())
          Waitframe();
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic);
+      MUSIC_INHERIT->Play();
 
       Quit();
    }
@@ -106,9 +107,7 @@ ffc script ContinuePoint {
       if (setScreenDOnOtherScreen)
          setScreenD(map, screen, setScreenDOnOtherScreen, true);
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      MUSIC_INHERIT->Play();
    }
 
    bool spawnEnemies(int arenaListNum, int round) { //TODO make these enemy sets have some variability (chances to get different enemies)
@@ -137,16 +136,35 @@ ffc script ContinuePoint {
             Screen->Pattern = PATTERN_CEILING;
 
             switch (round) {
-               case 0: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2}); break;
-               case 1: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_GORIYA_LV2, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
-               case 2: setEnemies({ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT}); break;
-               case 3: setEnemies({ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2}); break;
-               case 4: setEnemies({ENEMY_BUBBLE_TEMP_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1}); break;
-               case 5:
+               case 1: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2}); break;
+               case 2: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_GORIYA_LV2, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
+               case 3: setEnemies({ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT}); break;
+               case 4: setEnemies({ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2}); break;
+               case 5: setEnemies({ENEMY_BUBBLE_TEMP_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1}); break;
+               case 6:
                   playBossTheme(arenaListNum);
                   setEnemies({ENEMY_THIEF_BOSS});
                   shouldReturn = true;
                   break;
+            }
+            break;
+         }
+         case 2: {
+            Screen->Pattern = PATTERN_STANDARD;
+
+            switch (round) {
+               case 1: setEnemies({ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_MOBLIN_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2, ENEMY_ROPE_LV2});
+                  shouldReturn = true;
+                  break;
+               // case 2: setEnemies({ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_STALFOS_LV2, ENEMY_GORIYA_LV2, ENEMY_GORIYA_LV1, ENEMY_GORIYA_LV1}); break;
+               // case 3: setEnemies({ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT, ENEMY_BAT}); break;
+               // case 4: setEnemies({ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV1, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2, ENEMY_ARMOS_LV2}); break;
+               // case 5: setEnemies({ENEMY_BUBBLE_TEMP_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1, ENEMY_THIEF_LV1}); break;
+               // case 6:
+               //    playBossTheme(arenaListNum);
+               //    setEnemies({ENEMY_THIEF_BOSS});
+               //    shouldReturn = true;
+               //    break;
             }
             break;
          }
@@ -170,6 +188,7 @@ ffc script ContinuePoint {
       switch (arenaListNum) {
          case 0: Audio->PlayEnhancedMusic("Romancing Saga, MS - ACTGFKB.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("Tales of Graces - Sword Drawing.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Tales of Graces - Sword Drawing.ogg", 0); break;
       }
    }
 
@@ -177,6 +196,7 @@ ffc script ContinuePoint {
       switch (arenaListNum) {
          case 0: Audio->PlayEnhancedMusic("Skies of Arcadia - Bombardment.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("Otosan - Lord Rat Laureate Boss Battle.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Otosan - Lord Rat Laureate Boss Battle.ogg", 0); break;
       }
    }
 }
@@ -188,17 +208,17 @@ ffc script ContinuePoint {
 
    void run() {
       while (true) {
-         until(Link->Action == LA_SWIMMING && Link->Action == LA_DIVING && Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER) Waitframe();
+         until(Hero->Action == LA_SWIMMING && Hero->Action == LA_DIVING && Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER) Waitframe();
 
          int maxDamageTimer = 120;
          int damageTimer = maxDamageTimer;
 
-         while (Link->Action == LA_SWIMMING || Link->Action == LA_DIVING || (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER)) {
+         while (Hero->Action == LA_SWIMMING || Hero->Action == LA_DIVING || (Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER)) {
             damageTimer--;
 
             if (damageTimer <= 0)
-               if (Screen->ComboT[ComboAt(Link->X + 8, Link->Y + 12)] == CT_SHALLOWWATER || Link->Action == LA_SWIMMING) {
-                  Link->HP -= 8;
+               if (Screen->ComboT[ComboAt(Hero->X + 8, Hero->Y + 12)] == CT_SHALLOWWATER || Hero->Action == LA_SWIMMING) {
+                  Hero->HP -= 8;
                   Audio->PlaySound(Choose(SFX_HERO_HURT_1, SFX_HERO_HURT_2, SFX_HERO_HURT_3));
                   damageTimer = maxDamageTimer;
                }
@@ -210,12 +230,30 @@ ffc script ContinuePoint {
 } // end
 
 // clang-format off
-@Author("Deathrider365")
- ffc script Thrower {
+@Author("Deathrider365"),
+@InitD0("cooldownAndDamage"),
+@InitDHelp0("Time in frames between shots . damage"),
+@InitD1("variance"),
+@InitDHelp1("modifier on the cooldown, high.low"),
+@InitD2("trigger"),
+@InitDHelp2("trigger to stop this thrower type.value"),
+@InitD3("throwsItem"),
+@InitDHelp3("if what is thrown is an item"),
+@InitD4("projectile"),
+@InitDHelp4("EWeapon (use EW_*) EWeapon.weapon type (weapon type is the custom one I have AE_*)"),
+@InitD5("spriteId"),
+@InitDHelp5("Custom sprite to use"),
+@InitD6("hasArc"),
+@InitDHelp6("Whether the projectile travels straight to the player or is lobbed"),
+@InitD6("sfx"),
+@InitDHelp6("sound effect played when shot")
+ffc script Thrower {
    // clang-format on
+   void run(int cooldownAndDamage, int variance, int trigger, bool throwsItem, int projectile, int spriteId, int hasArc, int sfx) {
+      int cooldown = !Floor(cooldownAndDamage) ? 120 : Floor(cooldownAndDamage);
+      int damage = !((cooldownAndDamage % 1) / 1L) ? 120 : ((cooldownAndDamage % 1) / 1L);
 
-   void run(int coolDown, int variance, float trigger, bool throwsItem, int projectile, int sprite, int hasArc, int sfx) {
-      const int COOLDOWN = !coolDown ? 120 : coolDown;
+      CONFIG COOLDOWN = cooldown;
 
       int lowVariance = Floor(variance);
       int highVariance = -(variance % 1) / 1L;
@@ -223,11 +261,11 @@ ffc script ContinuePoint {
       int projectileId = Floor(projectile);
       int projectileType = (projectile % 1) / 1L;
 
-      while (true) {
+      loop () {
          if (wasTriggered(trigger))
             Quit();
 
-         unless(coolDown) {
+         unless(cooldown) {
             if (throwsItem) {
                if (int scr = CheckItemSpriteScript("ArcingItemSprite")) {
                   itemsprite it = RunItemSpriteScriptAt(projectileId, scr, this->X, this->Y, {Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8), 5, -1, 0});
@@ -239,109 +277,23 @@ ffc script ContinuePoint {
                if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
-               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 3, sprite, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, spriteId, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
 
                if (hasArc) {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
                      if (sfx)
                         Audio->PlaySound(sfx);
+
                      runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0, false});
                   }
                }
             }
 
-            coolDown = COOLDOWN + Rand(lowVariance, highVariance);
+            cooldown = COOLDOWN + Rand(lowVariance, highVariance);
          }
 
-         coolDown--;
+         cooldown--;
          Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("EmilyV99"),
-@InitD0("dmapScreen1"),
-@InitDHelp0("dmap.screen, screen is not the hex screen"),
-@InitD1("x1"),
-@InitDHelp1("-1 if using A-D, otherwise an x return location"),
-@InitD2("y1"),
-@InitDHelp2("0-3 == A-D"),
-@InitD3("dmapScreen2"),
-@InitDHelp3("dmap.screen, screen is not the hex screen"),
-@InitD4("x2"),
-@InitDHelp4("-1 if using A-D, otherwise an x return location"),
-@InitD5("y2"),
-@InitDHelp5("0-3 == A-D"),
-@InitD6("sideFacing"),
-@InitDHelp6("0 == up, 1 == right..."),
-@InitD7("warp"),
-@InitDHelp7("warpType.warpEffect")
- ffc script WarpCustomReturn {
-   // clang-format on
-
-   void run(int dmapScreen1, int x1, int y1, int dmapScreen2, int x2, int y2, int sideFacing, int warp) {
-      int dmap1 = Floor(dmapScreen1);
-      int screen1 = (dmapScreen1 % 1) / 1L;
-      int dmap2 = Floor(dmapScreen2);
-      int screen2 = (dmapScreen2 % 1) / 1L;
-      int warpType = Floor(warp);
-      int warpEffect = (warp % 1) / 1L;
-      int side = Floor(sideFacing);
-      int dir = (sideFacing % 1) / 1L;
-
-      switch (side) {
-         case DIR_UP: {
-            while (true) {
-               if (Hero->Y <= 1.5 && Hero->InputUp) {
-                  if (dmap2 && Hero->X >= this->X)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         }
-         case DIR_DOWN: {
-            while (true) {
-               if (Hero->Y >= 158.5 && Hero->InputDown) {
-                  if (dmap2 && Hero->X >= this->X)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         }
-         case DIR_LEFT: {
-            while (true) {
-               if (Hero->X <= 1.5 && Hero->InputLeft) {
-                  if (dmap2 && Hero->Y >= this->Y)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         }
-         case DIR_RIGHT: {
-            while (true) {
-               if (Hero->X >= 238.5 && Hero->InputRight) {
-                  if (dmap2 && Hero->Y >= this->Y)
-                     Hero->WarpEx({warpType, dmap2, screen2, x2, y2, warpEffect, 0, 0, dir});
-                  else
-                     Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               }
-               Waitframe();
-            }
-         }
-         default: {
-            while (true) {
-               if (Abs(Hero->X - this->X) <= 14 && Abs(Hero->Y - this->Y) <= 14)
-                  Hero->WarpEx({warpType, dmap1, screen1, x1, y1, warpEffect, 0, 0, dir});
-               Waitframe();
-            }
-         }
       }
    }
 }
@@ -355,6 +307,7 @@ ffc script PlayEnhancedMusic {
       switch (musicChoice) {
          case 0: Audio->PlayEnhancedMusic("WW - Ship Theme.ogg", 0); break;
          case 1: Audio->PlayEnhancedMusic("OoT - Potion Shop.ogg", 0); break;
+         case 2: Audio->PlayEnhancedMusic("Metroid Prime 3 - Bryyo.ogg", 0); break;
       }
    }
 }
@@ -362,12 +315,15 @@ ffc script PlayEnhancedMusic {
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("dir"),
-@InitDHelp0("0 - up, 1 - down, 2 - left, 3 - right")
+@InitDHelp0("0: Up\n 1: Down\n 2: Left\n 3: Right"),
+@InitD1("side"),
+@InitDHelp1("0: Top\n 1: Bottom\n 2: Left\n 3: Right")
 ffc script FaceLinkOnEntrance {
    // clang-format on
 
-   void run(int dir) {
-      Hero->Dir = dir;
+   void run(int dir, int side) {
+      // if ((HeroIsScrollingOrWarping() && Hero->Y >= 168 || Hero->Y < 16 && !HeroIsScrollingOrWarping()) && dir == DIR_DOWN) //TODO make this smarter
+         Hero->Dir = dir;
    }
 }
 
@@ -416,7 +372,7 @@ ffc script OpenTheGates {
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
       mapdata mapDataLayer2 = Game->LoadTempScreen(2);
 
-      while (true) {
+      loop () {
          if (map->State[ST_SECRET]) {
             for (int i = 0; i < 176; i++) {
                if (mapDataLayer1->ComboD[i] == 7283 || mapDataLayer1->ComboD[i] == 7287 || mapDataLayer1->ComboD[i] == 7291 || mapDataLayer1->ComboD[i] == 7279 || mapDataLayer1->ComboD[i] == 7289 || mapDataLayer1->ComboD[i] == 7288 || mapDataLayer1->ComboD[i] == 7290 ||
@@ -461,27 +417,27 @@ ffc script TriggerSavedGoronsLvl6 {
       int goronsSaved = 0;
 
       while (true) {
-         if (getScreenD(67, 0x13, 0)) {
+         if (getScreenD(67, 0x13, 84)) {
             setScreenD(0, true);
             ++goronsSaved;
          }
-         if (getScreenD(67, 0x44, 1)) {
+         if (getScreenD(67, 0x44, 84)) {
             setScreenD(1, true);
             ++goronsSaved;
          }
-         if (getScreenD(68, 0x41, 2)) {
+         if (getScreenD(68, 0x41, 84)) {
             setScreenD(2, true);
             ++goronsSaved;
          }
-         if (getScreenD(68, 0x14, 3)) {
+         if (getScreenD(68, 0x14, 84)) {
             setScreenD(3, true);
             ++goronsSaved;
          }
-         if (getScreenD(69, 0x12, 4)) {
+         if (getScreenD(69, 0x12, 84)) {
             setScreenD(4, true);
             ++goronsSaved;
          }
-         if (getScreenD(69, 0x75, 5)) {
+         if (getScreenD(69, 0x75, 84)) {
             setScreenD(5, true);
             ++goronsSaved;
          }
@@ -517,7 +473,36 @@ ffc script SetScreenDIfSecretsInOtherRoom {
       until(getScreenD(screenD)) {
          if (mapData->State[ST_SECRET])
             setScreenD(screenD, true);
-            
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365"),
+@InitD0("itemId"),
+@InitDHelp0("ItemId to check"),
+@InitD1("screenD"),
+@InitDHelp1("screenD to set on THIS screen"),
+@InitD2("invert"),
+@InitDHelp2("whether to UNSET if you have the item")
+ffc script SetScreenDIfHasItem {
+   // clang-format on
+   void run(int itemId, int screenD, int invert) {
+      loop() {
+         if (Hero->Item[itemId]) {
+            if (invert > -1)
+               setScreenD(screenD, false);
+            else
+               setScreenD(screenD, true);
+         } 
+         else 
+            if (invert > -1)
+               setScreenD(screenD, true);
+            else
+               setScreenD(screenD, false);
+
          Waitframe();
       }
    }
@@ -629,26 +614,26 @@ ffc script GBMinecart {
       if (jumpOut) {
          // Link is launched out in the opposite direction because
          // the cart turns around on reaching the platform
-         Link->Dir = OppositeDir(dir);
-         Link->Jump = 2;
+         Hero->Dir = OppositeDir(dir);
+         Hero->Jump = 2;
          Audio->PlaySound(SFX_JUMP);
          int tx = this->X + DirX(OppositeDir(dir)) * 16;
          int ty = this->Y + DirY(OppositeDir(dir)) * 16;
          int angle = Angle(this->X, this->Y, tx, ty);
          int dist = Distance(this->X, this->Y, tx, ty);
-         int linkX = Link->X;
-         int linkY = Link->Y;
+         int linkX = Hero->X;
+         int linkY = Hero->Y;
          for (int i = 0; i < 26; i++) {
             linkX += VectorX(dist / 26, angle);
             linkY += VectorY(dist / 26, angle);
             NoAction();
             Waitdraw();
-            Link->X = linkX;
-            Link->Y = linkY;
+            Hero->X = linkX;
+            Hero->Y = linkY;
             Waitframe();
          }
-         Link->X = tx;
-         Link->Y = ty;
+         Hero->X = tx;
+         Hero->Y = ty;
          this->Data = Floor(this->Data / 4) * 4 + dir;
       }
       this->Flags[FFCF_SOLID] = true;
@@ -660,26 +645,26 @@ ffc script GBMinecart {
       while (true) {
          if (PressAgainstCart(this, timer)) {
             this->Flags[FFCF_SOLID] = false;
-            Link->Dir = AngleDir4(Angle(Link->X, Link->Y, this->X, this->Y - MINECART_LINKYOFFSET));
-            Link->Jump = 2;
+            Hero->Dir = AngleDir4(Angle(Hero->X, Hero->Y, this->X, this->Y - MINECART_LINKYOFFSET));
+            Hero->Jump = 2;
             Audio->PlaySound(SFX_JUMP);
             int tx = this->X;
             int ty = this->Y - MINECART_LINKYOFFSET;
-            int angle = Angle(Link->X, Link->Y, tx, ty);
-            int dist = Distance(Link->X, Link->Y, tx, ty);
-            int linkX = Link->X;
-            int linkY = Link->Y;
+            int angle = Angle(Hero->X, Hero->Y, tx, ty);
+            int dist = Distance(Hero->X, Hero->Y, tx, ty);
+            int linkX = Hero->X;
+            int linkY = Hero->Y;
             for (int i = 0; i < 26; i++) {
                linkX += VectorX(dist / 26, angle);
                linkY += VectorY(dist / 26, angle);
                NoAction();
                Waitdraw();
-               Link->X = linkX;
-               Link->Y = linkY;
+               Hero->X = linkX;
+               Hero->Y = linkY;
                Waitframe();
             }
-            Link->X = tx;
-            Link->Y = ty;
+            Hero->X = tx;
+            Hero->Y = ty;
 
             // Set global variables for carting based on the FFC
             GBMinecarts[MCI_INMINECART] = true;
@@ -715,16 +700,16 @@ ffc script GBMinecart {
       return GBMinecarts[MCI_ACTIVEMINECARTS];
    }
    bool PressAgainstCart(ffc this, int[] timer) {
-      if (Link->Z > 0 || Link->FakeZ > 0)
+      if (Hero->Z > 0 || Hero->FakeZ > 0)
          return false;
       bool pressing;
-      if (Abs(Link->X - this->X) <= 8 && Link->Y > this->Y && Link->Y <= this->Y + 8 && Link->InputUp)
+      if (Abs(Hero->X - this->X) <= 8 && Hero->Y > this->Y && Hero->Y <= this->Y + 8 && Hero->InputUp)
          pressing = true;
-      if (Abs(Link->X - this->X) <= 8 && Link->Y >= this->Y - 16 && Link->Y < this->Y && Link->InputDown)
+      if (Abs(Hero->X - this->X) <= 8 && Hero->Y >= this->Y - 16 && Hero->Y < this->Y && Hero->InputDown)
          pressing = true;
-      if (Link->X <= this->X + 16 && Link->X > this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputLeft)
+      if (Hero->X <= this->X + 16 && Hero->X > this->X && Hero->Y >= this->Y - 8 && Hero->Y <= this->Y && Hero->InputLeft)
          pressing = true;
-      if (Link->X >= this->X - 16 && Link->X < this->X && Link->Y >= this->Y - 8 && Link->Y <= this->Y && Link->InputRight)
+      if (Hero->X >= this->X - 16 && Hero->X < this->X && Hero->Y >= this->Y - 8 && Hero->Y <= this->Y && Hero->InputRight)
          pressing = true;
       if (pressing) {
          ++timer[0];
@@ -746,15 +731,13 @@ ffc script GBReset_Minecarts {
    using namespace MinecartNamespace;
 
    void run(int onlyThisMap) {
-      if (Abs(Link->X - this->X) <= 8 && Abs(Link->Y - this->Y) <= 8) {
-         for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
-            if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
-               if (!GetMinecartVar(i, MCII_NORESET)) {
-                  SetMinecartVar(i, MCII_MAP, GetMinecartVar(i, MCII_ORIGINALMAP));
-                  SetMinecartVar(i, MCII_SCREEN, GetMinecartVar(i, MCII_ORIGINALSCREEN));
-                  SetMinecartVar(i, MCII_X, GetMinecartVar(i, MCII_ORIGINALX));
-                  SetMinecartVar(i, MCII_Y, GetMinecartVar(i, MCII_ORIGINALY));
-               }
+      for (int i = 0; i < GBMinecarts[MCI_ACTIVEMINECARTS]; ++i) {
+         if (!onlyThisMap || GetMinecartVar(i, MCII_MAP) == Game->CurMap) {
+            if (!GetMinecartVar(i, MCII_NORESET)) {
+               SetMinecartVar(i, MCII_MAP, GetMinecartVar(i, MCII_ORIGINALMAP));
+               SetMinecartVar(i, MCII_SCREEN, GetMinecartVar(i, MCII_ORIGINALSCREEN));
+               SetMinecartVar(i, MCII_X, GetMinecartVar(i, MCII_ORIGINALX));
+               SetMinecartVar(i, MCII_Y, GetMinecartVar(i, MCII_ORIGINALY));
             }
          }
       }
@@ -776,8 +759,8 @@ ffc script GBMinecart_Shutter {
       int pos = ComboAt(this->X + 8, this->Y + 8);
       this->Data = CMB_INVIS;
       bool open;
-      int x = Link->X;
-      int y = Link->Y;
+      int x = Hero->X;
+      int y = Hero->Y;
 
       if (this->Flags[FFCF_PRELOAD]) {
          if (x <= 0)
@@ -799,8 +782,8 @@ ffc script GBMinecart_Shutter {
       if (this->Flags[FFCF_PRELOAD])
          Waitframe();
       while (true) {
-         x = Link->X;
-         y = Link->Y;
+         x = Hero->X;
+         y = Hero->Y;
          if (open) {
             if (!(Abs(x - this->X) < triggerDist && Abs(y - this->Y) < triggerDist)) {
                Audio->PlaySound(SFX_SHUTTER);
@@ -829,51 +812,262 @@ ffc script GBMinecart_Shutter {
 ffc script AssignAAndBForIntro {
    // clang-format on
    void run() {
-      Hero->ItemA = ITEM_SWORD3;
-      Hero->ItemB = ITEM_BRANG2;
+      // Hero->ItemA = ITEM_SWORD3;
+      // Hero->ItemB = ITEM_BRANG2;
    }
 }
 
 // clang-format off
-@InitD0("condition"),
-@InitDHelp0("The condition in which enemies vanish: 1 - screenD set, 2 - secrets triggered, 3 - based on item"),
-@InitD1("conditionValue"),
-@InitDHelp1("screenD value, N/A, itemId"),
-@Author("Deathrider365")
-ffc script EnemiesNeverReturn {
+@InitD0("radius"),
+@InitDHelp0("radius in pixels"),
+@InitD1("speed"),
+@InitDHelp1("speed of rotation in degreess"),
+@InitD2("angle"),
+@InitDHelp2("starting position in degrees. If negative it will be random"),
+@InitD3("radius2"),
+@InitDHelp3("radius2, this is used for the Y Axis, if set it will turn into a oval"),
+@InitD4("angle2"),
+@InitDHelp4("this will cause the oval to be rotated at it's center"),
+@Author("Mero")
+ffc script CircularMotion {
    // clang-format on
+    void run(int radius, int speed, int angle, int radius2, int angle2) {
+        if (radius2 == 0) radius2 = radius; //Circle
+        if (angle < 0) angle = Rand(360); //Random Start
+        int cx = this->X;
+        int cy = this->Y;
 
-   CONFIG SMT_SCREEND = 1;
-   CONFIG SMT_SECRETS = 2;
-   CONFIG SMT_HAS_ITEM = 3;
+        loop() {
+            angle += speed;
+            if (angle < -360) angle += 360; //Wrap if below -360.
+            else if (angle > 360) angle -= 360; //Wrap if above 360.
+            if (angle2 == 0) {
+               this->X = cx + radius * Cos(angle);
+               this->Y = cy + radius2 * Sin(angle);
+            }
+            else { //Rotate at center.
+                this->X = cx + radius * Cos(angle) * Cos(angle2) - radius2 * Sin(angle) * Sin(angle2);
+                this->Y = cy + radius2 * Sin(angle) * Cos(angle2) + radius * Cos(angle) * Sin(angle2);
+            }
+            Waitframe();
+        }
+    }
+}
 
-   void run(int condition, int conditionValue) {
-      switch(condition) {
-         case SMT_SCREEND:
-            if (getScreenD(conditionValue))
-               removeEnemies();
-            break;
-         case SMT_SECRETS:
-            if (Screen->State[ST_SECRET])
-               removeEnemies();
-            break;
-         case SMT_HAS_ITEM:
-            if (Hero->Item[conditionValue])
-               removeEnemies();
-            break;
-         default: break;
+@InitD0("dir"),
+@InitDHelp0("Up = 0,\n Down = 1,\n Left = 2,\n Right = 3"),
+@InitD1("tolerance"),
+@InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
+@InitD2("eweaponIdAndRotate"),
+@InitDHelp2("Weapon type id . rotate"),
+@InitD3("damage"),
+@InitDHelp3("Damage"),
+@InitD4("sprite"),
+@InitDHelp4("The sprite to use for the weapon.\n 0 = Pull from weapon"),
+@InitD5("step"),
+@InitDHelp5("How fast is the weapon"),
+@InitD6("shotCooldown"),
+@InitDHelp6("Time in frames between each shot"),
+@InitD7("ignoreSolidity"),
+@InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
+@Author("Deathrider365")
+ffc script LoSShooter {
+   void run(int dir, int tolerance, int eweaponIdAndRotate, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+      int cooldown = 0;
+      int weaponId = Floor(eweaponIdAndRotate);
+      int rotate = ((eweaponIdAndRotate % 1) / 1L) ? EWF_ROTATE : 0;
+      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(weaponId);
+      int originalCombo = this->Data;
+
+      loop () {
+         if (this->Data != originalCombo) Quit();
+
+         int angle = DegToRad(lineOfSightAngle(this, dir, tolerance));
+
+         if (angle > 0) {
+            if (cooldown == 0) {
+               eweapon weapon = FireEWeapon(weaponId, this->X, this->Y, angle, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE | rotate);
+
+               switch (ignoreSolidity) {
+                  case 1:
+                     weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+                  case 2:
+                     weapon->Flags[WFLAG_BREAKS_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+               }
+
+               cooldown = shotCooldown;
+            }
+
+            cooldown--;
+         }
+
+         Waitframe();
       }
    }
 
-   void removeEnemies() {
-      for (int q = 0; q < 10; ++q)
-         Screen->Enemy[q] = 0;
+   int lineOfSightAngle(ffc this, int dir, int tolerance) {
+      switch(dir) {
+         case DIR_UP: {
+            if (Hero->Y < this->Y && Abs((Hero->X + 8) - (this->X + 8)) < tolerance)
+               return 270;
+            break;
+         }
+         case DIR_DOWN: {
+            if (Hero->Y > this->Y && Abs((Hero->X + 8) - (this->X + 8)) < tolerance)
+               return 90;
+            break;
+         }
+         case DIR_LEFT: {
+            if (Hero->X < this->X && Abs((Hero->Y + 8) - (this->Y + 8)) < tolerance)
+               return 180;
+            break;
+         }
+         case DIR_RIGHT: {
+            if (Hero->X > this->X && Abs((Hero->Y + 8) - (this->Y + 8)) < tolerance)
+               return 360;
+            break;
+         }
+      }
+
+      return -1;
    }
 }
 
-ffc script EquipItemsOnGameStart {
+@InitD0("proximity"),
+@InitDHelp0("Distance in pixels away Link will be from this to start shooting"),
+@InitD1("tolerance"),
+@InitDHelp1("How many pixels off will it still shoot: https://github.com/ZQuestClassic/ZQuestClassic/blob/4774704ceff07bbe524b1de6e71d297843f99d00/resources/include/bindings/eweapon.zh#L2"),
+@InitD2("eweaponId"),
+@InitDHelp2("Weapon type id"),
+@InitD3("damage"),
+@InitDHelp3("Damage"),
+@InitD4("sprite"),
+@InitDHelp4("The sprite to use for the weapon.\n 0 = Pull from weapon"),
+@InitD5("step"),
+@InitDHelp5("How fast is the weapon"),
+@InitD6("shotCooldown"),
+@InitDHelp6("Time in frames between each shot"),
+@InitD7("ignoreSolidity"),
+@InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
+@Author("Deathrider365")
+ffc script Beamos {
+   void run(int proximity, int tolerance, int eweaponId, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+      int cooldown = shotCooldown;
+      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(eweaponId);
+      int originalCombo = this->Data;
+
+      loop () {
+         if (this->Data != originalCombo) Quit();
+         if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
+            if (cooldown == 0) {
+               eweapon weapon = FireAimedEWeapon(eweaponId, this->X, this->Y, 0, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE);
+               this->MoveFlags[NPCMV_CAN_PITFALL] = false;
+
+               switch (ignoreSolidity) {
+                  case 1:
+                     weapon->Flags[WFLAG_STOP_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+                  case 2:
+                     weapon->Flags[WFLAG_BREAKS_ON_SOLID] = true;
+                     weapon->Flags[WFLAG_TEMP_IGNORE_SOLID] = true;
+                     break;
+               }
+
+               cooldown = shotCooldown;
+            }
+
+            cooldown--;
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script HideEnemiesUntilSecrets {
+   void run(bool screenIsRemote, int map, int screen) {
+      if (screenIsRemote && (!map || !screen))
+         Trace("screenIsRemote but no map or screen was provided");
+      else {
+         until (Screen->State[ST_SECRET] || !(screenIsRemote && Game->LoadMapData(map, screen)->State[ST_SECRET])) Waitframe();
+
+         if (Screen->State[ST_SECRET])
+            Screen->Pattern = PATTERN_STANDARD;
+         else
+            Screen->Pattern = PATTERN_NO_SPAWNING;
+      }
+   }
+}
+
+@Author("Deathrider365"),
+@InitD0("condition"),
+@InitDHelp0("condition to trigger"),
+@InitD1("conditionValue"),
+@InitDHelp1("where applicable, the value to check"),
+@InitD2("dmapId"),
+@InitDHelp2("dmap in question"),
+@InitD3("oldMusicId"),
+@InitDHelp3("old music id to check"),
+@InitD4("newMusicId"),
+@InitDHelp4("new music id to assign")
+ffc script SetLevel8Music {
+   void run (int condition, int conditionValue, int dmapId, int oldMusicData, int newMusicData) {
+      loop() {
+         if (Game->LevelStates[Game->CurLevel] & (1Lb << (conditionValue)) && Game->LoadDMapData(dmapId)->Music == Audio->LoadMusicData(oldMusicData)) {
+            until (Hero->Z == 0) Waitframe();
+
+            Game->LoadDMapData(dmapId)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 1)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 2)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 3)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 4)->Music = Audio->LoadMusicData(newMusicData);
+            Game->LoadDMapData(dmapId + 5)->Music = Audio->LoadMusicData(newMusicData);
+
+            if (!getScreenD(0)) {
+               Screen->Message(1017);
+               setScreenD(0, true);
+            }
+
+            Quit();
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script ForceLinkInLv9Boss {
    void run() {
-      Hero->ItemA = GetHighestLevelItemOwned(IC_SWORD);
-      Hero->ItemB = GetHighestLevelItemOwned(IC_BRANG);
+      while (HeroIsScrollingOrWarping()) Waitframe();
+
+      if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) Quit();
+
+      while (Hero->Y > 224) {
+         NoAction();
+         Hero->InputUp = true;
+         Waitframe();
+      }
+
+      //Shutter closes
+      setScreenD(1, true);
+
+      while (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) Waitframe();
+
+      //Shutters open
+      setScreenD(1, false);
+   }
+}
+
+//TODO Remove
+ffc script DrawF4Palette {
+   void run() {
+      Game->LoadDMapData(Game->CurDMap)->Palette = Screen->Palette;
    }
 }

@@ -83,7 +83,11 @@ void __LinkMovement_SpeedChange() {
          if (!FOUR_WAY_MOVEMENT) {
             if (LinkMovement[LM_STICKX] != 0 && LinkMovement[LM_STICKY] != 0) {
                // If he's pressing against a wall or in sideview, the speed dampening won't take effect
-               if (CanWalk[Cond(LinkMovement[LM_STICKX] == -1, DIR_LEFT, DIR_RIGHT)] && CanWalk[Cond(LinkMovement[LM_STICKY] == -1, DIR_UP, DIR_DOWN)] && !IsSideview())
+               
+               int stickX = LinkMovement[LM_STICKX] == -1 ? DIR_LEFT : DIR_RIGHT;
+               int stickY = LinkMovement[LM_STICKY] == -1 ? DIR_UP : DIR_DOWN;
+
+               if (CanWalk[stickX] && CanWalk[stickY] && !IsSideview())
                   movementSpeed = movementSpeed * 0.7071; // Reduce movement speed at a diagonal
             }
          }
@@ -502,5 +506,7 @@ void LinkMovement_UndoLinkMovement() {
 //	-bool undoX: Undo movement on the X-axis
 //	-bool undoY: Undo movement on the Y-axis
 void LinkMovement_UndoLinkMovement(bool undoX, bool undoY) {
-   LinkMovement[LM_UNDOLINKMOVEMENT] = Cond(undoX, 1, 0) + 2 * Cond(undoY, 1, 0);
+   int condX = undoX ? 1 : 0;
+   int condY = undoY ? 1 : 0;
+   LinkMovement[LM_UNDOLINKMOVEMENT] = condX + 2 * condY;
 }

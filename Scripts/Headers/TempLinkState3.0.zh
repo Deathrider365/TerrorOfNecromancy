@@ -24,9 +24,9 @@ const int _TLSI_DIR            = 16;
 
 void TempLinkState_Init(){
 	_TempLinkState[_TLSI_COLLDETTIMER] = 0;
-	Link->CollDetection = true;
+	Link->NoCollisionTimer = 0;
 	_TempLinkState[_TLSI_INVISTIMER] = 0;
-	Link->Invisible = false;
+	Link->InvisibleTimer = 0;
 	_TempLinkState[_TLSI_DRAWXTIMER] = 0;
 	_TempLinkState[_TLSI_DRAWYTIMER] = 0;
 	_TempLinkState[_TLSI_HITXTIMER] = 0;
@@ -62,7 +62,7 @@ void TempLinkState_Update2(){
 		if(!_TempLinkState_FreezeScrolling())
 			--_TempLinkState[_TLSI_COLLDETTIMER];
 		if(!_TempLinkState[_TLSI_COLLDETTIMER])
-			Link->CollDetection = true;
+			Link->NoCollisionTimer = 0;
 	}
 	
 	//Count down timer for Link->Invisible, default state is false
@@ -70,7 +70,7 @@ void TempLinkState_Update2(){
 		if(!_TempLinkState_FreezeScrolling())
 			--_TempLinkState[_TLSI_INVISTIMER];
 		if(!_TempLinkState[_TLSI_INVISTIMER])
-			Link->Invisible = false;
+			Link->InvisibleTimer = 0;
 	}
 	
 	//Count down timer for Link->DrawXOffset
@@ -146,7 +146,7 @@ generic script TempLinkState_Generic{
 void TempLinkState_UnsetCollDetection(int frames=1){
 	++frames; //When frames hits 0 in the global script, changes get undone, so effectively 2==1
 	if(frames > _TempLinkState[_TLSI_COLLDETTIMER] || !TEMPLINKSTATE_PRIORITIZE_LENGTH){
-		Link->CollDetection = false;
+		Link->NoCollisionTimer = 1;
 		_TempLinkState[_TLSI_COLLDETTIMER] = frames;
 	}
 }
@@ -165,7 +165,7 @@ void TempLinkState_SetInvincible(int frames=1){
 void TempLinkState_SetInvisible(int frames=1){
 	++frames; //When frames hits 0 in the global script, changes get undone, so effectively 2==1
 	if(frames > _TempLinkState[_TLSI_INVISTIMER] || !TEMPLINKSTATE_PRIORITIZE_LENGTH){
-		Link->Invisible = true;
+		Link->InvisibleTimer = 1;
 		_TempLinkState[_TLSI_INVISTIMER] = frames;
 	}
 }

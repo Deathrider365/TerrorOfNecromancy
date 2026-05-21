@@ -29,129 +29,6 @@ screendata script OverheadTransparency {
 }
 
 // clang-format off
-// @Author ("EmilyV99")
-// screendata script RadialTransparency {
-//    // clang-format on
-
-//    void run(int layers, int radius) {
-//       mapdata mapData[6];
-
-//       for (int l = 1; l < 6; ++l) {
-//          unless(layers & (1b << (l - 1))) continue;
-
-//          Screen->LayerInvisible[l] = true;
-
-//          unless(overheadBitmaps[l]->isValid()) overheadBitmaps[l] = create(256, 176);
-
-//          mapData[l] = Game->LoadTempScreen(l);
-//       }
-
-//       while (true) {
-//          for (int l = 1; l < 6; ++l) {
-//             unless(layers & (1b << (l - 1))) continue;
-
-//             overheadBitmaps[l]->Clear(0);
-
-//             for (int q = 0; q < 176; ++q)
-//                overheadBitmaps[l]->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_OPAQUE);
-
-//             overheadBitmaps[l]->Circle(l, Hero->X + 8, Hero->Y + 8, radius, 0, 1, 0, 0, 0, true, OP_OPAQUE);
-
-//             for (int q = 0; q < 176; ++q)
-//                Screen->FastCombo(l, ComboX(q), ComboY(q), mapData[l]->ComboD[q], mapData[l]->ComboC[q], OP_TRANS);
-
-//             overheadBitmaps[l]->Blit(l, -1, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, 0, 0, true);
-//          }
-
-//          Waitframe();
-
-//          if (disableTrans) {
-//             for (int l = 1; l < 6; ++l) {
-//                unless(layers & (1b << (l - 1))) continue;
-
-//                Screen->LayerInvisible[l] = false;
-//             }
-
-//             while (disableTrans)
-//                Waitframe();
-//          }
-
-//          if (HeroIsScrolling())
-//             for (int l = 1; l < 6; ++l) {
-//                unless(layers & (1b << (l - 1))) continue;
-
-//                Screen->LayerInvisible[l] = false;
-//             }
-//          else
-//             for (int l = 1; l < 6; ++l) {
-//                unless(layers & (1b << (l - 1))) continue;
-
-//                Screen->LayerInvisible[l] = true;
-//             }
-//       }
-//    }
-// }
-
-// clang-format off
-@Author ("EmilyV99, Dimi")
-dmapdata script DarkRegion {
-   // clang-format on
-
-   void run(int radius, int itemClass, int layer, int torchPower) {
-      // unless(darknessBitmap->isValid()) darknessBitmap = create(256 * 3, 176 * 4.5);
-      // else recreate(darknessBitmap, 256 * 3, 176 * 4.5);
-
-      // int animationCounter;
-
-      // while (true) {
-      //    Waitdraw();
-
-      //    int itemId = GetHighestLevelItemOwned(itemClass);
-      //    itemdata itemData = itemId < 0 ? NULL : Game->LoadItemData(itemId);
-      //    int power = itemData ? itemData->Attributes[9] : 0;
-      //    int mode = 0;
-
-      //    if (itemData)
-      //       mode = itemData->Flags[14] ? BITDX_TRANS : 0;
-
-      //    animationCounter += 2;
-      //    animationCounter %= 360;
-
-      //    for (int i = layer; i >= 0; --i) {
-      //       darknessBitmap->ClearToColor(layer, C_BLACK);
-
-      //       if (power)
-      //          darknessBitmap->Circle(layer, Hero->X + 8 + 256, Hero->Y + 8 + 176, (radius * power) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
-
-      //       if (torchPower) {
-      //          for (int xPos = 0; xPos < 256; xPos += 16) {
-      //             for (int yPos = 0; yPos < 176; yPos += 16) {
-      //                int pos = ComboAt(xPos, yPos);
-      //                int comboT = Screen->ComboT[pos];
-
-      //                for (int lightLayer = 1; lightLayer < 3; ++lightLayer)
-      //                   if (Screen->LayerMap[lightLayer]) {
-      //                      mapdata mapData = Game->LoadTempScreen(lightLayer);
-
-      //                      if (mapData->ComboD[pos])
-      //                         comboT = mapData->ComboT[pos];
-      //                   }
-
-      //                if (comboT == CT_SCRIPT_TORCH)
-      //                   darknessBitmap->Circle(layer, xPos + 8 + 256, yPos + 8 + 176, (radius * torchPower) + VectorY(4, animationCounter) + (i * 4), mode, 1, 0, 0, 0, true, OP_OPAQUE);
-      //             }
-      //          }
-      //       }
-
-      //       darknessBitmap->Blit(layer, -2, 256 - Game->Scrolling[SCROLL_NX], 176 - Game->Scrolling[SCROLL_NY], 256, 176, 0, 0, 256, 176, 0, 0, 0, 1, 0, true);
-      //    }
-
-      //    Waitframe();
-      // }
-   }
-}
-
-// clang-format off
 @Author("Deathrider365")
 dmapdata script HeatedRoom {
    // clang-format on
@@ -188,23 +65,23 @@ dmapdata script PlaySFXByFrequency {
 }
 
 // clang-format off
-dmapdata script LensTorches {
+ffc script LensTorches {
    // clang-format on
-
    void run() {
       int comboSlot = Game->GetComboScript("TorchMarker");
+      CONFIG C_LENSBITMAPMARKER = 0xFE;
 
-      bitmap lenslayer = new bitmap(256, 176); //TODO refactor to handle showing multiple screens (if necessary)
-      bitmap lensmask = new bitmap(256, 176);
+      bitmap lenslayer = new bitmap(Viewport->Width, Viewport->Height);
+      bitmap lensmask = new bitmap(Viewport->Width, Viewport->Height);
       int drawLayer;
+      Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
 
       while (true) {
-         int screen = Game->CurScreen;
+         int screen = Game->HeroScreen;
          int oldLayer = drawLayer;
 
          // Get the revealed lens layer
          mapdata md = Game->LoadTempScreen(0);
-         mapdata md2 = Game->LoadScrollingScreen(0);
 
          for (int layer = 6; layer > 0; --layer) {
             if (!md->LensShows[layer])
@@ -214,7 +91,8 @@ dmapdata script LensTorches {
             break;
          }
 
-         while(screen == Game->CurScreen) {
+         while(screen == Game->HeroScreen) {
+            Waitdraw();
             lenslayer->Clear(0);
 
             // lensmask gets cleared to a color because circles are erased from it rather than added
@@ -224,49 +102,60 @@ dmapdata script LensTorches {
                if (md->LensShows[i] || i == drawLayer) {
                   mapdata md = Game->LoadTempScreen(i);
 
-                  for (int j = 0; j < 176; ++j)
-                     lenslayer->FastCombo(0, ComboX(j), ComboY(j), md->ComboD[j], md->ComboC[j]);
+                  for (int j = 0; j < NUM_COMBO_POS; ++j)
+                     if (viewportContainsRect(ComboX(j), ComboY(j), 16, 16))
+                        lenslayer->FastCombo(0, ComboX(j) - Viewport->X, ComboY(j) - Viewport->Y, md->ComboD[j], md->ComboC[j]);
                }
             }
 
             // Draw circles for combos on layers 0-4
             for (int i = 0; i <= 4; ++i) {
                mapdata md = Game->LoadTempScreen(i);
-               mapdata md2 = Game->LoadScrollingScreen(i);
 
-               for (int j = 0; j < 176; ++j) {
+               for (int j = 0; j < NUM_COMBO_POS; ++j) {
                   combodata cd = Game->LoadComboData(md->ComboD[j]);
-                  if (cd->Script == comboSlot)
-                     DrawLensCircle(lensmask, ComboX(j) + 8, ComboY(j) + 8, cd->InitD[0]);
+
+                  if (cd->Script == comboSlot) {
+                     int inScreenRadius = cd->InitD[0] + 8;
+                     int x = ComboX(j) + 8 - inScreenRadius;
+                     int y = ComboY(j) + 8 - inScreenRadius;
+
+                     if (viewportContainsRect(x, y, inScreenRadius * 2, inScreenRadius * 2))
+                        drawLensCircle(lensmask, ComboX(j) + 8 - Viewport->X, ComboY(j) + 8 - Viewport->Y, cd->InitD[0]);
+                  }
                }
             }
 
             // Draw circles for FFCs
-            for (int i = 1; i <= MAX_FFC; ++i) {
-               ffc f = Screen->LoadFFC(i);
-               if (f->Data) {
-                  combodata cd = Game->LoadComboData(f->Data);
-                  if (cd->Script == comboSlot)
-                     DrawLensCircle(lensmask, f->X + 8, f->Y + 8, cd->InitD[0]);
-               }
-            }
+            // for (int i = 1; i <= MAX_FFC; ++i) { //TODO why cant I? because this
+            //    ffc f = Screen->LoadFFC(i);
 
-            Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
+            //    if (f->Data) {
+            //       combodata cd = Game->LoadComboData(f->Data);
+            //       if (cd->Script == comboSlot)
+            //          drawLensCircle(lensmask, (f->X + 8), (f->Y + 8), cd->InitD[0]);
+            //    }
+            // }
+
+            // Screen->DrawOrigin = DRAW_ORIGIN_REGION_SCROLLING_NEW;
             // Draw the mask over the layer
-            lensmask->Blit(0, lenslayer, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lensmask->Blit(0, lenslayer, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
             // Replace colors from the mask
             lenslayer->ReplaceColors(0, 0x00, C_LENSBITMAPMARKER, C_LENSBITMAPMARKER);
 
-            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+            lenslayer->Blit(drawLayer, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_NORMAL, 0, true);
 
             Waitframe();
          }
       }
+
+      Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT;
    }
    // This draws a circle to the bitmap imitating the lens of truth
-   void DrawLensCircle(bitmap b, int x, int y, int rad) {
+   void drawLensCircle(bitmap b, int x, int y, int rad) {
       b->Circle(0, x, y, rad, 0x00, 1, 0, 0, 0, true, OP_OPAQUE);
       b->Circle(0, x, y, rad + 2, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
       b->Circle(0, x, y, rad + 5, 0x00, 1, 0, 0, 0, false, OP_OPAQUE);
    }
 }
+

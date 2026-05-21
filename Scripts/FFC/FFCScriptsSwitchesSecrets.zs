@@ -1,37 +1,6 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~ Switches & Secrets FFCs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("EmilyV99")
-ffc script EnemiesChest {
-   // clang-format on
-   void run(int flag, int newCombo, bool perm, int screenD, int cset, int sfx) {
-      if (perm && getScreenD(screenD)) {
-         for (int i = 0; i < 176; ++i)
-            if (ComboFI(i, flag)) {
-               Screen->ComboD[i] = newCombo;
-               Screen->ComboC[i] = cset;
-            }
-         return;
-      }
-
-      Waitframes(6);
-
-      while (EnemiesAlive())
-         Waitframe();
-
-      if (perm)
-         setScreenD(screenD, true);
-
-      for (int i = 0; i < 176; ++i)
-         if (ComboFI(i, flag)) {
-            Screen->ComboD[i] = newCombo;
-            Screen->ComboC[i] = cset;
-            Audio->PlaySound(sfx);
-         }
-   }
-}
-
-// clang-format off
 @Author("Moosh, Modified by Deathrider365"),
 @InitD0("type"),
 @InitDHelp0("0 for secrets, 1 for enemy, 2 for screenD -1 for never open"),
@@ -50,6 +19,12 @@ ffc script Shutter {
       CONFIG OPEN_BY_ENEMY = 1;
       CONFIG OPEN_BY_SCREEND = 2;
 
+      this->EffectWidth = this->TileWidth * 16;
+      this->EffectHeight = this->TileHeight * 16;
+
+      if (!this->Flags[FFCF_PRELOAD])
+         printf("ERROR: Shutter script must run on screen init!\n");
+
       int thisData = this->Data;
       this->Data = CMB_INVIS;
       this->Flags[FFCF_SOLID] = false;
@@ -57,144 +32,91 @@ ffc script Shutter {
       int LinkX = Hero->X;
       int LinkY = Hero->Y;
 
-      //Check whether the shutter should not close at all
-      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET])) {
-         this->Data = 0; //TODO this may not work in the future
-         Quit();
+      if (Game->Scrolling[SCROLL_DIR] > -1) {
+         LinkX = Game->Scrolling[SCROLL_NEW_HERO_X];
+         LinkY = Game->Scrolling[SCROLL_NEW_HERO_Y];
       }
 
+      int maxX = Region->Width - 16;
+      int maxY = Region->Height - 16;
+
+      //Check whether the shutter should not close at all
+      if (perm && type == OPEN_BY_SECRET && (Screen->State[ST_SECRET])) {
+         this->Data = 0;
+         Quit();
+      }
       else if (type == OPEN_BY_SCREEND) {
          Waitframe();
 
-         if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
-            Quit();
-
+         if (type == OPEN_BY_SCREEND)
+            until (getScreenD(screenD)) Waitframe();
       }
       else if (type == OPEN_BY_ENEMY && perm && getScreenD(screenDForPermEnemies)) {
          Quit();
       }
 
-      //Flip Link's position to where he will be when completely on the screen with the shutter
-      if (LinkX <= 0)
-         LinkX = 240;
-      else if (LinkX >= 240)
-         LinkX = 0;
-
-      if (LinkY <= 0)
-         LinkY = 160;
-      else if (LinkY >= 160)
-         LinkY = 0;
-
-		int moveDir = Hero->Dir;
-
-      //Handle moving link when he enters a screen through a shutter
-      if (inShutter(this, LinkX, LinkY, 0)) {
-			if(LinkY == 0)
-				moveDir = DIR_DOWN;
-			else if(LinkY == 160)
-				moveDir = DIR_UP;
-			else if(LinkX == 0)
-				moveDir = DIR_RIGHT;
-			else if(LinkX == 240)
-				moveDir = DIR_LEFT;
-
-			Waitframe();
-
-         //Keep moving link until he is out of the shutter
-         while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
-            NoAction();
-
-            if (LinkY == 160)
-               Hero->InputUp = true;
-            else if (LinkY == 0)
-               Hero->InputDown = true;
-            else if (LinkX == 240)
-               Hero->InputLeft = true;
-            else if (LinkX == 0)
-               Hero->InputRight = true;
-
-            Waitframe();
-         }
-
-         for(int i = 0; i < 4; i++) {
-            if(moveDir == DIR_UP)
-               Link->Y = Min(Link->Y, 144);
-            else if(moveDir == DIR_DOWN)
-               Link->Y = Max(Link->Y, 8);
-            else if(moveDir == DIR_LEFT)
-               Link->X = Min(Link->X, 224);
-            else if(moveDir == DIR_RIGHT)
-               Link->X = Max(Link->X, 16);
-
-            Waitframe();
-         }
-      } else {
-         if (type != OPEN_BY_ENEMY)
-            Waitframe();
+      if (inShutter(this, LinkX, LinkY, 3)) {
+         setFFCData(this, thisData, true);
+         this->Flags[FFCF_SOLID] = false;
+      }
+      else {
+         setFFCData(this, thisData, false);
+         this->Flags[FFCF_SOLID] = true;
       }
 
-      if (type == OPEN_BY_ENEMY)
-         Waitframes(8);
+      int moveDir = Hero->Dir;
+      int enemySpawnFrames = 4; // Frames the script must wait before enemy shutters can open
 
-      this->Data = thisData;
-      this->Flags[FFCF_SOLID] = true;
-      Audio->PlaySound(SFX_SHUTTER_CLOSE);
+      Waitframe();
 
       //Shutter is locked, wait for it to be opened if it can be opened, otherwise stay shut
       loop() {
-         if (inShutter(this, LinkX, LinkY, 3)) {
-            if(Link->Y == 0)
+         if (enemySpawnFrames)
+            --enemySpawnFrames;
+         if (inShutter(this, Hero->X, Hero->Y, 3)) {
+            setFFCData(this, thisData, true);
+            this->Flags[FFCF_SOLID] = false;
+
+            if(Hero->Y < 8)
                moveDir = DIR_DOWN;
-            else if(Link->Y == 160)
+            else if(Hero->Y > maxY - 16)
                moveDir = DIR_UP;
-            else if(Link->X == 0)
+            else if(Hero->X < 16)
                moveDir = DIR_RIGHT;
-            else if(Link->X == 240)
+            else if(Hero->X > maxX - 16)
                moveDir = DIR_LEFT;
 
             while (inShutter(this, Hero->X, Hero->Y, 0) && CanWalk(Hero->X, Hero->Y, Hero->Dir, 1, false)) {
                NoAction();
 
-               if (moveDir == 160)
+               if (moveDir == DIR_UP)
                   Hero->InputUp = true;
-               else if (moveDir == 0)
+               else if (moveDir == DIR_DOWN)
                   Hero->InputDown = true;
-               else if (moveDir == 240)
+               else if (moveDir == DIR_LEFT)
                   Hero->InputLeft = true;
-               else if (moveDir == 0)
+               else if (moveDir == DIR_RIGHT)
                   Hero->InputRight = true;
 
                Waitframe();
             }
 
-            for(int i = 0; i < 4; i++) {
-               if(moveDir == DIR_UP)
-                  Link->Y = Min(Link->Y, 144);
-               else if(moveDir == DIR_DOWN)
-                  Link->Y = Max(Link->Y, 8);
-               else if(moveDir == DIR_LEFT)
-                  Link->X = Min(Link->X, 224);
-               else if(moveDir == DIR_RIGHT)
-                  Link->X = Max(Link->X, 16);
+            if(moveDir == DIR_UP)
+                Hero->Y = Min(Hero->Y, maxY-16);
+            else if(moveDir == DIR_DOWN)
+                Hero->Y = Max(Hero->Y, 8);
+            else if(moveDir == DIR_LEFT)
+                Hero->X = Min(Hero->X, maxX-16);
+            else if(moveDir == DIR_RIGHT)
+                Hero->X = Max(Hero->X, 16);
 
-               Waitframe();
-            }
-
-				if(moveDir == DIR_UP)
-					Link->Y = Min(Link->Y, 144);
-				else if(moveDir == DIR_DOWN)
-					Link->Y = Max(Link->Y, 8);
-				else if(moveDir == DIR_LEFT)
-					Link->X = Min(Link->X, 224);
-				else if(moveDir == DIR_RIGHT)
-					Link->X = Max(Link->X, 16);
-
-				Waitframes(8);
+            Audio->PlaySound(SFX_SHUTTER_CLOSE);
+            playOpenCloseAnim(this, thisData, false);
          }
 
          if (type == OPEN_BY_SECRET && Screen->SecretsTriggered)
             break;
-         if (type == OPEN_BY_ENEMY && checkEnemies())
+         if (type == OPEN_BY_ENEMY && checkEnemies() && !enemySpawnFrames)
             break;
          if (type == OPEN_BY_SCREEND && !getScreenD(screenD))
             break;
@@ -202,29 +124,93 @@ ffc script Shutter {
          Waitframe();
       }
 
-      ++this->Data;
       Audio->PlaySound(SFX_SHUTTER_OPEN);
 
       if (playSecretSound)
          Audio->PlaySound(SFX_OOT_SECRET);
 
-      this->Flags[FFCF_SOLID] = false;
+      playOpenCloseAnim(this, thisData + 2, true);
 
       if (perm) {
          if (type == OPEN_BY_ENEMY)
-            setScreenD(screenDForPermEnemies, 1);
+            setScreenD(screenDForPermEnemies, true);
          else
             Screen->State[ST_SECRET] = true;
       }
+   }
 
-      until(this->Data == 1)
+   void setFFCData(ffc this, int combo, bool open) {
+      bool big = (this->TileWidth > 1 || this->TileHeight > 1);
+      if (open) {
+         if (big) {
+            mapdata lyr = Game->LoadTempScreen(this->Layer);
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for(int y=0; y<this->TileHeight; ++y) {
+                  int pos = ComboAt(this->X + 8 + x * 16, this->Y + 8 + y * 16);
+                  lyr->ComboD[pos] = 0;
+                  lyr->ComboC[pos] = this->CSet;
+               }
+            }
+         }
+         else {
+            this->Data = CMB_INVIS;
+         }
+      }
+      else {
+         if (big) {
+            mapdata lyr = Game->LoadTempScreen(this->Layer);
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for(int y = 0; y < this->TileHeight; ++y) {
+                  int pos = ComboAt(this->X + 8 + x * 16, this->Y + 8 + y * 16);
+                  lyr->ComboD[pos] = combo+1;
+                  lyr->ComboC[pos] = this->CSet;
+               }
+            }
+         }
+         else {
+            this->Data = combo + 1;
+         }
+      }
+   }
+   void playOpenCloseAnim(ffc this, int combo, bool opening) {
+      setFFCData(this, combo, true);
+      this->Flags[FFCF_SOLID] = true;
+      combodata cd = Game->LoadComboData(combo);
+      int aspeed = cd->ASpeed + 1;
+      int frames = Max(cd->Frames, 1) * aspeed;
+
+      bool big = (this->TileWidth > 1 || this->TileHeight > 1);
+
+      for (int i = 0; i < frames; ++i) {
+         if (big) {
+            for (int x = 0; x < this->TileWidth; ++x) {
+               for (int y=0; y<this->TileHeight; ++y) {
+                  Screen->DrawCombo(this->Layer, this->X + x * 16, this->Y + y * 16, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
+               }
+            }
+         }
+         else
+            Screen->DrawCombo(this->Layer, this->X, this->Y, combo, 1, 1, this->CSet, -1, -1, 0, 0, 0, Floor(i / aspeed), 0, true, OP_OPAQUE);
+
          Waitframe();
+      }
 
-      this->Data = 0; //TODO this may not work in the future
+      if (opening) {
+         setFFCData(this, combo, true);
+         this->Flags[FFCF_SOLID] = false;
+      }
+      else {
+         setFFCData(this, combo, false);
+         this->Flags[FFCF_SOLID] = true;
+      }
    }
 
    bool inShutter(ffc this, int LinkX, int LinkY, int leeway) {
-		return Abs(LinkX - this->X) < 16 - leeway && LinkY > this->Y - 16 + leeway && LinkY < this->Y + 8 - leeway;
+      int eL = this->X - 16 + leeway;
+      int eR = this->X + this->EffectWidth - leeway;
+      int eU = this->Y - 16 + leeway;
+      int eD = this->Y + this->EffectHeight - 8 - leeway;
+      return (LinkX > eL && LinkX < eR && LinkY > eU && LinkY < eD);
    }
 
    bool checkEnemies() {
@@ -232,7 +218,7 @@ ffc script Shutter {
       for (int i = Screen->NumNPCs; i >= 1; i--) {
          npc n = Screen->LoadNPC(i);
          if (n->Type != NPCT_PROJECTILE && n->Type != NPCT_FAIRY && n->Type != NPCT_TRAP && n->Type != NPCT_GUY)
-            if (!(n->MiscFlags & (1 << 3)))
+            if (!(SizeOfArray(n->Flags) & (1 << 3)))
                return false;
       }
       return true;
@@ -264,29 +250,6 @@ ffc script OpenForItemId {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script OpenForCounterCount {
-   // clang-format on
-   void run(int counterId, int counterValue, bool perm) {
-      if (Screen->State[ST_SECRET])
-         Quit();
-
-      while (true) {
-         if (Game->Counter[counterId] == counterValue) {
-            Screen->TriggerSecrets();
-
-            if (perm)
-               Screen->State[ST_SECRET] = true;
-
-            Audio->PlaySound(SFX_SECRET);
-            return;
-         }
-         Waitframe();
-      }
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
 ffc script ScreenQuakeOnSecret {
    // clang-format on
    void run(int quakePower) {
@@ -303,23 +266,12 @@ ffc script ScreenQuakeOnSecret {
 @Author("Deathrider365")
 ffc script TriggerOnceEnemiesKilled {
    // clang-format on
-   void run(int flag) {
-      int comboD[176];
-
-      for (int i = 0; i < 176; i++)
-         if (Screen->ComboF[i] == flag) {
-            comboD[i] = Screen->ComboD[i];
-            Screen->ComboF[i] = 0;
-         }
-
+   void run() {
       until(Screen->NumNPCs) Waitframe();
+      while (Screen->NumNPCs) Waitframe();
 
-      while (Screen->NumNPCs)
-         Waitframe();
-
-      for (int i = 0; i < 176; i++)
-         if (comboD[i] > 0)
-            Screen->ComboD[i] = comboD[i] + 1;
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET];
    }
 }
 
@@ -359,9 +311,6 @@ ffc script SwitchRemote {
 
       int comboD[176];
 
-      // TODO enhance to enable checking on all layers
-      // mapdata mapData = Game->CurScreen;
-
       for (i = 0; i < 176; i++)
          if (Screen->ComboF[i] == flag) {
             comboD[i] = Screen->ComboD[i];
@@ -385,7 +334,7 @@ ffc script SwitchRemote {
 
       if (pressure) {
          while (true) {
-            until(switchPressed(this->X, this->Y, noLink)) Waitframe();
+            until(switchPressed(this->X, this->Y, noLink, false)) Waitframe();
 
             this->Data = data + 1;
 
@@ -405,7 +354,7 @@ ffc script SwitchRemote {
                if (comboD[i] > 0)
                   Screen->ComboD[i] = nextCombo >= 0 ? nextCombo : comboD[i] + 1;
 
-            while (switchPressed(this->X, this->Y, noLink))
+            while (switchPressed(this->X, this->Y, noLink, false))
                Waitframe();
 
             this->Data = data;
@@ -421,7 +370,7 @@ ffc script SwitchRemote {
          }
       }
       else {
-         until(switchPressed(this->X, this->Y, noLink)) Waitframe();
+         until(switchPressed(this->X, this->Y, noLink, false)) Waitframe();
 
          this->Data = data + 1;
 
@@ -451,38 +400,42 @@ ffc script SwitchRemote {
 @Author("Moosh, Modified by Deathrider365")
 ffc script SwitchTrap {
    // clang-format on
-   void run(int enemyid, int count, int fallSpeed, int perm) {
-      until(switchPressed(this->X, this->Y, false)) Waitframe();
+   void run(int enemyCount, int perm, int enemy1, int enemy2, int enemy3, int screenD, int fallSpeed) {
+      if (getScreenD(screenD)) {
+         this->Data++;
+         Quit();
+      }
+
+      until (switchPressed(this->X, this->Y, false, true)) Waitframe();
 
       this->Data++;
-      Audio->PlaySound(SFX_SWITCH_PRESS);
-      Audio->PlaySound(SFX_SWITCH_ERROR);
 
+      Audio->PlaySound(SFX_SWITCH_PRESS);
       Audio->PlayEnhancedMusic("FSA - Mini Boss Battle.ogg", 1);
 
       npc npcs[255];
 
-      for (int i = 0; i < count; i++) {
+      for (int i = 0; i < enemyCount; i++) {
          int pos = getSpawnPos();
-         npc n = CreateNPCAt(enemyid, ComboX(pos), ComboY(pos));
+         npc n = CreateNPCAt(Choose(enemy1, enemy2, enemy3), ComboX(pos), ComboY(pos));
          npcs[i] = n;
+
          Audio->PlaySound(SFX_FALL);
          n->Z = 176;
 
          for (int j = 0; j < 20; j++) {
-            for (int k = 0; k < count; k++) {
+            for (int k = 0; k < enemyCount; k++) {
                if (npcs[k])
                   npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
             }
             Waitframe();
          }
+
          Waitframe();
       }
 
-      unless(fallSpeed) fallSpeed = 5;
-
       for (int i = 0; i < 60; ++i) {
-         for (int j = 0; j < count; j++)
+         for (int j = 0; j < enemyCount; j++)
             npcs[j]->Z -= npcs[j]->Z < fallSpeed ? npcs[j]->Z : fallSpeed;
          Waitframe();
       }
@@ -490,9 +443,9 @@ ffc script SwitchTrap {
       while (Screen->NumNPCs)
          Waitframe();
 
-      char32 areaMusic[256];
-      Game->LoadDMapData(Game->CurDMap)->GetMusic(areaMusic);
-      Audio->PlayEnhancedMusic(areaMusic, 0);
+      setScreenD(screenD, true);
+
+      MUSIC_INHERIT->Play();
    }
 
    int getSpawnPos() {
@@ -541,381 +494,6 @@ ffc script SwitchTrap {
 }
 
 // clang-format off
-@Author("Moosh"),
-@InitD0("switchCmb"),
-@InitDHelp0("Set this to the combo number used for the unpressed switches."),
-@InitD1("pressure"),
-@InitDHelp1("1 for link to stand on, 2 for a block"),
-@InitD2("perm"),
-@InitDHelp2("Set to 1 to make the secret that's triggered permanent"),
-@InitD3("id"),
-@InitDHelp3("Set to the controller's ID. Set to 0 if the switch is temporary or you're using screen secrets."),
-@InitD4("flag"),
-@InitDHelp4("Set to the flag that specifies the region for the remote secret. If you're using screen secrets instead of remote ones, this can be ignored."),
-@InitD5("sfx"),
-@InitDHelp5("If > 0, specifies a special secret sound. -1 for default, 0 for silent. 7 for secret sound"),
-@InitD6("switchID"),
-@InitDHelp6("If you want the script to remember which switches were pressed after leaving the screen, set to the starting ID for the group of switches. This will reference this ID as well as the next n-1 ID's after that where n is the number of switches in the group. Be careful to thoroughly test that this doesn't bleed into other switch ID's or Screen->D used by other scripts. If you don't want to save the switches' states or the switches are pressure switches, this should be 0."),
-@InitD7("layer"),
-@InitDHelp7("Specifies the layer for the remote secret. Switch combos themselves must still be placed on layer 0.")
-ffc script SwitchHitAll {
-   // clang-format on
-
-   void run(int switchCmb, int pressure, int perm, int id, int flag, int sfx, int switchID) {
-      bool noLink;
-
-      if (pressure == 2) {
-         pressure = 1;
-         noLink = true;
-      }
-
-      int i;
-      int j;
-      int k;
-      int d;
-      long db;
-
-      if (flag == 0)
-         id = 0;
-
-      int comboD[176];
-
-      if (id > 0) {
-         d = Div((id - 1), 32);
-         db = 1bL << ((id - 1) % 32);
-
-         for (i = 0; i < 176; i++)
-            if (Screen->ComboF[i] == flag) {
-               comboD[i] = Screen->ComboD[i];
-               Screen->ComboF[i] = 0;
-            }
-      }
-
-      int switches[34];
-      int switchD[34];
-      long switchDB[34];
-      switchD[0] = switchID;
-      bool switchesPressed[34];
-      k = SizeOfArray(switches) - 2;
-
-      for (i = 0; i < 176 && switches[0] < k; i++)
-         if (Screen->ComboD[i] == switchCmb) {
-            j = 2 + switches[0];
-            switches[j] = i;
-
-            unless(pressure && switchID > 0) {
-               switchD[j] = Div((switchID + switches[0] - 1), 32);
-               switchDB[j] = 1bL << ((switchID + switches[0] - 1) % 32);
-
-               if (Screen->D[switchD[j]] & switchDB[j]) {
-                  switchesPressed[j] = true;
-                  Screen->ComboD[i] = switchCmb + 1;
-                  switches[1]++;
-               }
-            }
-
-            switches[0]++;
-         }
-
-      if (perm) {
-         if (id > 0) {
-            if (Screen->D[d] & db) {
-               for (i = 2; i < switches[0] + 2; i++) {
-                  Screen->ComboD[switches[i]] = switchCmb + 1;
-                  switchesPressed[i] = true;
-               }
-
-               for (i = 0; i < 176; i++)
-                  if (comboD[i] > 0)
-                     Screen->ComboD[i] = comboD[i] + 1;
-
-               while (true) {
-                  Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-                  Waitframe();
-               }
-            }
-         }
-         else if (Screen->State[ST_SECRET]) {
-            for (i = 2; i < switches[0] + 2; i++) {
-               Screen->ComboD[switches[i]] = switchCmb + 1;
-               switchesPressed[i] = true;
-            }
-
-            while (true) {
-               Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-               Waitframe();
-            }
-         }
-      }
-
-      if (pressure) {
-         while (switches[1] < switches[0]) {
-            Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, true, noLink);
-            Waitframe();
-         }
-
-         if (id > 0) {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            for (i = 0; i < 176; i++)
-               if (comboD[i] > 0)
-                  Screen->ComboD[i] = comboD[i] + 1;
-         }
-         else {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            Screen->TriggerSecrets();
-         }
-
-         if (perm) {
-            if (id > 0)
-               Screen->D[d] |= db;
-            else
-               Screen->State[ST_SECRET] = true;
-         }
-      }
-      else {
-         while (switches[1] < switches[0]) {
-            Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-            Waitframe();
-         }
-
-         if (id > 0) {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else if (sfx == -1)
-               Audio->PlaySound(SFX_SECRET);
-            for (i = 0; i < 176; i++)
-               if (comboD[i] > 0)
-                  Screen->ComboD[i] = comboD[i] + 1;
-         }
-         else {
-            if (sfx > 0)
-               Audio->PlaySound(sfx);
-            else
-               Audio->PlaySound(SFX_SECRET);
-
-            Screen->TriggerSecrets();
-         }
-         if (perm) {
-            if (id > 0)
-               Screen->D[d] |= db;
-            else
-               Screen->State[ST_SECRET] = true;
-         }
-      }
-
-      while (true) {
-         Switches_Update(switches, switchD, switchDB, switchesPressed, switchCmb, false, noLink);
-         Waitframe();
-      }
-   }
-
-   void Switches_Update(int[] switches, int[] switchD, int[] switchDB, bool[] switchesPressed, int switchCmb, bool pressure, bool noLink) {
-      if (pressure)
-         switches[1] = 0;
-
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), noLink);
-
-         if (p) {
-            if (p != 2)
-               Screen->ComboD[k] = switchCmb + 1;
-
-            unless(switchesPressed[j]) {
-               Audio->PlaySound(SFX_SWITCH_PRESS);
-
-               if (switchD[0] > 0)
-                  Screen->D[switchD[j]] |= switchDB[j];
-
-               switchesPressed[j] = true;
-
-               unless(pressure) switches[1]++;
-            }
-
-            if (pressure)
-               switches[1]++;
-         }
-         else {
-            if (switchesPressed[j]) {
-               if (pressure) {
-                  Audio->PlaySound(SFX_SWITCH_RELEASE);
-                  Screen->ComboD[k] = switchCmb;
-                  switchesPressed[j] = false;
-               }
-               else if (Screen->ComboD[k] != switchCmb + 1)
-                  Screen->ComboD[k] = switchCmb + 1;
-            }
-         }
-      }
-   }
-}
-
-// clang-format off
-@Author("Moosh")
-ffc script SwitchSequential {
-   // clang-format on
-   // start Instructions
-   //  D0: Set this to the flag marking all the switches on the screen. The order the switches have to be hit in will be determined by their combo numbers.
-   //  D1: Set to 1 to make the secret that's triggered permanent.
-   //  D2: If > 0, specifies a special secret sound. -1 for default, 0 for silent.
-   // end
-
-   void run(int flag, int perm, int sfx) {
-      int i;
-      int j;
-      int k;
-      int switches[34];
-      int switchCmb[34];
-      int switchMisc[8];
-      bool switchesPressed[34];
-      k = SizeOfArray(switches) - 2;
-
-      for (i = 0; i < 176 && switches[0] < k; i++)
-         if (Screen->ComboF[i] == flag) {
-            j = 2 + switches[0];
-            switches[j] = i;
-            switchCmb[j] = Screen->ComboD[i];
-            switches[0]++;
-         }
-
-      int switchOrder[34];
-      Switches_Organize(switches, switchOrder);
-
-      if (perm && Screen->State[ST_SECRET]) {
-         for (i = 0; i < switches[0]; i++)
-            switchesPressed[i + 2] = true;
-
-         while (true) {
-            Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-            Waitframe();
-         }
-      }
-
-      while (switches[1] < switches[0]) {
-         Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, true);
-
-         if (switchMisc[0] == 1) {
-            switchMisc[0] = 0;
-            for (i = 0; i < 30; i++) {
-               Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-               Waitframe();
-            }
-
-            while (Switches_LinkOn(switches)) {
-               Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-               Waitframe();
-            }
-         }
-
-         Waitframe();
-      }
-
-      if (sfx > 0)
-         Audio->PlaySound(sfx);
-      else if (sfx == -1)
-         Audio->PlaySound(SFX_SECRET);
-      Screen->TriggerSecrets();
-
-      if (perm)
-         Screen->State[ST_SECRET] = true;
-
-      for (i = 0; i < switches[0]; i++)
-         switchesPressed[i + 2] = true;
-
-      while (true) {
-         Switches_Update(switches, switchesPressed, switchOrder, switchCmb, switchMisc, false);
-         Waitframe();
-      }
-   }
-
-   void Switches_Organize(int[] switches, int[] switchOrder) {
-      bool banned[34];
-
-      for (int j = 0; j < switches[0]; j++) {
-         int lowest = -1;
-         int lowestIndex = -1;
-
-         for (int i = 0; i < switches[0]; i++) {
-            int c = Screen->ComboD[switches[i + 2]];
-
-            unless(c == -1 && banned[i + 2]) if (lowest == -1 || c < lowest) {
-               lowest = c;
-               lowestIndex = i + 2;
-            }
-         }
-
-         switchOrder[j] = lowestIndex;
-         banned[lowestIndex] = true;
-      }
-   }
-
-   bool Switches_LinkOn(int[] switches) {
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false);
-
-         if (p == 1)
-            return true;
-      }
-      return false;
-   }
-
-   void Switches_Update(int[] switches, bool[] switchesPressed, int[] switchOrder, int[] switchCmb, int[] switchMisc, bool canPress) {
-      bool reset;
-
-      for (int i = 0; i < switches[0]; i++) {
-         int j = i + 2;
-         int k = switches[j];
-         int p = switchPressed(ComboX(k), ComboY(k), false);
-
-         unless(switchesPressed[j]) {
-            unless(p == 2) Screen->ComboD[k] = switchCmb[j];
-
-            if (p && canPress) {
-               if (j == switchOrder[switches[1]]) {
-                  switches[1]++;
-                  Audio->PlaySound(SFX_SWITCH_PRESS);
-                  switchesPressed[j] = true;
-               }
-               else {
-                  switches[1] = 0;
-                  Audio->PlaySound(SFX_SWITCH_ERROR);
-                  reset = true;
-               }
-            }
-         }
-
-         else {
-            unless(p == 2) Screen->ComboD[k] = switchCmb[j] + 1;
-
-            if (p == 0 && canPress) {
-               Audio->PlaySound(SFX_SWITCH_RELEASE);
-               switchesPressed[j] = false;
-            }
-         }
-      }
-
-      if (reset) {
-         switchMisc[0] = 1;
-         for (int i = 0; i < switches[0]; i++) {
-            int j = i + 2;
-            int k = switches[j];
-            int p = switchPressed(ComboX(k), ComboY(k), false);
-            switchesPressed[j] = false;
-         }
-      }
-   }
-}
-
-// clang-format off
 @Author("Deathrider365"),
 @InitD0("map"),
 @InitDHelp0("map to set screenD"),
@@ -930,6 +508,104 @@ ffc script TriggerScreenDFromSecretsElsewhere {
 
       if (mapData->State[ST_SECRET]) {
          setScreenD(screenD, true);
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script MaraudersCoveOpens {
+// clang-format on
+   void run() {
+      if (Game->LoadMapData(89, 0x76)->State[ST_SECRET] && Game->LoadMapData(89, 0x45)->State[ST_SECRET] && Game->LoadMapData(89, 0x25)->State[ST_SECRET]) {
+         Screen->Quake = 20;
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+         Audio->PlaySound(SFX_OOT_SECRET);
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script MaraudersTowerStairs1 {
+// clang-format on
+   void run() {
+      mapdata mapData = Game->LoadTempScreen(1);
+
+      until(getScreenD(0)) {
+         if (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668)
+            setScreenD(0, true);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script MaraudersTowerStairsSecrets {
+// clang-format on
+   void run() {
+      mapdata mapData = Game->LoadTempScreen(1);
+
+      until (mapData->ComboD[33] == 10668 && mapData->ComboD[113] == 10668 && getScreenD(95, 70, 0))
+         Waitframe();
+
+      Screen->TriggerSecrets();
+      Screen->State[ST_SECRET] = true;
+      Audio->PlaySound(SFX_OOT_SECRET);
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script HiddenBooks {
+// clang-format on
+   void run(int triggerMessage, int doneMessage) {
+      loop() {
+         waitForTalking(this, true);
+
+         unless (Screen->State[ST_SECRET]) {
+            Screen->Message(triggerMessage);
+            Waitframe();
+
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+            Audio->PlaySound(SFX_SWITCH_PRESS);
+            Audio->PlaySound(SFX_SECRET);
+         } else
+            Screen->Message(doneMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@InitD0("mapScreen1"),
+@InitDHelp0("map.screen - same for all D#"),
+@Author("Deathrider365")
+ffc script TriggerSecretsFromSecretsElsewhere {
+// clang-format on
+   void run(int mapScreen1, int mapScreen2, int mapScreen3, int mapScreen4, int mapScreen5, int mapScreen6, int mapScreen7, int mapScreen8) {
+      int mapScreens[] = {mapScreen1, mapScreen2, mapScreen3, mapScreen4, mapScreen5, mapScreen6, mapScreen7, mapScreen8};
+      bool allSecretsTriggered = true;
+
+      for (int i = 0; i < 8; ++i) {
+         if (mapScreens[i] > 0) {
+            int map = Floor(mapScreens[i]);
+            int screen = (mapScreens[i] % 1) / 1L;
+
+            unless(Game->LoadMapData(map, screen)->State[ST_SECRET])
+               allSecretsTriggered = false;
+         }
+      }
+
+      if (allSecretsTriggered) {
+         Screen->TriggerSecrets();
+         Screen->State[ST_SECRET] = true;
+         Audio->PlaySound(SFX_SECRET);
       }
    }
 }

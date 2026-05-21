@@ -7,7 +7,7 @@ pits
 
 like warp mazes, have dive mazes
 
-push blocks into water
+DONE - push blocks into water
 
 statues looking at eachother denoting which one to hit (last one looked at is the one to hit)
 
@@ -25,3 +25,11 @@ a situation where the compass beeps but the key is in a pot and not the present 
 unmarked blocks block puzzle
 
 rotating beam of light from forewarned
+
+dusty caverns push the block to erase the floor to find the solution
+
+there is a clone of you and you need to navigate them to switches or something (think FFII)
+
+hit a switch then a timer starts to do something
+
+an array of torches that when lit turns into block all combos, puzzle is to shoot in the right order

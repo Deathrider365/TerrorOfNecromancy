@@ -54,24 +54,6 @@ void yeetHero(int angle, int step, int duration, bool noAction, bool stopAtSolid
 }
 
 // clang-format off
-// @Author("EmilyV")
-// generic script screenPalette {
-//    // clang-format on
-//    void run() {
-//       this->EventListen[GENSCR_EVENT_CHANGE_SCREEN] = true;
-//       int palette = -1;
-//       while (true) {
-//          if (Screen->Palette != palette) {
-//             palette = Screen->Palette;
-//             for (int q = 0; q < MAX_DMAPS; ++q)
-//                Game->LoadDMapData(q)->Palette = palette;
-//          }
-//          WaitEvent();
-//       }
-//    }
-// }
-
-// clang-format off
 @Author("Moosh")
 generic script MinecartGeneric {
    // clang-format on
@@ -147,25 +129,25 @@ generic script MinecartGeneric {
                int cmb = GBMinecarts[MCI_CARTCOMBO];
                int cs = GBMinecarts[MCI_CARTCSET];
                int dir = GBMinecarts[MCI_CARTDIR];
-               Screen->FastCombo(SPLAYER_NPC_DRAW, Link->X, Link->Y, cmb + dir + 4, cs, OP_OPAQUE);
-               Screen->FastCombo(SPLAYER_PLAYER_DRAW, Link->X, Link->Y, cmb + dir + 8, cs, OP_OPAQUE);
+               Screen->FastCombo(SPLAYER_NPC_DRAW, Hero->X, Hero->Y, cmb + dir + 4, cs, OP_OPAQUE);
+               Screen->FastCombo(SPLAYER_PLAYER_DRAW, Hero->X, Hero->Y, cmb + dir + 8, cs, OP_OPAQUE);
             }
             else {
-               if (!CanUseItemInMinecart(Link->ItemA)) {
-                  Link->InputA = false;
-                  Link->PressA = false;
+               if (!CanUseItemInMinecart(Hero->ItemA)) {
+                  Hero->InputA = false;
+                  Hero->PressA = false;
                }
-               if (!CanUseItemInMinecart(Link->ItemB)) {
-                  Link->InputB = false;
-                  Link->PressB = false;
+               if (!CanUseItemInMinecart(Hero->ItemB)) {
+                  Hero->InputB = false;
+                  Hero->PressB = false;
                }
-               if (!CanUseItemInMinecart(Link->ItemX)) {
-                  Link->InputEx1 = false;
-                  Link->PressEx1 = false;
+               if (!CanUseItemInMinecart(Hero->ItemX)) {
+                  Hero->InputEx1 = false;
+                  Hero->PressEx1 = false;
                }
-               if (!CanUseItemInMinecart(Link->ItemY)) {
-                  Link->InputEx2 = false;
-                  Link->PressEx2 = false;
+               if (!CanUseItemInMinecart(Hero->ItemY)) {
+                  Hero->InputEx2 = false;
+                  Hero->PressEx2 = false;
                }
 
                // Move until hitting a platform to get off
@@ -180,24 +162,24 @@ generic script MinecartGeneric {
                   continue;
                }
 
-               Link->X = GBMinecarts[MCI_CARTX];
-               Link->Y = GBMinecarts[MCI_CARTY];
-               Link->FakeZ = MINECART_LINKYOFFSET;
-               Link->FakeJump = 0;
+               Hero->X = GBMinecarts[MCI_CARTX];
+               Hero->Y = GBMinecarts[MCI_CARTY];
+               Hero->FakeZ = MINECART_LINKYOFFSET;
+               Hero->FakeJump = 0;
 
                WaitTo(SCR_TIMING_POST_PLAYER_ANIMATE); // After Link moves
 
-               Link->X = GBMinecarts[MCI_CARTX];
-               Link->Y = GBMinecarts[MCI_CARTY];
-               Link->FakeZ = MINECART_LINKYOFFSET;
-               Link->FakeJump = 0;
+               Hero->X = GBMinecarts[MCI_CARTX];
+               Hero->Y = GBMinecarts[MCI_CARTY];
+               Hero->FakeZ = MINECART_LINKYOFFSET;
+               Hero->FakeJump = 0;
 
                SetSpecialLinkSprite();
                int cmb = GBMinecarts[MCI_CARTCOMBO];
                int cs = GBMinecarts[MCI_CARTCSET];
                int dir = GBMinecarts[MCI_CARTDIR];
-               Screen->FastCombo(SPLAYER_NPC_DRAW, Link->X, Link->Y, cmb + dir + 4, cs, OP_OPAQUE);
-               Screen->FastCombo(SPLAYER_PLAYER_DRAW, Link->X, Link->Y, cmb + dir + 8, cs, OP_OPAQUE);
+               Screen->FastCombo(SPLAYER_NPC_DRAW, Hero->X, Hero->Y, cmb + dir + 4, cs, OP_OPAQUE);
+               Screen->FastCombo(SPLAYER_PLAYER_DRAW, Hero->X, Hero->Y, cmb + dir + 8, cs, OP_OPAQUE);
             }
          }
 
@@ -223,8 +205,9 @@ generic script MinecartGeneric {
    }
    // Move the cart by one step, handling turning. Returns true if dismounting
    bool MoveCart(int cartScript, int trackScript) {
-      Link->ShadowXOffset = 1000;
-      TempLinkState_UnsetCollDetection(1);
+      Hero->ShadowXOffset = 1000;
+      Hero->NoCollisionTimer = 1;
+      // TempLinkState_UnsetCollDetection(1);
       GBMinecarts[MCI_CARTTEMPSTEP] += GBMinecarts[MCI_CARTSPEED];
 
       while (GBMinecarts[MCI_CARTTEMPSTEP] >= 1) {
@@ -261,13 +244,13 @@ generic script MinecartGeneric {
 
                // If turning is allowed, let that influence things
                if (track_canTurn) {
-                  if (Link->InputUp && track_flags & (1 << DIR_UP) && OppositeDir(dir) != DIR_UP)
+                  if (Hero->InputUp && track_flags & (1 << DIR_UP) && OppositeDir(dir) != DIR_UP)
                      newdir = DIR_UP;
-                  else if (Link->InputDown && track_flags & (1 << DIR_DOWN) && OppositeDir(dir) != DIR_DOWN)
+                  else if (Hero->InputDown && track_flags & (1 << DIR_DOWN) && OppositeDir(dir) != DIR_DOWN)
                      newdir = DIR_DOWN;
-                  else if (Link->InputLeft && track_flags & (1 << DIR_LEFT) && OppositeDir(dir) != DIR_LEFT)
+                  else if (Hero->InputLeft && track_flags & (1 << DIR_LEFT) && OppositeDir(dir) != DIR_LEFT)
                      newdir = DIR_LEFT;
-                  else if (Link->InputRight && track_flags & (1 << DIR_RIGHT) && OppositeDir(dir) != DIR_RIGHT)
+                  else if (Hero->InputRight && track_flags & (1 << DIR_RIGHT) && OppositeDir(dir) != DIR_RIGHT)
                      newdir = DIR_RIGHT;
                }
             }
@@ -289,7 +272,7 @@ generic script MinecartGeneric {
             else if (track_id == MTT_LANDINGPAD) {
                GBMinecarts[MCI_CARTDIR] = newdir;
                GBMinecarts[MCI_CARTTEMPSTEP] = 0;
-               Link->ShadowXOffset = 0;
+               Hero->ShadowXOffset = 0;
                Game->FFRules[qr_NO_SCROLL_WHILE_IN_AIR] = GBMinecarts[MCI_NOAIRSCROLL_QR];
                return true;
             }
@@ -323,7 +306,7 @@ generic script MinecartGeneric {
    void TurnLinkWithCart(int oldDir, int newDir) {
       if (!MINECART_TURN_LINK_WITH_CART)
          return;
-      if (Link->Action != LA_NONE || Link->InputUp || Link->InputDown || Link->InputLeft || Link->InputRight)
+      if (Hero->Action != LA_NONE || Hero->InputUp || Hero->InputDown || Hero->InputLeft || Hero->InputRight)
          return;
 
       int sd_old, sd_new;
@@ -341,11 +324,11 @@ generic script MinecartGeneric {
       }
       int turns = ((sd_new - sd_old) + 4) % 4;
       for (int i = 0; i < turns; ++i) {
-         switch (Link->Dir) {
-            case DIR_UP: Link->Dir = DIR_RIGHT; break;
-            case DIR_DOWN: Link->Dir = DIR_LEFT; break;
-            case DIR_LEFT: Link->Dir = DIR_UP; break;
-            case DIR_RIGHT: Link->Dir = DIR_DOWN; break;
+         switch (Hero->Dir) {
+            case DIR_UP: Hero->Dir = DIR_RIGHT; break;
+            case DIR_DOWN: Hero->Dir = DIR_LEFT; break;
+            case DIR_LEFT: Hero->Dir = DIR_UP; break;
+            case DIR_RIGHT: Hero->Dir = DIR_DOWN; break;
          }
       }
    }
@@ -361,19 +344,19 @@ generic script MinecartGeneric {
    }
    // Try to prevent Link from scrolling off the screen
    void PreventScrolling() {
-      if (Link->Y <= 2 && Link->InputUp)
-         Link->InputUp = false;
-      if (Link->Y >= 158 && Link->InputDown)
-         Link->InputDown = false;
-      if (Link->X <= 2 && Link->InputLeft)
-         Link->InputLeft = false;
-      if (Link->X >= 238 && Link->InputRight)
-         Link->InputRight = false;
+      if (Hero->Y <= 2 && Hero->InputUp)
+         Hero->InputUp = false;
+      if (Hero->Y >= 158 && Hero->InputDown)
+         Hero->InputDown = false;
+      if (Hero->X <= 2 && Hero->InputLeft)
+         Hero->InputLeft = false;
+      if (Hero->X >= 238 && Hero->InputRight)
+         Hero->InputRight = false;
    }
    // Sets Link's sprite when in the minecart
    void SetSpecialLinkSprite() {
-      if (MINECART_USE_SPECIAL_RIDING_SPRITES && (Link->Action == LA_NONE || Link->Action == LA_WALKING))
-         TempLinkState_SetLinkTileOverride(Game->ComboTile(GBMinecarts[MCI_CARTCOMBO] + 12 + Link->Dir), 2);
+      if (MINECART_USE_SPECIAL_RIDING_SPRITES && (Hero->Action == LA_NONE || Hero->Action == LA_WALKING))
+         TempLinkState_SetLinkTileOverride(Game->ComboTile(GBMinecarts[MCI_CARTCOMBO] + 12 + Hero->Dir), 2);
    }
    // Gets information about track combos from an xy position
    void GetTrackData(int trackScript, int[] track, int x, int y) {
