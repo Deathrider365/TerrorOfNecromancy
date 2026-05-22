@@ -33,3 +33,7 @@ there is a clone of you and you need to navigate them to switches or something (
 hit a switch then a timer starts to do something
 
 an array of torches that when lit turns into block all combos, puzzle is to shoot in the right order
+
+Like in FoTR, have a room you need to navigate quickly before a timed warp takes you back to the beginning of the room
+
+you get bubbled and have to kill all enemies by pushing them into pits or water with blocks

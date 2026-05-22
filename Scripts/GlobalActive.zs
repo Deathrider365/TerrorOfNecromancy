@@ -71,7 +71,7 @@ global script GlobalScripts {
             unless (Hero->Item[ITEM_JEWEL_OF_MARRE]) {
                flipperPower = Game->LoadItemData(GetHighestLevelItemOwned(IC_FLIPPERS))->Power;
 
-               if (isUnderWater() || HeroIsScrollingOrWarping()) {
+               if ((isUnderWater() && Game->LoadDMapData(Game->CurDMap)->Sideview) || HeroIsScrollingOrWarping()) {
                   if (breathCounter == 0 && timeWithNoBreath % 180 == 0) {
                      drownDamageFrequency -= 5;
                      noBreathDamage++;
