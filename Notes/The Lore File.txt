@@ -714,19 +714,16 @@ the catacombs, but for some reason when the legionnaire fell from the fall of Ae
 becoming an amalgamation, he split in two with each half going to each of the main crypts in the catacombs. At some point in his transformation he sealed his legionnaire ring in an embalming room in the center
 of the catacombs amist various books and supplies that are needed within the catacombs. Upon beating Duorum the way into the emnbalming is open and he can obtain his ring.
 
-<<Level 10: >
+<<Level 10: Infernal Caldera>
 ~ --- ---~
 
-<Secluded Tower>
+<Isolated Spire>
 ~ --- ---~
 
-<Battle Arena 4: >
+<Battle Arena 4: Secluded Alcove>
 ~ --- ---~
 
-<<Level 11: >
-~ --- ---~
-
-<Banished Sanctuary>
+<<Level 11: Towers of Dichotomy>
 ~ --- ---~
 
 <<Level 12: Cathedral of the Accursed>
@@ -766,7 +763,7 @@ goddesses when her existance was wiped from the face of the island. Despite thes
    The latter, is one shrouded in great mystery. On the main floor he finds an alter, it does nothing for him as he would need all 4 triforce to be cleansed. He also finds a stair that leads into the undercroft of the
 temple
 
-<Origin of Death>
+<Shrine of Blasphemy>
 ~ Visage of Death ------~
    basically a phantom ganon-like fight with a shadow of aemulor
 
