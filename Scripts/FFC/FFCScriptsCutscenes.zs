@@ -1756,7 +1756,7 @@ ffc script SummusTabletPedestal {
             Screen->Message(completedMessage);
             Waitframe();
          } else {
-            Audio->PlaySound(SFX_SHUTTER_CLOSE);
+            // Audio->PlaySound(SFX_SHUTTER_CLOSE);
             int tabletShardCount = 0;
 
             if (getScreenD(1))
