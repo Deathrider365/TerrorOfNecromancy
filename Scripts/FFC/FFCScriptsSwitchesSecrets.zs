@@ -426,7 +426,7 @@ ffc script SwitchTrap {
          for (int j = 0; j < 20; j++) {
             for (int k = 0; k < enemyCount; k++) {
                if (npcs[k])
-                  npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed;
+                  npcs[k]->Z -= npcs[k]->Z < fallSpeed ? npcs[k]->Z : fallSpeed; //TODO this still causes this error: sprite::Z | Invalid sprite: null pointer
             }
             Waitframe();
          }
