@@ -432,6 +432,7 @@ global script GlobalScripts {
             break;
          case 59: //NWI Shrouded Forest
             switch (screen) {
+               case 0x64: return 000100b;
                case 0x76: return 000100b;
                case 0x77: return 001000b;
             }
