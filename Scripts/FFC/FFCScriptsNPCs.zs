@@ -309,7 +309,7 @@ ffc script ConflatosNephew {
       }
 
       CONFIG COMBO_NEPHEW_NOT_SMITHING = 5545;
-      CONFIG COMBO_LONELY_ANVIL = 5545;
+      CONFIG COMBO_LONELY_ANVIL = 5848;
 
       loop() {
          mapdata forgeMinesBossRoom = Game->LoadMapData(88, 0x59);
