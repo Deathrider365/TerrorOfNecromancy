@@ -1071,3 +1071,49 @@ ffc script DrawF4Palette {
       Game->LoadDMapData(Game->CurDMap)->Palette = Screen->Palette;
    }
 }
+
+ffc script SideviewElevator {
+   void run (int speed, int distance, int direction) {
+      loop () {
+         if (Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) {
+            int counter = 0;
+
+            until (counter == distance) {
+               NoAction();
+
+               switch(direction) {
+                  case DIR_UP:
+                     this->Y -= speed;
+                     Hero->Y -= speed;
+                     Hero->Dir = DIR_UP;
+                     break;
+                  case DIR_DOWN:
+                     this->Y += speed;
+                     Hero->Y += speed;
+                     Hero->Dir = DIR_DOWN;
+                     break;
+                  case DIR_RIGHT:
+                     this->X += speed;
+                     Hero->X += speed;
+                     Hero->Dir = DIR_RIGHT;
+                     break;
+                  case DIR_LEFT:
+                     this->X -= speed;
+                     Hero->X -= speed;
+                     break;
+                     Hero->Dir = DIR_LEFT;
+               }
+
+               counter++;
+               Audio->PlaySound(SFX_SM_ELEVATOR_LOOP);
+
+               Waitframe();
+            }
+
+            counter = 0;
+         }
+         
+         Waitframe();
+      }
+   }
+}
