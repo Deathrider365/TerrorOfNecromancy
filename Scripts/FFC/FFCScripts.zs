@@ -1075,7 +1075,8 @@ ffc script DrawF4Palette {
 ffc script SideviewElevator {
    void run (int speed, int distance, int direction) {
       loop () {
-         if (Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) {
+         if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) {
+         // if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) && Input->Press[direction]) {
             int counter = 0;
 
             until (counter == distance) {
