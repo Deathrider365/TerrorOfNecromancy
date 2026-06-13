@@ -435,7 +435,3 @@ enum ArcingWeaponEffects {
 
    AE_DEBUG
 };
-
-enum Elevators {
-   ELEVATOR_LV10_ENTRANCE
-};

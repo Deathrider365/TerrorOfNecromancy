@@ -1072,11 +1072,13 @@ ffc script DrawF4Palette {
    }
 }
 
+@Author("Deathrider365")
 ffc script SideviewElevator {
-   void run (int speed, int distance, int direction) {
+   void run (int elevatorIndex, int speed, int distance, int direction, bool isButtonActivated, int upModifier) {
+      int thisData = this->Data;
       int modifiedDirection = direction;
 
-      if (!elevatorsAtHome[ELEVATOR_LV10_ENTRANCE]) {
+      if (!elevatorsAtHome[elevatorIndex]) {
          switch(modifiedDirection) {
             case DIR_UP: 
                modifiedDirection = DIR_DOWN;
@@ -1098,51 +1100,85 @@ ffc script SideviewElevator {
       }
 
       loop () {
-         if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) {
-            int counter = 0;
-            modifiedDirection = direction;
+         this->Data = thisData;
 
-            until (counter == distance) {
+         if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) && Abs(Hero->Y - this->Y) == 16) {
+            //Taking the elevator in in the direction of direction
+            for (int i = distance; i > 0; --i) {
+               if (modifiedDirection == DIR_UP || modifiedDirection == DIR_DOWN)
+                  Hero->X = (this->X + (this->TileWidth * 8)) - 8;
+
+               Hero->Dir = DIR_DOWN;
                NoAction();
 
                switch(modifiedDirection) {
                   case DIR_UP:
                      this->Y -= speed;
-                     Hero->Y -= speed;
-                     Hero->Dir = DIR_UP;
                      break;
                   case DIR_DOWN:
                      this->Y += speed;
-                     Hero->Y += speed;
-                     Hero->Dir = DIR_DOWN;
                      break;
                   case DIR_RIGHT:
                      this->X += speed;
-                     Hero->X += speed;
-                     Hero->Dir = DIR_RIGHT;
                      break;
                   case DIR_LEFT:
                      this->X -= speed;
-                     Hero->X -= speed;
                      break;
-                     Hero->Dir = DIR_LEFT;
                }
 
-               counter++;
                Audio->PlaySound(SFX_SM_ELEVATOR_LOOP);
+
+               
+               // while (HeroIsScrollingOrWarping()) { logic to handle 2 elevators appearing when scrolling
+               //    this->Data = CMB_INVIS;
+               //    Waitframe();   
+               // }
 
                Waitframe();
             }
 
-            Audio->EndSound(SFX_SM_ELEVATOR_LOOP);
+            if (modifiedDirection == DIR_UP)
+               this->Y += upModifier;
 
-            counter = 0;
-            elevatorsAtHome[ELEVATOR_LV10_ENTRANCE] = !elevatorsAtHome[ELEVATOR_LV10_ENTRANCE];
+            //Arrived at your destination, end elevator sound and reversee activation direction
+            Audio->EndSound(SFX_SM_ELEVATOR_LOOP);
+            elevatorsAtHome[elevatorIndex] = !elevatorsAtHome[elevatorIndex];
+
+            switch(modifiedDirection) {
+               case DIR_UP: 
+                  modifiedDirection = DIR_DOWN;
+                  break;
+               case DIR_DOWN: 
+                  modifiedDirection = DIR_UP;
+                  break;
+               case DIR_LEFT:
+                  modifiedDirection = DIR_RIGHT;
+                  break;
+               case DIR_RIGHT: 
+                  modifiedDirection = DIR_LEFT;
+                  break;
+            }
          }
+
 
          while ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) Waitframe();
          
          Waitframe();
       }
+   }
+
+   bool isActivatingElevator(int direction) {
+      switch(direction) {
+         case DIR_UP: 
+            if (Input->Press[CB_DOWN]) return true;
+         case DIR_DOWN: 
+            if (Input->Press[CB_UP]) return true;
+         case DIR_LEFT:
+            if (Input->Press[CB_RIGHT]) return true;
+         case DIR_RIGHT: 
+            if (Input->Press[CB_LEFT]) return true;
+      }
+
+      return false;
    }
 }
