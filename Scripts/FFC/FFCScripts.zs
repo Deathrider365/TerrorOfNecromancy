@@ -1074,15 +1074,38 @@ ffc script DrawF4Palette {
 
 ffc script SideviewElevator {
    void run (int speed, int distance, int direction) {
+      int modifiedDirection = direction;
+
+      if (!elevatorsAtHome[ELEVATOR_LV10_ENTRANCE]) {
+         switch(modifiedDirection) {
+            case DIR_UP: 
+               modifiedDirection = DIR_DOWN;
+               this->Y = this->Y - distance;
+               break;
+            case DIR_DOWN: 
+               modifiedDirection = DIR_UP;
+               this->Y = this->Y + distance;
+               break;
+            case DIR_LEFT:
+               modifiedDirection = DIR_RIGHT;
+               this->X = this->X - distance;
+               break;
+            case DIR_RIGHT: 
+               modifiedDirection = DIR_LEFT;
+               this->X = this->X + distance;
+               break;
+         }
+      }
+
       loop () {
          if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) {
-         // if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) && Input->Press[direction]) {
             int counter = 0;
+            modifiedDirection = direction;
 
             until (counter == distance) {
                NoAction();
 
-               switch(direction) {
+               switch(modifiedDirection) {
                   case DIR_UP:
                      this->Y -= speed;
                      Hero->Y -= speed;
@@ -1111,8 +1134,13 @@ ffc script SideviewElevator {
                Waitframe();
             }
 
+            Audio->EndSound(SFX_SM_ELEVATOR_LOOP);
+
             counter = 0;
+            elevatorsAtHome[ELEVATOR_LV10_ENTRANCE] = !elevatorsAtHome[ELEVATOR_LV10_ENTRANCE];
          }
+
+         while ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) Waitframe();
          
          Waitframe();
       }

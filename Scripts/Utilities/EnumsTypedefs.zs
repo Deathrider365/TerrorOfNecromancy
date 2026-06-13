@@ -23,6 +23,8 @@ int stolenLinkItems[255];
 
 bool auriVillageMusicSet = false;
 
+bool elevatorsAtHome[5] = {true, true, true, true, true};
+
 /*/~~~~~Magnitude~~~~~/*/
 CONFIG INTRO_SCENE_TRANSITION_MULT = 8;
 CONFIG INTRO_SCENE_TRANSITION_FRAMES = 32;
@@ -432,4 +434,8 @@ enum ArcingWeaponEffects {
    AE_ARROW,
 
    AE_DEBUG
+};
+
+enum Elevators {
+   ELEVATOR_LV10_ENTRANCE
 };
