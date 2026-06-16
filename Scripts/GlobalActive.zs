@@ -490,6 +490,16 @@ global script GlobalScripts {
                case 0x25: return 011000b;
             }
             break;
+         case 106: //Lv9 Castle Interitus B1 Armory
+            switch (screen) {
+               case 0x55: return 000100b;
+            }
+            break;
+         case 110: //Lv9 Castle Interitus F1 Library
+            switch (screen) {
+               case 0x13: return 000100b;
+            }
+            break;
          case 124: //NWI Mt. Summus
             switch (screen) {
                case 0x66: return 011000b;
