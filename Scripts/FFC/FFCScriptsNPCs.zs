@@ -1423,3 +1423,18 @@ ffc script SoTranquilLady {
       }
    }
 }
+
+@Author("Deathrider365")
+ffc script RisingFallingLiquid {
+   void run(int combo) {
+      loop() {
+         for (int i = 0; i < 176; i++) {
+            if (Screen->ComboD[i] == combo) {
+               // Make the combo rise and fall
+            }
+         }
+
+         Waitframe();
+      }
+   }
+}
