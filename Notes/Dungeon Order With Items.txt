@@ -152,6 +152,9 @@ Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane S
 
 (10) Level 10: Infernal Caldera					                           - Gale Boomerang (3)
 
+   - Goron clans side quest
+      - Goron Special Crop (2)                                          - Given
+
    - NWI Curios Shop
       - Thief's Wallet (3)                                              - 660
       - Clock of Agility (3)                                            - 1500

@@ -83,6 +83,9 @@
       - Scale 1                        Opening Sequence Leviathan       None + None
       - Scale 2                        Abyssal Depths                   None + Flippers (Level 7)
 
+   - Goron Clan sidequest
+      - Goron Special Crop             Caldum Goron Enclave             None + None
+
 ~~ Other Sequences ~~~
    - Magic Ring                        Level 6                          None + Level 6
       - Shard 1                        Forest Shack                     None + Flippers (Level 7)

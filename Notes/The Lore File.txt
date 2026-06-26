@@ -502,7 +502,7 @@ will find a whirlpool that takes him to an undersea cave. Inside rests his missi
    Throughout Link's exploration with his flippers, he could find himself in an unsuspecting cave on the southern edge of SWI. Upon swimming into the water, he finds himself in a very different, almost alien looking
 place.
 
-<Mysterious Reef: ????>
+<Mysterious Reef: ?????>
 ~Primordial Sea God ---Serris---~
    Link stumbled upon a seemingly untouched undersea sanctuary for some very strange wildlife. It is unknown who created the area as there are hints that it may be a facility of some sort that may have been used to hold and
 study the strange sealife, both flora and fauna. It is completely submerged so without the ability to essentially live under water, there isn't much you can do. With the Jewel of Marre, Link can have free reign. He will find
@@ -583,7 +583,7 @@ arrive in the hideout. After each of them say their piece, Zelda will go into ho
 him to the breach in the wall of the castle's dungeon.
 
 <<Level 9: Castle Interitus>
-~ ---The Necromancer---~
+~ Scholar of Ambition ---The Necromancer---~
 
    Besides Link's side quests to help cleanse Interitus of various evils, he will inevitably find himself at Castle Interitus to confront the Necromancer with the help of the Goddess Faithful. Depending on those
 around the island that he helped, he will find them around the castle providing help along his trek through the massive castle.
@@ -627,7 +627,8 @@ wall, and makes another advance at the Necromancer, this time succeeding to stri
 falls silent and Link is surprised to see the Necromancer down. At this point Zelda enters, she sees Link on the ground and Right Hand breathing heavily with the Necromancer on the ground opposite of Link to Right
 Hand. Confused, she asks what is going on. At that moment suddenly Haeren's triforce splits and vanishes before their eyes. The lethal strike on the Necromancer severly weakens Aemulor's power causing the triforce
 to break and fade, however, one shard remains. Right Hand runs to the Necromancer, it would seem in his last moments the Scholar's free will breaks free, but all Right Hand gets from the Scholar is a foreboding
-message; "You fool, you had the key assembled and now its fragmented. You must not lose the pieces, assemble them all, cleanse it, then enter The Void, destroy him in the realm between realms." with that the Scholar passes.
+message; "You fool, you had the key assembled and now its fragmented. You must not lose the pieces, assemble them all, cleanse it, then enter The Void, destroy him in the realm between realms." with that the Scholar
+passes.
 
    Unknown to anyone but the Scholar, before Aemulor had full control over him he found the solution to truly destroying Aemulor, which is when Aemulor decided it was time to take full control unsurprising.
 The scholar discovered that Aemulor was sealed in a realm known as the Void. The Void is a realm outside of all realms, and the only way in is for a chosed her to be granted access to the Sacred Realm and then by
@@ -635,8 +636,8 @@ unlocking the path to The Void by victory of the Trial of the Goddesses with the
 does his best to tell Right Hand and Link to reassemble Haeren's triforce, cleanse it in the cleansing temple in Pacilux, and enter The Void to destroy Aemulor.
 
    Unfortunately, Aemulor still has power and influence despite being weakened by the splitting of the triforce, he still has enough power to take the mind of Right Hand. Aemulor, as Right Hand, misinforms Link and
-Zelda, that the reason the scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits (not exactly a lie). Lying by saying the triforce itself and haeren was
-an evil goddess, that haeren’s triforce is to blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft.
+Zelda, that the reason the scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits (not exactly a lie). Lying by saying the triforce itself and Haeren was
+an evil goddess, that Haeren’s triforce is to blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft.
 
    Zelda is skeptical that Haeren is an outright evil goddess, but she does not yet know what to believe since this is all news to her. She implores Link to find the remaining shards of dark, in addition to reclaim
 the shards of the golden triforces since she feels that they will need all the assistance that they can get.
@@ -644,7 +645,7 @@ the shards of the golden triforces since she feels that they will need all the a
    From here, Link could meet Right Hand on IoH without completing the triforce of dark or even the golden triforce. However, to complete the triforce of dark he would need to complete Lv10, 11, and 12 in which case
 he would be completing the golden triforce.
 
-   With the this new information in addition to the longshot, Link can now tackle the 3 final main dungeons as well as some other areas that he otherwise could not reach.
+With the this new information in addition to the longshot, Link can now tackle the 3 final main dungeons as well as some other areas that he otherwise could not reach.
 
    Should Link venture back to the Isle of Haeren, with his ability to swim he can now make it over to the eastern side of the island where he will find a mysterious tower built into the side of the promontory.
 Exploring the cave system of IoH, he can find himself there, entering the Bastion of the Profaned Legion.
@@ -712,19 +713,99 @@ today.
    Back when Aemulor first rose to power, he did send his 20 legionnaire about the island to spread his influence, one of them did find themselves in the Summus Catacombs. It is unknown what exactly happened in
 the catacombs, but for some reason when the legionnaire fell from the fall of Aemulor, he seemed to have merged with the other undead down there becoming a sort of amalgamation of ancient undead. In addition to
 becoming an amalgamation, he split in two with each half going to each of the main crypts in the catacombs. At some point in his transformation he sealed his legionnaire ring in an embalming room in the center
-of the catacombs amist various books and supplies that are needed within the catacombs. Upon beating Duorum the way into the emnbalming is open and he can obtain his ring.
+of the catacombs amist various books and supplies that are needed within the catacombs. Upon beating Duorum the way into the embalming is open and he can obtain his ring.
+
+   The area around Mt. Caldum has been too dangerous for Link to venture in thus far, but with his longshot and Red Mail along with his Master Sword, he can even reach the long established Goron Enclave as well as
+the volcano within the caldera in the Caldum wastes. This area of Interitus is engulfed in an intense heat due to the large mountain of Caldum which has active lava flowing through it's caverns. This actively
+flowing lava flows south, making the land at its southern base extremely hot and dangerous with the rivers of lava. Luckily for Celo village at the mountain's north, the lava has only flown south keeping them safe
+on the northern side. However, it is not entirely luck, the great goron elder of Caldum is the reason the lava flows south. It is said that a goron elder of old carved the tunnels within Caldum with the goal of
+creating a goron haven. Mt. Caldum refers to the massive mountain range, but in addition to the dangers of the active lava in Caldum, you also have the caldera at the base of Caldum that has an active volcano. 
+As if the land at the base of Caldum wasn't treacherous enough, you have the Caldum volcano to worry about. It is unknown how there is even vegetation in the Caldum Wastes, but it certainly creates a very unique 
+area on Interitus.
+
+   As mentioned there is a long settled clan of Gorons within the cave system of Caldum. Unlike their brethren of Duratu which have struggled to find a consistent home in Duratu and had to content with a fabled
+goron eater, the gorons of Caldum dominate their mountain and are very cozy in Caldum. As such, the gorons link will encounter in the enclave will be very friendly towards him, albeit very prideful and referring to
+themselves as "true gorons". In addition to this, they will have some choice words about the gorons of Duratu and how they are not "true gorons". Link gathers that there is some unknown beef between these two clans 
+of gorons, and it isnt until he speaks to the elder of the Caldum clan that things start to make sense. The elder will first welcome link with open arms, but he has no knowledge of who he is as well as the events 
+going on surfaceside. He is shocked to hear that there is a necromancer wreacking havoc on the island, but does not seem too concerned. This clan of gorons are very much secluded and like to keep to their own. 
+In their history, they have taken pride in being independent and believe a "true goron" is one that can take care of themselves without any external help. The current goron elder refers link to a stone tablet that
+apparently depicts a legend of the gorons. 
+
+   "At the conception of the rock, there were born two gorons; Duratu, and Caldum. They founded the vast mountains on Vita, and from the mountains were born the goron peoples. The Great Goron brothers were very 
+reverent and knew their place in the world however, where Duratu had a great care for all people, Caldum had far more care for gorons exclusively and did not share his brother's care for non gorons. Time passed, 
+humans found themselves on Vita and some settled on Duratu. The intense heat and active danger from flowing lava deterred any humans from settling on Caldum. As a result Duratu became accustomed to interacting with
+humans and considered them great friends, whereas Caldum remainded secluded within Mt. Caldum with his tribe of gorons. On one fateful day, the brothers were at odds with each other. The humans living on the surface 
+of Mt. Duratu were struggling to survive the devastating cold, and Duratu wanted Caldum's help to carve tunnels from within the mountain to the surface to bestow the humans with heat in their homes. Caldum felt it 
+was blasphemous for his brother to want to release the great heat of Duratu for humans and considered it a waste of the mountain's energy. This caused a falling out between the brothers and left the Caldum tribe
+greatly detached from the outside world."
+
+   Despite the distain toward humans that the ancient gorons had, the Caldum gorons of today seemed to have lost some of their distaste for humans, but the elder only respected Link because he managed to make his
+way into the enclave and found that impressive for a human. After seemingly mulling over the news of the events on the surface, the goron elder opens up to link. Where this tribe of gorons has been living in comfort, 
+he mentions that he does have a concern about their existance. 
+
+   Much like the danger that Volvagia posed to the gorons on Hyrule, there apparently is a twin brother to the dreaded goron-eating spirit of Death Mountain here on Interitus known as Riafron. Similarly to 
+Volvagia, Riafron does eat all rocks and rock people, but unlike Volvagia, Riafron was not defeated by a goron warrior, but rather Aemulor himself. During the Calamity of Vita, Aemulor dug deep in his iron mine on
+the eastern side of the Caldum wastes and ventured into volcano in search of more ores and materials for his conquest. Instead he found the lair to Riafron. Like with the other beasts Aemulor encountered, he tried
+to command it, Riafron could not be commanded. They had a great battle in the bowels of the volcano, despite the power of the great inferno dragon, aemulor and his legionnaiers were able to fell the beast.
+
+   The elder tells like about Riafron, and what he is. He also tells like about a prophecy that Duratu gave Caldum when they disowned eachother; 
+      
+      "That mountain will be your downfall! Gorons alone cannot stop the darkness of this world! Should you seclude yourself further, you will cease to exist!"
+
+   This prophecy combined with the knowledge that there is a goron devouing dragon under their feet has made the Caldum descendent restless, and seeing a strong looking human coming into the enclave gives the elder
+hope. He asks if Link would venture into the volcano and vanquish the dragon. Venturing throughout the cave system of Caldum, Link will find himself at the foot of the caldera and onward, the volcano
 
 <<Level 10: Infernal Caldera>
-~ --- ---~
+~ Ravenous Inferno Serpent---Riafron---~
+
+   Once inside the volcano Link will obviously find a lot of running lava and some very violent monsters. He will also find mining infrastructure that is worn almost beyond belief, but some functioning elevators
+would be found to lower him deeper and deeper into the volcano. Inside the volcano Link will find an artifact used to help cool the lava in the volcano; The Gale Boomerang, able to, from a safe distance, cool even
+the hottest of lava. After altering the flow of lava to allow deeper passage into the earth, Link will eventually find the lair of Riafron the Ravenous.
+
+   Defeating Riafron, and returning to the Caldum elder, Link will find he is beyond greatful and will always consider link a hero among gorons, and even a "true goron" Further discussion with the elder will reveal
+that he secretly wants to reunite with the Duratu clan, as he has always been alone and wishes to know is long estranged brother in the elder of Duratu. Should link further speak with the elder of Caldum, he will
+find himself on a back and forth talk with the elder of Caldum and Duratu. Eventually the Duratu elder, still at Castle Interitus, will come and visit the Caldum elder in his main chamber. They both agree the age old
+beef is not worth it with everything going on Interitus, and with the Necromancer being defeated this is a good opportunity to reunite the clans for a better future for Interitus (of course they do not know that
+Aemulor is not gone). Both elders agree and the clans are no longer at odds with each other. Link is named a "true goron" by both clans of goron, and as a result gets an upgrade to his powder kegs in the goron
+special crop.
+
+   With his Gale Boomerang, Link is able to gain access to a secluded tower on the northwestern side of the island. On Mt. Summus there is a spire that was built in secret. It would seem it was build to keep a close 
+eye on all of the major locations on Interitus; Castle Interitus, Auri Desert, and Pacilux Village. Only accessible by those who command the power of winds can gain access and traverse this sky-reaching spire. It is
+not truly known who built it and why it was built, one can only speculate its purpose based on its magnificent height and its location. It has a great view of both Castle Interitus and Pacilux village which were major
+locations during the start of the Calamity of Vita. It is also just across the Auri Lake with a great view of where the now Sealed Abyss lays. It was not built by any kingdoms of Vita or even the invaders such as
+Ignav.
 
 <Isolated Spire>
-~ --- ---~
+~ Guardian of the Wand --- Arcane Golem ---~
+   Link ventures into the spire and finds some technology not familiar to him, convenient that his Gale Boomerang can trigger many of the traps and such within, but also the wand. Eventually within Link will find a 
+grand treasure room that requires him to expertly use his gale boomerang and wand to gain access to the check containing the Elder Wand. 
+
+   Ignav was one of the greatest pirates and mages to ever exist, but even before him was one of greater magnitude. This grandfather of all magic folk is the manufacturer of what is known as the Elder Wand. A rod
+made to perfectly command the powers of magic. Its magic bursts are like nothing found out of any other wand or magical being that can materialize magic. Even in the time of Ignav the tale of the Elder Wand is
+practically a myth. It is unknown who really made the wand, some say it was a demon of death who took a branch from a tree of life and was able to materialize magic, some say it was simply a supremely gifted mage.
+All that is known is that once Link acquires the wand, he is taken into a realm between realms, perhaps where this intense magic originates, and has to fight the spirit of the wand materialized as the Arcane Golem
+
+   Also with his Gale Boomerang Link is able to enter a small structure on the southernmost coast of Interitus. Inside Link will find a interesting combination of beings. 
 
 <Battle Arena 4: Secluded Alcove>
 ~ --- ---~
 
+   Inside this alcove is a conglomeration of monsters, and Hylian soldiers. The soldiers tell Link that they all defected from the Necromancer and that the monsters inside the alcove took them in as they didnt have
+an interest in hurting the soldiers, well, at least not in the typical sense. What the alcove is is a sort of fight club, they all combat each other in sport and training. Every monster in the alcove becomes an
+adversary in the arena. Should Link reign supreme over all of the residents in the alcove he will be awarded the strongest bow on Interitus.
+
+   Throughout Link's journeys around the southern end of Interitus, he would have come near two large towers, sealed and intimidating in scale. Much like the Secluded Spire, these towers are curious, no one alive
+knows anything about them nor how to even enter. With Link's Longshot he can find his way into either the snowy tower or the firey tower.
+
 <<Level 11: Towers of Dichotomy>
 ~ --- ---~
+
+
+
+<CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE>
+
+
+
 
 <<Level 12: Cathedral of the Accursed>
 ~The Forgotten ---Oblitem---~
