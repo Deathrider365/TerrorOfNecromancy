@@ -161,14 +161,15 @@ Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane S
       - Swindler's Guide (3)                                            - 1325
 
 (24) Optional Dungeon 8: Isolated Spire                                 - Elder Wand (2)
-Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
 
-(11) Level 11: Towers of Dichotomy				                           - Elemental Rod or Rod of Antithesis (1)
+(11) Level 11: Towers of Dichotomy				                           - Rod of Elements (1), Rod of Frostfire (2)
 can buy in carulem at some point Diver's Flippers (2)
+
+Battle Arena 4: Secluded Alcove                                         - Marksman's Bow (3)
+Auri Desert Wastes                                                      - Nothing
 
 (12) Level 12: Cathedral of the Accursed			                        - Mirror Shield (3)
 (25) Optional Dungeon 10: Shrine of Blasphemy                           - Portal Sphere
-
 
 Goddess Sword is obtained once you have all shards to the golden triforces and you go to a Golden Link statue
 Goddess Mail is obtained once you have all shards to the golden triforces and you go to a different Golden Link statue

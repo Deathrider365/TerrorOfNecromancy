@@ -25,7 +25,7 @@ Unfortunately for him there was only one reliable source in the Krahzen mountain
 that was easily molded, not even Aemulor could mutate it. Therefore he captured the best smiths on the island, a small family that had already made most of the island's weapons and armor,
 to work with it. They succedded in mutating it, giving Aemulor the ability to create talismens that could reveal to him the lifeforce of most living things around him.
 
-   It was time to make a move, Aemulor's power had peaked, being able to effortlessly exert his intentions on nearly any living and non living being on Vita, it was time to seize the
+   Aemulor's power had peaked, being able to effortlessly exert his intentions on nearly any living and non living being on Vita, it was time to seize the
 kingdom and overthrow the king. The king, already having suspicion that Aemulor would attempt a coup, was ready and had his castle fortified to the highest degree. During the siege, the
 king could see his soldiers stood no chance, as not only was Aemulor powerful, but he enhanced his legion with better armamants as well as by awakening great beasts that were thought of
 as only legend. Bearing new armor and weapons infused with darkness under the name Undead Legion, as they were all enhanced living dead soldiers that could not die unless Aemulor deemed it
@@ -371,34 +371,16 @@ if they had a grappling hook they could take a pass behind the castle to reach A
 With his hookshot in hand he is able to traverse the cave system as well as the desert outside. <Insert info about the boss>
 Now on the other side of the pass, he can access Auri Desert North on the trek to the explosives expert.
 
-Upon reaching the engineer's brother's bomb shop, he is greeted by the brother who is excited that he has cracked the code for making large explosives. Link can now buy Powder Kegs from him.
-With Powder Kegs at Link's disposal, he can now access Mt. Duratu or Carulem Archipelago, as well as solve the plague of the unending storm of Auri Village.
+   Upon reaching the engineer's brother's bomb shop, he is greeted by the brother who is excited that he has cracked the code for making large explosives. Link can now buy Powder Kegs from him.
+With Powder Kegs at Link's disposal, he can now access Mt. Duratu or Carulem Archipelago.
 
    Should he choose to investigate the sealed building in Auri Village, he is presented with a worn sign out front that mentions the well has dried up and discourages entry. Upon using his new advanced
 explosives, Link blows through the rocks sealing the building. Entering inside he is presented is a very dirty room with rocks and rubble everywhere, centralized around the bone-dry well. Another sign
 near the well reads a foreboding message about leaving ancient things that were sealed up well alone from the Goddess Faithful. Link ignores all of these warning and proceeds to use another powder Keg
 on the well which reveals a spiral staircase. What follows is a long darkening passageway with more powder keg barriers and at the end, a very ancient structure which Link enters.
 
-<Optional Dungeon 1: Sealed Abyss>
-~Shadow of Aemulor ---The Morsa---~
-   Is is very dark and cramped inside the deep decrepit structure to make is hard for what is sealed to escape and for intruders to enter, for this was the tomb for a very powerful ancient being that
-Aemulor had in his ranks in the Calamity of Vita. Upon its demise, its remains were stored here, deep and heavily secured as it's flesh was so imbued with darkness the Faithful didn't want to risk it
-being brough back to the world. Not even Aemulor knew where it came from or what it's potential was, but it seemed to bend to the will of the Triforce of Darkness and did Aemulor's bidding
-and was referred to as the Morsa, which in other languages means death. What he did not know is that this was a malevolent spirit that existed before the kingdom of Vita was established, but it seemed to
-always exist on the island for some reason. During the Calamity of Vita, Aemulor awakened with with the potency of his darkness and the unrest, death and fear seemed to bring it to life and make it
-active, joining the fray of the war. Eventually it joined Aemulor's ranks since it seemed to respect Aemulor. Once the war was lost the ancient Goddess Faithful constructed the tomb / prison for it, and
-buried it under a heavy stone building within Auri Village. They placed a well in said building to make the entrance to the tomb hide in plain sight. Upon entering the tomb, the darkness within begins to
-stir and Link will encounter many fell entities within. Among those fell entities is the dreaded Deadhand which Link may encounter. It is a creation of Morsa from the flesh of those it claimed.
-Upon a first encounter with Morsa, Link will find that it flees deeper into the tomb. Upon its fleeing it drops its weapon; the Dispelled Cane. Dispelled because the true power of the cane was sealed in
-the depths of the tomb. Should Link find where that magic is sealed and rupture it with the cane, it will reabsorb that energy to become the dark infused Spectral Cane. With the Spectral Cane Link can
-venture into the deeped depths of the tomb and eventually encounter the dreaded Deadhand as well as the weakened Morsa, should he do so and vanquish both of them, they will be truly destroyed. Although,
-should Link weaken Morsa and let it stew in the depths without truly vanishing it, it will be released on the world as well as it's Deadhand. Should Link encounter the weakened Morsa without having already
-defeating Deadhand, then he will have to face them both simultaneously. Either way, so long as Link defeats Morsa once, just that alone will free Auri Village of the everstorm caused by Morsa.
 
-   Upon leaving the tomb Link will find a more lively Auri Village. With the everstorm done the residents are able to once again enjoy the light and calm of their village. As a result Link can enjoy the
-resident shop as well as the legendary Auri library, where he can read a lot of Vita's history. But right after leaving, he is encountered by the guard that stands at Auri Village's entrance. He informs
-Link that because he helped Auri Village regain it's livability, he figures that if there is anyone that can stop the Necromancer it is he, therefore he opens the gate at the entrance of Auri Village,
-allowing Link to both enter Auri Desert North, as well as revisit NEI. However, he cannot see much in Auri Desert North due to not having the flippers.
+   <WHERE SEALED ABYSS WAS BEFORE CHANGES>
 
    One thing that Link can do now that he has access to the northeastern side of Interitus is he can use his raft to sail back to the Isle of Haeren. The monsters here have gained in strength, and are
 even stronger on the eastern side of the island. Link may want to wait until level 7 before continuing forward but should he push on (it is possible) he will find an ancient outpost.
@@ -461,10 +443,10 @@ him. Link then heads to the north eastern side of the archipelago to the elder's
 elder. Talking with the elder he finds him raving incoherently, eventually he notices Link, once he does he simply jumps into the pool of water in the room without speaking a word. Following him Link finds himself
 in a deep chamber. Confronting the elder, he informs Link that it is his turn to inherit the great power of the Natavora (swim devourer) and there is nothing Link can do to stop him. There is an essence of fear to
 his voice, as if he doesn't want the power he has apparently inherited. He then transforms into a giant fish. The Great Fish Natavora, is an ancient beast that takes the form of a fish, and feasts on the denizens
-of the ocean. As the ages pass, it's spirit moves from being to being as a kind of avatar, morphing them into the likeness of the great fish. During the Calamity, Ignav conjured it up as commanded it to seek out the 
-Jewel of Marre. Upon Ignav's defeat, the beast was left to its own devices, holding up in the Carulem region. Now, with the Necromancer's rise on the island, it appeared that the spirit of this great beast arose, and 
-chose the elder of the Carulem Zoras. Just before losing control of himself, the elder tells Link to not tell his son what happened to him, and that the he is now the elder. Also, he tells Link to tell his son that he 
-loves him, farewell. He then fully becomes the Navatora and they battle. Upon defeat the spirit of the Navatora can be seen leaving the elder and vanishing, just before the elder vanishes, a key falls to the bottom of 
+of the ocean. As the ages pass, it's spirit moves from being to being as a kind of avatar, morphing them into the likeness of the great fish. During the Calamity, Ignav conjured it up as commanded it to seek out the
+Jewel of Marre. Upon Ignav's defeat, the beast was left to its own devices, holding up in the Carulem region. Now, with the Necromancer's rise on the island, it appeared that the spirit of this great beast arose, and
+chose the elder of the Carulem Zoras. Just before losing control of himself, the elder tells Link to not tell his son what happened to him, and that the he is now the elder. Also, he tells Link to tell his son that he
+loves him, farewell. He then fully becomes the Navatora and they battle. Upon defeat the spirit of the Navatora can be seen leaving the elder and vanishing, just before the elder vanishes, a key falls to the bottom of
 the room. Without much explanation Link grabs the key and returns to the elder's son.
 
    Returning to the elder's son, Link tells him that his father was gone and that he is now the elder. The son is saddened, but can't be affected too much by his father's passing as he now needs to start being a leader.
@@ -578,12 +560,38 @@ around it. The miner of this account mentions standing still and the demon did n
 extreme heat and attacking with fire and even enflamed bats. Perhaps the miners dug into it's home and released it upon the mines and it is defending its home, considering it never left the mines for as long
 as it has been active.
 
+   Throughout his journeys Link will have found himself in and out of Auri village, unable to help them with their pleight. With his magic wand, Link can now enter the eerie structure looming from under
+Auri Village.
+
+<Optional Dungeon 1: Sealed Abyss>
+~Shadow of Darkness ---The Morsa---~
+~Puppet of Flesh ---Deadhand---~
+
+   Is is very dark and cramped inside the deep decrepit structure to make is hard for what is sealed to escape and for intruders to enter, for this was the tomb for a very powerful ancient being that
+Aemulor had in his ranks in the Calamity of Vita. Upon its demise, its remains were stored here, deep and heavily secured as it's flesh was so imbued with darkness the Faithful didn't want to risk it
+being brough back to the world. Not even Aemulor knew where it came from or what it's potential was, but it seemed to bend to the will of the Triforce of Darkness and did Aemulor's bidding
+and was referred to as the Morsa, which in other languages means death. What he did not know is that this was a malevolent spirit that existed before the kingdom of Vita was established, but it seemed to
+always exist on the island for some reason. During the Calamity of Vita, Aemulor awakened with with the potency of his darkness and the unrest, death and fear seemed to bring it to life and make it
+active, joining the fray of the war. Eventually it joined Aemulor's ranks since it seemed to respect Aemulor. Once the war was lost the ancient Goddess Faithful constructed the tomb / prison for it, and
+buried it under a heavy stone building within Auri Village. They placed a well in said building to make the entrance to the tomb hide in plain sight. Upon entering the tomb, the darkness within begins to
+stir and Link will encounter many fell entities within. Among those fell entities is the dreaded Deadhand which Link may encounter. It is a creation of Morsa from the flesh of those it claimed.
+Upon a first encounter with Morsa, Link will find that it flees deeper into the tomb. Upon its fleeing it drops its weapon; the Dispelled Cane. Dispelled because the true power of the cane was sealed in
+the depths of the tomb. Should Link find where that magic is sealed and rupture it with the cane, it will reabsorb that energy to become the dark infused Spectral Cane. With the Spectral Cane Link can
+venture into the deeped depths of the tomb and eventually encounter the dreaded Deadhand as well as the weakened Morsa, should he do so and vanquish both of them, they will be truly destroyed. Although,
+should Link weaken Morsa and let it stew in the depths without truly vanishing it, it will be released on the world as well as it's Deadhand. Should Link encounter the weakened Morsa without having already
+defeating Deadhand, then he will have to face them both simultaneously. Either way, so long as Link defeats Morsa once, just that alone will free Auri Village of the everstorm caused by Morsa.
+
+   Upon leaving the tomb Link will find a more lively Auri Village. With the everstorm done the residents are able to once again enjoy the light and calm of their village. As a result Link can enjoy the
+resident shop as well as the legendary Auri library, where he can read a lot of Vita's history. But right after leaving, he is encountered by the guard that stands at Auri Village's entrance. He informs
+Link that because he helped Auri Village regain it's livability, he figures that if there is anyone that can stop the Necromancer it is he, therefore he opens the gate at the entrance of Auri Village,
+allowing Link to both enter Auri Desert North, as well as revisit NEI. However, he cannot see much in Auri Desert to the east until he has a longer hookshot.
+
    Should Link go back to the Goddess Faithful hideout next, he will be met with an intervention hosted by Zelda. Each person that Link helped and pointed to the goddess faithful throughout his journey will
 arrive in the hideout. After each of them say their piece, Zelda will go into how the siege will go. Once done everyone will move out to Castle Interitus. Link will evenually find himself in the cave that takes
 him to the breach in the wall of the castle's dungeon.
 
 <<Level 9: Castle Interitus>
-~ Scholar of Ambition ---The Necromancer---~
+~Scholar of Ambition ---The Necromancer---~
 
    Besides Link's side quests to help cleanse Interitus of various evils, he will inevitably find himself at Castle Interitus to confront the Necromancer with the help of the Goddess Faithful. Depending on those
 around the island that he helped, he will find them around the castle providing help along his trek through the massive castle.
@@ -719,37 +727,37 @@ of the catacombs amist various books and supplies that are needed within the cat
 the volcano within the caldera in the Caldum wastes. This area of Interitus is engulfed in an intense heat due to the large mountain of Caldum which has active lava flowing through it's caverns. This actively
 flowing lava flows south, making the land at its southern base extremely hot and dangerous with the rivers of lava. Luckily for Celo village at the mountain's north, the lava has only flown south keeping them safe
 on the northern side. However, it is not entirely luck, the great goron elder of Caldum is the reason the lava flows south. It is said that a goron elder of old carved the tunnels within Caldum with the goal of
-creating a goron haven. Mt. Caldum refers to the massive mountain range, but in addition to the dangers of the active lava in Caldum, you also have the caldera at the base of Caldum that has an active volcano. 
-As if the land at the base of Caldum wasn't treacherous enough, you have the Caldum volcano to worry about. It is unknown how there is even vegetation in the Caldum Wastes, but it certainly creates a very unique 
+creating a goron haven. Mt. Caldum refers to the massive mountain range, but in addition to the dangers of the active lava in Caldum, you also have the caldera at the base of Caldum that has an active volcano.
+As if the land at the base of Caldum wasn't treacherous enough, you have the Caldum volcano to worry about. It is unknown how there is even vegetation in the Caldum Wastes, but it certainly creates a very unique
 area on Interitus.
 
    As mentioned there is a long settled clan of Gorons within the cave system of Caldum. Unlike their brethren of Duratu which have struggled to find a consistent home in Duratu and had to content with a fabled
 goron eater, the gorons of Caldum dominate their mountain and are very cozy in Caldum. As such, the gorons link will encounter in the enclave will be very friendly towards him, albeit very prideful and referring to
-themselves as "true gorons". In addition to this, they will have some choice words about the gorons of Duratu and how they are not "true gorons". Link gathers that there is some unknown beef between these two clans 
-of gorons, and it isnt until he speaks to the elder of the Caldum clan that things start to make sense. The elder will first welcome link with open arms, but he has no knowledge of who he is as well as the events 
-going on surfaceside. He is shocked to hear that there is a necromancer wreacking havoc on the island, but does not seem too concerned. This clan of gorons are very much secluded and like to keep to their own. 
+themselves as "true gorons". In addition to this, they will have some choice words about the gorons of Duratu and how they are not "true gorons". Link gathers that there is some unknown beef between these two clans
+of gorons, and it isnt until he speaks to the elder of the Caldum clan that things start to make sense. The elder will first welcome link with open arms, but he has no knowledge of who he is as well as the events
+going on surfaceside. He is shocked to hear that there is a necromancer wreacking havoc on the island, but does not seem too concerned. This clan of gorons are very much secluded and like to keep to their own.
 In their history, they have taken pride in being independent and believe a "true goron" is one that can take care of themselves without any external help. The current goron elder refers link to a stone tablet that
-apparently depicts a legend of the gorons. 
+apparently depicts a legend of the gorons.
 
-   "At the conception of the rock, there were born two gorons; Duratu, and Caldum. They founded the vast mountains on Vita, and from the mountains were born the goron peoples. The Great Goron brothers were very 
-reverent and knew their place in the world however, where Duratu had a great care for all people, Caldum had far more care for gorons exclusively and did not share his brother's care for non gorons. Time passed, 
+   "At the conception of the rock, there were born two gorons; Duratu, and Caldum. They founded the vast mountains on Vita, and from the mountains were born the goron peoples. The Great Goron brothers were very
+reverent and knew their place in the world however, where Duratu had a great care for all people, Caldum had far more care for gorons exclusively and did not share his brother's care for non gorons. Time passed,
 humans found themselves on Vita and some settled on Duratu. The intense heat and active danger from flowing lava deterred any humans from settling on Caldum. As a result Duratu became accustomed to interacting with
-humans and considered them great friends, whereas Caldum remainded secluded within Mt. Caldum with his tribe of gorons. On one fateful day, the brothers were at odds with each other. The humans living on the surface 
-of Mt. Duratu were struggling to survive the devastating cold, and Duratu wanted Caldum's help to carve tunnels from within the mountain to the surface to bestow the humans with heat in their homes. Caldum felt it 
+humans and considered them great friends, whereas Caldum remainded secluded within Mt. Caldum with his tribe of gorons. On one fateful day, the brothers were at odds with each other. The humans living on the surface
+of Mt. Duratu were struggling to survive the devastating cold, and Duratu wanted Caldum's help to carve tunnels from within the mountain to the surface to bestow the humans with heat in their homes. Caldum felt it
 was blasphemous for his brother to want to release the great heat of Duratu for humans and considered it a waste of the mountain's energy. This caused a falling out between the brothers and left the Caldum tribe
 greatly detached from the outside world."
 
    Despite the distain toward humans that the ancient gorons had, the Caldum gorons of today seemed to have lost some of their distaste for humans, but the elder only respected Link because he managed to make his
-way into the enclave and found that impressive for a human. After seemingly mulling over the news of the events on the surface, the goron elder opens up to link. Where this tribe of gorons has been living in comfort, 
-he mentions that he does have a concern about their existance. 
+way into the enclave and found that impressive for a human. After seemingly mulling over the news of the events on the surface, the goron elder opens up to link. Where this tribe of gorons has been living in comfort,
+he mentions that he does have a concern about their existance.
 
-   Much like the danger that Volvagia posed to the gorons on Hyrule, there apparently is a twin brother to the dreaded goron-eating spirit of Death Mountain here on Interitus known as Riafron. Similarly to 
+   Much like the danger that Volvagia posed to the gorons on Hyrule, there apparently is a twin brother to the dreaded goron-eating spirit of Death Mountain here on Interitus known as Riafron. Similarly to
 Volvagia, Riafron does eat all rocks and rock people, but unlike Volvagia, Riafron was not defeated by a goron warrior, but rather Aemulor himself. During the Calamity of Vita, Aemulor dug deep in his iron mine on
 the eastern side of the Caldum wastes and ventured into volcano in search of more ores and materials for his conquest. Instead he found the lair to Riafron. Like with the other beasts Aemulor encountered, he tried
 to command it, Riafron could not be commanded. They had a great battle in the bowels of the volcano, despite the power of the great inferno dragon, aemulor and his legionnaiers were able to fell the beast.
 
-   The elder tells like about Riafron, and what he is. He also tells like about a prophecy that Duratu gave Caldum when they disowned eachother; 
-      
+   The elder tells like about Riafron, and what he is. He also tells like about a prophecy that Duratu gave Caldum when they disowned eachother;
+
       "That mountain will be your downfall! Gorons alone cannot stop the darkness of this world! Should you seclude yourself further, you will cease to exist!"
 
    This prophecy combined with the knowledge that there is a goron devouing dragon under their feet has made the Caldum descendent restless, and seeing a strong looking human coming into the enclave gives the elder
@@ -769,7 +777,7 @@ beef is not worth it with everything going on Interitus, and with the Necromance
 Aemulor is not gone). Both elders agree and the clans are no longer at odds with each other. Link is named a "true goron" by both clans of goron, and as a result gets an upgrade to his powder kegs in the goron
 special crop.
 
-   With his Gale Boomerang, Link is able to gain access to a secluded tower on the northwestern side of the island. On Mt. Summus there is a spire that was built in secret. It would seem it was build to keep a close 
+   With his Gale Boomerang, Link is able to gain access to a secluded tower on the northwestern side of the island. On Mt. Summus there is a spire that was built in secret. It would seem it was build to keep a close
 eye on all of the major locations on Interitus; Castle Interitus, Auri Desert, and Pacilux Village. Only accessible by those who command the power of winds can gain access and traverse this sky-reaching spire. It is
 not truly known who built it and why it was built, one can only speculate its purpose based on its magnificent height and its location. It has a great view of both Castle Interitus and Pacilux village which were major
 locations during the start of the Calamity of Vita. It is also just across the Auri Lake with a great view of where the now Sealed Abyss lays. It was not built by any kingdoms of Vita or even the invaders such as
@@ -777,46 +785,100 @@ Ignav.
 
 <Isolated Spire>
 ~ Guardian of the Wand --- Arcane Golem ---~
-   Link ventures into the spire and finds some technology not familiar to him, convenient that his Gale Boomerang can trigger many of the traps and such within, but also the wand. Eventually within Link will find a 
-grand treasure room that requires him to expertly use his gale boomerang and wand to gain access to the check containing the Elder Wand. 
+   Link ventures into the spire and finds some technology not familiar to him, convenient that his Gale Boomerang can trigger many of the traps and such within, but also the wand. Eventually within Link will find a
+grand treasure room that requires him to expertly use his gale boomerang and wand to gain access to the check containing the Elder Wand.
 
    Ignav was one of the greatest pirates and mages to ever exist, but even before him was one of greater magnitude. This grandfather of all magic folk is the manufacturer of what is known as the Elder Wand. A rod
 made to perfectly command the powers of magic. Its magic bursts are like nothing found out of any other wand or magical being that can materialize magic. Even in the time of Ignav the tale of the Elder Wand is
 practically a myth. It is unknown who really made the wand, some say it was a demon of death who took a branch from a tree of life and was able to materialize magic, some say it was simply a supremely gifted mage.
 All that is known is that once Link acquires the wand, he is taken into a realm between realms, perhaps where this intense magic originates, and has to fight the spirit of the wand materialized as the Arcane Golem
 
-   Also with his Gale Boomerang Link is able to enter a small structure on the southernmost coast of Interitus. Inside Link will find a interesting combination of beings. 
+   Throughout Link's journeys around the southern end of Interitus, he would have come near two large towers, sealed and intimidating in scale. Much like the Secluded Spire, these towers are curious, no one alive
+knows anything about them nor how to even enter. With Link's Longshot he can find his way into either the snowy tower or the firey tower.
+
+<<Level 11: Towers of Dichotomy>
+~Master of Elements ---Frostflame---~
+~Manifistation of Elements---Atronach---~
+
+   Similarly to the mysterious reef Link found on the southern coast and the spire on Mt. Summus these towers are among the most unknown entities on Interitus. How long they have been around is also unknown, even to
+those who wrote the Vita Legendarium novels in Auri Library. When they are mentioned in those books there isnt much more than just observations or small details that have been figured out over time. Perhaps they even
+existed back in the time before the calamity, but what makes that notion strange is if they were around before or during the calamity, how where they not affected by it? The towers are outwardly in pristine condition,
+almost an unnatural purity. It is a wonder why Link is even able to enter them, perhaps divine intervention.
+   What Link finds inside the towers is suspiciously identical to what he found in the Isolated Spire. Advanced technologies but slightly different from the spire where his windy boomerang is used minimally inside.
+Instead of wind, these towers seem to have the powers of fire and ice infused to where it is as if the towers themselves are alive with the power of fire and ice. Which tower Link enters first doesnt matter, as he can
+enter either first and even teleport between the towers with an ingrained teleportation mechanism in the tower. Each tower is a mirror of the other but with vast elemenal differences. Link will need to interact with the
+fire and ice roadblocks within and eventually that job would become much easier. Link will eventually find the artifact room, but not alone. The tower's master, Master of the Elements is inside, and she is excited to
+see Link. With a very flippant and excited demeanor, she is happy to see Link and immediately wants to fight him for sport. Link is unable to defeat her without the rod, which she has locked in the chest in the room.
+Upon Link's defeat she taunts him and even tell him to take the rod and find her in the towers. The artifact within is the Rod of Frostflame, a rod that can manipulate fire and ice shooting blasts of each that on impact
+explode in the respective element it is set to. During his time navigating the towers after achieving the rod he will encoutner Frostflame who will trap and play with him like a cricket in a box with a spider. These traps
+will take Link between the towers as he evades her attacks while navigating through her traps. Once escaping a trap she will again taunt him and vanish.
+   Eventually, after many encounters with Frostflame and navigating the labrinthine two towers, he will find himself in a large room between the towers where there is both fire and ice present. It would seem Frostflame is
+getting a little annoyed that her plaything has made it this far and challenges Link to a duel to the death with him, but only if he survivs a sort of gladiatior battle. He will fight various atronachs of fire, ice, and
+even a combination of both. Should he reign victorious in the collesium, Frostflame hops in and begins fighting Link. During this fight she will continue to spawn in miniature versions of the previous atronachs.
+   Link would reign victorious over the elemental witch, and as she explodes magnificently in fire and ice, she will drop an upgraded form of the rod. Link now has the strongest version of the rod that has more control
+over the elements as well as being more destructive.
+
+   With his elemental rod Link is able to enter a small structure on the southernmost coast of Interitus. Inside Link will find a interesting combination of beings.
 
 <Battle Arena 4: Secluded Alcove>
 ~ --- ---~
 
    Inside this alcove is a conglomeration of monsters, and Hylian soldiers. The soldiers tell Link that they all defected from the Necromancer and that the monsters inside the alcove took them in as they didnt have
 an interest in hurting the soldiers, well, at least not in the typical sense. What the alcove is is a sort of fight club, they all combat each other in sport and training. Every monster in the alcove becomes an
-adversary in the arena. Should Link reign supreme over all of the residents in the alcove he will be awarded the strongest bow on Interitus.
+adversary in the arena. Link will also encounter the leader of the club (INSERT DETAILS ABOUT IT ONCE I KNOW WHAT THE BOSS WILL BEEEEEEE). Should Link reign supreme over all of the residents in the alcove he will be awarded
+the strongest bow on Interitus.
 
-   Throughout Link's journeys around the southern end of Interitus, he would have come near two large towers, sealed and intimidating in scale. Much like the Secluded Spire, these towers are curious, no one alive
-knows anything about them nor how to even enter. With Link's Longshot he can find his way into either the snowy tower or the firey tower.
+   Auri desert has always been inaccessible, at least the deeper parts east of Auri village, but with the longshot Link can finally see what lies within the desert that has been talked about throughout Interitus as raging
+with a deadly sandstorm. Link was able to end the store in Auri Village by destroying the Morsa and Deadhand, and if he did that is the last of them, otherwise he will encounter them soon as whe will discover where they came
+from.
 
-<<Level 11: Towers of Dichotomy>
-~ --- ---~
+   Before Link could get to the heart of Auri Desert, he must first traverse the brutal sandstorm. There is a dark magic on the desert that keeps intruders out, however, Link has means to find his way through the mystical storm
+With his lens of truth, as well as following some ancient breadcrumbs, Link can find the safe path through the desert. However, just when he gets close to the heart, he will find himself in a trap. The path to the heart of Auri
+is protected by a fell beast only known as The Storm.
 
+<Auri Desert Wastes>
+~ ---The Storm---~
+   A being that no one alive knows the origin of, but is speculated to be the brewer of the everstorm in Auri Desert. The Storm is actually a follower of Oblitem, a creature Oblitem created to protect its cathedral from unwanted
+and unworthy beings. When Oblitem was sealed, The Storm forever kept the storm going as it only answered to Oblitem. Should Link find his way through the storm, he will encounter The Storm. Defeating The Storm weakens the storm
+over Auri Desert but does not completely stop it, as the root of the storm is Oblitem.
 
-
-<CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE><CONTINUE FROM HERE>
-
-
-
+   Deeper in the desert Link will find a very violent storm brewing much stronger monsters as well as some peculier rock formations. A partition of the history of ancient Vita that has been overlooked, and is hidden in some
+of the tomes of the Vita Legendarium, is the presence of a cult that existed before the calamity. There are many primordial beings in the universe, but none compare to the one that existed before the creation of world.
+Its name is Null, a being of chaos that the goddesses spited by creating the world as well as the Tris. The Tris existed to fix the rifts created by Null that would otherwise destroy the world. Null hated the goddesses since
+they altered the universe specifically to prevent it from basking in the chaos it created. Once Null was confined to the Void, it still looked for ways it would wreak havoc on the world of light, and one example is the Morsa.
+The Morsa being the dark entity eventually recruited to create chaos during the Calamity of Vita that Link could have destroyed in the Sealed Abyss, is a creature that Null created to spread its influence on the world of light.
+The Morsa even has the ability that Null does to create chaotic entities which it did with the Deadhand. However, there is a third dark entity that Null created that shadows even the Morsa known as Oblitem the Forgotton.
+   Oblitem is the entity that the ancient cult of Vita worshipped. In the documentation left behind from this cult, which was ancient even in the time of the calamity, Oblitem was the creator of their cult. It was said that the
+darkness it emitted was of the same breath of the miasma of the Void. This cult did not know of Null or that there was even a being above Oblitem, nothing outside of the sacred realm knows of it, but that did not stop the Cult
+of Vita from obsessing over the existance of a being that could so dreadfully oppose the might of the goddesses. This cult was actually the first to plot to corrupt the power of Haeren, seeing the power to give and take life
+as something that could make them match up to Oblitem more. They were never successful in any plots as they were a very small subset of people that were not very organized. These people hailed from the village of Pacilux,
+and even managed to cross the Pacilux Canyon and created a safe haven for themselves in a small structure that would late house the cultists of Egentem. The Shrine of Egentem was original a shrine to Oblitem, a place in the
+forest before Silva Village existed so it was very secluded. This cult never managed to procure the triforce of life and corrupt it like Aemulor did, but in their deep study and honoring of Oblitem, it actually materialized
+itself before the cultists. Oblitem gave the cultists the "Gift of Death" which made them unable to die. It also sealed their shrine so that those who would stop them could not enter unless they could play a secret tune.
+   At the height of the cult's power, Oblitem demanded that they build it a Cathedral where the best of the cultists can further worship it. Thus, the Cathedral of the Accursed was constructed.
 
 <<Level 12: Cathedral of the Accursed>
 ~The Forgotten ---Oblitem---~
 
-   Eventually Link encounters what can only be described as a giant bat in the deepest chamber, it immediately takes notice of Link and attacks him. This is Oblitem, the forgotton, nothing is known about this
-overgrown bat, but it is clear that it has consumed a lot of darkness and festered in it's dark secluded home. If Link has the Spectral Cane and chooses to use it on Oblitem, not only is he immune to the cane,
-given it's own darkness appears to be identical to that imbuing the cane, but it will send him into a fury, fueled by the influx of dark energy. Ideally Link would not use the cane. Upon defeat Link will receive
+   A large ornate building that only the most devout cultist of vita can worship the darkest being on vita. A place of pure darkness, a miasma that is sickening to one not already baptised in the darkness of Oblitem. Like all
+darkness, the antidote is light, but Oblitem knew this being a spawn of Null. Oblitem embraced the light to where there are sections of his Cathedral that can manipulate the entering light and be corrupted into one with malice.
+   One day however, a cultist that was banished from Oblitem's shrine in the forest found out about the cathedral that was kept hidden from everyone not chosen to enter, and schemed to get revenge on the dark lord they once
+worshipped. This cultist journeyed to Auri Desert and somehow found their way past The Storm that Oblitem had posted in the desert, and even laid skulls in his path to mark the way back. Now inside the cathedral, the cultist
+found their way into Oblitem's chamber and attempted to assassinate the entity. In the end Oblitem destroyed the cultist but not unharmed. Oblitem's normal form is that of a humanoid shadow, but can turn into a gargantuan
+bat. During its encounter the the cultist it turned into the bat, and due to its injuries is unable to return to its original form. Oblitem was also rendered unable to leave the cathedral, spending all of its time in its
+cathedral.
+   Entering the Cathedral Link will see nothing but violent undead and, well, not much else with how dark the place is. Relying on his lantern Link works his way through the darkness, making sure to avoid the miasma patches
+as well. The dark miasma is not the only environmental threat but also he will need to watch the light. The Cathedral was meant to keep unwanted living and dead out, so the dungeon can be bathed in darkness, as well as light,
+but the light is not any safer than the darkness. The cathedral was used to such terrible effect, Oblitem creating beings of pure darkness and even his perversion of light. The depths of the cathedral were used to house the
+failed creations or ones that could not exist, and as such is where the worst of the dark and light beings exist in the entire world. Nulls influence on the world could be very well seen in the depths of the cathedral, but
+without the rifts that is. Eventually Link will come across an artifact that Oblitem used to use when it had a humanoid form. A shield that could reflect light and darkness concentrated beams and
+projectiles.
+   With Oblitem's shield, Link can encounter Oblitem in the deepest darkest chamber within the cathedral. The large pitch black bat emits an ear piercing screech that when in darkness, knocks out any light, even Link's
+lantern. During their encounter Oblitem will knock out the light and Link will have to manage to find and attack it. Oblitem will also invert his cathedral during the fight between light and dark which Link has to
+work with. If Link has the Spectral Cane and chooses to use it on Oblitem, not only is Oblitem immune to the cane, but it will send him into a fury fueled by the influx of dark energy. Ideally Link would not use the cane.
+In the end, Link destroys Oblitem which kills it for good. As a result the storm over Auri that has raged since recorded history slows down to a more reasonable desert storm.
 
-   With the mirror shield in hand, link can gain full access to Pacilux
-
-   Should Link travel beyond the wasteland, he will find himself in the darkest area on Interitus; The site of Aemulors' treachery and fall.
+   Link with the Mirror Shield can now fully explore the dreaded Pacilux Village. Should Link travel beyond the wasteland, he will find himself in the darkest area on Interitus; The site of Aemulors' treachery and fall.
 
    Once known as the Village of Pacilux, the village of peaceful light. The village got it's name as it was where Haeren spent her time with the people of Vita, spreading life and happiness. The village was a
 paradise, and it was also the home village of the once bright and brilliant Aemulor. Aemulor was born on this island and was immersed in the grace of Haeren, he has a happy childhood and upbringing, and saw
@@ -832,20 +894,28 @@ In time he learned its secrets, and started to lose himself to his new found abi
 their existance, being morphed and turned into undead thralls for some unknown threat. They went to Haeren only to find her temple empty, unable to communicate with the debilitated goddess. Eventually the village
 not only fell to ruin, but was the most potent in darkness. What was once considered paradise, was now a surging hell on earth.
 
-   Link will find Pacilux in complete shambles, many ancient ruins of what was once a presperous village. He will encounter some of the most powerful undead beasts within the village, making it extremely difficult
-to venture within. He will encounter the strongest undead on the island of interitus, as Aemulor was very raw with his earlier usage of the triforce of haeren, so unrestrained and a complete lack of care of what he
-did that the depth of the darkness he unleashed was unparalleled.
+   Link will find Pacilux in complete shambles, many ancient ruins of what was once a presperous village. Aemulor was very raw with his earlier usage of the triforce of haeren, so unrestrained and a complete lack of
+care of what he did that the depth of the darkness he unleashed was unparalleled.
+
+   However, despite what happened to the village, Link will find the village completely devoid of anything that moves, even the trees do not sway in the breeze.
 
    Link will find 2 temples, one that he has likely seen a few other times across Interitus, and another much darker and ominous. The former is known as a Cleansing Temple. The island of Vita had 4 temples, one
 devoted to each of the goddesses. The sole purpose of these temples were to worship and cleanse oneself of any darkness within them, obtaining the name "Cleansing Temples". During the Calamity of Vita, these temples
-found their utilization vanish as many people lost faith in the goddesses and felt there was no point in giving them their time. Moreover the Haeren cleansing temple was said to have been completely relocated by the
-goddesses when her existance was wiped from the face of the island. Despite these temples being ancient ruins at this time, their cleansing abilites still can cure the errant weary wandering adventurer.
+found their utilization vanish as many people lost faith in the goddesses and felt there was no point in giving them their time. Despite these temples being ancient ruins at this time, their cleansing abilites still
+can cure the errant weary wandering adventurer.
 
-   The latter, is one shrouded in great mystery. On the main floor he finds an alter, it does nothing for him as he would need all 4 triforce to be cleansed. He also finds a stair that leads into the undercroft of the
-temple
+   The latter, is one shrouded in great mystery. On the main floor Link finds an alter, it does nothing for him as he would need all 4 triforce to be cleansed. He also finds a stair that leads into the undercroft of the
+temple. Should Link acquire all 4 shards of the triforce of death and enter the temple, the way into the depths would open.
 
-<Shrine of Blasphemy>
+<Origin of Blasphemy>
 ~ Visage of Death ------~
+
+   Within this temple Link will encounter the most powerful undead beasts in the world, as these beasts were the first to be corrupted by the power of a tarnished goddess triforce. The Cathedral of the Accursed is the
+only place in the world that can be compared to this temple, but this temple comes out on top. Even though Null's influence motivated the cathedral, this was something else. The world has seen misused triforce in
+Ganon with the Triforce of Power, not no where has there been a triforce where the concentration of a graceful goddess was perverted, the dark power in this place is otherworldly, perhaps even the void trembles in
+was is inside. Link will need everything he has gathered in his adventures around Interitus to get him through this fell temple, he cannot even rely on his Spectral Cane if he has it, as that darkness being a
+subset of this would only make his life worse.
+
    basically a phantom ganon-like fight with a shadow of aemulor
 
    Link will obtain the portal sphere in here
@@ -904,8 +974,6 @@ The Magician from the original story of Z2 and perhaps the brother of zelda
 Write lore around paladins and their influence on Vita
 
 update lore about the scholar in the prologue and say he read that there was a power on interitus
-
-add lore to pacilux for why there isnt undead there
 
 take inspiration from Flow of Time Remastered village ruins for Pacilux
 
