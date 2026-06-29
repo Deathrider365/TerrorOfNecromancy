@@ -229,8 +229,8 @@ itemdata script DinRage {
          IC_GALEBRANG,
       };
 
-      itemdata itemIds[9];
-      int itemStrengths[9];
+      itemdata itemIds[12];
+      int itemStrengths[12];
 
       for (int i = SizeOfArray(itemClasses) - 1; i >= 0; --i) {
          int highestItem = GetHighestLevelItemOwned(itemClasses[i]);
