@@ -661,6 +661,9 @@ global script onF6Menu {
       if (SizeOfArray(stolenLinkItems))
          for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
             Hero->Item[stolenLinkItems[i]] = true;
+
+      for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
+         elevatorsAtHome[i] = true;
    }
 }
 
@@ -696,6 +699,9 @@ global script onContGame {
       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
          if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
+
+      for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
+         elevatorsAtHome[i] = true;
    }
 }
 
@@ -708,6 +714,9 @@ global script onSave {
       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
          if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
+            
+      for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
+         elevatorsAtHome[i] = true;
    }
 }
 
@@ -719,6 +728,9 @@ global script onSaveLoad {
    void run() {
       if (auriVillageMusicSet)
          Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(93); //Dmap 7, NEI Auri Village TODO use this not audio file names
+
+      for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
+         elevatorsAtHome[i] = true;
    }
 }
 

@@ -1074,8 +1074,11 @@ ffc script DrawF4Palette {
 
 @Author("Deathrider365")
 ffc script SideviewElevator {
-   void run (int elevatorIndex, int speed, int distance, int direction, bool isButtonActivated, int upModifier) {
+   void run (int elevatorIndex, int speed, int distance, int direction, int upModifier, int csetMod, bool ignoreInputAtHome) {
       int thisData = this->Data;
+      int thisCSet = this->CSet;
+      bool flash;
+
       int modifiedDirection = direction;
 
       if (!elevatorsAtHome[elevatorIndex]) {
@@ -1102,83 +1105,85 @@ ffc script SideviewElevator {
       loop () {
          this->Data = thisData;
 
-         if ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2) && Abs(Hero->Y - this->Y) == 16) {
-            //Taking the elevator in in the direction of direction
-            for (int i = distance; i > 0; --i) {
-               if (modifiedDirection == DIR_UP || modifiedDirection == DIR_DOWN)
-                  Hero->X = (this->X + (this->TileWidth * 8)) - 8;
+         if (((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 8) && Abs(Hero->Y - this->Y) == 16)) {
+            if (gameframe % 10 == 0)
+               this->CSet = this->CSet == thisCSet ? csetMod : thisCSet; 
 
-               Hero->Dir = DIR_DOWN;
-               NoAction();
+            bool takeTheVator = false;
+
+            if (!elevatorsAtHome[elevatorIndex] && !ignoreInputAtHome)
+               takeTheVator = true;
+            else if (ignoreInputAtHome && elevatorsAtHome[elevatorIndex])
+               takeTheVator = true;
+            else if (Input->Button[modifiedDirection])
+               takeTheVator = true;
+
+            if (takeTheVator) {
+               //Taking the elevator in in the direction of direction
+               Audio->PlaySoundEx(SFX_SM_ELEVATOR_LOOP, 100, 0, 0, true);
+               
+               for (int i = distance; i > 0; --i) {
+                  if (gameframe % 10 == 0)
+                     this->CSet = this->CSet == thisCSet ? csetMod : thisCSet; 
+
+                  if (modifiedDirection == DIR_UP || modifiedDirection == DIR_DOWN)
+                     Hero->X = (this->X + (this->TileWidth * 8)) - 8;
+
+                  Hero->Dir = DIR_DOWN;
+                  NoAction();
+
+                  switch(modifiedDirection) {
+                     case DIR_UP:
+                        this->Y -= speed;
+                        break;
+                     case DIR_DOWN:
+                        this->Y += speed;
+                        break;
+                     case DIR_RIGHT:
+                        this->X += speed;
+                        break;
+                     case DIR_LEFT:
+                        this->X -= speed;
+                        break;
+                  }
+                  
+                  // while (HeroIsScrollingOrWarping()) { logic to handle 2 elevators appearing when scrolling
+                  //    this->Data = CMB_INVIS;
+                  //    Waitframe();   
+                  // }
+
+                  Waitframe();
+               }
+
+               if (modifiedDirection == DIR_UP)
+                  this->Y += upModifier;
+
+               //Arrived at your destination, end elevator sound and reverse activation direction
+               Audio->EndSound(SFX_SM_ELEVATOR_LOOP);
+               elevatorsAtHome[elevatorIndex] = !elevatorsAtHome[elevatorIndex];
 
                switch(modifiedDirection) {
-                  case DIR_UP:
-                     this->Y -= speed;
+                  case DIR_UP: 
+                     modifiedDirection = DIR_DOWN;
                      break;
-                  case DIR_DOWN:
-                     this->Y += speed;
-                     break;
-                  case DIR_RIGHT:
-                     this->X += speed;
+                  case DIR_DOWN: 
+                     modifiedDirection = DIR_UP;
                      break;
                   case DIR_LEFT:
-                     this->X -= speed;
+                     modifiedDirection = DIR_RIGHT;
+                     break;
+                  case DIR_RIGHT: 
+                     modifiedDirection = DIR_LEFT;
                      break;
                }
 
-               Audio->PlaySound(SFX_SM_ELEVATOR_LOOP);
-
-               
-               // while (HeroIsScrollingOrWarping()) { logic to handle 2 elevators appearing when scrolling
-               //    this->Data = CMB_INVIS;
-               //    Waitframe();   
-               // }
-
-               Waitframe();
-            }
-
-            if (modifiedDirection == DIR_UP)
-               this->Y += upModifier;
-
-            //Arrived at your destination, end elevator sound and reversee activation direction
-            Audio->EndSound(SFX_SM_ELEVATOR_LOOP);
-            elevatorsAtHome[elevatorIndex] = !elevatorsAtHome[elevatorIndex];
-
-            switch(modifiedDirection) {
-               case DIR_UP: 
-                  modifiedDirection = DIR_DOWN;
-                  break;
-               case DIR_DOWN: 
-                  modifiedDirection = DIR_UP;
-                  break;
-               case DIR_LEFT:
-                  modifiedDirection = DIR_RIGHT;
-                  break;
-               case DIR_RIGHT: 
-                  modifiedDirection = DIR_LEFT;
-                  break;
+               if (!elevatorsAtHome[elevatorIndex]) Waitframes(5);
             }
          }
-
-
-         while ((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 2)) Waitframe();
+         else
+            this->CSet = thisCSet;
          
          Waitframe();
       }
-   }
-
-   bool isActivatingElevator(int direction) {
-      switch(direction) {
-         case DIR_UP: 
-            if (Input->Press[CB_DOWN]) return true;
-         case DIR_DOWN: 
-            if (Input->Press[CB_UP]) return true;
-         case DIR_LEFT:
-            if (Input->Press[CB_RIGHT]) return true;
-         case DIR_RIGHT: 
-            if (Input->Press[CB_LEFT]) return true;
-      }
-
-      return false;
    }
 }
