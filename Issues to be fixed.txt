@@ -1,0 +1,19 @@
+~~~~~Ideas:~~~~~
+DONE - once you purchase a hint you never have to again
+
+~~~~~Things:~~~~~
+text coloring
+DONE - refactor get items scripts to not include a layer and utilize solid ffcs
+DONE - info shop prices drawing under link
+DONE - put those fairy goddess statues around
+DONE - add lava sfx to molten flooded forge
+shambles doesnt flash when hit while doing an attack
+
+~~~Pig's playthrough Stuff~~~
+"no dont touch that" in concealed hideout when you hit a on any of them (have an individual reason why each item doesnt work)
+allow hammering pots
+in the dark cell blocks make the bridges not visible to the lens until you unlock them
+add lens markers to dark cell blocks
+modify the block swapping room because it is weird that you can walk on some but not all
+DONE - add magic rings, and make the first magic ring be in the second battle arena reward
+make bomber bomb lob height higher

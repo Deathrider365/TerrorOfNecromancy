@@ -1,0 +1,363 @@
+#include "StellarSeas/zlink_ss/system.zh"
+#include "StellarSeas/zlink_ss/update.zh"
+#include "StellarSeas/zlink_ss/io.zh"
+#include "StellarSeas/zlink_ss/server_commands.zh"
+#include "StellarSeas/zlink_ss/scripts.zh"
+
+namespace ZLink{
+	
+	enum{
+		MSG_PRINT = 0, // Sends a message to the server console
+		MSG_PING = 2, // Ping the server and return the number of seconds it took
+		MSG_ISSERVERLOCKED = 3, // Gets whether or not the server is locked
+		MSG_NUMUSERS = 4, // Updates the user count, which can be read with NumUsers()
+		MSG_GETTHISID = 5, // Get just the current user's ID
+		MSG_GETHOSTID = 6, // Get the ID of the host
+		MSG_GETALLIDS = 7, // Updates the user count and user list
+		MSG_GETUSERNAME = 8, // Adds a username for a user to the name buffer
+		MSG_GETALLUSERNAMES = 9, // Adds all usernames to the name buffer
+		LAST_SERVER_INSTRUCTION = 255, // ADD YOUR OWN INSTRUCTIONS BELOW
+	
+		MSG_SENDPOSITION, //0x100 (256)
+		MSG_SENDITEM, //0x101 (257)
+		MSG_REQUESTITEMFLAGS, //0x102 (258)
+		MSG_SENDITEMFLAGS, //0x103 (259)
+		MSG_SENDRUNINFO, //0x104 (260)
+		MSG_CHECKIN, //0x105 (261)
+		MSG_SENDREADY, //0x106 (262)
+		MSG_SENDCOSTUMES, //0x107 (263)
+		MSG_REQUESTCOSTUMES, //0x108 (264)
+		MSG_GEODECOLLISION, //0x109 (265)
+		MSG_GEODEEFFECT, //0x10A (266)
+		MSG_PICKUPGEODE, //0x10B (267)
+		MSG_UPDATEDOCKLIST //0x10C (268)
+	};
+	
+	void ProcessInstruction(){
+		switch(CurMessageInstruction()){
+			case MSG_PING:
+				IN_Ping();
+				return;
+			case MSG_ISSERVERLOCKED:
+				IN_IsServerLocked();
+				return;
+			case MSG_NUMUSERS:
+				IN_NumUsers();
+				return;
+			case MSG_GETTHISID:
+				IN_GetThisID();
+				return;
+			case MSG_GETHOSTID:
+				IN_GetHostID();
+				return;
+			case MSG_GETALLIDS:
+				IN_GetAllIDs();
+				return;
+			case MSG_GETUSERNAME:
+				IN_GetUsername();
+				return;
+			case MSG_GETALLUSERNAMES:
+				IN_GetAllUsernames();
+				return;
+			// Define your own instructions here
+			
+			case MSG_SENDPOSITION:
+				IN_SendPosition();
+				return;
+			case MSG_SENDITEM:
+				IN_SendItem();
+				return;
+			case MSG_REQUESTITEMFLAGS:
+				IN_RequestItemFlags();
+				return;
+			case MSG_SENDITEMFLAGS:
+				IN_SendItemFlags();
+				return;
+			case MSG_SENDRUNINFO:
+				IN_SendRunInfo();
+				return;
+			case MSG_CHECKIN:
+				IN_CheckIn();
+				return;
+			case MSG_SENDREADY:
+				IN_SendReady();
+				return;
+			case MSG_SENDCOSTUMES:
+				IN_SendCostumes();
+				return;
+			case MSG_REQUESTCOSTUMES:
+				IN_RequestCostumes();
+				return;
+			case MSG_GEODECOLLISION:
+				IN_GeodeCollision();
+				return;
+			case MSG_GEODEEFFECT:
+				IN_GeodeEffect();
+				return;
+			case MSG_PICKUPGEODE:
+				IN_PickupGeode();
+				return;
+			case MSG_UPDATEDOCKLIST:
+				IN_UpdateDockList();
+				return;
+		}
+	}
+
+	void OUT_SendPosition(){
+		int til = Link->Tile;
+		if(Game->Scrolling[SCROLL_DIR] != -1)
+			til = 0;
+		StartInstruction(MSG_SENDPOSITION, 0);
+		WriteByte(ThisUserID());
+		WriteSignedShort(Link->X);
+		WriteSignedShort(Link->Y-Link->Z);
+		WriteInt(til);
+		WriteByte(Link->Flip);
+		WriteShort(Game->GetCurDMap());
+		WriteByte(Game->GetCurDMapScreen());
+		WriteByte(G[G_CURRENTGEODE]);
+		WriteByte(GetCharID());
+		FinishInstruction();
+	}
+	void IN_SendPosition(){
+		int id = ReadByte()-1;
+		if(id>=16)
+			id = 15;
+		int pos = MD_STARTPLAYERDAT + GP_SIZE * id;
+		MultiworldData[pos+GP_X] = ReadSignedShort(); // X
+		MultiworldData[pos+GP_Y] = ReadSignedShort(); // Y
+		MultiworldData[pos+GP_TILE] = ReadInt(); // Tile
+		MultiworldData[pos+GP_FLIP] = ReadByte(); // Flip
+		MultiworldData[pos+GP_DMAP] = ReadShort(); // DMap
+		MultiworldData[pos+GP_SCREEN] = ReadByte(); // Screen
+		MultiworldData[pos+GP_GEODE] = ReadByte(); // Geode
+		MultiworldData[pos+GP_CHARID] = ReadByte(); // Character
+	}
+	
+	void OUT_SendItem(int loc){
+		printf("SENT ITEM: %d\n", loc);
+		StartInstruction(MSG_SENDITEM, 0);
+		WriteByte(ThisUserID());
+		WriteShort(loc);
+		FinishInstruction();
+	}
+	void IN_SendItem(){
+		int id = ReadByte();
+		int loc = ReadShort();
+		printf("RECEIVED ITEM: %d\n", loc);
+		// Add the item to a queue of items to be given by the global script
+		if(MultiworldData[MD_ITEMQUEUESIZE]<256&&!FilterSentItems(loc)){
+			int pos = MD_STARTITEMQUEUE + 2 * MultiworldData[MD_ITEMQUEUESIZE];
+			MultiworldData[pos+0] = loc;
+			MultiworldData[pos+1] = id;
+			++MultiworldData[MD_ITEMQUEUESIZE];
+		}
+	}
+	bool FilterSentItems(int loc){
+		int itemid = RandomizedItems[loc];
+		switch(itemid){
+			// Money
+			case 1:
+			case 0:
+			case 86:
+			case 38:
+				return true;
+			// Outfit piece
+			case I_OUTFIT_PIECE:
+				return true;
+		}
+		return false;
+	}
+	
+	void OUT_RequestItemFlags(int loc){
+		StartInstruction(MSG_REQUESTITEMFLAGS, 0);
+		WriteByte(ThisUserID());
+		FinishInstruction();
+	}
+	void IN_RequestItemFlags(){
+		int id = ReadByte();
+		OUT_SendItemFlags(id);
+	}
+	
+	void OUT_SendItemFlags(int id){
+		StartInstruction(MSG_SENDITEMFLAGS, id);
+		int numFlags = Ceiling(IL_COUNT/32);
+		for(int i=0; i<numFlags; ++i){
+			WriteInt(MultiworldData[MD_STARTBITFLAGS+i]);
+		}
+		FinishInstruction();
+	}
+	void IN_SendItemFlags(){
+		int numFlags = CurMessageSize() / 2;
+		for(int i=0; i<numFlags; ++i){
+			long flagSet = ReadInt();
+			long curFlagset = MultiworldData[MD_STARTBITFLAGS+i];
+			for(int j=0; j<32; ++j){
+				long bf = (1L << j);
+				if((flagSet&bf)&&!(curFlagset&bf)){
+					int loc = i * 32 + j;
+					GiveItemAtLocSilent(loc);
+				}
+			}
+		}
+	}
+	
+	void OUT_SendRunInfo(){
+		StartInstruction(MSG_SENDRUNINFO, 0);
+		WriteInt(G[G_RANDOMIZERSEED]);
+		WriteSignedShort(G[G_RANDOMIZERSTARTINGCHARS]);
+		WriteSignedShort(G[G_RANDOMIZERNUMCHARS]);
+		WriteSignedShort(G[G_BESTIARYRANDO]);
+		WriteSignedShort(G[G_RANDOMIZERMODE]);
+		WriteSignedShort(G[G_RANDOMIZEROBSERVATORYLOCK]);
+		WriteSignedShort(G[G_RANDOMIZERREQUIREDHYMNSTONES]);
+		FinishInstruction();
+	}
+	void IN_SendRunInfo(){
+		G[G_RANDOMIZERSEED] = ReadInt();
+		G[G_RANDOMIZERSTARTINGCHARS] = ReadSignedShort();
+		G[G_RANDOMIZERNUMCHARS] = ReadSignedShort();
+		G[G_BESTIARYRANDO] = ReadSignedShort();
+		G[G_RANDOMIZERMODE] = ReadSignedShort();
+		G[G_RANDOMIZEROBSERVATORYLOCK] = ReadSignedShort();
+		G[G_RANDOMIZERREQUIREDHYMNSTONES] = ReadSignedShort();
+	}
+	
+	void OUT_CheckIn(){
+		StartInstruction(MSG_CHECKIN, HostID());
+		WriteByte(ThisUserID());
+		FinishInstruction();
+	}
+	void IN_CheckIn(){
+		int userID = ReadByte()-1;
+		MultiworldData[MD_CHECKIN] |= (1<<userID);
+	}
+	
+	void OUT_SendReady(int id){
+		StartInstruction(MSG_SENDREADY, id);
+		FinishInstruction();
+	}
+	void IN_SendReady(){
+		// WOW IT'S NOTHING!!!
+	}
+	
+	void OUT_SendCostumes(int target){
+		printf("OUT: SEND COSTUME\n");
+		StartInstruction(MSG_SENDCOSTUMES, target);
+		WriteByte(ThisUserID());
+		for(int i=0; i<6; ++i){
+			WriteByte(G[G_USINGCUSTOMOUTFIT+i]);
+			WriteByte(G[G_SHIRT+i]);
+			WriteByte(G[G_SHIRTCOLOR+i]);
+			WriteByte(G[G_PANTS+i]);
+			WriteByte(G[G_PANTSCOLOR+i]);
+			WriteByte(G[G_ACCESSORY1+i]);
+			WriteByte(G[G_ACCESSORY1COLOR+i]);
+			WriteByte(G[G_ACCESSORY2+i]);
+			WriteByte(G[G_ACCESSORY2COLOR+i]);
+		}
+		FinishInstruction();
+	}
+	void IN_SendCostumes(){
+		printf("IN: SEND COSTUME\n");
+		int userID = ReadByte()-1;
+		for(int i=0; i<6; ++i){
+			int customOutfit = ReadByte();
+			int outfit[8];
+			for(int j=0; j<8; ++j){
+				outfit[j] = ReadByte();
+			}
+			SetUpOutfit(i, userID, outfit);
+		}
+		GBMP[BMP_MULTIPLAYERSPRITES]->Write(0, "MultiplayerSprites.bmp", true); //Print the image for debugging
+	}
+	
+	void OUT_RequestCostumes(){
+		printf("OUT: REQUEST COSTUME\n");
+		StartInstruction(MSG_REQUESTCOSTUMES, 0);
+		WriteByte(ThisUserID());
+		FinishInstruction();
+	}
+	void IN_RequestCostumes(){
+		printf("IN: REQUEST COSTUME\n");
+		OpenPacket();
+		int id = ReadByte();
+		OUT_SendCostumes(id);
+		SendPacket();
+	}
+	
+	void OUT_GeodeCollision(int target, int effect, int x, int y, int map, int scrn){
+		StartInstruction(MSG_GEODECOLLISION, 0);
+		WriteByte(target); //Collisions have a target but can still be seen by other players
+		WriteByte(effect);
+		WriteShort(x);
+		WriteShort(y);
+		WriteShort(map);
+		WriteShort(scrn);
+		FinishInstruction();
+	}
+	void IN_GeodeCollision(){
+		int target = ReadByte();
+		int effect = ReadByte();
+		int x = ReadShort();
+		int y = ReadShort();
+		int map = ReadShort();
+		int scrn = ReadByte();
+		if(target==ThisUserID())
+			G[G_CURRENTGEODE] = 0;
+		if(map==Game->GetCurMap()&&scrn==Game->GetCurScreen()){
+			MakeGeodeExplosion(target, effect, x, y, false, false);
+		}
+	}
+	
+	void OUT_GeodeEffect(int target, int effect, int strength, int charID){
+		printf("Sent GeodeEffect\n");
+		StartInstruction(MSG_GEODEEFFECT, target);
+		WriteByte(ThisUserID());
+		WriteByte(effect);
+		WriteByte(strength);
+		WriteByte(charID);
+		FinishInstruction();
+	}
+	void IN_GeodeEffect(){
+		int sender = ReadByte();
+		int effect = ReadByte();
+		int strength = ReadByte();
+		int charID = ReadByte();
+		printf("Received GeodeEffect %d %d %d %d\n", sender, effect, strength, charID);
+		
+		int dmap = MultiworldData[MD_STARTPLAYERDAT + GP_SIZE * (sender - 1) + GP_DMAP];
+		int scrn = MultiworldData[MD_STARTPLAYERDAT + GP_SIZE * (sender - 1) + GP_SCREEN];
+		if(strength == 1 && dmap == Game->GetCurDMap() && scrn == Game->GetCurDMapScreen()){
+			G[G_QUEUEDGEODEANIMSENDER] = sender;
+			G[G_QUEUEDGEODEANIMEFFECT] = effect;
+			G[G_QUEUEDGEODEANIMCHAR] = charID;
+		}
+	}
+	
+	void OUT_PickupGeode(int geodeID, int cooldown){
+		StartInstruction(MSG_PICKUPGEODE, 0);
+		WriteByte(geodeID);
+		WriteShort(cooldown);
+		FinishInstruction();
+	}
+	void IN_PickupGeode(){
+		int geodeID = ReadByte();
+		int cooldown = ReadShort();
+		MultiworldData[MD_STARTGEODE+geodeID] = cooldown;
+	}
+	
+	void OUT_UpdateDockList(int userID, int loc){
+		printf("OUT_UpdateDockList(%d, %d)\n", userID, loc);
+		StartInstruction(MSG_UPDATEDOCKLIST, 0);
+		WriteByte(userID);
+		WriteSignedShort(loc);
+		FinishInstruction();
+	}
+	void IN_UpdateDockList(){
+		int userID = ReadByte();
+		int loc = ReadSignedShort();
+		printf("IN_UpdateDockList(%d, %d)\n", userID, loc);
+		MultiworldData[MD_DOCKLISTS+userID-1] = loc;
+	}
+}
