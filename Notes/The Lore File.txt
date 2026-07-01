@@ -650,8 +650,8 @@ an evil goddess, that Haeren’s triforce is to blame. Right hand says the only 
    Zelda is skeptical that Haeren is an outright evil goddess, but she does not yet know what to believe since this is all news to her. She implores Link to find the remaining shards of dark, in addition to reclaim
 the shards of the golden triforces since she feels that they will need all the assistance that they can get.
 
-   From here, Link could meet Right Hand on IoH without completing the triforce of dark or even the golden triforce. However, to complete the triforce of dark he would need to complete Lv10, 11, and 12 in which case
-he would be completing the golden triforce.
+   From here, Link could meet Right Hand on Isle of Haeren without completing the triforce of dark or even the golden triforce. However, to complete the triforce of dark he would need to complete Lv10, 11, and 12 
+in which case he would be completing the golden triforce.
 
 With the this new information in addition to the longshot, Link can now tackle the 3 final main dungeons as well as some other areas that he otherwise could not reach.
 
@@ -860,7 +860,7 @@ itself before the cultists. Oblitem gave the cultists the "Gift of Death" which 
 <<Level 12: Cathedral of the Accursed>
 ~The Forgotten ---Oblitem---~
 
-   A large ornate building that only the most devout cultist of vita can worship the darkest being on vita. A place of pure darkness, a miasma that is sickening to one not already baptised in the darkness of Oblitem. Like all
+   A large ornate building that only the most devout cultist of vita can worship the darkest beings on vita. A place of pure darkness, a miasma that is sickening to one not already baptised in the darkness of Oblitem. Like all
 darkness, the antidote is light, but Oblitem knew this being a spawn of Null. Oblitem embraced the light to where there are sections of his Cathedral that can manipulate the entering light and be corrupted into one with malice.
    One day however, a cultist that was banished from Oblitem's shrine in the forest found out about the cathedral that was kept hidden from everyone not chosen to enter, and schemed to get revenge on the dark lord they once
 worshipped. This cultist journeyed to Auri Desert and somehow found their way past The Storm that Oblitem had posted in the desert, and even laid skulls in his path to mark the way back. Now inside the cathedral, the cultist
@@ -907,60 +907,77 @@ can cure the errant weary wandering adventurer.
    The latter, is one shrouded in great mystery. On the main floor Link finds an alter, it does nothing for him as he would need all 4 triforce to be cleansed. He also finds a stair that leads into the undercroft of the
 temple. Should Link acquire all 4 shards of the triforce of death and enter the temple, the way into the depths would open.
 
-<Origin of Blasphemy>
-~ Visage of Death ------~
+<Blasphemous Mortuary>
+~ Visage of Death ---Shade of Aemulor---~
 
-   Within this temple Link will encounter the most powerful undead beasts in the world, as these beasts were the first to be corrupted by the power of a tarnished goddess triforce. The Cathedral of the Accursed is the
-only place in the world that can be compared to this temple, but this temple comes out on top. Even though Null's influence motivated the cathedral, this was something else. The world has seen misused triforce in
-Ganon with the Triforce of Power, not no where has there been a triforce where the concentration of a graceful goddess was perverted, the dark power in this place is otherworldly, perhaps even the void trembles in
-was is inside. Link will need everything he has gathered in his adventures around Interitus to get him through this fell temple, he cannot even rely on his Spectral Cane if he has it, as that darkness being a
-subset of this would only make his life worse. <CONTINUE HERE> <CONTINUE HERE> <CONTINUE HERE> <CONTINUE HERE> <CONTINUE HERE> <CONTINUE HERE> <CONTINUE HERE> 
+   Within this temple Link will encounter the most powerful undead beasts in the world, as these beasts were the first to be corrupted by the power of a tarnished goddess triforce. The Cathedral of the Accursed and
+Sealed Abyss are the only places in the world that can be compared to this temple, maybe Summus Catacombs, but this temple comes out on top. Even though Null's influence motivated the cathedral, this was something else.
+The world has seen misused triforce in Ganon with the Triforce of Power, but no where has there been a triforce where the concentration of a graceful goddess was perverted, the dark power in this place is otherworldly, 
+perhaps even the void trembles to was is inside. Link will need everything he has gathered in his adventures around Interitus to get him through this fell temple, he cannot even rely on his Spectral Cane if he has it, 
+as that darkness being a subset of this would only strengthen the evil within.
+   Entering the temple Link encounters extremely violent undead, many of which he has not yet encountered in all of his travels, even in Hyrule. As he traverses the temple, which has a very deep undercroft, Link can
+sense a presence, one that he has actually felt before many times. He cannot place it, but what he is feeling in the presense and darkness of Aemulor, as his essence was in the Necromancer and is everywhere in this
+temple. In places where the presense is at peaks, Link wil encounter a shade of Aemulor, similar to Link's experiences with Phantom Ganon, this is just a shade and pales in comparison to the original, but still a
+real threat. Link will find himself in traps where he needs to defeat these shades, showing him the power of this dark lord that he likely does not know too much about. It is still very much unknown that the power
+behind the necromancer was Aemulor, and only Link will learn who this demon is. The place where Aemulor's influence is at its peak in the temple is specifically in the mortuary in the temple.
+   Back when this temple was used for good pre-calamity, the mortuary is where Haeren would exercise her powers to grant graceful death and rebirth of those chosen. Death was considered a blessing and an honor To
+experience. Moving onto the afterlife of paradise. Back in those days it wasn't even thought of as a mortuary, but a place of graceful death and rebirth. However, it was where Aemulor excercised his most despicable
+necromancy acts, so the once most spiritual place on Vita became the most heinous place in Interitus.
+   Eventually Link will find a mysterious artifact known as the Portal Sphere. This strange orb allows link to activate portals around the temple and even Interitus greater to get to otherwise unreachable places.
+This sphere is an artifact that Aemulor created to be able to avoid harm and infiltrate fortified places with his dark power. It could be dangerous for Link to travel through these dark gates but he has already
+abused the power of forbidden darkness with the Spectral Cane so he should be fine...
+   In time Link will find the deepest darkest chamber in the mortuary under the temple. It is another shade of Aemulor, but this one is the closes to the original. This will be one of Link's hardest fights yet, not
+yet the true strength of Aemulor but as close as you can get to him. Should Link cleanse Haeren's triforce before encountering Aemulor's Shade, the shade will be greatly weaker, as the power of Aemulor is much more
+potent. Without it being cleansed, the shade will be one of the hardest beings in the world. Naturally, Link will (eventually) wind up on top, defeating the shade.  
 
-   basically a phantom ganon-like fight with a shadow of aemulor
+   With this temple cleared of Aemulor's influence, there arent many corners of Interitus left with his poison. Link will have a choice like he did after defeating the Necromancer, but this one is the last.
 
-   Link will obtain the portal sphere in here
+   ~~Neutral Ending 1~~ (Triforce of Death is not completely collected)
+      Should you not assemble the whole Triforce of Death and go to Isle of Haeren, The corrupted Right Hand will be found in the Temple of Haeren like in the bad ending where you will fight the amalgamation. You 
+   fight the amalgamation in a weaker state, and Right Hand, with Aemulor weakened with the triforce not being fully assembled, doesnt get involved. Once the amalgamation is defeated, Right Hand says all is well and
+   he will rebuild Interitus, he urges Zelda and Link to go home to Hyrule. They do, and Right Hand, under the weakened Aemulor, still can wreak havoc on Interitus once Aemulor’s power grows back. Haeren continues
+   to be suppressed and Interitus remains as is until Aemulor regains his strength. 
 
-   (wordsmith this obviously)
-   With the Portal Sphere, Link can now access the ancient smith that can utilize leviathan scales (just something extremely durable and you have the scales) to temper your goddess sword and mail
+   ~~Bad Ending~~ (Triforce of Death is fully assembled, but not cleansed)
+      Same start as the neutral ending, but during the fight with the amalgamation on Isle of Haeren, Aemulor acting throuh Right Hand, declares himself the true dark lord and fuses with the amalgamation, entering a
+   sort of phase 2. Destroying the amalgamation, and subsequently right hand, Haeren is still supressed and Aemulor is still within Haeren’s spirit, Link and Zelda confused about what happened with Right Hand,
+   decide their task is done assuming the defeat of amalgamation and Right Hand is the end of the darkness on Interitus return home to Hyrule unfulfilled, feeling that something was not right. Basically the game 
+   state here is where it was in the prologue where Haeren’s triforce is still dark and someone else can find it and be possesed by Aemulor.
 
+   ~~Neutral Ending 2~~ (Triforce of Death is fully assembled and cleansed)
+      Essentially the same as Neutral Ending 1, however when you encounter Right Hand on Isle of Haeren he is ver dazed given that Aemulor's power is extremely weak on Interitus with the Triforce of Life returning
+   You fight the amalgamation and Right Hand is not involved. After its defeat, the remaining power of Aemulor is mostly gone, enough that he loses control over Right Hand. Right Hand is confused about where he Is
+   and what happened since the necromancer was killed. Link and Zelda tell him that they defeated the darkness on Interitus and he can return to Interitus or Hyrule. He chooses Hyrule as there is nothing left for
+   him with the scholar gone. The player at this point gets a choice:
+      - Bring the Triforce of Life back to Hyrule for safe keeping
+      - Leave the Triforce of Life in the Temple of Haeren where it was orignally sealed by the golden goddesses
+      - Bring the Triforce of Life back to Interitus as that is where it originated
+
+      In the end, not matter the choice Link makes, they go back to Hyrule and Interitus is left scarred but not nearly as dark as before.
+
+   ~~Good Ending~~ (Aemulor is Destroyed)
+      If you cleanse the Triforce of Death and go to the Blasphemous Mortuary, on the main floor since the lower levels is a dungeon, use the portal sphere to open the portal to the Sacred Realm. Here you can
+   talk to the spirits of the golden goddesses who tell you the truth that Haeren was sealed away because not only was her triforce corrupted, but Aemulor corrupted her very spirit, hence why she isnt there. To free 
+   her spirit and destroy Aemulor completely, link has to enter the Silent Realm and overcome their trial. Upon succeeding in that trial, the way to The Void will be open. Link goes into the void (perhaps styled 
+   like from one screen gollab) and destroys Aemulor forever, freeing Haeren’s spirit. Link is banished from the Void and back to the Sacred Realm where the goddesses thank Link for destroying Aemulor. All that 
+   would be left in the game is to find Right Hand, who isnt under the influence of Aemulor anymore. Link will find Right Hand standing on the eastern coast of NEI looking out into the sea. He is greatly saddened
+   that the scholar (who was like a father to the orphaned soldier) was a victim of Aemulor’s darkness. He apologizes to Link for everything, then Zelda speaks up and says all 3 of them will help rebuild Vita, 
+   Right Hand becomes the new king as Link and Zelda then return home to Hyrule. Interitus is no more and Vita returns completely devoid of necromancy. The scarring will always be there, but Right Hand does his
+   best to create the second Golden Age of Vita like the ancient king before him. Aemulor's shadow no longer looms over the prospective land of Vita.
+
+   Should Link take the route towards fighting the amalgamation in the Temple of Haeren, he will be fighting one of the stronger forms of necromancy ever seen. Not nearly as powerful as what Aemulor would have left
+on Interitus, but the Triforce of Death festering in the temple for so long before the Scholar took it brewed some very vicious undead. This is the Amalgamation of Malfeasance, a powerful conglomeration of the
+darkness that was festering in the corrupted triforce.
+
+   Should Link take the true route and aim to destroy Aemulor and take the portal in the Blasphemous Mortuary, He will find himself in the Sacred Realm. <CONTINUE HERE CONTINUE HERE CONTINUE HERE CONTINUE HERE CONTINUE HERE >
 
 <Chapel of Rumination>
 ~ --- ---~
 
 
 <The Void>
-~ --- ---~
+~The Terror of Necromancy ---Aemulor---~
 
-<Final boss stuff as well as endings>
-
-   In the confrontation in Lv9, you and right hand encounter the scholar. Right Hand kills him, haeren's triforce is scattered all but one shard which you obtain. Right hand talking to you and zelda says the reason the
-scholar was doing what he was is because the scholar was under the influence of the darkness that the triforce emits. Lying by saying the triforce itself and haeren was an evil goddess, that haeren’s triforce is to
-blame. Right hand says the only way to stop her triforce is to go to her temple on IoH with all 4 shard and seal it within the undercroft.
-
-~~Bad Ending~~ (fully assemble triforce of dark and dont cleanse)
-Unbeknownst to link and zelda doing just that releases the final boss, the amalgamation of death or something. During the fight right hand (controlled still by aemulor) fuses with the amalgamation, entering a sort of
-phase 2. Destroying the amalgamation and right hand, haeren is still supressed and aemulor is still within haeren’s spirit, so basically the game state here is where it was in the prologue where in time haeren’s
-triforce will grow dark again and someone else can find it and be posses by aemulor.
-
-~~Neutral Ending~~ (dont fully assemble)
-Should you not assemble the whole triforce of dark and go to IoH, he will be found in the temple of haeren like in the bad ending where you will fight the amalgamation. You fight the amalgamation in a weaker state,
-and right hand, with aemulor weakened with the triforce not being fully assembled, doesnt get involved. Once the amalgamation is defeated, right hand says all is well and he will rebuild vita, he urges zelda and link to go home to hyrule.
-They do, and right hand, under the weakened aemulor, still can wreak havoc on interitus once aemulor’s power grows back. Haeren continues to be suppressed and interitus remains as is until aemulor regains his strength
-as the triforce of light starts to fade once again given aemulor is still poisoning haeren.
-
-~~Neutral Ending 2~~ (fully assemble, do not defeat aemulor before going to right hand)
-Should you assemble the whole triforce of dark and cleanse it...
-
-~~Good Ending~~ (fully assemble and cleanse)
-Rather we know it is actually Aemulor and his manipulation that caused everything, if you go against right hands wishes and actually cleanse her triforce, but go back to IoH and confront Right Hand, you ultimately
-get the the neutral ending. However, if you cleanse it and go to the temple in Pacilux, on the main floor since the lower levels is a dungeon, use the portal sphere to open the portal to the Sacred Realm. Here you can
-talk to the spirits of the golden goddesses who tell you the truth that haeren was sealed away because not only was her triforce corrupted, but aemulor corrupted her very spirit, hence why she isnt there. To free her
-spirit and destroy Aemulor, link has to enter the Silent Realm and overcome their trial. Upon succeeding in that trial, the way to The Void will be open. Link goes into the void (perhaps styled like from one screen
-gollab) and destroys aemulor forever, freeing haeren’s spirit. Link is banished from the void and back to the sacred realm where the goddesses thank Link for blah blah blah. All that would be left in the game is to
-find right hand, who isnt under the influence of the necromancer anymore. Link will find right hand standing on the eastern coast of NEI looking out into the sea. He is greatly saddened that the scholar (who was like a
-father to the orphaned soldier) was a victim of aemulor’s darkness. He apologizes to link for everything, then zelda speaks up and says all 3 of them will help rebuild Vita, right hand becomes the new king.
-
-Does someone get crowned king of Vita at the end?
 
 
 Have lore relating Aemulor to Demise somehow
@@ -977,14 +994,14 @@ update lore about the scholar in the prologue and say he read that there was a p
 
 take inspiration from Flow of Time Remastered village ruins for Pacilux
 
+Gravelord Nito from Dark Souls, take ideas from him for the amalgamation in ToH
+
 
 Ending Stuff:
-- Bad Ending: alright music (not my favorite) you see screens from the game but things are worse, more ruined and dark
+- Bad Ending: alright music you see screens from the game but things are worse, more ruined and dark
 - Neutral Ending: better music (maybe the music is music from the into sort of a full circlue thing since you didnt really stop anything permanently) the screens show no change to the world
 - Good Ending: Great perfect lively music with the screens shown prisine and better, vita is restored
 Ending credits like DQ8?
-
-
 
 
 
