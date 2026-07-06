@@ -496,8 +496,8 @@ ffc script SetScreenDIfHasItem {
                setScreenD(screenD, false);
             else
                setScreenD(screenD, true);
-         } 
-         else 
+         }
+         else
             if (invert > -1)
                setScreenD(screenD, true);
             else
@@ -1083,11 +1083,11 @@ ffc script SideviewElevator {
 
       if (!elevatorsAtHome[elevatorIndex]) {
          switch(modifiedDirection) {
-            case DIR_UP: 
+            case DIR_UP:
                modifiedDirection = DIR_DOWN;
                this->Y = this->Y - distance;
                break;
-            case DIR_DOWN: 
+            case DIR_DOWN:
                modifiedDirection = DIR_UP;
                this->Y = this->Y + distance;
                break;
@@ -1095,7 +1095,7 @@ ffc script SideviewElevator {
                modifiedDirection = DIR_RIGHT;
                this->X = this->X - distance;
                break;
-            case DIR_RIGHT: 
+            case DIR_RIGHT:
                modifiedDirection = DIR_LEFT;
                this->X = this->X + distance;
                break;
@@ -1107,7 +1107,7 @@ ffc script SideviewElevator {
 
          if (((Abs((Hero->X + 8) - (this->X + (this->TileWidth * 8))) < 8) && Abs(Hero->Y - this->Y) == 16)) {
             if (gameframe % 10 == 0)
-               this->CSet = this->CSet == thisCSet ? csetMod : thisCSet; 
+               this->CSet = this->CSet == thisCSet ? csetMod : thisCSet;
 
             bool takeTheVator = false;
 
@@ -1121,10 +1121,10 @@ ffc script SideviewElevator {
             if (takeTheVator) {
                //Taking the elevator in in the direction of direction
                Audio->PlaySoundEx(SFX_SM_ELEVATOR_LOOP, 100, 0, 0, true);
-               
+
                for (int i = distance; i > 0; --i) {
                   if (gameframe % 10 == 0)
-                     this->CSet = this->CSet == thisCSet ? csetMod : thisCSet; 
+                     this->CSet = this->CSet == thisCSet ? csetMod : thisCSet;
 
                   if (modifiedDirection == DIR_UP || modifiedDirection == DIR_DOWN)
                      Hero->X = (this->X + (this->TileWidth * 8)) - 8;
@@ -1146,10 +1146,10 @@ ffc script SideviewElevator {
                         this->X -= speed;
                         break;
                   }
-                  
+
                   // while (HeroIsScrollingOrWarping()) { logic to handle 2 elevators appearing when scrolling
                   //    this->Data = CMB_INVIS;
-                  //    Waitframe();   
+                  //    Waitframe();
                   // }
 
                   Waitframe();
@@ -1163,16 +1163,16 @@ ffc script SideviewElevator {
                elevatorsAtHome[elevatorIndex] = !elevatorsAtHome[elevatorIndex];
 
                switch(modifiedDirection) {
-                  case DIR_UP: 
+                  case DIR_UP:
                      modifiedDirection = DIR_DOWN;
                      break;
-                  case DIR_DOWN: 
+                  case DIR_DOWN:
                      modifiedDirection = DIR_UP;
                      break;
                   case DIR_LEFT:
                      modifiedDirection = DIR_RIGHT;
                      break;
-                  case DIR_RIGHT: 
+                  case DIR_RIGHT:
                      modifiedDirection = DIR_LEFT;
                      break;
                }
@@ -1182,7 +1182,44 @@ ffc script SideviewElevator {
          }
          else
             this->CSet = thisCSet;
-         
+
+         Waitframe();
+      }
+   }
+}
+
+@InitD0("portalId"),
+@InitDHelp0("The id that connects this portal to the other"),
+@Author("Deathrider")
+ffc script Portal {
+   void run(int portalId) { //TODO would be nice to handle collision with portal sphere projectiles too...
+      CONFIG CMB_DORMANT_PORTAL = this->Data;
+      CONFIG CMB_ACTIVE_PORTAL = 8736;
+
+      loop () {
+         while (this->Data == CMB_DORMANT_PORTAL)
+            Waitframe();
+
+         if (Abs(Hero->X - this->X) < 4 && Abs(Hero->Y - this->Y) < 4) {
+            ffc otherPortal;
+
+            for (int i = 1; i <= MAX_FFC; ++i) {
+               otherPortal = Screen->LoadFFC(i);
+
+               if (otherPortal->Script == Game->GetFFCScript("Portal") && otherPortal->ID != this->ID && otherPortal->InitD[0] == portalId) {
+                  Hero->X = otherPortal->X;
+                  Hero->Y = otherPortal->Y;
+                  break;
+               }
+            }
+
+            this->Data = CMB_DORMANT_PORTAL;
+            otherPortal->Data = CMB_DORMANT_PORTAL;
+
+            while (Abs(Hero->X - otherPortal->X) < 8 && Abs(Hero->Y - otherPortal->Y) < 8)
+               Waitframe();
+         }
+
          Waitframe();
       }
    }
