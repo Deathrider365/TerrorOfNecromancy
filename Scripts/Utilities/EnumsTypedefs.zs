@@ -313,7 +313,9 @@ enum Sprite {
    SPR_ENEMY_FLAME_HELLS2X2 = 147,
 
    SPR_SMALL_ROCK = 118,
-   SPR_SUPER_SMALL_ROCK = 18
+   SPR_SUPER_SMALL_ROCK = 18,
+
+   SPR_WHIRLWIND = 13
 };
 
 enum Counters {

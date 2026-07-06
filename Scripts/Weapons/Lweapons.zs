@@ -1,72 +1,19 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LWeapons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 // clang-format off
-@Author("EmilyV99")
-lweapon script GaleBoomerang {
+@InitD0("turnRate"),
+@InitDHelp0("Degrees the boomerang will turn per frame"),
+@Author("Emily, Deathrider365")
+lweapon script ContollableBoomerang {
    // clang-format on
-
-   // REQUIRES: `ZScript>>Quest Script Settings>>Objects` - `Weapons Live One Extra Frame With WDS_DEAD` must be checked.
-   // InitD[]:
-   // D0: turn rate (degrees per frame)
-   // D1: wind drop rate (every x frames, drop wind visual effect)
-   //  Sprites[]:
-   //  - 0 = sprite for the weapon
-   //  - 1 = sprite for the wind visual effect
-
-   CONFIG CF_BRANG_BOUNCE = CF_SCRIPT20;
-
-   CONFIG DEFAULT_SPRITE = 5;
-   CONFIG DEFAULT_WIND_SPRITE = 13;
-
-   CONFIG DEFAULT_SFX = 63;
-
-   CONFIG SFX_DELAY = 5;
-
-   DEFINE ROTATION_RATE = 40; // degrees
-
-   CONFIGB FORCE_QRS_TO_NEEDED_STATE = true;
-   CONFIGB BOUNCE_OFF_FLAGS_ON_LAYERS_1_AND_2 = true;
-   CONFIGB STOPS_WHEN_GRABBING_ITEMS = true;
-
-   void run(int turnRate, int wind_drop_rate) {
-      // Game->FFRules[qr_WEAPONS_EXTRA_FRAME] = true;
-      // Game->FFRules[qr_OLDSPRITEDRAWS] = false;
-      // Game->FFRules[qr_CHECKSCRIPTWEAPONOFFSCREENCLIP] = true;
-
-      itemdata parent;
-      int wind_sprite;
-      int windClock;
-      int sfxClock;
-      int sfx;
-
-      // Initialize with data from the item that created this.
-      if (this->Parent > -1) {
-         parent = Game->LoadItemData(this->Parent);
-         this->UseSprite(parent->Sprites[0]);
-         wind_sprite = parent->Sprites[1];
-         sfx = parent->UseSound;
-      }
-      // If this weapon was created by a script, instead of an item, initialize with defaults.
-      else {
-         parent = NULL;
-         this->UseSprite(DEFAULT_SPRITE);
-         wind_sprite = DEFAULT_WIND_SPRITE;
-         sfx = DEFAULT_SFX;
-      }
-
+   void run(int turnRate) {
       this->Angular = true;
       this->Angle = DirRad(this->Dir);
+
       int radTurnRate = DegtoRad(turnRate);
       bool controlling = (Input->Button[CB_A] || Input->Button[CB_B]);
-      itemsprite dragging = NULL;
-      bool collided = false;
 
-      until(this->DeadState == WDS_DEAD || collided) {
-         if (dragging) {
-            dragging->X = this->X;
-            dragging->Y = this->Y;
-         }
-
+      until (this->DeadState == WDS_DEAD) {
          if (controlling) {
             if (Input->Button[CB_LEFT])
                this->Angle -= radTurnRate;
@@ -74,93 +21,26 @@ lweapon script GaleBoomerang {
                this->Angle += radTurnRate;
          }
 
-         int position = ComboAt(this->X + 8, this->Y + 8);
-
-         for (int q = 0; q <= (BOUNCE_OFF_FLAGS_ON_LAYERS_1_AND_2 ? 2 : 0); ++q) {
-            mapdata mapData = Game->LoadTempScreen(q);
-
-            if (mapData->ComboF[position] == CF_BRANG_BOUNCE || mapData->ComboI[position] == CF_BRANG_BOUNCE)
-               collided = true;
-         }
-
-         for (int q = Screen->NumItems; q > 0; --q) {
-            itemsprite it = Screen->LoadItem(q);
-
-            unless(it->Pickup & IP_TIMEOUT) continue;
-
-            if (Collision(it, this)) {
-               dragging = it;
-               collided = STOPS_WHEN_GRABBING_ITEMS;
-            }
-         }
-
-         if (this->X < 0 || this->Y < 0 || (this->X + this->HitWidth) > 255 || (this->Y + this->HitHeight) > 175)
-            collided = true; // Collide if off-screen
-
          if (controlling)
             ++Hero->Stun;
 
-         windClock = (windClock + 1) % wind_drop_rate;
-         sfxClock = (sfxClock + 1) % SFX_DELAY;
-
-         unless(windClock) drop_sparkle(this->X, this->Y, wind_sprite);
-
-         unless(sfxClock) Audio->PlaySound(sfx);
-
-         this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
          Waitframe();
 
          if (controlling)
             controlling = (Input->Button[CB_A] || Input->Button[CB_B]);
       }
 
-      while (true) {
+      loop () {
          this->DeadState = WDS_ALIVE;
-         this->Angle = TurnTowards(this->X, this->Y, Hero->X, Hero->Y, this->Angle, 1); // Turn directly towards the Hero.
+         this->Angle = TurnTowards(this->X, this->Y, Hero->X, Hero->Y, this->Angle, 1);
 
-         // touching the Hero
          if (Collision(this)) {
             this->DeadState = WDS_DEAD;
-
-            if (dragging) {
-               dragging->X = Hero->X;
-               dragging->Y = Hero->Y;
-            }
-
             return;
          }
 
-         if (dragging) {
-            dragging->X = this->X;
-            dragging->Y = this->Y;
-         }
-
-         windClock = (windClock + 1) % wind_drop_rate;
-         sfxClock = (sfxClock + 1) % SFX_DELAY;
-
-         unless(windClock) drop_sparkle(this->X, this->Y, wind_sprite);
-
-         unless(sfxClock) Audio->PlaySound(sfx);
-
-         this->Rotation = WrapDegrees(this->Rotation + ROTATION_RATE);
          Waitframe();
       }
-   }
-
-   void drop_sparkle(int x, int y, int sprite) {
-      lweapon sparkle = Screen->CreateLWeapon(LW_SPARKLE);
-      sparkle->X = x;
-      sparkle->Y = y;
-      sparkle->UseSprite(sprite);
-   }
-}
-
-// clang-format off
-@Author("Deathrider365")
-lweapon script PortalSphere {
-   // clang-format on
-
-   void run() {
    }
 }
 
@@ -288,7 +168,7 @@ lweapon script TimedEffect {
 
 // clang-format off
 @Author("Moosh")
-lweapon script FlamingArrow {
+lweapon script FlamingArrow { //TODO needed?
    // clang-format on
 
    void run() {
