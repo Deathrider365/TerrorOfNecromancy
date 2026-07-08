@@ -731,7 +731,7 @@ creating a goron haven. Mt. Caldum refers to the massive mountain range, but in 
 As if the land at the base of Caldum wasn't treacherous enough, you have the Caldum volcano to worry about. It is unknown how there is even vegetation in the Caldum Wastes, but it certainly creates a very unique
 area on Interitus.
 
-   As mentioned there is a long settled clan of Gorons within the cave system of Caldum. Unlike their brethren of Duratu which have struggled to find a consistent home in Duratu and had to content with a fabled
+   As mentioned there is a long settled clan of Gorons within the cave system of Caldum. Unlike their brethren of Duratu which have struggled to find a consistent home in Duratu and had to contend with a fabled
 goron eater, the gorons of Caldum dominate their mountain and are very cozy in Caldum. As such, the gorons link will encounter in the enclave will be very friendly towards him, albeit very prideful and referring to
 themselves as "true gorons". In addition to this, they will have some choice words about the gorons of Duratu and how they are not "true gorons". Link gathers that there is some unknown beef between these two clans
 of gorons, and it isnt until he speaks to the elder of the Caldum clan that things start to make sense. The elder will first welcome link with open arms, but he has no knowledge of who he is as well as the events
@@ -756,12 +756,12 @@ Volvagia, Riafron does eat all rocks and rock people, but unlike Volvagia, Riafr
 the eastern side of the Caldum wastes and ventured into volcano in search of more ores and materials for his conquest. Instead he found the lair to Riafron. Like with the other beasts Aemulor encountered, he tried
 to command it, Riafron could not be commanded. They had a great battle in the bowels of the volcano, despite the power of the great inferno dragon, aemulor and his legionnaiers were able to fell the beast.
 
-   The elder tells like about Riafron, and what he is. He also tells like about a prophecy that Duratu gave Caldum when they disowned eachother;
+   The elder tells Link about Riafron, and what he is. He also tells like about a prophecy that Duratu gave Caldum when they disowned eachother;
 
       "That mountain will be your downfall! Gorons alone cannot stop the darkness of this world! Should you seclude yourself further, you will cease to exist!"
 
-   This prophecy combined with the knowledge that there is a goron devouing dragon under their feet has made the Caldum descendent restless, and seeing a strong looking human coming into the enclave gives the elder
-hope. He asks if Link would venture into the volcano and vanquish the dragon. Venturing throughout the cave system of Caldum, Link will find himself at the foot of the caldera and onward, the volcano
+   This prophecy combined with the knowledge that there is a goron devouring dragon under their feet has made the Caldum descendent restless, and seeing a strong looking human coming into the enclave gives the elder
+hope. He asks if Link would venture into the volcano and vanquish the dragon. Venturing throughout the cave system of Caldum, Link will find himself at the foot of the caldera and onward, the volcano.
 
 <<Level 10: Infernal Caldera>
 ~ Ravenous Inferno Serpent---Riafron---~
@@ -1040,7 +1040,7 @@ Castle Interitus. Right Hand sits on the throne with all of the people of Vita g
 ~ --- ---~
 
    The Chapel of Rumination is a building that has no known meaning to those alive today however, back in the days of Vita it was used by those who have trama that they have not yet dealt with. For Link, his journey
-was rough and isnt sitting well with him. Entering the chapel Link finds an empty grayscale room, in the center, 
+was rough and isnt sitting well with him. Entering the chapel Link finds an empty grayscale room, in the center, <CONTINUE HERE, CONTINUE HERE, CONTINUE HERE, CONTINUE HERE, CONTINUE HERE, CONTINUE HERE>
 
 
 
