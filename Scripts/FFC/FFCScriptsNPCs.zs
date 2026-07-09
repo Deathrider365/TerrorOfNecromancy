@@ -946,38 +946,175 @@ ffc script PalusElder {
 
 // clang-format off
 @Author("Deathrider365")
-ffc script DuratuElder {
+ffc script DuratuElder { //Pater Glacies
 // clang-format on
-   void run(int initialMessage, int secondaryMessage, int tertiaryMessage, int initialScreenD) {
-      if (Screen->State[ST_SECRET]) {
+   void run(int initialMessage, int secondaryMessage,  int initialScreenD, int tertiaryMessage, int preFeudMessage, bool isHair) {
+      CONFIG SCREEND_GORON_FEUD_INITIATED = 0;
+      CONFIG SCREEND_GORON_FEUD_STAGE_1 = 1;
+      CONFIG SCREEND_GORON_FEUD_STAGE_2 = 2;
+      CONFIG SCREEND_GORON_FEUD_STAGE_3 = 3;
+      CONFIG SCREEND_LV6_BOSS_BEATEN = 4;
+
+      CONFIG MESSAGE_FEUD1 = 1386;
+      CONFIG MESSAGE_FEUD2 = 1388;
+      CONFIG MESSAGE_FEUD3 = 1390;
+
+      bool lvl6BossRoomTriggered = Game->LoadMapData(107, 0x48)->State[ST_SECRET];
+      bool necromancerBossRoomTriggered = Game->LoadMapData(171, 0x3E)->State[ST_SECRET];
+
+      if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || getScreenD(SCREEND_GORON_FEUD_STAGE_2)) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
       }
 
-      loop() {
-         mapdata lvl6BossRoom = Game->LoadMapData(107, 0x48);
-
-         waitForTalking(this);
-
-         if (!lvl6BossRoom->State[ST_SECRET]) {
-            if (!getScreenD(initialScreenD)) {
-               Screen->Message(initialMessage);
-               setScreenD(initialScreenD, true);
-            } else {
-               Screen->Message(secondaryMessage);
-            }
-         } else {
-            Screen->Message(tertiaryMessage);
-            Waitframe();
-
-            Screen->TriggerSecrets();
-            Screen->State[ST_SECRET] = true;
-            Audio->PlaySound(SFX_SECRET);
-
+      while (isHair) {
+         if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || getScreenD(SCREEND_GORON_FEUD_STAGE_2)) {
             this->Data = CMB_INVIS;
             this->Flags[FFCF_SOLID] = false;
             Quit();
+         }
+
+         Waitframe();
+      }
+
+      loop() {
+         waitForTalking(this);
+
+         if (getScreenD(SCREEND_GORON_FEUD_INITIATED)) {
+            if (!getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_2)) {
+               if (getScreenD(SCREEND_GORON_FEUD_STAGE_1))
+                  Screen->Message(MESSAGE_FEUD2);
+               else {
+                  Screen->Message(MESSAGE_FEUD1);
+                  setScreenD(SCREEND_GORON_FEUD_STAGE_1, true);
+               }
+               Waitframe();
+            }
+            else if (!getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_3)) {
+               Screen->Message(MESSAGE_FEUD3);
+               Waitframe();
+               setScreenD(SCREEND_GORON_FEUD_STAGE_2, true);
+
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+            else if (getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_3)) {
+               Screen->Message(MESSAGE_FEUD1);
+               Waitframe();
+            }
+         }
+         else {
+            if (!lvl6BossRoomTriggered && !necromancerBossRoomTriggered) {
+               if (!getScreenD(initialScreenD)) {
+                  Screen->Message(initialMessage);
+                  Waitframe();
+                  setScreenD(initialScreenD, true);
+               } else {
+                  Screen->Message(secondaryMessage);
+                  Waitframe();
+               }
+            }
+            else if (lvl6BossRoomTriggered && !necromancerBossRoomTriggered) {
+               Screen->Message(tertiaryMessage);
+               Waitframe();
+
+               setScreenD(SCREEND_LV6_BOSS_BEATEN, true);
+               Audio->PlaySound(SFX_SECRET);
+
+               this->Data = CMB_INVIS;
+               this->Flags[FFCF_SOLID] = false;
+               Quit();
+            }
+            else if (necromancerBossRoomTriggered) {
+               Screen->Message(preFeudMessage);
+               Waitframe();
+            }
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script CaldumElder { //Pater Ignis
+// clang-format on
+   void run(int initialMessage, int secondaryMessage, int feudMessageInitiated, int initialScreenD, int feudMessage1, int feudMessage2,  int feudMessage3) {
+      CONFIG SCREEND_GORON_FEUD_INITIATED = 0;
+      CONFIG SCREEND_GORON_FEUD_STAGE_1 = 1;
+      CONFIG SCREEND_GORON_FEUD_STAGE_2 = 2;
+      CONFIG SCREEND_GORON_FEUD_STAGE_3 = 3;
+
+      CONFIG COMBO_DURATU_ELDER_BODY = 5818;
+      CONFIG COMBO_DURATU_ELDER_HAIR = 5814;
+
+      bool lvl10BossRoomTriggered = false;// = Game->LoadMapData(107, 0x48)->State[ST_SECRET]; //TODO determine this
+
+      loop() {
+         until(againstFFC(this->X, this->Y, false) && Input->Press[CB_A]) {
+            if (againstFFC(this->X, this->Y, false))
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+               if (getScreenD(35, 0x3D, SCREEND_GORON_FEUD_STAGE_2) && !getScreenD(SCREEND_GORON_FEUD_STAGE_3)) {
+                  Screen->FastCombo(1, 136, 80, COMBO_DURATU_ELDER_BODY, 0, OP_OPAQUE);
+                  Screen->FastCombo(1, 136, 64, COMBO_DURATU_ELDER_HAIR, 0, OP_OPAQUE);
+               }
+
+            Waitframe();
+         }
+
+         Input->Button[CB_A] = false;
+
+         if (getScreenD(SCREEND_GORON_FEUD_INITIATED)) {
+            if (!getScreenD(35, 0x3D, SCREEND_GORON_FEUD_STAGE_1)) {
+               Screen->Message(feudMessageInitiated + 5);
+               Waitframe();
+               setScreenD(SCREEND_GORON_FEUD_STAGE_1, true);
+            }
+            else if (!getScreenD(35, 0x3D, SCREEND_GORON_FEUD_STAGE_2)) {
+               Screen->Message(feudMessage1);
+               Waitframe();
+               setScreenD(SCREEND_GORON_FEUD_STAGE_2, true);
+            }
+            else if (!getScreenD(SCREEND_GORON_FEUD_STAGE_3)) {
+               if (getScreenD(SCREEND_GORON_FEUD_STAGE_3)) {
+                  Screen->Message(feudMessage3);
+                  Waitframe();
+               }
+               else {
+                  Screen->Message(feudMessage2);
+                  Screen->FastCombo(1, 136, 80, COMBO_DURATU_ELDER_BODY, 0, OP_OPAQUE);
+                  Screen->FastCombo(1, 136, 64, COMBO_DURATU_ELDER_HAIR, 0, OP_OPAQUE);
+                  Waitframe();
+                  setScreenD(SCREEND_GORON_FEUD_STAGE_3, true);
+
+                  item it = CreateItemAt(ITEM_BOMB3, Hero->X, Hero->Y);
+                  it->Pickup = IP_HOLDUP;
+               }
+            }
+            else {
+               Screen->Message(feudMessage3); //Thanks for helping us!
+            }
+         }
+         else {
+            if (!lvl10BossRoomTriggered) {
+               if (!getScreenD(initialScreenD)) {
+                  Screen->Message(initialMessage);
+                  setScreenD(initialScreenD, true);
+               }
+               else {
+                  Screen->Message(secondaryMessage);
+                  lvl10BossRoomTriggered = true; //TODO REMOVE ME
+               }
+            }
+            else if (lvl10BossRoomTriggered && !getScreenD(SCREEND_GORON_FEUD_INITIATED)) {
+               Screen->Message(feudMessageInitiated);
+               setScreenD(SCREEND_GORON_FEUD_INITIATED, true);
+               setScreenD(35, 0x3D, SCREEND_GORON_FEUD_INITIATED, true);
+            }
          }
 
          Waitframe();

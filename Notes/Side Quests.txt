@@ -86,7 +86,6 @@
    - Goron Clan sidequest
       - Goron Special Crop             Caldum Goron Enclave             None + None
 
-~~ Other Sequences ~~~
    - Magic Ring                        Level 6                          None + Level 6
       - Shard 1                        Forest Shack                     None + Flippers (Level 7)
       - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)
@@ -124,6 +123,16 @@
       - 6
       - 7
 
+   - Goron Feud - IDK
+      - 1                              Beat Level 9 boss
+      - 2                              Beat Level 10 boss
+      - 3                              Talk to Caldum elder to start the sequence
+      - 4                              Talk to Duratu elder to continue
+      - 5                              Talk to Caldum elder to continue
+      - 6                              Talk to Duratu elder to have him go to Caldum
+      - 7                              With both together eventually fences are mended
+
+~~~ Legionnaire Rings ~~~
    - Legionnaire Rings
       1 - Temple of Haeren             (Lv1)
       2 - Level 1                      (Lv1)
@@ -146,6 +155,7 @@
       19 -                             (Lv6) Elite
       20 -                             (Lv6) Elite
 
+~~~ Heart Pieces ~~~
    - Heart Pieces
       1 - Isle of Haeren               1:1D                             None + Longshot (Level 9)
       2 - Isle of Haeren               1:22                             None + None
