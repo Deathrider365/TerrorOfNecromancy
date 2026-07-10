@@ -954,22 +954,24 @@ ffc script DuratuElder { //Pater Glacies
       CONFIG SCREEND_GORON_FEUD_STAGE_2 = 2;
       CONFIG SCREEND_GORON_FEUD_STAGE_3 = 3;
       CONFIG SCREEND_LV6_BOSS_BEATEN = 4;
+      CONFIG SCREEND_DURATU_ELDER_CAMEO = 5;
 
       CONFIG MESSAGE_FEUD1 = 1386;
       CONFIG MESSAGE_FEUD2 = 1388;
       CONFIG MESSAGE_FEUD3 = 1390;
+      CONFIG MESSAGE_FEUD4 = 1397;
 
       bool lvl6BossRoomTriggered = Game->LoadMapData(107, 0x48)->State[ST_SECRET];
       bool necromancerBossRoomTriggered = Game->LoadMapData(171, 0x3E)->State[ST_SECRET];
 
-      if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || getScreenD(SCREEND_GORON_FEUD_STAGE_2)) {
+      if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || (!getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_3) && getScreenD(SCREEND_GORON_FEUD_STAGE_2))) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
       }
 
       while (isHair) {
-         if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || getScreenD(SCREEND_GORON_FEUD_STAGE_2)) {
+         if ((getScreenD(SCREEND_LV6_BOSS_BEATEN) && !necromancerBossRoomTriggered) || (!getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_3) && getScreenD(SCREEND_GORON_FEUD_STAGE_2))) {
             this->Data = CMB_INVIS;
             this->Flags[FFCF_SOLID] = false;
             Quit();
@@ -995,13 +997,15 @@ ffc script DuratuElder { //Pater Glacies
                Screen->Message(MESSAGE_FEUD3);
                Waitframe();
                setScreenD(SCREEND_GORON_FEUD_STAGE_2, true);
+               setScreenD(125, 0x42, SCREEND_DURATU_ELDER_CAMEO, true);
 
+               Audio->PlaySound(SFX_SECRET);
                this->Data = CMB_INVIS;
                this->Flags[FFCF_SOLID] = false;
                Quit();
             }
             else if (getScreenD(125, 0x42, SCREEND_GORON_FEUD_STAGE_3)) {
-               Screen->Message(MESSAGE_FEUD1);
+               Screen->Message(MESSAGE_FEUD4);
                Waitframe();
             }
          }
@@ -1038,6 +1042,48 @@ ffc script DuratuElder { //Pater Glacies
    }
 }
 
+@Author("Deathrider365")
+ffc script DuratuElderCameo {
+   void run(int message, bool isHair) {
+      CONFIG SCREEND_DURATU_ELDER_CAMEO = 5;
+      CONFIG COMBO_ELDER_IS_NOW_EYEBALL = 5844;
+      CONFIG COMBO_ELDER_IS_NOW_EYEBALL_HAIR = 5840;
+
+      int thisData = this->Data;
+
+      if (!getScreenD(SCREEND_DURATU_ELDER_CAMEO)) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      until (Abs(Hero->X - 136) < 2 && Abs(Hero->Y - 112) < 2) {
+         this->Data = isHair ? COMBO_ELDER_IS_NOW_EYEBALL_HAIR : COMBO_ELDER_IS_NOW_EYEBALL;
+         Waitframe();
+      }
+
+      this->Data = isHair ? thisData - 4 : thisData;
+
+      loop() {
+         if (!getScreenD(SCREEND_DURATU_ELDER_CAMEO)) {
+            this->Data = isHair ? COMBO_ELDER_IS_NOW_EYEBALL_HAIR : COMBO_ELDER_IS_NOW_EYEBALL;
+            break;
+         }
+
+         Waitframe();
+      }
+
+      loop() {
+         unless (isHair) {
+            waitForTalking(this);
+            Screen->Message(message);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
 // clang-format off
 @Author("Deathrider365")
 ffc script CaldumElder { //Pater Ignis
@@ -1047,24 +1093,13 @@ ffc script CaldumElder { //Pater Ignis
       CONFIG SCREEND_GORON_FEUD_STAGE_1 = 1;
       CONFIG SCREEND_GORON_FEUD_STAGE_2 = 2;
       CONFIG SCREEND_GORON_FEUD_STAGE_3 = 3;
-
-      CONFIG COMBO_DURATU_ELDER_BODY = 5818;
-      CONFIG COMBO_DURATU_ELDER_HAIR = 5814;
+      CONFIG SCREEND_DURATU_ELDER_CAMEO = 5;
 
       bool lvl10BossRoomTriggered = false;// = Game->LoadMapData(107, 0x48)->State[ST_SECRET]; //TODO determine this
 
       loop() {
-         until(againstFFC(this->X, this->Y, false) && Input->Press[CB_A]) {
-            if (againstFFC(this->X, this->Y, false))
-               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
-
-               if (getScreenD(35, 0x3D, SCREEND_GORON_FEUD_STAGE_2) && !getScreenD(SCREEND_GORON_FEUD_STAGE_3)) {
-                  Screen->FastCombo(1, 136, 80, COMBO_DURATU_ELDER_BODY, 0, OP_OPAQUE);
-                  Screen->FastCombo(1, 136, 64, COMBO_DURATU_ELDER_HAIR, 0, OP_OPAQUE);
-               }
-
-            Waitframe();
-         }
+         unless (getScreenD(SCREEND_DURATU_ELDER_CAMEO))
+            waitForTalking(this);
 
          Input->Button[CB_A] = false;
 
@@ -1085,11 +1120,16 @@ ffc script CaldumElder { //Pater Ignis
                   Waitframe();
                }
                else {
+                  positionLink();
+
                   Screen->Message(feudMessage2);
-                  Screen->FastCombo(1, 136, 80, COMBO_DURATU_ELDER_BODY, 0, OP_OPAQUE);
-                  Screen->FastCombo(1, 136, 64, COMBO_DURATU_ELDER_HAIR, 0, OP_OPAQUE);
                   Waitframe();
+
                   setScreenD(SCREEND_GORON_FEUD_STAGE_3, true);
+                  setScreenD(SCREEND_DURATU_ELDER_CAMEO, false);
+
+                  Screen->Message(feudMessage2 + 5);
+                  Waitframe();
 
                   item it = CreateItemAt(ITEM_BOMB3, Hero->X, Hero->Y);
                   it->Pickup = IP_HOLDUP;
@@ -1117,6 +1157,35 @@ ffc script CaldumElder { //Pater Ignis
             }
          }
 
+         Waitframe();
+      }
+   }
+
+   void positionLink() {
+      while (HeroIsScrollingOrWarping()) Waitframe();
+
+      for (int i = 0; i < 60; ++i) {
+         disableLink();
+         Waitframe();
+      }
+
+      until (Abs(Hero->X - 136) < 2 && Abs(Hero->Y - 112) < 2) {
+         disableLink();
+
+         if (Hero->Y >= 113) Hero->InputUp = true;
+         else if (Hero->Y <= 111) Hero->InputDown = true;
+
+
+         if (Hero->X >= 135) Hero->InputLeft = true;
+         else if (Hero->X <= 137) Hero->InputRight = true;
+
+         Waitframe();
+      }
+
+      Hero->Dir = DIR_UP;
+
+      for (int i = 0; i < 60; ++i) {
+         disableLink();
          Waitframe();
       }
    }
@@ -1555,21 +1624,6 @@ ffc script SoTranquilLady {
          }
          else
             Screen->Message(tertiaryMessage);
-
-         Waitframe();
-      }
-   }
-}
-
-@Author("Deathrider365")
-ffc script RisingFallingLiquid {
-   void run(int combo) {
-      loop() {
-         for (int i = 0; i < 176; i++) {
-            if (Screen->ComboD[i] == combo) {
-               // Make the combo rise and fall
-            }
-         }
 
          Waitframe();
       }
