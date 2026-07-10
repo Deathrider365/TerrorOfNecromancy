@@ -86,6 +86,9 @@
    - Goron Clan sidequest
       - Goron Special Crop             Caldum Goron Enclave             None + None
 
+   - Heart Piece Lady
+      - Full Wallet refill             SWI Residence (0x6F)             Not Grabbing the HP in Viridi + None
+
    - Magic Ring                        Level 6                          None + Level 6
       - Shard 1                        Forest Shack                     None + Flippers (Level 7)
       - Shard 2                        Ice Caves SEI Duratu             None + Longshot (Level 9)

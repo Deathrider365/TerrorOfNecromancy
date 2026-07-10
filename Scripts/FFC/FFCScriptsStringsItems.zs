@@ -755,7 +755,6 @@ ffc script GetItemFromSecretAtLocation {
 @Author("Tabletpillow, EmilyV99, Deathrider365")
 ffc script Shop {
    // clang-format on
-
    CONFIG COMBO_A_BUTTON = 48;
    CONFIG COMBO_B_BUTTON = 49;
 
@@ -921,10 +920,10 @@ ffc script BuyItem {
             }
 
             this->Data = CMB_INVIS;
-         } 
+         }
          else
             Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-            
+
          Waitframe();
       }
    }

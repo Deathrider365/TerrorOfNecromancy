@@ -772,9 +772,8 @@ ffc script Lvl9HylianGeneral {
 @Author("Deathrider365")
 ffc script Lvl9LobbyNpc {
    // clang-format on
-   void run(int map, int screen, int preBossMessage, int postBossMessage, int screenD, int isHair) {
-      //if this npc shouldnt appear
-      if (!Game->LoadMapData(map, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2]) {
+   void run(int map, int screen, int preBossMessage, int postBossMessage, int screenD, int isHair, int vanishOnBossBeatMessage = -1) {
+      if (!Game->LoadMapData(map, screen)->State[ST_SECRET] || !Hero->Item[ITEM_HOOKSHOT2] || (vanishOnBossBeatMessage > -1 && getScreenD(vanishOnBossBeatMessage))) {
          this->Data = CMB_INVIS;
          this->Flags[FFCF_SOLID] = false;
          Quit();
@@ -787,8 +786,12 @@ ffc script Lvl9LobbyNpc {
 
          if (!Game->LoadMapData(171, 0x3E)->State[ST_SECRET])
             Screen->Message(preBossMessage);
-         else
+         else {
             Screen->Message(postBossMessage);
+
+            if (vanishOnBossBeatMessage)
+               setScreenD(vanishOnBossBeatMessage, true);
+         }
 
          Waitframe();
       }
@@ -800,13 +803,16 @@ ffc script Lvl9LobbyNpc {
 ffc script Lvl9LobbyZelda {
    // clang-format on
    void run() {
+      CONFIG MESSAGE_UH_OH = 1399;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_NO_STAGE = 1400;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE = 1401;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE = 1402;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE = 1403;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE = 1404;
-      CONFIG MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE = 1405;
-      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1406; //TODO write the dialog and set the variables
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_FIFTH_STAGE = 1405;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_SIXTH_STAGE = 1406;
+      CONFIG MESSAGE_PRE_BOSS_ZELDA_SEVENTH_STAGE = 1407;
+      CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1408;
 
       int zeldaStage = 0;
 
@@ -814,7 +820,7 @@ ffc script Lvl9LobbyZelda {
       // so the first stage represents that you only talked to zelda once, so her dialog would vary based on if you never talked
       // to her pre lv9, or if you talked to her completely
 
-      for (int i = 0; i < 4; ++i) { //TODO update these stages
+      for (int i = 0; i < 7; ++i) { //TODO update these stages
          if (getScreenD(48, 0x02, i))
             zeldaStage = i;
       }
@@ -827,25 +833,19 @@ ffc script Lvl9LobbyZelda {
             Screen->Message(MESSAGE_LVL9_BOSS_BEATEN);
          }
          //if you completed all of zelda's stages
-         else if (Game->LoadMapData(57, 0x02)->State[ST_SECRET]) {
-            Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FINAL_STAGE);
-         }
+         else if (Game->LoadMapData(57, 0x02)->State[ST_SECRET])
+            Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SEVENTH_STAGE);
          else {
             switch(zeldaStage) {
-               case 1:
-                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE);
-                  break;
-               case 2:
-                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE);
-                  break;
-               case 3:
-                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE);
-                  break;
-               case 4:
-                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE);
-                  break;
-               default:
-                  Screen->Message(MESSAGE_PRE_BOSS_ZELDA_NO_STAGE);
+               case 0: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_NO_STAGE); break;
+               case 1: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIRST_STAGE); break;
+               case 2: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SECOND_STAGE); break;
+               case 3: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_THIRD_STAGE); break;
+               case 4: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FOURTH_STAGE); break;
+               case 5: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_FIFTH_STAGE); break;
+               case 6: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SIXTH_STAGE); break;
+               case 7: Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SEVENTH_STAGE); break;
+               default: Screen->Message(MESSAGE_UH_OH);
             }
          }
 
@@ -1604,7 +1604,6 @@ ffc script CumpuraKeySoldier {
    }
 }
 
-
 // clang-format off
 @Author("Deathrider365")
 ffc script SoTranquilLady {
@@ -1624,6 +1623,129 @@ ffc script SoTranquilLady {
          }
          else
             Screen->Message(tertiaryMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script HeartPieceLady {
+// clang-format on
+   void run(int saidYesToRefillScreenD, int saidNoToRefillScreenD, int pissedHerOffScreenD) {
+      CONFIG MESSAGE_YOU_THIEF = 1467;
+      CONFIG MESSAGE_YOU_HEATHEN = 1468;
+
+      CONFIG MESSAGE_YOU_NO_THIEF_WANT_MONEY = 1463;
+      CONFIG MESSAGE_YOU_NO_THIEF_STILL_WANT_MONEY = 1466;
+
+      CONFIG MESSAGE_ALREADY_FULL_ON_MONEY_OH_WELLS = 1471;
+
+      CONFIG MESSAGE_YOU_CAN_TAKE_HEART_PIECE = 1470;
+      CONFIG MESSAGE_FINAL_MESSAGE = 1469;
+
+      bool tookHeartPiece = Game->LoadMapData(16, 0x4D)->State[ST_ITEM];
+
+      loop() {
+         waitForTalking(this);
+
+         if (getScreenD(saidYesToRefillScreenD)) {
+            Screen->Message(MESSAGE_FINAL_MESSAGE);
+            Waitframe();
+         }
+         else if (!tookHeartPiece) {
+            if (getScreenD(saidYesToRefillScreenD)) {
+               Screen->Message(MESSAGE_FINAL_MESSAGE);
+               Waitframe();
+            }
+            else if (getScreenD(saidNoToRefillScreenD)) {
+               Screen->Message(MESSAGE_YOU_NO_THIEF_STILL_WANT_MONEY);
+               Waitframe();
+
+               if (playerMustChoose()) {
+                  if (Game->Counter[CR_MONEY] == Game->MCounter[CR_MONEY]) {
+                     Screen->Message(MESSAGE_ALREADY_FULL_ON_MONEY_OH_WELLS);
+                     Waitframe();
+                  }
+                  else
+                     Game->DCounter[CR_MONEY] += Game->MCounter[CR_MONEY] - Game->Counter[CR_MONEY];
+
+                  setScreenD(saidYesToRefillScreenD, true);
+                  setScreenD(saidNoToRefillScreenD, false);
+               }
+               else {
+                  setScreenD(saidYesToRefillScreenD, false);
+                  setScreenD(saidNoToRefillScreenD, true);
+               }
+            }
+            else {
+               Screen->Message(MESSAGE_YOU_NO_THIEF_WANT_MONEY);
+               Waitframe();
+
+               if (playerMustChoose()) {
+                  if (Game->Counter[CR_MONEY] == Game->MCounter[CR_MONEY]) {
+                     Screen->Message(MESSAGE_ALREADY_FULL_ON_MONEY_OH_WELLS);
+                     Waitframe();
+                  }
+                  else
+                     Game->DCounter[CR_MONEY] += Game->MCounter[CR_MONEY] - Game->Counter[CR_MONEY];
+
+                  setScreenD(saidYesToRefillScreenD, true);
+                  setScreenD(saidNoToRefillScreenD, false);
+               }
+               else {
+                  setScreenD(saidYesToRefillScreenD, false);
+                  setScreenD(saidNoToRefillScreenD, true);
+               }
+
+               Screen->Message(MESSAGE_YOU_CAN_TAKE_HEART_PIECE);
+               Waitframe();
+            }
+         }
+         else {
+            if (!getScreenD(pissedHerOffScreenD)) {
+               Screen->Message(MESSAGE_YOU_THIEF);
+               setScreenD(pissedHerOffScreenD, true);
+            }
+            else
+               Screen->Message(MESSAGE_YOU_HEATHEN);
+         }
+
+         Waitframe();
+      }
+   }
+
+   bool playerMustChoose() {
+      bool cursorOnYes = true;
+
+      loop () {
+         notDuringCutsceneLink();
+
+         Screen->FastTile(7, cursorOnYes ? 80 : 128, 16, 46675, 0, OP_OPAQUE);
+
+         if (Input->Press[CB_LEFT] || Input->Press[CB_RIGHT]) {
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
+            cursorOnYes = !cursorOnYes;
+         }
+
+         if (Input->Press[CB_A]) {
+            Audio->PlaySound(cursorOnYes ? 139 : 140);
+
+            for (int i = 0; i < 30; ++i) {
+               Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
+               Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
+               Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
+
+               Waitframe();
+            }
+
+            return cursorOnYes;
+         }
+
+         Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
+         Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
+         Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
 
          Waitframe();
       }

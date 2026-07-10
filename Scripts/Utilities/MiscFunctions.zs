@@ -465,11 +465,31 @@ void takeMapScreenshot() {
 
 // Disables Link
 void disableLink() {
-   NoAction();
-   Hero->PressStart = false;
-   Hero->InputStart = false;
-   Hero->PressMap = false;
-   Hero->InputMap = false;
+	for (int i = CB_UP; i < MAX_NOACTION_INPUT; ++i) {
+		if (i == CB_MAP && NOACTION_SKIP_MAP) continue;
+		if (i == CB_START && NOACTION_SKIP_START) continue;
+		Input->Button[i] = false;
+		Input->Press[i] = false;
+	}
+	/*
+	Hero->InputUp = false; Hero->PressUp = false;
+	Hero->InputDown = false; Hero->PressDown = false;
+	Hero->InputLeft = false; Hero->PressLeft = false;
+	Hero->InputRight = false; Hero->PressRight = false;
+	Hero->InputR = false; Hero->PressR = false;
+	Hero->InputL = false; Hero->PressL = false;
+	Hero->InputA = false; Hero->PressA = false;
+	Hero->InputB = false; Hero->PressB = false;
+	Hero->InputEx1 = false; Hero->PressEx1 = false;
+	Hero->InputEx2 = false; Hero->PressEx2 = false;
+	Hero->InputEx3 = false; Hero->PressEx3 = false;
+	Hero->InputEx4 = false; Hero->PressEx4 = false;
+	*/
+
+   // Hero->PressStart = false;
+   // Hero->InputStart = false;
+   // Hero->PressMap = false;
+   // Hero->InputMap = false;
 }
 
 // Checks if a certain trigger went off
@@ -498,7 +518,8 @@ bool wasTriggered(float trigger) {
 }
 
 void notDuringCutsceneLink() {
-   Hero->Stun = 999; //TODO find a better solution
+   Hero->Stun = 60; //TODO find a better solution
+   // Hero->Stun = 999; //TODO find a better solution
    Hero->PressStart = false;
    Hero->InputStart = false;
    Hero->PressMap = false;

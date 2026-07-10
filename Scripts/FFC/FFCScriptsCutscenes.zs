@@ -1389,6 +1389,9 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG screenD1 = 1;
    CONFIG screenD2 = 2;
    CONFIG screenD3 = 3;
+   CONFIG screenD4 = 4;
+   CONFIG screenD5 = 5;
+   CONFIG screenD6 = 6;
 
    CONFIG HYLIAN_GENERAL_COMBO = 5507;
    CONFIG SERVUS_SOLDIER = 5523;
@@ -1397,6 +1400,8 @@ ffc script GoddessFaithfulZeldaScenes {
    CONFIG DURATU_GORON = 5844;
    CONFIG DURATU_GORON_HAIR = 5840;
    CONFIG CONFLATOS_NEPHEW = 5545;
+
+   CONFIG MESSAGE_OH_NO = 448;
 
    void run() {
       if (Screen->State[ST_SECRET] || Game->LoadMapData(57, 0x26)->State[ST_SECRET]) {
@@ -1413,28 +1418,43 @@ ffc script GoddessFaithfulZeldaScenes {
       mapdata mapDataBeatQuickknife = Game->LoadMapData(66, 0x23);
       mapdata mapDataBeatGamoth = Game->LoadMapData(75, 0x22);
       mapdata mapDataBombRoom = Game->LoadMapData(16, 0x55);
+      mapdata mapDataBeatLvl6 = Game->LoadMapData(107, 0x48);
+      mapdata mapDataBeatLvl7 = Game->LoadMapData(132, 0x6B);
       mapdata mapDataAuriVillageSaved = Game->LoadMapData(9, 0x62);
-      mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x2A);
+      mapdata mapDataBeatLvl8 = Game->LoadMapData(152, 0x29);
 
       loop () {
          waitForTalking(this);
 
+         if (!mapDataBeatQuickknife->State[ST_SECRET])
+            Screen->Message(MESSAGE_OH_NO);
          if (mapDataBeatQuickknife->State[ST_SECRET] && !mapDataBeatGamoth->State[ST_SECRET])
             zeldaIntroDialogue();
          if (mapDataBeatGamoth->State[ST_SECRET] && !mapDataBombRoom->State[ST_SECRET])
             zeldaGetGiantBombsDialogue();
-         if (mapDataBombRoom->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET])
+         if (mapDataBombRoom->State[ST_SECRET] && !mapDataBeatLvl6->State[ST_SECRET])
             zeldaGivesMagicOcarina();
+         if (mapDataBeatLvl6->State[ST_SECRET] && !mapDataBeatLvl7->State[ST_SECRET])
+            zeldaThanksLinkForHelpingDuratu();
+         if (mapDataBeatLvl7->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET] && !mapDataAuriVillageSaved->State[ST_SECRET])
+            zeldaThanksLinkForHelpingCarulem();
          if (mapDataAuriVillageSaved->State[ST_SECRET] && !mapDataBeatLvl8->State[ST_SECRET])
             zeldaThanksLinkForHelpingAuri();
-            //TODO add checks for beating level 6 and 7
          if (mapDataBeatLvl8->State[ST_SECRET])
             zeldaInitiatesTheSiege(this);
-         if (!mapDataBeatQuickknife->State[ST_SECRET])
-            Screen->Message(448); //oops, you shouldnt be here message
 
          Waitframe();
       }
+   }
+
+   void getMagicOcarina() {
+      const int zeldaGettingOcarinaMessage = 441;
+
+      Screen->Message(zeldaGettingOcarinaMessage);
+      Waitframe();
+      itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
+      it->Pickup = IP_HOLDUP;
+      setScreenD(screenD2, true);
    }
 
    void zeldaIntroDialogue() {
@@ -1484,26 +1504,31 @@ ffc script GoddessFaithfulZeldaScenes {
          Screen->Message(zeldaPostIntroMessage);
    }
 
+   void zeldaThanksLinkForHelpingDuratu() {
+      const int zeldaIntroMessage = 1480;
+
+      Screen->Message(zeldaIntroMessage);
+      Waitframe();
+
+      setScreenD(screenD3, true);
+   }
+
+   void zeldaThanksLinkForHelpingCarulem() {
+      const int zeldaIntroMessage = 1481;
+
+      Screen->Message(zeldaIntroMessage);
+      Waitframe();
+
+      setScreenD(screenD4, true);
+   }
+
    void zeldaThanksLinkForHelpingAuri() {
       const int zeldaIntroMessage = 521;
-      const int zeldaPostIntroMessage = 465;
-      const int zeldaGettingOcarinaMessage = 441;
 
-      if (!getScreenD(screenD3)) {
-         if (!getScreenD(screenD2)) {
-            Screen->Message(zeldaGettingOcarinaMessage);
-            Waitframe();
-            itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-            setScreenD(screenD2, true);
-         }
-
-         Screen->Message(zeldaIntroMessage);
-         setScreenD(screenD3, true);
-      } else {
-         Screen->Message(zeldaIntroMessage);
-      }
+      Screen->Message(zeldaIntroMessage);
       Waitframe();
+
+      setScreenD(screenD5, true);
    }
 
    void zeldaInitiatesTheSiege(ffc this) {
@@ -1522,15 +1547,6 @@ ffc script GoddessFaithfulZeldaScenes {
       bool conflatosNephewTriggered = Game->LoadMapData(53, 0x75)->State[ST_SECRET];
 
       bool anySideCharacters = hylianGeneralTriggered || servusSoldierTriggered || seizedTowerSoldierTriggered || duratuElderTriggered || carulemZoraTriggered || conflatosNephewTriggered;
-
-      if (!getScreenD(screenD2)) {
-         const int zeldaGettingOcarinaMessage = 441;
-         Screen->Message(zeldaGettingOcarinaMessage);
-         Waitframe();
-         itemsprite it = CreateItemAt(ITEM_OCARINA2, Hero->X, Hero->Y);
-         it->Pickup = IP_HOLDUP;
-         setScreenD(screenD2, true);
-      }
 
       Waitframe();
 
@@ -1592,6 +1608,8 @@ ffc script GoddessFaithfulZeldaScenes {
 
          Screen->Message(zeldaClosingMessage);
          Waitframe();
+
+         setScreenD(screenD6, true);
       }
    }
 
