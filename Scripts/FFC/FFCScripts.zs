@@ -1224,3 +1224,25 @@ ffc script Portal {
       }
    }
 }
+
+ffc script RisingFallingLava {
+   void run(int layer, int yLevel, int refMap, int refScreen) {
+      loop() {
+         for (int x = 0; x < Region->ScreenWidth; ++x) {
+            for (int y = 0; y < Region->ScreenHeight; ++y) {
+               int x2 = x * 256;
+               int y2 = Floor(yLevel) + y * 176;
+
+               if (x2 >= Viewport->X && y2 >= Viewport->Y && x2 <= Viewport->X + 255 && y2 <= Viewport->Y + 175) {
+                  if (y2 == 0)
+                     Screen->DrawLayer(layer, refMap, refScreen, 0, x2, y2, 0, OP_TRANS);
+                  else
+                     Screen->DrawLayer(layer, refMap, refScreen + 16, 0, x2, y2, 0, OP_TRANS);
+               }
+            }
+         }
+
+         Waitframe();
+      }
+   }
+}
