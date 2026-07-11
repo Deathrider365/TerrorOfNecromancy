@@ -813,26 +813,43 @@ ffc script Lvl9LobbyZelda {
       CONFIG MESSAGE_PRE_BOSS_ZELDA_SIXTH_STAGE = 1406;
       CONFIG MESSAGE_PRE_BOSS_ZELDA_SEVENTH_STAGE = 1407;
       CONFIG MESSAGE_LVL9_BOSS_BEATEN = 1408;
+      CONFIG MESSAGE_PRE_FINISHED_TRIFORCES_REPEATABLE = 1484;
+      CONFIG MESSAGE_GOT_ALL_TRIFORCE = 1485;
+      CONFIG MESSAGE_GOT_SOME_DARK_SHARDS = 1488;
+      CONFIG MESSAGE_GOT_ALL_DARK_SHARDS_NO_CLEANSE = 1489;
+      CONFIG MESSAGE_TRIFORCE_OF_LIFE = 1491;
+
+      CONFIG SCREEND_REPEAT_BEFORE_FINISHED_TRIFORCE = 0;
 
       int zeldaStage = 0;
 
-      // The way the stages work is each of these indicies correlates to how far you got in the goddess faithful dialog pre lv9
-      // so the first stage represents that you only talked to zelda once, so her dialog would vary based on if you never talked
-      // to her pre lv9, or if you talked to her completely
-
-      for (int i = 0; i < 7; ++i) { //TODO update these stages
+      for (int i = 0; i < 7; ++i)
          if (getScreenD(48, 0x02, i))
             zeldaStage = i;
-      }
 
       loop() {
          waitForTalking(this);
 
          //if the lvl 9 boss was beaten
-         if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET]) {
+         if (Game->LoadMapData(171, 0x3E)->State[ST_SECRET] && !getScreenD(SCREEND_REPEAT_BEFORE_FINISHED_TRIFORCE)) {
             Screen->Message(MESSAGE_LVL9_BOSS_BEATEN);
+            setScreenD(SCREEND_REPEAT_BEFORE_FINISHED_TRIFORCE, true);
          }
-         //if you completed all of zelda's stages
+         else if (getScreenD(SCREEND_REPEAT_BEFORE_FINISHED_TRIFORCE) && (Game->Counter[CR_TRIFORCE_OF_COURAGE] < 4 || Game->Counter[CR_TRIFORCE_OF_WISDOM] < 4 || Game->Counter[CR_TRIFORCE_OF_POWER] < 4)) {
+            Screen->Message(MESSAGE_PRE_FINISHED_TRIFORCES_REPEATABLE);
+         }
+         else if (Game->Counter[CR_TRIFORCE_OF_COURAGE] == 4 && Game->Counter[CR_TRIFORCE_OF_WISDOM] == 4 && Game->Counter[CR_TRIFORCE_OF_POWER] == 4 && Game->Counter[CR_TRIFORCE_OF_DEATH] < 1 && !Hero->Item[ITEM_DEATHS_AURA] && !Hero->Item[ITEM_HAERENS_GRACE]) {
+            Screen->Message(MESSAGE_GOT_ALL_TRIFORCE);
+         }
+         else if (Game->Counter[CR_TRIFORCE_OF_DEATH] > 0 && !Hero->Item[ITEM_DEATHS_AURA] && !Hero->Item[ITEM_HAERENS_GRACE]) {
+            Screen->Message(MESSAGE_GOT_SOME_DARK_SHARDS);
+         }
+         else if (Hero->Item[ITEM_DEATHS_AURA] && !Hero->Item[ITEM_HAERENS_GRACE]) {
+            Screen->Message(MESSAGE_GOT_ALL_DARK_SHARDS_NO_CLEANSE);
+         }
+         else if (Hero->Item[ITEM_HAERENS_GRACE]) {
+            Screen->Message(MESSAGE_TRIFORCE_OF_LIFE);
+         }
          else if (Game->LoadMapData(57, 0x02)->State[ST_SECRET])
             Screen->Message(MESSAGE_PRE_BOSS_ZELDA_SEVENTH_STAGE);
          else {
@@ -1362,6 +1379,7 @@ ffc script LegendaryArmorer {
    CONFIG SCREEND_DID_ONE_UPGRADE = 0;
    CONFIG SCREEND_ALREADY_TALKED = 1;
    CONFIG SCREEND_INITIAL_MESSAGE = 2;
+   CONFIG SCREEND_SEEN_A_SCALE = 3;
 
    void run() {
       CONFIG MESSAGE_INITIAL = 900;
@@ -1380,6 +1398,8 @@ ffc script LegendaryArmorer {
       CONFIG MESSAGE_NOTHING_LEFT_TO_UPGRADE = 909;
       CONFIG MESSAGE_GET_MORE_SCALES = 910;
 
+      CONFIG MESSAGE_NEVER_SEEN_SCALE_HAS_UPGRADABLE = 1495;
+
       loop() {
          waitForTalking(this);
 
@@ -1390,6 +1410,8 @@ ffc script LegendaryArmorer {
          }
 
          if (Hero->Item[ITEM_LEVIATHAN_SCALE1] || Hero->Item[ITEM_LEVIATHAN_SCALE2]) {
+            setScreenD(SCREEND_SEEN_A_SCALE, true);
+
             if (!getScreenD(SCREEND_DID_ONE_UPGRADE))
                Screen->Message(MESSAGE_SECONDARY);
 
@@ -1429,7 +1451,10 @@ ffc script LegendaryArmorer {
             Screen->Message(MESSAGE_NOTHING_LEFT_TO_UPGRADE);
          else if (Hero->Item[ITEM_SWORD5] || Hero->Item[ITEM_RING4])
             Screen->Message(MESSAGE_GET_MORE_SCALES);
-
+         else if (getScreenD(SCREEND_SEEN_A_SCALE) && (Hero->Item[ITEM_SWORD4] || Hero->Item[ITEM_RING3]))
+            Screen->Message(MESSAGE_GET_MORE_SCALES);
+         else
+            Screen->Message(MESSAGE_NEVER_SEEN_SCALE_HAS_UPGRADABLE);
 
          Waitframe();
       }
@@ -1746,6 +1771,43 @@ ffc script HeartPieceLady {
          Screen->FastTile(7, 96, 16, cursorOnYes ? 46696 : 46676, 0, OP_OPAQUE);
          Screen->FastTile(7, 112, 16, cursorOnYes ? 46697 : 46677, 0, OP_OPAQUE);
          Screen->FastTile(7, 144, 16, cursorOnYes ? 46678 : 46698, 0, OP_OPAQUE);
+
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script SeasideOutpostGuard {
+   void run(int preOpenTowerMessage, int towerIsOpenMessage, int postTowerIsOpenMessage, int towerIsOpenScreenD, bool givesHeartPiece) {
+      unless (Hero->Item[ITEM_FLIPPERS1]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      bool finishedSeasideOutpost = Game->LoadMapData(136, 0x5B)->State[ST_SECRET];
+
+      loop () {
+         waitForTalking(this);
+
+         if (finishedSeasideOutpost) {
+            if (!getScreenD(towerIsOpenScreenD)) {
+               Screen->Message(towerIsOpenMessage);
+               Waitframe();
+
+               if (givesHeartPiece) {
+                  item it = CreateItemAt(ITEM_HEART_PIECE, Hero->X, Hero->Y);
+                  it->Pickup = IP_HOLDUP;
+               }
+
+               setScreenD(towerIsOpenScreenD, true);
+            }
+            else
+               Screen->Message(postTowerIsOpenMessage);
+         }
+         else
+            Screen->Message(preOpenTowerMessage);
 
          Waitframe();
       }

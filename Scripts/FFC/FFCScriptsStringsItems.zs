@@ -34,9 +34,8 @@ ffc script Signpost { //TODO bugged, the vanishOnSecondScreen doesnt work, the f
       }
 
       loop () {
-         if (vanishesOnSecondString) {
+         if (vanishesOnSecondString)
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
-         }
 
          waitForTalking(this, onlyBottom);
 
@@ -61,9 +60,8 @@ ffc script Signpost { //TODO bugged, the vanishOnSecondScreen doesnt work, the f
             case SMT_SECRETS:
                mapdata mapData;
 
-               if (remoteSecrets) {
+               if (remoteSecrets)
                   mapData = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L);
-               }
 
                if ((!remoteSecrets && Screen->State[ST_SECRET]) || (remoteSecrets && mapData->State[ST_SECRET]))
                   Screen->Message(secondMessage);
@@ -459,6 +457,26 @@ ffc script SignpostTriggerOnItemAndVanishOnSecret {
          else
             Screen->Message(noItemMessage);
 
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script SignpostVanishIfHasItem {
+   // clang-format on
+   void run(int itemId, int message) {
+      if (Hero->Item[itemId]) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+         Input->Button[CB_A] = false;
+         Screen->Message(message);
          Waitframe();
       }
    }

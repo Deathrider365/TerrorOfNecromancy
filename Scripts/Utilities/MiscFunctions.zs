@@ -26,7 +26,7 @@ void removeAllItems() {
    Game->Counter[CR_QUIVER_EXPANSIONS] = 0;
 
    Hero->MaxHP = 24;
-   Hero->MaxMP = 30;
+   Hero->MaxMP = 32;
 
    Hero->HP = Hero->MaxHP;
    Hero->MP = Hero->MaxMP;

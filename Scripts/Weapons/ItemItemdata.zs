@@ -114,7 +114,7 @@ item script MagicContainerExpansions {
 }
 
 // clang-format off
-@Author("Moosh")
+@Author("Moosh, Modifies by Deathrider")
 item script HaerenGrace {
    //clang-format on
 
@@ -125,8 +125,8 @@ item script HaerenGrace {
       int mpCost;
 
       if (hpPercent <= 10) {
-         if (Hero->MP >= 200) {
-            currentMP = 200;
+         if (Hero->MP >= 102) { //5 magic containers
+            currentMP = 102; //TODO clean up, why set mp to this?
 
             for (int hpToRestore = Hero->MaxHP - Hero->HP; hpToRestore > 0;) {
                heal = Min(4, hpToRestore);
@@ -142,14 +142,13 @@ item script HaerenGrace {
 
                Waitframes(5);
             }
-            //Hero->HP += Hero->MaxHP;	//If I want the effect to be instant
-            //Hero->MP -= 200;
          }
          else
             Audio->PlaySound(errsfx);
-      } else if (hpPercent <= 50) {
-         if (Hero->MP >= 100) {
-            currentMP = 100;
+      }
+      else if (hpPercent <= 50) {
+         if (Hero->MP >= 80) { //3 magic containers
+            currentMP = 80;
 
             for (int hpToRestore = 160; hpToRestore > 0;) {
                heal = Min(4, hpToRestore);
@@ -165,15 +164,13 @@ item script HaerenGrace {
 
                Waitframes(5);
             }
-            //Hero->HP += Hero->MaxHP / 2;
-            //Hero->MP -= 100;
          }
          else
             Audio->PlaySound(errsfx);
-
-      } else if (hpPercent < 100) {
-         if (Hero->MP >= 50) {
-            currentMP = 50;
+      }
+      else if (hpPercent < 100) {
+         if (Hero->MP >= 48) {//1 magic container
+            currentMP = 48;
 
             for (int hpToRestore = 120; hpToRestore > 0;) {
                heal = Min(4, hpToRestore);
@@ -189,8 +186,6 @@ item script HaerenGrace {
 
                Waitframes(5);
             }
-            //Hero->HP += Hero->MaxHP / 4;
-            //Hero->MP -= 50;
          }
          else
             Audio->PlaySound(errsfx);

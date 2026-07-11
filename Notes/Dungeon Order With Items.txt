@@ -176,8 +176,6 @@ Goddess Mail is obtained once you have all shards to the golden triforces and yo
 
 Upon getting the Goddess set, for every Leviathan scale you have go to the smith in NEI to enhance them to +1
 
-~~~TODO Items Unaccounted For TODO~~~
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---

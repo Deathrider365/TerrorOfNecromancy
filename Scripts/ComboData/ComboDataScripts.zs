@@ -243,3 +243,32 @@ combodata script FlipDaPlace {
       Hero->WarpEx(WT_IWARP, dmap, screen, rotatedX, rotatedY, WARPEFFECT_NONE, 0, WARP_FLAG_NONE, heroDir);
    }
 }
+
+@Author("Deathrider365")
+combodata script GiveGoddessItemOnTriforce {
+   void run(int message, int itemId) {
+      loop () {
+         if (Hero->Item[itemId]) Quit();
+
+         int counter = 180;
+
+         while (Abs(Hero->X - this->X) < 16 && Abs(Hero->Y - this->Y) < 16) {
+            --counter;
+
+            unless(counter) break;
+
+            Waitframe();
+         }
+
+         if (counter == 0 && Game->Counter[CR_TRIFORCE_OF_COURAGE] == 4 && Game->Counter[CR_TRIFORCE_OF_POWER] == 4 && Game->Counter[CR_TRIFORCE_OF_WISDOM] == 4) {
+            Screen->Message(message);
+            Waitframe();
+
+            item it = CreateItemAt(itemId, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+         }
+
+         Waitframe();
+      }
+   }
+}

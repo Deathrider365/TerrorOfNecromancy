@@ -216,6 +216,6 @@
       55 - SWI Caves                   57:45                            None + Flipper (Level 7)
       56 - NEI Residence               16:35                            None + 700 Rupees, Theif's Wallet/Merhant's Membership (IDK yet)
       57 - SWI Celo Village            53:20                            None + Powder Keg (Summus Pass)
-      58 -
+      58 - NEI Coasts                  9:7D                             None + Flipper (Level 7)
       59 -
       60 -
