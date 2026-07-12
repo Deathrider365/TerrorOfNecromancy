@@ -1813,3 +1813,36 @@ ffc script SeasideOutpostGuard {
       }
    }
 }
+
+ffc script Gammy {
+   void run(int messageNoFam, int messageAllFam, int messageContent) {
+      int count = 0;
+
+      for (int i = 1; i < 6; ++i) {
+         int combo = Screen->LoadFFC(i)->Data;
+
+         if (combo > 1) ++count;
+      }
+
+      loop() {
+         waitForTalking(this);
+
+         if (count == 5) {
+            if (!Screen->State[ST_ITEM]) {
+               Screen->Message(messageAllFam);
+               Waitframe();
+
+               item it = CreateItemAt(ITEM_RUPEE_100, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
+               Screen->State[ST_ITEM] = true;
+            }
+            else
+               Screen->Message(messageContent);
+         }
+         else
+            Screen->Message(messageNoFam);
+
+         Waitframe();
+      }
+   }
+}

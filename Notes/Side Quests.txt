@@ -87,7 +87,12 @@
       - Goron Special Crop             Caldum Goron Enclave             None + None
 
    - Heart Piece Lady
+      - False Ladies                   53:0x74, 20:0x72, 53:0x21, 96:0x54, 9:0x35
       - Full Wallet refill             SWI Residence (0x6F)             Not Grabbing the HP in Viridi + None
+
+   - Gammy
+      - Son and Grandson               Auri Library                     None + Sealed Abyss
+      - DaughterInLaw Granddaughter    Swi Residence (0x6D)             None + Powder Keg
 
    - Magic Ring                        Level 6                          None + Level 6
       - Shard 1                        Forest Shack                     None + Flippers (Level 7)
@@ -99,7 +104,7 @@
       - Shard 1                        SEI Coasts                       None + Flippers (Level 7)
       - Shard 2                        NWI Island Right of Lv7          None + Flippers (Level 7)
       - Shard 3                        Auri Library Forbidden Section   None + None
-      - Shard 4
+      - Shard 4                        Isle of Haeren (1:0x2D)          None + Flippers (Level 7)
 
    - Bomb Expansions (Starts at 10 and with Max = 6, total is 34) I HAD 5 IN MY PLAYTHROUGH??
       - 130 Rupees                     NEI Caves (0x0C)                 None + Oil Candle (Level 1)

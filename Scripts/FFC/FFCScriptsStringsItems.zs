@@ -10,70 +10,97 @@
 @InitDHelp2("second message trigger (1: screend, 2: secrets, 3: has item).trigger value (screend register, n/a, itemId)"),
 @InitD3("secondMessage"),
 @InitDHelp3("String to play"),
-@InitD4("vanishesOnSecondString"),
-@InitDHelp4("After the second string plays quit the script"),
+@InitD4("vanishesOnSecondStringAndRespondToItemState"),
+@InitDHelp4("After the second string plays sets this value as a screenD to quit the script (make this the same as hasSecondMessage trigger value to vanish on first string) . If it is a trigger on item, also acknowledge Screen->State[ST_ITEM]"),
 @InitD5("remoteSecrets"),
 @InitDHelp5("map.screen - If the trigger type is secrets, and they are on a different screen"),
 @InitD6("onlyBottom"),
 @InitDHelp6("Is talking to this signpost only from the bottom?"),
 @InitD7("secondMessageOnScreenDSet"),
 @InitDHelp7("False - sets own screenD from first message then plays second\n True - doesnt set a screenD, relies on external setting")
-ffc script Signpost { //TODO bugged, the vanishOnSecondScreen doesnt work, the ffc vanishes BEFORE the second message
+ffc script Signpost {
    // clang-format on
 
    CONFIG SMT_SCREEND = 1;
    CONFIG SMT_SECRETS = 2;
    CONFIG SMT_HAS_ITEM = 3;
 
-   void run(int message, int warp, int hasSecondMessage, int secondMessage, bool vanishesOnSecondString, int remoteSecrets, bool onlyBottom, bool secondMessageOnScreenDSet = false) {
+   void run(int message, int warp, int hasSecondMessage, int secondMessage, int vanishesOnSecondStringAndRespondToItemState, int remoteSecrets, bool onlyBottom, bool secondMessageOnScreenDSetExternal = false) {
       int secondMessageTrigger, secondMessageTriggerValue;
+      int vanishesOnSecondString, acknowledgeItemState;
 
       if (hasSecondMessage) {
          secondMessageTrigger = Floor(hasSecondMessage);
          secondMessageTriggerValue = (hasSecondMessage % 1) / 1L;
       }
 
+      if (vanishesOnSecondStringAndRespondToItemState) {
+         vanishesOnSecondString = Floor(vanishesOnSecondStringAndRespondToItemState);
+         acknowledgeItemState = (vanishesOnSecondStringAndRespondToItemState % 1) / 1L;
+      }
+
       loop () {
-         if (vanishesOnSecondString)
+         if (getScreenD(vanishesOnSecondString))
             handleVanishing(this, secondMessageTrigger, secondMessageTriggerValue);
 
          waitForTalking(this, onlyBottom);
 
          switch (secondMessageTrigger) {
             case SMT_SCREEND:
-               if (secondMessageOnScreenDSet) {
+               if (secondMessageOnScreenDSetExternal) {
                   if (!getScreenD(secondMessageTriggerValue))
                      Screen->Message(message);
-                  else
+                  else {
                      Screen->Message(secondMessage);
+
+                     if (vanishesOnSecondString)
+                        setScreenD(vanishesOnSecondString, true);
+                  }
                }
                else {
-                  unless(getScreenD(secondMessageTriggerValue)) {
+                  if (!getScreenD(secondMessageTriggerValue)) {
                      Screen->Message(message);
                      setScreenD(secondMessageTriggerValue, true);
                   }
-                  else
+                  else {
                      Screen->Message(secondMessage);
+
+                     if (vanishesOnSecondString)
+                        setScreenD(vanishesOnSecondString, true);
+                  }
                }
 
                break;
             case SMT_SECRETS:
-               mapdata mapData;
+               bool externalSecretsSet;
 
                if (remoteSecrets)
-                  mapData = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L);
+                  externalSecretsSet = Game->LoadMapData(Floor(remoteSecrets), (remoteSecrets % 1) / 1L)->State[ST_SECRET];
 
-               if ((!remoteSecrets && Screen->State[ST_SECRET]) || (remoteSecrets && mapData->State[ST_SECRET]))
+               if ((!remoteSecrets && Screen->State[ST_SECRET]) || (remoteSecrets && externalSecretsSet)) {
                   Screen->Message(secondMessage);
+
+                  if (vanishesOnSecondString)
+                     setScreenD(vanishesOnSecondString, true);
+               }
                else
                   Screen->Message(message);
 
                break;
             case SMT_HAS_ITEM:
-               unless(Hero->Item[secondMessageTriggerValue] || Screen->State[ST_ITEM]) Screen->Message(message);
-               else Screen->Message(secondMessage);
+               if ((!Hero->Item[secondMessageTriggerValue] && !acknowledgeItemState) || (acknowledgeItemState && !Screen->State[ST_ITEM]))
+                  Screen->Message(message);
+               else {
+                  Screen->Message(secondMessage);
+
+                  if (vanishesOnSecondString)
+                     setScreenD(vanishesOnSecondString, true);
+               }
+
                break;
-            default: Screen->Message(message); break;
+            default:
+               Screen->Message(message);
+               break;
          }
 
          Waitframe();
@@ -475,10 +502,46 @@ ffc script SignpostVanishIfHasItem {
 
       loop() {
          waitForTalking(this);
-         Input->Button[CB_A] = false;
          Screen->Message(message);
          Waitframe();
       }
+   }
+}
+
+@Author("Deathrider365"),
+@InitD0("message"),
+@InitDHelp0("First string to play"),
+@InitD1("secondMessage"),
+@InitDHelp1("Second string to play"),
+@InitD2("dmap"),
+@InitDHelp2("dmap to check for screenD"),
+@InitD3("screen"),
+@InitDHelp3("Screen to check for screenD"),
+@InitD4("screenDExternal"),
+@InitDHelp4("ScreenD value to check on the dmap and screen"),
+@InitD5("screenDForSecondMessage"),
+@InitDHelp5("ScreenD value to use when controlling the secondMessage")
+ffc script SignpostVanishIfExternalScreenDSet {
+   void run (int message, int secondMessage, int dmap, int screen, int screenDExternal, int screenDForSecondMessage) {
+      if (!getScreenD(dmap, screen, screenDExternal)) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop () {
+         waitForTalking(this);
+
+         if (!getScreenD(screenDForSecondMessage)) {
+            Screen->Message(message);
+            setScreenD(screenDForSecondMessage, true);
+         }
+         else if (secondMessage)
+            Screen->Message(secondMessage);
+
+         Waitframe();
+      }
+
    }
 }
 
