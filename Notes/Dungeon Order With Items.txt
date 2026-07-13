@@ -36,6 +36,8 @@ Battle Arena 1: Raccoon Hollow			                                 - Landscaper's
       - 8 Bombs                                                            - 55
       - 10 Arrows                                                          - 45
 
+   - Kid's Father:                                                      Wax Lantern (1)
+
 ---Demo 3---
 
 (02) Level 2: Derelict Quarry				                                 - Ladder
@@ -145,22 +147,25 @@ Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane S
       - Arrow Expansion (listed in side quests)                         - 280
       - Merchant's Membership (2)                                       - 575
 
-(23) Optional Dungeon 6: Summus Catacombs                               - Hell's Candle (4)
+(23) Optional Dungeon 8: Summus Catacombs                               - Hell's Candle (4)
 
 ---Demo 7---
 ~Levels 10, 11, 12 can be done in any order, but the optional dungeons that immediately follow need the item from its respective numbered dungeon to access~
 
+(24) Optional Dungeon 9: Tropical Atoll                                 - Perpetual Lantern (3)
+
 (10) Level 10: Infernal Caldera					                           - Gale Boomerang (3)
 
-   - Goron clans side quest
+   - Goron tribes side quest
       - Goron Special Crop (2)                                          - Given
 
    - NWI Curios Shop
       - Thief's Wallet (3)                                              - 660
       - Clock of Agility (3)                                            - 1500
       - Swindler's Guide (3)                                            - 1325
+      - Triforce of Death Shard                                         - 9999
 
-(24) Optional Dungeon 8: Isolated Spire                                 - Elder Wand (2)
+(25) Optional Dungeon 10: Isolated Spire                                 - Elder Wand (2)
 
 (11) Level 11: Towers of Dichotomy				                           - Rod of Elements (1), Rod of Frostfire (2)
 can buy in carulem at some point Diver's Flippers (2)
@@ -169,7 +174,7 @@ Battle Arena 4: Secluded Alcove                                         - Marksm
 Auri Desert Wastes                                                      - Nothing
 
 (12) Level 12: Cathedral of the Accursed			                        - Mirror Shield (3)
-(25) Optional Dungeon 10: Shrine of Blasphemy                           - Portal Sphere
+(26) Optional Dungeon 11: Shrine of Blasphemy                           - Portal Sphere
 
 Goddess Sword is obtained once you have all shards to the golden triforces and you go to a Golden Link statue
 Goddess Mail is obtained once you have all shards to the golden triforces and you go to a different Golden Link statue
@@ -179,8 +184,8 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---
-(26) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
-(27) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
+(27) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
+(28) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
 - Main story fleshed out (cutscenes) and can beat the game
 - Paladin Mode
 - Some optional content, no post game
@@ -205,7 +210,7 @@ Lv10 - Power (4) COMPLETE
 Lv11 - Wisdom (3)
 Lv12 - Wisdom (4) COMPLETE
 
-Haeren 1: Goddess Followers (Viridi Village)
-Haeren 2: Trading Sequence
-Haerem 3: Bought (NWI curios shop)
-Haeren 4: Optional Dungeon
+Haeren 1: Tropical Atoll (Level 9)
+Haerem 2: Trading Sequence (Level 10)
+Haeren 3: Bought NWI Curios Shop (Level 11)
+Haeren 4: Triforce Deciples Basement (Level 12)

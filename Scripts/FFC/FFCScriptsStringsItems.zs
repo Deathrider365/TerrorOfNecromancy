@@ -842,9 +842,6 @@ ffc script Shop {
    void run(int itemId, int basePrice, bool boughtOnce, int noMoneyString, bool activateOnSecrets, int newPriceOnSecrets = -1, int itemInfoMessage = 0) {
       int thisData = this->Data;
 
-      if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
-         basePrice = newPriceOnSecrets;
-
       if (activateOnSecrets) {
          until(Screen->State[ST_SECRET]) {
             this->Data = CMB_INVIS;
@@ -871,6 +868,9 @@ ffc script Shop {
       char32 priceBuf[6];
 
       loop() {
+         if ((newPriceOnSecrets > -1) && Screen->State[ST_SECRET])
+            basePrice = newPriceOnSecrets;
+
          if (boughtOnce && getScreenD(itemId)) {
             this->Data = noStockCombo;
 

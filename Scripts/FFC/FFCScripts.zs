@@ -1246,3 +1246,21 @@ ffc script RisingFallingLava {
       }
    }
 }
+
+@InitD0("itemId"),
+@InitDHelp0("ItemId to give on chest state"),
+@InitD1("state"),
+@InitDHelp1("0 = Chest \n1 = Lockblock"),
+@Author("Deathrider")
+ffc script GiveItemOnState {
+   void run(int itemId, int state) {
+      if (Hero->Item[itemId]) Quit();
+
+      loop () {
+         if ((state == 0 && Screen->State[ST_CHEST]) || (state == 1 && Screen->State[ST_LOCKBLOCK]))
+            Hero->Item[itemId] = true;
+
+         Waitframe();
+      }
+   }
+}

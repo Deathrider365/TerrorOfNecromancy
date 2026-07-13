@@ -12,7 +12,6 @@
       - Clock of Agility               NWI Curios                       Swindler's Guide and Thief's Wallet
       - Swindler's Guide               NWI Curios                       Thief's Wallet and Merchant's Guide
 
-
 ~~~ Item Sequences ~~~
    - Sequence A
       - Cumpura Key                    Viridi Village                   None + None
@@ -32,12 +31,8 @@
       - Carulem Vault Key              Ebria Village Elder              Zora Charm + None
       - Heart of Lorkhan               ????                             Jewel of Marre + None
 
-   - Sequence D -
-      -
-      -
-
 ~~~ Trading Sequences ~~~
-   - Trading A - (INSERT END RESULT HERE)
+   - Trading A - Legionnaire Ring
       - Special Mushroom               Viridi Village                   None + None
       - Perfect Leaf                   Auri Village                     Special Mushroom + Soldier's Boom (Seized Guard Tower)
       - Lady's Bow                     Raccoon Hollow                   Perfect Leaf + None
@@ -49,7 +44,7 @@
       - Carulem Fish                   NWI Caves (0x07)                 Fresh Coconut + Long Shot (Level 9) THIS IS NOT CORRECT
       - Broken Sword                   Viridi Village                   Carulem Fish + NONE
       - Ancient Sword Key              NEI Caves (Legendary Smiths)     Broken Sword + Wand (Level 8)
-      - UNIMPLEMENTED                  NEI Caves (Off of Silva Village) Ancient Sword Key + NONE
+      - Legionnaire Ring               NEI Caves (Off of Silva Village) Ancient Sword Key + Gale Boomerang (Level 10)
 
    - Trading B - Heart Ring
       - Banished Cultist Chest Key     Celo Village                     None + Soldier's Boom (Seized Guard Tower Scenario)
@@ -62,13 +57,21 @@
       - Bottle ol' Rum                 Wrecked Ship (SW of Level 8)     None + Flippers (Level 7)
       - Summus Tablet C                Concealed Pirate Hideout         Bottle ol' Rum + None
 
-   - Trading D - Heart Ring Shard
+   - Trading D - Heart Ring Shard + Triforce of Death Shard
       - Seared Steak                   NEI Caves (0x26)                 None + Ladder (Level 2)
       - Goriya Boomerang               NEI Caves (0x59)                 Seared Steak + Ladder (Level 2)
       - Strange Key                    NEI Caves (0x53)                 Goriya Boomerang + Longshot (Level 9)
       - Heart Ring Shard               Auri Library Forbidden Section   Strange Key + None
+      - Tropical Eye                   Auri Library Forbidden Section   None + None
+      - Triforce of Death Shard        Tropical Atoll                   Tropical Eye + Longshot (Level 9)
 
 ~~ Other Sequences ~~~
+   - Triforce of Death Shards
+      1 - Tropical Atoll               Minidungeon Off of NEI Coasts    Tropical Eye + Longshot (level 9)
+      2 - Trading Sequence             NEI Residence (0x23)             Ancient Sword Key + Gale Boomerang (Level 10)
+      3 - Bought NWI Curios Shop       NWI Curios Shop                  Mirror Shield (Level 11)
+      4 - Triforce Deciples Basement   Triforce Deciples House          None + All Triforce (Level 12)
+
    - Half Magic - Pirates Tome (Half Magic)
       - Jewel of Marre                 Vault of Carulem                 None + Flippers (Level 7)
       - Pirate's Tome                  Concealed Pirate Hideout         Jewel of Marre + None

@@ -7,7 +7,7 @@
 @Author("Deathrider365")
 ffc script TriforceDeciples {
 // clang-format on
-   void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange) {
+   void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange, int completedAllTriforceMessage, int finalMessage) {
       CONFIG MESSAGE_BASE_TRIFORCE_HINT_MESSAGE = 1515;
 
       bool remainingTriforce[] = getTriforce(triforceToCheck);
@@ -21,9 +21,20 @@ ffc script TriforceDeciples {
          if (getScreenD(triforceToCheck))
             triggerDoor(comboPosToChange);
 
-         waitForTalking(this);
+         waitForTalking(this, true);
 
-         if (getScreenD(triforceToCheck)) {
+         if (Game->LoadMapData(16, 0x6B)->State[ST_SECRET])
+            Screen->Message(finalMessage);
+         else if (hasAllTriforce()) {
+            Screen->Message(completedAllTriforceMessage);
+            Waitframe();
+
+            Game->LoadMapData(16, 0x6B)->State[ST_SECRET] = true;
+            Game->LoadMapData(16, 0x6D)->State[ST_SECRET] = true;
+
+            Audio->PlaySound(SFX_SECRET);
+         }
+         else if (getScreenD(triforceToCheck)) {
             Screen->Message(secondMessageComplete);
          } else {
             if (!getScreenD(0) && triforceObtained < 4) {
@@ -58,6 +69,17 @@ ffc script TriforceDeciples {
          }
          Waitframe();
       }
+   }
+
+   bool hasAllTriforce() {
+      int triforceObtained = 0;
+
+      for (int triforceType = CR_TRIFORCE_OF_COURAGE; triforceType < 10; ++triforceType)
+         for (int shards = 0; shards < 4; ++shards)
+            if (getTriforce(triforceType)[shards])
+               triforceObtained++;
+
+      return triforceObtained == 12;
    }
 
    bool[] getTriforce(int triforceToCheck) {
@@ -1856,6 +1878,7 @@ ffc script SeasideOutpostGuard {
    }
 }
 
+@Author("Deathrider365")
 ffc script Gammy {
    void run(int messageNoFam, int messageAllFam, int messageContent) {
       int count = 0;
@@ -1889,10 +1912,18 @@ ffc script Gammy {
    }
 }
 
+@Author("Deathrider365")
 ffc script NWICuriosShop {
-   void run(int noItemMessage, int hasItemMessage, int gaveItemMessage) {
-      if (Screen->State[ST_SECRET]) //TODO make his hat also move here and below
+   void run(int noItemMessage, int hasItemMessage, int gaveItemMessage, int isHat) {
+      if (Screen->State[ST_SECRET])
          this->X += 16;
+
+      while(isHat) {
+         if (Screen->State[ST_SECRET] && this->X < 192)
+            this->X += 16;
+
+         Waitframe();
+      }
 
       loop() {
          waitForTalking(this);
@@ -1915,6 +1946,38 @@ ffc script NWICuriosShop {
          }
          else
             Screen->Message(noItemMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+ffc script Mermaid {
+   void run(int map, int screen, int itemId, int introMessage, int hasItemMessage, int finalMessage) {
+      if (getScreenD(0)) {
+         this->Flags[FFCF_SOLID] = false;
+         this->Data = CMB_INVIS;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+
+         if (Game->LoadMapData(map, screen)->State[ST_SECRET]) {
+            Screen->Message(finalMessage);
+            setScreenD(0, true);
+
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET];
+
+            this->Flags[FFCF_SOLID] = false;
+            this->Data = CMB_INVIS;
+            Quit();
+         }
+         else if (Hero->Item[itemId])
+            Screen->Message(hasItemMessage);
+         else
+            Screen->Message(introMessage);
 
          Waitframe();
       }
