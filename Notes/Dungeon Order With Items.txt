@@ -207,5 +207,5 @@ Lv12 - Wisdom (4) COMPLETE
 
 Haeren 1: Lv9
 Haeren 2: Trading Sequence
-Haerem 3: Bought (not necessarily from a shop)
+Haerem 3: Bought (NWI curios shop)
 Haeren 4: Optional Dungeon

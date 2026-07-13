@@ -8,25 +8,45 @@
 ffc script TriforceDeciples {
 // clang-format on
    void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange) {
+      CONFIG MESSAGE_BASE_TRIFORCE_HINT_MESSAGE = 1515;
+
+      bool remainingTriforce[] = getTriforce(triforceToCheck);
+      int triforceObtained = 0;
+
+      for (int i = 0; i < 4; ++i)
+         if (remainingTriforce[i])
+            triforceObtained++;
+
       loop() {
-         if (getScreenD(triforceToCheck)) {
+         if (getScreenD(triforceToCheck))
             triggerDoor(comboPosToChange);
-         }
 
          waitForTalking(this);
 
          if (getScreenD(triforceToCheck)) {
             Screen->Message(secondMessageComplete);
          } else {
-            if (!getScreenD(triforceToCheck + 10) && Game->Counter[triforceToCheck] < 4) {
+            if (!getScreenD(0) && triforceObtained < 4) {
                Screen->Message(messageNotComplete);
-               setScreenD(triforceToCheck + 10, true);
-            } else if (Game->Counter[triforceToCheck] < 4) {
+               setScreenD(0, true);
+            } else if (triforceObtained < 4) {
                Screen->Message(secondMessageNotComplete);
-               //TODO enhance to say how many shards are missing and the area where they are
-               // Waitframe();
-               // Screen->Message(getRemainingTriforceString(triforceToCheck));
-            } else if (Game->Counter[triforceToCheck] == 4 && !getScreenD(triforceToCheck)) {
+               Waitframe();
+
+               int stringMod;
+
+               if (triforceToCheck == CR_TRIFORCE_OF_POWER) stringMod = 4;
+               if (triforceToCheck == CR_TRIFORCE_OF_WISDOM) stringMod = 8;
+
+               for (int i = 0; i < 4; ++i) {
+                  if (!remainingTriforce[i]) {
+                     Screen->Message(MESSAGE_BASE_TRIFORCE_HINT_MESSAGE + i + stringMod);
+                     Waitframe();
+                  }
+               }
+
+            }
+            else if (triforceObtained == 4 && !getScreenD(triforceToCheck)) {
                Screen->Message(messageComplete);
 
                Waitframe();
@@ -40,10 +60,32 @@ ffc script TriforceDeciples {
       }
    }
 
-   // char32[] getRemainingTriforceString(int triforceToCheck) {
-   //    char32 buf[16] = "hello";
-   //    return buf;
-   // }
+   bool[] getTriforce(int triforceToCheck) {
+      switch(triforceToCheck) {
+         case CR_TRIFORCE_OF_COURAGE:
+            return {
+               Game->LoadMapData(37, 0x1B)->State[ST_ITEM],    // Level 1
+               Game->LoadMapData(66, 0x24)->State[ST_ITEM],    // Level 4
+               Game->LoadMapData(107, 0x58)->State[ST_ITEM],   // Level 6
+               Game->LoadMapData(152, 0x3D)->State[ST_ITEM]    // Level 8
+            };
+         case CR_TRIFORCE_OF_POWER:
+            return {
+               Game->LoadMapData(40, 0x4B)->State[ST_ITEM],    // Level 2
+               Game->LoadMapData(75, 0x21)->State[ST_ITEM],    // Level 5
+               Game->LoadMapData(132, 0x7B)->State[ST_ITEM],   // Level 7
+               Game->LoadMapData(1, 0x01)->State[ST_ITEM]      // Level 10
+            };
+         case CR_TRIFORCE_OF_WISDOM:
+            return {
+               Game->LoadMapData(48, 0x4B)->State[ST_ITEM],    // Level 3
+               Game->LoadMapData(171, 0x4E)->State[ST_ITEM],   // Level 9
+               Game->LoadMapData(1, 0x01)->State[ST_ITEM],     // Level 11
+               Game->LoadMapData(1, 0x01)->State[ST_ITEM]      // Level 12
+            };
+         default: return { false };
+      }
+   }
 
    void triggerDoor(int pos) {
       mapdata mapDataLayer1 = Game->LoadTempScreen(1);
@@ -1829,18 +1871,50 @@ ffc script Gammy {
 
          if (count == 5) {
             if (!Screen->State[ST_ITEM]) {
-               Screen->Message(messageAllFam);
-               Waitframe();
+            Screen->Message(messageAllFam);
+            Waitframe();
 
-               item it = CreateItemAt(ITEM_RUPEE_100, Hero->X, Hero->Y);
-               it->Pickup = IP_HOLDUP;
-               Screen->State[ST_ITEM] = true;
+            item it = CreateItemAt(ITEM_RUPEE_100, Hero->X, Hero->Y);
+            it->Pickup = IP_HOLDUP;
+            Screen->State[ST_ITEM] = true;
             }
             else
                Screen->Message(messageContent);
          }
          else
             Screen->Message(messageNoFam);
+
+         Waitframe();
+      }
+   }
+}
+
+ffc script NWICuriosShop {
+   void run(int noItemMessage, int hasItemMessage, int gaveItemMessage) {
+      if (Screen->State[ST_SECRET]) //TODO make his hat also move here and below
+         this->X += 16;
+
+      loop() {
+         waitForTalking(this);
+
+         if (Screen->State[ST_SECRET])
+            Screen->Message(gaveItemMessage);
+         else if (Hero->Item[ITEM_POTION3]) {
+            Screen->Message(hasItemMessage);
+            Waitframe();
+
+            Hero->Item[ITEM_POTION3] = false;
+            Hero->Item[ITEM_POTION2] = false;
+            Hero->Item[ITEM_POTION1] = false;
+
+            Audio->PlaySound(SFX_SECRET);
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET] = true;
+
+            this->X += 16;
+         }
+         else
+            Screen->Message(noItemMessage);
 
          Waitframe();
       }

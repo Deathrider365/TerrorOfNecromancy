@@ -131,7 +131,7 @@
       - 6
       - 7
 
-   - Goron Feud - IDK
+   - Goron Feud - Goron Special Crop
       - 1                              Beat Level 9 boss
       - 2                              Beat Level 10 boss
       - 3                              Talk to Caldum elder to start the sequence
