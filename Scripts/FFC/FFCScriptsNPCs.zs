@@ -1952,6 +1952,7 @@ ffc script NWICuriosShop {
    }
 }
 
+@Author("Deathrider365")
 ffc script Mermaid {
    void run(int map, int screen, int itemId, int introMessage, int hasItemMessage, int finalMessage) {
       if (getScreenD(0)) {
