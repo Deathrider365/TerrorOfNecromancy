@@ -1984,3 +1984,71 @@ ffc script Mermaid {
       }
    }
 }
+
+@Author("Deathrider365")
+ffc script SeizedTowerPrisoner { //DO NOT USE ScreenD 0-3!
+   void run(int secondMessageScreenD, int initialMessage, int secondMessage, int givesItemId, int isBarsNPC) {
+      if (Screen->State[ST_LOCKBLOCK]) {
+         this->Flags[FFCF_SOLID] = false;
+         this->Data = CMB_INVIS;
+         Quit();
+      }
+
+      loop() {
+         until(againstFFC(this->X, this->Y, false) && Input->Press[CB_A]) {
+            if (againstFFC(this->X, this->Y, false))
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+            if (isBarsNPC && Screen->State[ST_LOCKBLOCK]) {
+               this->Flags[FFCF_SOLID] = false;
+               this->Data = CMB_INVIS;
+               Quit();
+            }
+
+            Waitframe();
+         }
+
+         Input->Button[CB_A] = false;
+
+         if (!getScreenD(secondMessageScreenD)) {
+            Screen->Message(initialMessage);
+            setScreenD(secondMessageScreenD, true);
+
+            Waitframe();
+
+            if (givesItemId > 0) {
+               item it = CreateItemAt(givesItemId, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
+            }
+         }
+         else
+            Screen->Message(secondMessage);
+
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script SignpostAppearOnLockblock {
+   void run(int initialMessage, int secondMessage, int map, int screen, int screenDForSecondMessage) {
+      if (!Game->LoadMapData(map, screen)->State[ST_LOCKBLOCK]) {
+         this->Flags[FFCF_SOLID] = false;
+         this->Data = CMB_INVIS;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+
+         if (!getScreenD(screenDForSecondMessage)) {
+            Screen->Message(initialMessage);
+            setScreenD(screenDForSecondMessage, true);
+         }
+         else
+            Screen->Message(secondMessage);
+
+         Waitframe();
+      }
+   }
+}
