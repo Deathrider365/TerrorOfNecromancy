@@ -2052,3 +2052,28 @@ ffc script SignpostAppearOnLockblock {
       }
    }
 }
+
+@Author("Deathrider")
+ffc script Lorekeeper {
+   void run(int introMessage, int secondMessage, int allLoreFoundMessage, int finalMessage, int screenDSecondMessage, int screenDFoundAllBooks) {
+      loop() {
+         waitForTalking(this, true);
+
+         if (Screen->State[ST_SECRET])
+            Screen->Message(finalMessage);
+         else if (getScreenD(screenDFoundAllBooks)) {
+            Screen->Message(allLoreFoundMessage);
+            Screen->TriggerSecrets();
+            Screen->State[ST_SECRET];
+         }
+         else if (getScreenD(screenDSecondMessage))
+            Screen->Message(secondMessage);
+         else {
+            Screen->Message(introMessage);
+            setScreenD(screenDSecondMessage, true);
+         }
+
+         Waitframe();
+      }
+   }
+}

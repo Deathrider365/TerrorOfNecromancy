@@ -1265,15 +1265,19 @@ ffc script GiveItemOnState {
    }
 }
 
+@InitD0("message"),
+@InitDHelp0("Message stating that this is an Auri Library book that needs to be returned"),
+@InitD1("screenD"),
+@InitDHelp1("0-18 but CANNOT be 1"),
 @Author("Deathrider")
 ffc script LoreBook {
-   void run(int message, int map, int screen, int screenD) {
-      if (getScreenD(map, screen, screenD)) Quit();
+   void run(int message, int screenD) {
+      if (getScreenD(16, 0x43, screenD)) Quit();
 
       waitForTalking(this);
 
       Screen->Message(message);
-      setScreenD(map, screen, screenD, true);
+      setScreenD(16, 0x43, screenD, true);
       Quit();
    }
 }
@@ -1284,7 +1288,7 @@ ffc script LoreBookshelf {
       if (!getScreenD(screenD)) Quit();
 
       loop() {
-         waitForTalking(this);
+         waitForTalking(this, true);
          Screen->Message(message);
          Waitframe();
       }
