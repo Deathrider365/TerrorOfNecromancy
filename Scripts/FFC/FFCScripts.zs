@@ -1264,3 +1264,29 @@ ffc script GiveItemOnState {
       }
    }
 }
+
+@Author("Deathrider")
+ffc script LoreBook {
+   void run(int message, int map, int screen, int screenD) {
+      if (getScreenD(map, screen, screenD)) Quit();
+
+      waitForTalking(this);
+
+      Screen->Message(message);
+      setScreenD(map, screen, screenD, true);
+      Quit();
+   }
+}
+
+@Author("Deathrider")
+ffc script LoreBookshelf {
+   void run(int message, int screenD) {
+      if (!getScreenD(screenD)) Quit();
+
+      loop() {
+         waitForTalking(this);
+         Screen->Message(message);
+         Waitframe();
+      }
+   }
+}
