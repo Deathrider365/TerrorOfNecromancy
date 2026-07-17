@@ -154,7 +154,7 @@ he felt it was the best opportunity to get out of Hyrule and possibly find Inter
 
    It is heard amonst the guards in the Necromancer's castle that Link defeated an ancient Undead Legion Colonel. The guards know little of the Undead Legion of Aemulor, as the Necromancer
 has kept much of the original history locked up in his study. They express minor concern that Link is already gaining a lot of power, and that the Necromancer should be informed.
-Later, Link finds a remote house near the mines occupied by the family of the Father  and Son as well as the soldier. The Son found the soldier wandering out of the mine injured, and
+Later, Link finds a remote house near the mines occupied by the family of the Father and Son as well as the soldier. The Son found the soldier wandering out of the mine injured, and
 took him back to their house for rest. Link learns that the family living in the house are also decended from one of the miners that  mined during the Calamity of Vita, and after
 finding out that the soldier is also a descendent, agreed to let him rest in their house, and trade tales of their lineage. The soldier informs Link that since Link helped him battle
 Servus, he would aid Link on his quest as needed once he recovers. The soldier also tells Link that he was stationed at the guard tower outside of Viridi village, and was told to
@@ -1075,116 +1075,166 @@ Ending credits like DQ8?
 Other military ranks (in order): Lieutenant (Legatus), Captain (duxo), Major, Colonel (Servus), Brigadier, General (Kaarszythe)
 
 
-Vita Legendarium:
-- Vol 1:
-- Vol 2:
+Existing lore to sort somewhere:
 - Vol 3 (136):       "Vita Legendarium Vol.3: The Hazarond" - The Hazarond is an ancient beast that resides in the krahzen mountain range on the northern face of the island. Legend has it, it can excrete a oil-like subtance
                      that is very flammable, and violently reacts when a flame lit with a similar substance makes contact with it.
-- Vol 4:
-- Vol 5:
-- Vol 6:
 - Vol 7 (415):       "Vita Legendarium Vol.7: The Gamoth" - The Gamoth is an ancient monster whose first recorded sighting was in Venenom Bog. The Zora of the region have a belief that this was the monster that blessed those
                      that lived in the bog. Said blessing bestows resistance if not benefical effects from the toxic bog which would otherwise kill anyone who spent too much time within.
-- Vol 8:
-- Vol 9:
-- Vol 10:
-- Vol 12:
 - Vol 13 (417):      "Vita Legendarium Vol.13: Venenom Bog" - Located on the southeastern coast of Vita behind Gelido Shoal. it is unknown why this portion of the island is so intensively toxic. There is one recording of a
                      local sailer who accidentally found himself in the bog while fishing; "All I remember is a monster speaking to me, soothing me, telling me to come to it repeatedly." "I guess it was by some dumb luck
                      that the tides carried me out into the shoal but it was terrifying. Much like how when you would have sleep paralysis, I was bound to my bed, eyes wide open, staring this beast in the eyes as it attempted
                      to coerce me."
-- Vol 14:
-- Vol 15:
-- Vol 16:
-- Vol 17:
-- Vol 18:
-- Vol 19:
-- Vol 20:
-- Vol 21:
-- Vol 22:
 - Vol 23 (421):      "Vita Legendarium Vol.23: Jewel of marre" - Some claim the jewel originated on Vita, and not until a monster of unknown origin known as Gamoth emerged on the island was the jewel discovered. thus, resulting
                      in the inhabitants of Venenom believing the jewel was a gift from Gamoth. What is known, is that this jewel has some properties that make those exposed to its brilliance aquatically enhanced. It is also
                      speculated that the jewel is connected to a Mythical sea serpent known as the Leviathan. Some say that the Jewel could potentially be a scale of the sea serpent that was morphed in a way that revealed its
                      magical properties. One can only wonder if perhaps the reason there are advanced societies under the seas is a result of these "treated" scales. The Zora people of the region claim it was Gamoth who gave them
                      their supernatural abilities. But given the mystery of the jewel, and the Leviathan for that matter, could it be possible the Zora's existance as a whole is a result of the jewel, and by proxy, the Leviathan?
-- Vol 24:
-- Vol 25:
-- Vol 26:
-- Vol 27:
-- Vol 28:
-- Vol 29:
-- Vol 30:
-- Vol 31:
-- Vol 32:
-- Vol 33:
-- Vol 34:
-- Vol 35:
-- Vol 36:
-- Vol 38:
-- Vol 39:
-- Vol 40:
-- Vol 41:
-- Vol 42:
-- Vol 43:
 - Vol 44 (432):      "Vita Legendarium Vol.44: Lost Village of Ebria" - Believed to be the original home of the Venenom Zora population, the village of Ebria is believed to have flourished before the calamity. Today, even venturing
                      to the village is nearly as difficult as scaling Mt. Summus given the intense toxicity of the bog. It is also rumored these ancient Zora had full mastery of the seas due to the power of the Jewel of Marre. It
                      wouldn't be until the calamity of Vita that the village would be destroyed. However, how it was destroyed is disputed, as Venenom was left alone during the calamity. The only tales documented about the region
                      mention a monster called Gamoth. It is unlikely this beast is the culprit however, as the zora who call Venenom home claim it is a patriarch of their people.
-- Vol 45:
-- Vol 46:
-- Vol 47:
-- Vol 48:
-- Vol 49:
-- Vol 50:
-- Vol 51:
-- Vol 52:
-- Vol 53:
-- Vol 54:
-- Vol 55:
-- Vol 56:
-- Vol 57:
-- Vol 58:
-- Vol 59:
-- Vol 60:
-- Vol 61:
 - Vol 62 (1184):     "Vita Legendarium Vol.62: Carulem Archipelago" - Home to the widely considered "sister" tribe of zoras to those in Venenom, the region of Carulem Archipelago is one of few well known details. Despite being a
                      collection of small islands that would require one who can swim to traverse, being on the northwestern side of Interitus facing the ocean gives access to deep sea creatures to venture near. A number of larger
                      beasts have been witnessed including but not limited to the Levithan (See edition 33) as well as a large fish known as the Natavora (see edition 90). Despite the risk of ancient beasts washing ashore within the
                      archipelago, the scenery is unlike anything on Interitus making the location more popular for travelers and tourists.
-- Vol 63:
-- Vol 64:
-- Vol 65:
-- Vol 66:
-- Vol 67:
-- Vol 68:
-- Vol 69:
-- Vol 70:
-- Vol 71:
-- Vol 72:
-- Vol 73:
-- Vol 74:
-- Vol 75:
-- Vol 76:
-- Vol 77:
-- Vol 78:
-- Vol 79:
-- Vol 80:
-- Vol 81:
-- Vol 82:
-- Vol 83:
-- Vol 84:
-- Vol 85:
-- Vol 86:
-- Vol 87:
-- Vol 88:
-- Vol 89:
-- Vol 90:
-- Vol 91:
-- Vol 92:
-- Vol 93:
-- Vol 94:
-- Vol 95:
-- Vol 96:
-- Vol 97:
-- Vol 98:
-- Vol 99:
+
+
+
+
+Vita Legendarium:
+- Vol 1  (0000):  "Vita Legendarium Vol.1: Vita Legendarium" - This will be a series of lore books compiled over the course of thousands of years by various generations of lorekeepers on
+                     Vita with the purpose of preserving the histories of Vita. Various informations and volumns may be out of order when they ocurred in history giving a retrospective on some
+                     events that ocurred, as well as first hand accounts of said events. We have attempted to order the volumes such that they have some semblence of sequence.
+- Vol 2  (0000):  "Vita Legendarium Vol.2: The Island of Vita" - Situated quite a distance away from the land of Hyrule, this island and its immediate neighbors have always been somewhat
+                     elusive to Hyrulean sailors. Overall the land of Vita was always a rather secluded land, but specifically for Hyrule it can be a challenge to reach due to the curse Isle
+                     of Haeren between the two landmasses.
+- Vol 3  (0000):  "Vita Legendarium Vol.3: Isle of Haeren" - Not much is known about this mysterious small isle between Hyrule and Vita besides the notion that it was cursed by the golden
+                     goddesses. Near the end of the Calamity of Vita it is believed that after the Dark Lord who impugned the goddesses was dealt with, the goddesses sealed the corrupted
+                     triforce in a temple on the forsaken island with the purpose to never be found again and reinforced with some barrier created around the island by the golden 3 to
+                     prevent passerbys from landing on it.
+- Vol 4  (0000):  "Vita Legendarium Vol.4: Seas Around Vita" - The seas of Vita are filled with fascinating and even sometimes alien creatures. You have creatures ranging from unnatural
+                     flora and fauna, especially on the southern coast. It is also not unheard of to encounter some particularly unnatural beings, often referred to legendary beasts, such
+                     as the Leviathan and the Natavora (more on those later). Not all creatures lurking beneath the waves are violent however, there have been spotted a grouping of Mermaids
+                     on the northeastern coast. Some reports say that said Mermaids would even sometimes
+- Vol 5  (0000):  "Vita Legendarium Vol.5: Tropical Atoll" - The Mermaids of Vita all originate from a nearby atoll to the north east of Vita. This is a fact, as some residents of the island
+                     have had encounters with the mermaids who confirm that they are native to that atoll. Not much else is known about these mermaids, other than the fact that octorocks have
+                     a strange attraction to them to where they have had issues with octorocks stealing or even attacking them.
+- Vol 6  (0000):  "Vita Legendarium Vol.6: The Great Storm" - Since the Calamity of Vita, there has been a raging storm around the whole island, making it hard for sailors to see the island,
+                     let alone land. This storm can likely be chalked up to the general chaos that the Calamity caused as the calamity did stir a lot of unique phenomena such as awakening
+                     ancient and undocumented beasts and beings. We on the island can only hope that the storm will dissipate someday so visitors and aid may come by.
+- Vol 7  (0000):  "Vita Legendarium Vol.7: Villages of Vita" - Across the island there are a number of settlements, many of which existed pre calamity. The Villages are Pacilux, Viridi, Auri,
+                     and Silva on the north eastern side, with Silva being a relatively newer village being founded well after the calamity. Conversely, Pacilux is the oldest village on Vita,
+                     and cannot even really be considered a village anymore as it was the first site of destruction during the Calamity of Vita. Then you have Celo, Palus, Conflatos, and
+                     Duratu on the southwestern side. Lastly you have Medius and Carulem to the north west. There are no villages in the Gelido region as it was always a dangerous and wild
+                     area.
+- Vol 8  (0000):  "Vita Legendarium Vol.8: Towers of Vita" - All over Vita there are towers that stand high in the sky. Many exist prior to the Calamity of Vita as watchtowers to keep an
+                     eye on the land by the original Kingdom of Vita. Unfortunately when undesireable powers took over those towers turned into leverage points of control on the residents
+                     of the island. There are some exceptions to this however, as there are some towers with completely unknown origin, such as the Tower overlooking the south western side
+                     of the island seated on Summus Mountains, as well as the twin towers in the Caldum and Duratu regions.
+- Vol 8  (0000):  "Vita Legendarium Vol.9: Cumpura Forest" - A once beautiful and lush forest on the northern side of Vita to the east of the Krahzen Mountains, at some point was corrupted
+                     by a beast who, as far as anyone knows, always took up residence in the forest known as the Hazarond. Curiously the forest does still represent itself as a very lush
+                     and alive forest despite the discoloration of the corrupting substance. Many flora and fauna still call this place home, but some have feared the corruptiong could
+                     find itself in the nearby village of Viridi just to the south. Concerns are dwindling as nothing has happened yet to Viridi.
+- Vol 9  (0000):  "Vita Legendarium Vol.10: North East Vita Plains" - The heartland of the northern side of Vita, this region is central to all other major regions of north east Vita, as a
+                     result there are a lot of paths that have found themselves on guard by whoever was managing the island at the time. A very beautiful and alive region of Vita, a hotspot
+                     for any traveler
+- Vol 12 (0000):  "Vita Legendarium Vol.12: Krahzen Quarry" - One of the many blemishes on the north eastern side of Vita, the Krahzen Quarry was created during the Calamity of Vita when the
+                     dark lord who started the calamity searched for specific materials that would help his cause, he created the quarry at the base of the Krahzen Mountains bordering the
+                     northern side of Vita. It is unknown whether the venture succeeded or not, as after the calamity the mine was completely abandoned and most of those involved in it
+                     passed on as the conditions of the workers was abysmal.
+- Vol 13 (0000):  "Vita Legendarium Vol.13: Auri Desert North" - Situated on the centeral south side of north east Vita, the desert is home to Auri Village and the Cathedral of the Accursed.
+                     During the Calamity of Vita there were two notable places that played a crucial role in how Auri Desert exists today; the Sealed Abyy and the Cathedral of the Accursed.
+                     Those who found themselves taking up residence in Auri Village have found themselves lucky the village has lasted during the calamity. Since the calamity, both the village
+                     as well as the desert proper have been plagued with what has been called by residents as th "everstorm." An endless sandstorm that makes it hard for anyone to travel, let
+                     alone live in the harsh desert.
+- Vol 14 (0000):  "Vita Legendarium Vol.14: Auri Desert South" - Unlike its northern counterpart, this portion of Auri Desert has always been far tamer than the northern side, however this side
+                     has had its share of dangers. The primary danger of Auri Desert south is the Summus Pass, a network of caves that can be entered on the northern side of Auri Desert south
+                     that can lead unsuspecting adventurers to their deaths. If one would not get lost in the tunnels, the sinkholes that lead down there will take them.
+- Vol 15 (0000):  "Vita Legendarium Vol.15: South West Plains" - Similarly to the northern plains, this region of the south side of Vita is a highly traveled area especially with the capital
+                     of Vita at its core. A very vibrant place, where the streams of Summus run all the way to the southern coast, this plains has mountainous paths, babbling brooks, and a
+                     mysterious small forest on the southern side.
+- Vol 16 (0000):  "Vita Legendarium Vol.16: South West Forest" - A small forest hudled behind the rising cliffs that has been home to some strange folk who erected a structure that has dumb-
+                     founded anyone unlucky enough to enter. A place of looping paths making it very easy for one to get lost and eaten alive by the violent bats within. None who enter the
+                     seemingly innocuous forest shake come out alives so no real information is known about it
+- Vol 17 (0000):  "Vita Legendarium Vol.17: NAME" -
+- Vol 18 (0000):  "Vita Legendarium Vol.18: NAME" -
+- Vol 19 (0000):  "Vita Legendarium Vol.19: NAME" -
+- Vol 20 (0000):  "Vita Legendarium Vol.20: NAME" -
+- Vol 21 (0000):  "Vita Legendarium Vol.21: NAME" -
+- Vol 22 (0000):  "Vita Legendarium Vol.22: NAME" -
+- Vol 23 (0000):  "Vita Legendarium Vol.23: NAME" -
+- Vol 24 (0000):  "Vita Legendarium Vol.24: NAME" -
+- Vol 25 (0000):  "Vita Legendarium Vol.25: NAME" -
+- Vol 26 (0000):  "Vita Legendarium Vol.26: NAME" -
+- Vol 27 (0000):  "Vita Legendarium Vol.27: NAME" -
+- Vol 28 (0000):  "Vita Legendarium Vol.28: NAME" -
+- Vol 29 (0000):  "Vita Legendarium Vol.29: NAME" -
+- Vol 30 (0000):  "Vita Legendarium Vol.30: NAME" -
+- Vol 31 (0000):  "Vita Legendarium Vol.31: NAME" -
+- Vol 32 (0000):  "Vita Legendarium Vol.32: NAME" -
+- Vol 33 (0000):  "Vita Legendarium Vol.33: NAME" -
+- Vol 34 (0000):  "Vita Legendarium Vol.34: NAME" -
+- Vol 35 (0000):  "Vita Legendarium Vol.35: NAME" -
+- Vol 36 (0000):  "Vita Legendarium Vol.36: NAME" -
+- Vol 38 (0000):  "Vita Legendarium Vol.38: NAME" -
+- Vol 39 (0000):  "Vita Legendarium Vol.39: NAME" -
+- Vol 40 (0000):  "Vita Legendarium Vol.40: NAME" -
+- Vol 41 (0000):  "Vita Legendarium Vol.41: NAME" -
+- Vol 42 (0000):  "Vita Legendarium Vol.42: NAME" -
+- Vol 43 (0000):  "Vita Legendarium Vol.43: NAME" -
+- Vol 44 (0000):  "Vita Legendarium Vol.44: NAME" -
+- Vol 45 (0000):  "Vita Legendarium Vol.45: NAME" -
+- Vol 46 (0000):  "Vita Legendarium Vol.46: NAME" -
+- Vol 47 (0000):  "Vita Legendarium Vol.47: NAME" -
+- Vol 48 (0000):  "Vita Legendarium Vol.48: NAME" -
+- Vol 49 (0000):  "Vita Legendarium Vol.49: NAME" -
+- Vol 50 (0000):  "Vita Legendarium Vol.50: NAME" -
+- Vol 51 (0000):  "Vita Legendarium Vol.51: NAME" -
+- Vol 52 (0000):  "Vita Legendarium Vol.52: NAME" -
+- Vol 53 (0000):  "Vita Legendarium Vol.53: NAME" -
+- Vol 54 (0000):  "Vita Legendarium Vol.54: NAME" -
+- Vol 55 (0000):  "Vita Legendarium Vol.55: NAME" -
+- Vol 56 (0000):  "Vita Legendarium Vol.56: NAME" -
+- Vol 57 (0000):  "Vita Legendarium Vol.57: NAME" -
+- Vol 58 (0000):  "Vita Legendarium Vol.58: NAME" -
+- Vol 59 (0000):  "Vita Legendarium Vol.59: NAME" -
+- Vol 60 (0000):  "Vita Legendarium Vol.60: NAME" -
+- Vol 61 (0000):  "Vita Legendarium Vol.61: NAME" -
+- Vol 62 (0000):  "Vita Legendarium Vol.62: NAME" -
+- Vol 63 (0000):  "Vita Legendarium Vol.63: NAME" -
+- Vol 64 (0000):  "Vita Legendarium Vol.64: NAME" -
+- Vol 65 (0000):  "Vita Legendarium Vol.65: NAME" -
+- Vol 66 (0000):  "Vita Legendarium Vol.66: NAME" -
+- Vol 67 (0000):  "Vita Legendarium Vol.67: NAME" -
+- Vol 68 (0000):  "Vita Legendarium Vol.68: NAME" -
+- Vol 69 (0000):  "Vita Legendarium Vol.69: NAME" -
+- Vol 70 (0000):  "Vita Legendarium Vol.70: NAME" -
+- Vol 71 (0000):  "Vita Legendarium Vol.71: NAME" -
+- Vol 72 (0000):  "Vita Legendarium Vol.72: NAME" -
+- Vol 73 (0000):  "Vita Legendarium Vol.73: NAME" -
+- Vol 74 (0000):  "Vita Legendarium Vol.74: NAME" -
+- Vol 75 (0000):  "Vita Legendarium Vol.75: NAME" -
+- Vol 76 (0000):  "Vita Legendarium Vol.76: NAME" -
+- Vol 77 (0000):  "Vita Legendarium Vol.77: NAME" -
+- Vol 78 (0000):  "Vita Legendarium Vol.78: NAME" -
+- Vol 79 (0000):  "Vita Legendarium Vol.79: NAME" -
+- Vol 80 (0000):  "Vita Legendarium Vol.80: NAME" -
+- Vol 81 (0000):  "Vita Legendarium Vol.81: NAME" -
+- Vol 82 (0000):  "Vita Legendarium Vol.82: NAME" -
+- Vol 83 (0000):  "Vita Legendarium Vol.83: NAME" -
+- Vol 84 (0000):  "Vita Legendarium Vol.84: NAME" -
+- Vol 85 (0000):  "Vita Legendarium Vol.85: NAME" -
+- Vol 86 (0000):  "Vita Legendarium Vol.86: NAME" -
+- Vol 87 (0000):  "Vita Legendarium Vol.87: NAME" -
+- Vol 88 (0000):  "Vita Legendarium Vol.88: NAME" -
+- Vol 89 (0000):  "Vita Legendarium Vol.89: NAME" -
+- Vol 90 (0000):  "Vita Legendarium Vol.90: NAME" -
+- Vol 91 (0000):  "Vita Legendarium Vol.91: NAME" -
+- Vol 92 (0000):  "Vita Legendarium Vol.92: NAME" -
+- Vol 93 (0000):  "Vita Legendarium Vol.93: NAME" -
+- Vol 94 (0000):  "Vita Legendarium Vol.94: NAME" -
+- Vol 95 (0000):  "Vita Legendarium Vol.95: NAME" -
+- Vol 96 (0000):  "Vita Legendarium Vol.96: NAME" -
+- Vol 97 (0000):  "Vita Legendarium Vol.97: NAME" -
+- Vol 98 (0000):  "Vita Legendarium Vol.98: NAME" -
+- Vol 99 (0000):  "Vita Legendarium Vol.99: NAME" -

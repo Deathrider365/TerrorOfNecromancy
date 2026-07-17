@@ -1880,32 +1880,63 @@ ffc script SeasideOutpostGuard {
 
 @Author("Deathrider365")
 ffc script Gammy {
-   void run(int messageNoFam, int messageAllFam, int messageContent) {
+   void run(int messageNoFam, int messageAllFam, int messageContent, int screenDTalkedToGammy) {
       int count = 0;
 
-      for (int i = 1; i < 6; ++i) {
-         int combo = Screen->LoadFFC(i)->Data;
-
-         if (combo > 1) ++count;
-      }
+      for (int i = 1; i < 6; ++i)
+         if (Screen->LoadFFC(i)->Data > 1)
+            ++count;
 
       loop() {
          waitForTalking(this);
 
          if (count == 5) {
             if (!Screen->State[ST_ITEM]) {
-            Screen->Message(messageAllFam);
-            Waitframe();
+               Screen->Message(messageAllFam);
+               Waitframe();
 
-            item it = CreateItemAt(ITEM_RUPEE_100, Hero->X, Hero->Y);
-            it->Pickup = IP_HOLDUP;
-            Screen->State[ST_ITEM] = true;
+               item it = CreateItemAt(ITEM_RUPEE_100, Hero->X, Hero->Y);
+               it->Pickup = IP_HOLDUP;
+               Screen->State[ST_ITEM] = true;
             }
             else
                Screen->Message(messageContent);
          }
-         else
+         else {
             Screen->Message(messageNoFam);
+            Waitframe();
+            setScreenD(screenDTalkedToGammy, true);
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+@Author("Deathrider365")
+ffc script GammyFam {
+   void run(int messageNoGam, int messageYesGam, int screenDTalkedToGammy) {
+      if (getScreenD(screenDTalkedToGammy)) {
+         this->Data = CMB_INVIS;
+         this->Flags[FFCF_SOLID] = false;
+         Quit();
+      }
+
+      loop() {
+         waitForTalking(this);
+
+         if (!getScreenD(5, 0x51, screenDTalkedToGammy))
+            Screen->Message(messageNoGam);
+         else {
+            Screen->Message(messageYesGam);
+            Waitframe();
+
+            setScreenD(screenDTalkedToGammy, true);
+
+            this->Data = CMB_INVIS;
+            this->Flags[FFCF_SOLID] = false;
+            Quit();
+         }
 
          Waitframe();
       }
@@ -2057,7 +2088,7 @@ ffc script SignpostAppearOnLockblock {
 ffc script Lorekeeper {
    void run(int introMessage, int secondMessage, int allLoreFoundMessage, int finalMessage, int screenDSecondMessage, int screenDFoundAllBooks) {
       loop() {
-         waitForTalking(this, true);
+         waitForTalking(this);
 
          if (Screen->State[ST_SECRET])
             Screen->Message(finalMessage);
