@@ -205,7 +205,7 @@ global script GlobalScripts {
 
       if (Hero->Falling == 1) {
          combodata combo = Game->LoadComboData(Hero->FallCombo);
-         
+
          if (combo->UserFlags & WARPS_LINK) {
                if (combo->UserFlags & DIRECT_WARP)
                   Hero->Z = Hero->Y;
@@ -354,7 +354,7 @@ global script GlobalScripts {
             switch (screen) {
                case 0x4A:
                case 0x7C:
-               case 0x5D: return 001000b;
+               case 0x5D: return 000100b;
             }
             break;
          case 32: //NEI Quarry
@@ -449,7 +449,6 @@ global script GlobalScripts {
             switch (screen) {
                case 0x21: return 000100b;
             }
-         break;
          case 69: //Lv6 Geothermal Plant B1 West
             switch (screen) {
                case 0x22: return 000100b;
@@ -714,7 +713,7 @@ global script onSave {
       for (int i = 0; i < SizeOfArray(stolenLinkItems); ++i)
          if (stolenLinkItems[i] > 1)
             Hero->Item[stolenLinkItems[i]] = true;
-            
+
       for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
          elevatorsAtHome[i] = true;
    }
