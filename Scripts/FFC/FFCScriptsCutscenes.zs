@@ -516,7 +516,7 @@ ffc script CapturedSequenceImprisioned {
 
          mapDataLayer1->ComboD[98] = 7288;
          mapDataLayer3->ComboD[82] = 7284;
-         mapDataLayer1->ComboD[125] = 7011;
+         mapDataLayer1->ComboD[125] = 5067;
          this->Data = 7015;
          this->X = 144;
          this->Y = 112;
@@ -651,7 +651,7 @@ ffc script CapturedSequenceImprisioned {
          Waitframe();
       }
 
-      mapDataLayer1->ComboD[125] = 7011;
+      mapDataLayer1->ComboD[125] = 5067;
       Screen->FastCombo(1, 208, 112, 5067, 3, OP_OPAQUE);
    }
 
@@ -687,14 +687,14 @@ ffc script CapturedSequenceImprisioned {
             Waitframe();
 
          Audio->PlaySound(SFX_OOT_SECRET);
-         mapDataLayer1->ComboD[125] = 7007;
+         mapDataLayer1->ComboD[125] = 5066;
          setScreenD(SCREEND_BEAT_FIRST_SCREEN_ENEMIES, true);
       }
    }
 
    void necromancerWalksIn(ffc this, mapdata mapDataLayer1, mapdata mapDataLayer3, int soldierCombo1X, int soldierCombo2X) {
       disableLink();
-      mapDataLayer1->ComboD[125] = 7007;
+      mapDataLayer1->ComboD[125] = 5066;
       Audio->PlayEnhancedMusic("Final Fantasy VII - Those Chosen by the Planet.ogg", 0);
       this->Data = 7015;
 
@@ -847,13 +847,13 @@ ffc script CapturedSequenceEscape {
       }
 
       while (Screen->NumNPCs) {
-         mapDataLayer1->ComboD[comboPos] = 7011;
+         mapDataLayer1->ComboD[comboPos] = 5067;
          Waitframe();
       }
 
       Audio->PlaySound(SFX_OOT_SECRET);
       setScreenD(screenNumber, true);
-      mapDataLayer1->ComboD[comboPos] = 7007;
+      mapDataLayer1->ComboD[comboPos] = 5066;
    }
 }
 
