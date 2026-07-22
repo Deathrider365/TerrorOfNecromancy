@@ -33,7 +33,7 @@ namespace EnemyNamespace {
       unless(n->HitHeight) n->HitHeight = 16;
    }
 
-   void deathAnimation(npc n, int deathSound) {
+   void deathAnimation(npc n, int deathSound = 0) {
       n->Immortal = true;
       n->NoCollisionTimer = -1;
       n->Stun = 9999;
@@ -581,7 +581,7 @@ namespace IntroMovie {
             NoAction();
             Waitframe();
          }
-         
+
          Screen->Message(message1);
 
          for (int i = 0; Screen->ShowingMessage; ++i) {
@@ -590,7 +590,7 @@ namespace IntroMovie {
 
             if (i == 120)
                Input->Button[CB_A] = true;
-            
+
             Waitframe();
          }
 
@@ -644,9 +644,9 @@ namespace IntroMovie {
             NoAction();
             Waitframe();
          }
-         
+
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -668,9 +668,9 @@ namespace IntroMovie {
             NoAction();
             Waitframe();
          }
-         
+
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -702,9 +702,9 @@ namespace IntroMovie {
             this->Y += (i % 2) ? 1 : 0;
             Waitframe();
          }
-         
+
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -718,7 +718,7 @@ namespace IntroMovie {
    ffc script IntroSequenceScene5 {
       void run(int dmap, int screen, int message1) {
          introSequenceIntro();
-         
+
          // this->X = 304;
          for (int i = 0; i < 120; ++i) {
             NoAction();
@@ -730,9 +730,9 @@ namespace IntroMovie {
             // this->X -= 1;
             Waitframe();
          }
-         
+
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -765,12 +765,12 @@ namespace IntroMovie {
    ffc script IntroSequenceScene6 {
       void run(int dmap, int screen, int message1) {
          introSequenceIntro();
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
          }
-         
+
          Screen->Message(message1);
          Waitframe();
          Screen->TriggerSecrets();
@@ -794,14 +794,14 @@ namespace IntroMovie {
    ffc script IntroSequenceScene7 {
       void run(int dmap, int screen, int message1) {
          introSequenceIntro();
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
          }
-         
+
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -815,7 +815,7 @@ namespace IntroMovie {
    ffc script IntroSequenceScene8 {
       void run(int dmap, int screen, int message1) {
          introSequenceIntro();
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -826,7 +826,7 @@ namespace IntroMovie {
             this->Y -= (i & 3) ? 1 : 0;
             Waitframe();
          }
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -840,14 +840,14 @@ namespace IntroMovie {
    ffc script IntroSequenceScene9 {
       void run(int dmap, int screen, int message1) {
          introSequenceIntro();
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
          }
 
          Screen->Message(message1);
-         
+
          for (int i = 0; i < 120; ++i) {
             NoAction();
             Waitframe();
@@ -912,9 +912,9 @@ namespace Parallax {
         ATTRIBUTE_DEFINITION_LERP_MIN_Y,
         ATTRIBUTE_DEFINITION_LERP_MAX_Y,
         ATTRIBUTE_DEFINITION_LERP_EDGE_BUFFER,
-        ATTRIBUTE_DEFINITION_LERP_REF_MIN_X, 
-        ATTRIBUTE_DEFINITION_LERP_REF_MAX_X, 
-        ATTRIBUTE_DEFINITION_LERP_REF_MIN_Y, 
+        ATTRIBUTE_DEFINITION_LERP_REF_MIN_X,
+        ATTRIBUTE_DEFINITION_LERP_REF_MAX_X,
+        ATTRIBUTE_DEFINITION_LERP_REF_MIN_Y,
         ATTRIBUTE_DEFINITION_LERP_REF_MAX_Y,
         ATTRIBUTE_DEFINITION_ROTATE_SCROLL,
         ATTRIBUTE_DEFINITION_ROTATE_PARALLAX
@@ -1017,7 +1017,7 @@ namespace Parallax {
                 return;
 
             Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
-            
+
             UpdateScreenChanges();
             UpdateScrolling();
             UpdateLayers(false);
@@ -1032,8 +1032,8 @@ namespace Parallax {
             int getPixel = DrawChecker->GetPixel(0, 0);
             DrawChecker->PutPixel(0, 0, 0, DrawCheckerColor, 0, 0, 0, OP_OPAQUE);
             // The result of GetPixel is the color from the previous frame, because draws are deferred.
-            // This means we can't tell if bitmap draws failed this frame, but we can tell 
-            // if the previous call's did and run them again! 
+            // This means we can't tell if bitmap draws failed this frame, but we can tell
+            // if the previous call's did and run them again!
             bool hasPixel = getPixel==prevColor;
             return !hasPixel;
         }
@@ -1354,7 +1354,7 @@ namespace Parallax {
                     RefreshBitmap();
                 }
             }
-            
+
             UpdateMotion(dX, dY);
             UpdateLerp();
             UpdateWrap();
@@ -1706,7 +1706,7 @@ namespace Parallax {
                 uSrcW = sw;
             if(noWrapY&&(sy<0||sy+sh>=h))
                 uSrcH = sh;
-            // Scaling for destination units. 
+            // Scaling for destination units.
             // Represents how many times the original source rect can fit inside the unit source rect
             int scaleX = Min(uSrcW/sw, 1);
             int scaleY = Min(uSrcH/sh, 1);
@@ -1827,7 +1827,7 @@ namespace Parallax {
             this->ReloadState[GENSCR_ST_RELOAD] = true;
             this->ReloadState[GENSCR_ST_CONTINUE] = true;
             RunGenericScript(CheckGenericScript("ParallaxGenericEvents"));
-            
+
             Screen->DrawOrigin = DRAW_ORIGIN_SCREEN;
             if(!ParallaxLayers)
             {

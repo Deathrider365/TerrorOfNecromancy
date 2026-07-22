@@ -350,6 +350,28 @@ bool Ghost_CanPlace(int X, int Y, int w, int h) {
    return true;
 }
 
+bool validSpawn(int pos) {
+   int x = ComboX(pos);
+   int y = ComboY(pos);
+
+   if (Screen->isSolid(x + 4, y + 4) || Screen->isSolid(x + 12, y + 4) || Screen->isSolid(x + 4, y + 12) || Screen->isSolid(x + 12, y + 12))
+      return false;
+
+   if (ComboFI(pos, CF_NOENEMY) || ComboFI(pos, CF_NOGROUNDENEMY))
+      return false;
+
+   int ct = Screen->ComboT[pos];
+
+   if (ct == CT_NOENEMY || ct == CT_NOGROUNDENEMY || ct == CT_NOJUMPZONE)
+      return false;
+   if (ct == CT_WATER || ct == CT_LADDERONLY || ct == CT_HOOKSHOTONLY || ct == CT_LADDERHOOKSHOT)
+      return false;
+   if (ct == CT_PIT || ct == CT_PITB || ct == CT_PITC || ct == CT_PITD || ct == CT_PITR)
+      return false;
+
+   return true;
+}
+
 // Modifies the game over menu text, background color, and midi
 void setGameOverMenu(Color bg, Color text, Color flash, int midi) {
    Game->GameOverScreen[GOS_BACKGROUND] = bg;

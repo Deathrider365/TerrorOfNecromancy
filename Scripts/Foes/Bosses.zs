@@ -1,18 +1,18 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bosses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 namespace LeviathanNamespace {
-   const int CMB_WATERFALL = 9984;
-   const int CS_WATERFALL = 0;
+   CONFIG CMB_WATERFALL = 9984;
+   CONFIG CS_WATERFALL = 0;
 
-   const int VARS_HEADNPC = 0;
-   const int VARS_FLASHTIMER = 5;
-   const int VARS_HEAD_CENTERX = 1;
-   const int VARS_HEAD_CENTERY = 2;
-   const int VARS_FLIP = 3;
-   const int VARS_INITHP = 6;
-   const int VARS_BODYHP = 8;
+   CONFIG VARS_HEADNPC = 0;
+   CONFIG VARS_FLASHTIMER = 5;
+   CONFIG VARS_HEAD_CENTERX = 1;
+   CONFIG VARS_HEAD_CENTERY = 2;
+   CONFIG VARS_FLIP = 3;
+   CONFIG VARS_INITHP = 6;
+   CONFIG VARS_BODYHP = 8;
 
-   const int NPC_LEVIATHANHEAD = 177;
+   CONFIG NPC_LEVIATHANHEAD = 177;
 
    CONFIG SFX_RISE = 67;
    CONFIG SFX_WATERFALL = 26;
@@ -33,18 +33,12 @@ namespace LeviathanNamespace {
    CONFIG SPR_SPLASH = 93;
    CONFIG SPR_WATERBALL = 94;
 
+   CONFIG MSG_BEATEN = 23;
+   CONFIG MSG_LEVIATHAN_SCALE = 1052;
+
    Color C_CHARGE1 = C_DARKBLUE;
    Color C_CHARGE2 = C_SEABLUE;
    Color C_CHARGE3 = C_TAN;
-
-   // TODO Make not a global
-   int LEVIATHAN_WATERCANNON_DMG = 70;
-   int LEVIATHAN_BURSTCANNON_DMG = 40;
-   int LEVIATHAN_WATERFALL_DMG = 60;
-   int LEVIATHAN_SIDESWIPE_DMG = 80;
-
-   CONFIG MSG_BEATEN = 23;
-   CONFIG MSG_LEVIATHAN_SCALE = 1052;
 
    bool firstRun = true;
 
@@ -54,6 +48,11 @@ namespace LeviathanNamespace {
       // clang-format on
 
       void run() {
+         int LEVIATHAN_WATERCANNON_DMG = 70;
+         int LEVIATHAN_BURSTCANNON_DMG = 40;
+         int LEVIATHAN_WATERFALL_DMG = 60;
+         int LEVIATHAN_SIDESWIPE_DMG = 80;
+
          Hero->Dir = DIR_UP;
 
          waterfallBitmap = new bitmap(32, 176);
@@ -805,127 +804,97 @@ namespace LeviathanNamespace {
 
 // clang-format off
 @Author("Moosh, modified by Deathrider365")
-ffc script Legionnaire {
+npc script Legionnaire {
    // clang-format on
+
+   using namespace EnemyNamespace;
+   using namespace NPCAnim;
 
    CONFIG ATTACK_INITIAL_RUSH = -1;
    CONFIG ATTACK_FIRE_SWORDS = 0;
    CONFIG ATTACK_JUMPS_ON_YOU = 1;
    CONFIG ATTACK_SPRINT_SLASH = 2;
 
-   void run(int enemyid) {
-      if (Screen->State[ST_SECRET]) {
-         this->Data = 0; //TODO sometimes the sprite is seen just sitting after death
-         Quit();
-      }
+   CONFIG INTRO_SCREEND = 0;
 
-      npc ghost = Ghost_InitAutoGhost(this, enemyid);
+   CONFIG TILE_IMPACT_MID = 955;
+   CONFIG TILE_IMPACT_BIG = 952;
 
-      int triggerOnProximity = ghost->Attributes[5]; //+1 to each attribute to correalate with the editor
+   CONFIG MESSAGE_LEGIONNAIRE_INTRO = 811;
 
-      CONFIG DMG_FIRE_SWORDS = ghost->WeaponDamage + ghost->WeaponDamage * .3;
-      CONFIG DMG_JUMPS_ON_YOU = ghost->WeaponDamage + ghost->WeaponDamage * .4;
-      CONFIG DMG_SPRINT_SLASH = ghost->WeaponDamage + ghost->WeaponDamage * .5;
+   void run(int enemyid, int spawnCondition) {
+      CONFIG SPAWN_CONDITION_SECRETS = 1;
+      CONFIG SPAWN_CONDITION_PROXIMITY = 2;
+      CONFIG SPAWN_CONDITION_ITEM = 3;
 
-      Ghost_SetFlag(GHF_4WAY);
+      CONFIG DMG_FIRE_SWORDS = this->WeaponDamage + (this->WeaponDamage * .3);
+      CONFIG DMG_JUMPS_ON_YOU = this->WeaponDamage + (this->WeaponDamage * .4);
+      CONFIG DMG_SPRINT_SLASH = this->WeaponDamage + (this->WeaponDamage * .5);
 
-      int screenD = ghost->Attributes[6];
-      int startX = ghost->Attributes[7];
-      int startY = ghost->Attributes[8];
-      int hp = ghost->Attributes[9];
-      int combo = ghost->Attributes[10];
+      CONFIG MAX_HP = this->HP;
+      CONFIGB IS_CLONE = this->Step != 100;
 
       int attackCoolDown = 0;
+      int timeToSpawnAnother = 0;
       int attack = -1;
-      int startHP = Ghost_HP;
 
-      int timeToSpawnAnother, enemyCount;
-      int numEnemies = Screen->NumNPCs;
+      if (Screen->SecretFlags[CF_ENEMY0]) {
+         //TODO how to spawn at this location
+      }
+      else {
+         this->X = 120;
+         this->Y = 80;
+         this->Z = 0;
+      }
 
-      if (triggerOnProximity && !getScreenD(screenD)) {
-         while (Abs(Hero->X - this->X) > triggerOnProximity) {
-            Ghost_Y = -32;
-            Ghost_X = 120;
-            Ghost_Waitframe(this, ghost);
+      this->Flags[NPCF_ISINVISIBLE] = true;
+      this->NoCollisionTimer = -1;
+
+      if (spawnCondition > 0) {
+         int condition = Floor(spawnCondition);
+         int conditionModifier = (spawnCondition % 1) / 1L;
+
+         switch(condition) {
+            case SPAWN_CONDITION_SECRETS:
+               until (Screen->State[ST_SECRET]) Waitframe();
+               break;
+            case SPAWN_CONDITION_PROXIMITY:
+               until (Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) < conditionModifier) Waitframe();
+               break;
+            case SPAWN_CONDITION_ITEM:
+               until (Hero->Item[conditionModifier]) Waitframe();
+               break;
          }
       }
 
       // Intro Animation
-      unless(getScreenD(screenD)) {
-         Ghost_Y = -32;
-         Ghost_X = startX;
-
-         for (int i = 0; i < 32; ++i) {
-            disableLink();
-            Ghost_Waitframe(this, ghost);
-         }
-
-         Ghost_Y = startY;
-         Ghost_Z = 176;
-         Ghost_Dir = DIR_DOWN;
-
-         while (Ghost_Z) {
-            disableLink();
-            Ghost_Z -= 4;
-            Ghost_Waitframe(this, ghost);
-         }
-
-         Screen->Quake = 10;
-         Audio->PlaySound(SFX_IMPACT_EXPLOSION);
-
-         for (int i = 0; i < 32; ++i) {
-            disableLink();
-            Ghost_Waitframe(this, ghost);
-         }
-
-         Audio->PlaySound(SFX_STALFOS_GROAN);
-
-         setScreenD(screenD, true);
-      }
+      if (!getScreenD(INTRO_SCREEND))
+         introCutscene(this);
       else {
-         Ghost_X = startX;
-         Ghost_Y = startY;
-         Ghost_Z = 0;
+         this->Flags[NPCF_ISINVISIBLE] = false;
+         this->NoCollisionTimer = 0;
       }
+
+      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
 
       int movementDirection = Choose(90, -90);
 
       loop() {
-         Ghost_Data = combo + 4;
-         Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
-         int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y) + movementDirection; //TODO this isnt working, always going clockwise
-         numEnemies = Screen->NumNPCs;
+         FaceLink(this);
 
-         Ghost_MoveAtAngle(moveAngle, ghost->Step / 100, 0);
+         int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
+         this->MoveAtAngle(angle, this->Step / 100, SPW_NONE);
 
-         // Calls Reinforcements
-         if (timeToSpawnAnother >= 300 && numEnemies < 3) {
-            enemyShake(this, ghost, 32, 1);
-            Audio->PlaySound(SFX_OOT_WHISTLE);
+         int numLegionnaires = 0;
 
-            npc backupLegionnaire = Screen->CreateNPC(ghost->Attributes[4]);
-            backupLegionnaire->ItemSet = 0;
-            backupLegionnaire->HP *= .5;
-            backupLegionnaire->Step *= .5;
-            backupLegionnaire->Damage *= .5;
-            backupLegionnaire->WeaponDamage *= .5;
+         for (int i = 1; i <= Screen->NumNPCs; ++i) {
+            if (Screen->LoadNPC(i)->ID == this->ID)
+               numLegionnaires++;
+         }
 
-            int pos, x, y;
-
-            for (int i = 0; i < 352; ++i) {
-               pos = i < 176 ? Rand(176) : i - 176;
-
-               x = ComboX(pos);
-               y = ComboY(pos);
-
-               if (Distance(Hero->X, Hero->Y, x, y) > 48)
-                  if (Ghost_CanPlace(x, y, 16, 16))
-                     break;
-            }
-
-            backupLegionnaire->X = x;
-            backupLegionnaire->Y = y;
-
+         if (timeToSpawnAnother >= 300 && numLegionnaires < 3 && !IS_CLONE) {
+            spawnReinforcements(this);
+            this->HP += (MAX_HP * .2);
             timeToSpawnAnother = 0;
          }
 
@@ -933,26 +902,26 @@ ffc script Legionnaire {
             --attackCoolDown;
          else {
             attackCoolDown = 90 + Rand(30);
-            attack = attackChoice(attack, numEnemies);
+            attack = attackChoice(this, attack, numLegionnaires);
 
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, 32, DMG_JUMPS_ON_YOU);
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_FIRE_SWORDS);
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_SPRINT_SLASH);
+                  jumpsOnYou(this, movementDirection, DMG_JUMPS_ON_YOU);
+                  attackFireSwords(this, movementDirection, DMG_FIRE_SWORDS);
+                  attackSprintSlash(this, movementDirection, DMG_SPRINT_SLASH);
                   attack = ATTACK_FIRE_SWORDS;
                   break;
                }
                case ATTACK_FIRE_SWORDS: {
-                  attackFireSwords(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_FIRE_SWORDS);
+                  attackFireSwords(this, movementDirection, DMG_FIRE_SWORDS);
                   break;
                }
                case ATTACK_JUMPS_ON_YOU: {
-                  jumpsOnYou(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, 32, DMG_JUMPS_ON_YOU);
+                  jumpsOnYou(this, movementDirection, DMG_JUMPS_ON_YOU);
                   break;
                }
                case ATTACK_SPRINT_SLASH: {
-                  attackSprintSlash(this, ghost, combo, Ghost_X, Ghost_Y, movementDirection, DMG_SPRINT_SLASH);
+                  attackSprintSlash(this, movementDirection, DMG_SPRINT_SLASH);
                   break;
                }
             }
@@ -960,121 +929,233 @@ ffc script Legionnaire {
             movementDirection = Choose(90, -90);
          }
 
-         if (Ghost_HP <= startHP * .5)
+         if (this->HP <= MAX_HP * .5)
             timeToSpawnAnother++;
 
-         Ghost_Waitframe(this, ghost);
+         LegionnaireWaitframe(this);
       }
    }
 
-   int attackChoice(int attack, int numEnemies) {
-      int distanceBetween = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+   void LegionnaireWaitframe(npc this, int frames = 1) {
+      for (int i = 0; i < frames; ++i) {
+         if (this->HP <= 0) {
+            deathAnimation(this);
+            MUSIC_INHERIT->Play();
+         }
 
-      if (attack == ATTACK_FIRE_SWORDS) {
-         attack = ATTACK_SPRINT_SLASH;
+         Waitframe();
       }
+   }
+
+   void legionnaireShake(npc this, int frames, int intensity) {
+      for (int i = 0; i < frames; ++i) {
+         this->DrawXOffset = Rand(-intensity, intensity);
+         this->DrawYOffset = Rand(-intensity, intensity);
+
+         LegionnaireWaitframe(this);
+      }
+
+      this->DrawXOffset = 0;
+      this->DrawYOffset = 0;
+   }
+
+   void introCutscene(npc this) {
+      FaceLink(this);
+      this->Gravity = false;
+
+      for (int i = 0; i < 24; ++i) {
+         disableLink();
+         LegionnaireWaitframe(this);
+      }
+
+      this->Gravity = true;
+      this->Z = 176;
+
+      this->Flags[NPCF_ISINVISIBLE] = false;
+      this->NoCollisionTimer = 0;
+
+      while (this->Z > 0) {
+         disableLink();
+         this->Z -= 2;
+         LegionnaireWaitframe(this);
+      }
+
+      Screen->Quake = 10;
+      Audio->PlaySound(SFX_IMPACT_EXPLOSION);
+
+      for (int i = 0; i < 30; ++i) {
+         disableLink();
+         makeHitbox(this->X - 12, this->Y - 12, 40, 40, 0);
+         Screen->DrawTile(2, this->X - 16, this->Y - 16, TILE_IMPACT_BIG, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+         LegionnaireWaitframe(this);
+      }
+
+      Audio->PlaySound(SFX_STALFOS_GROAN);
+
+      if (!receivedLegionnaireOpeningMessage) {
+         Screen->Message(MESSAGE_LEGIONNAIRE_INTRO);
+         receivedLegionnaireOpeningMessage = true;
+      }
+
+      setScreenD(INTRO_SCREEND, true);
+   }
+
+   void spawnReinforcements(npc this) {
+      legionnaireShake(this, 32, 1);
+      Audio->PlaySound(SFX_OOT_WHISTLE);
+
+      npc backupLegionnaire = Screen->CreateNPC(this->ID);
+      backupLegionnaire->ItemSet = 0;
+      backupLegionnaire->HP *= .5;
+      backupLegionnaire->Step *= .5;
+      backupLegionnaire->Damage *= .5;
+      backupLegionnaire->WeaponDamage *= .5;
+
+      int pos, x, y;
+
+      for (int i = 0; i < 352; ++i) {
+         pos = i < 176 ? Rand(176) : i - 176;
+
+         x = ComboX(pos);
+         y = ComboY(pos);
+
+         if (Distance(Hero->X, Hero->Y, x, y) > 48)
+            if (validSpawn(pos))
+               break;
+      }
+
+      backupLegionnaire->X = x;
+      backupLegionnaire->Y = y;
+   }
+
+   int attackChoice(npc this, int attack, int numLegionnaires) {
+      int distance = Distance(this->X, this->Y, Hero->X + 8, Hero->Y + 8);
+
+      if (attack == ATTACK_FIRE_SWORDS)
+         attack = ATTACK_SPRINT_SLASH;
       else if (attack == ATTACK_JUMPS_ON_YOU) {
-         if (distanceBetween < 48)
+         if (distance < 48)
             attack = ATTACK_JUMPS_ON_YOU;
-         if (distanceBetween < 64)
+         if (distance < 64)
             attack = ATTACK_FIRE_SWORDS;
          else
             attack = ATTACK_SPRINT_SLASH;
       }
       else if (attack == ATTACK_SPRINT_SLASH) {
-         if (distanceBetween > 64)
+         if (distance > 64)
             attack = ATTACK_SPRINT_SLASH;
-         else if (distanceBetween > 48)
+         else if (distance > 48)
             attack = ATTACK_FIRE_SWORDS;
          else
             attack = ATTACK_JUMPS_ON_YOU;
       }
-      if (attack == 0 && numEnemies > 1)
+      else if (attack == ATTACK_FIRE_SWORDS && numLegionnaires > 1)
          attack = ATTACK_FIRE_SWORDS;
-      else
-         return attack;
 
       return attack;
    }
 
-   void attackFireSwords(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int damage) {
+   void attackFireSwords(npc this, int movementDirection, int damage) {
+      FaceLink(this);
       Audio->PlaySound(SFX_STALFOS_GROAN_SLOW);
-      enemyShake(this, ghost, 48, 1);
-      Ghost_Data = combo;
+      legionnaireShake(this, 48, 1);
 
       for (int i = 0; i < 5; ++i) {
-         eweapon projectile = FireAimedEWeapon(EW_BEAM, Ghost_X, Ghost_Y, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
-         Ghost_Waitframes(this, ghost, 16);
+         FaceLink(this);
+         FireAimedEWeapon(EW_BEAM, this->X, this->Y, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
+         LegionnaireWaitframe(this, 16);
       }
 
-      Ghost_Waitframes(this, ghost, 16);
+      LegionnaireWaitframe(this, 16);
       movementDirection = Choose(90, -90);
    }
 
-   void jumpsOnYou(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int shakeDuration, int damage) {
+   void jumpsOnYou(npc this, int movementDirection, int damage) {
+      FaceLink(this);
       Audio->PlaySound(SFX_STALFOS_GROAN);
-      Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
-      enemyShake(this, ghost, shakeDuration, 2);
-      Ghost_Data = combo + 8;
+      legionnaireShake(this, 32, 2);
 
-      int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
-      int jumpAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+      int aSpeed = this->ASpeed;
+      int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
 
-      Ghost_Jump = getJumpLength(distance / 2, true);
+      this->Jump = getJumpLength(distance / 2, true);
+      this->Z = 2;
       Audio->PlaySound(SFX_JUMP);
+      this->ASpeed = this->ASpeed / 2; //TODO this makes him flash for some reason
 
-      while (Ghost_Jump || Ghost_Z) {
-         Ghost_MoveAtAngle(jumpAngle, 2, 0);
-         Ghost_Waitframe(this, ghost);
+      int currentLinkPositionX = Hero->X + 8;
+      int currentLinkPositionY = Hero->Y + 8;
+
+      while (this->Jump || this->Z) {
+         MoveTowardsPoint(this, currentLinkPositionX, currentLinkPositionY, 2, SPW_FLOATER, true);
+         LegionnaireWaitframe(this);
       }
 
-      Ghost_Data = combo;
+      this->ASpeed = aSpeed;
       Audio->PlaySound(SFX_IMPACT_EXPLOSION);
 
       for (int i = 0; i < 24; ++i) {
-         makeHitbox(Ghost_X - 12, Ghost_Y - 12, 40, 40, damage);
-         Screen->DrawTile(2, Ghost_X - 16, Ghost_Y - 16, (i > 7 && i <= 15) ? TILE_IMPACT_BIG : TILE_IMPACT_MID, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
-         Ghost_Waitframe(this, ghost);
+         makeHitbox(this->X - 12, this->Y - 12, 40, 40, (distance > 80) ? (damage + damage * .2) : damage);
+         Screen->DrawTile(2, this->X - 16, this->Y - 16, (distance > 80) ? TILE_IMPACT_BIG : TILE_IMPACT_MID, 3, 3, 8, -1, -1, 0, 0, 0, 0, true, OP_OPAQUE);
+         LegionnaireWaitframe(this);
       }
 
       movementDirection = Choose(90, -90);
    }
 
-   void attackSprintSlash(ffc this, npc ghost, int combo, int ghostX, int ghostY, int movementDirection, int damage) {
-      Audio->PlaySound(SFX_STALFOS_GROAN_FAST);
-      enemyShake(this, ghost, 16, 2);
-      Ghost_Dir = AngleDir4(Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y));
+   void attackSprintSlash(npc this, int movementDirection, int damage) {
+      CONFIG COMBO_LEGIONNAIRE_SWORD = 10252;
 
-      int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
-      int distance = Distance(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
-      int dashFrames = Max(6, (distance - 36) / 3);
+      FaceLink(this);
+      Audio->PlaySound(SFX_STALFOS_GROAN_FAST);
+      legionnaireShake(this, 16, 2);
+
+      int moveAngle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+      int distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
+      int dashFrames = Max(2, (distance - 36) / 3);
+
+      bool swordCollided;
+
+      int thisStep = this->Step;
+      this->Step = 100;
 
       for (int i = 0; i < dashFrames; ++i) {
-         Ghost_MoveAtAngle(moveAngle, 3, 0);
+         this->MoveAtAngle(moveAngle, this->Step / 30, SPW_NONE);
 
          if (i > dashFrames / 2)
-            sword1x1(Ghost_X, Ghost_Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, combo + 12, 10, damage);
+            sword1x1(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, COMBO_LEGIONNAIRE_SWORD, 10, damage);
 
-         Ghost_Waitframe(this, ghost);
+         LegionnaireWaitframe(this);
       }
 
       Audio->PlaySound(SFX_SWORD);
+      distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
 
-      for (int i = 0; i <= 12; ++i) {
-         Ghost_MoveAtAngle(moveAngle, 3, 0);
-         sword1x1(Ghost_X, Ghost_Y, moveAngle - 90 + 15 * i, 16, combo + 12, 10, damage);
-         Ghost_Waitframe(this, ghost);
+      for (int i = 0; i <= 12 && !swordCollided; ++i) {
+         this->MoveAtAngle(moveAngle, this->Step / 35, SPW_NONE);
+         swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, COMBO_LEGIONNAIRE_SWORD, 10, damage);
+
+         LegionnaireWaitframe(this);
       }
 
+      if (swordCollided) {
+         Audio->PlaySound(SFX_SWORD_ROCK3);
+
+         for (int i = 0; i < 12; ++i) {
+            this->MoveAtAngle(moveAngle + 180, this->Step / 30, SPW_NONE);
+            LegionnaireWaitframe(this);
+         }
+
+         LegionnaireWaitframe(this, 40);
+      }
+
+      this->Step = thisStep;
       movementDirection = Choose(90, -90);
    }
 }
 
 namespace ShamblesNamespace {
-   CONFIG ATTACK_INITIAL_RUSH = -1;
-   CONFIG ATTACK_LINK_CHARGE = 0;
-   CONFIG ATTACK_BOMB_LOB = 1;
-   CONFIG ATTACK_SPAWN_ZAMBIES = 2;
+   using namespace EnemyNamespace;
 
    bool firstRun = true;
 
@@ -1082,6 +1163,11 @@ namespace ShamblesNamespace {
    @Author("Moosh, modified by Deathrider365")
    ffc script Shambles {
       // clang-format on
+
+      CONFIG ATTACK_INITIAL_RUSH = -1;
+      CONFIG ATTACK_LINK_CHARGE = 0;
+      CONFIG ATTACK_BOMB_LOB = 1;
+      CONFIG ATTACK_SPAWN_ZAMBIES = 2;
 
       void run(int enemyid) {
          npc ghost = Ghost_InitAutoGhost(this, enemyid);
@@ -1173,145 +1259,387 @@ namespace ShamblesNamespace {
             Ghost_Y = ComboY(pos);
          }
       }
-   }
 
-   void introCutscene(ffc this, npc ghost, int combo) {
-      ShamblesWaitframe(this, ghost, 15);
-      Hero->Stun = 270;
+      void introCutscene(ffc this, npc ghost, int combo) {
+         ShamblesWaitframe(this, ghost, 15);
+         Hero->Stun = 270;
 
-      Screen->Quake = 90;
-      ShamblesWaitframe(this, ghost, 90, SFX_ROCKINGSHIP);
+         Screen->Quake = 90;
+         ShamblesWaitframe(this, ghost, 90, SFX_ROCKINGSHIP);
 
-      Ghost_X = 120;
-      Ghost_Y = 80;
-      Ghost_Data = combo + 4;
+         Ghost_X = 120;
+         Ghost_Y = 80;
+         Ghost_Data = combo + 4;
 
-      Screen->Quake = 60;
-      ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
 
-      Ghost_Data = combo + 5;
+         Ghost_Data = combo + 5;
 
-      Screen->Quake = 60;
-      ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
 
-      Ghost_Data = combo + 6;
+         Ghost_Data = combo + 6;
 
-      Screen->Quake = 60;
-      ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
 
-      Screen->Message(803);
-      submerge(this, ghost, 8);
-   }
-
-   void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
-      Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
-      Waitframes(30);
-
-      for (int i = 0; i < bombsToLob; ++i) {
-         ShamblesWaitframe(this, ghost, 16);
-         eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-         Audio->PlaySound(SFX_LAUNCH_BOMBS);
-         runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
-         Waitframes(15);
-      }
-   }
-
-   void spawnZambos(ffc this, npc ghost, int numZombies) {
-      for (int i = 0; i < numZombies; ++i) {
-         Audio->PlaySound(SFX_SUMMON_MINE);
-         npc zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
-
-         int pos = moveMe();
-
-         zambo->X = ComboX(pos);
-         zambo->Y = ComboY(pos);
-
-         ShamblesWaitframe(this, ghost, 30);
-      }
-   }
-
-   int moveMe() {
-      int pos;
-
-      for (int i = 0; i < 352; ++i) {
-         if (i < 176)
-            pos = Rand(176);
-         else
-            pos = i - 176;
-
-         int x = ComboX(pos);
-         int y = ComboY(pos);
-
-         if (Distance(Hero->X, Hero->Y, x, y) > 48)
-            if (Ghost_CanPlace(x, y, 16, 16))
-               break;
+         Screen->Message(803);
+         submerge(this, ghost, 8);
       }
 
-      return pos;
-   }
+      void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
+         Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
+         Waitframes(30);
 
-   void emerge(ffc this, npc ghost, int frames) {
-      int combo = ghost->Attributes[10];
-      ghost->NoCollisionTimer = 0;
-      ghost->DrawYOffset = -2;
-
-      Ghost_Data = combo + 4;
-      ShamblesWaitframe(this, ghost, frames);
-
-      Audio->PlaySound(130);
-
-      Ghost_Data = combo + 5;
-      ShamblesWaitframe(this, ghost, frames);
-
-      Ghost_Data = combo + 6;
-      ShamblesWaitframe(this, ghost, frames);
-   }
-
-   void submerge(ffc this, npc ghost, int frames) {
-      int combo = ghost->Attributes[10];
-
-      Ghost_Data = combo + 6;
-      ShamblesWaitframe(this, ghost, frames);
-
-      Audio->PlaySound(130);
-
-      Ghost_Data = combo + 5;
-      ShamblesWaitframe(this, ghost, frames);
-
-      Ghost_Data = combo + 4;
-      ShamblesWaitframe(this, ghost, frames);
-
-      ghost->NoCollisionTimer = -1;
-      ghost->DrawYOffset = -1000;
-   }
-
-   int chooseAttack(int attack) {
-      if (Screen->NumNPCs >= 3) {
-         if (attack == ATTACK_INITIAL_RUSH)
-            attack = ATTACK_LINK_CHARGE;
-         else if (attack == ATTACK_LINK_CHARGE)
-            attack = ATTACK_BOMB_LOB;
-         else if (attack == ATTACK_BOMB_LOB) {
-            attack = ATTACK_LINK_CHARGE;
+         for (int i = 0; i < bombsToLob; ++i) {
+            ShamblesWaitframe(this, ghost, 16);
+            eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+            Audio->PlaySound(SFX_LAUNCH_BOMBS);
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
+            Waitframes(15);
          }
       }
-      else
-         attack = ATTACK_INITIAL_RUSH;
 
-      return attack;
+      void spawnZambos(ffc this, npc ghost, int numZombies) {
+         for (int i = 0; i < numZombies; ++i) {
+            Audio->PlaySound(SFX_SUMMON_MINE);
+            npc zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
+
+            int pos = moveMe();
+
+            zambo->X = ComboX(pos);
+            zambo->Y = ComboY(pos);
+
+            ShamblesWaitframe(this, ghost, 30);
+         }
+      }
+
+      int moveMe() {
+         int pos;
+
+         for (int i = 0; i < 352; ++i) {
+            if (i < 176)
+               pos = Rand(176);
+            else
+               pos = i - 176;
+
+            int x = ComboX(pos);
+            int y = ComboY(pos);
+
+            if (Distance(Hero->X, Hero->Y, x, y) > 48)
+               if (Ghost_CanPlace(x, y, 16, 16))
+                  break;
+         }
+
+         return pos;
+      }
+
+      void emerge(ffc this, npc ghost, int frames) {
+         int combo = ghost->Attributes[10];
+         ghost->NoCollisionTimer = 0;
+         ghost->DrawYOffset = -2;
+
+         Ghost_Data = combo + 4;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Audio->PlaySound(130);
+
+         Ghost_Data = combo + 5;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Ghost_Data = combo + 6;
+         ShamblesWaitframe(this, ghost, frames);
+      }
+
+      void submerge(ffc this, npc ghost, int frames) {
+         int combo = ghost->Attributes[10];
+
+         Ghost_Data = combo + 6;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Audio->PlaySound(130);
+
+         Ghost_Data = combo + 5;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Ghost_Data = combo + 4;
+         ShamblesWaitframe(this, ghost, frames);
+
+         ghost->NoCollisionTimer = -1;
+         ghost->DrawYOffset = -1000;
+      }
+
+      int chooseAttack(int attack) {
+         if (Screen->NumNPCs >= 3) {
+            if (attack == ATTACK_INITIAL_RUSH)
+               attack = ATTACK_LINK_CHARGE;
+            else if (attack == ATTACK_LINK_CHARGE)
+               attack = ATTACK_BOMB_LOB;
+            else if (attack == ATTACK_BOMB_LOB) {
+               attack = ATTACK_LINK_CHARGE;
+            }
+         }
+         else
+            attack = ATTACK_INITIAL_RUSH;
+
+         return attack;
+      }
+
+      void ShamblesWaitframe(ffc this, npc ghost, int frames) {
+         for (int i = 0; i < frames; ++i)
+            Ghost_Waitframe(this, ghost, 1, true);
+      }
+
+      void ShamblesWaitframe(ffc this, npc ghost, int frames, int sfx) {
+         for (int i = 0; i < frames; ++i) {
+            if (sfx > 0 && i % 30 == 0)
+               Audio->PlaySound(sfx);
+
+            Ghost_Waitframe(this, ghost, 1, true);
+         }
+      }
    }
 
-   void ShamblesWaitframe(ffc this, npc ghost, int frames) {
-      for (int i = 0; i < frames; ++i)
-         Ghost_Waitframe(this, ghost, 1, true);
-   }
+   // clang-format off
+   @Author("Moosh, modified by Deathrider365")
+   npc script NewShambles {
+      // clang-format on
 
-   void ShamblesWaitframe(ffc this, npc ghost, int frames, int sfx) {
-      for (int i = 0; i < frames; ++i) {
-         if (sfx > 0 && i % 30 == 0)
-            Audio->PlaySound(sfx);
+      CONFIG ATTACK_INITIAL_RUSH = -1;
+      CONFIG ATTACK_LINK_CHARGE = 0;
+      CONFIG ATTACK_BOMB_LOB = 1;
+      CONFIG ATTACK_SPAWN_ZAMBIES = 2;
 
-         Ghost_Waitframe(this, ghost, 1, true);
+      void run() {
+         CONFIG ATTACK_COOLDOWN = 90;
+         CONFIG MAX_HP = this->HP;
+         CONFIG DIFFICULTY_MULTIPLIER = 0.5;
+
+         CONFIG DMG_CLOUD = 1;
+         CONFIG DMG_BOMB = this->WeaponDamage;
+         CONFIG DMG_BOMB_POISON = this->WeaponDamage / 2;
+
+         int bombsToLob = 2;
+         int attack = -1;
+
+         this->X = 128;
+         this->Y = -32;
+         this->Dir = DIR_DOWN;
+
+         if (firstRun) {
+            introCutscene(this);
+            firstRun = false;
+         }
+
+         while (true) {
+            attack = chooseAttack(attack);
+
+            Ghost_X = -16;
+            Ghost_Y = -16;
+            ShamblesWaitframe(this, ghost, Ghost_HP < startHP * difficultyMultiplier ? 90 : 120);
+
+            int pos = moveMe();
+            Ghost_X = ComboX(pos);
+            Ghost_Y = ComboY(pos);
+
+            if (Ghost_HP < startHP * difficultyMultiplier) {
+               emerge(this, ghost, 4);
+               bombsToLob = 3;
+            }
+            else
+               emerge(this, ghost, 8);
+
+            switch (attack) {
+               case ATTACK_INITIAL_RUSH: {
+                  spawnZambos(this, ghost, 2);
+                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
+                  break;
+               }
+               case ATTACK_LINK_CHARGE: {
+                  for (int i = 0; i < 3; ++i) {
+                     Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
+                     Waitframes(15);
+
+                     int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+                     Audio->PlaySound(SFX_SWORD);
+
+                     for (int j = 0; j < 30; ++j) {
+                        if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0) {
+                           eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, DMG_CLOUD, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
+                           SetEWeaponLifespan(poisonTrail, EWL_TIMER, 60);
+                           SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+                        }
+
+                        Ghost_ShadowTrail(this, ghost, false, 6);
+                        Ghost_MoveAtAngle(moveAngle, 3, 0);
+                        ShamblesWaitframe(this, ghost, 1);
+                     }
+
+                     ShamblesWaitframe(this, ghost, 45);
+                  }
+                  break;
+               }
+               case ATTACK_BOMB_LOB: {
+                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
+                  break;
+               }
+               case ATTACK_SPAWN_ZAMBIES: {
+                  spawnZambos(this, ghost, 2);
+                  break;
+               }
+            }
+
+            if (Ghost_HP < startHP * 0.50)
+               submerge(this, ghost, 4);
+            else
+               submerge(this, ghost, 8);
+
+            pos = moveMe();
+            Ghost_X = ComboX(pos);
+            Ghost_Y = ComboY(pos);
+         }
+      }
+
+      void introCutscene(npc this) {
+         Hero->Stun = 285;
+
+         ShamblesWaitframe(this, 15);
+
+         Screen->Quake = 90;
+         ShamblesWaitframe(this, 90, SFX_ROCKINGSHIP);
+
+         this->X = 120;
+         this->Y = 80;
+         this->OriginalTile = this->OriginalTile + 40;
+
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
+
+         this->OriginalTile = this->OriginalTile - 20;
+
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
+
+         this->OriginalTile = this->OriginalTile - 20;
+
+         Screen->Quake = 60;
+         ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
+
+         Screen->Message(803);
+         submerge(this, 8);
+      }
+
+      void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
+         Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
+         Waitframes(30);
+
+         for (int i = 0; i < bombsToLob; ++i) {
+            ShamblesWaitframe(this, ghost, 16);
+            eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+            Audio->PlaySound(SFX_LAUNCH_BOMBS);
+            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
+            Waitframes(15);
+         }
+      }
+
+      void spawnZambos(ffc this, npc ghost, int numZombies) {
+         for (int i = 0; i < numZombies; ++i) {
+            Audio->PlaySound(SFX_SUMMON_MINE);
+            npc zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
+
+            int pos = moveMe();
+
+            zambo->X = ComboX(pos);
+            zambo->Y = ComboY(pos);
+
+            ShamblesWaitframe(this, ghost, 30);
+         }
+      }
+
+      int moveMe() {
+         int pos;
+
+         for (int i = 0; i < 352; ++i) {
+            if (i < 176)
+               pos = Rand(176);
+            else
+               pos = i - 176;
+
+            int x = ComboX(pos);
+            int y = ComboY(pos);
+
+            if (Distance(Hero->X, Hero->Y, x, y) > 48)
+               if (Ghost_CanPlace(x, y, 16, 16))
+                  break;
+         }
+
+         return pos;
+      }
+
+      void emerge(ffc this, npc ghost, int frames) {
+         int combo = ghost->Attributes[10];
+         ghost->NoCollisionTimer = 0;
+         ghost->DrawYOffset = -2;
+
+         Ghost_Data = combo + 4;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Audio->PlaySound(130);
+
+         Ghost_Data = combo + 5;
+         ShamblesWaitframe(this, ghost, frames);
+
+         Ghost_Data = combo + 6;
+         ShamblesWaitframe(this, ghost, frames);
+      }
+
+      void submerge(npc this, int frames) {
+         ShamblesWaitframe(this, frames);
+
+         Audio->PlaySound(130);
+
+         this->OriginalTile += 40;
+
+         ShamblesWaitframe(this, frames);
+
+         Ghost_Data = combo + 4;
+         this->OriginalTile -= 20;
+
+         ShamblesWaitframe(this, frames);
+
+         this->NoCollisionTimer = -1;
+         this->DrawYOffset = -1000;
+      }
+
+      int chooseAttack(int attack) {
+         if (Screen->NumNPCs >= 3) {
+            if (attack == ATTACK_INITIAL_RUSH)
+               attack = ATTACK_LINK_CHARGE;
+            else if (attack == ATTACK_LINK_CHARGE)
+               attack = ATTACK_BOMB_LOB;
+            else if (attack == ATTACK_BOMB_LOB) {
+               attack = ATTACK_LINK_CHARGE;
+            }
+         }
+         else
+            attack = ATTACK_INITIAL_RUSH;
+
+         return attack;
+      }
+
+      void ShamblesWaitframe(npc this, int frames, int sfx = 0) {
+         for (int i = 0; i < frames; ++i) {
+            if (this->HP <= 0) {
+               deathAnimation(this);
+               MUSIC_INHERIT->Play();
+            }
+
+            if (sfx > 0 && i % 30 == 0)
+               Audio->PlaySound(sfx);
+
+            Waitframe();
+         }
       }
    }
 }
@@ -2291,7 +2619,7 @@ namespace ServusMalusNamespace {
 
          //If already went through the cutscene, bypass it
          if (getScreenD(SCREEND_DID_CUTSCENE))
-            Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg");
+            Audio->PlayEnhancedMusic("Bloodborne PSX - Cleric Beast.ogg"); //TODO dont refer to music files directly
 
          //If didnt do cutscene, just dew it!
          until(getScreenD(SCREEND_DID_CUTSCENE)) {
@@ -5238,7 +5566,7 @@ namespace Quickknife {
 
 // clang-format off
 @Author("Deathrider365")
-npc script Demonwall {
+npc script Demonwall { //TODO this script already exists to some degree (probably as ghost)
    // clang-format on
    void run() {
       // for (int i = 0; i < roomsize since the wall can squish link for
@@ -5254,7 +5582,6 @@ npc script Demonwall {
       // }
    }
 }
-
 
 // clang-format off
 @Author("Deathrider365")

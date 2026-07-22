@@ -19,6 +19,8 @@ int lastPal = -1;
 
 bitmap waterfallBitmap;
 
+bool receivedLegionnaireOpeningMessage = false;
+
 int stolenLinkItems[255];
 
 bool auriVillageMusicSet = false;
@@ -42,11 +44,6 @@ CONFIG COMBO_R = 7745;
 
 /*/~~~~~Tile~~~~~/*/
 CONFIG TILE_INVIS = 4; //was 196
-
-CONFIG TILE_IMPACT_MID = 955;
-CONFIG TILE_IMPACT_BIG = 952;
-
-CONFIG SUB_COOLDOWN_TILE = 29281;
 
 /*/~~~~~Enums~~~~~/*/
 
