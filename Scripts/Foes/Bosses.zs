@@ -5231,6 +5231,28 @@ namespace LatrosNamespace {
 
 namespace Quickknife {
    using namespace EnemyNamespace;
+   using namespace NPCAnim;
+
+   // Fight begins with him standing in the middle of the room
+   // - He jumps into one of the walls
+   // - For x seconds on each of the 4 walls his image is seen very small growing into normal size, if Link does nothing all 4 jump out and attack link with a magic blast
+   // - If Link uses the Lens, he will see one of them will have a different cset
+   // - If Link attacks one of the false quickknife's that one will vanish and the other 3 continue to approach
+   // - If Link attacks the real one, quickknife takes damage and is lobbed somewhere in the room with a small stun afterwards
+   // - Enter main battle loop:
+   //    - Wanders around and cycles between attacks:
+   //       - Turn to link, shoot a single magic blast
+   //       - Turn to link, shoot a flurry of magic at Link
+   //       - Turn to link, big attack, shoots two magic blasts that go out the the sides and close in on link in a hemisphere pattern
+   //       - After x seconds, jumps back into a wall, repeat
+   // - Phase 2 (under X% health)
+   // - Speed increases, new attacks in main battle loop:
+   //    - Single magic blasts turn into 2 quick succession blasts
+   //    - Flurry is quicker
+   //    - The two magic blasts in a hemisphere pattern turns into 4 with 2 more at a wider range, closing in on link slower after the first 2
+   //    - New attack, shoots a giant magic blast (2x2 magic sprite), sometimes he shoots this in the patterns described in the other attacks
+
+
 
    npc script Quickknife {
       void run() {
@@ -5359,6 +5381,48 @@ namespace Quickknife {
       n->HP = 0;
    }
 
+}
+
+npc script BigBadDodongo { //working name
+   void run() {
+      // Waits x seconds where Link can wander (not long like 3 seconds). Freeze action, climbs out of the pool of lava on the top or bottom of the screen (random), roars releasing a wind that pushes link (dont drown :D )
+      // This battle is a side to side battle (since he is a 2x2 and there isnt much room above and below)
+      // Similar to demon wall from FF, he slowly walks to you, you have to drop bombs and have the smoke hit its face (like classic), each time stunning him.
+      // Do this enough times and he will open his mouth to sneeze, pushing link to a horizontal side of the room, he is stunned for awhile and Link can hit him with anything that makes sense
+      // After the stun, he jumps back into a lava pool, regaining a small amount of health
+      // Should Link hit him with a giant bomb, he will immediately jump back into a pool
+      // Should Link not stop him from squishing him into a wall, he will eat link and chew, doing progressive damage, turn around and spit link across the room doing damage when he hits the wall
+      // Repeat
+   }
+}
+
+npc script Gamoth {
+   void run() {
+      // Upon entering the arena Gamoth is sitting on the tree on the bottom. Once Link is done rafting he spreads wings and makes a roar as dust comes out of his wings
+      // Whenever he is moving he drops dust that will hurt link progressively and making him slightly drunk
+      // He begins flying around the arena, main battle loop:
+      //    - Spawns moth adds
+      //    - Spreads wings and releases dust, this does progressive damage to link on contact and makes him drunk
+      //    - He will fly to the closest side of the arena, and charge fly at link, leaving dust behind him
+      //    Phase 2:
+      //       - He flies faster and does 3 charges side to side (either vert or hori based on what wall was closest to him at first)
+      //       - New attack, big burst AOE dust attack covering most of the arena
+   }
+}
+
+npc script Gorodenti {
+   void run() {
+      // Upon entering the arena he will be on the right side of the room, roar, is a skeletal gleeok
+      // Main battle loop: He strafes on one of the side walls and top wall doing things
+      //    - If on a side wall
+      //       - he will charge up, giving Link time to get higher, he then shoots a spray of fire that will fall on the bottom of the arena, if link is caught by that deal massive damage
+      //       - he will slam the sides dropping rocks from above
+      //    - If on the top wall
+      //       - Drop a small burst of flame
+      //       - Drop a flurry of flame that Link will need to hide under a platform to avoid
+      //       - Big attack, shoots a giant flame multiple times that Link will need to time to dodge and this one doesnt get stopped by the platforms
+      //
+   }
 }
 
 // clang-format off

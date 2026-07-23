@@ -379,7 +379,6 @@ explosives, Link blows through the rocks sealing the building. Entering inside h
 near the well reads a foreboding message about leaving ancient things that were sealed up well alone from the Goddess Faithful. Link ignores all of these warning and proceeds to use another powder Keg
 on the well which reveals a spiral staircase. What follows is a long darkening passageway with more powder keg barriers and at the end, a very ancient structure which Link enters.
 
-
    <WHERE SEALED ABYSS WAS BEFORE CHANGES>
 
    One thing that Link can do now that he has access to the northeastern side of Interitus is he can use his raft to sail back to the Isle of Haeren. The monsters here have gained in strength, and are
