@@ -5421,7 +5421,266 @@ npc script Gorodenti {
       //       - Drop a small burst of flame
       //       - Drop a flurry of flame that Link will need to hide under a platform to avoid
       //       - Big attack, shoots a giant flame multiple times that Link will need to time to dodge and this one doesnt get stopped by the platforms
+      //    - He has 4 heads, every 20% hp reduction looses a head that then has its own pattern:
+      //       - Flies around, but tries to keep a safe distance from Link, shooting flames at Link
+      //       - Can be stunned and will be stunnable mid air so can be used as makeshift platforms temporarily, especially weak to giant bombs (can destroy them)
+      //    - Death Animation is it freezes, and falls to the ground and on impact explodes
       //
+   }
+}
+
+npc script Natavora {
+   void run() {
+      // Upon entering the arena he will be floating on the right side
+      // NOTE - Is weak to the lvl2 ocarina, playing it stuns it for a considerable amount of time
+      // When stunned at all it slowly floats to the bottom
+      // Main Battle Loop:
+      //    - Swims around at a safe distance from Link, always facing Link, occassionally shooting bubbles at Link that when Link gets hit, he is stunned and begins drifting into one of the corners (contact with him also does this)
+      //    - Charge attack, will predict Link's movement so Link will have to be smart with movement and timing when this attack starts
+      //    - Does a spin attack where it swirls the water towards itself and if Link gets too close, he gets eaten and takes damage over time while inside, IF he drops a giant bomb in this state (everything else does nothing) it does a ton of damage
+      //    - Big Attack: Manipulates the water to suck everything into the corners, have to position near the middle of the arena to not drown
+      //    - Death Animation is he goes belly up to the surface and explodes
+   }
+}
+
+npc script Serris {
+   void run() {
+      // Upon entering the arena he will be hidden, then start like he does in metroid (basically this is a metroid clone sans the big attack)
+      // Similar to his metroid variant
+      // Main Battle Loop:
+      //    - Basically the same as from metroid, except in phase 2 he drops giant bombs in his wake
+      //    - Big Attack: He starts swirlling around Link if Link isnt able to do enough damage while he does this he scoops Link up, and with the camera focused on Link he swims around with Link in his mouth, then he spits Link out across the arena into the wall where he then floats down, lays there briefly, and continues the fight
+   }
+}
+
+npc script Leviathan2 {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Ignav {
+   void run() {
+      // 2 fights, Once before the dungeon is on and the other as the final boss
+      // First Encounter;
+      //    - Walks slowly at Link, shooting magic at him, after so long or he gets too close to Link he does something:
+      //       - Too close: Swings a sword at Link that on impact yeets Link
+      //       - Shoots a flurry of magic (think venser)
+      //
+      // Second Encounter (in a 2x2 region)
+      // Main Battle Loop:
+      //    - Walks slowly at Link, shooting magic at him, after so long or he gets too close to Link he does something:
+      //       - Too close: Swings a sword at Link that on impact yeets Link
+      //       - Shoots a flurry of magic (think venser)
+      //    - Summons wizzrobes
+      //    - Will call down magical orbs that crash on the ground, if link touches or hits them they split in 2, this happens even to the split ones. If they split too many times, all existing orbs home in on like with acceleration
+      //    - Big Attack: Occassionally jump really far back from Link and shoots a massive burst of magic that closes in on link (think the skull attack from Slave Knight Gale)
+      //    - Big Attack: (Only way to stop is to hit him) He charges up a massive magical blast above him
+      //       - If he completes the charging, it perfectly homes in on link with acceleration dealing huge damage, only way to avoid is Nayru's Love (dont even have yet) or an essentially frame perfect hookshot
+      //       - (Desperation attack) If Link interrupts, Link has a few seconds to get away from him before he explodes, dealing enough damage to kill Link outright, and a huge amount to him
+   }
+}
+
+npc script Camazotz {
+   void run() {
+      // Giant Dark Vire with enough bats surrounding it you can barely even see it, enemies that get close to it are sucked into the swarm
+      // Heavily movement based, moving is not always the answer
+      // All bats are enflamed
+      // Main Battle Loop:
+      //    - It starts by wandering around as though it doesnt know Link are there
+      //    - When Link move, it moves towards Link but not directly, it takes wide turns and sort of gravitates to Link, stopping it moves away from Link
+      //    - Should it make contact with Link, Link get caught by it and start to swirl amongst the bats, if Link hit it enough it will drop Link
+      //    - Hitting it does not do damage
+      //    - As it is moving towards Link bats from the swirl will progressively fly out towards Link
+      //    - In order to do actual damage, Link must get all of the bat to fly off of him, once he does, phase 2 begins
+      // Phase 2 (NOTE - as it moves it has the shadow trail)
+      //    - This boss is not shy and does not keep its distance from Link, but Link hitting it does apply knockback
+      //    - After being knocked back, sometimes it will pause and materialize bats on itself, making it invulnerable, and shoot them all back at Link, then it continues the pursuit
+      //    - If Link uses the Spectral Cane on it, it goes into a frenzy mode, continuously materializing bats on itself and shooting them at Link (think sasic's flaming drift towards link attack but shooting bats), it does this for awhile for those fools who try to use a dark weapon on a dark entity :facepalm:
+      //    - Big Attack:
+      //       - (Desperation attack) Long Charge Time, invulnerable, materializing bats but the bats grow larger to 2x2, and once he has so many swirling about him, he shoots them at link, he is then motionless for a couple seconds after this and vulnerable
+   }
+}
+
+npc script Morsa {
+   void run() {
+      // 2 encounters, This boss is a black skeleton (2x2) that is shrouded in darkness to where you only see glimpses of it behind the darkness
+      // Deadhand is also here, if he wasnt beaten in his boss arena
+      // Main Battle Loop:
+      //    - Animation is a figure-eight-ish pattern where it is floating above the ground
+      //    - At the start of the fight it doesnt move, once Link approaches it does its darknessFlash
+      //    - DarknessFlash is a move it does where it moves in some direction away from Link, think of it as it very quickly dashes off in a cloud of darkness vanishing
+      //    - From its DarknessFlash it can do a number of things:
+      //       - If Link does not move much he will drop from above grabbing Link. In this grab Link takes a lot of damage over time and is with the skeleton in the shroud of darkness
+      //          - Once released Link is slower, does less damage, and has lowered defenses for some time after
+      //       - If Link is moving he will DarknessFlash back into the arena
+      //          - If link is near the arena edge he will dash at him, otherwise he will dash at any random point
+      //    - Right after the dash he will immediately shoot orbs of darkness (the sprite will be basically a black ball with swirling darkness around it) he has multiple shooting patterns
+      //       - Many obs sequentially at Link
+      //       - Sometimes the orbs go away from Link for a bit, them home in on him (think the red magic from venser)
+      //       - He will shoot larger orbs (2x2 perhaps) that bounce off the walls and stick around for n bounces
+      //    - Special attack if deadhand is present:
+      //       - He rises above the arena and infuses deadhand with darkness, making him faster and do more damage
+      //    - Big Attack: Executed from his DarknessFlash, his big attack is where, after Link, darknessflashing in then out repeatedly, and on the last one, charges at Link perfectly and can only be stopped with an attack
+   }
+}
+
+npc script Deadhand {
+   void run() {
+      // Essentially the same as OoT
+      // Main Battle Loop:
+      //    - 4 Arms are sticking out of the ground, getting grabbed lures the deadhand towards you, hands do 1 damage per second you are grabbed
+      //    - Once he gets so close he attempts to bite you
+      //    - Hitting him interrupts him, not hitting him gets you bit, but this time he picks you up in his mouth and bites harder until he kills you or you hit him after 3 bites
+      //    - Should you kill all of the hands he immediately comes out weakened, moving slowly away from Link and after so long goes back under and respawns his hands
+   }
+}
+
+npc script Necromancer {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script OvergrownOctorock {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Kaarszythe {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Duorum {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Riafron {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script ArcaneGolem {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Frostflame {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Atronach {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script TheStorm {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Oblitem {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script AemulorShade {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script ShadowLink {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
+   }
+}
+
+npc script Aemulor {
+   void run() {
+      // Starts hidden, he plays dialog,
+      // Main Battle Loop:
+      //    -
+      //    -
+      //    -
+      //    -
    }
 }
 
