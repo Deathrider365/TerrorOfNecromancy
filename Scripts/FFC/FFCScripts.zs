@@ -277,7 +277,8 @@ ffc script Thrower {
                if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
-               eweapon projectile = FireAimedEWeapon(projectileId, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, spriteId, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon projectile = FireEWeaponAtHero(projectileId, CenterX(this) - 8, CenterY(this) - 8, true, 0, 255, damage, spriteId, -1);
+               projectile->Unblockable = UNBLOCK_ALL;
 
                if (hasArc) {
                   if (int scr = CheckEWeaponScript("ArcingWeapon")) {
@@ -872,11 +873,11 @@ ffc script CircularMotion {
 @InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
 @Author("Deathrider365")
 ffc script LoSShooter {
-   void run(int dir, int tolerance, int eweaponIdAndRotate, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+   void run(int dir, int tolerance, int eweaponIdAndRotate, int damage, int spriteData, int step, int shotCooldown, int ignoreSolidity) {
       int cooldown = 0;
       int weaponId = Floor(eweaponIdAndRotate);
-      int rotate = ((eweaponIdAndRotate % 1) / 1L) ? EWF_ROTATE : 0;
-      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(weaponId);
+      bool rotate = ((eweaponIdAndRotate % 1) / 1L);
+      int weaponSprite = spriteData ? spriteData : -1;
       int originalCombo = this->Data;
 
       loop () {
@@ -886,7 +887,11 @@ ffc script LoSShooter {
 
          if (angle > 0) {
             if (cooldown == 0) {
-               eweapon weapon = FireEWeapon(weaponId, this->X, this->Y, angle, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE | rotate);
+               eweapon weapon = FireEWeaponDegAngle(weaponId, this->X, this->Y, angle, step, damage, weaponSprite, SFX_FIRE);
+               weapon->Unblockable = UNBLOCK_ALL;
+
+               if (rotate)
+                  EnemyNamespace::FourWayFlip(weapon);
 
                switch (ignoreSolidity) {
                   case 1:
@@ -955,16 +960,18 @@ ffc script LoSShooter {
 @InitDHelp7("Does the weapon ignore solidity? \n 0 = Yes \n 1 = WFLAG_STOP_ON_SOLID \n 2 = WFLAG_BREAKS_ON_SOLID"),
 @Author("Deathrider365")
 ffc script Beamos {
-   void run(int proximity, int tolerance, int eweaponId, int damage, int sprite, int step, int shotCooldown, int ignoreSolidity) {
+   void run(int proximity, int tolerance, int eweaponId, int damage, int spriteData, int step, int shotCooldown, int ignoreSolidity) {
       int cooldown = shotCooldown;
-      int weaponSprite = sprite ? sprite : GetDefaultEWeaponSprite(eweaponId);
+      int weaponSprite = spriteData ? spriteData : -1;
       int originalCombo = this->Data;
 
       loop () {
          if (this->Data != originalCombo) Quit();
          if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
             if (cooldown == 0) {
-               eweapon weapon = FireAimedEWeapon(eweaponId, this->X, this->Y, 0, step, damage, weaponSprite, SFX_FIRE, EWF_UNBLOCKABLE);
+               eweapon weapon = FireEWeaponAtHero(eweaponId, this->X, this->Y, true, 0, step, damage, weaponSprite, SFX_FIRE);
+               weapon->Unblockable = UNBLOCK_ALL;
+
                this->MoveFlags[NPCMV_CAN_PITFALL] = false;
 
                switch (ignoreSolidity) {

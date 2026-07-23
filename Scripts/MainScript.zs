@@ -8,14 +8,14 @@
 
 #include "EmilyMisc.zh"
 #include "std.zh"
-#include "ghost.zh"
+// #include "ghost.zh"
 #include "std_zh/ghostBasedMovement.zh"
 
 #includepath "../ToN Main Quest/Scripts/"
 
 #include "Headers/EmDebug.zs"
 #include "Headers/LinkMovement.zh"
-#include "Headers/NPCAnim.zh"
+#include "Headers/NPCAnim3.0.zh"
 #include "Headers/TempLinkState3.0.zh"
 
 #include "FFC/FFCScripts.zs"

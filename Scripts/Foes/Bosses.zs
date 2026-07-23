@@ -809,6 +809,7 @@ npc script Legionnaire {
 
    using namespace EnemyNamespace;
    using namespace NPCAnim;
+   using namespace NPCAnim::Utility;
 
    CONFIG ATTACK_INITIAL_RUSH = -1;
    CONFIG ATTACK_FIRE_SWORDS = 0;
@@ -838,10 +839,7 @@ npc script Legionnaire {
       int timeToSpawnAnother = 0;
       int attack = -1;
 
-      if (Screen->SecretFlags[CF_ENEMY0]) {
-         //TODO how to spawn at this location
-      }
-      else {
+      if (!Screen->ComboF[ComboAt(this->X + 8, this->Y + 8)]) { //TODO enhance to check CF_ENEMY0-CF_ENEMY9
          this->X = 120;
          this->Y = 80;
          this->Z = 0;
@@ -867,6 +865,9 @@ npc script Legionnaire {
          }
       }
 
+      unless (IS_CLONE)
+         Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
+
       // Intro Animation
       if (!getScreenD(INTRO_SCREEND))
          introCutscene(this);
@@ -875,14 +876,12 @@ npc script Legionnaire {
          this->NoCollisionTimer = 0;
       }
 
-      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
-
       int movementDirection = Choose(90, -90);
 
       loop() {
          FaceLink(this);
 
-         int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
+         int angle = AngleLink(this) + movementDirection;
          this->MoveAtAngle(angle, this->Step / 100, SPW_NONE);
 
          int numLegionnaires = 0;
@@ -938,10 +937,8 @@ npc script Legionnaire {
 
    void LegionnaireWaitframe(npc this, int frames = 1) {
       for (int i = 0; i < frames; ++i) {
-         if (this->HP <= 0) {
-            deathAnimation(this);
-            MUSIC_INHERIT->Play();
-         }
+         if (this->HP <= 0)
+            deathAnimation(this, 0, (this->Step == 100) ? true : false);
 
          Waitframe();
       }
@@ -1062,7 +1059,9 @@ npc script Legionnaire {
 
       for (int i = 0; i < 5; ++i) {
          FaceLink(this);
-         FireAimedEWeapon(EW_BEAM, this->X, this->Y, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD, EWF_UNBLOCKABLE);
+         eweapon sword = FireEWeaponAtHero(EW_BEAM, this->X, this->Y, true, 0, 300, damage, SPR_LEGIONNAIRESWORD, SFX_SHOOTSWORD);
+         sword->Unblockable = UNBLOCK_ALL;
+
          LegionnaireWaitframe(this, 16);
       }
 
@@ -1156,254 +1155,26 @@ npc script Legionnaire {
 
 namespace ShamblesNamespace {
    using namespace EnemyNamespace;
+   using namespace NPCAnim;
+   using namespace NPCAnim::Utility;
+
+   class ShamblesData {
+      int defenses[MAX_DEFENSE];
+   }
 
    bool firstRun = true;
 
-   // clang-format off
-   @Author("Moosh, modified by Deathrider365")
-   ffc script Shambles {
-      // clang-format on
+   enum Animations {
+      ANIM_EMERGED,
+      ANIM_HALF_EMERGED,
+      ANIM_SUBMERGED
+   };
 
-      CONFIG ATTACK_INITIAL_RUSH = -1;
-      CONFIG ATTACK_LINK_CHARGE = 0;
-      CONFIG ATTACK_BOMB_LOB = 1;
-      CONFIG ATTACK_SPAWN_ZAMBIES = 2;
-
-      void run(int enemyid) {
-         npc ghost = Ghost_InitAutoGhost(this, enemyid);
-         int combo = ghost->Attributes[10];
-         int attackCoolDown = 90;
-         int startHP = Ghost_HP;
-         int bombsToLob = 2;
-         int difficultyMultiplier = 0.5;
-         int attack = -1;
-
-         CONFIG DMG_CLOUD = 1;
-         CONFIG DMG_BOMB = ghost->WeaponDamage;
-         CONFIG DMG_BOMB_POISON = ghost->WeaponDamage / 2;
-
-         Ghost_X = 128;
-         Ghost_Y = -32;
-         Ghost_Dir = DIR_DOWN;
-
-         if (firstRun) {
-            introCutscene(this, ghost, combo);
-            firstRun = false;
-         }
-
-         while (true) {
-            attack = chooseAttack(attack);
-
-            Ghost_X = -16;
-            Ghost_Y = -16;
-            ShamblesWaitframe(this, ghost, Ghost_HP < startHP * difficultyMultiplier ? 90 : 120);
-
-            int pos = moveMe();
-            Ghost_X = ComboX(pos);
-            Ghost_Y = ComboY(pos);
-
-            if (Ghost_HP < startHP * difficultyMultiplier) {
-               emerge(this, ghost, 4);
-               bombsToLob = 3;
-            }
-            else
-               emerge(this, ghost, 8);
-
-            switch (attack) {
-               case ATTACK_INITIAL_RUSH: {
-                  spawnZambos(this, ghost, 2);
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
-                  break;
-               }
-               case ATTACK_LINK_CHARGE: {
-                  for (int i = 0; i < 3; ++i) {
-                     Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
-                     Waitframes(15);
-
-                     int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
-                     Audio->PlaySound(SFX_SWORD);
-
-                     for (int j = 0; j < 30; ++j) {
-                        if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0) {
-                           eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, DMG_CLOUD, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
-                           SetEWeaponLifespan(poisonTrail, EWL_TIMER, 60);
-                           SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
-                        }
-
-                        Ghost_ShadowTrail(this, ghost, false, 6);
-                        Ghost_MoveAtAngle(moveAngle, 3, 0);
-                        ShamblesWaitframe(this, ghost, 1);
-                     }
-
-                     ShamblesWaitframe(this, ghost, 45);
-                  }
-                  break;
-               }
-               case ATTACK_BOMB_LOB: {
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
-                  break;
-               }
-               case ATTACK_SPAWN_ZAMBIES: {
-                  spawnZambos(this, ghost, 2);
-                  break;
-               }
-            }
-
-            if (Ghost_HP < startHP * 0.50)
-               submerge(this, ghost, 4);
-            else
-               submerge(this, ghost, 8);
-
-            pos = moveMe();
-            Ghost_X = ComboX(pos);
-            Ghost_Y = ComboY(pos);
-         }
-      }
-
-      void introCutscene(ffc this, npc ghost, int combo) {
-         ShamblesWaitframe(this, ghost, 15);
-         Hero->Stun = 270;
-
-         Screen->Quake = 90;
-         ShamblesWaitframe(this, ghost, 90, SFX_ROCKINGSHIP);
-
-         Ghost_X = 120;
-         Ghost_Y = 80;
-         Ghost_Data = combo + 4;
-
-         Screen->Quake = 60;
-         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
-
-         Ghost_Data = combo + 5;
-
-         Screen->Quake = 60;
-         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
-
-         Ghost_Data = combo + 6;
-
-         Screen->Quake = 60;
-         ShamblesWaitframe(this, ghost, 60, SFX_ROCKINGSHIP);
-
-         Screen->Message(803);
-         submerge(this, ghost, 8);
-      }
-
-      void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
-         Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
-         Waitframes(30);
-
-         for (int i = 0; i < bombsToLob; ++i) {
-            ShamblesWaitframe(this, ghost, 16);
-            eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-            Audio->PlaySound(SFX_LAUNCH_BOMBS);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
-            Waitframes(15);
-         }
-      }
-
-      void spawnZambos(ffc this, npc ghost, int numZombies) {
-         for (int i = 0; i < numZombies; ++i) {
-            Audio->PlaySound(SFX_SUMMON_MINE);
-            npc zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
-
-            int pos = moveMe();
-
-            zambo->X = ComboX(pos);
-            zambo->Y = ComboY(pos);
-
-            ShamblesWaitframe(this, ghost, 30);
-         }
-      }
-
-      int moveMe() {
-         int pos;
-
-         for (int i = 0; i < 352; ++i) {
-            if (i < 176)
-               pos = Rand(176);
-            else
-               pos = i - 176;
-
-            int x = ComboX(pos);
-            int y = ComboY(pos);
-
-            if (Distance(Hero->X, Hero->Y, x, y) > 48)
-               if (Ghost_CanPlace(x, y, 16, 16))
-                  break;
-         }
-
-         return pos;
-      }
-
-      void emerge(ffc this, npc ghost, int frames) {
-         int combo = ghost->Attributes[10];
-         ghost->NoCollisionTimer = 0;
-         ghost->DrawYOffset = -2;
-
-         Ghost_Data = combo + 4;
-         ShamblesWaitframe(this, ghost, frames);
-
-         Audio->PlaySound(130);
-
-         Ghost_Data = combo + 5;
-         ShamblesWaitframe(this, ghost, frames);
-
-         Ghost_Data = combo + 6;
-         ShamblesWaitframe(this, ghost, frames);
-      }
-
-      void submerge(ffc this, npc ghost, int frames) {
-         int combo = ghost->Attributes[10];
-
-         Ghost_Data = combo + 6;
-         ShamblesWaitframe(this, ghost, frames);
-
-         Audio->PlaySound(130);
-
-         Ghost_Data = combo + 5;
-         ShamblesWaitframe(this, ghost, frames);
-
-         Ghost_Data = combo + 4;
-         ShamblesWaitframe(this, ghost, frames);
-
-         ghost->NoCollisionTimer = -1;
-         ghost->DrawYOffset = -1000;
-      }
-
-      int chooseAttack(int attack) {
-         if (Screen->NumNPCs >= 3) {
-            if (attack == ATTACK_INITIAL_RUSH)
-               attack = ATTACK_LINK_CHARGE;
-            else if (attack == ATTACK_LINK_CHARGE)
-               attack = ATTACK_BOMB_LOB;
-            else if (attack == ATTACK_BOMB_LOB) {
-               attack = ATTACK_LINK_CHARGE;
-            }
-         }
-         else
-            attack = ATTACK_INITIAL_RUSH;
-
-         return attack;
-      }
-
-      void ShamblesWaitframe(ffc this, npc ghost, int frames) {
-         for (int i = 0; i < frames; ++i)
-            Ghost_Waitframe(this, ghost, 1, true);
-      }
-
-      void ShamblesWaitframe(ffc this, npc ghost, int frames, int sfx) {
-         for (int i = 0; i < frames; ++i) {
-            if (sfx > 0 && i % 30 == 0)
-               Audio->PlaySound(sfx);
-
-            Ghost_Waitframe(this, ghost, 1, true);
-         }
-      }
-   }
+   CONFIG ANIM_SPEED = 16;
 
    // clang-format off
    @Author("Moosh, modified by Deathrider365")
-   npc script NewShambles {
+   npc script Shambles {
       // clang-format on
 
       CONFIG ATTACK_INITIAL_RUSH = -1;
@@ -1420,196 +1191,200 @@ namespace ShamblesNamespace {
          CONFIG DMG_BOMB = this->WeaponDamage;
          CONFIG DMG_BOMB_POISON = this->WeaponDamage / 2;
 
+         AnimHandler aptr = new AnimHandler(this);
+
+         aptr->AddAnim(ANIM_EMERGED, 0, 4, ANIM_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_HALF_EMERGED, 20, 4, ANIM_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_SUBMERGED, 40, 4, ANIM_SPEED, ADF_4WAY);
+
+         ShamblesData shamblesData = new ShamblesData();
+         StoreEnemyClassPointer(this, shamblesData);
+         StoreDefenses(this, shamblesData->defenses);
+
          int bombsToLob = 2;
          int attack = -1;
 
-         this->X = 128;
-         this->Y = -32;
+         aptr->PlayAnim(-1);
+
+         this->X = 120;
+         this->Y = 80;
          this->Dir = DIR_DOWN;
+
+         Audio->PlayEnhancedMusic("Metroid Prime - Parasite Queen.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
 
          if (firstRun) {
             introCutscene(this);
             firstRun = false;
          }
+         else {
+            aptr->PlayAnim(ANIM_EMERGED);
+            ShamblesWaitframe(this, 30);
+         }
 
-         while (true) {
+         submerge(this, 8);
+
+         loop () {
             attack = chooseAttack(attack);
 
-            Ghost_X = -16;
-            Ghost_Y = -16;
-            ShamblesWaitframe(this, ghost, Ghost_HP < startHP * difficultyMultiplier ? 90 : 120);
+            ShamblesWaitframe(this, this->HP < MAX_HP * DIFFICULTY_MULTIPLIER ? 90 : 120);
 
-            int pos = moveMe();
-            Ghost_X = ComboX(pos);
-            Ghost_Y = ComboY(pos);
+            moveMe(this);
 
-            if (Ghost_HP < startHP * difficultyMultiplier) {
-               emerge(this, ghost, 4);
+            if (this->HP < MAX_HP * DIFFICULTY_MULTIPLIER) {
+               emerge(this, 4);
                bombsToLob = 3;
             }
             else
-               emerge(this, ghost, 8);
+               emerge(this, 8);
 
             switch (attack) {
                case ATTACK_INITIAL_RUSH: {
-                  spawnZambos(this, ghost, 2);
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
+                  spawnZambos(this, 2);
+                  attackBombLob(this, MAX_HP, bombsToLob, DIFFICULTY_MULTIPLIER, DMG_BOMB, DMG_BOMB_POISON);
                   break;
                }
                case ATTACK_LINK_CHARGE: {
                   for (int i = 0; i < 3; ++i) {
                      Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
-                     Waitframes(15);
+                     ShamblesWaitframe(this, 15);
 
-                     int moveAngle = Angle(Ghost_X, Ghost_Y, Hero->X, Hero->Y);
+                     int moveAngle = AngleLink(this);
                      Audio->PlaySound(SFX_SWORD);
 
-                     for (int j = 0; j < 30; ++j) {
-                        if (Ghost_HP < startHP * difficultyMultiplier && j % 3 == 0) {
-                           eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, Ghost_X + Rand(-2, 2), Ghost_Y + Rand(-2, 2), 0, 0, DMG_CLOUD, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
-                           SetEWeaponLifespan(poisonTrail, EWL_TIMER, 60);
-                           SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+                     for (int i = 0; i < 30; ++i) {
+                        if (this->HP < MAX_HP * DIFFICULTY_MULTIPLIER && i % 3 == 0) {
+                           eweapon poisonTrail = FireEWeaponDegAngle(EW_SCRIPT10, this->X + Rand(-2, 2), this->Y + Rand(-2, 2), 0, 0, DMG_CLOUD, SPR_POISON_CLOUD, SFX_SIZZLE);
+                           poisonTrail->Unblockable = UNBLOCK_ALL;
+                           poisonTrail->Timeout = 60; //Maybe have the poison stay forever in paladin... ha! it already does this!
                         }
 
-                        Ghost_ShadowTrail(this, ghost, false, 6);
-                        Ghost_MoveAtAngle(moveAngle, 3, 0);
-                        ShamblesWaitframe(this, ghost, 1);
+                        shadowTrail(this, false, 6);
+                        this->MoveAtAngle(moveAngle, 3, 0);
+                        ShamblesWaitframe(this, 1);
                      }
 
-                     ShamblesWaitframe(this, ghost, 45);
+                     ShamblesWaitframe(this, 45);
                   }
                   break;
                }
                case ATTACK_BOMB_LOB: {
-                  attackBombLob(this, ghost, startHP, bombsToLob, Ghost_X, Ghost_Y, difficultyMultiplier, DMG_BOMB, DMG_BOMB_POISON);
+                  attackBombLob(this, MAX_HP, bombsToLob, DIFFICULTY_MULTIPLIER, DMG_BOMB, DMG_BOMB_POISON);
                   break;
                }
                case ATTACK_SPAWN_ZAMBIES: {
-                  spawnZambos(this, ghost, 2);
+                  spawnZambos(this, 2);
                   break;
                }
             }
 
-            if (Ghost_HP < startHP * 0.50)
-               submerge(this, ghost, 4);
+            if (this->HP < MAX_HP * 0.50)
+               submerge(this, 4);
             else
-               submerge(this, ghost, 8);
-
-            pos = moveMe();
-            Ghost_X = ComboX(pos);
-            Ghost_Y = ComboY(pos);
+               submerge(this, 8);
          }
       }
 
       void introCutscene(npc this) {
+         AnimHandler aptr = GetAnimHandler(this);
          Hero->Stun = 285;
-
          ShamblesWaitframe(this, 15);
 
          Screen->Quake = 90;
          ShamblesWaitframe(this, 90, SFX_ROCKINGSHIP);
 
-         this->X = 120;
-         this->Y = 80;
-         this->OriginalTile = this->OriginalTile + 40;
-
+         aptr->PlayAnim(ANIM_SUBMERGED);
          Screen->Quake = 60;
          ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
 
-         this->OriginalTile = this->OriginalTile - 20;
-
+         aptr->PlayAnim(ANIM_HALF_EMERGED);
          Screen->Quake = 60;
          ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
 
-         this->OriginalTile = this->OriginalTile - 20;
-
+         aptr->PlayAnim(ANIM_EMERGED);
          Screen->Quake = 60;
          ShamblesWaitframe(this, 60, SFX_ROCKINGSHIP);
 
          Screen->Message(803);
-         submerge(this, 8);
       }
 
-      void attackBombLob(ffc this, npc ghost, int startHP, int bombsToLob, int Ghost_X, int Ghost_Y, int difficultyMultiplier, int bombDamage, int poisonDamage) {
+      void attackBombLob(npc this, int maxHP, int bombsToLob, int difficultyMultiplier, int bombDamage, int poisonDamage) {
          Audio->PlaySound(SFX_OOT_BIG_DEKU_BABA_LUNGE);
-         Waitframes(30);
+         ShamblesWaitframe(this, 30);
 
          for (int i = 0; i < bombsToLob; ++i) {
-            ShamblesWaitframe(this, ghost, 16);
-            eweapon bomb = FireAimedEWeapon(EW_BOMB, Ghost_X, Ghost_Y, 0, 200, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+            ShamblesWaitframe(this, 16);
+
+            eweapon bomb = FireEWeaponDegAngle(EW_BOMB, this->X, this->Y, AngleLink(this), 200, bombDamage, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
+               {-1, 0, (this->HP < (maxHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, this, poisonDamage, 0, true}
+            );
+            bomb->Unblockable = UNBLOCK_ALL;
+            FourWayFlip(bomb);
+
             Audio->PlaySound(SFX_LAUNCH_BOMBS);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, (Ghost_HP < (startHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, ghost, poisonDamage, 0, true});
-            Waitframes(15);
+            ShamblesWaitframe(this, 15);
          }
       }
 
-      void spawnZambos(ffc this, npc ghost, int numZombies) {
+      void spawnZambos(npc this, int numZombies) {
          for (int i = 0; i < numZombies; ++i) {
             Audio->PlaySound(SFX_SUMMON_MINE);
             npc zambo = Screen->CreateNPC(ENEMY_ZOMBIE_LV1);
 
-            int pos = moveMe();
+            zambo->X = this->X;
+            zambo->Y = this->Y;
 
-            zambo->X = ComboX(pos);
-            zambo->Y = ComboY(pos);
+            moveMe(zambo, false);
 
-            ShamblesWaitframe(this, ghost, 30);
+            ShamblesWaitframe(this, 30);
          }
       }
 
-      int moveMe() {
-         int pos;
+      void moveMe(npc this, bool moveThem = true) {
+         int pos, x, y;
 
          for (int i = 0; i < 352; ++i) {
-            if (i < 176)
-               pos = Rand(176);
-            else
-               pos = i - 176;
+            pos = i < 176 ? Rand(176) : i - 176;
 
-            int x = ComboX(pos);
-            int y = ComboY(pos);
+            x = ComboX(pos);
+            y = ComboY(pos);
 
             if (Distance(Hero->X, Hero->Y, x, y) > 48)
-               if (Ghost_CanPlace(x, y, 16, 16))
+               if (validSpawn(pos))
                   break;
          }
 
-         return pos;
+         while (moveThem && MoveToPoint(this, x, y, 2, SPW_FLOATER))
+            ShamblesWaitframe(this);
       }
 
-      void emerge(ffc this, npc ghost, int frames) {
-         int combo = ghost->Attributes[10];
-         ghost->NoCollisionTimer = 0;
-         ghost->DrawYOffset = -2;
+      void emerge(npc this, int frames) {
+         AnimHandler aptr = GetAnimHandler(this);
+         ShamblesData shamblesData = GetEnemyClassPointer(this);
 
-         Ghost_Data = combo + 4;
-         ShamblesWaitframe(this, ghost, frames);
-
+         aptr->PlayAnim(ANIM_SUBMERGED);
+         ShamblesWaitframe(this, frames);
          Audio->PlaySound(130);
 
-         Ghost_Data = combo + 5;
-         ShamblesWaitframe(this, ghost, frames);
+         SetDefenses(this, shamblesData->defenses);
+         aptr->PlayAnim(ANIM_HALF_EMERGED);
+         ShamblesWaitframe(this, frames);
 
-         Ghost_Data = combo + 6;
-         ShamblesWaitframe(this, ghost, frames);
+         aptr->PlayAnim(ANIM_EMERGED);
+         ShamblesWaitframe(this, frames);
       }
 
       void submerge(npc this, int frames) {
-         ShamblesWaitframe(this, frames);
+         AnimHandler aptr = GetAnimHandler(this);
 
+         ShamblesWaitframe(this, frames);
          Audio->PlaySound(130);
 
-         this->OriginalTile += 40;
-
+         aptr->PlayAnim(ANIM_HALF_EMERGED);
          ShamblesWaitframe(this, frames);
 
-         Ghost_Data = combo + 4;
-         this->OriginalTile -= 20;
-
+         SetAllDefenses(this, NPCDT_IGNORE);
+         aptr->PlayAnim(ANIM_SUBMERGED);
          ShamblesWaitframe(this, frames);
-
-         this->NoCollisionTimer = -1;
-         this->DrawYOffset = -1000;
       }
 
       int chooseAttack(int attack) {
@@ -1628,17 +1403,15 @@ namespace ShamblesNamespace {
          return attack;
       }
 
-      void ShamblesWaitframe(npc this, int frames, int sfx = 0) {
+      void ShamblesWaitframe(npc this, int frames = 1, int sfx = 0) {
          for (int i = 0; i < frames; ++i) {
-            if (this->HP <= 0) {
+            if (this->HP <= 0)
                deathAnimation(this);
-               MUSIC_INHERIT->Play();
-            }
 
             if (sfx > 0 && i % 30 == 0)
                Audio->PlaySound(sfx);
 
-            Waitframe();
+            Waitframe(this);
          }
       }
    }
@@ -1719,10 +1492,9 @@ namespace HazarondNamespace {
                if (isHeadsDead(heads))
                   break;
 
-               for (int i = 0; i < 20; ++i)
+               for (int i = 0; i < MAX_DEFENSE; ++i)
                   this->Defense[i] = NPCDT_IGNORE;
 
-               this->Defense[NPCD_SCRIPT1] = NPCDT_IGNORE;
 
                for (int i = 0; i < 4; ++i)
                   if (heads[i])
@@ -2206,7 +1978,9 @@ namespace HazarondNamespace {
          else
             this->ScriptTile = this->OriginalTile;
 
-         eweapon oilBlob = FireAimedEWeapon(EW_SCRIPT1, CenterX(this) - 8, CenterY(this) - 8, 0, 255, damage, 117, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+         eweapon oilBlob = FireEWeaponAtHero(EW_SCRIPT1, CenterX(this) - 8, CenterY(this) - 8, true, 0, 255, damage, 117, -1);
+         oilBlob->Unblockable = UNBLOCK_ALL;
+
          Audio->PlaySound(SFX_SQUISH);
          runEWeaponScript(oilBlob, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_OIL_BLOB, this, damage, 0, true});
          EnemyWaitframe(this, data, 5);
@@ -2434,9 +2208,17 @@ namespace OvergrownRaccoonNamespace {
                      Waitframe();
                   }
 
-                  eweapon rockProjectile = FireBigAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, EWF_UNBLOCKABLE, 2, 2);
+                  eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_BOULDER, 119, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                     {-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true}
+                  );
+                  rockProjectile->Unblockable = UNBLOCK_ALL;
+                  rockProjectile->HitHeight = 32;
+                  rockProjectile->HitWidth = 32;
+                  rockProjectile->TileHeight = 2;
+                  rockProjectile->TileWidth = 2;
+                  rockProjectile->Extend = EXT_NORMAL; //TODO may not need to do this
+
                   Audio->PlaySound(SFX_LAUNCH_BOMBS);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true});
                   state = STATE_NORMAL;
                   break;
                }
@@ -2457,7 +2239,9 @@ namespace OvergrownRaccoonNamespace {
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
                      unless(i % 20) {
-                        eweapon rockProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+                        eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 0, 255, DMG_ROCK, SPR_SMALL_ROCK, -1);
+                        rockProjectile->Unblockable = UNBLOCK_ALL;
+
                         Audio->PlaySound(SFX_LAUNCH_BOMBS);
                         runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0, true});
                      }
@@ -2491,7 +2275,9 @@ namespace OvergrownRaccoonNamespace {
                         Waitframe();
                      }
 
-                     eweapon raccoonProjectile = FireAimedEWeapon(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, 0, 255, 1, 121, -1, EWF_UNBLOCKABLE | EWF_ROTATE_360);
+                     eweapon raccoonProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 0, 255, 1, 121, -1);
+                     raccoonProjectile->Unblockable = UNBLOCK_ALL;
+
                      Audio->PlaySound(SFX_LAUNCH_BOMBS);
                      runEWeaponScript(raccoonProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_RACCOON_PROJECTILE, this, true});
                   }
@@ -3659,37 +3445,39 @@ namespace ServusMalusNamespace {
 npc script TurnedHylianElite {
    // clang-format on
 
+   using namespace EnemyNamespace;
    using namespace NPCAnim;
-   using namespace NPCAnim::Legacy;
+   using namespace NPCAnim::Utility;
 
    enum Animations {
-      WALKING,
-      ATTACK
+      ANIM_WALKING,
+      ANIM_ATTACK
    };
 
    void run(int introMessage) {
       AnimHandler aptr = new AnimHandler(this);
 
-      AddAnim(aptr, WALKING, 0, 4, 8, ADF_4WAY);
-      AddAnim(aptr, ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
+      aptr->AddAnim(ANIM_WALKING, 0, 4, 8, ADF_4WAY);
+      aptr->AddAnim(ANIM_ATTACK, 20, 2, 16, ADF_4WAY | ADF_NOLOOP);
 
       CONFIG DMG_STANDING_SLASH = this->WeaponDamage *= 2;
       CONFIG DMG_SPRINTING_SLASH_CHARGING = this->WeaponDamage *= 1.25;
       CONFIG DMG_SPRINTING_SLASH = this->WeaponDamage;
 
-      int maxHp = this->HP;
-      // Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg", 0);
+      CONFIG MAX_HP = this->HP;
+
+      Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
 
       unless(getScreenD(0)) {
          Screen->Message(introMessage);
          setScreenD(0, true);
       }
 
-      while (true) {
+      loop () {
          int movementDirection = Choose(90, -90);
          int attackCoolDown = 120;
 
-         PlayAnim(this, WALKING);
+         aptr->PlayAnim(ANIM_WALKING);
 
          int tooCloseBoiCounter = 0;
 
@@ -3717,7 +3505,7 @@ npc script TurnedHylianElite {
             }
 
             int angle = Angle(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8) + movementDirection;
-            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, maxHp) ? 100 : 75), SPW_NONE);
+            this->MoveAtAngle(angle, this->Step / (gettingDesperate(this, MAX_HP) ? 100 : 75), SPW_NONE);
             --attackCoolDown;
 
             FaceLink(this);
@@ -3729,12 +3517,12 @@ npc script TurnedHylianElite {
          int dashFrames = Max(2, (distance - 36) / 3);
 
          bool swordCollided;
-         PlayAnim(this, ATTACK);
+         aptr->PlayAnim(ANIM_ATTACK);
 
          Audio->PlaySound(SFX_IRON_KNUCKLE_ATTACK);
 
          for (int i = 0; i < dashFrames; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 25 : 30), SPW_NONE);
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, MAX_HP) ? 25 : 30), SPW_NONE);
             FaceLink(this);
 
             if (i > dashFrames / 2)
@@ -3747,7 +3535,7 @@ npc script TurnedHylianElite {
          distance = Distance(this->X + 8, this->Y + 8, Hero->X + 8, Hero->Y + 8);
 
          for (int i = 0; i <= 12 && !swordCollided; ++i) {
-            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, maxHp) ? 30 : 35), SPW_NONE);
+            this->MoveAtAngle(moveAngle, this->Step / (gettingDesperate(this, MAX_HP) ? 30 : 35), SPW_NONE);
             FaceLink(this);
             swordCollided = sword1x1Collision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, 10252, 10, DMG_SPRINTING_SLASH);
             CustomWaitframe(this);
@@ -3774,24 +3562,22 @@ npc script TurnedHylianElite {
       return this->HP < maxHp * .4;
    }
 
-   void CustomWaitframe(npc n) {
-      if (n->HP <= 0) {
-         PlayDeathAnim(n);
-         // MUSIC_INHERIT->Play(); //didint work
-         n->Immortal = false;
-      }
+   void CustomWaitframe(npc this) {
+      if (this->HP <= 0)
+         deathAnimation(this);
 
-      Waitframe(n);
+      Waitframe(this);
    }
 
-   void CustomWaitframe(npc n, int frames) {
+   void CustomWaitframe(npc this, int frames) {
       for (int i = 0; i < frames; ++i)
-         CustomWaitframe(n);
+         CustomWaitframe(this);
    }
 }
 
 namespace EgentemNamespace {
    using namespace NPCAnim;
+   using namespace NPCAnim::Utility;
 
    CONFIG ANIM_SPEED = 16;
 
@@ -3933,7 +3719,7 @@ namespace EgentemNamespace {
 
          attackThrowHammers(this, egentem, 10, 15, DMG_HOLD_UP_HAMMER, DMG_THROWN_HAMMER, DMG_STATIONARY_PILLAR, DMG_EXPLOSION_PILLAR);
 
-         while (true) {
+         loop () {
             int trackerCount;
             aptr->PlayAnim(egentem->shieldHp <= 0 ? WALKING : WALKING_SH);
 
@@ -4316,7 +4102,8 @@ namespace EgentemNamespace {
       }
 
       unless(doNothing) {
-         eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
+         eweapon hammer = FireEWeaponDegAngle(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0);
+         hammer->Unblockable = UNBLOCK_ALL;
          hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
          hammer->CSet = CSET_HAMMER;
          hammer->Timeout = 2;
@@ -4450,8 +4237,10 @@ namespace EgentemNamespace {
             EgentemWaitframe(this, egentem);
          }
 
-         eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 300, thrownHammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-         runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage, true});
+         eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 300, thrownHammerDamage, 134, -1, Game->GetEWeaponScript("ArcingWeapon"),
+            {-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage, true}
+         );
+         hammer->Unblockable = UNBLOCK_ALL;
 
          Waitframes(hammerThrowDelay);
       }
@@ -4672,6 +4461,7 @@ namespace EgentemNamespace {
 namespace LatrosNamespace {
    using namespace EnemyNamespace;
    using namespace NPCAnim;
+   using namespace NPCAnim::Utility;
 
    CONFIG CMB_BLUE_POTION = 8960;
    CONFIG CMB_RED_POTION = 8964;
@@ -5116,9 +4906,12 @@ namespace LatrosNamespace {
 
             for (int i = 0; i < 5; ++i) {
                LatrosWaitframe(this, latros, 12);
-               eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X, this->Y, 0, 325, bombDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X, this->Y, true, 0, 325, bombDamage, -1, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                  {-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage, true}
+               );
+               bomb->Unblockable = UNBLOCK_ALL;
+
                Audio->PlaySound(SFX_LAUNCH_BOMBS);
-               runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage, true});
                LatrosWaitframe(this, latros, 6);
             }
 
@@ -5129,9 +4922,12 @@ namespace LatrosNamespace {
          case ITEM_ARROW3: {
             for (int i = 0; i < 5; ++i) {
                LatrosWaitframe(this, latros, 16);
-               eweapon arrow = FireAimedEWeapon(EW_ARROW, this->X, this->Y, 0, 350, arrowDamage, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
+               eweapon arrow = FireEWeaponAtHero(EW_ARROW, this->X, this->Y, true, 0, 350, arrowDamage, -1, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                  {-1, 0, 0, this, arrowDamage, 0, true}
+               );
+               arrow->Unblockable = UNBLOCK_ALL;
+
                Audio->PlaySound(SFX_ARROW);
-               runEWeaponScript(arrow, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, 0, this, arrowDamage, 0, true});
             }
             break;
          }
@@ -5147,8 +4943,11 @@ namespace LatrosNamespace {
             for (int i = 0; i < 5; ++i) {
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
-               eweapon hammer = FireAimedEWeapon(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), 0, 325, hammerDamage, 134, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-               runEWeaponScript(hammer, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage, true});
+               eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 0, 325, hammerDamage, 134, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                  {-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage, true}
+               );
+               hammer->Unblockable = UNBLOCK_ALL;
+
                LatrosWaitframe(this, latros, 16);
             }
 

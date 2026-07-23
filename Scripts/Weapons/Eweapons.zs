@@ -55,10 +55,9 @@ eweapon script ArcingWeapon {
                   int distance = 24 * i / 12;
                   int angle = Rand(360);
 
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
-
-                  SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
-                  SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+                  eweapon poisonTrail = FireEWeaponDegAngle(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE);
+                  poisonTrail->Unblockable = UNBLOCK_ALL;
+                  poisonTrail->Timeout = 90;
 
                   CustomWaitframe(this, 4);
                }
@@ -75,27 +74,9 @@ eweapon script ArcingWeapon {
                   int distance = 40 * i / 18;
                   int angle = Rand(360);
 
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
-
-                  SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
-                  SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
-
-                  CustomWaitframe(this, 4);
-               }
-               break;
-            }
-            case AE_PROJECTILE_WITH_MOMENTUM: {
-               for (int i = 0; i < 12; ++i) {
-                  if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
-                     break;
-
-                  int distance = 24 * i / 12;
-                  int angle = Rand(360);
-
-                  eweapon poisonTrail = FireEWeapon(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE, EWF_UNBLOCKABLE);
-
-                  SetEWeaponLifespan(poisonTrail, EWL_TIMER, 90);
-                  SetEWeaponDeathEffect(poisonTrail, EWD_VANISH, 0);
+                  eweapon poisonTrail = FireEWeaponDegAngle(EW_SCRIPT10, this->X + VectorX(distance, angle), this->Y + VectorY(distance, angle), 0, 0, damageToUse, SPR_POISON_CLOUD, SFX_SIZZLE);
+                  poisonTrail->Unblockable = UNBLOCK_ALL;
+                  poisonTrail->Timeout = 90;
 
                   CustomWaitframe(this, 4);
                }
@@ -115,11 +96,6 @@ eweapon script ArcingWeapon {
                      mapDataLayer2->ComboD[ComboAt(this->X + 8, this->Y + 8)] = CMB_OIL; //this isnt setting the cset to 2 like it should be
                }
 
-               //Working Implementation
-               // int pos = ComboAt(this->X + 8, this->Y + 8);
-                  // if (Screen->ComboT[pos] == CT_SCRIPT20)
-                  //    Screen->ComboD[pos] = CMB_OIL;
-
                break;
             }
             case AE_OIL_DEATH_BLOB: { //sprite 118 is the spinning rock
@@ -127,8 +103,10 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon oilProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(oilProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy}); //TODO why is secondary damage checked for primary damage?
+                  eweapon oilProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                     {1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy} //TODO why is secondary damage checked for primary damage?
+                  );
+                  oilProjectile->Unblockable = UNBLOCK_ALL;
                }
                break;
             }
@@ -137,8 +115,10 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon pebbleProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(pebbleProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, -1, shootingEnemy, damage, secondaryDamage, isEnemy});
+                  eweapon pebbleProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                     {1, 0, -1, shootingEnemy, damage, secondaryDamage, isEnemy}
+                  );
+                  pebbleProjectile->Unblockable = UNBLOCK_ALL;
                }
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
                break;
@@ -148,8 +128,10 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon rockProjectile = FireEWeapon(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-                  runEWeaponScript(rockProjectile, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy});
+                  eweapon rockProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), DegtoRad(-45 + 90 * i), 150, damageToUse, 118, -1, Game->GetEWeaponScript("ArcingWeapon"),
+                     {1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy}
+                  );
+                  rockProjectile->Unblockable = UNBLOCK_ALL;
                }
 
                Audio->PlaySound(SFX_IMPACT_EXPLOSION);
@@ -269,7 +251,8 @@ eweapon script StopperKiller {
 }
 
 eweapon makeHitbox(int x, int y, int w, int h, int damage, int timeout = 2) {
-   eweapon e = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
+   eweapon e = FireEWeaponDegAngle(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1);
+   e->Unblockable = UNBLOCK_ALL;
    e->HitXOffset = x - e->X;
    e->HitYOffset = y - e->Y;
    e->DrawYOffset = -1000;
@@ -292,9 +275,12 @@ lweapon makeHitboxLW(int type, int x, int y, int w, int h, int damage, int timeo
 }
 
 eweapon makeHitboxPersistent(eweapon hitbox, int x, int y, int w, int h, int damage) {
-   unless(hitbox->isValid()) hitbox = FireEWeapon(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1, EWF_UNBLOCKABLE);
-   else hitbox->DeadState = WDS_ALIVE;
+   unless(hitbox->isValid())
+      hitbox = FireEWeaponDegAngle(EW_SCRIPT10, 120, 80, 0, 0, damage, -1, -1);
+   else
+      hitbox->DeadState = WDS_ALIVE;
 
+   hitbox->Unblockable = UNBLOCK_ALL;
    hitbox->HitXOffset = x - hitbox->X;
    hitbox->HitYOffset = y - hitbox->Y;
    hitbox->DrawYOffset = -1000;
@@ -354,7 +340,8 @@ eweapon script HammerImpact {
       int angle = DirAngle(OppositeDir(this->Dir));
 
       for (int i = 0; i < 4; ++i) {
-         eweapon e = FireEWeapon(EW_SCRIPT10, this->X, this->Y, DegtoRad(angle + Rand(-30, 30)), Rand(100, 250), this->Damage * .5, SPR_SUPER_SMALL_ROCK, 0, EWF_UNBLOCKABLE);
+         eweapon e = FireEWeaponDegAngle(EW_SCRIPT10, this->X, this->Y, DegtoRad(angle + Rand(-30, 30)), Rand(100, 250), this->Damage * .5, SPR_SUPER_SMALL_ROCK, 0);
+         e->Unblockable = UNBLOCK_ALL;
          e->Timeout = 32;
       }
 

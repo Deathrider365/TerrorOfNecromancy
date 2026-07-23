@@ -22,7 +22,7 @@ global script GlobalScripts {
       int map = -1, dmap = -1, screen = -1;
 
       LinkMovement_Init();
-      StartGhostZH();
+      // StartGhostZH();
       DifficultyGlobal_Init();
 
       Game->MaxLWeapons(1024);
@@ -57,7 +57,7 @@ global script GlobalScripts {
          checkHeartCharge();
 
          LinkMovement_Update1();
-         UpdateGhostZH1();
+         // UpdateGhostZH1();
 
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
@@ -132,7 +132,7 @@ global script GlobalScripts {
             Hero->Item[ITEM_EXPANSION_QUIVER] = false;
 
          LinkMovement_Update2();
-         UpdateGhostZH2();
+         // UpdateGhostZH2();
 
          BoomerangNerf();
 

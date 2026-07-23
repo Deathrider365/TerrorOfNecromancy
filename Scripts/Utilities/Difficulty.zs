@@ -44,14 +44,14 @@ CONFIG ITEM_DIFF_VERYHARD = 164;
 
 void DifficultyGlobal_SetEnemyHP(npc n, int val) {
    // If using ghost.zh, uncomment the following and comment out the line below
-   SetEnemyProperty(n, ENPROP_HP, val);
-   // n->HP = val;
+   // SetEnemyProperty(n, ENPROP_HP, val);
+   n->HP = val;
 }
 
 int DifficultyGlobal_GetEnemyHP(npc n) {
    // If using ghost.zh, uncomment the following and comment out the line below
-   return GetEnemyProperty(n, ENPROP_HP);
-   // return n->HP;
+   // return GetEnemyProperty(n, ENPROP_HP);
+   return n->HP;
 }
 
 // This function handles exceptions to enemy stat calculation / manual stat assignment based on difficulty

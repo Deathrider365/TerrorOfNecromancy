@@ -45,7 +45,7 @@ npc script Candlehead {
                   burnToDeath(this, chungo, DMG_FLAME);
 
                doWalk(this, linkClose(this, 24) ? AGGRESSIVE_RAND : NORMAL_RAND, linkClose(this, 24) ? AGGRESSIVE_HOMING : NORMAL_HOMING, this->Step);
-               
+
                Waitframe();
             }
          }
@@ -384,7 +384,8 @@ npc script HammerBoi {
       }
 
       unless(doNothing) {
-         eweapon hammer = FireEWeapon(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0, EWF_UNBLOCKABLE);
+         eweapon hammer = FireEWeaponDegAngle(EW_SCRIPT10, x, y, 0, 0, damage, 0, 0);
+         hammer->Unblockable = UNBLOCK_ALL;
          hammer->ScriptTile = TILE_HAMMER + 3 * this->Dir + frame;
          hammer->CSet = CSET_HAMMER;
          hammer->Timeout = 2;
@@ -444,8 +445,11 @@ npc script Bomber {
 
          unless(attackCooldown) {
             Waitframes(15);
-            eweapon bomb = FireAimedEWeapon(EW_BOMB, this->X + 8, this->Y - 6, 0, 200, DMG_BOMB, -1, -1, EWF_UNBLOCKABLE | EWF_ROTATE);
-            runEWeaponScript(bomb, Game->GetEWeaponScript("ArcingWeapon"), <untyped[]>{-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0, true});
+            eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X + 8, this->Y - 6, true, 0, 200, DMG_BOMB, -1, Game->GetEWeaponScript("ArcingWeapon"),
+               {-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0, true}
+            );
+            bomb->Unblockable = UNBLOCK_ALL;
+
             attackCooldown = 150 + Rand(-30, 30);
          }
 

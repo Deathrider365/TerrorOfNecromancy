@@ -415,7 +415,6 @@ enum ArcingWeaponEffects {
    AE_BOMB,
    AE_SMALLPOISONPOOL,
    AE_LARGEPOISONPOOL,
-   AE_PROJECTILE_WITH_MOMENTUM,
 
    // Hazarond
    AE_OIL_BLOB,

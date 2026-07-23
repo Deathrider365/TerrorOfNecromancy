@@ -292,34 +292,14 @@ void sword2x1(int x, int y, int angle, int dist, int cmb, int cset, int dmg) {
    makeHitbox(hitX, hitY, 16, 16, dmg);
 }
 
-// Ghost enemees beh shakin
-void enemyShake(ffc this, npc ghost, int frames, int intensity) {
-   for (int i = 0; i < frames; ++i) {
-      ghost->DrawXOffset = Rand(-intensity, intensity);
-      ghost->DrawYOffset = Rand(-intensity, intensity) - 2;
-
-      Ghost_Waitframe(this, ghost);
-   }
-
-   ghost->DrawXOffset = 0;
-   ghost->DrawYOffset = -2;
-}
-
-// Ghost enemy shadowtrail
-void Ghost_ShadowTrail(ffc this, npc ghost, bool addDir, int duration) {
-   int tile = addDir ? Game->ComboTile(Ghost_Data + Ghost_Dir) : Game->ComboTile(Ghost_Data);
-
-   int cset = this->CSet;
-   int w = Ghost_TileWidth;
-   int h = Ghost_TileHeight;
-
-   lweapon trail = CreateLWeaponAt(LW_SCRIPT10, Ghost_X, Ghost_Y);
-   trail->OriginalTile = tile;
-   trail->Tile = tile;
-   trail->CSet = cset;
+void shadowTrail(npc this, bool addDir, int duration) {
+   lweapon trail = CreateLWeaponAt(LW_SCRIPT10, this->X, this->Y);
+   trail->OriginalTile = this->Tile;
+   trail->Tile = this->Tile;
+   trail->CSet = this->CSet;
    trail->Extend = 3;
-   trail->TileWidth = w;
-   trail->TileHeight = h;
+   trail->TileWidth = this->TileWidth;
+   trail->TileHeight = this->TileHeight;
    trail->NoCollisionTimer = -1;
    trail->DeadState = duration;
    trail->DrawStyle = DS_PHANTOM;
@@ -332,22 +312,6 @@ void runEWeaponScript(eweapon e, int scr, int[] args) {
 
    for (int i = 0; i < numArgs; ++i)
       e->InitD[i] = args[i];
-}
-
-// Checks if ghost enemy can move
-bool Ghost_CanPlace(int X, int Y, int w, int h) {
-   for (int x = 0; x <= w - 1; x = Min(x + 8, w - 1)) {
-      for (int y = 0; y <= h - 1; y = Min(y + 8, h - 1)) {
-         if (!Ghost_CanMovePixel(X + x, Y + y))
-            return false;
-         if (y == h - 1)
-            break;
-      }
-
-      if (x == w - 1)
-         break;
-   }
-   return true;
 }
 
 bool validSpawn(int pos) {

@@ -1,6 +1,9 @@
 //~~~~~~~~~~~~~~~~~~~~~The Terror of Necromancy Namespaces~~~~~~~~~~~~~~~~~~~//
 
 namespace EnemyNamespace {
+    using namespace NPCAnim;
+    using namespace NPCAnim::Utility;
+
    CONFIG DOWALK_TWO_DIR = 0;
    CONFIG DOWALK_FOUR_DIR = 1;
    CONFIG DOWALK_EIGHT_DIR = 2;
@@ -33,36 +36,38 @@ namespace EnemyNamespace {
       unless(n->HitHeight) n->HitHeight = 16;
    }
 
-   void deathAnimation(npc n, int deathSound = 0) {
-      n->Immortal = true;
-      n->NoCollisionTimer = -1;
-      n->Stun = 9999;
+    void deathAnimation(npc n, int deathSound = 0, bool killBossMusic = true) {
+        n->Immortal = true;
+        n->NoCollisionTimer = -1;
+        n->Stun = 9999;
 
-      int baseX = n->X + n->DrawXOffset;
-      int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
+        int baseX = n->X + n->DrawXOffset;
+        int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
 
-      Audio->PlaySound(deathSound);
+        Audio->PlaySound(deathSound);
 
-      for (int i = 0; i < 45; i++) {
-         unless(i % 3) {
-            lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
-            explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
-            explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->NoCollisionTimer = -1;
-         }
-         Waitframes(5);
-      }
+        for (int i = 0; i < 45; i++) {
+            unless(i % 3) {
+                lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
+                explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
+                explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
+                explosion->NoCollisionTimer = -1;
+            }
 
-      MUSIC_INHERIT->Play();
+            Waitframes(5);
+        }
 
-      for (int i = Screen->NumNPCs; i >= 1; i--) {
-         npc n = Screen->LoadNPC(i);
-         n->Remove();
-      }
+        if (killBossMusic)
+            MUSIC_INHERIT->Play();
 
-      n->Immortal = false;
-      n->HP = 0;
-   }
+        for (int i = Screen->NumNPCs; i >= 1; i--) {
+            npc n = Screen->LoadNPC(i);
+            n->Remove();
+        }
+
+        n->Immortal = false;
+        n->HP = 0;
+    }
 
    void EnemyWaitframe(npc n, int[] data) {
       if (n->HP <= 0)
@@ -235,6 +240,22 @@ namespace EnemyNamespace {
 
       return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(xDistance, dist), special);
    }
+
+   void FourWayFlip(eweapon e) {
+        switch(e->Dir) {
+            case DIR_UP:
+                break;
+            case DIR_DOWN:
+                e->Flip = FLIP_VERTICAL;
+                break;
+            case DIR_LEFT:
+                e->Flip = FLIP_HORIZONTAL;
+            case DIR_RIGHT:
+                e->OriginalTile += e->NumFrames;
+                e->Tile += e->NumFrames;
+                break;
+        }
+    }
 
    bool isDifficultyChange(npc n, int maxHp) {
       return n->HP < maxHp * .33;
