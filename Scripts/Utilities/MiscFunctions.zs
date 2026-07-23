@@ -305,15 +305,6 @@ void shadowTrail(npc this, bool addDir, int duration) {
    trail->DrawStyle = DS_PHANTOM;
 }
 
-//	Calls an EWeapon script
-void runEWeaponScript(eweapon e, int scr, int[] args) {
-   e->Script = scr;
-   int numArgs = SizeOfArray(args);
-
-   for (int i = 0; i < numArgs; ++i)
-      e->InitD[i] = args[i];
-}
-
 bool validSpawn(int pos) {
    int x = ComboX(pos);
    int y = ComboY(pos);

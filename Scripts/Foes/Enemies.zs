@@ -330,10 +330,11 @@ npc script HammerBoi {
          hammerFrame(this, 2, damage, xy);
 
          if (i == 0) {
-            if (int escr = CheckEWeaponScript("HammerImpactEffect")) {
-               eweapon weap = RunEWeaponScriptAt(EW_SCRIPT10, escr, xy->X, xy->Y, {49852});
-               weap->ScriptTile = TILE_INVIS;
-            }
+            eweapon weap = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, 0, 0, 0, Game->GetEWeaponScript("HammerImpactEffect"),
+               {49852}
+            );
+
+            weap->ScriptTile = TILE_INVIS;
          }
 
          Waitframe();
@@ -445,7 +446,7 @@ npc script Bomber {
 
          unless(attackCooldown) {
             Waitframes(15);
-            eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X + 8, this->Y - 6, true, 0, 200, DMG_BOMB, -1, Game->GetEWeaponScript("ArcingWeapon"),
+            eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X + 8, this->Y - 6, true, 200, DMG_BOMB, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
                {-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0, true}
             );
             bomb->Unblockable = UNBLOCK_ALL;

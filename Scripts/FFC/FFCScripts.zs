@@ -245,11 +245,11 @@ ffc script ContinuePoint {
 @InitDHelp5("Custom sprite to use"),
 @InitD6("hasArc"),
 @InitDHelp6("Whether the projectile travels straight to the player or is lobbed"),
-@InitD6("sfx"),
-@InitDHelp6("sound effect played when shot")
+@InitD7("sfx"),
+@InitDHelp7("sound effect played when shot")
 ffc script Thrower {
    // clang-format on
-   void run(int cooldownAndDamage, int variance, int trigger, bool throwsItem, int projectile, int spriteId, int hasArc, int sfx) {
+   void run(int cooldownAndDamage, int variance, int trigger, bool throwsItem, int projectile, int spriteId, int hasArc, int sfx = 0) {
       int cooldown = !Floor(cooldownAndDamage) ? 120 : Floor(cooldownAndDamage);
       int damage = !((cooldownAndDamage % 1) / 1L) ? 120 : ((cooldownAndDamage % 1) / 1L);
 
@@ -277,17 +277,10 @@ ffc script Thrower {
                if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
-               eweapon projectile = FireEWeaponAtHero(projectileId, CenterX(this) - 8, CenterY(this) - 8, true, 0, 255, damage, spriteId, -1);
+               eweapon projectile = FireEWeaponAtHero(projectileId, CenterX(this) - 8, CenterY(this) - 8, true, 255, damage, spriteId, sfx, Game->GetEWeaponScript("ArcingWeapon"),
+                  {-1, 0, projectileType, 0, 8, 0, false}
+               );
                projectile->Unblockable = UNBLOCK_ALL;
-
-               if (hasArc) {
-                  if (int scr = CheckEWeaponScript("ArcingWeapon")) {
-                     if (sfx)
-                        Audio->PlaySound(sfx);
-
-                     runEWeaponScript(projectile, scr, {-1, 0, projectileType, 0, 8, 0, false});
-                  }
-               }
             }
 
             cooldown = COOLDOWN + Rand(lowVariance, highVariance);
@@ -883,7 +876,7 @@ ffc script LoSShooter {
       loop () {
          if (this->Data != originalCombo) Quit();
 
-         int angle = DegToRad(lineOfSightAngle(this, dir, tolerance));
+         int angle = lineOfSightAngle(this, dir, tolerance);
 
          if (angle > 0) {
             if (cooldown == 0) {
@@ -969,7 +962,7 @@ ffc script Beamos {
          if (this->Data != originalCombo) Quit();
          if (Distance(this->X, this->Y, Hero->X, Hero->Y) < proximity /*&& it sees link*/) { //TODO enhance to sync up with a rotating combo
             if (cooldown == 0) {
-               eweapon weapon = FireEWeaponAtHero(eweaponId, this->X, this->Y, true, 0, step, damage, weaponSprite, SFX_FIRE);
+               eweapon weapon = FireEWeaponAtHero(eweaponId, this->X, this->Y, true, step, damage, weaponSprite, SFX_FIRE);
                weapon->Unblockable = UNBLOCK_ALL;
 
                this->MoveFlags[NPCMV_CAN_PITFALL] = false;
