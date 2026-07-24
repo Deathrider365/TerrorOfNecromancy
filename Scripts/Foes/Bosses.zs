@@ -5229,10 +5229,6 @@ namespace LatrosNamespace {
    }
 }
 
-namespace Quickknife {
-   using namespace EnemyNamespace;
-   using namespace NPCAnim;
-
    // Fight begins with him standing in the middle of the room
    // - He jumps into one of the walls
    // - For x seconds on each of the 4 walls his image is seen very small growing into normal size, if Link does nothing all 4 jump out and attack link with a magic blast
@@ -5252,135 +5248,223 @@ namespace Quickknife {
    //    - The two magic blasts in a hemisphere pattern turns into 4 with 2 more at a wider range, closing in on link slower after the first 2
    //    - New attack, shoots a giant magic blast (2x2 magic sprite), sometimes he shoots this in the patterns described in the other attacks
 
+namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into the room
+   using namespace EnemyNamespace;
+   using namespace NPCAnim;
+   using namespace NPCAnim::Utility;
 
+   class QuickknifeData {
+      bool isClone;
+      int initialHP;
+      int phase;
+      npc clones[0];
+
+      QuickknifeData(npc owner, bool isClone) {
+         initialHP = owner->HP;
+         this->isClone = isClone;
+      }
+   }
 
    npc script Quickknife {
-      void run() {
-         // this->X = 128;
-         // this->Y = 32;
+      enum Animations {
+         ANIM_WALKING,
+         ANIM_ATTACK,
+         ANIM_APPEARING
+      };
 
-         this->HP = 0;
+      CONFIG ANIM_WALKING_SPEED = 16;
+      CONFIG ANIM_APPEAR_SPEED = 8;
 
-         // while (true) {
-         //    doWallAttack(this);
+      CONFIG INITD_IS_CLONE = 0;
 
-         //    QuickknifeWaitframe(this);
-         // }
-
-         /*
-         magic focused, but also fast as you would expect from a pirate. utilized magic predominently, but also throws weapons (maybe knives?)
-
-         fades into the room, has some dialog, fight begins with him vanishing
-
-         wall phase:
-         - 4 symbols appear on each of the walls, similar to phantom ganon in OoT forest temple, he will come out of
-           one of the walls you can tell which one is real with arrows, hitting false ones make them vanish and play
-           some laugh sound
-           - failing to hit the right one in time results in a hard to avoid attack at link, continuing the fight in
-             the battle phase
-           - correctly hitting him knocks him out of the wall stunned for a second or 2 to let the player hit him
-
-         battle phase (varies whether you knocked him out of the wall or not):
-         -
-         */
+      void run(bool isClone) {
+         if (isClone)
+            runClone(this);
+         else
+            runMain(this);
       }
 
-   }
+      void runMain(npc this) {
+         AnimHandler aptr = new AnimHandler(this);
 
-   void doWallAttack(npc this) {
-      CONFIG UP_FACING_COMBO = 10292;
-      CONFIG DOWN_FACING_COMBO = 10293;
-      CONFIG LEFT_FACING_COMBO = 10294;
-      CONFIG RIGHT_FACING_COMBO = 10295;
+         aptr->AddAnim(ANIM_WALKING, 0, 2, ANIM_WALKING_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_ATTACK, 20, 1, 0, ADF_4WAY);
+         aptr->AddAnim(ANIM_APPEARING, 40, 4, ANIM_APPEAR_SPEED, ADF_4WAY);
 
-      int originalTile = this->OriginalTile;
-      // do some phasing out animation
-      this->OriginalTile = 0;
+         QuickknifeData quickknifeData = new QuickknifeData(this, false);
+         StoreEnemyClassPointer(this, quickknifeData);
 
-      this->X = -16;
-      this->Y = -16;
+         loop() {
 
-      QuickknifeWaitframe(this, 30);
+            //Portrait Phase
+            loop() {
+               spawnClones(this);
+               expandAppear(this);
 
-      for (int i = 0; i < 120; ++i) {
-         if (i < 60 && !(i % 3)) {
-            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
-         } else if (!(i % 6)) {
-            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
+
+
+
+               QuickknifeWaitframe(this);
+            }
+
+            QuickknifeWaitframe(this);
+         }
+      }
+
+      void runClone(npc this) {
+         AnimHandler aptr = new AnimHandler(this);
+
+         aptr->AddAnim(ANIM_WALKING, 0, 2, ANIM_WALKING_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_ATTACK, 20, 1, 0, ADF_4WAY);
+         aptr->AddAnim(ANIM_APPEARING, 40, 4, ANIM_APPEAR_SPEED, ADF_4WAY);
+
+         QuickknifeData quickknifeData = new QuickknifeData(this, true);
+         StoreEnemyClassPointer(this, quickknifeData);
+
+         bool interrupted = expandAppear(this);
+
+         if (interrupted) {
+            int angle = DirAngle(this->Dir);
+
+            aptr->PlayAnim(ANIM_APPEARING, false, 4);
+
+            for (int i = 0; i < 60; i++) {
+               this->Dir = AngleDir4(WrapDegrees(angle + (i * 10)));
+               QuickknifeWaitframe(this);
+            }
+
+            for (int i = 0; i < 8; i++) { //TODO change sprite to something fancy
+               eweapon bullet = FireEWeaponDegAngle(EW_FIREBALL, this->X, this->Y, angle + Lerp(-45, 45, i / 7), 400, 8 /*is 8 a heart?*/, SPR_FIREBALL, SFX_AXE2);
+               bullet->Unblockable = UNBLOCK_ALL;
+            }
+
+            this->Remove();
+         }
+         else {
+            //jump out and attack
          }
 
-         Waitframe();
+         this->Remove();
       }
 
-      int timeUntilStrike = 180;
+      void JumpAndShootMans(npc this) {
+         CONFIG GRAVITY = .16;
+         CONFIG TERMINAL_VELOCITY = 3.2;
 
-      while (timeUntilStrike) {
-         if (this->HitBy[HIT_BY_LWEAPON_UID])
-            break;
+         QuickknifeData quickknifeData = GetEnemyClassPointer(this);
+         AnimHandler aptr = GetAnimHandler(this);
 
-         unless (timeUntilStrike % 6) {
-            Screen->FastCombo(2, 124, 160, UP_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 124, 0, DOWN_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 240, 84, LEFT_FACING_COMBO, 9, OP_OPAQUE);
-            Screen->FastCombo(2, 16, 84, RIGHT_FACING_COMBO, 9, OP_OPAQUE);
-         }
-         --timeUntilStrike;
+         aptr->PlayAnim(ANIM_ATTACK);
 
-         QuickknifeWaitframe(this);
-      }
-   }
+         this->Jump = PredictJumpFromDurationBruteForce(16, GRAVITY, TERMINAL_VELOCITY, 0);
 
-   void QuickknifeWaitframe(npc this, int frames = 1) {
-      for (int i = 0; i < frames; ++i) {
-         if (this->HP <= 0)
-            quickknifeDeathAnimation(this, 170);
-
-         Waitframe();
-      }
-   }
-
-   void quickknifeDeathAnimation(npc n, int deathSound) {
-      n->Immortal = true;
-      n->NoCollisionTimer = -1;
-      n->Stun = 9999;
-
-		Screen->Message(359);
-		Waitframe();
-
-      int baseX = n->X + n->DrawXOffset;
-      int baseY = (n->Y + n->DrawYOffset) - (n->Z + n->DrawZOffset);
-
-      Audio->PlaySound(deathSound);
-      int dropCount = 0;
-
-      for (int i = 0; i < 45; i++) {
-         unless(i % 3) {
-            lweapon explosion = Screen->CreateLWeapon(LW_BOMBBLAST);
-            explosion->X = baseX + RandGen->Rand(16 * n->TileWidth) - 8;
-            explosion->Y = baseY + RandGen->Rand(16 * n->TileHeight) - 8;
-            explosion->NoCollisionTimer = -1;
+         for (int i = 0; i < 16; i++) {
+            this->Move(this->Dir, 1);
+            QuickknifeWaitframe(this);
          }
 
-         Waitframes(5);
+         QuickknifeWaitframe(this, quickknifeData->isClone ? 90 : 30);
+
+         FireEWeaponDegAngle(EW_MAGIC, this->X, this->Y, AngleLink(this), 400, 8 /*CREATE CONFIGS FOR DAMAGE*/, -1, SFX_MAGIC);
       }
 
-      MUSIC_INHERIT->Play();
+      bool expandAppear(npc this) {
+         QuickknifeData quickknifeData = GetEnemyClassPointer(this);
+         bool ret;
 
-      // for (int i = Screen->NumNPCs; i >= 1; i--) {
-      //    npc n = Screen->LoadNPC(i);
-      //    n->Remove();
-      // }
+         // this->Flags[NPCF_ONLY_LENS] = true;
+         this->Flags[NPCF_NO_CONTACT_DAMAGE] = true;
+         AnimHandler aptr = GetAnimHandler(this);
 
-      n->Immortal = false;
-      n->HP = 0;
+         aptr->PlayAnim(ANIM_APPEARING, false, quickknifeData->isClone ? 1 : 2);
+
+         for (int i = 0; i < 240; i++) {
+            this->Scale = Lerp(.1, 1, i / 239); //TODO, .1 because scale of 0 and near 0 will draw at full scale
+            this->DrawXOffset = Lerp(8, 0, i / 239);
+            this->DrawYOffset = Lerp(8, 0, i / 239);
+
+            if (this->HitBy[HIT_BY_LWEAPON_PTR]) {
+               ret = true;
+               break;
+            }
+
+            QuickknifeWaitframe(this);
+         }
+
+         this->Scale = 1;
+         this->DrawXOffset = 0;
+         this->DrawYOffset = 0;
+
+         for (int i = 0; i < 60 && !ret; i++) {
+            if (this->HitBy[HIT_BY_LWEAPON_PTR]) {
+               ret = true;
+               break;
+            }
+
+            QuickknifeWaitframe(this);
+         }
+
+         this->Flags[NPCF_NO_CONTACT_DAMAGE] = false;
+         // this->Flags[NPCF_ONLY_LENS] = false;
+
+         return ret;
+      }
+
+      void spawnClones(npc this) {
+         QuickknifeData quickknifeData = GetEnemyClassPointer(this);
+
+         int topWall[0], bottomWall[0], leftWall[0], rightWall[0];
+         int walls[][] = {topWall, bottomWall, leftWall, rightWall};
+
+         for (int i = 0; i < NUM_COMBO_POS; i++) {
+            switch(Screen->ComboF[i]) {
+               case CF_ENEMY0:
+                  ArrayPushBack(topWall, i);
+                  break;
+               case CF_ENEMY1:
+                  ArrayPushBack(bottomWall, i);
+                  break;
+               case CF_ENEMY2:
+                  ArrayPushBack(leftWall, i);
+                  break;
+               case CF_ENEMY3:
+                  ArrayPushBack(rightWall, i);
+                  break;
+            }
+         }
+
+         int whichWall = Rand(0, 3);
+
+         for (int i = 0; i < 4; i++) {
+            int dir = (whichWall + i) % 4;
+            int wallArray[] = walls[dir];
+
+            int whichPos = Rand(SizeOfArray(wallArray));
+            int x = ComboX(wallArray[whichPos]);
+            int y = ComboY(wallArray[whichPos]);
+
+            if (i == 0) {
+               this->X = x;
+               this->Y = y;
+               this->Dir = OppositeDir(dir);
+            }
+            else {
+               npc clone = CreateNPCAt(this->ID, x, y);
+               clone->InitD[INITD_IS_CLONE] = true;
+               clone->Dir = OppositeDir(dir);
+
+               ArrayPushBack(quickknifeData->clones, clone);
+            }
+         }
+      }
+
+      void QuickknifeWaitframe(npc this, int frame = 1) {
+         for (int i = 0; i < frame; i++) {
+
+            Waitframe(this);
+         }
+      }
    }
-
 }
 
 npc script BigBadDodongo { //working name

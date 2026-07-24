@@ -277,7 +277,9 @@ enum Sfx {
    SFX_SM_ELEVATOR_LOOP = 184,
 
    SFX_CURSOR_MOVEMENT = 5,
-   SFX_SELECTION = 66
+   SFX_SELECTION = 66,
+
+   SFX_MAGIC = 32
 };
 
 enum Sprite {
@@ -315,7 +317,8 @@ enum Sprite {
    SPR_SMALL_ROCK = 118,
    SPR_SUPER_SMALL_ROCK = 18,
 
-   SPR_WHIRLWIND = 13
+   SPR_WHIRLWIND = 13,
+   SPR_FIREBALL = 17
 };
 
 enum Counters {
