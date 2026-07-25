@@ -5269,15 +5269,21 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
       enum Animations {
          ANIM_WALKING,
          ANIM_ATTACK,
-         ANIM_APPEARING
+         ANIM_APPEARING,
+         ANIM_FACEPLANT
       };
 
       CONFIG ANIM_WALKING_SPEED = 16;
       CONFIG ANIM_APPEAR_SPEED = 8;
 
       CONFIG INITD_IS_CLONE = 0;
+      CONFIG INITD_INSTRUCTION = 1;
+      CONFIG INSTRUCTION_RESET = 0;
+      CONFIG INSTRUCTION_SELFDESTRUCT = 1;
 
-      void run(bool isClone) {
+      CONFIG TILE_WAND = 30802;
+
+      void run(bool isClone, int _instruction) {
          if (isClone)
             runClone(this);
          else
@@ -5290,19 +5296,65 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
          aptr->AddAnim(ANIM_WALKING, 0, 2, ANIM_WALKING_SPEED, ADF_4WAY);
          aptr->AddAnim(ANIM_ATTACK, 20, 1, 0, ADF_4WAY);
          aptr->AddAnim(ANIM_APPEARING, 40, 4, ANIM_APPEAR_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_FACEPLANT, 60, 1, 0, ADF_4WAY);
 
          QuickknifeData quickknifeData = new QuickknifeData(this, false);
          StoreEnemyClassPointer(this, quickknifeData);
 
          loop() {
-
             //Portrait Phase
             loop() {
                spawnClones(this);
-               expandAppear(this);
+               bool interrupted = expandAppear(this);
 
+               if (interrupted) {
+                  for (int i = 0; i < 3; i++) {
+                     if (quickknifeData->clones[i]->isValid())
+                        quickknifeData->clones[i]->InitD[INITD_INSTRUCTION] = INSTRUCTION_SELFDESTRUCT;
+                  }
 
+                  break;
+               }
+               else
+                  JumpAndShootMans(this);
 
+               teleportOut(this);
+
+               //In case of Cosmic Ray (do not get the big boy caught in the loop, he would do something bad)
+               this->InitD[INITD_INSTRUCTION] = INSTRUCTION_RESET;
+               QuickknifeWaitframe(this, 60);
+            }
+
+            //Fall out of wall
+            clumsyPirate(this);
+
+            int lastAttack = -1;
+            int attackCycle;
+
+            //Main Battle Phase
+            loop() {
+               int attack = 3;
+               ++attackCycle;
+
+               switch(attack) {
+                  case 0: //Positioning attack (walking to a particular position while doing small attacks)
+                     positioningAttack(this);
+                     break;
+                  case 1: // Wand Swings (sometimes with magic)
+                     // Three wand slashes at link, but sometimes after the first slash he starts the dash but then jumps backwards and shoots magic (shotgun) at link
+                     // angle the slashes move at home in on link position instead of snapping to it, have it use TurnToAngle
+                     break;
+                  case 2: // Charge large magic blast (on collision splits (x4) and ricochets for some time)
+                     // center of weapon, subtract 8 on the x or y, check if there is a solid, if there is flip vx or vy
+                     // eweapon deflection
+                     break;
+                  case 3: // Curving shot (shooting multiple pairs of curving shots)
+                     curvingShot(this);
+                     break;
+               }
+
+               if (attackCycle == 5)
+                  break;
 
                QuickknifeWaitframe(this);
             }
@@ -5323,6 +5375,11 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
 
          bool interrupted = expandAppear(this);
 
+         if (this->InitD[INITD_INSTRUCTION] == INSTRUCTION_SELFDESTRUCT) {
+            teleportOut(this);
+            this->Remove();
+         }
+
          if (interrupted) {
             int angle = DirAngle(this->Dir);
 
@@ -5337,14 +5394,138 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
                eweapon bullet = FireEWeaponDegAngle(EW_FIREBALL, this->X, this->Y, angle + Lerp(-45, 45, i / 7), 400, 8 /*is 8 a heart?*/, SPR_FIREBALL, SFX_AXE2);
                bullet->Unblockable = UNBLOCK_ALL;
             }
+         }
+         else
+            JumpAndShootMans(this);
 
-            this->Remove();
-         }
-         else {
-            //jump out and attack
-         }
+         teleportOut(this);
 
          this->Remove();
+      }
+
+      void curvingShot(npc this) {
+         CONFIG SPR_CURVING_MAGIC = 94; //cset 11
+
+         for (int i = 0; i < 3; i++) {
+            FaceLink(this);
+            QuickknifeWaitframe(this, 40);
+
+            for (int shot = 0; shot < 2; shot++) {
+               eweapon magic = FireEWeaponDegAngle(EW_MAGIC, this->X, this->Y, AngleLink(this) + Lerp(-75, 75, shot), 400, this->WeaponDamage, SPR_CURVING_MAGIC, SFX_MAGIC, CheckEWeaponScript("CurvingProjectile"),
+                  //int slowFrames, int delayFrames, int accelFrames, int stepAtSlowest, int minTurnSpeed, int maxTurnSpeed
+                  {24, 8, 24, 50, 3, 2}
+               );
+               magic->Unblockable = UNBLOCK_ALL;
+            }
+
+            QuickknifeWaitframe(this, 60);
+
+            Audio->PlaySound(SFX_MIRROR_SHIELD_ABSORB_LOOP);
+            QuickknifeWaitframe(this, 15);
+
+            int moveAngle = AngleLink(this);
+
+            if (i == 1)
+               moveAngle = NPCAnim::Utility::AnglePoint(this, 120, 80);
+
+            Audio->PlaySound(SFX_SWORD);
+
+            for (int i = 0; i < 20; ++i) {
+               shadowTrail(this, false, 6);
+               this->MoveAtAngle(moveAngle, 3, 0);
+               QuickknifeWaitframe(this, 1);
+            }
+         }
+      }
+
+      void positioningAttack(npc this) {
+         int strafeDir = Choose(-1, 1);
+
+         for (int strafes = 0; strafes < 5; strafes++) {
+            int angle = AngleLink(this) + 120 * strafeDir;
+            FaceLink(this);
+
+            for (int i = 0; i < 40; i++) {
+               angle = AngleLink(this) + 120 * strafeDir;
+
+               if (DistanceLink(this) < 48)
+                  break;
+
+               FaceLink(this);
+               sword1x1Tile(this->X, this->Y, AngleLink(this), 14, TILE_WAND, 11, this->Damage);
+               this->MoveAtAngle(angle, .75);
+               QuickknifeWaitframe(this);
+            }
+
+            for (int i = 0; i < 20; i++) {
+               if (DistanceLink(this) < 48)
+                  break;
+
+               FaceLink(this);
+               sword1x1Tile(this->X, this->Y, AngleLink(this), 14, TILE_WAND, 11, this->Damage);
+               QuickknifeWaitframe(this);
+            }
+
+            if (!this->CanMoveAtAngle(angle, 1) || DistanceLink(this) < 48) {
+               int wandAngle = AngleLink(this);
+
+               for (int i = 0; i < 40; i++) {
+                  FaceLink(this);
+
+                  if (i < 15) {
+                     wandAngle = AngleLink(this);
+                     this->MoveAtAngle(wandAngle, 1);
+                  }
+
+                  sword1x1Tile(this->X, this->Y, wandAngle, 14, TILE_WAND, 11, this->Damage);
+
+                  if (i == 30) {
+                     for (int magicBlasts = 0; magicBlasts < 6; magicBlasts++) {
+                        eweapon magic = FireEWeaponDegAngle(EW_MAGIC, this->X + VectorX(12, wandAngle), this->Y + VectorY(12, wandAngle), wandAngle, 300 + Rand(-25, 25), this->WeaponDamage, -1, SFX_MAGIC);
+                        magic->DegAngle += Rand(-30, 30);
+                        magic->Unblockable = UNBLOCK_ALL;
+                        FourWayFlip(magic);
+                     }
+                  }
+
+                  QuickknifeWaitframe(this);
+               }
+
+               strafeDir *= -1;
+            }
+         }
+      }
+
+      void clumsyPirate(npc this) {
+         AnimHandler aptr = GetAnimHandler(this);
+
+         int angle = DirAngle(this->Dir) + Rand(-30, 30);
+
+         this->Jump = 2.4;
+         aptr->PlayAnim(ANIM_FACEPLANT);
+
+         while (this->Jump > 0 || this->Z > 0) {
+            this->MoveAtAngle(angle, 1.5);
+            QuickknifeWaitframe(this);
+         }
+
+         for (int i = 0; i < 90; i++) {
+            this->MoveAtAngle(angle, Lerp(1, 0, i / 89));
+            QuickknifeWaitframe(this);
+         }
+
+         aptr->PlayAnim(ANIM_WALKING);
+      }
+
+      void teleportOut(npc this) { //TODO add this to EnemyNamespace
+         this->NoCollisionTimer = 16;
+
+         //TODO add sfx
+
+         for (int i = 0; i < 16; i++) {
+            drawFancyTeleportAnim(this, 3, i / 15);
+            QuickknifeWaitframe(this);
+         }
       }
 
       void JumpAndShootMans(npc this) {
@@ -5363,9 +5544,13 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
             QuickknifeWaitframe(this);
          }
 
-         QuickknifeWaitframe(this, quickknifeData->isClone ? 90 : 30);
+         QuickknifeWaitframe(this, quickknifeData->isClone ? 30 : 90);
 
-         FireEWeaponDegAngle(EW_MAGIC, this->X, this->Y, AngleLink(this), 400, 8 /*CREATE CONFIGS FOR DAMAGE*/, -1, SFX_MAGIC);
+         eweapon magic = FireEWeaponDegAngle(EW_MAGIC, this->X, this->Y, AngleLink(this), 400, 8 /*CREATE CONFIGS FOR DAMAGE*/, -1, SFX_MAGIC);
+         magic->Unblockable = UNBLOCK_ALL;
+         FourWayFlip(magic);
+
+         QuickknifeWaitframe(this, 30);
       }
 
       bool expandAppear(npc this) {
@@ -5388,6 +5573,9 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
                break;
             }
 
+            if (this->InitD[INITD_INSTRUCTION] == INSTRUCTION_SELFDESTRUCT)
+               break;
+
             QuickknifeWaitframe(this);
          }
 
@@ -5400,6 +5588,9 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
                ret = true;
                break;
             }
+
+            if (this->InitD[INITD_INSTRUCTION] == INSTRUCTION_SELFDESTRUCT)
+               break;
 
             QuickknifeWaitframe(this);
          }
@@ -5434,6 +5625,7 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
          }
 
          int whichWall = Rand(0, 3);
+         ResizeArray(quickknifeData->clones, 0);
 
          for (int i = 0; i < 4; i++) {
             int dir = (whichWall + i) % 4;

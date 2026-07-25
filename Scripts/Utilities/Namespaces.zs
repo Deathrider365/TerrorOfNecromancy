@@ -242,6 +242,11 @@ namespace EnemyNamespace {
    }
 
    void FourWayFlip(eweapon e) {
+        if (e->Angular)
+            e->Dir = AngleDir4(WrapDegrees(e->DegAngle));
+
+        int frames = Max(e->NumFrames, 1);
+
         switch(e->Dir) {
             case DIR_UP:
                 break;
@@ -251,8 +256,8 @@ namespace EnemyNamespace {
             case DIR_LEFT:
                 e->Flip = FLIP_HORIZONTAL;
             case DIR_RIGHT:
-                e->OriginalTile += e->NumFrames;
-                e->Tile += e->NumFrames;
+                e->OriginalTile += frames;
+                e->Tile += frames;
                 break;
         }
     }
@@ -324,6 +329,57 @@ namespace EnemyNamespace {
             return DIR_UP;
       }
    }
+
+    // void Update_Movement_WallBounce(eweapon this, untyped[] vars)
+    // {
+    //     if(pauseMove||vars[WV_FROZEN])
+    //         return;
+
+    //     vars[WV_SUBPIXELSTEP] += (this->Step/100);
+    //     int step = Floor(vars[WV_SUBPIXELSTEP]);
+
+    //     for(int i=0; i<step; ++i)
+    //     {
+    //         vars[WV_X] += VectorX(1, this->DegAngle);
+    //         vars[WV_Y] += VectorY(1, this->DegAngle);
+    //         this->X = vars[WV_X];
+    //         this->Y = vars[WV_Y];
+
+    //         int ang = this->DegAngle;
+    //         int vX = VectorX(1, ang);
+    //         int vY = VectorY(1, ang);
+    //         bool bounced;
+    //         if((vX<0&&!CanMove(this, vars[WV_X], vars[WV_Y], DIR_LEFT))||(vX>0&&!CanMove(this, vars[WV_X], vars[WV_Y], DIR_RIGHT)))
+    //         {
+    //             vX = -vX;
+    //             bounced = true;
+    //         }
+    //         if((vY<0&&!CanMove(this, vars[WV_X], vars[WV_Y], DIR_UP))||(vY>0&&!CanMove(this, vars[WV_X], vars[WV_Y], DIR_DOWN)))
+    //         {
+    //             vY = -vY;
+    //             bounced = true;
+    //         }
+    //         if(bounced&&vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES]>=0)
+    //         {
+    //             if(vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES]>0)
+    //             {
+    //                 --vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES];
+    //                 if(!vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES])
+    //                     vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES] = -1;
+    //             }
+    //             this->Step *= vars[WV_MOVE_WALLBOUNCE_BOUNCESPEEDMULT];
+    //             if(vars[WV_MOVE_WALLBOUNCE_TARGETLINK])
+    //                 this->DegAngle = Angle(CenterX(this), CenterY(this), CenterLinkX(), CenterLinkY());
+    //             else
+    //                 this->DegAngle = Angle(0, 0, vX, vY);
+    //             UpdateFacingAngle(this, vars);
+    //         }
+    //     }
+    //     vars[WV_SUBPIXELSTEP] -= step;
+    //     if(vars[WV_MOVE_WALLBOUNCE_NUMBOUNCES]>0)
+    //         vars[WV_LIFESPAN_HITWALL_CANDIE] = false;
+    // }
+
 } // namespace EnemyNamespace
 
 namespace MinecartNamespace {

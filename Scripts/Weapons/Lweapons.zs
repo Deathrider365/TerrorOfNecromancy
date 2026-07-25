@@ -284,3 +284,14 @@ lweapon spawnTimedSprite(int x, int y, int sprite, int tileWidth, int tileHeight
 
    return weapon;
 }
+
+lweapon SparkleSpriteAnim(int x, int y, int sprite, int w, int h) {
+    lweapon l = CreateLWeaponAt(LW_SPARKLE, x, y);
+    l->UseSprite(sprite);
+    l->NoCollisionTimer = -1;
+    l->Extend = 3;
+    l->TileWidth = w;
+    l->TileHeight = h;
+
+    return l;
+}

@@ -548,7 +548,6 @@ eweapon script ShootingProjectile {
    }
 }
 
-
 @InitD0("Number of Units"),
 @InitDHelp0("The number of weapons to spawn in addition to the central pivot weapon"),
 @InitD1("Spacing"),
@@ -665,4 +664,34 @@ eweapon script FireBar { //TODO Look back at this
 
 		return ew;
 	}
+}
+
+eweapon script CurvingProjectile {
+   void run(int slowFrames, int delayFrames, int accelFrames, int stepAtSlowest, int minTurnSpeed, int maxTurnSpeed) {
+      int step = this->Step;
+
+      for (int i = 0; i < slowFrames; i++) {
+         this->DegAngle = turnToAngle(this->DegAngle, Angle(this->X, this->Y, Hero->X, Hero->Y), Lerp(maxTurnSpeed, minTurnSpeed, i / (slowFrames - 1)));
+         this->Step = Lerp(step, stepAtSlowest, i / (slowFrames - 1));
+
+         Waitframe();
+      }
+
+      for (int i = 0; i < delayFrames; i++) {
+         this->DegAngle = turnToAngle(this->DegAngle, Angle(this->X, this->Y, Hero->X, Hero->Y), minTurnSpeed);
+         Waitframe();
+      }
+
+      for (int i = 0; i < accelFrames; i++) {
+         this->DegAngle = turnToAngle(this->DegAngle, Angle(this->X, this->Y, Hero->X, Hero->Y), Lerp(minTurnSpeed, maxTurnSpeed, i / (accelFrames - 1)));
+         this->Step = Lerp(stepAtSlowest, step, i / (accelFrames - 1));
+
+         Waitframe();
+      }
+
+      loop() {
+         this->DegAngle = turnToAngle(this->DegAngle, Angle(this->X, this->Y, Hero->X, Hero->Y), maxTurnSpeed);
+         Waitframe();
+      }
+   }
 }

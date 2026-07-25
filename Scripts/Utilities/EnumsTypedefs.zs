@@ -318,7 +318,9 @@ enum Sprite {
    SPR_SUPER_SMALL_ROCK = 18,
 
    SPR_WHIRLWIND = 13,
-   SPR_FIREBALL = 17
+   SPR_FIREBALL = 17,
+
+   SPR_SPARKLES = 156
 };
 
 enum Counters {

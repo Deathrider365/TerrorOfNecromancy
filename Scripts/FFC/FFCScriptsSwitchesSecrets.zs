@@ -172,6 +172,7 @@ ffc script Shutter {
          }
       }
    }
+
    void playOpenCloseAnim(ffc this, int combo, bool opening) {
       setFFCData(this, combo, true);
       this->Flags[FFCF_SOLID] = true;

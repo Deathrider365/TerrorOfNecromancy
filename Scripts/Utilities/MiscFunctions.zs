@@ -833,3 +833,14 @@ void introSequenceSceneTransitions(int dmap, int screen) {
 
       Hero->Warp(dmap, screen);
 }
+
+void drawFancyTeleportAnim(npc n, int yMultiplier, int completionPercentage, int opacity = OP_OPAQUE) {
+   n->DrawXOffset = -1000;
+
+   int x = n->X + Lerp(0, n->TileWidth * 8, completionPercentage);
+   int y = n->Y + Lerp(0, -n->TileHeight * (yMultiplier * 16) - 16, completionPercentage) - n->Z - n->FakeZ;
+   int w = Lerp(n->TileWidth * 16, 0, completionPercentage);
+   int h = Lerp(n->TileWidth * 16, n->TileHeight * 16 * yMultiplier, completionPercentage);
+
+   Screen->DrawTile(SPLAYER_NPC_DRAW, x, y, n->Tile, n->TileWidth, n->TileHeight, n->CSet, w, h, 0, 0, 0, 0, true, opacity);
+}
