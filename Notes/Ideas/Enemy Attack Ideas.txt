@@ -16,3 +16,5 @@ like midir, an attack that is a lazer around the arena, and explodes fire after 
 make an attack that sucks link in (like the great poe of 4swords) and slowly drains your health until you get out of it
 
 similar to "level" attacks from FF, an attack that does so much damage / effects Link if heart count is divisible by n
+
+Similar to metroid prime's metroid prime, have a boss that spawn 2 slowly floating projectilesd towards link that slowly float to link while the fight continues
