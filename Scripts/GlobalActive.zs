@@ -504,6 +504,11 @@ global script GlobalScripts {
                case 0x66: return 011000b;
             }
             break;
+         case 134: //Lv10 Infernal Caldera B2
+            switch (screen) {
+               case 0x48: return 000100b;
+            }
+            break;
       }
       return 0;
    }
