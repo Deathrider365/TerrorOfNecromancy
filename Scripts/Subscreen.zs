@@ -8,12 +8,19 @@ namespace Subscreen {
    Color C_MINIMAP_COMPASS_DEFEATED = C_DARKGREEN;
 
    int currTriforceIndex = 0;
+   bitmap minitileBuf;
 
    void minitile(untyped bit, int layer, int x, int y, int tile, int cset, int corner) {
-      bitmap sub = new bitmap(16, 16);
-      sub->Clear(0);
-      tile(sub, 0, 0, 0, tile, cset);
-      sub->Blit(layer, bit, (corner & 01b) ? 8 : 0, (corner & 10b) ? 8 : 0, 8, 8, x, y, 8, 8, 0, 0, 0, 0, 0, true);
+      // bitmap sub = new bitmap(16, 16);
+      // sub->Clear(0);
+      // tile(sub, 0, 0, 0, tile, cset);
+      // sub->Blit(layer, bit, (corner & 01b) ? 8 : 0, (corner & 10b) ? 8 : 0, 8, 8, x, y, 8, 8, 0, 0, 0, 0, 0, true);
+      if (minitileBuf == NULL)
+         minitileBuf = new bitmap(16, 16);
+
+      minitileBuf->Clear(layer);
+      tile(minitileBuf, layer, 0, 0, tile, cset);
+      minitileBuf->Blit(layer, bit, (corner & 01b) ? 8 : 0, (corner & 10b) ? 8 : 0, 8, 8, x, y, 8, 8, 0, 0, 0, 0, 0, true);
    }
 
    void tile(untyped bit, int layer, int x, int y, int tile, int cset) {
@@ -27,7 +34,7 @@ namespace SubscreenWidgets {
    subscreendata script CyclableTriforceFrames {
       // clang-format on
       using namespace Subscreen;
-      
+
       CONFIG TILE_COURAGE_FRAME = 320;
       CONFIG TILE_POWER_FRAME = 326;
       CONFIG TILE_WISDOM_FRAME = 380;
@@ -48,7 +55,7 @@ namespace SubscreenWidgets {
       CONFIG DEATH_SHARD2 = 534;
       CONFIG DEATH_SHARD3 = 714;
       CONFIG DEATH_SHARD4 = 594;
-      
+
       CONFIG TRIFORCE_CYCLE_SFX = 124;
 
       void run() {
