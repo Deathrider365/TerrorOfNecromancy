@@ -4,7 +4,7 @@
 @InitD0("turnRate"),
 @InitDHelp0("Degrees the boomerang will turn per frame"),
 @Author("Emily, Deathrider365")
-lweapon script ContollableBoomerang {
+lweapon script ContollableBoomerang { //TODO if the rang is thrown and is flying when screens trans, the sfx keeps playing
    // clang-format on
    void run(int turnRate) {
       this->Angular = true;
