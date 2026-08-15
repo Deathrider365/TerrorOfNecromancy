@@ -4461,9 +4461,9 @@ namespace LatrosNamespace {
    using namespace NPCAnim;
    using namespace NPCAnim::Utility;
 
-   CONFIG CMB_BLUE_POTION = 8960;
-   CONFIG CMB_RED_POTION = 8964;
-   CONFIG CMB_PURPLE_POTION = 8968;
+   CONFIG CMB_BLUE_POTION = 5940;
+   CONFIG CMB_RED_POTION = 5944;
+   CONFIG CMB_PURPLE_POTION = 5948;
 
    class Latros {
       npc owner;
