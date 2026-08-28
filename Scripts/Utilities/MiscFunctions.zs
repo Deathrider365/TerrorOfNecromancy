@@ -271,6 +271,18 @@ bool sword1x1Collision(int x, int y, int angle, int dist, int cmb, int cset, int
 
    if (sword->isValid())
       return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+
+   return false;
+}
+
+// sword1x1 but checks for lweapon sword collision
+bool sword1x1TileCollision(int x, int y, int angle, int dist, int tile, int cset, int dmg) {
+   eweapon hitbox = sword1x1Tile(x, y, angle, dist, tile, cset, dmg);
+   lweapon sword = LoadLWeaponOf(LW_SWORD);
+
+   if (sword->isValid())
+      return Collision(sword, hitbox) && (Hero->Action == LA_ATTACKING || Hero->Action == LA_SPINNING);
+
    return false;
 }
 
@@ -843,4 +855,82 @@ void drawFancyTeleportAnim(npc n, int yMultiplier, int completionPercentage, int
    int h = Lerp(n->TileWidth * 16, n->TileHeight * 16 * yMultiplier, completionPercentage);
 
    Screen->DrawTile(SPLAYER_NPC_DRAW, x, y, n->Tile, n->TileWidth, n->TileHeight, n->CSet, w, h, 0, 0, 0, 0, true, opacity);
+}
+
+bool canPlaceGeneric(int x, int y, int width, int height) {
+   --width;
+   --height;
+
+   for (int ix = 0; ix <= width; ix = Min(ix + 8, width)) {
+      for (int iy = 0; iy <= height; iy = Min(iy + 8, height)) {
+         if (Screen->isSolid(x + ix, y + iy)) //replace isSolid for more customizability, watch logic for computation speed
+            return false;
+
+         if (iy == height)
+            break;
+      }
+
+      if (ix == width)
+         break;
+   }
+
+   return true;
+}
+
+bool canMoveGeneric(int x, int y, int width, int height, int dir) {
+   --width;
+   --height;
+
+   switch(dir) {
+      case DIR_UP:
+         for (int ix = 0; ix <= width; ix = Min(ix + 8, width)) {
+            if (Screen->isSolid(x + ix, y - 1))
+               return false;
+            if (ix == width)
+               return true;
+         }
+      case DIR_DOWN:
+         for (int ix = 0; ix <= width; ix = Min(ix + 8, width)) {
+            if (Screen->isSolid(x + ix, y + height + 1))
+               return false;
+            if (ix == width)
+               return true;
+         }
+      case DIR_LEFT:
+         for (int iy = 0; iy <= height; iy = Min(iy + 8, height)) {
+            if (Screen->isSolid(x - 1, y + iy))
+               return false;
+            if (iy == height)
+               return true;
+         }
+      case DIR_RIGHT:
+         for (int iy = 0; iy <= height; iy = Min(iy + 8, height)) {
+            if (Screen->isSolid(x + width + 1, y + iy))
+               return false;
+            if (iy == height)
+               return true;
+         }
+   }
+
+   return false;
+}
+
+bool canMoveGeneric8Way(int x, int y, int width, int height, int dir) {
+   switch(dir) {
+      case DIR_UP:
+      case DIR_DOWN:
+      case DIR_LEFT:
+      case DIR_RIGHT:
+         return canMoveGeneric(x, y, width, height, dir);
+      case DIR_LEFTUP:
+         return canMoveGeneric(x, y, width, height, DIR_LEFT) && canMoveGeneric(x, y, width, height, DIR_UP);
+      case DIR_RIGHTUP:
+         return canMoveGeneric(x, y, width, height, DIR_RIGHT) && canMoveGeneric(x, y, width, height, DIR_UP);
+      case DIR_LEFTDOWN:
+         return canMoveGeneric(x, y, width, height, DIR_LEFT) && canMoveGeneric(x, y, width, height, DIR_DOWN);
+      case DIR_RIGHTDOWN:
+         return canMoveGeneric(x, y, width, height, DIR_RIGHT) && canMoveGeneric(x, y, width, height, DIR_DOWN);
+   }
+
+   return false;
 }

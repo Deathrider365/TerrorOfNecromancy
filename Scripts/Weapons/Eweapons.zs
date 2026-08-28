@@ -695,3 +695,81 @@ eweapon script CurvingProjectile {
       }
    }
 }
+
+eweapon script BigSplittingShot {
+   CONFIG TYPE_NORMAL = 0;
+
+   void run(int type, int arg1, int arg2, int arg3, int arg4) {
+      switch(type) {
+         case TYPE_NORMAL:
+            runNormal(this, arg1, arg2, arg3, arg4);
+            break;
+      }
+   }
+
+   void runNormal(eweapon this, int numBounces, int numSplits, int splitShotSprite, int sfx) {
+      loop() {
+         this->DeadState = WDS_ALIVE; //TODO handle for offscreen
+
+         if (!canMoveGeneric8Way(this->X, this->Y, this->HitWidth, this->HitHeight, AngleDir8(WrapDegrees(this->DegAngle)))) {
+            int spacing = 360 / numSplits;
+
+            for (int i = 0; i < numSplits; ++i) {
+               eweapon bouncingShot = FireEWeaponDegAngle(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, spacing / 2 + spacing * i, 300, this->Damage /*TODO what to do for damage??*/, splitShotSprite, sfx, CheckEWeaponScript("BouncingShot"), {
+                  numBounces
+               });
+               bouncingShot->Unblockable = UNBLOCK_ALL;
+            }
+
+            this->Remove();
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+eweapon script BouncingShot {
+   void run(int numBounces) {
+      int vx = VectorX(1, this->DegAngle);
+      int vy = VectorY(1, this->DegAngle);
+      int step = this->Step / 100;
+      this->Step = 0;
+
+      int subStep = 0;
+
+      loop() {
+         subStep += step;
+
+         for (int i = 0; i < Floor(subStep); ++i) {
+            bool bounced = false;
+
+            if ((vx < 0 && !canMoveGeneric(this->X, this->Y, this->HitWidth, this->HitHeight, DIR_LEFT)) || (vx > 0 && !canMoveGeneric(this->X, this->Y, this->HitWidth, this->HitHeight, DIR_RIGHT))) {
+               vx = -vx;
+               bounced = true;
+            }
+
+            if ((vy < 0 && !canMoveGeneric(this->X, this->Y, this->HitWidth, this->HitHeight, DIR_UP)) || (vy > 0 && !canMoveGeneric(this->X, this->Y, this->HitWidth, this->HitHeight, DIR_DOWN))) {
+               vy = -vy;
+               bounced = true;
+            }
+
+            if (bounced) {
+               this->DegAngle = Angle(0, 0, vx, vy);
+               --numBounces;
+            }
+
+            if (numBounces < 0) {
+               this->Remove();
+            }
+
+            this->X += vx;
+            this->Y += vy;
+         }
+
+         subStep -= Floor(subStep);
+
+         Waitframe();
+      }
+   }
+}

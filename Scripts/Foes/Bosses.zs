@@ -31,7 +31,6 @@ namespace LeviathanNamespace {
    CONFIG DIFFICULTY_STAGE_3 = 2;
 
    CONFIG SPR_SPLASH = 93;
-   CONFIG SPR_WATERBALL = 94;
 
    CONFIG MSG_BEATEN = 23;
    CONFIG MSG_LEVIATHAN_SCALE = 1052;
@@ -241,7 +240,7 @@ namespace LeviathanNamespace {
                      for (int j = 0; j < 4; ++j) {
                         eweapon waterBall = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
                         waterBall->Damage = LEVIATHAN_WATERCANNON_DMG;
-                        waterBall->UseSprite(SPR_WATERBALL);
+                        waterBall->UseSprite(SPR_BALL);
                         waterBall->Angular = true;
                         waterBall->Angle = DegtoRad(angle);
                         waterBall->Dir = AngleDir4(angle);
@@ -316,7 +315,7 @@ namespace LeviathanNamespace {
                         for (int k = 0; k < 2; ++k) {
                            eweapon wavectorYShots = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
                            wavectorYShots->Damage = LEVIATHAN_BURSTCANNON_DMG;
-                           wavectorYShots->UseSprite(SPR_WATERBALL);
+                           wavectorYShots->UseSprite(SPR_BALL);
                            wavectorYShots->Angular = true;
                            wavectorYShots->Angle = DegtoRad(angle);
                            wavectorYShots->Dir = AngleDir4(angle);
@@ -335,7 +334,7 @@ namespace LeviathanNamespace {
                      for (int j = 0; j < 2; ++j) {
                         eweapon straightShots = CreateEWeaponAt(EW_SCRIPT1, risingX - 8, centerY - 8);
                         straightShots->Damage = LEVIATHAN_BURSTCANNON_DMG;
-                        straightShots->UseSprite(SPR_WATERBALL);
+                        straightShots->UseSprite(SPR_BALL);
                         straightShots->Angular = true;
                         straightShots->Angle = DegtoRad(angle);
                         straightShots->Dir = AngleDir4(angle);
@@ -672,7 +671,7 @@ namespace LeviathanNamespace {
 
    eweapon script Waterfall {
       void run(int width, int peakHeight) {
-         this->UseSprite(SPR_WATERBALL); // TODO what? sprite 94?
+         this->UseSprite(SPR_BALL); // TODO what? sprite 94?
 
          unless(waterfallBitmap->isAllocated()) {
             this->DeadState = 0;
@@ -5270,6 +5269,7 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
          ANIM_WALKING,
          ANIM_ATTACK,
          ANIM_APPEARING,
+         ANIM_CHARGING, //TODO copied from appearing, customize?
          ANIM_FACEPLANT
       };
 
@@ -5296,6 +5296,7 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
          aptr->AddAnim(ANIM_WALKING, 0, 2, ANIM_WALKING_SPEED, ADF_4WAY);
          aptr->AddAnim(ANIM_ATTACK, 20, 1, 0, ADF_4WAY);
          aptr->AddAnim(ANIM_APPEARING, 40, 4, ANIM_APPEAR_SPEED, ADF_4WAY);
+         aptr->AddAnim(ANIM_CHARGING, 40, 4, ANIM_APPEAR_SPEED, ADF_4WAY);
          aptr->AddAnim(ANIM_FACEPLANT, 60, 1, 0, ADF_4WAY);
 
          QuickknifeData quickknifeData = new QuickknifeData(this, false);
@@ -5333,7 +5334,7 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
 
             //Main Battle Phase
             loop() {
-               int attack = 3;
+               int attack = 2;
                ++attackCycle;
 
                switch(attack) {
@@ -5341,10 +5342,10 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
                      positioningAttack(this);
                      break;
                   case 1: // Wand Swings (sometimes with magic)
-                     // Three wand slashes at link, but sometimes after the first slash he starts the dash but then jumps backwards and shoots magic (shotgun) at link
-                     // angle the slashes move at home in on link position instead of snapping to it, have it use TurnToAngle
+                     wandSwings(this, this->WeaponDamage, attackCycle % 2 == 0);
                      break;
                   case 2: // Charge large magic blast (on collision splits (x4) and ricochets for some time)
+                     chargeMagicBlast(this, this->WeaponDamage);
                      // center of weapon, subtract 8 on the x or y, check if there is a solid, if there is flip vx or vy
                      // eweapon deflection
                      break;
@@ -5494,6 +5495,147 @@ namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into
                strafeDir *= -1;
             }
          }
+      }
+
+      void wandSwings(npc this, int damage, bool fakeout) {
+         FaceLink(this);
+         Audio->PlaySound(SFX_STALFOS_GROAN_FAST);
+
+         int dashStep = this->Step / 100 * 3; //3 is a multiplier, /100 is a conversion from step to px
+         int moveAngle = AngleLink(this);
+         int distance = DistanceLink(this);
+         int dashFrames = Max(2, (distance - 36) / dashStep);
+
+         bool swordCollided;
+
+         int thisStep = this->Step;
+
+         for (int i = 0; i < dashFrames; ++i) {
+            this->MoveAtAngle(moveAngle, dashStep, SPW_NONE);
+
+            if (i > dashFrames / 2)
+               sword1x1Tile(this->X, this->Y, moveAngle - 90, (i - dashFrames / 2) / (dashFrames / 2) * 16, TILE_WAND, 10, damage);
+
+            QuickknifeWaitframe(this);
+         }
+
+         for (int j = 0; j < 5; ++j) {
+            Audio->PlaySound(SFX_SWORD);
+            distance = DistanceLink(this);
+
+            for (int i = 0; i <= 12 && !swordCollided; ++i) {
+               this->MoveAtAngle(moveAngle, this->Step / 35, SPW_NONE);
+               swordCollided = sword1x1TileCollision(this->X, this->Y, moveAngle - 90 + 15 * i, 16, TILE_WAND, 10, damage);
+
+               QuickknifeWaitframe(this);
+            }
+
+            if (swordCollided) {
+               Audio->PlaySound(SFX_SWORD_ROCK3);
+
+               for (int i = 0; i < 12; ++i) {
+                  this->MoveAtAngle(moveAngle + 180, dashStep, SPW_NONE);
+                  QuickknifeWaitframe(this);
+               }
+
+               swordCollided = false;
+               QuickknifeWaitframe(this, 10);
+            }
+
+            if (j == 0 && fakeout) {
+               this->Jump = PredictJumpFromDurationBruteForce(16, GRAVITY, TERMINAL_VELOCITY, 0);
+
+               Audio->PlaySound(SFX_JUMP);
+
+               for (int i = 0; i < 16; i++) {
+                  this->Move(OppositeDir(this->Dir), 2);
+                  QuickknifeWaitframe(this);
+               }
+
+               int wandAngle = AngleLink(this);
+
+               for (int i = 0; i < 40; i++) {
+                  FaceLink(this);
+
+                  if (i < 15) {
+                     wandAngle = AngleLink(this);
+                     this->MoveAtAngle(wandAngle, 1);
+                  }
+
+                  sword1x1Tile(this->X, this->Y, wandAngle, 14, TILE_WAND, 11, this->Damage);
+
+                  if (i == 20) {
+                     for (int magicBlasts = 0; magicBlasts < 6; magicBlasts++) {
+                        eweapon magic = FireEWeaponDegAngle(EW_MAGIC, this->X + VectorX(12, wandAngle), this->Y + VectorY(12, wandAngle), wandAngle, 300 + Rand(-25, 25), this->WeaponDamage, -1, SFX_MAGIC);
+                        magic->DegAngle += Rand(-30, 30);
+                        magic->Unblockable = UNBLOCK_ALL;
+                        FourWayFlip(magic);
+                     }
+                  }
+
+                  QuickknifeWaitframe(this);
+               }
+
+               break;
+            }
+
+            QuickknifeWaitframe(this, 8);
+
+            moveAngle = turnToAngle(moveAngle, AngleLink(this), 90);
+            this->Dir = AngleDir4(moveAngle);
+         }
+
+         QuickknifeWaitframe(this, 80);
+      }
+
+      void chargeMagicBlast(npc this, int damage) {
+         AnimHandler aptr = GetAnimHandler(this);
+         aptr->PlayAnim(ANIM_APPEARING);
+
+         FaceLink(this);
+
+         int wandAngle = AngleLink(this);
+
+         for (int i = 0; i < 180; ++i) {
+            if (i % 60 == 0)
+               Audio->PlaySound(SFX_CHARGE1);
+
+            if (i < 120) {
+               FaceLink(this);
+               wandAngle = AngleLink(this);
+            }
+
+            int swordXOff, swordYOff;
+
+            if (i > 120) {
+               aptr->SetAnimSpeedMultiplier(3);
+               swordXOff = Rand(-2, 2);
+               swordYOff = Rand(-2, 2);
+            }
+            else if (i > 60) {
+               aptr->SetAnimSpeedMultiplier(2);
+               swordXOff = Rand(-1, 1);
+               swordYOff = Rand(-1, 1);
+            }
+
+            sword1x1Tile(this->X + swordXOff, this->Y + swordYOff, wandAngle, 16, TILE_WAND, 10, damage);
+            QuickknifeWaitframe(this);
+         }
+
+                                                         //TODO magic should come from wand not body
+         eweapon bigMagic = FireEWeaponDegAngle(EW_MAGIC, this->X - 8, this->Y - 8, wandAngle, 400, damage, SPR_ENEMY_MAGIC_2X2, SFX_MAGIC, CheckEWeaponScript("BigSplittingShot"), {
+            0, 4, 4, SPR_BALL, SFX_MAGIC
+         });
+         bigMagic->Extend = EXT_NORMAL;
+         bigMagic->TileWidth = 2;
+         bigMagic->TileHeight = 2;
+         bigMagic->HitWidth = 32;
+         bigMagic->HitHeight = 32;
+         bigMagic->Unblockable = UNBLOCK_ALL;
+
+         FourWayFlip(bigMagic);
+
+         aptr->PlayAnim(ANIM_WALKING);
       }
 
       void clumsyPirate(npc this) {

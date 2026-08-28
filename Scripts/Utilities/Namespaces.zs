@@ -241,11 +241,11 @@ namespace EnemyNamespace {
       return n->MoveAtAngle(RadtoDeg(TurnTowards(nx, ny, x, y, 0, 1)), Min(xDistance, dist), special);
    }
 
-   void FourWayFlip(eweapon e) {
+   void FourWayFlip(eweapon e) { //4WayRotate
         if (e->Angular)
             e->Dir = AngleDir4(WrapDegrees(e->DegAngle));
 
-        int frames = Max(e->NumFrames, 1);
+        int frames = Max(e->NumFrames, 1) * Max(e->TileWidth, 1);
 
         switch(e->Dir) {
             case DIR_UP:
