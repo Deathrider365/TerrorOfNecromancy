@@ -103,7 +103,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon oilProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, damageToUse, 118, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                  eweapon oilProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, damageToUse, 118, 0, CheckEWeaponScript("ArcingWeapon"),
                      {1, 0, AE_ROCK_PROJECTILE, this, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy} //TODO why is secondary damage checked for primary damage?
                   );
                   oilProjectile->Unblockable = UNBLOCK_ALL;
@@ -115,7 +115,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon pebbleProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                  eweapon pebbleProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, hasSecondaryDamage ? secondaryDamage : damageToUse, 18, 0, CheckEWeaponScript("ArcingWeapon"),
                      {1, 0, -1, shootingEnemy, damage, secondaryDamage, isEnemy}
                   );
                   pebbleProjectile->Unblockable = UNBLOCK_ALL;
@@ -128,7 +128,7 @@ eweapon script ArcingWeapon {
                   if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
                      break;
 
-                  eweapon rockProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, damageToUse, 118, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                  eweapon rockProjectile = FireEWeaponDegAngle(EW_SCRIPT10, this->X + 8 + VectorX(8, -45 + 90 * i), this->Y + 8 + VectorY(8, -45 + 90 * i), (-45 + 90 * i), 150, damageToUse, 118, 0, CheckEWeaponScript("ArcingWeapon"),
                      {1, 0, AE_ROCK_PROJECTILE, shootingEnemy, hasSecondaryDamage ? secondaryDamage : 0, secondaryDamage, isEnemy}
                   );
                   rockProjectile->Unblockable = UNBLOCK_ALL;
@@ -142,7 +142,7 @@ eweapon script ArcingWeapon {
                break;
             }
             case AE_EGENTEM_HAMMER: {
-               eweapon pillar = FireEWeaponDegAngle(EW_SCRIPT10, this->X, this->Y, 0, 0, damageToUse, 0, 0, Game->GetEWeaponScript("EgentemPillar"),
+               eweapon pillar = FireEWeaponDegAngle(EW_SCRIPT10, this->X, this->Y, 0, 0, damageToUse, 0, 0, CheckEWeaponScript("EgentemPillar"),
                   {30, 300, 0, 0, damageToUse, secondaryDamage}
                );
                pillar->Unblockable = UNBLOCK_ALL;

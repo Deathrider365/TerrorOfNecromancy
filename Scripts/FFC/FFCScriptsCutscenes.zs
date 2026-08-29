@@ -144,7 +144,7 @@ ffc script IntroLeviathanEnding {
          if (i == 24) {
             eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, 100, 80);
             waterfall->Damage = 0;
-            waterfall->Script = Game->GetEWeaponScript("Waterfall");
+            waterfall->Script = CheckEWeaponScript("Waterfall");
             waterfall->DrawYOffset = -1000;
             waterfall->InitD[0] = 6;
             waterfall->InitD[1] = 32;
@@ -299,7 +299,7 @@ ffc script IntroPreInteritusLeviathanScene {
 
                eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, this->X + 60, 112);
                waterfall->Damage = 0;
-               waterfall->Script = Game->GetEWeaponScript("Waterfall");
+               waterfall->Script = CheckEWeaponScript("Waterfall");
                waterfall->DrawYOffset = -1000;
                waterfall->InitD[0] = 1;
                waterfall->InitD[1] = 64 - i * 0.5;

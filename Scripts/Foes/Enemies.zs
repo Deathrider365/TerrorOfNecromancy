@@ -84,7 +84,7 @@ npc script Candlehead {
          if (gameframe % 5 == 0) {
             eweapon flame = CreateEWeaponAt(EW_FIRE, x - (chungo ? 8 : 0), y - (chungo ? 8 : 0));
             flame->Dir = n->Dir;
-            flame->Script = Game->GetEWeaponScript("StopperKiller");
+            flame->Script = CheckEWeaponScript("StopperKiller");
             flame->Z = n->Z;
             flame->InitD[1] = 120;
             flame->Gravity = true;
@@ -123,7 +123,7 @@ npc script Candlehead {
          flame->Step = chungo ? 160 : 120;
          flame->Angular = true;
          flame->Angle = DirRad(flame->Dir);
-         flame->Script = Game->GetEWeaponScript("StopperKiller");
+         flame->Script = CheckEWeaponScript("StopperKiller");
          flame->Z = n->Z;
          flame->InitD[0] = chungo ? 40 : 20;
          flame->InitD[1] = chungo ? 250 : 150;
@@ -330,7 +330,7 @@ npc script HammerBoi {
          hammerFrame(this, 2, damage, xy);
 
          if (i == 0) {
-            eweapon weap = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, 0, 0, 0, Game->GetEWeaponScript("HammerImpactEffect"),
+            eweapon weap = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, 0, 0, 0, CheckEWeaponScript("HammerImpactEffect"),
                {49852}
             );
 
@@ -446,7 +446,7 @@ npc script Bomber {
 
          unless(attackCooldown) {
             Waitframes(15);
-            eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X + 8, this->Y - 6, true, 200, DMG_BOMB, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
+            eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X + 8, this->Y - 6, true, 200, DMG_BOMB, -1, 0, CheckEWeaponScript("ArcingWeapon"),
                {-1, 0, AE_BOMB_EXPLOSION, this, DMG_BOMB_EXPLOSION, 0, true}
             );
             bomb->Unblockable = UNBLOCK_ALL;

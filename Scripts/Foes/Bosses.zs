@@ -177,7 +177,7 @@ namespace LeviathanNamespace {
                         int weaponX = this->X + this->HitXOffset + (this->HitWidth / 2) - ((changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2) ? -16 : 0);
                         eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, weaponX - 8, 112);
                         waterfall->Damage = LEVIATHAN_WATERFALL_DMG;
-                        waterfall->Script = Game->GetEWeaponScript("Waterfall");
+                        waterfall->Script = CheckEWeaponScript("Waterfall");
                         waterfall->DrawYOffset = -1000;
                         waterfall->InitD[0] = changeInDifficulty(this, vars) == DIFFICULTY_STAGE_2 ? 6 : 3;
                         waterfall->InitD[1] = 64;
@@ -245,7 +245,7 @@ namespace LeviathanNamespace {
                         waterBall->Angle = DegtoRad(angle);
                         waterBall->Dir = AngleDir4(angle);
                         waterBall->Step = 300;
-                        waterBall->Script = Game->GetEWeaponScript("LeviathanSignWave");
+                        waterBall->Script = CheckEWeaponScript("LeviathanSignWave");
                         waterBall->InitD[0] = wSizes[j] * (0.5 + 0.5 * (i / 32));
                         waterBall->InitD[1] = wSpeeds[j];
                         waterBall->InitD[2] = true;
@@ -320,7 +320,7 @@ namespace LeviathanNamespace {
                            wavectorYShots->Angle = DegtoRad(angle);
                            wavectorYShots->Dir = AngleDir4(angle);
                            wavectorYShots->Step = 200;
-                           wavectorYShots->Script = Game->GetEWeaponScript("LeviathanSignWave");
+                           wavectorYShots->Script = CheckEWeaponScript("LeviathanSignWave");
                            wavectorYShots->InitD[0] = wSizes[k] - Rand(-4, 4);
                            wavectorYShots->InitD[1] = wSpeeds[k];
                            wavectorYShots->InitD[2] = true;
@@ -339,7 +339,7 @@ namespace LeviathanNamespace {
                         straightShots->Angle = DegtoRad(angle);
                         straightShots->Dir = AngleDir4(angle);
                         straightShots->Step = 150;
-                        straightShots->Script = Game->GetEWeaponScript("LeviathanSignWave");
+                        straightShots->Script = CheckEWeaponScript("LeviathanSignWave");
                         straightShots->InitD[0] = 4;
                         straightShots->InitD[1] = 16;
                         straightShots->InitD[2] = true;
@@ -375,7 +375,7 @@ namespace LeviathanNamespace {
 
                      eweapon waterfall = CreateEWeaponAt(EW_SCRIPT10, this->X + 80, 112);
                      waterfall->Damage = LEVIATHAN_SIDESWIPE_DMG;
-                     waterfall->Script = Game->GetEWeaponScript("Waterfall");
+                     waterfall->Script = CheckEWeaponScript("Waterfall");
                      waterfall->DrawYOffset = -1000;
                      waterfall->InitD[0] = 1;
                      waterfall->InitD[1] = 64 - i * 0.5;
@@ -1315,7 +1315,7 @@ namespace ShamblesNamespace {
          for (int i = 0; i < bombsToLob; ++i) {
             ShamblesWaitframe(this, 16);
 
-            eweapon bomb = FireEWeaponDegAngle(EW_BOMB, this->X, this->Y, AngleLink(this), 200, bombDamage, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
+            eweapon bomb = FireEWeaponDegAngle(EW_BOMB, this->X, this->Y, AngleLink(this), 200, bombDamage, -1, 0, CheckEWeaponScript("ArcingWeapon"),
                {-1, 0, (this->HP < (maxHP * difficultyMultiplier)) ? AE_LARGEPOISONPOOL : AE_SMALLPOISONPOOL, this, poisonDamage, 0, true}
             );
             bomb->Unblockable = UNBLOCK_ALL;
@@ -1454,7 +1454,7 @@ namespace HazarondNamespace {
 
          npc heads[4];
 
-         int eweaponStopper = Game->GetEWeaponScript("StopperKiller");
+         int eweaponStopper = CheckEWeaponScript("StopperKiller");
 
          bitmap effectBitmap = create(256, 168);
          this->Immortal = true;
@@ -1979,7 +1979,7 @@ namespace HazarondNamespace {
          else
             this->ScriptTile = this->OriginalTile;
 
-         eweapon oilBlob = FireEWeaponAtHero(EW_SCRIPT1, CenterX(this) - 8, CenterY(this) - 8, true, 255, damage, 117, 0, Game->GetEWeaponScript("ArcingWeapon"),
+         eweapon oilBlob = FireEWeaponAtHero(EW_SCRIPT1, CenterX(this) - 8, CenterY(this) - 8, true, 255, damage, 117, 0, CheckEWeaponScript("ArcingWeapon"),
             {-1, 0, AE_OIL_BLOB, this, damage, 0, true}
          );
          oilBlob->Unblockable = UNBLOCK_ALL;
@@ -2210,7 +2210,7 @@ namespace OvergrownRaccoonNamespace {
                      Waitframe();
                   }
 
-                  eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, DMG_BOULDER, 119, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                  eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, DMG_BOULDER, 119, 0, CheckEWeaponScript("ArcingWeapon"),
                      {-1, 0, AE_BOULDER_PROJECTILE, this, DMG_ROCK, 0, true}
                   );
                   rockProjectile->Unblockable = UNBLOCK_ALL;
@@ -2241,7 +2241,7 @@ namespace OvergrownRaccoonNamespace {
                      this->ScriptTile = this->OriginalTile + (this->Tile % 8) + 52;
 
                      unless(i % 20) {
-                        eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, DMG_ROCK, SPR_SMALL_ROCK, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                        eweapon rockProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, DMG_ROCK, SPR_SMALL_ROCK, 0, CheckEWeaponScript("ArcingWeapon"),
                            {-1, 0, AE_ROCK_PROJECTILE, this, DMG_PEBBLE, 0, true}
                         );
                         rockProjectile->Unblockable = UNBLOCK_ALL;
@@ -2278,7 +2278,7 @@ namespace OvergrownRaccoonNamespace {
                         Waitframe();
                      }
 
-                     eweapon raccoonProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, 2, 121, 0, Game->GetEWeaponScript("ArcingWeapon"),
+                     eweapon raccoonProjectile = FireEWeaponAtHero(EW_SCRIPT10, CenterX(this) - 8, CenterY(this) - 8, true, 255, 2, 121, 0, CheckEWeaponScript("ArcingWeapon"),
                         {-1, 0, AE_RACCOON_PROJECTILE, this, true}
                      );
                      raccoonProjectile->Unblockable = UNBLOCK_ALL;
@@ -2488,8 +2488,8 @@ namespace ServusMalusNamespace {
                   vectorY = VectorY(Hero->Step / 100, moveAngle);
 
                   if (Distance(this->X + 12, this->Y + 12, ComboX(chosenTorch) + 8, ComboY(chosenTorch) + 8) < 16) {
-                     if (int escr = CheckEWeaponScript("StopperKiller")) {
-                        eweapon ewind = FireEWeaponDegAngle(EW_SCRIPT2, ComboX(chosenTorch), ComboY(chosenTorch), 5, DMG_WIND, 0, 128, 0, Game->GetEWeaponScript("StopperKiller"),
+                     if (CheckEWeaponScript("StopperKiller")) {
+                        eweapon ewind = FireEWeaponDegAngle(EW_SCRIPT2, ComboX(chosenTorch), ComboY(chosenTorch), 5, DMG_WIND, 0, 128, 0, CheckEWeaponScript("StopperKiller"),
                            {0, 60}
                         );
                         ewind->Unblockable = UNBLOCK_ALL;
@@ -3204,7 +3204,7 @@ namespace ServusMalusNamespace {
 
          Audio->PlaySound(SFX_AXE2);
 
-         scythe = FireEWeaponDegAngle(EW_SCRIPT3, this->X, this->Y, 0, 0, damage, 125, 0, Game->GetEWeaponScript("BoomerangThrow"),
+         scythe = FireEWeaponDegAngle(EW_SCRIPT3, this->X, this->Y, 0, 0, damage, 125, 0, CheckEWeaponScript("BoomerangThrow"),
             {this, Hero->X - 8, Hero->Y - 8, 7, 1, 0}
          );
          scythe->Unblockable = UNBLOCK_ALL;
@@ -3219,7 +3219,7 @@ namespace ServusMalusNamespace {
          scythe->Unblockable = UNBLOCK_ALL;
 
          if (gettingDesperate) {
-            scythe2 = FireEWeaponDegAngle(EW_SCRIPT3, this->X, this->Y, 0, 0, damage, 125, 0, Game->GetEWeaponScript("BoomerangThrow"),
+            scythe2 = FireEWeaponDegAngle(EW_SCRIPT3, this->X, this->Y, 0, 0, damage, 125, 0, CheckEWeaponScript("BoomerangThrow"),
                {this, Hero->X - 8, Hero->Y - 8, 7, 1, 1}
             );
             scythe2->Unblockable = UNBLOCK_ALL;
@@ -3301,7 +3301,7 @@ namespace ServusMalusNamespace {
             deathAnimation(this, SFX_GOMESS_DIE);
          }
 
-         eweapon ewind = FireEWeaponDegAngle(EW_SCRIPT2, CenterX(this) - 8, CenterY(this) - 8, WrapDegrees(angle + inc * i), 250, 0, 128, 0, Game->GetEWeaponScript("EwWindBlast"));
+         eweapon ewind = FireEWeaponDegAngle(EW_SCRIPT2, CenterX(this) - 8, CenterY(this) - 8, WrapDegrees(angle + inc * i), 250, 0, 128, 0, CheckEWeaponScript("EwWindBlast"));
          ewind->Unblockable = UNBLOCK_ALL;
       }
 
@@ -4039,7 +4039,7 @@ namespace EgentemNamespace {
          hammerFrame(this, 2, hammerSmashDamage, xy);
 
          if (i == 0) {
-            eweapon weap = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, 0, 128, 0, Game->GetEWeaponScript("HammerImpactEffect"),
+            eweapon weap = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, 0, 128, 0, CheckEWeaponScript("HammerImpactEffect"),
                {49852}
             );
 
@@ -4182,7 +4182,7 @@ namespace EgentemNamespace {
       int offset = Rand(360);
 
       for (int i = 0; i < 8; ++i) {
-         eweapon wave = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, shockwaveDamage, SPR_FLOOR_CRACK, 0, Game->GetEWeaponScript("ShockWave"),
+         eweapon wave = FireEWeaponDegAngle(EW_SCRIPT10, xy->X, xy->Y, 0, 0, shockwaveDamage, SPR_FLOOR_CRACK, 0, CheckEWeaponScript("ShockWave"),
             {SPR_FLOOR_CRACK, SFX_IMPACT_EXPLOSION, 8, SFX_POWDER_KEG_BLAST, SPR_EARTH_PILLAR, 12, offset + i * 45, false}
          );
 
@@ -4209,7 +4209,7 @@ namespace EgentemNamespace {
       for (int i = Screen->NumEWeapons; i > 0; --i) {
          eweapon e = Screen->LoadEWeapon(i);
 
-         if (e->Script == Game->GetEWeaponScript("ShockWave"))
+         if (e->Script == CheckEWeaponScript("ShockWave"))
             e->InitD[D_ERUPT] = true;
       }
 
@@ -4234,7 +4234,7 @@ namespace EgentemNamespace {
             EgentemWaitframe(this, egentem);
          }
 
-         eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 300, thrownHammerDamage, 134, 0, Game->GetEWeaponScript("ArcingWeapon"),
+         eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 300, thrownHammerDamage, 134, 0, CheckEWeaponScript("ArcingWeapon"),
             {-1, 0, AE_EGENTEM_HAMMER, this, pillarDamage, pillarExplosionDamage, true}
          );
          hammer->Unblockable = UNBLOCK_ALL;
@@ -4304,7 +4304,7 @@ namespace EgentemNamespace {
    }
 
    int numPillars() {
-      int slot = Game->GetEWeaponScript("EgentemPillar");
+      int slot = CheckEWeaponScript("EgentemPillar");
       int count;
 
       for (int i = Screen->NumEWeapons; i > 0; --i) {
@@ -4318,7 +4318,7 @@ namespace EgentemNamespace {
    }
 
    eweapon findPillar(npc this) {
-      int slot = Game->GetEWeaponScript("EgentemPillar");
+      int slot = CheckEWeaponScript("EgentemPillar");
       eweapon closest;
       int closestDistance = 1000;
 
@@ -4904,7 +4904,7 @@ namespace LatrosNamespace {
             for (int i = 0; i < 5; ++i) {
                LatrosWaitframe(this, latros, 12);
 
-               eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X, this->Y, true, 325, bombDamage, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
+               eweapon bomb = FireEWeaponAtHero(EW_BOMB, this->X, this->Y, true, 325, bombDamage, -1, 0, CheckEWeaponScript("ArcingWeapon"),
                   {-1, 0, AE_BOMB_EXPLOSION, this, bombDamage, bombExplosionDamage, true}
                );
                bomb->Unblockable = UNBLOCK_ALL;
@@ -4920,7 +4920,7 @@ namespace LatrosNamespace {
          case ITEM_ARROW3: {
             for (int i = 0; i < 5; ++i) {
                LatrosWaitframe(this, latros, 16);
-               eweapon arrow = FireEWeaponAtHero(EW_ARROW, this->X, this->Y, true, 350, arrowDamage, -1, 0, Game->GetEWeaponScript("ArcingWeapon"),
+               eweapon arrow = FireEWeaponAtHero(EW_ARROW, this->X, this->Y, true, 350, arrowDamage, -1, 0, CheckEWeaponScript("ArcingWeapon"),
                   {-1, 0, 0, this, arrowDamage, 0, true}
                );
                arrow->Unblockable = UNBLOCK_ALL;
@@ -4941,7 +4941,7 @@ namespace LatrosNamespace {
             for (int i = 0; i < 5; ++i) {
                int angle = Angle(this->X, this->Y, Hero->X, Hero->Y);
                FaceLink(this);
-               eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 325, hammerDamage, 134, 0, Game->GetEWeaponScript("ArcingWeapon"),
+               eweapon hammer = FireEWeaponAtHero(EW_SCRIPT10, this->X + VectorX(16, angle + 180), this->Y + VectorY(16, angle + 180), true, 325, hammerDamage, 134, 0, CheckEWeaponScript("ArcingWeapon"),
                   {-1, 0, AE_ROCK_PROJECTILE, this, hammerDamage, rubbleDamage, true}
                );
                hammer->Unblockable = UNBLOCK_ALL;
@@ -5016,7 +5016,7 @@ namespace LatrosNamespace {
 
    void throwBoomerang(npc this, Latros latros, itemdata id, int damage, int boomerangLevel) {
       FaceLink(this);
-      eweapon boomer = FireEWeaponDegAngle(EW_SCRIPT10, this->X, this->Y, (Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, damage, id->Sprites[0], 0, Game->GetEWeaponScript("Boomerang"),
+      eweapon boomer = FireEWeaponDegAngle(EW_SCRIPT10, this->X, this->Y, (Angle(this->X, this->Y, Hero->X, Hero->Y)), 300, damage, id->Sprites[0], 0, CheckEWeaponScript("Boomerang"),
          {48, 10, 0, this, damage}
       );
 
@@ -5175,7 +5175,7 @@ namespace LatrosNamespace {
             flame->Step = 225;
             flame->Angular = true;
             flame->Angle = DirRad(flame->Dir);
-            flame->Script = Game->GetEWeaponScript("StopperKiller");
+            flame->Script = CheckEWeaponScript("StopperKiller");
             flame->InitD[0] = 30;
             flame->InitD[1] = 200;
             flame->Gravity = true;

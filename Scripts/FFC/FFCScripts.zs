@@ -277,7 +277,7 @@ ffc script Thrower {
                if (projectileType < 0 || projectileType >= AE_DEBUG)
                   projectileType = AE_DEBUG;
 
-               eweapon projectile = FireEWeaponAtHero(projectileId, CenterX(this) - 8, CenterY(this) - 8, true, 255, damage, spriteId, sfx, Game->GetEWeaponScript("ArcingWeapon"),
+               eweapon projectile = FireEWeaponAtHero(projectileId, CenterX(this) - 8, CenterY(this) - 8, true, 255, damage, spriteId, sfx, CheckEWeaponScript("ArcingWeapon"),
                   {-1, 0, projectileType, 0, 8, 0, false}
                );
                projectile->Unblockable = UNBLOCK_ALL;
