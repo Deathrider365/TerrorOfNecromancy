@@ -659,7 +659,7 @@ ffc script CapturedSequenceImprisioned {
    void linkAttemptsToBreakOut(ffc this, dmapdata dmapData, mapdata mapDataLayer1, int soldierCombo1X, int soldierCombo2X, ) {
       if (!getScreenD(SCREEND_SEQUENCE_ESCAPE_RETRY_LOOP)) {
          this->Data = 7014;
-         Audio->PlayMusic(0);
+         MUSIC_SILENCE->Play();
 
          Screen->Message(243);
          Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
@@ -670,6 +670,7 @@ ffc script CapturedSequenceImprisioned {
       }
 
       Game->LoadDMapData(Game->CurDMap)->Music = Audio->LoadMusicData(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE);
+      Audio->PlayMusic(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE);
 
       if (!getScreenD(SCREEND_BEAT_FIRST_SCREEN_ENEMIES)) {
          this->Data = CMB_INVIS;
