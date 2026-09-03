@@ -802,7 +802,9 @@ namespace LeviathanNamespace {
 }
 
 // clang-format off
-@Author("Moosh, modified by Deathrider365")
+@Author("Moosh, modified by Deathrider365"),
+@InitD0("spawnCondition"),
+@InitDHelp0("1 - Secrets . N/A\n 2 - Proximity . Distance in px away to trigger\n 3 - Item . ItemId")
 npc script Legionnaire {
    // clang-format on
 
@@ -822,7 +824,7 @@ npc script Legionnaire {
 
    CONFIG MESSAGE_LEGIONNAIRE_INTRO = 811;
 
-   void run(int enemyid, int spawnCondition) {
+   void run(int spawnCondition) {
       CONFIG SPAWN_CONDITION_SECRETS = 1;
       CONFIG SPAWN_CONDITION_PROXIMITY = 2;
       CONFIG SPAWN_CONDITION_ITEM = 3;
@@ -841,7 +843,7 @@ npc script Legionnaire {
       if (!Screen->ComboF[ComboAt(this->X + 8, this->Y + 8)]) { //TODO enhance to check CF_ENEMY0-CF_ENEMY9
          this->X = 120;
          this->Y = 80;
-         this->Z = 0;
+         // this->Z = 0;
       }
 
       this->Flags[NPCF_ISINVISIBLE] = true;
@@ -864,8 +866,7 @@ npc script Legionnaire {
          }
       }
 
-      unless (IS_CLONE)
-         Audio->PlayEnhancedMusic("OoT - Middle Boss.ogg"); //TODO dont refer to music files directly (I already added the legionnaire music to the engine)
+      unless (IS_CLONE) Audio->PlayMusic(MUSIC_LEGIONNAIRE_BATTLE);
 
       // Intro Animation
       if (!getScreenD(INTRO_SCREEND))
@@ -972,7 +973,7 @@ npc script Legionnaire {
 
       while (this->Z > 0) {
          disableLink();
-         this->Z -= 2;
+         this->Z -= 3;
          LegionnaireWaitframe(this);
       }
 

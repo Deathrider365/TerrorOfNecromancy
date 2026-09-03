@@ -502,7 +502,7 @@ ffc script CapturedSequenceImprisioned {
       if (getScreenD(24, 0x33, SCREEND_SEQUENCE_DONE))
          Quit();
       if (getScreenD(SCREEND_BEAT_FIRST_SCREEN_ENEMIES)) {
-         dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+         Game->LoadDMapData(Game->CurDMap)->Music = Audio->LoadMusicData(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE);
          Quit();
       }
 
@@ -520,8 +520,8 @@ ffc script CapturedSequenceImprisioned {
          this->Data = 7015;
          this->X = 144;
          this->Y = 112;
-         dmapData->Music->SetPath("Castlevania 64 - Setting.ogg");
-         Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0);
+
+         Game->LoadDMapData(Game->CurDMap)->Music = Audio->LoadMusicData(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_IMPRISONED);
       }
       else {
          falseZeldaGotcha(this, mapDataLayer1, mapDataLayer3, soldierCombo1X, soldierCombo2X);
@@ -551,7 +551,7 @@ ffc script CapturedSequenceImprisioned {
    void falseZeldaGotcha(ffc this, mapdata mapDataLayer1, mapdata mapDataLayer3, int soldierCombo1X, int soldierCombo2X) {
       until(Hero->X < 48 && Hero->Y < 48) Waitframe();
 
-      Audio->PlayEnhancedMusic(NULL, 0);
+      Audio->PlayMusic(0);
       disableLink();
       Audio->PlaySound(SFX_SHUTTER_CLOSE);
       mapDataLayer1->ComboD[98] = 7288;
@@ -607,7 +607,8 @@ ffc script CapturedSequenceImprisioned {
       Audio->PlaySound(SFX_SHUTTER_OPEN);
       mapDataLayer1->ComboD[98] = 0;
       mapDataLayer3->ComboD[82] = 0;
-      Audio->PlayEnhancedMusic("Castlevania 64 - Setting.ogg", 0);
+
+      Audio->PlayMusic(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_IMPRISONED);
 
       for (int i = 0; i < 32; ++i) {
          disableLink();
@@ -658,7 +659,7 @@ ffc script CapturedSequenceImprisioned {
    void linkAttemptsToBreakOut(ffc this, dmapdata dmapData, mapdata mapDataLayer1, int soldierCombo1X, int soldierCombo2X, ) {
       if (!getScreenD(SCREEND_SEQUENCE_ESCAPE_RETRY_LOOP)) {
          this->Data = 7014;
-         Audio->PlayEnhancedMusic(NULL, 0);
+         Audio->PlayMusic(0);
 
          Screen->Message(243);
          Screen->FastCombo(1, soldierCombo1X, 112, 7014, 7, OP_OPAQUE);
@@ -668,8 +669,7 @@ ffc script CapturedSequenceImprisioned {
          setScreenD(SCREEND_SEQUENCE_ESCAPE_RETRY_LOOP, true);
       }
 
-      dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
-      Audio->PlayEnhancedMusic("Castlevania Lament of Innocence-Elemental Tactician.ogg", 0);
+      Game->LoadDMapData(Game->CurDMap)->Music = Audio->LoadMusicData(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE);
 
       if (!getScreenD(SCREEND_BEAT_FIRST_SCREEN_ENEMIES)) {
          this->Data = CMB_INVIS;
@@ -871,17 +871,13 @@ ffc script CapturedSequenceNecromancer {
    void run() {
       //Only run this script when the sequence is not done and the last enemies screen screed was set
       if (getScreenD(SCREEND_SEQUENCE_DONE) || !getScreenD(33, 0x33, SCREEND_BEAT_ENEMIES_ON_LAST_SCREEN)) {
-         dmapdata dmapDataForThis = Game->LoadDMapData(Game->CurDMap);
-         dmapDataForThis->Music->SetPath("FFIV - Baron Castle.ogg");
-
-         //Setting the neutral music for the dungeons now if the whole necromancer sequence is already done
-         dmapdata dmapData = Game->LoadDMapData(33);
-         dmapData->Music = Audio->LoadMusicData(32);
+         Trace("Here");
+         Game->LoadDMapData(33)->Music = Audio->LoadMusicData(MUSIC_SEIZED_TOWER_DUNGEON_NEUTRAL);
          Quit();
       }
 
-      dmapdata dmapData = Game->LoadDMapData(Game->CurDMap);
-      dmapData->Music->SetPath("Castlevania Lament of Innocence-Elemental Tactician.ogg");
+      if (!Audio->LoadMusicData(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE)->Active)
+         Audio->PlayMusic(MUSIC_SEIZED_GUARD_TOWER_DUNGEON_ESCAPE);
 
       CONFIG COMBO_NECROMANCER = 6744;
       CONFIG COMBO_RIGHT_HAND = 6753;

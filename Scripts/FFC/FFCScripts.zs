@@ -1294,3 +1294,40 @@ ffc script LoreBookshelf {
       }
    }
 }
+
+@Author("Deathrider")
+ffc script Lv9LegionnaireLockIn {
+   CONFIG SHUTTER_CLOSE_LEFT = 6960;
+   CONFIG SHUTTER_CLOSE_RIGHT = 6964;
+   CONFIG SHUTTER_OPEN_LEFT = 6962;
+   CONFIG SHUTTER_OPEN_RIGHT = 6966;
+
+   void run() {
+      if (Screen->State[ST_SECRET])
+         Quit();
+
+      mapdata mapDataLayer1 = Game->LoadTempScreen(1);
+
+      loop() {
+         if (Audio->LoadMusicData(MUSIC_LEGIONNAIRE_BATTLE)->Active) {
+            if (mapDataLayer1->ComboD[67] != SHUTTER_CLOSE_LEFT + 1) {
+               mapDataLayer1->ComboD[67] = SHUTTER_CLOSE_LEFT;
+               mapDataLayer1->ComboD[83] = SHUTTER_CLOSE_LEFT;
+               mapDataLayer1->ComboD[68] = SHUTTER_CLOSE_RIGHT;
+               mapDataLayer1->ComboD[84] = SHUTTER_CLOSE_RIGHT;
+               Audio->PlaySound(SFX_SHUTTER_CLOSE);
+            }
+         }
+         else if (Screen->State[ST_SECRET]) {
+            mapDataLayer1->ComboD[67] = SHUTTER_OPEN_LEFT;
+            mapDataLayer1->ComboD[83] = SHUTTER_OPEN_LEFT;
+            mapDataLayer1->ComboD[68] = SHUTTER_OPEN_RIGHT;
+            mapDataLayer1->ComboD[84] = SHUTTER_OPEN_RIGHT;
+            Audio->PlaySound(SFX_SHUTTER_OPEN);
+            Quit();
+         }
+
+         Waitframe();
+      }
+   }
+}

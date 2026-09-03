@@ -731,7 +731,7 @@ global script onSaveLoad {
 
    void run() {
       if (auriVillageMusicSet)
-         Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(93); //Dmap 7, NEI Auri Village TODO use this not audio file names
+         Game->LoadDMapData(Game->GetDMap("NEI Auri Village"))->Music = Audio->LoadMusicData(MUSIC_AURI_VILLAGE_SAVED);
 
       for (int i = 0; i < SizeOfArray(elevatorsAtHome); ++i)
          elevatorsAtHome[i] = true;
