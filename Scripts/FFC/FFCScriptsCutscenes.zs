@@ -872,7 +872,6 @@ ffc script CapturedSequenceNecromancer {
    void run() {
       //Only run this script when the sequence is not done and the last enemies screen screed was set
       if (getScreenD(SCREEND_SEQUENCE_DONE) || !getScreenD(33, 0x33, SCREEND_BEAT_ENEMIES_ON_LAST_SCREEN)) {
-         Trace("Here");
          Game->LoadDMapData(33)->Music = Audio->LoadMusicData(MUSIC_SEIZED_TOWER_DUNGEON_NEUTRAL);
          Quit();
       }
