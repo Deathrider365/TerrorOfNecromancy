@@ -6011,7 +6011,9 @@ npc script Riafron {
       //    -
       //    -
       //    -
-      //    -
+      // Boss alternates between top down (here) and side view, Think Volvagia from OoT and Z2 combined, jumping between the two.
+      // In top down, Riafron will go into the lava and come out and fly around and shoot fire similar to OoT Volvagia
+      // When he dives specifically in the corners of the lava pool is when he transitions to sideview where he behaves exactly like Z2
    }
 }
 
