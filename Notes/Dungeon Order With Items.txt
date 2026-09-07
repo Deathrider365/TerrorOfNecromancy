@@ -165,7 +165,7 @@ Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane S
       - Swindler's Guide (3)                                            - 1325
       - Triforce of Death Shard                                         - 9999
 
-(25) Optional Dungeon 10: Isolated Spire                                 - Elder Wand (2)
+(25) Optional Dungeon 10: Isolated Spire                                - Elder Wand (2)
 
 (11) Level 11: Towers of Dichotomy				                           - Rod of Elements (1), Rod of Frostfire (2)
 can buy in carulem at some point Diver's Flippers (2)
