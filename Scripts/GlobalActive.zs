@@ -509,6 +509,11 @@ global script GlobalScripts {
                case 0x48: return 000100b;
             }
             break;
+         case 139: //NEI Primeval Geyser
+            switch (screen) {
+               case 0x00: return 000100b;
+            }
+            break;
       }
       return 0;
    }
