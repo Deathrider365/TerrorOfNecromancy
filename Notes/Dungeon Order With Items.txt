@@ -165,7 +165,9 @@ Battle Arena 3: Exiled Zora's Domain		 	                           - Hurricane S
       - Swindler's Guide (3)                                            - 1325
       - Triforce of Death Shard                                         - 9999
 
-(25) Optional Dungeon 10: Isolated Spire                                - Elder Wand (2)
+(25) Primeval Geyser                                                    - idk yet
+
+(26) Optional Dungeon 10: Isolated Spire                                - Elder Wand (2)
 
 (11) Level 11: Towers of Dichotomy				                           - Rod of Elements (1), Rod of Frostfire (2)
 can buy in carulem at some point Diver's Flippers (2)
@@ -174,7 +176,7 @@ Battle Arena 4: Secluded Alcove                                         - Marksm
 Auri Desert Wastes                                                      - Nothing
 
 (12) Level 12: Cathedral of the Accursed			                        - Mirror Shield (3)
-(26) Optional Dungeon 11: Shrine of Blasphemy                           - Portal Sphere
+(27) Optional Dungeon 11: Shrine of Blasphemy                           - Portal Sphere
 
 Goddess Sword is obtained once you have all shards to the golden triforces and you go to a Golden Link statue
 Goddess Mail is obtained once you have all shards to the golden triforces and you go to a different Golden Link statue
@@ -184,8 +186,8 @@ Upon getting the Goddess set, for every Leviathan scale you have go to the smith
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ---Version 1.0.0---
-(27) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
-(28) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
+(28) Optional Dungeon 11: Chapel of Rumination:                       - Light Arrow (4)
+(29) Optional Dungeon 12: <Final Hardest Postgame Dungeon>            - idk
 - Main story fleshed out (cutscenes) and can beat the game
 - Paladin Mode
 - Some optional content, no post game
