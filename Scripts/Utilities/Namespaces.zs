@@ -945,8 +945,9 @@ namespace IntroMovie {
    }
 }
 
-namespace Parallax {
-    CONFIGB WARN_ON_UNIT_SCALE = false; // If true, the script will print a warning to the console if a setup appears to have the unit scale flag set wrong
+namespace Parallax
+{
+    CONFIGB WARN_ON_UNIT_SCALE = true; // If true, the script will print a warning to the console if a setup appears to have the unit scale flag set wrong
 
     DEFINEL PLF_IS_SCREEN              = 0x001L; // Uses DrawScreen()
     DEFINEL PLF_TRANS                  = 0x002L;
@@ -960,7 +961,8 @@ namespace Parallax {
     DEFINEL PLF_NO_CLAMP_LERP          = 0x200L;
     DEFINEL PLF_RENDER_TARGET          = 0x400L;
 
-    enum ParallaxLayerComboFlags {
+    enum ParallaxLayerComboFlags
+    {
         FLAG_DEFINITION_USE_SCREEN_DRAWS,
         FLAG_DEFINITION_TRANSPARENT,
         FLAG_DEFINITION_LOWER_FLOOR,
@@ -972,12 +974,13 @@ namespace Parallax {
         FLAG_DEFINITION_NO_WRAP_Y,
         FLAG_DEFINITION_RANDOMIZE_STARTING_POSITION,
         FLAG_DEFINITION_VELOCITY_IGNORES_SCALE,
-        FLAG_DEFINITION_UNITS_IN_SCREENS,
+        FLAG_DEFINITION_UNITS_IN_PIXELS,
         FLAG_DEFINITION_LERP_ISNT_CLAMPED,
         FLAG_DEFINITION_USE_RENDER_TARGET
     };
 
-    enum ParallaxLayerAttributes {
+    enum ParallaxLayerAttributes
+    {
         ATTRIBUTE_DEFINITION_BG_COLOR,
         ATTRIBUTE_DEFINITION_UPDATE_FRAMES,
         ATTRIBUTE_DEFINITION_STARTING_X,
@@ -997,7 +1000,8 @@ namespace Parallax {
         ATTRIBUTE_DEFINITION_ROTATE_PARALLAX
     };
 
-    enum ParallaxLayerInitD {
+    enum ParallaxLayerInitD
+    {
         INITD_CONFIG_COMBO,
         INITD_CONFIG_NUM_COMBOS,
         INITD_CONFIG_FLOOR_MAP,
@@ -1014,7 +1018,8 @@ namespace Parallax {
         INITD_DEFINITION_SCALE
     };
 
-    enum ParallaxLayerArray {
+    enum ParallaxLayerArray
+    {
         PLARRAY_CURRENT_LAYERS,
         PLARRAY_NEW_LAYERS,
         PLARRAY_BACKUP_LAYERS
@@ -1022,11 +1027,13 @@ namespace Parallax {
 
     ParallaxContainer ParallaxLayers;
 
-    int RegionScreenOrigin() {
-        return Region->OriginScreenIndex*10000;
+    int RegionScreenOrigin()
+    {
+        return Region->OriginScreenIndex;
     }
 
-    class ParallaxContainer {
+    class ParallaxContainer
+    {
         ParallaxLayer CurrentLayers[0]; // The currently displaying set of layers
         ParallaxLayer NewLayers[0]; // Used when scroll warping into a screen with a different set of layers
         ParallaxLayer BackupLayers[0]; // Used to to store persistent layers underneath temporary ones
@@ -1052,7 +1059,8 @@ namespace Parallax {
 
         int Slot_ConfigParallaxFFC;
 
-        ParallaxContainer() {
+        ParallaxContainer()
+        {
             Slot_ConfigParallaxFFC = Game->GetFFCScript("ConfigParallaxFFC");
             DrawChecker = new bitmap(1, 1);
 
@@ -1060,7 +1068,8 @@ namespace Parallax {
         }
 
         // Reset variables when created
-        void Init() {
+        void Init()
+        {
             LastDMap = -1;
             LastScreen = Game->CurScreen;
             NoScrollLastDMap = -1;
@@ -1075,7 +1084,8 @@ namespace Parallax {
         }
 
         // Clears data about the current layer, when cleaning up temporary layers
-        void ClearLayerFloorAndComboData() {
+        void ClearLayerFloorAndComboData()
+        {
             LowerFloorMap = 0;
             LowerFloorScreen = 0;
             RefCombos = 0;
@@ -1083,16 +1093,17 @@ namespace Parallax {
         }
 
         // Called when starting or ending a scroll to reset the parallax tracking, since scrolling uses a different reference point
-        void ResetParallax() {
+        void ResetParallax()
+        {
             LastX = Viewport->X;
             LastY = Viewport->Y;
         }
 
         // Called every frame
-        void Update() {
+        void Update()
+        {
             if(Game->CurScreen>=0x80)
                 return;
-
             Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
 
             UpdateScreenChanges();
@@ -1103,7 +1114,8 @@ namespace Parallax {
         }
 
         // Returns true if draw commands were unable to execute the previous frame
-        bool CheckCanDrawDesync() {
+        bool CheckCanDrawDesync()
+        {
             int prevColor = DrawCheckerColor;
             DrawCheckerColor = (DrawCheckerColor+1)%0xF;
             int getPixel = DrawChecker->GetPixel(0, 0);
@@ -1116,21 +1128,24 @@ namespace Parallax {
         }
 
         // Called by the generic script to preload layers off of scripts
-        void Preload() {
+        void Preload()
+        {
             bool found = RunFFCScriptsRemote();
-
-            if(found) {
+            if(found)
+            {
                 UpdateLayers(true);
                 HasDrawn = true;
             }
         }
 
         // Update tracking of screen changes
-        void UpdateScreenChanges() {
-            if(LastScreen != Game->CurScreen || LastDMap != Game->CurDMap) {
-                if(TemporaryLayer) {
+        void UpdateScreenChanges()
+        {
+            if(LastScreen!=Game->CurScreen||LastDMap!=Game->CurDMap)
+            {
+                if(TemporaryLayer)
+                {
                     DisposeOfTempLayer = CanLayerDispose();
-
                     if(DisposeOfTempLayer)
                         TemporaryLayer = false;
                 }
@@ -1406,6 +1421,7 @@ namespace Parallax {
         long Flags;
 
         bool IsNew;
+        bool Valid;
 
         ParallaxLayer(combodata cd, int floorMap, int floorScreen)
         {
@@ -1422,6 +1438,8 @@ namespace Parallax {
         // Runs every frame to update the position of the layer and then draw it
         void Update(int dX, int dY)
         {
+            if(!Valid)
+                return;
             if(UpdateFreq>0)
             {
                 ++UpdateFrames;
@@ -1441,6 +1459,8 @@ namespace Parallax {
         // Runs on preload frames after being newly created off an FFC, for drawing during certain timings
         void UpdatePreload()
         {
+            if(!Valid)
+                return;
             UpdateLerp();
             UpdateWrap();
             Draw();
@@ -1449,6 +1469,8 @@ namespace Parallax {
         // Redraws the whole bitmap used for the layer. Expensive so ideally only called when it needs to be
         void RefreshBitmap()
         {
+            if(!Valid)
+                return;
             int lyr = 0;
             int rt = SourceScreen;
             int offset = 0;
@@ -2122,8 +2144,8 @@ namespace Parallax {
     @FlagHelp9("If checked, he starting position of the layer will be randomzied based on its size."),
     @Flag10("Velocity Ignores Scale"),
     @FlagHelp10("If checked, the layer's movement will be the same no matter its scale."),
-    @Flag11("Use Screens As Units"),
-    @FlagHelp11("If checked, the following will use screen lengths instead of pixels for their units:\nStarting X, Starting Y, Width, Height, Lerp Min X, Lerp Max X, Lerp Min Y, Lerp Max Y"),
+    @Flag11("Use Pixels As Units"),
+    @FlagHelp11("If checked, the following will use pixels instead of screen lengths for their units:\nWidth, Height, Lerp Min X, Lerp Max X, Lerp Min Y, Lerp Max Y, Lerp Ref Min X, Lerp Ref Max X, Lerp Ref Min Y, Lerp Ref Max Y"),
     @Flag12("Lerp Isn't Clamped"),
     @FlagHelp12("Normally lerp clamps the position of the layer to the upper and lower bounds. If Ref Min and Max settings are used, however, you can travel outside of these boundaries. This setting will allow the layer to travel outside of its normal boundaries when those settings are used."),
     @Flag13("Use Render Target"),
@@ -2156,9 +2178,9 @@ namespace Parallax {
     @Attribute3("Y Offset"),
     @AttributeHelp3("The starting Y position for the layer. If lerp flags are set, this is added to the final position."),
     @Attribute4("Width"),
-    @AttributeHelp4("The width of the layer in pixels."),
+    @AttributeHelp4("The width of the layer in screens or pixels."),
     @Attribute5("Height"),
-    @AttributeHelp5("The height of the layer in pixels."),
+    @AttributeHelp5("The height of the layer in screens or pixels."),
     @Attribute6("Lerp Min X"),
     @AttributeHelp6("If using a linear interpolation, this is the minimum X position of the layer."),
     @Attribute7("Lerp Max X"),
@@ -2189,8 +2211,21 @@ namespace Parallax {
         }
         void Load(combodata cd, ParallaxLayer lyr, int floorMap, int floorScreen)
         {
+            int cdScript = Game->GetComboScript("ParallaxDefinition");
+            if(cdScript==-1)
+            {
+                printf("ERROR: ParallaxDefinition combo script is unassigned.\n", cd->ID);
+                return;
+            }
+            if(cd->Script!=cdScript)
+            {
+                if(cd->ID!=0)
+                    printf("ERROR: Combo %d does not have the ParallaxDefinition script and cannot be used as a parallax layer.\n", cd->ID);
+                return;
+            }
             int vw = 256;
             int vh = DMapViewportHeight();
+            lyr->Valid = true;
 
             // Flags
             if(cd->Flags[FLAG_DEFINITION_USE_SCREEN_DRAWS])
@@ -2217,7 +2252,7 @@ namespace Parallax {
                 lyr->Flags |= PLF_RENDER_TARGET;
             int scrMultX = 1;
             int scrMultY = 1;
-            if(cd->Flags[FLAG_DEFINITION_UNITS_IN_SCREENS])
+            if(!cd->Flags[FLAG_DEFINITION_UNITS_IN_PIXELS])
             {
                 scrMultX = 256;
                 scrMultY = 176;
@@ -2228,8 +2263,8 @@ namespace Parallax {
             if(lyr->Scale<=0)
                 lyr->Scale = 1;
             // Starting Position
-            lyr->XOffset = -cd->Attributes[ATTRIBUTE_DEFINITION_STARTING_X]*scrMultX*lyr->Scale;
-            lyr->YOffset = -cd->Attributes[ATTRIBUTE_DEFINITION_STARTING_Y]*scrMultY*lyr->Scale;
+            lyr->XOffset = -cd->Attributes[ATTRIBUTE_DEFINITION_STARTING_X]*lyr->Scale;
+            lyr->YOffset = -cd->Attributes[ATTRIBUTE_DEFINITION_STARTING_Y]*lyr->Scale;
             lyr->X = lyr->XOffset;
             lyr->Y = lyr->YOffset;
             // Size Stuff
@@ -2305,13 +2340,13 @@ namespace Parallax {
                 ATTRIBUTE_DEFINITION_LERP_MIN_X, ATTRIBUTE_DEFINITION_LERP_MAX_X, ATTRIBUTE_DEFINITION_LERP_MIN_Y, ATTRIBUTE_DEFINITION_LERP_MAX_Y
             };
             int sz = SizeOfArray(attribs);
-            if(cd->Flags[FLAG_DEFINITION_UNITS_IN_SCREENS])
+            if(!cd->Flags[FLAG_DEFINITION_UNITS_IN_PIXELS])
             {
                 for(int i=0; i<sz; ++i)
                 {
                     if(Abs(cd->Attributes[attribs[i]])>0x7F)
                     {
-                        printf("WARNING: Values on combo %d are higher than unit scale would indicate. The flag \"Use Screens As Units\" is set, so numbers are expected to be small, representing screen lengths. If this error is unhelpful, you can disable it by setting WARN_ON_UNIT_SCALE to false.\n", cd->ID);
+                        printf("WARNING: Values on combo %d are higher than unit scale would indicate. The flag \"Use Pixels As Units\" is unset, so numbers are expected to be small, representing screen lengths. If this error is unhelpful, you can disable it by setting WARN_ON_UNIT_SCALE to false.\n", cd->ID);
                     }
                 }
             }
@@ -2328,8 +2363,20 @@ namespace Parallax {
                         nonZero = true;
                 }
                 if(nonZero)
-                    printf("WARNING: Values on combo %d are lower than unit scale would indicate. The flag \"Use Screens As Units\" is unset, so numbers are expected to be large, representing pixel lengths. If this error is unhelpful, you can disable it by setting WARN_ON_UNIT_SCALE to false.\n", cd->ID);
+                    printf("WARNING: Values on combo %d are lower than unit scale would indicate. The flag \"Use Pixels As Units\" is set, so numbers are expected to be large, representing pixel lengths. If this error is unhelpful, you can disable it by setting WARN_ON_UNIT_SCALE to false.\n", cd->ID);
             }
+        }
+    }
+}
+
+ffc script DrawScreenTest {
+    void run() {
+        loop() {
+            bitmap b = new bitmap(256, 176);
+            b->DrawScreen(0, 66, 0x1B, 0, 0, 0);
+            b->Blit(6, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
+
+            Waitframe();
         }
     }
 }
