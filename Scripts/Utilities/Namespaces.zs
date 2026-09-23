@@ -2369,16 +2369,4 @@ namespace Parallax
     }
 }
 
-ffc script DrawScreenTest {
-    void run() {
-        loop() {
-            bitmap b = new bitmap(256, 176);
-            b->DrawScreen(0, 66, 0x1B, 0, 0, 0);
-            b->Blit(6, RT_SCREEN, 0, 0, 256, 176, 0, 0, 256, 176, 0, 0, 0, BITDX_NORMAL, 0, true);
-
-            Waitframe();
-        }
-    }
-}
-
 

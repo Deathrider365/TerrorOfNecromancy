@@ -1331,3 +1331,48 @@ ffc script Lv9LegionnaireLockIn {
       }
    }
 }
+
+@InitD0("dirToWarpIn"),
+@InitDHelp0("Direction Link is facing entering the screen\nDIR_UP = 0\n DIR_DOWN = 1\n DIR_LEFT = 2\n DIR_RIGHT = 3"),
+@InitD1("dirToWarpOut"),
+@InitDHelp1("Direction Link is facing warping away\nDIR_UP = 0\n DIR_DOWN = 1\n DIR_LEFT = 2\n DIR_RIGHT = 3"),
+@InitD2("warpIndex"),
+@InitDHelp2("A = 0\n B = 1\n C = 2\n D = 3"),
+@Author("Deathrider")
+ffc script IsolatedSpireWarps {
+   void run(int dirToWarpIn, int dirToWarpOut, int warpIndex, int dmap, int screen, bool buttonWarps) {
+      if (Hero->X == this->X && Hero->Y == this->Y)
+         warping(this, dirToWarpIn, dmap, screen, warpIndex, false);
+
+      if (buttonWarps) {
+         until ((Abs(Hero->X - this->X) < 2 && Abs(Hero->Y - this->Y) < 2) && Input->Button[dirToWarpOut])
+            Waitframe();
+      }
+      else {
+         while (Abs(Hero->X - this->X) < 16 && Abs(Hero->Y - this->Y) < 16)
+            Waitframe();
+
+         while (Abs(Hero->X - this->X) > 2 || Abs(Hero->Y - this->Y) > 2)
+            Waitframe();
+      }
+
+      warping(this, dirToWarpOut, dmap, screen, warpIndex, true);
+   }
+
+   void warping(ffc this, int dirToWarp, int dmap, int screen, int warpIndex, bool warpLink) {
+      Hero->X = this->X;
+      Hero->Dir = DIR_UP;
+
+      //Play that walking sound in and out of places from FSA
+
+      for (int i = 0; i < 90; ++i) {
+         //Fade in from invisible
+         NoAction();
+         Input->Button[dirToWarp] = true;
+         Waitframe();
+      }
+
+      if (warpLink)
+         Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, warpIndex, WARPEFFECT_INSTANT, 0, WARP_FLAG_NONE, dirToWarp);
+   }
+}
