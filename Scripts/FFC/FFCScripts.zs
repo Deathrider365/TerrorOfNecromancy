@@ -1361,14 +1361,20 @@ ffc script IsolatedSpireWarps {
 
    void warping(ffc this, int dirToWarp, int dmap, int screen, int warpIndex, bool warpLink) {
       Hero->X = this->X;
-      Hero->Dir = DIR_UP;
+      Hero->Dir = dirToWarp;
+      bool isHorizationDir = dirToWarp > 1;
 
       //Play that walking sound in and out of places from FSA
 
-      for (int i = 0; i < 90; ++i) {
+      for (int i = 0; i < (isHorizationDir ? 45 : 90); ++i) {
          //Fade in from invisible
          NoAction();
-         Input->Button[dirToWarp] = true;
+
+         if (isHorizationDir && i % 10 == 0)
+            Input->Button[dirToWarp] = true;
+         else
+            Input->Button[dirToWarp] = true;
+
          Waitframe();
       }
 
