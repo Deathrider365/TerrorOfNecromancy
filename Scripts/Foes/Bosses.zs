@@ -1687,7 +1687,7 @@ namespace HazarondNamespace {
       }
    }
 
-   enum Attacks {
+   enum Attacks { //TODO this enum is unused, use it! Also ground pound? Never implemented that... yet
       GROUND_POUND,
       OIL_CANNON,
       OIL_SPRAY,

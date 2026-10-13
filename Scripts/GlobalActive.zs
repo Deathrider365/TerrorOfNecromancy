@@ -22,11 +22,11 @@ global script GlobalScripts {
       int map = -1, dmap = -1, screen = -1;
 
       LinkMovement_Init();
-      // StartGhostZH();
       DifficultyGlobal_Init();
 
       Game->MaxLWeapons(1024);
       Game->MaxEWeapons(1024);
+
 
       mapdata mapData[6];
       bitmap overheadBitmaps[7];
@@ -47,6 +47,8 @@ global script GlobalScripts {
       loop () {
          gameframe = (gameframe + 1) % 3600;
 
+         handleDayNight();
+
          onContHP = Hero->HP;
          onContMP = Hero->MP;
 
@@ -57,7 +59,6 @@ global script GlobalScripts {
          checkHeartCharge();
 
          LinkMovement_Update1();
-         // UpdateGhostZH1();
 
          DifficultyGlobal_Update();
          DifficultyGlobal_EnemyUpdate();
@@ -137,6 +138,135 @@ global script GlobalScripts {
          BoomerangNerf();
 
          Waitframe();
+      }
+   }
+
+   void handleDayNight() { //24 hr time
+      if (gameframe % 60 == 0) {//TODO need to get clock combos working, also set to a good timing for the cycle
+         if (gameClockMinute == 59) {
+            gameClockMinute = 0;
+
+            if (gameClockHour == 23)
+               gameClockHour = 0;
+            else
+               gameClockHour++;
+         }
+         else
+            gameClockMinute++;
+      }
+
+      //Night = 20 -> 4
+      //Morning = 4 -> 8
+      //Day = 8 -> 16
+      //Evening = 16 -> 20
+
+      if (gameClockHour <= 8 || gameClockHour >= 16) { //is not day
+         CONFIG TRANS_RADIUS = 36; //base on lantern level, also will have to handle candles and other fire sprites e and l
+         CONFIG CMB_BLACK = 37;
+
+         Color C_NIGHT = C_BLACK;
+         Color C_EVENING = C_BLACK;
+         Color C_MORNING = C_BLACK;
+
+         bitmap nightDarkness = new bitmap(Viewport->Width, Viewport->Height); //TODO there is an issue when opening the closing the submenu
+         // bitmap lanternCircle = new bitmap(Viewport->Width, Viewport->Height);
+
+         nightDarkness->Clear(0);
+         // lanternCircle->Clear(0);
+
+         for (int i = 0; i < NUM_COMBO_POS; ++i) {
+            if (HeroIsScrollingOrWarping())
+               nightDarkness->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_NX], ComboY(i) + Game->Scrolling[SCROLL_NY], CMB_BLACK, 0);
+
+            nightDarkness->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_OX], ComboY(i) + Game->Scrolling[SCROLL_OY], CMB_BLACK, 0);
+         }
+
+         Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
+
+         if (gameClockHour >= 4 && gameClockHour <= 8) { //Morning
+            Game->GlobalStates[GAME_STATE_GAME_TIME_NIGHT] = 0;
+            Game->GlobalStates[GAME_STATE_GAME_TIME_MORNING] = -1;
+
+            if (shouldDrawDarkness())
+               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+            // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
+         }
+         if (gameClockHour >= 16 && gameClockHour <= 20) { //Evening
+            Game->GlobalStates[GAME_STATE_GAME_TIME_DAY] = 0;
+            Game->GlobalStates[GAME_STATE_GAME_TIME_EVENING] = -1;
+
+            if (shouldDrawDarkness())
+               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+            // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
+         }
+         else if (gameClockHour >= 20 || gameClockHour <= 4) { //Night
+            Game->GlobalStates[GAME_STATE_GAME_TIME_EVENING] = 0;
+            Game->GlobalStates[GAME_STATE_GAME_TIME_NIGHT] = -1;
+
+            if (shouldDrawDarkness())
+               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+            // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
+         }
+      }
+      else { //Day
+         Game->GlobalStates[GAME_STATE_GAME_TIME_MORNING] = 0;
+         Game->GlobalStates[GAME_STATE_GAME_TIME_DAY] = -1;
+      }
+
+      Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT;
+
+      Trace(gameClockMinute);
+      Trace(gameClockHour);
+   }
+
+   bool shouldDrawDarkness() {
+      switch (Game->CurDMap) {
+         case 0:
+         case 4:
+         case 7:
+         case 8:
+         case 9:
+         case 10:
+         case 11:
+         case 13:
+         case 14:
+         case 15:
+         case 16:
+         case 28:
+         case 29:
+         case 32:
+         case 34:
+         case 38:
+         case 39:
+         case 41:
+         case 44:
+         case 49:
+         case 57:
+         case 58:
+         case 59:
+         case 60:
+         case 61:
+         case 62:
+         case 63:
+         case 64:
+         case 65:
+         case 72:
+         case 94:
+            switch(Game->CurScreen) {
+               case 0x09:
+               case 0x0B:
+               case 0x0D:
+                  return true;
+            }
+         case 101:
+         case 114:
+         case 124:
+         case 132:
+         case 137:
+         case 148:
+            return true;
+         default:
+            return false;
       }
    }
 

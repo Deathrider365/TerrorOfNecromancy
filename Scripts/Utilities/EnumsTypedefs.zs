@@ -12,6 +12,9 @@ bool disableTrans;
 
 bool levelEntries[512];
 
+int gameClockMinute = 0;
+int gameClockHour = 0;
+
 int onContHP = 0;
 int onContMP = 0;
 int gameframe = 0;
@@ -46,6 +49,13 @@ CONFIG COMBO_R = 7745;
 CONFIG TILE_INVIS = 4; //was 196
 
 /*/~~~~~Enums~~~~~/*/
+
+enum GameState {
+   GAME_STATE_GAME_TIME_DAY,
+   GAME_STATE_GAME_TIME_NIGHT,
+   GAME_STATE_GAME_TIME_MORNING,
+   GAME_STATE_GAME_TIME_EVENING,
+};
 
 enum Item {
    ITEM_RUPEE_1 = 0,
