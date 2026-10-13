@@ -142,7 +142,7 @@ global script GlobalScripts {
    }
 
    void handleDayNight() { //24 hr time
-      if (gameframe % 60 == 0) {//TODO need to get clock combos working, also set to a good timing for the cycle
+      if (gameframe % 10 == 0) {//TODO need to get clock combos working, also set to a good timing for the cycle
          if (gameClockMinute == 59) {
             gameClockMinute = 0;
 
@@ -183,15 +183,16 @@ global script GlobalScripts {
 
          Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
 
-         if (gameClockHour >= 4 && gameClockHour <= 8) { //Morning
+         if (gameClockHour > 4 && gameClockHour < 8) { //Morning
             Game->GlobalStates[GAME_STATE_GAME_TIME_NIGHT] = 0;
             Game->GlobalStates[GAME_STATE_GAME_TIME_MORNING] = -1;
 
             if (shouldDrawDarkness())
                nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+            //TODO to handle the tinting: https://github.com/EmilyV99/MM2D-Scripts/blob/A29-update/scripts/Tint.zh
             // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
          }
-         if (gameClockHour >= 16 && gameClockHour <= 20) { //Evening
+         if (gameClockHour > 16 && gameClockHour < 20) { //Evening
             Game->GlobalStates[GAME_STATE_GAME_TIME_DAY] = 0;
             Game->GlobalStates[GAME_STATE_GAME_TIME_EVENING] = -1;
 
@@ -203,8 +204,10 @@ global script GlobalScripts {
             Game->GlobalStates[GAME_STATE_GAME_TIME_EVENING] = 0;
             Game->GlobalStates[GAME_STATE_GAME_TIME_NIGHT] = -1;
 
-            if (shouldDrawDarkness())
+            if (shouldDrawDarkness()) { //double draw for the dark of night
                nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+            }
             // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
          }
       }
@@ -250,6 +253,7 @@ global script GlobalScripts {
          case 63:
          case 64:
          case 65:
+         case 66:
          case 72:
          case 94:
             switch(Game->CurScreen) {

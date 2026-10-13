@@ -1129,3 +1129,128 @@ ffc script RemoveItemIfHasItem {
       }
    }
 }
+
+@Author("Deathrider365")
+ffc script Inn {
+   CONFIG SCREEND_INN_PAID = 0;
+   CONFIG SCREEND_INN_SLEPT = 1;
+
+   void run(int offerMessage, int paidMessage, int cannotAffordMessage, int price, bool hidePrice) {
+      char32 priceBuf[6];
+      sprintf(priceBuf, "%d", price);
+
+      loop () {
+         // if (getScreenD(SCREEND_INN_PAID) && !getScreenD(SCREEND_INN_SLEPT)) {
+         //    //play a string of the inn keeper waiting for you to sleep
+         //    //if link walks onto a bed combo do an animation for going to sleep and waking up
+         //    gameClockMinute = 0;
+         //    gameClockHour = 8;
+         // }
+         if (!getScreenD(SCREEND_INN_PAID)) {
+            if (!hidePrice)
+               Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+
+            until(againstFFC(this->X, this->Y, false) && Input->Press[CB_A]) {
+               if (againstFFC(this->X, this->Y, false))
+                  Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+               Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+
+               Waitframe();
+            }
+
+            Input->Button[CB_A] = false;
+
+            Screen->Message(offerMessage);
+            Waitframe();
+
+            int selection = selectOption();
+
+            if (Game->Counter[CR_MONEY] >= price) {
+               Game->DCounter[CR_MONEY] -= price;
+               Input->Button[CB_A] = false;
+
+               for (int i = 0; i < price * 2; ++i) {
+                  NoAction();
+                  Waitframe();
+               }
+
+               Hero->Action = LA_NONE;
+
+               Screen->Message(paidMessage);
+
+               setScreenD(SCREEND_INN_PAID, true);
+            }
+            else
+               Screen->Message(cannotAffordMessage);
+
+            Input->Button[CB_A] = false;
+         }
+         Waitframe();
+      }
+   }
+
+   int selectOption() { //TODO unfinished
+      CONFIG TILE_ARROW = 46675;
+
+      int[] cursorYLocations = { 32, 48, 64, 80 };
+      int cursorXLocation = 88;
+
+      char32 optionBuf[6];
+
+      sprintf(optionBuf, "Free");
+
+      bool cursor = false;
+
+      loop () {
+         notDuringCutsceneLink();
+
+         Screen->FastTile(7, 96, !cursor ? 96 : 112, TILE_ARROW, 0, OP_OPAQUE);
+
+         if (Input->Press[CB_DOWN] || Input->Press[CB_UP]) {
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
+            cursor = !cursor;
+         }
+
+         if (Input->Press[CB_A]) {
+            Hero->Item[!cursor ? ITEM_DIFF_NORMAL : ITEM_DIFF_VERYHARD] = true;
+            Audio->PlaySound(!cursor ? 139 : 140);
+
+            for (int i = 0; i < 45; ++i) {
+               Screen->FastTile(7, 80, !cursor ? 96 : 112, !cursor ? 46594 : 46634, 0, OP_OPAQUE);
+               Screen->FastTile(7, 96, !cursor ? 96 : 112, !cursor ? 46595 : 46635, 0, OP_OPAQUE);
+               Screen->FastTile(7, 112, !cursor ? 96 : 112, !cursor ? 46596 : 46636, 0, OP_OPAQUE);
+               Screen->FastTile(7, 128, !cursor ? 96 : 112, !cursor ? 46597 : 46637, 0, OP_OPAQUE);
+               Screen->FastTile(7, 144, !cursor ? 96 : 112, !cursor ? 46598 : 46638, 0, OP_OPAQUE);
+               Screen->FastTile(7, 160, !cursor ? 96 : 112, !cursor ? 46599 : 46639, 0, OP_OPAQUE);
+               Waitframe();
+            }
+
+            Waitframes(30);
+         }
+
+         return 0;
+         Waitframe();
+      }
+
+      return 0;
+   }
+
+   bool isOnBed() {
+      int comboSlot = Game->GetComboScript("InnBed");
+
+      for (int i = 0; i < 3; ++i) {
+         mapdata md = Game->LoadTempScreen(i);
+
+         for (int j = 0; j < NUM_COMBO_POS; ++j) {
+            combodata cd = Game->LoadComboData(md->ComboD[j]);
+
+            if (cd->Script == comboSlot)
+               if (Abs(Hero->X - cd->X) == 0 && Abs(Hero->Y - cd->Y) == 0)
+                  return true;
+         }
+      }
+
+      return false;
+   }
+}
