@@ -1115,6 +1115,7 @@ ffc script GettingGoddessJewels {
    }
 }
 
+@Author("Deathrider365")
 ffc script RemoveItemIfHasItem {
    void run(int itemIdTocheck, int itemIdToRemove, int screenDToKill) {
       if (screenDToKill && getScreenD(screenDToKill)) Quit();
