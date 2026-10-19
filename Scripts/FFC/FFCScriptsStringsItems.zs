@@ -1131,127 +1131,188 @@ ffc script RemoveItemIfHasItem {
    }
 }
 
-@Author("Deathrider365")
+@Author("Deathrider365"),
+@InitD0("offerMessage"),
+@InitDHelp0("Message asking if you want to sleep"),
+@InitD1("paidMessage"),
+@InitDHelp1("Message for if you already paid the fee"),
+@InitD2("notYetSleptMessage"),
+@InitDHelp2("Message where you paid but not slept"),
+@InitD3("sleptMessage"),
+@InitDHelp3("Message where you slept and they thank you for staying"),
+@InitD4("cannotAffordMessage"),
+@InitDHelp4("Message for cheap deadbeats"),
+@InitD5("deniedServicesMessage"),
+@InitDHelp5("Oh, you are too good for my inn?? Bugger off!"),
+@InitD6("price"),
+@InitDHelp6("Price to sleep")
 ffc script Inn {
    CONFIG SCREEND_INN_PAID = 0;
    CONFIG SCREEND_INN_SLEPT = 1;
 
-   void run(int offerMessage, int paidMessage, int cannotAffordMessage, int price, bool hidePrice) {
-      char32 priceBuf[6];
-      sprintf(priceBuf, "%d", price);
+   void run(int offerMessage, int paidMessage, int notYetSleptMessage, int sleptMessage, int cannotAffordMessage, int deniedServicesMessage, int price) {
+      //sleep cutscene and maybe have a clock tick to the hour you slept to
+      int selection = 0;
 
       loop () {
-         // if (getScreenD(SCREEND_INN_PAID) && !getScreenD(SCREEND_INN_SLEPT)) {
-         //    //play a string of the inn keeper waiting for you to sleep
-         //    //if link walks onto a bed combo do an animation for going to sleep and waking up
-         //    gameClockMinute = 0;
-         //    gameClockHour = 8;
-         // }
-         if (!getScreenD(SCREEND_INN_PAID)) {
-            if (!hidePrice)
-               Screen->DrawString(3, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
-
-            until(againstFFC(this->X, this->Y, false) && Input->Press[CB_A]) {
+         if (getScreenD(SCREEND_INN_PAID)) {
+            until (getScreenD(SCREEND_INN_SLEPT)) {
                if (againstFFC(this->X, this->Y, false))
                   Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
 
-               Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_LA) - 2, FONT_LA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+               if (Input->Press[CB_A]) {
+                  Input->Button[CB_A] = false;
 
-               Waitframe();
-            }
-
-            Input->Button[CB_A] = false;
-
-            Screen->Message(offerMessage);
-            Waitframe();
-
-            int selection = selectOption();
-
-            if (Game->Counter[CR_MONEY] >= price) {
-               Game->DCounter[CR_MONEY] -= price;
-               Input->Button[CB_A] = false;
-
-               for (int i = 0; i < price * 2; ++i) {
-                  NoAction();
+                  Screen->Message(notYetSleptMessage);
                   Waitframe();
                }
 
-               Hero->Action = LA_NONE;
-
-               Screen->Message(paidMessage);
-
-               setScreenD(SCREEND_INN_PAID, true);
-            }
-            else
-               Screen->Message(cannotAffordMessage);
-
-            Input->Button[CB_A] = false;
-         }
-         Waitframe();
-      }
-   }
-
-   int selectOption() { //TODO unfinished
-      CONFIG TILE_ARROW = 46675;
-
-      int[] cursorYLocations = { 32, 48, 64, 80 };
-      int cursorXLocation = 88;
-
-      char32 optionBuf[6];
-
-      sprintf(optionBuf, "Free");
-
-      bool cursor = false;
-
-      loop () {
-         notDuringCutsceneLink();
-
-         Screen->FastTile(7, 96, !cursor ? 96 : 112, TILE_ARROW, 0, OP_OPAQUE);
-
-         if (Input->Press[CB_DOWN] || Input->Press[CB_UP]) {
-            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
-            cursor = !cursor;
-         }
-
-         if (Input->Press[CB_A]) {
-            Hero->Item[!cursor ? ITEM_DIFF_NORMAL : ITEM_DIFF_VERYHARD] = true;
-            Audio->PlaySound(!cursor ? 139 : 140);
-
-            for (int i = 0; i < 45; ++i) {
-               Screen->FastTile(7, 80, !cursor ? 96 : 112, !cursor ? 46594 : 46634, 0, OP_OPAQUE);
-               Screen->FastTile(7, 96, !cursor ? 96 : 112, !cursor ? 46595 : 46635, 0, OP_OPAQUE);
-               Screen->FastTile(7, 112, !cursor ? 96 : 112, !cursor ? 46596 : 46636, 0, OP_OPAQUE);
-               Screen->FastTile(7, 128, !cursor ? 96 : 112, !cursor ? 46597 : 46637, 0, OP_OPAQUE);
-               Screen->FastTile(7, 144, !cursor ? 96 : 112, !cursor ? 46598 : 46638, 0, OP_OPAQUE);
-               Screen->FastTile(7, 160, !cursor ? 96 : 112, !cursor ? 46599 : 46639, 0, OP_OPAQUE);
                Waitframe();
             }
 
-            Waitframes(30);
+            //TODO play cutscene of link sleeping with a clock advancing like in Skyrim
+            char32 hourBuf[6];
+
+            for (int i = selection; i > 0; --i) {
+               notDuringCutsceneLink();
+
+               for (int i = 60; i > 0; --i) {
+                  sprintf(hourBuf, "%d", selection);
+                  Screen->DrawString(7, 132, 80 - Text->FontHeight(FONT_GBLA) - 2, FONT_GBLA, C_WHITE, C_TRANSBG, TF_CENTERED, hourBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+                  Waitframe();
+               }
+
+               notDuringCutsceneLink();
+
+               sprintf(hourBuf, "%d", selection);
+               Screen->DrawString(7, 132, 80 - Text->FontHeight(FONT_GBLA) - 2, FONT_GBLA, C_WHITE, C_TRANSBG, TF_CENTERED, hourBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+
+               selection--;
+
+               if (gameClockHour == 23)
+                  gameClockHour = 0;
+               else
+                  gameClockHour++;
+
+               Waitframe();
+            }
+
+            Hero->HP = Hero->MaxHP;
+            Hero->MP = Hero->MaxMP;
+
+            setScreenD(SCREEND_INN_PAID, false);
+            setScreenD(SCREEND_INN_SLEPT, false);
          }
 
-         return 0;
+         waitForTalking(this);
+
+         if (!getScreenD(SCREEND_INN_PAID)) {
+            Screen->Message(offerMessage);
+            Waitframe();
+
+            selection = getHoursToSleep();
+
+            if (selection == -1) {
+               Screen->Message(deniedServicesMessage);
+               selection = 0;
+            }
+            else {
+               if (Game->Counter[CR_MONEY] >= price) { //make the price increase based on time slept
+                  Game->DCounter[CR_MONEY] -= price;
+                  Input->Button[CB_A] = false;
+
+                  for (int i = 0; i < price * 2; ++i) {
+                     NoAction();
+                     Waitframe();
+                  }
+
+                  Screen->Message(paidMessage);
+                  Waitframe();
+
+                  setScreenD(SCREEND_INN_PAID, true);
+               }
+               else
+                  Screen->Message(cannotAffordMessage);
+            }
+
+            Waitframe();
+         }
+         else if (getScreenD(SCREEND_INN_PAID) && getScreenD(SCREEND_INN_SLEPT))
+            Screen->Message(sleptMessage);
+
          Waitframe();
       }
-
-      return 0;
    }
 
-   bool isOnBed() {
-      int comboSlot = Game->GetComboScript("InnBed");
+   int getHoursToSleep() {
+      CONFIG TILE_UP_ARROW = 1246;
+      CONFIG TILE_DOWN_ARROW = 1173;
 
-      for (int i = 0; i < 3; ++i) {
-         mapdata md = Game->LoadTempScreen(i);
+      char32 hourBuf[6];
+      char32 sleepytimeBuf[6];
 
-         for (int j = 0; j < NUM_COMBO_POS; ++j) {
-            combodata cd = Game->LoadComboData(md->ComboD[j]);
+      int numHours = 1;
 
-            if (cd->Script == comboSlot)
-               if (Abs(Hero->X - cd->X) == 0 && Abs(Hero->Y - cd->Y) == 0)
-                  return true;
+      loop() {
+         notDuringCutsceneLink();
+
+         sprintf(hourBuf, "%d", numHours);
+         sprintf(sleepytimeBuf, "hours");
+
+         Screen->FastTile(7, 112, 48, TILE_UP_ARROW, 0, OP_OPAQUE); //TODO FastCombo
+         Screen->FastTile(7, 112, 80, TILE_DOWN_ARROW, 0, OP_OPAQUE);
+
+         Screen->DrawString(7, 108, 80 - Text->FontHeight(FONT_GBLA) - 2, FONT_GBLA, C_WHITE, C_TRANSBG, TF_CENTERED, hourBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+         Screen->DrawString(7, 132, 80 - Text->FontHeight(FONT_GBLA) - 2, FONT_GBLA, C_WHITE, C_TRANSBG, TF_CENTERED, sleepytimeBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+
+         if (Input->Press[CB_A]) {
+            Waitframe();
+            return numHours;
          }
-      }
 
-      return false;
+         if (Input->Press[CB_B]) {
+            Waitframe();
+            return -1;
+         }
+
+         if (Input->Press[CB_DOWN]) {
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
+
+            if (numHours == 1)
+               numHours = 23;
+            else
+               numHours -= 1;
+         }
+         else if (Input->Press[CB_UP]) {
+            Audio->PlaySound(SFX_CURSOR_MOVEMENT);
+
+            if (numHours == 23)
+               numHours = 1;
+            else
+               numHours += 1;
+         }
+
+         Waitframe();
+      }
+   }
+}
+
+// clang-format off
+@Author("Deathrider365")
+ffc script InnBed {
+   // clang-format on
+   void run() {
+      CONFIG SCREEND_INN_PAID = 0;
+      CONFIG SCREEND_INN_SLEPT = 1;
+
+      CONFIG CMB_FAIRY = 29;
+
+      loop() {
+         if (getScreenD(SCREEND_INN_PAID) && !getScreenD(SCREEND_INN_SLEPT))
+            if (Abs(Hero->X - this->X) < 4 && Hero->Y == this->Y)
+               setScreenD(SCREEND_INN_SLEPT, true);
+
+         Waitframe();
+      }
    }
 }

@@ -142,7 +142,7 @@ global script GlobalScripts {
    }
 
    void handleDayNight() { //24 hr time
-      if (gameframe % 10 == 0) {//TODO need to get clock combos working, also set to a good timing for the cycle
+      if (gameframe % 60 == 0) { //TODO have be something reasonable
          if (gameClockMinute == 59) {
             gameClockMinute = 0;
 
@@ -153,6 +153,9 @@ global script GlobalScripts {
          }
          else
             gameClockMinute++;
+
+         Trace(gameClockMinute);
+         Trace(gameClockHour);
       }
 
       //Night = 20 -> 4
@@ -217,9 +220,6 @@ global script GlobalScripts {
       }
 
       Screen->DrawOrigin = DRAW_ORIGIN_DEFAULT;
-
-      Trace(gameClockMinute);
-      Trace(gameClockHour);
    }
 
    bool shouldDrawDarkness() {

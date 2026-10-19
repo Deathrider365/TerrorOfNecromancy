@@ -144,15 +144,6 @@ combodata script TorchMarker {
 }
 
 // clang-format off
-@Author("Deathrider365")
-combodata script InnBed {
-   // clang-format on
-   void run() {
-      // This script just exists to mark combos for the FFC
-   }
-}
-
-// clang-format off
 @Author("Deathrider365"),
 @InitD0("Min Level"),
 @InitDHelp0("Minimum level of ring to check when checking if to do damage"),

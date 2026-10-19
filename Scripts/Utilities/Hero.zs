@@ -38,3 +38,15 @@ hero script OnWin {
       onContMP = Hero->MaxMP;
    }
 }
+
+@Author("Deathrider365")
+combodata script Clock {
+   CONFIG TILE_BASE = 32248;
+
+   void run() {
+      loop() {
+         this->OriginalTile = TILE_BASE + gameClockHour % 12;
+         Waitframe();
+      }
+   }
+}
