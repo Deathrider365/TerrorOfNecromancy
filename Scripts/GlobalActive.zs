@@ -30,6 +30,7 @@ global script GlobalScripts {
 
       mapdata mapData[6];
       bitmap overheadBitmaps[7];
+      bitmap nightDarkness;
 
       int footprintArray[3] = {1, 0, 0};
 
@@ -47,7 +48,7 @@ global script GlobalScripts {
       loop () {
          gameframe = (gameframe + 1) % 3600;
 
-         handleDayNight();
+         handleDayNight(nightDarkness);
 
          onContHP = Hero->HP;
          onContMP = Hero->MP;
@@ -141,7 +142,7 @@ global script GlobalScripts {
       }
    }
 
-   void handleDayNight() { //24 hr time
+   void handleDayNight(bitmap nightDarkness) { //24 hr time
       if (gameframe % 60 == 0) { //TODO have be something reasonable
          if (gameClockMinute == 59) {
             gameClockMinute = 0;
@@ -171,7 +172,7 @@ global script GlobalScripts {
          Color C_EVENING = C_BLACK;
          Color C_MORNING = C_BLACK;
 
-         bitmap nightDarkness = new bitmap(Viewport->Width, Viewport->Height); //TODO there is an issue when opening the closing the submenu
+         nightDarkness = new bitmap(Viewport->Width, Viewport->Height); //TODO there is an issue when opening the closing the submenu
          // bitmap lanternCircle = new bitmap(Viewport->Width, Viewport->Height);
 
          nightDarkness->Clear(0);

@@ -1153,6 +1153,8 @@ ffc script Inn {
    void run(int offerMessage, int paidMessage, int notYetSleptMessage, int sleptMessage, int cannotAffordMessage, int deniedServicesMessage, int price) {
       //sleep cutscene and maybe have a clock tick to the hour you slept to
       int selection = 0;
+      char32 priceBuf[6];
+      sprintf(priceBuf, "%d", price);
 
       loop () {
          if (getScreenD(SCREEND_INN_PAID)) {
@@ -1204,7 +1206,15 @@ ffc script Inn {
             setScreenD(SCREEND_INN_SLEPT, false);
          }
 
-         waitForTalking(this);
+         until(againstFFC(this->X, this->Y) && Input->Press[CB_A]) {
+            if (againstFFC(this->X, this->Y))
+               Screen->FastCombo(7, Hero->X - 10, Hero->Y - 15, 48, 0, OP_OPAQUE);
+
+            Screen->DrawString(7, this->X + 8, this->Y - Text->FontHeight(FONT_GBLA) - 2, FONT_GBLA, C_WHITE, C_TRANSBG, TF_CENTERED, priceBuf, OP_OPAQUE, SHD_SHADOWED, C_BLACK);
+            Waitframe();
+         }
+
+         Input->Button[CB_A] = false;
 
          if (!getScreenD(SCREEND_INN_PAID)) {
             Screen->Message(offerMessage);
@@ -1304,8 +1314,6 @@ ffc script InnBed {
    void run() {
       CONFIG SCREEND_INN_PAID = 0;
       CONFIG SCREEND_INN_SLEPT = 1;
-
-      CONFIG CMB_FAIRY = 29;
 
       loop() {
          if (getScreenD(SCREEND_INN_PAID) && !getScreenD(SCREEND_INN_SLEPT))
