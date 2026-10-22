@@ -3,8 +3,7 @@
 // clang-format off
 @Author("Deathrider365"),
 @InitD0("triforceToCheck"),
-@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)"),
-@Author("Deathrider365")
+@InitDHelp0("Represents the counter (courage == 7, power == 8, wisdom == 9)")
 ffc script TriforceDeciples {
 // clang-format on
    void run(int triforceToCheck, int messageNotComplete, int secondMessageNotComplete, int messageComplete, int secondMessageComplete, int comboPosToChange, int completedAllTriforceMessage, int finalMessage) {
@@ -123,8 +122,7 @@ ffc script TriforceDeciples {
 @InitD1("secondMessage"),
 @InitDHelp1("second message"),
 @InitD2("thirdMessage"),
-@InitDHelp2("third message"),
-@Author("Deathrider365")
+@InitDHelp2("third message")
 ffc script GoronForemanDialogLvl6 {
    // clang-format on
    void run(int message, int secondMessage, int thirdMessage) {

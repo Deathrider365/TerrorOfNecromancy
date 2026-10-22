@@ -614,8 +614,7 @@ ffc script GetItemOnScreenD {
 @InitD3("stringGottenItem"),
 @InitDHelp3("String for when you already got the item"),
 @InitD4("screenD"),
-@InitDHelp4("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)"),
-@Author("Deathrider365")
+@InitDHelp4("ScreenD register to trigger once you get the item (for item that cannot be checked like rupees)")
 ffc script GetItemOnSecret {
    // clang-format on
    void run(int itemIdToReceive, int stringPreSecret, int stringGettingItem, int stringGottenItem, int screenD) {

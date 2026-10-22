@@ -545,7 +545,7 @@ ffc script BossCam { // clang-format on
 @InitD2("Script Spawned"),
 @InitDHelp2("Used for communication with the Generic script, leave at 0."),
 @InitD3("Jump Out?"),
-@InitDHelp2("Used for communication with the Generic script, leave at 0.")
+@InitDHelp3("Used for communication with the Generic script, leave at 0.")
 ffc script GBMinecart {
    // clang-format on
 
@@ -1339,7 +1339,7 @@ ffc script Lv9LegionnaireLockIn {
 @InitD2("warpIndex"),
 @InitDHelp2("A = 0\n B = 1\n C = 2\n D = 3"),
 @Author("Deathrider")
-ffc script IsolatedSpireWarps {
+ffc script IcySpireWarps {
    void run(int dirToWarpIn, int dirToWarpOut, int warpIndex, int dmap, int screen, bool buttonWarps) {
       if (Hero->X == this->X && Hero->Y == this->Y)
          warping(this, dirToWarpIn, dmap, screen, warpIndex, false);

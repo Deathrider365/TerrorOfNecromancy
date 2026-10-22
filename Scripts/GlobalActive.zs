@@ -30,7 +30,7 @@ global script GlobalScripts {
 
       mapdata mapData[6];
       bitmap overheadBitmaps[7];
-      bitmap nightDarkness;
+      bitmap nightDarknessBitmap = new bitmap(Viewport->Width, Viewport->Height);
 
       int footprintArray[3] = {1, 0, 0};
 
@@ -48,7 +48,7 @@ global script GlobalScripts {
       loop () {
          gameframe = (gameframe + 1) % 3600;
 
-         handleDayNight(nightDarkness);
+         handleDayNight(nightDarknessBitmap);
 
          onContHP = Hero->HP;
          onContMP = Hero->MP;
@@ -142,7 +142,7 @@ global script GlobalScripts {
       }
    }
 
-   void handleDayNight(bitmap nightDarkness) { //24 hr time
+   void handleDayNight(bitmap nightDarknessBitmap) { //24 hr time
       if (gameframe % 60 == 0) { //TODO have be something reasonable
          if (gameClockMinute == 59) {
             gameClockMinute = 0;
@@ -172,17 +172,16 @@ global script GlobalScripts {
          Color C_EVENING = C_BLACK;
          Color C_MORNING = C_BLACK;
 
-         nightDarkness = new bitmap(Viewport->Width, Viewport->Height); //TODO there is an issue when opening the closing the submenu
-         // bitmap lanternCircle = new bitmap(Viewport->Width, Viewport->Height);
 
-         nightDarkness->Clear(0);
+         nightDarknessBitmap->Clear(0);
+         // bitmap lanternCircle = new bitmap(Viewport->Width, Viewport->Height);
          // lanternCircle->Clear(0);
 
          for (int i = 0; i < NUM_COMBO_POS; ++i) {
             if (HeroIsScrollingOrWarping())
-               nightDarkness->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_NX], ComboY(i) + Game->Scrolling[SCROLL_NY], CMB_BLACK, 0);
+               nightDarknessBitmap->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_NX], ComboY(i) + Game->Scrolling[SCROLL_NY], CMB_BLACK, 0);
 
-            nightDarkness->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_OX], ComboY(i) + Game->Scrolling[SCROLL_OY], CMB_BLACK, 0);
+            nightDarknessBitmap->FastCombo(0, ComboX(i) + Game->Scrolling[SCROLL_OX], ComboY(i) + Game->Scrolling[SCROLL_OY], CMB_BLACK, 0);
          }
 
          Screen->DrawOrigin = DRAW_ORIGIN_PLAYING_FIELD;
@@ -192,7 +191,7 @@ global script GlobalScripts {
             Game->GlobalStates[GAME_STATE_GAME_TIME_MORNING] = -1;
 
             if (shouldDrawDarkness())
-               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+               nightDarknessBitmap->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
             //TODO to handle the tinting: https://github.com/EmilyV99/MM2D-Scripts/blob/A29-update/scripts/Tint.zh
             // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
          }
@@ -201,7 +200,7 @@ global script GlobalScripts {
             Game->GlobalStates[GAME_STATE_GAME_TIME_EVENING] = -1;
 
             if (shouldDrawDarkness())
-               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+               nightDarknessBitmap->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
             // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
          }
          else if (gameClockHour >= 20 || gameClockHour <= 4) { //Night
@@ -209,8 +208,8 @@ global script GlobalScripts {
             Game->GlobalStates[GAME_STATE_GAME_TIME_NIGHT] = -1;
 
             if (shouldDrawDarkness()) { //double draw for the dark of night
-               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
-               nightDarkness->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+               nightDarknessBitmap->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
+               nightDarknessBitmap->Blit(7, RT_SCREEN, 0, 0, Viewport->Width, Viewport->Height, 0, 0, Viewport->Width, Viewport->Height, 0, 0, 0, BITDX_TRANS, 0, true);
             }
             // lanternCircle->ReplaceColors(0, 0x00, 0xFE, 0xFE); //Respond to strength of lantern
          }
