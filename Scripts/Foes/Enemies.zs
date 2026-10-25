@@ -435,7 +435,7 @@ npc script Bomber {
 
       int attackCooldown = 150 + Rand(-30, 30);
 
-      while (true) {
+      loop () {
          if (this->HP <= 0)
             this->Step = 0;
 

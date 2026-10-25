@@ -5248,6 +5248,7 @@ namespace LatrosNamespace {
    //    - The two magic blasts in a hemisphere pattern turns into 4 with 2 more at a wider range, closing in on link slower after the first 2
    //    - New attack, shoots a giant magic blast (2x2 magic sprite), sometimes he shoots this in the patterns described in the other attacks
 
+
 namespace Quickknife { //TODO reference ForceLinkInLv9Boss for forcing link into the room
    using namespace EnemyNamespace;
    using namespace NPCAnim;

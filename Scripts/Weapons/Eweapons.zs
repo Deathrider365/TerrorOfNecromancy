@@ -22,12 +22,12 @@ eweapon script ArcingWeapon {
       if (initJump == -1 && gravity == 0)
          jump = getJumpLength(linkDistance / (this->Step / 100), true);
 
-      unless(gravity) gravity = Game->Gravity[GR_STRENGTH];
+      unless(gravity)
+         gravity = Game->Gravity[GR_STRENGTH];
 
       while (jump > 0 || this->Z > 0) {
-         if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0) {
+         if (isEnemy && shootingEnemy && shootingEnemy->HP <= 0)
             break;
-         }
 
          this->Z += jump;
          jump -= gravity;
