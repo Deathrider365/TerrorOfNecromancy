@@ -13,7 +13,7 @@ bool disableTrans;
 bool levelEntries[512];
 
 int gameClockMinute = 0;
-int gameClockHour = 0;
+int gameClockHour = 8; //TODO start at the start of day?
 
 int onContHP = 0;
 int onContMP = 0;

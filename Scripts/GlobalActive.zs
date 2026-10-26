@@ -27,7 +27,6 @@ global script GlobalScripts {
       Game->MaxLWeapons(1024);
       Game->MaxEWeapons(1024);
 
-
       mapdata mapData[6];
       bitmap overheadBitmaps[7];
       bitmap nightDarknessBitmap = new bitmap(Viewport->Width, Viewport->Height);

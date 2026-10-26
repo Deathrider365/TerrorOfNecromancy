@@ -1345,11 +1345,11 @@ ffc script IcySpireWarps {
          warping(this, dirToWarpIn, dmap, screen, warpIndex, false);
 
       if (buttonWarps) {
-         until ((Abs(Hero->X - this->X) < 2 && Abs(Hero->Y - this->Y) < 2) && Input->Button[dirToWarpOut])
+         until ((Abs(Hero->X - this->X) < 4 && Abs(Hero->Y - this->Y) < 4) && Input->Button[dirToWarpOut])
             Waitframe();
       }
       else {
-         while (Abs(Hero->X - this->X) < 16 && Abs(Hero->Y - this->Y) < 16)
+         while (Abs(Hero->X - this->X) < 8 && Abs(Hero->Y - this->Y) < 8)
             Waitframe();
 
          while (Abs(Hero->X - this->X) > 2 || Abs(Hero->Y - this->Y) > 2)
@@ -1360,17 +1360,22 @@ ffc script IcySpireWarps {
    }
 
    void warping(ffc this, int dirToWarp, int dmap, int screen, int warpIndex, bool warpLink) {
-      Hero->X = this->X;
-      Hero->Dir = dirToWarp;
+      int warpMod = 0;
       bool isHorizationDir = dirToWarp > 1;
+
+      if (!warpLink && isHorizationDir)
+         warpMod = dirToWarp == 2 ? 8 : -8;
+
+      Hero->X = this->X + warpMod;
+      Hero->Dir = dirToWarp;
 
       //Play that walking sound in and out of places from FSA
 
-      for (int i = 0; i < (isHorizationDir ? 45 : 90); ++i) {
+      for (int i = 0; i < (isHorizationDir ? 15 : 30); ++i) {
          //Fade in from invisible
          NoAction();
 
-         if (isHorizationDir && i % 10 == 0)
+         if (isHorizationDir && i % 5 == 0)
             Input->Button[dirToWarp] = true;
          else
             Input->Button[dirToWarp] = true;
@@ -1379,6 +1384,6 @@ ffc script IcySpireWarps {
       }
 
       if (warpLink)
-         Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, warpIndex, WARPEFFECT_INSTANT, 0, WARP_FLAG_NONE, dirToWarp);
+         Hero->WarpEx(WT_IWARPBLACKOUT, dmap, screen, -1, warpIndex, WARPEFFECT_INSTANT, 0, WARP_FLAG_NONE, DIR_DOWN);
    }
 }
