@@ -8,3 +8,9 @@ game generic value to pull the dither of dark rooms and change them in global sc
 
 old fashioned demo screen showing some gameplay on the title screen (also have a title screen)
 
+going along with there are necromancer's forces where you least expect, have an npc invite you inside like from Z2, but they lock you in their basement and have to fight monsters to escape
+
+pay for my door, one instance with a hidden wall where you need the lens
+
+much like sauron's stuff collapses at his death, have structures originating from him do that on his death
+

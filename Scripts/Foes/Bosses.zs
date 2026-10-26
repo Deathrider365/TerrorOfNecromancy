@@ -6110,7 +6110,7 @@ npc script Aemulor {
 @Author("Deathrider365")
 npc script Demonwall { //TODO this script already exists to some degree (probably as ghost)
    // clang-format on
-   void run() {
+   void run() { //miniboss
       // for (int i = 0; i < roomsize since the wall can squish link for
       // instakill; ++i)
       // {

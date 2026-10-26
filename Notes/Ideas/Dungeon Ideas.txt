@@ -75,4 +75,6 @@ dungeon like magnetic cave from FFIV
 
 dungeon that has an enemy that pursues you like the SAX from Metroid Fusion
 
+dungeon like wrecked ship where it is off and you have to turn it on by beating the boss
+
 
