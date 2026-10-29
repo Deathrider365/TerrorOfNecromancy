@@ -5907,7 +5907,7 @@ npc script Ignav {
 }
 
 npc script Camazotz {
-   void run() {
+   void run() { //sprite from the bat boss in umbral cloud miasma?
       // Giant Dark Vire with enough bats surrounding it you can barely even see it, enemies that get close to it are sucked into the swarm
       // Heavily movement based, moving is not always the answer
       // All bats are enflamed

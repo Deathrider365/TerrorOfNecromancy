@@ -18,3 +18,7 @@ make an attack that sucks link in (like the great poe of 4swords) and slowly dra
 similar to "level" attacks from FF, an attack that does so much damage / effects Link if heart count is divisible by n
 
 Similar to metroid prime's metroid prime, have a boss that spawn 2 slowly floating projectilesd towards link that slowly float to link while the fight continues
+
+similar to scadutree, the boss charges a huge attack that does massive damage and stuns link, but also stuns the boss
+
+elden beast light ball attack that floats around letting loose shrapnel
