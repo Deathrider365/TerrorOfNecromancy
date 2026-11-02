@@ -3341,12 +3341,12 @@ namespace ServusMalusNamespace {
 
          while (this->isValid()) {
             unless(
-               Screen->isSolid(this->X, this->Y)
-            || Screen->isSolid(this->X + 15, this->Y)
-            || Screen->isSolid(this->X, this->Y + 15)
-            || Screen->isSolid(this->X + 15, this->Y + 15)
-            || this->X < 0 || this->X > 240 || this->Y < 0 || this->Y > 160
-         ) {
+                  Screen->isSolid(this->X, this->Y)
+               || Screen->isSolid(this->X + 15, this->Y)
+               || Screen->isSolid(this->X, this->Y + 15)
+               || Screen->isSolid(this->X + 15, this->Y + 15)
+               || this->X < 0 || this->X > 240 || this->Y < 0 || this->Y > 160
+            ) {
                if (catchCounter < 20) {
                   Hero->X = this->X;
                   Hero->Y = this->Y;
@@ -3368,7 +3368,7 @@ namespace ServusMalusNamespace {
          // this->EventListen[GENSCR_EVENT_ENEMY_HIT2] = true;
 
          int ewWindBlast = CheckEWeaponScript("EwWindBlast");
-         Trace("here");
+
 
          while (true) {
             switch (WaitEvent()) {
