@@ -30,7 +30,7 @@ Desert structure will be a dungeon called Level #: Mortuary of Corruption
 Level #: The Deep of Dwarrodelf will be an ancient lava filled goron city in a mountain where there is a
 notorious dragon inside
 
-a dungeon that you have to drain it layer by layer and at the end of it you dive (optional) for something idk
+DONE - a dungeon that you have to drain it layer by layer and at the end of it you dive (optional) for something idk
 
 a mine that is in a town which has corrupted/destroyed the town (the monsters coming out of the town are
 why the down is decrepit)
@@ -43,11 +43,11 @@ DONE - Have a sideview dungeon, you swap gravity and, or the dungeon
 
 similar to falling sand in Super Metroid, have that in some sideview
 
-lava is the bottom floor, and you need to release water sources in a higher floor to make it so you can walk on the base floor
+DONEISH - lava is the bottom floor, and you need to release water sources in a higher floor to make it so you can walk on the base floor
 
 death blighted keep
 
-dungeon that plays lower norfair's theme called Riafron
+DONE - dungeon that plays lower norfair's theme called Riafron
 
 Citadel Bastion
 

@@ -806,9 +806,11 @@ All that is known is that once Link acquires the wand, he is taken into a realm 
    Throughout Link's journeys around the southern end of Interitus, he would have come near two large towers, sealed and intimidating in scale. Much like the Secluded Spire, these towers are curious, no one alive
 knows anything about them nor how to even enter. With Link's Longshot he can find his way into either the snowy tower or the firey tower.
 
-<<Level 11: Towers of Dichotomy>
+<<Level 11: Nexus Pylons>
 ~Master of Elements ---Frostflame---~
 ~Manifistation of Elements---Atronach---~
+
+   //TODO write lore around the new name of the dungeon
 
    Similarly to the mysterious reef Link found on the southern coast and the spire on Mt. Summus these towers are among the most unknown entities on Interitus. How long they have been around is also unknown, even to
 those who wrote the Vita Legendarium novels in Auri Library. When they are mentioned in those books there isnt much more than just observations or small details that have been figured out over time. Perhaps they even
