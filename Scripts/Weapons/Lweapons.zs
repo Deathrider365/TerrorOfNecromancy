@@ -295,3 +295,22 @@ lweapon SparkleSpriteAnim(int x, int y, int sprite, int w, int h) {
 
     return l;
 }
+
+lweapon script FireBlast {
+   // CONFIG SPR_ICE_BLAST = 158;
+   // CONFIG SPR_FIRE_BLAST = 159;
+
+   void run(int spr) {
+      this->Angular = true;
+      this->Angle = DirRad(this->Dir);
+      this->UseSprite(spr);
+
+      loop () {
+         if (Collision(this)) {
+            this->DeadState = WDS_DEAD;
+         }
+
+         Waitframe();
+      }
+   }
+}
