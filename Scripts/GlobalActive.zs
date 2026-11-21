@@ -647,6 +647,11 @@ global script GlobalScripts {
                case 0x00: return 000100b;
             }
             break;
+         case 150: //Lv11 Pale Pylon F4
+            switch (screen) {
+               case 0x5F: return 000100b;
+            }
+            break;
       }
       return 0;
    }
